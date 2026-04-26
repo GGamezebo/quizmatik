@@ -2,10 +2,59 @@
 
 [ext_resource type="PackedScene" uid="uid://dvy13cfq73jxs" path="res://scenes/background/background.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://47fqtynve6g3" path="res://scenes/player/player.tscn" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://c7cuoe35fok4i" path="res://scripts/entity_border.gd" id="3_h2yge"]
+
+[sub_resource type="Environment" id="Environment_0xm2m"]
+glow_enabled = true
+glow_intensity = 1.0
+glow_bloom = 0.5
+glow_blend_mode = 0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_h2yge"]
+
+[sub_resource type="Compositor" id="Compositor_1bvp3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lquwl"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 1.608, 1.569, 1)
+border_blend = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_0xm2m"]
+font_color = Color(0, 18.892157, 18.892157, 1)
 
 [node name="Main" type="Node2D" unique_id=1470892078]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1724834534]
+environment = SubResource("Environment_0xm2m")
+camera_attributes = SubResource("CameraAttributesPractical_h2yge")
+compositor = SubResource("Compositor_1bvp3")
 
 [node name="Background" parent="." unique_id=1217069396 instance=ExtResource("1_ig7tw")]
 
 [node name="Player" parent="." unique_id=216453935 instance=ExtResource("2_0xm2m")]
 position = Vector2(200, 450)
+
+[node name="EntityBorder" type="Node2D" parent="." unique_id=156993760 node_paths=PackedStringArray("entities")]
+script = ExtResource("3_h2yge")
+entities = [NodePath("../Player")]
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=184986050]
+
+[node name="Panel" type="Panel" parent="HUD" unique_id=858983118]
+offset_right = 261.0
+offset_bottom = 153.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_lquwl")
+
+[node name="Label" type="Label" parent="HUD/Panel" unique_id=1398243964]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Счёт"
+label_settings = SubResource("LabelSettings_0xm2m")
