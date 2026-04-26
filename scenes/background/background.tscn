@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dvy13cfq73jxs"]
 
-[ext_resource type="Texture2D" uid="uid://jl5tjjusnin3" path="res://textures/background/Sky2.png" id="1_jougr"]
-[ext_resource type="Texture2D" uid="uid://cjds8r57pey1g" path="res://textures/background/Sky1.png" id="2_cbsqf"]
-[ext_resource type="Texture2D" uid="uid://5xved5dnk0eo" path="res://textures/background/Sky3.png" id="3_wisxt"]
+[ext_resource type="Texture2D" uid="uid://jl5tjjusnin3" path="res://scenes/background/Sky2.png" id="1_jougr"]
+[ext_resource type="Texture2D" uid="uid://cjds8r57pey1g" path="res://scenes/background/Sky1.png" id="2_cbsqf"]
+[ext_resource type="Texture2D" uid="uid://5xved5dnk0eo" path="res://scenes/background/Sky3.png" id="3_wisxt"]
 
 [sub_resource type="Gradient" id="Gradient_ay0jx"]
 colors = PackedColorArray(0, 0.172549, 1, 1, 0, 0.623529, 1, 1)
@@ -218,9 +218,9 @@ metadata/logic_bricks_frames = [{
 
 [node name="SlowestClouds" type="GPUParticles2D" parent="." unique_id=718439702]
 position = Vector2(1800, 360)
-amount = 40
+amount = 10
 texture = ExtResource("1_jougr")
-lifetime = 480.0
+lifetime = 40.0
 preprocess = 120.0
 visibility_rect = Rect2(-2000, -2000, 4000, 4000)
 process_material = SubResource("ParticleProcessMaterial_ctueq")
@@ -303,9 +303,9 @@ metadata/logic_bricks_frames = [{
 
 [node name="SlowClouds" type="GPUParticles2D" parent="." unique_id=842146306]
 position = Vector2(1800, 360)
-amount = 20
+amount = 5
 texture = ExtResource("2_cbsqf")
-lifetime = 120.0
+lifetime = 46.059999999999995
 preprocess = 40.0
 visibility_rect = Rect2(-2000, -2000, 4000, 4000)
 process_material = SubResource("ParticleProcessMaterial_dvhti")
@@ -388,7 +388,7 @@ metadata/logic_bricks_frames = [{
 
 [node name="FastClouds" type="GPUParticles2D" parent="." unique_id=800638798]
 position = Vector2(1800, 360)
-amount = 40
+amount = 20
 texture = ExtResource("3_wisxt")
 lifetime = 40.0
 preprocess = 10.0
