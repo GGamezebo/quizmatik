@@ -4,7 +4,7 @@ signal evDirectionChanged
 
 const RIGHT  = 1
 const LEFT  = -1
-const VELOCITY_SPEED = 400.0
+const VELOCITY_SPEED = 800.0
 
 @export var components:Array[Node] = []
 @export var directionComponents:Array[Node] = []
