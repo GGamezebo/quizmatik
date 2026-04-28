@@ -1,7 +1,7 @@
 extends AnimatedSprite2D
 
 @export var ROTATION:float = deg_to_rad(2)
-@onready var _position_shaker: PositionShaker = PositionShaker.new()
+@onready var _position_shaker: PositionShaker = PositionShaker.new(10, 10)
 @onready var _scale_shaker: ScaleShacker = ScaleShacker.new()
 @onready var _rotationShacker: RotationShaker = RotationShaker.new()
 @onready var _base_scale: Vector2 = scale

@@ -16,8 +16,8 @@ func update_boundaries():
 	var screen_size = get_viewport().get_visible_rect().size
 	
 	# Оставляем отступы (например, 50 пикселей для UI)
-	var margin_top = 220.0
-	var margin_bottom = 80.0
+	var margin_top = 160.0
+	var margin_bottom = 20.0
 	var margin_side = 20.0
 	
 	gameplay_area = Rect2(
