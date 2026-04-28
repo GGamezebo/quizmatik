@@ -2,7 +2,11 @@
 
 [ext_resource type="PackedScene" uid="uid://dvy13cfq73jxs" path="res://scenes/background/background.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://47fqtynve6g3" path="res://scenes/player/player.tscn" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://bb18r63uri507" path="res://scripts/game_area.gd" id="2_lquwl"]
+[ext_resource type="AudioStream" uid="uid://d022f3yjwbamj" path="res://scenes/player/thrust.mp3" id="3_7mycd"]
 [ext_resource type="Script" uid="uid://c7cuoe35fok4i" path="res://scripts/entity_border.gd" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://b8c13uei5f6xn" path="res://lines.gd" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://nrjrwaslqq0y" path="res://game_manager.gd" id="6_272bh"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -35,21 +39,35 @@ compositor = SubResource("Compositor_1bvp3")
 
 [node name="Background" parent="." unique_id=1217069396 instance=ExtResource("1_ig7tw")]
 
+[node name="GameArea" type="Node2D" parent="." unique_id=324440187]
+script = ExtResource("2_lquwl")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="GameArea" unique_id=886968883]
+stream = ExtResource("3_7mycd")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="GameArea/AudioStreamPlayer" unique_id=1215739799]
+stream = ExtResource("3_7mycd")
+
 [node name="Player" parent="." unique_id=216453935 instance=ExtResource("2_0xm2m")]
 position = Vector2(200, 450)
 
-[node name="EntityBorder" type="Node2D" parent="." unique_id=156993760 node_paths=PackedStringArray("entities")]
+[node name="EntityBorder" type="Node2D" parent="." unique_id=156993760 node_paths=PackedStringArray("gameArea", "entities")]
 script = ExtResource("3_h2yge")
+gameArea = NodePath("../GameArea")
 entities = [NodePath("../Player")]
+
+[node name="GameManager" type="Node2D" parent="." unique_id=857818725]
+script = ExtResource("6_272bh")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=184986050]
 
-[node name="Panel" type="Panel" parent="HUD" unique_id=858983118]
+[node name="Score" type="Panel" parent="HUD" unique_id=858983118]
+offset_top = -1.0
 offset_right = 261.0
-offset_bottom = 153.0
+offset_bottom = 152.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_lquwl")
 
-[node name="Label" type="Label" parent="HUD/Panel" unique_id=1398243964]
+[node name="Label" type="Label" parent="HUD/Score" unique_id=1398243964]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,3 +76,8 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Счёт"
 label_settings = SubResource("LabelSettings_0xm2m")
+
+[node name="Lines" type="Node2D" parent="HUD" unique_id=1969846309 node_paths=PackedStringArray("gameArea")]
+script = ExtResource("6_7mycd")
+gameArea = NodePath("../../GameArea")
+selected_lane = 3

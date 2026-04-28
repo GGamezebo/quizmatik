@@ -218,9 +218,9 @@ metadata/logic_bricks_frames = [{
 
 [node name="SlowestClouds" type="GPUParticles2D" parent="." unique_id=718439702]
 position = Vector2(1800, 360)
-amount = 10
+amount = 6
 texture = ExtResource("1_jougr")
-lifetime = 40.0
+lifetime = 126.04
 preprocess = 120.0
 visibility_rect = Rect2(-2000, -2000, 4000, 4000)
 process_material = SubResource("ParticleProcessMaterial_ctueq")

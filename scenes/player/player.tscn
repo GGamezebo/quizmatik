@@ -40,10 +40,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("components", "directionComponents")]
+[node name="Player" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("components", "directionComponents", "animated_sprite")]
 script = ExtResource("1_c4h5g")
 components = [NodePath("AnimatedSprite2D"), NodePath("Label"), NodePath("AudioStreamPlayer")]
 directionComponents = [NodePath("AnimatedSprite2D"), NodePath("AudioStreamPlayer")]
+animated_sprite = NodePath("AnimatedSprite2D")
 
 [node name="Label" type="Label" parent="." unique_id=1382119237]
 offset_left = -73.0
