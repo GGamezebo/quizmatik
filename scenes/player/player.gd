@@ -1,6 +1,7 @@
 extends Area2D
 
 signal evDirectionChanged
+signal evShoot
 
 const RIGHT  = 1
 const LEFT  = -1
@@ -17,6 +18,9 @@ func _ready() -> void:
 		component.setup(self)
 
 func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("shoot"):
+		evShoot.emit(self.position + Vector2(get_size().x / 2.0, 0.0))
+	
 	var dirY = sign(Input.get_axis("ui_up","ui_down"))
 	position.y = clamp(position.y + directionY * VELOCITY_SPEED * delta, 0, get_viewport_rect().size.y)
 	

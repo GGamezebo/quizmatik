@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://c7cuoe35fok4i" path="res://scripts/entity_border.gd" id="3_h2yge"]
 [ext_resource type="Script" uid="uid://b8c13uei5f6xn" path="res://scripts/lines.gd" id="6_7mycd"]
 [ext_resource type="Script" uid="uid://nrjrwaslqq0y" path="res://scripts/game_manager.gd" id="6_272bh"]
+[ext_resource type="Script" uid="uid://dcrpw105eqlxa" path="res://scripts/shot_manager.gd" id="7_5vw27"]
+[ext_resource type="PackedScene" uid="uid://bwyvda87ui0x5" path="res://scenes/shot/shot.tscn" id="7_kek77"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -60,6 +62,13 @@ script = ExtResource("6_272bh")
 player = NodePath("../Player")
 area = NodePath("../GameArea")
 
+[node name="ShotManager" type="Node" parent="." unique_id=1881634036]
+script = ExtResource("7_5vw27")
+bullet_scene = ExtResource("7_kek77")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="ShotManager" unique_id=1453695945]
+rect = Rect2(-10, 0, 1400, 720)
+
 [node name="HUD" type="CanvasLayer" parent="." unique_id=184986050]
 
 [node name="Score" type="Panel" parent="HUD" unique_id=858983118]
@@ -82,3 +91,5 @@ label_settings = SubResource("LabelSettings_0xm2m")
 script = ExtResource("6_7mycd")
 gameArea = NodePath("../../GameArea")
 gameManager = NodePath("../../GameManager")
+
+[connection signal="evShoot" from="Player" to="ShotManager" method="_on_player_ev_shoot"]
