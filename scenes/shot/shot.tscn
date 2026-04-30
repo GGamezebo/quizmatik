@@ -92,3 +92,6 @@ rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_1u8w0")
 autoplay = "default"
 frame_progress = 0.03287645
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=136813701]
+rect = Rect2(-99, -10, 198, 20)
