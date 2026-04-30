@@ -2,32 +2,28 @@ extends Node2D
 
 @export var line_color: Color = Color(1, 1, 1, 0.3) # Белый цвет с прозрачностью
 @export var line_width: float = 2.0
-@export var gameArea: GameArea
 @export var glow_color: Color = Color(0.0, 0.8, 1.0) # Яркий голубой
 @export var line_thickness: float = 3.0
 @export var glow_intensity: int = 3 # Количество слоев свечения
-@export var selected_lane: int = 0: # Индекс выбранной линии (0-4)
-	set(value):
-		selected_lane = clampi(value, 0, 4)
-		queue_redraw() # Перерисовываем при изменении
+@export var gameArea: GameArea
+@export var gameManager: GameManager
 
 func _ready():
-	pass
-	# Подписываемся на обновление зоны, чтобы перерисовывать линии
-	#GameManager.boundary_changed.connect(queue_redraw)
+	gameManager.ev_selected_lane_changed.connect(queue_redraw)
 
 func _draw():
 	var area = gameArea.gameplay_area
 	
-	var lines_count = 5
-	var spacing = area.size.y / (lines_count - 1)
+	var lines_count = gameArea.getLinesSize()
+	var spacing = area.size.y / lines_count
 	
-	for i in range(lines_count):
+	for i in range(lines_count + 1):
 		var y_pos = area.position.y + (i * spacing)
 		var start_pos = Vector2(area.position.x, y_pos)
 		var end_pos = Vector2(area.end.x, y_pos)
 		
 		# Проверяем, является ли эта линия выбранной
+		var selected_lane = gameManager.selected_lane
 		var is_selected = (i == selected_lane or i == selected_lane + 1)
 		
 		_draw_glowing_gradient_line(start_pos, end_pos, is_selected)
@@ -37,7 +33,6 @@ func _draw_glowing_gradient_line(start: Vector2, end: Vector2, highlighted: bool
 	
 	# Настройки яркости
 	var base_alpha = 1.0 if highlighted else 0.3
-	var intensity_mult = 2.0 if highlighted else 1.0
 	var thickness = line_thickness * (2.0 if highlighted else 1.0)
 
 	var color_transparent = glow_color
