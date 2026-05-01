@@ -8,3 +8,4 @@ func _on_player_ev_shoot(position:Vector2) -> void:
 		var bullet = bullet_scene.instantiate()
 		bullet.position = position
 		get_tree().root.add_child(bullet)
+		

@@ -36,6 +36,10 @@ class Lines extends RefCounted:
 	
 	func getSize() -> int:
 		return lines.size()
+		
+	func getLines() -> Array[Rect2]:
+		return self.lines
+
 
 @onready var lines = Lines.new(gameConfig.answer_lines_count, gameplay_area)
 
@@ -69,6 +73,7 @@ func getLine(position:Vector2) -> int:
 	
 func getLinesSize() -> int:
 	return lines.getSize()
-
 	
+func getLines() -> Array[Rect2]:
+	return lines.getLines()
 	

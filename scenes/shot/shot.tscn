@@ -79,6 +79,8 @@ animations = [{
 }]
 
 [node name="Shot" type="Area2D" unique_id=2028095031]
+collision_layer = 2
+collision_mask = 4
 script = ExtResource("1_asq14")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=211650346]
@@ -95,3 +97,5 @@ frame_progress = 0.03287645
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=136813701]
 rect = Rect2(-99, -10, 198, 20)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

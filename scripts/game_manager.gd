@@ -3,26 +3,41 @@ extends Node2D
 class_name GameManager
 
 signal ev_selected_lane_changed
+signal ev_question_changed
+
+var time:float = 0.0
 
 var selected_lane: int = 0:
 		set(value):
 			if selected_lane != value:
 				selected_lane = value
 				ev_selected_lane_changed.emit()
+				
+var question: QuizQuestion:
+	set(new_question):
+		question = new_question
+		ev_question_changed.emit(question)
 
 
 @export var player: Node2D
 @export var area: GameArea
+@export var gameConfig: GameConfig
+@export var answerScene: PackedScene
+
+
+func _ready() -> void:
+	makeNewRound()
 
 	
-func _process(_delta: float) -> void:
-	self.selected_lane = area.getLine(player.position)
+func _process(delta: float) -> void:
+	time += delta
+	selected_lane = area.getLine(player.position)
 	
 	
 func makeNewRound():
-	var current = generate_question()
-
-
+	self.question = generate_question()
+	self.makeAnswers()
+	
 
 # Структура для хранения вопроса
 class QuizQuestion:
@@ -43,7 +58,7 @@ func generate_question() -> QuizQuestion:
 	# 2. Генерируем варианты ответов
 	var options_set = [q.correct_answer]
 	
-	while options_set.size() < 4:
+	while options_set.size() < gameConfig.answer_lines_count:
 		var fake_answer = _generate_plausible_fake(a, b, q.correct_answer)
 		
 		if not fake_answer in options_set:
@@ -71,4 +86,17 @@ func _generate_plausible_fake(a: int, b: int, correct: int) -> int:
 	# Защита от отрицательных чисел и нуля
 	return abs(fake) if fake != 0 else correct + 5
 	
-	
+func makeAnswers() -> void:
+	var lines = area.getLines()
+	for index in range(len(question.options)):
+		var option:int = question.options[index]
+		var answer = answerScene.instantiate()
+		var line: Rect2 = lines[index]
+		var x:float = area.gameplay_area.end.x + 120
+		var y:float = line.position.y + line.size.y / 2.0
+		answer.position.x = x
+		answer.position.y = x
+		answer.setup(x, y, option)
+		get_tree().root.add_child.call_deferred(answer)
+			
+			

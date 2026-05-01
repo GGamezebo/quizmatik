@@ -9,6 +9,8 @@
 [ext_resource type="Script" uid="uid://nrjrwaslqq0y" path="res://scripts/game_manager.gd" id="6_272bh"]
 [ext_resource type="Script" uid="uid://dcrpw105eqlxa" path="res://scripts/shot_manager.gd" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bwyvda87ui0x5" path="res://scenes/shot/shot.tscn" id="7_kek77"]
+[ext_resource type="PackedScene" uid="uid://cafp7vy16q1kc" path="res://scenes/answer/answer.tscn" id="10_4c57u"]
+[ext_resource type="Script" uid="uid://c31s1xkrtgnis" path="res://scripts/answer_label.gd" id="11_efxa6"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -32,6 +34,11 @@ border_blend = true
 [sub_resource type="LabelSettings" id="LabelSettings_0xm2m"]
 font_color = Color(0, 18.892157, 18.892157, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_dg77c"]
+line_spacing = 2.0
+font_size = 92
+font_color = Color(0, 0.99, 0.99, 1)
+
 [node name="Main" type="Node2D" unique_id=1470892078]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1724834534]
@@ -43,7 +50,7 @@ compositor = SubResource("Compositor_1bvp3")
 script = ExtResource("1_272bh")
 
 [node name="Background" parent="." unique_id=1217069396 instance=ExtResource("1_ig7tw")]
-position = Vector2(0, 1)
+position = Vector2(0, -1)
 
 [node name="GameArea" type="Node2D" parent="." unique_id=324440187 node_paths=PackedStringArray("gameConfig")]
 script = ExtResource("2_lquwl")
@@ -57,10 +64,12 @@ script = ExtResource("3_h2yge")
 gameArea = NodePath("../GameArea")
 entities = [NodePath("../Player")]
 
-[node name="GameManager" type="Node2D" parent="." unique_id=857818725 node_paths=PackedStringArray("player", "area")]
+[node name="GameManager" type="Node2D" parent="." unique_id=857818725 node_paths=PackedStringArray("player", "area", "gameConfig")]
 script = ExtResource("6_272bh")
 player = NodePath("../Player")
 area = NodePath("../GameArea")
+gameConfig = NodePath("../GameConfig")
+answerScene = ExtResource("10_4c57u")
 
 [node name="ShotManager" type="Node" parent="." unique_id=1881634036]
 script = ExtResource("7_5vw27")
@@ -89,4 +98,17 @@ script = ExtResource("6_7mycd")
 gameArea = NodePath("../../GameArea")
 gameManager = NodePath("../../GameManager")
 
+[node name="Answer" type="Label" parent="HUD" unique_id=534419112]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+label_settings = SubResource("LabelSettings_dg77c")
+script = ExtResource("11_efxa6")
+metadata/_edit_use_anchors_ = true
+
 [connection signal="evShoot" from="Player" to="ShotManager" method="_on_player_ev_shoot"]
+[connection signal="ev_question_changed" from="GameManager" to="HUD/Answer" method="_on_game_manager_ev_question_changed"]
