@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://bno0ug70wftrj" path="res://scripts/event_resender.gd" id="9_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://cafp7vy16q1kc" path="res://scenes/answer/answer.tscn" id="10_4c57u"]
 [ext_resource type="Script" path="res://scripts/answer_label.gd" id="11_efxa6"]
+[ext_resource type="Script" uid="uid://bb48gluxno1u" path="res://scripts/ui_health.gd" id="14_vivmo"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -116,6 +117,15 @@ grow_horizontal = 2
 label_settings = SubResource("LabelSettings_dg77c")
 script = ExtResource("11_efxa6")
 metadata/_edit_use_anchors_ = true
+
+[node name="Health" type="HBoxContainer" parent="HUD" unique_id=1517574257 node_paths=PackedStringArray("gameManager")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+script = ExtResource("14_vivmo")
+eventManager = ExtResource("8_dg77c")
+gameManager = NodePath("../../GameManager")
 
 [connection signal="evShoot" from="Player" to="ShotManager" method="_on_player_ev_shoot"]
 [connection signal="ev_player_colladed" from="Player" to="GameManager/EventResender" method="_on_player_ev_player_colladed"]

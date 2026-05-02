@@ -27,6 +27,11 @@ var question: QuizQuestion:
 @export var answerScene: PackedScene
 @export var eventManager: EventManager
 
+@onready var health:int = gameConfig.health:
+	set(new_value):
+		if health != new_value:
+			health = new_value
+			eventManager.ev_health_changed.emit(health)
 
 func _ready() -> void:
 	event_listener.add(eventManager.ev_explosion, _on_event_manager_ev_explosion)
@@ -118,6 +123,7 @@ func _on_event_manager_ev_explosion(answer: Answer) -> void:
 	else:
 		var index:int = options.find(answer)
 		if index != -1:
+			health -= 1
 			options.remove_at(index)
 			answer.take_damage()
 			
@@ -129,6 +135,7 @@ func _on_player_colladed(_player:Player, answer: Answer) -> void:
 	else:
 		var index:int = options.find(answer)
 		if index != -1:
+			health -= 1
 			answer.take_damage()
 			
 
