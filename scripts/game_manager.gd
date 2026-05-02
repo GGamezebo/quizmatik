@@ -6,6 +6,8 @@ signal ev_selected_lane_changed
 signal ev_question_changed
 
 var time:float = 0.0
+var options: Array[Answer] = []
+@onready var event_listener:EventListener = EventListener.new()
 
 var selected_lane: int = 0:
 		set(value):
@@ -23,11 +25,17 @@ var question: QuizQuestion:
 @export var area: GameArea
 @export var gameConfig: GameConfig
 @export var answerScene: PackedScene
+@export var eventManager: EventManager
 
 
 func _ready() -> void:
+	eventManager.ev_explosion.connect(_on_event_manager_ev_explosion)
+	#event_listener.add(eventManager.ev_explosion, _on_event_manager_ev_explosion)
+	
 	makeNewRound()
 
+func _exit_tree() -> void:
+	event_listener.deinit()
 	
 func _process(delta: float) -> void:
 	time += delta
@@ -90,13 +98,25 @@ func makeAnswers() -> void:
 	var lines = area.getLines()
 	for index in range(len(question.options)):
 		var option:int = question.options[index]
-		var answer = answerScene.instantiate()
+		var answer:Answer = answerScene.instantiate()
 		var line: Rect2 = lines[index]
 		var x:float = area.gameplay_area.end.x + 120
 		var y:float = line.position.y + line.size.y / 2.0
 		answer.position.x = x
 		answer.position.y = x
 		answer.setup(x, y, option)
+		options.append(answer)
 		get_tree().root.add_child.call_deferred(answer)
 			
 			
+func _on_event_manager_ev_explosion(answer: Answer) -> void:
+	if answer.value == self.question.correct_answer:
+		for option in options:
+			option.take_damage()
+		options.clear()
+		self.makeNewRound()
+	else:
+		var index:int = options.find(answer)
+		if index != -1:
+			options.remove_at(index)
+			answer.take_damage()

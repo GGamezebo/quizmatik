@@ -9,8 +9,9 @@
 [ext_resource type="Script" uid="uid://nrjrwaslqq0y" path="res://scripts/game_manager.gd" id="6_272bh"]
 [ext_resource type="Script" uid="uid://dcrpw105eqlxa" path="res://scripts/shot_manager.gd" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bwyvda87ui0x5" path="res://scenes/shot/shot.tscn" id="7_kek77"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://res/event_manager.tres" id="8_dg77c"]
 [ext_resource type="PackedScene" uid="uid://cafp7vy16q1kc" path="res://scenes/answer/answer.tscn" id="10_4c57u"]
-[ext_resource type="Script" uid="uid://c31s1xkrtgnis" path="res://scripts/answer_label.gd" id="11_efxa6"]
+[ext_resource type="Script" path="res://scripts/answer_label.gd" id="11_efxa6"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -70,6 +71,7 @@ player = NodePath("../Player")
 area = NodePath("../GameArea")
 gameConfig = NodePath("../GameConfig")
 answerScene = ExtResource("10_4c57u")
+eventManager = ExtResource("8_dg77c")
 
 [node name="ShotManager" type="Node" parent="." unique_id=1881634036]
 script = ExtResource("7_5vw27")

@@ -41,6 +41,7 @@ animations = [{
 }]
 
 [node name="Player" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("components", "directionComponents", "animated_sprite")]
+collision_mask = 4
 script = ExtResource("1_c4h5g")
 components = [NodePath("AnimatedSprite2D"), NodePath("Label"), NodePath("AudioStreamPlayer")]
 directionComponents = [NodePath("AnimatedSprite2D"), NodePath("AudioStreamPlayer")]
@@ -66,3 +67,5 @@ script = ExtResource("6_7tfl1")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=130746522]
 stream = ExtResource("3_incis")
 script = ExtResource("8_jxtnq")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -45,3 +45,7 @@ func get_size() -> Vector2:
 		# Умножаем чистый размер картинки на масштаб узла
 		return texture.get_size() * animated_sprite.global_scale
 	return Vector2.ZERO
+
+
+func _on_area_entered(area: Area2D) -> void:
+	print("SSSSSSSSSSSS", area) # Replace with function body.

@@ -1,5 +1,7 @@
 extends Area2D
 
+class_name Answer
+
 var value: int = 0:
 	set(new_value):
 		value = new_value
@@ -14,12 +16,37 @@ func _process(delta):
 	# Удаляем, если вылетел за экран
 	if position.x < -100:
 		queue_free()
+		
+	$Sprite2D.rotation += delta
 
 
 func setup(x:float, y:float, new_value:int) -> void:
 	self.position = Vector2(x, y)
 	self.value = new_value
 
+func _disable_collision():
+	collision_layer = 0
+	collision_mask = 0
 
 func take_damage():
-	queue_free()
+	self._disable_collision()
+	
+	var tween = create_tween().set_parallel(true)
+	
+	# Плавное исчезновение
+	tween.tween_property(self, "modulate:a", 0.0, 0.5)
+	# Небольшое увеличение
+	tween.tween_property(self, "scale", scale * 1.5, 0.5)
+	# Сдвиг вверх
+	tween.tween_property(self, "position:y", position.y, 0.5)
+   	
+   	# Удаляем объект после завершения анимации
+	tween.chain().tween_callback(queue_free)
+	#queue_free()
+	
+	
+
+
+
+func _on_area_entered(area: Area2D) -> void:
+	print("DDDD", area) # Replace with function body.
