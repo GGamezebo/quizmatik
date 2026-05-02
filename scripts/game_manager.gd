@@ -117,6 +117,12 @@ func makeAnswers() -> void:
 			
 			
 func _on_event_manager_ev_explosion(answer: Answer) -> void:
+	# temp explosion
+	var explosion = preload("res://scenes/explosion/explosion.tscn").instantiate()
+	explosion.position = answer.position
+	get_tree().root.add_child.call_deferred(explosion)
+	explosion.animation_finished.connect(explosion.queue_free)
+	
 	if answer.value == self.question.correct_answer:
 		_kill_all_answers()
 	else:
