@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cafp7vy16q1kc"]
 
 [ext_resource type="Script" uid="uid://cu637lmffdld0" path="res://scenes/answer/answer.gd" id="1_uxhp0"]
-[ext_resource type="Texture2D" uid="uid://bddmcruc2a2ob" path="res://scenes/answer/blue_ring.png" id="3_tp35o"]
+[ext_resource type="Texture2D" uid="uid://bi4oup4a3y23t" path="res://scenes/answer/blue_ring_140.png" id="2_0rjkt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_uxhp0"]
 font_color = Color(0, 6.4662685, 6.9061527, 1)
@@ -28,8 +28,7 @@ autowrap_mode = 1
 clip_text = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1225723819]
-scale = Vector2(0.08, 0.08)
-texture = ExtResource("3_tp35o")
+texture = ExtResource("2_0rjkt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1937359867]
 shape = SubResource("CircleShape2D_pm5v5")

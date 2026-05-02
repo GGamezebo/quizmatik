@@ -118,25 +118,28 @@ func makeAnswers() -> void:
 			
 func _on_event_manager_ev_explosion(answer: Answer) -> void:
 	if answer.value == self.question.correct_answer:
-		for option in options:
-			option.take_damage()
+		_kill_all_answers()
 	else:
 		var index:int = options.find(answer)
 		if index != -1:
 			health -= 1
 			options.remove_at(index)
 			answer.take_damage()
-			
+
+func _kill_all_answers():
+	for option in options:
+		option.take_damage()			
 			
 func _on_player_colladed(_player:Player, answer: Answer) -> void:
 	if answer.value == self.question.correct_answer:
-		for option in options:
-			option.take_damage()
+		_kill_all_answers()
 	else:
 		var index:int = options.find(answer)
 		if index != -1:
 			health -= 1
-			answer.take_damage()
+			_kill_all_answers()
+			
+			
 			
 
 func _on_answer_killed(answer:Answer):

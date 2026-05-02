@@ -9,7 +9,7 @@ var value: int = 0:
 		value = new_value
 		$Label.text = str(value)
 		
-var speed = 250
+var speed = 50
 
 
 func _process(delta):
