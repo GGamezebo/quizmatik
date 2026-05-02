@@ -2,12 +2,14 @@ extends Area2D
 
 class_name Answer
 
+signal ev_killed(answer:Answer)
+
 var value: int = 0:
 	set(new_value):
 		value = new_value
 		$Label.text = str(value)
 		
-var speed = 50
+var speed = 250
 
 
 func _process(delta):
@@ -42,11 +44,6 @@ func take_damage():
    	
    	# Удаляем объект после завершения анимации
 	tween.chain().tween_callback(queue_free)
-	#queue_free()
-	
-	
 
-
-
-func _on_area_entered(area: Area2D) -> void:
-	print("DDDD", area) # Replace with function body.
+func _exit_tree() -> void:
+	ev_killed.emit(self)

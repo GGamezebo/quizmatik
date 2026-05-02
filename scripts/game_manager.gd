@@ -29,8 +29,8 @@ var question: QuizQuestion:
 
 
 func _ready() -> void:
-	eventManager.ev_explosion.connect(_on_event_manager_ev_explosion)
-	#event_listener.add(eventManager.ev_explosion, _on_event_manager_ev_explosion)
+	event_listener.add(eventManager.ev_explosion, _on_event_manager_ev_explosion)
+	event_listener.add(eventManager.ev_player_colladed, _on_player_colladed)
 	
 	makeNewRound()
 
@@ -44,6 +44,7 @@ func _process(delta: float) -> void:
 	
 func makeNewRound():
 	self.question = generate_question()
+	await get_tree().create_timer(1.0).timeout
 	self.makeAnswers()
 	
 
@@ -105,6 +106,7 @@ func makeAnswers() -> void:
 		answer.position.x = x
 		answer.position.y = x
 		answer.setup(x, y, option)
+		answer.ev_killed.connect(_on_answer_killed)
 		options.append(answer)
 		get_tree().root.add_child.call_deferred(answer)
 			
@@ -113,10 +115,24 @@ func _on_event_manager_ev_explosion(answer: Answer) -> void:
 	if answer.value == self.question.correct_answer:
 		for option in options:
 			option.take_damage()
-		options.clear()
-		self.makeNewRound()
 	else:
 		var index:int = options.find(answer)
 		if index != -1:
 			options.remove_at(index)
 			answer.take_damage()
+			
+			
+func _on_player_colladed(_player:Player, answer: Answer) -> void:
+	if answer.value == self.question.correct_answer:
+		for option in options:
+			option.take_damage()
+	else:
+		var index:int = options.find(answer)
+		if index != -1:
+			answer.take_damage()
+			
+
+func _on_answer_killed(answer:Answer):
+	options.erase(answer)
+	if len(options) == 0:
+		self.makeNewRound()

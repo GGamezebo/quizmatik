@@ -1,11 +1,11 @@
 extends Area2D
+class_name Player
 
 signal evDirectionChanged
 signal evShoot
+signal ev_player_colladed(player:Player, area:Area2D)
 
-const RIGHT  = 1
-const LEFT  = -1
-const VELOCITY_SPEED = 800.0
+const VELOCITY_SPEED: float = 800.0
 
 @export var components:Array[Node] = []
 @export var directionComponents:Array[Node] = []
@@ -46,6 +46,5 @@ func get_size() -> Vector2:
 		return texture.get_size() * animated_sprite.global_scale
 	return Vector2.ZERO
 
-
 func _on_area_entered(area: Area2D) -> void:
-	print("SSSSSSSSSSSS", area) # Replace with function body.
+	ev_player_colladed.emit(self, area)

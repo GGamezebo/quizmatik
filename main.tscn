@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://dcrpw105eqlxa" path="res://scripts/shot_manager.gd" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bwyvda87ui0x5" path="res://scenes/shot/shot.tscn" id="7_kek77"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://res/event_manager.tres" id="8_dg77c"]
+[ext_resource type="Script" uid="uid://bno0ug70wftrj" path="res://scripts/event_resender.gd" id="9_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://cafp7vy16q1kc" path="res://scenes/answer/answer.tscn" id="10_4c57u"]
 [ext_resource type="Script" path="res://scripts/answer_label.gd" id="11_efxa6"]
 
@@ -57,7 +58,7 @@ position = Vector2(0, -1)
 script = ExtResource("2_lquwl")
 gameConfig = NodePath("../GameConfig")
 
-[node name="Player" parent="." unique_id=216453935 instance=ExtResource("2_0xm2m")]
+[node name="Player" parent="." unique_id=1244422727 instance=ExtResource("2_0xm2m")]
 position = Vector2(200, 450)
 
 [node name="EntityBorder" type="Node2D" parent="." unique_id=156993760 node_paths=PackedStringArray("gameArea", "entities")]
@@ -71,6 +72,10 @@ player = NodePath("../Player")
 area = NodePath("../GameArea")
 gameConfig = NodePath("../GameConfig")
 answerScene = ExtResource("10_4c57u")
+eventManager = ExtResource("8_dg77c")
+
+[node name="EventResender" type="Node" parent="GameManager" unique_id=566069933]
+script = ExtResource("9_ycdy4")
 eventManager = ExtResource("8_dg77c")
 
 [node name="ShotManager" type="Node" parent="." unique_id=1881634036]
@@ -113,4 +118,5 @@ script = ExtResource("11_efxa6")
 metadata/_edit_use_anchors_ = true
 
 [connection signal="evShoot" from="Player" to="ShotManager" method="_on_player_ev_shoot"]
+[connection signal="ev_player_colladed" from="Player" to="GameManager/EventResender" method="_on_player_ev_player_colladed"]
 [connection signal="ev_question_changed" from="GameManager" to="HUD/Answer" method="_on_game_manager_ev_question_changed"]
