@@ -5,15 +5,15 @@
 [ext_resource type="PackedScene" uid="uid://47fqtynve6g3" path="res://scenes/player/player.tscn" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://bb18r63uri507" path="res://scripts/game_area.gd" id="2_lquwl"]
 [ext_resource type="Script" uid="uid://c7cuoe35fok4i" path="res://scripts/entity_border.gd" id="3_h2yge"]
-[ext_resource type="Script" uid="uid://b8c13uei5f6xn" path="res://scripts/lines.gd" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://b8c13uei5f6xn" path="res://scripts/ui/lines.gd" id="6_7mycd"]
 [ext_resource type="Script" uid="uid://nrjrwaslqq0y" path="res://scripts/game_manager.gd" id="6_272bh"]
 [ext_resource type="Script" uid="uid://dcrpw105eqlxa" path="res://scripts/shot_manager.gd" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://bwyvda87ui0x5" path="res://scenes/shot/shot.tscn" id="7_kek77"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://res/event_manager.tres" id="8_dg77c"]
 [ext_resource type="Script" uid="uid://bno0ug70wftrj" path="res://scripts/event_resender.gd" id="9_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://cafp7vy16q1kc" path="res://scenes/answer/answer.tscn" id="10_4c57u"]
-[ext_resource type="Script" path="res://scripts/answer_label.gd" id="11_efxa6"]
-[ext_resource type="Script" uid="uid://bb48gluxno1u" path="res://scripts/ui_health.gd" id="14_vivmo"]
+[ext_resource type="Script" uid="uid://c31s1xkrtgnis" path="res://scripts/ui/answer_label.gd" id="11_efxa6"]
+[ext_resource type="Script" uid="uid://bb48gluxno1u" path="res://scripts/ui/ui_health.gd" id="14_vivmo"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -50,10 +50,11 @@ camera_attributes = SubResource("CameraAttributesPractical_h2yge")
 compositor = SubResource("Compositor_1bvp3")
 
 [node name="GameConfig" type="Node2D" parent="." unique_id=1104999898]
+position = Vector2(0, -1)
 script = ExtResource("1_272bh")
 
 [node name="Background" parent="." unique_id=1217069396 instance=ExtResource("1_ig7tw")]
-position = Vector2(0, -1)
+position = Vector2(0, -2)
 
 [node name="GameArea" type="Node2D" parent="." unique_id=324440187 node_paths=PackedStringArray("gameConfig")]
 script = ExtResource("2_lquwl")

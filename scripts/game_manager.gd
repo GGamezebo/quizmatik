@@ -64,8 +64,8 @@ func generate_question() -> QuizQuestion:
 	var q = QuizQuestion.new()
 	
 	# 1. Выбираем случайные множители
-	var a = randi_range(2, 9)
-	var b = randi_range(2, 9)
+	var a = randi_range(gameConfig.min_generate_number, gameConfig.max_generate_number)
+	var b = randi_range(gameConfig.min_generate_number, gameConfig.max_generate_number)
 	q.correct_answer = a * b
 	q.text = str(a) + " x " + str(b) + " = ?"
 	
@@ -110,7 +110,7 @@ func makeAnswers() -> void:
 		var y:float = line.position.y + line.size.y / 2.0
 		answer.position.x = x
 		answer.position.y = x
-		answer.setup(x, y, option)
+		answer.setup(x, y, option, gameConfig.answer_speed)
 		answer.ev_killed.connect(_on_answer_killed)
 		options.append(answer)
 		get_tree().root.add_child.call_deferred(answer)
