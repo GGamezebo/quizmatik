@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://bno0ug70wftrj" path="res://scripts/event_resender.gd" id="9_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://cafp7vy16q1kc" path="res://scenes/answer/answer.tscn" id="10_4c57u"]
 [ext_resource type="Script" uid="uid://c31s1xkrtgnis" path="res://scripts/ui/answer_label.gd" id="11_efxa6"]
+[ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://scenes/explosion/explosion.tscn" id="12_vivmo"]
 [ext_resource type="Script" uid="uid://bb48gluxno1u" path="res://scripts/ui/ui_health.gd" id="14_vivmo"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
@@ -82,7 +83,9 @@ eventManager = ExtResource("8_dg77c")
 
 [node name="ShotManager" type="Node" parent="." unique_id=1881634036]
 script = ExtResource("7_5vw27")
-bullet_scene = ExtResource("7_kek77")
+shot_scene = ExtResource("7_kek77")
+explosion_scene = ExtResource("12_vivmo")
+eventManager = ExtResource("8_dg77c")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=184986050]
 

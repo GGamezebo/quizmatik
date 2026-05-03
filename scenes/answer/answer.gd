@@ -22,10 +22,10 @@ func _process(delta):
 	$Sprite2D.rotation += delta
 
 
-func setup(x:float, y:float, new_value:int, speed:float) -> void:
+func setup(x:float, y:float, new_value:int, _speed:float) -> void:
 	self.position = Vector2(x, y)
 	self.value = new_value
-	self.speed = speed
+	self.speed = _speed
 
 func _disable_collision():
 	collision_layer = 0
