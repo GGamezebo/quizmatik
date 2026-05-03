@@ -30,6 +30,8 @@ var question: QuizQuestion:
 		if health != new_value:
 			health = new_value
 			eventManager.ev_health_changed.emit(health)
+			if health == 0:
+				eventManager.ev_exit_game.emit()
 
 func _ready() -> void:
 	event_listener.add(eventManager.ev_explosion, _on_event_manager_ev_explosion)
@@ -44,7 +46,7 @@ func _process(delta: float) -> void:
 	selected_lane = area.getLine(player.position)
 	
 	
-func makeNewRound():
+func makeNewRound() -> void:
 	self.question = generate_question()
 	await get_tree().create_timer(1.0).timeout
 	self.makeAnswers()
@@ -135,9 +137,6 @@ func _on_player_colladed(_player:Player, answer: Answer) -> void:
 		if index != -1:
 			health -= 1
 			_kill_all_answers()
-			
-			
-			
 
 func _on_answer_killed(answer:Answer):
 	options.erase(answer)

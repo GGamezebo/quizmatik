@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://fdo7cegg1sud"]
+
+[ext_resource type="Script" uid="uid://cy2a8f3w1035e" path="res://scenes/menu_context/ui.gd" id="1_ux2mn"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://res/event_manager.tres" id="2_35kkh"]
+
+[sub_resource type="Gradient" id="Gradient_r3o0b"]
+colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ux2mn"]
+gradient = SubResource("Gradient_r3o0b")
+
+[sub_resource type="LabelSettings" id="LabelSettings_35kkh"]
+font_size = 42
+font_color = Color(0, 1, 1, 1)
+
+[node name="MenuContext" type="Node" unique_id=1044355188]
+
+[node name="UI" type="Control" parent="." unique_id=335006795 node_paths=PackedStringArray("start_button", "exit_button")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ux2mn")
+eventManager = ExtResource("2_35kkh")
+start_button = NodePath("CenterContainer/VBoxContainer/ButtonStart")
+exit_button = NodePath("CenterContainer/VBoxContainer/ButtonExit")
+
+[node name="TextureRect" type="TextureRect" parent="UI" unique_id=855634049]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_ux2mn")
+
+[node name="CenterContainer" type="CenterContainer" parent="UI" unique_id=487516089]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/CenterContainer" unique_id=92845443]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/CenterContainer/VBoxContainer" unique_id=1617486808]
+layout_mode = 2
+text = "Улётная математика"
+label_settings = SubResource("LabelSettings_35kkh")
+
+[node name="ButtonStart" type="Button" parent="UI/CenterContainer/VBoxContainer" unique_id=671841128]
+layout_mode = 2
+text = "Старт"
+
+[node name="ButtonExit" type="Button" parent="UI/CenterContainer/VBoxContainer" unique_id=630154561]
+layout_mode = 2
+text = "Выход"

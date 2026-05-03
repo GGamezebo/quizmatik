@@ -1,0 +1,135 @@
+[gd_scene format=3 uid="uid://6rk3lba0km5x"]
+
+[ext_resource type="Script" uid="uid://cjyn2dgnipjnn" path="res://scripts/game_config.gd" id="1_yej0l"]
+[ext_resource type="PackedScene" uid="uid://dvy13cfq73jxs" path="res://scenes/game_context/background/background.tscn" id="2_lu6cl"]
+[ext_resource type="Script" uid="uid://bb18r63uri507" path="res://scripts/game_area.gd" id="3_5eju7"]
+[ext_resource type="PackedScene" uid="uid://47fqtynve6g3" path="res://scenes/game_context/player/player.tscn" id="4_3f67i"]
+[ext_resource type="Script" uid="uid://c7cuoe35fok4i" path="res://scripts/entity_border.gd" id="5_0m8ko"]
+[ext_resource type="Script" uid="uid://nrjrwaslqq0y" path="res://scripts/game_manager.gd" id="6_q40ib"]
+[ext_resource type="PackedScene" uid="uid://cafp7vy16q1kc" path="res://scenes/game_context/answer/answer.tscn" id="7_e5mqp"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://res/event_manager.tres" id="8_xkl2s"]
+[ext_resource type="Script" uid="uid://bno0ug70wftrj" path="res://scripts/event_resender.gd" id="9_eryq5"]
+[ext_resource type="Script" uid="uid://dcrpw105eqlxa" path="res://scripts/shot_manager.gd" id="10_0hyv8"]
+[ext_resource type="PackedScene" uid="uid://bwyvda87ui0x5" path="res://scenes/game_context/shot/shot.tscn" id="11_ug3i8"]
+[ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://scenes/game_context/explosion/explosion.tscn" id="12_587mb"]
+[ext_resource type="Script" uid="uid://bm2tjky763w3k" path="res://scenes/game_context/hud/hud.gd" id="12_lu6cl"]
+[ext_resource type="Script" uid="uid://b8c13uei5f6xn" path="res://scripts/ui/lines.gd" id="13_2jcei"]
+[ext_resource type="Script" uid="uid://c31s1xkrtgnis" path="res://scripts/ui/answer_label.gd" id="14_wlohk"]
+[ext_resource type="Script" uid="uid://bb48gluxno1u" path="res://scripts/ui/ui_health.gd" id="15_6ktr1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lquwl"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 1.608, 1.569, 1)
+border_blend = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_0xm2m"]
+font_color = Color(0, 18.892157, 18.892157, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_dg77c"]
+line_spacing = 2.0
+font_size = 92
+font_color = Color(0, 0.99, 0.99, 1)
+
+[node name="GameContext" type="Node" unique_id=1179940708]
+
+[node name="GameConfig" type="Node2D" parent="." unique_id=1392982771]
+position = Vector2(0, -1)
+script = ExtResource("1_yej0l")
+
+[node name="GameArea" type="Node2D" parent="." unique_id=1652487391 node_paths=PackedStringArray("gameConfig")]
+script = ExtResource("3_5eju7")
+gameConfig = NodePath("../GameConfig")
+
+[node name="Player" parent="." unique_id=216453935 instance=ExtResource("4_3f67i")]
+position = Vector2(200, 450)
+
+[node name="EntityBorder" type="Node2D" parent="." unique_id=17666066 node_paths=PackedStringArray("gameArea", "entities")]
+script = ExtResource("5_0m8ko")
+gameArea = NodePath("../GameArea")
+entities = [NodePath("../Player")]
+
+[node name="GameManager" type="Node2D" parent="." unique_id=337536268 node_paths=PackedStringArray("player", "area", "gameConfig")]
+script = ExtResource("6_q40ib")
+player = NodePath("../Player")
+area = NodePath("../GameArea")
+gameConfig = NodePath("../GameConfig")
+answerScene = ExtResource("7_e5mqp")
+eventManager = ExtResource("8_xkl2s")
+
+[node name="EventResender" type="Node" parent="GameManager" unique_id=561385266]
+script = ExtResource("9_eryq5")
+eventManager = ExtResource("8_xkl2s")
+
+[node name="ShotManager" type="Node" parent="." unique_id=1495127714]
+script = ExtResource("10_0hyv8")
+shot_scene = ExtResource("11_ug3i8")
+explosion_scene = ExtResource("12_587mb")
+eventManager = ExtResource("8_xkl2s")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=769805075]
+layer = -1
+script = ExtResource("12_lu6cl")
+eventManager = ExtResource("8_xkl2s")
+
+[node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]
+position = Vector2(0, -2)
+
+[node name="Score" type="Panel" parent="HUD" unique_id=1944420270]
+offset_top = -1.0
+offset_right = 261.0
+offset_bottom = 152.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_lquwl")
+
+[node name="Label" type="Label" parent="HUD/Score" unique_id=345963575]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Счёт"
+label_settings = SubResource("LabelSettings_0xm2m")
+
+[node name="Lines" type="Node2D" parent="HUD" unique_id=693063014 node_paths=PackedStringArray("gameArea", "gameManager")]
+script = ExtResource("13_2jcei")
+gameArea = NodePath("../../GameArea")
+gameManager = NodePath("../../GameManager")
+
+[node name="Answer" type="Label" parent="HUD" unique_id=1842566219]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+label_settings = SubResource("LabelSettings_dg77c")
+script = ExtResource("14_wlohk")
+metadata/_edit_use_anchors_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD" unique_id=2075508658]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="Health" type="HBoxContainer" parent="HUD/HBoxContainer" unique_id=2085066688 node_paths=PackedStringArray("gameManager")]
+layout_mode = 2
+script = ExtResource("15_6ktr1")
+eventManager = ExtResource("8_xkl2s")
+gameManager = NodePath("../../../GameManager")
+
+[node name="Exit" type="Button" parent="HUD/HBoxContainer" unique_id=1598725368]
+layout_mode = 2
+text = "EXIT"
+
+[connection signal="evShoot" from="Player" to="ShotManager" method="_on_player_ev_shoot"]
+[connection signal="ev_player_colladed" from="Player" to="GameManager/EventResender" method="_on_player_ev_player_colladed"]
+[connection signal="ev_question_changed" from="GameManager" to="HUD/Answer" method="_on_game_manager_ev_question_changed"]
+[connection signal="button_down" from="HUD/HBoxContainer/Exit" to="HUD" method="_on_exit_button_down"]
