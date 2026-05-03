@@ -1,13 +1,17 @@
-extends Node2D
-
 class_name GameManager
+extends Node2D
 
 signal ev_selected_lane_changed
 signal ev_question_changed
 
+@export var player: Node2D
+@export var area: GameArea
+@export var gameConfig: GameConfig
+@export var answerScene: PackedScene
+@export var eventManager: EventManager
+
 var time:float = 0.0
 var options: Array[Answer] = []
-@onready var event_listener:EventListener = EventListener.new()
 
 var selected_lane: int = 0:
 		set(value):
@@ -20,13 +24,7 @@ var question: QuizQuestion:
 		question = new_question
 		ev_question_changed.emit(question)
 
-
-@export var player: Node2D
-@export var area: GameArea
-@export var gameConfig: GameConfig
-@export var answerScene: PackedScene
-@export var eventManager: EventManager
-
+@onready var event_listener:EventListener = EventListener.new()
 @onready var health:int = gameConfig.health:
 	set(new_value):
 		if health != new_value:
@@ -36,7 +34,6 @@ var question: QuizQuestion:
 func _ready() -> void:
 	event_listener.add(eventManager.ev_explosion, _on_event_manager_ev_explosion)
 	event_listener.add(eventManager.ev_player_colladed, _on_player_colladed)
-	
 	makeNewRound()
 
 func _exit_tree() -> void:
