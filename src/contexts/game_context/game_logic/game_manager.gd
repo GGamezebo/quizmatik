@@ -8,7 +8,8 @@ signal ev_question_changed
 @export var area: GameArea
 @export var gameConfig: GameConfig
 @export var answerScene: PackedScene
-@export var eventManager: EventManager
+@export var game_events: GameEvents
+@export var root_events: RootEvents
 
 var time:float = 0.0
 var options: Array[Answer] = []
@@ -29,13 +30,13 @@ var question: QuizQuestion:
 	set(new_value):
 		if health != new_value:
 			health = new_value
-			eventManager.ev_health_changed.emit(health)
+			game_events.ev_health_changed.emit(health)
 			if health == 0:
-				eventManager.ev_exit_game.emit()
+				root_events.ev_exit_game.emit()
 
 func _ready() -> void:
-	event_listener.add(eventManager.ev_explosion, _on_event_manager_ev_explosion)
-	event_listener.add(eventManager.ev_player_colladed, _on_player_colladed)
+	event_listener.add(game_events.ev_explosion, _on_event_manager_ev_explosion)
+	event_listener.add(game_events.ev_player_colladed, _on_player_colladed)
 	makeNewRound()
 
 func _exit_tree() -> void:

@@ -2,7 +2,7 @@ extends Node
 
 @export var shot_scene: PackedScene
 @export var explosion_scene: PackedScene
-@export var eventManager: EventManager
+@export var gameEvents: GameEvents
 
 func _on_player_ev_shoot(position:Vector2) -> void:
 	if shot_scene:
@@ -15,4 +15,4 @@ func _on_explosion(answer:Answer) -> void:
 	var explosion:Explosion = explosion_scene.instantiate()
 	explosion.init(answer.position)
 	get_tree().root.add_child.call_deferred(explosion)
-	eventManager.ev_explosion.emit(answer)
+	gameEvents.ev_explosion.emit(answer)

@@ -1,16 +1,16 @@
 extends HBoxContainer
 
-@export var eventManager:EventManager
+@export var game_events:GameEvents
 @export var gameManager:GameManager
 @export var helthSprite:Texture2D
 
 
 func _ready() -> void:
-	eventManager.ev_health_changed.connect(_on_health_changed)
+	game_events.ev_health_changed.connect(_on_health_changed)
 	_updateState()
 	
 func _exit_tree() -> void:
-	eventManager.ev_health_changed.disconnect(_on_health_changed)
+	game_events.ev_health_changed.disconnect(_on_health_changed)
 
 
 func _updateState() -> void:

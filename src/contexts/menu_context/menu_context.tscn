@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://fdo7cegg1sud"]
 
 [ext_resource type="Script" uid="uid://cy2a8f3w1035e" path="res://src/contexts/menu_context/ui.gd" id="1_ux2mn"]
-[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/event_manager.tres" id="2_35kkh"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/root_events.tres" id="2_35kkh"]
 
 [sub_resource type="Gradient" id="Gradient_r3o0b"]
 colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 1)
@@ -23,7 +23,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ux2mn")
-eventManager = ExtResource("2_35kkh")
+root_events = ExtResource("2_35kkh")
 start_button = NodePath("CenterContainer/VBoxContainer/ButtonStart")
 exit_button = NodePath("CenterContainer/VBoxContainer/ButtonExit")
 
