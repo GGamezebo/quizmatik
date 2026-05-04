@@ -1,0 +1,472 @@
+[gd_scene format=3 uid="uid://dvy13cfq73jxs"]
+
+[ext_resource type="Texture2D" uid="uid://jl5tjjusnin3" path="res://src/ui/background/Sky2.png" id="1_jougr"]
+[ext_resource type="Texture2D" uid="uid://cjds8r57pey1g" path="res://src/ui/background/Sky1.png" id="2_cbsqf"]
+[ext_resource type="Texture2D" uid="uid://5xved5dnk0eo" path="res://src/ui/background/Sky3.png" id="3_wisxt"]
+
+[sub_resource type="Gradient" id="Gradient_ay0jx"]
+colors = PackedColorArray(0, 0.172549, 1, 1, 0, 0.623529, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1gw3d"]
+gradient = SubResource("Gradient_ay0jx")
+width = 1280
+height = 720
+fill_from = Vector2(1, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ctueq"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+inherit_velocity_ratio = 1.0
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 25.0
+initial_velocity_max = 75.0
+gravity = Vector3(0, 0, 0)
+scale_max = 2.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dvhti"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+inherit_velocity_ratio = 1.0
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 100.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.8
+scale_max = 1.3
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4312q"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
+inherit_velocity_ratio = 1.0
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 50.0
+initial_velocity_max = 1000.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.3
+scale_max = 1.1
+
+[node name="Background" type="Node2D" unique_id=1217069396]
+metadata/logic_bricks_graph = {
+"connections": [],
+"next_id": 0,
+"nodes": []
+}
+metadata/logic_bricks_frames = [{
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_51204",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_51004",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_50721",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49787",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49587",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49404",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49204",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_48954",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_48487",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_47321",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=139264846]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("GradientTexture2D_1gw3d")
+metadata/logic_bricks_graph = {
+"connections": [],
+"next_id": 0,
+"nodes": []
+}
+metadata/logic_bricks_frames = [{
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_51204",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_51004",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_50721",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49787",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49587",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49404",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49204",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_48954",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_48487",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_47321",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}]
+
+[node name="SlowestClouds" type="GPUParticles2D" parent="." unique_id=718439702]
+position = Vector2(1800, 360)
+amount = 6
+texture = ExtResource("1_jougr")
+lifetime = 126.04
+preprocess = 120.0
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+process_material = SubResource("ParticleProcessMaterial_ctueq")
+metadata/logic_bricks_graph = {
+"connections": [],
+"next_id": 0,
+"nodes": []
+}
+metadata/logic_bricks_frames = [{
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_51204",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_51004",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_50721",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49787",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49587",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49404",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49204",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_48954",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_48487",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_47321",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}]
+
+[node name="SlowClouds" type="GPUParticles2D" parent="." unique_id=842146306]
+position = Vector2(1800, 360)
+amount = 5
+texture = ExtResource("2_cbsqf")
+lifetime = 46.059999999999995
+preprocess = 40.0
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+process_material = SubResource("ParticleProcessMaterial_dvhti")
+metadata/logic_bricks_graph = {
+"connections": [],
+"next_id": 0,
+"nodes": []
+}
+metadata/logic_bricks_frames = [{
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_51204",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_51004",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_50721",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49787",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49587",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49404",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49204",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_48954",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_48487",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_47321",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}]
+
+[node name="FastClouds" type="GPUParticles2D" parent="." unique_id=800638798]
+position = Vector2(1800, 360)
+amount = 20
+texture = ExtResource("3_wisxt")
+lifetime = 40.0
+preprocess = 10.0
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+process_material = SubResource("ParticleProcessMaterial_4312q")
+metadata/logic_bricks_graph = {
+"connections": [],
+"next_id": 0,
+"nodes": []
+}
+metadata/logic_bricks_frames = [{
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_51204",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_51004",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_50721",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49787",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49587",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49404",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_49204",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_48954",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_48487",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}, {
+"color": Color(0.3, 0.5, 0.7, 0.5),
+"name": &"Frame_47321",
+"nodes": [],
+"position": Vector2(100, 100),
+"size": Vector2(400, 300),
+"title": "New Frame"
+}]

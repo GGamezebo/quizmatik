@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://ddo0h56tnwsk1"]
 
-[ext_resource type="Script" uid="uid://cfiqgxelo6ks3" path="res://scenes/root_context.gd" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://fdo7cegg1sud" path="res://scenes/menu_context/menu_context.tscn" id="1_ig7tw"]
-[ext_resource type="PackedScene" uid="uid://cvayb5jfghll4" path="res://scenes/loading_screen/loading_screen.tscn" id="2_0xm2m"]
-[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://res/event_manager.tres" id="8_dg77c"]
+[ext_resource type="Script" uid="uid://cfiqgxelo6ks3" path="res://src/contexts/root_context.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://fdo7cegg1sud" path="res://src/contexts/menu_context/menu_context.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://cvayb5jfghll4" path="res://src/ui/loading_screen/loading_screen.tscn" id="2_0xm2m"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/event_manager.tres" id="8_dg77c"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
