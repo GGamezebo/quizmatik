@@ -4,7 +4,7 @@ extends Node2D
 signal ev_selected_lane_changed
 signal ev_question_changed
 
-@export var player: Node2D
+@export var player: Player
 @export var area: GameArea
 @export var gameConfig: GameConfig
 @export var answerScene: PackedScene
@@ -36,7 +36,6 @@ var question: QuizQuestion:
 
 func _ready() -> void:
 	event_listener.add(game_events.ev_explosion, _on_event_manager_ev_explosion)
-	event_listener.add(game_events.ev_player_colladed, _on_player_colladed)
 	makeNewRound()
 
 func _exit_tree() -> void:
@@ -113,7 +112,7 @@ func makeAnswers() -> void:
 		answer.setup(x, y, option, gameConfig.answer_speed)
 		answer.ev_killed.connect(_on_answer_killed)
 		options.append(answer)
-		get_tree().root.add_child.call_deferred(answer)
+		owner.add_child.call_deferred(answer)
 			
 			
 func _on_event_manager_ev_explosion(answer: Answer) -> void:

@@ -24,7 +24,7 @@ func _on_resized():
 func set_answer_text(new_text: String):
 	text = new_text
 	# Ждем конца кадра, чтобы Godot обновил внутренний размер текста
-	await get_tree().process_frame
+	await owner.process_frame
 	_update_best_fit()
 
 func _update_best_fit():

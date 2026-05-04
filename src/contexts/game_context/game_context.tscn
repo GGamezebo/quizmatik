@@ -9,7 +9,6 @@
 [ext_resource type="Resource" uid="uid://bg11w4vfrn34r" path="res://src/contexts/game_context/game_events.tres" id="7_7ifmk"]
 [ext_resource type="PackedScene" uid="uid://cafp7vy16q1kc" path="res://src/features/answer/answer.tscn" id="7_e5mqp"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/root_events.tres" id="8_xkl2s"]
-[ext_resource type="Script" uid="uid://bno0ug70wftrj" path="res://src/contexts/game_context/game_logic/event_resender.gd" id="9_eryq5"]
 [ext_resource type="Script" uid="uid://dcrpw105eqlxa" path="res://src/contexts/game_context/game_logic/shot_manager.gd" id="10_0hyv8"]
 [ext_resource type="PackedScene" uid="uid://bwyvda87ui0x5" path="res://src/features/shot/shot.tscn" id="11_ug3i8"]
 [ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://src/features/explosion/explosion.tscn" id="12_587mb"]
@@ -63,15 +62,11 @@ answerScene = ExtResource("7_e5mqp")
 game_events = ExtResource("7_7ifmk")
 root_events = ExtResource("8_xkl2s")
 
-[node name="EventResender" type="Node" parent="GameManager" unique_id=561385266]
-script = ExtResource("9_eryq5")
-game_events = ExtResource("7_7ifmk")
-
 [node name="ShotManager" type="Node" parent="." unique_id=1495127714]
 script = ExtResource("10_0hyv8")
 shot_scene = ExtResource("11_ug3i8")
 explosion_scene = ExtResource("12_587mb")
-gameEvents = ExtResource("7_7ifmk")
+game_events = ExtResource("7_7ifmk")
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=769805075]
 layer = -1
@@ -134,6 +129,6 @@ layout_mode = 2
 text = "EXIT"
 
 [connection signal="evShoot" from="Player" to="ShotManager" method="_on_player_ev_shoot"]
-[connection signal="ev_player_colladed" from="Player" to="GameManager/EventResender" method="_on_player_ev_player_colladed"]
+[connection signal="ev_player_colladed" from="Player" to="GameManager" method="_on_player_colladed"]
 [connection signal="ev_question_changed" from="GameManager" to="HUD/Answer" method="_on_game_manager_ev_question_changed"]
 [connection signal="button_down" from="HUD/HBoxContainer/Exit" to="HUD" method="_on_exit_button_down"]

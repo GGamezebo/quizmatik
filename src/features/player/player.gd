@@ -1,5 +1,5 @@
-extends Area2D
 class_name Player
+extends Area2D
 
 signal evDirectionChanged
 signal evShoot
