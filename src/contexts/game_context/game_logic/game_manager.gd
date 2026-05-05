@@ -33,8 +33,37 @@ var question: QuizQuestion:
 			game_events.ev_health_changed.emit(health)
 			if health == 0:
 				root_events.ev_exit_game.emit()
+				
+#var _fsm:FSM
+#
+#
+#class CountDown extends FSMState:
+	#func _init(p_name: String):
+		#super._init(p_name)
+		#print('CountDown')
+	#
+	#func enter(_prev_state: FSMState, _event_data: Dictionary):
+		#print("ENTER CountDown")
+#
+#
+#
+#class Game extends FSMState:
+	#func _init(p_name: String):
+		#super._init(p_name)
+		#print('Game')
+		#
+	#func enter(_prev_state: FSMState, _event_data: Dictionary):
+		#print("ENTER GAME")
 
 func _ready() -> void:
+	#_fsm = FSM.new({
+		#"initial": {"state": "countdown"},
+		#"transitions": [
+			#{"src": "countdown", "dst": "game", "event": "ev_start"},
+		#],
+		#"states": [CountDown.new('countdown'), Game.new('game')],
+	#})
+	#_fsm.add_event('ev_start')
 	event_listener.add(game_events.ev_explosion, _on_event_manager_ev_explosion)
 	makeNewRound()
 
