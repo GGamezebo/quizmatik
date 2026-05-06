@@ -72,9 +72,6 @@ class GameState extends FSMState:
 	func deinit() -> void:
 		event_listener.deinit()
 		owner = null
-		
-	func enter(_prev_state: FSMState, _event_data: Dictionary):
-		print("<><><> enter", get_state())
 
 		
 class CountDown extends GameState:
@@ -101,7 +98,7 @@ class Game extends GameState:
 		super.enter(_prev_state, _event_data)
 		event_listener.add(owner.game_events.ev_explosion, _on_event_manager_ev_explosion)
 		event_listener.add(owner.player.ev_player_colladed, _on_player_colladed)
-		makeNewRound()
+		_makeNewRound()
 	
 	func leave(_event_data: Dictionary) -> void:
 		event_listener.deinit()
@@ -116,7 +113,7 @@ class Game extends GameState:
 				options.remove_at(index)
 			answer.take_damage()
 			
-	func makeNewRound() -> void:
+	func _makeNewRound() -> void:
 		owner.question = QuizQuestion.generate_question(owner.gameConfig)
 		await owner.get_tree().create_timer(1.0).timeout
 		_makeAnswers()
@@ -155,7 +152,7 @@ class Game extends GameState:
 	func _on_answer_killed(answer:Answer):
 		options.erase(answer)
 		if len(options) == 0:
-			makeNewRound()
+			_makeNewRound()
 		
 class EndGame extends GameState:
 	static func get_state() -> String:
