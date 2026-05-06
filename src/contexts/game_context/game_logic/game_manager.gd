@@ -11,21 +11,19 @@ signal ev_question_changed
 @export var game_events: GameEvents
 @export var root_events: RootEvents
 
+var fsm:FSM
 var time:float = 0.0
-var options: Array[Answer] = []
-
 var selected_lane: int = 0:
 		set(value):
 			if selected_lane != value:
 				selected_lane = value
 				ev_selected_lane_changed.emit()
 				
-var question: QuizQuestion:
+var question: QuizQuestion.Question:
 	set(new_question):
 		question = new_question
 		ev_question_changed.emit(question)
 
-@onready var event_listener:EventListener = EventListener.new()
 @onready var health:int = gameConfig.health:
 	set(new_value):
 		if health != new_value:
@@ -33,141 +31,137 @@ var question: QuizQuestion:
 			game_events.ev_health_changed.emit(health)
 			if health == 0:
 				root_events.ev_exit_game.emit()
-				
-#var _fsm:FSM
-#
-#
-#class CountDown extends FSMState:
-	#func _init(p_name: String):
-		#super._init(p_name)
-		#print('CountDown')
-	#
-	#func enter(_prev_state: FSMState, _event_data: Dictionary):
-		#print("ENTER CountDown")
-#
-#
-#
-#class Game extends FSMState:
-	#func _init(p_name: String):
-		#super._init(p_name)
-		#print('Game')
-		#
-	#func enter(_prev_state: FSMState, _event_data: Dictionary):
-		#print("ENTER GAME")
 
 func _ready() -> void:
-	#_fsm = FSM.new({
-		#"initial": {"state": "countdown"},
-		#"transitions": [
-			#{"src": "countdown", "dst": "game", "event": "ev_start"},
-		#],
-		#"states": [CountDown.new('countdown'), Game.new('game')],
-	#})
-	#_fsm.add_event('ev_start')
-	event_listener.add(game_events.ev_explosion, _on_event_manager_ev_explosion)
-	makeNewRound()
+	fsm = FSM.new({
+		"initial": {"state": CountDown.get_state()},
+		"transitions": [
+			{"src": CountDown.get_state(), "dst": Game.get_state(), "event": "ev_start_game"},
+			{"src": Game.get_state(), "dst": EndGame.get_state(), "event": "ev_end_game"},
+			{"src": EndGame.get_state(), "dst": CountDown.get_state(), "event": "ev_restart"},
+			{"src": EndGame.get_state(), "dst": Exit.get_state(), "event": "ev_exit"},
+		],
+		"states": [
+			CountDown.new(self), 
+			Game.new(self),
+			EndGame.new(self),
+			Exit.new(self),
+		],
+	})
 
 func _exit_tree() -> void:
-	event_listener.deinit()
+	fsm.deinit()
 	
 func _process(delta: float) -> void:
 	time += delta
 	selected_lane = area.getLine(player.position)
-	
-	
-func makeNewRound() -> void:
-	self.question = generate_question()
-	await get_tree().create_timer(1.0).timeout
-	self.makeAnswers()
-	
-
-# Структура для хранения вопроса
-class QuizQuestion:
-	var text: String
-	var options: Array
-	var correct_answer: int
 
 
-func generate_question() -> QuizQuestion:
-	var q = QuizQuestion.new()
-	
-	# 1. Выбираем случайные множители
-	var a = randi_range(gameConfig.min_generate_number, gameConfig.max_generate_number)
-	var b = randi_range(gameConfig.min_generate_number, gameConfig.max_generate_number)
-	q.correct_answer = a * b
-	q.text = str(a) + " x " + str(b) + " = ?"
-	
-	# 2. Генерируем варианты ответов
-	var options_set = [q.correct_answer]
-	
-	while options_set.size() < gameConfig.answer_lines_count:
-		var fake_answer = _generate_plausible_fake(a, b, q.correct_answer)
+class GameState extends FSMState:
+	static func get_state() -> String:
+		return '' 
 		
-		if not fake_answer in options_set:
-			options_set.append(fake_answer)
+	var owner: GameManager
+	var event_listener = EventListener.new()
 	
-	# 3. Перемешиваем ответы
-	options_set.shuffle()
-	q.options = options_set
-	
-	return q
+	func _init(owner: GameManager) -> void:
+		super(get_state())
+		
+		self.owner = owner
+		
+	func deinit() -> void:
+		event_listener.deinit()
+		owner = null
+		
+	func enter(_prev_state: FSMState, _event_data: Dictionary):
+		print("<><><> enter", get_state())
 
-# Создаем "правдоподобные" ошибки
-func _generate_plausible_fake(a: int, b: int, correct: int) -> int:
-	var strategy = randi() % 3
-	var fake = 0
-	
-	match strategy:
-		0: # Ошибка в одном из множителей на +/- 1
-			fake = (a + [-1, 1].pick_random()) * b
-		1: # Ошибка в результате на +/- 1, 2 или 10
-			fake = correct + [-1, 1, 2, -2, 10, -10].pick_random()
-		2: # Просто случайное число в разумных пределах
-			fake = randi_range(4, 81)
-			
-	# Защита от отрицательных чисел и нуля
-	return abs(fake) if fake != 0 else correct + 5
-	
-func makeAnswers() -> void:
-	var lines = area.getLines()
-	for index in range(len(question.options)):
-		var option:int = question.options[index]
-		var answer:Answer = answerScene.instantiate()
-		var line: Rect2 = lines[index]
-		var x:float = area.gameplay_area.end.x + 120
-		var y:float = line.position.y + line.size.y / 2.0
-		answer.position.x = x
-		answer.position.y = x
-		answer.setup(x, y, option, gameConfig.answer_speed)
-		answer.ev_killed.connect(_on_answer_killed)
-		options.append(answer)
-		owner.add_child.call_deferred(answer)
-			
-			
-func _on_event_manager_ev_explosion(answer: Answer) -> void:
-	if answer.value == self.question.correct_answer:
-		_kill_all_answers()
-	else:
-		var index:int = options.find(answer)
-		if index != -1:
-			health -= 1
-			options.remove_at(index)
-			answer.take_damage()
+		
+class CountDown extends GameState:
+	static func get_state() -> String:
+		return 'CountDown'
+		
+	func enter(_prev_state: FSMState, _event_data: Dictionary):
+		await owner.get_tree().create_timer(1.0).timeout
+		add_event('ev_start_game')
 
-func _kill_all_answers():
-	for option in options:
-		option.take_damage()			
-			
-func _on_player_colladed(_player:Player, answer: Answer) -> void:
-	if answer.value == self.question.correct_answer:
-		_kill_all_answers()
-	else:
-		var index:int = options.find(answer)
-		if index != -1:
-			health -= 1
+class Game extends GameState:
+	static func get_state() -> String:
+		return 'Game'
+	
+	var options: Array[Answer] = []
+	
+	func deinit() -> void:
+		for option in options:
+			option.queue_free()
+		options.clear()
+		super.deinit()
+	
+	func enter(_prev_state: FSMState, _event_data: Dictionary):
+		super.enter(_prev_state, _event_data)
+		event_listener.add(owner.game_events.ev_explosion, _on_event_manager_ev_explosion)
+		event_listener.add(owner.player.ev_player_colladed, _on_player_colladed)
+		makeNewRound()
+	
+	func leave(_event_data: Dictionary) -> void:
+		event_listener.deinit()
+	
+	func _on_event_manager_ev_explosion(answer: Answer) -> void:
+		if answer.value == owner.question.correct_answer:
 			_kill_all_answers()
+		else:
+			var index:int = options.find(answer)
+			if index != -1:
+				owner.health -= 1
+				options.remove_at(index)
+			answer.take_damage()
+			
+	func makeNewRound() -> void:
+		owner.question = QuizQuestion.generate_question(owner.gameConfig)
+		await owner.get_tree().create_timer(1.0).timeout
+		_makeAnswers()
+			
+	func _makeAnswers() -> void:
+		var area: GameArea = owner.area
+		var question: QuizQuestion.Question = owner.question
+		var gameConfig: GameConfig = owner.gameConfig
+		var lines = area.getLines()
+		for index in range(len(question.options)):
+			var option:int = question.options[index]
+			var answer:Answer = owner.answerScene.instantiate()
+			var line: Rect2 = lines[index]
+			var x:float = area.gameplay_area.end.x + 120
+			var y:float = line.position.y + line.size.y / 2.0
+			answer.position.x = x
+			answer.position.y = x
+			answer.setup(x, y, option, gameConfig.answer_speed)
+			answer.ev_killed.connect(_on_answer_killed)
+			options.append(answer)
+			owner.owner.add_child.call_deferred(answer)
+			
+	func _kill_all_answers():
+		for option in options:
+			option.take_damage()			
+				
+	func _on_player_colladed(_player:Player, answer: Answer) -> void:
+		if answer.value == owner.question.correct_answer:
+			_kill_all_answers()
+		else:
+			var index:int = options.find(answer)
+			if index != -1:
+				owner.health -= 1
+				_kill_all_answers()
 
-func _on_answer_killed(answer:Answer):
-	options.erase(answer)
-	if len(options) == 0:
-		self.makeNewRound()
+	func _on_answer_killed(answer:Answer):
+		options.erase(answer)
+		if len(options) == 0:
+			makeNewRound()
+		
+class EndGame extends GameState:
+	static func get_state() -> String:
+		return 'EndGame'
+
+		
+class Exit extends GameState:
+	static func get_state() -> String:
+		return 'Exit'

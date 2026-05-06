@@ -48,9 +48,9 @@ func _setup(cfg: Dictionary):
 	if not initial.has("event"):
 		add_event(INIT_EVENT_NAME)
 
-func fini():
+func deinit():
 	for key in _states_map:
-		_states_map[key].fini()
+		_states_map[key].deinit()
 	_states_map.clear()
 	_transaction_map.clear()
 	_callbacks.clear()
