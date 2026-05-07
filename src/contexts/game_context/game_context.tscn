@@ -47,11 +47,6 @@ gameConfig = NodePath("../GameConfig")
 [node name="Player" parent="." unique_id=216453935 instance=ExtResource("4_3f67i")]
 position = Vector2(200, 450)
 
-[node name="EntityBorder" type="Node2D" parent="." unique_id=17666066 node_paths=PackedStringArray("gameArea", "entities")]
-script = ExtResource("5_0m8ko")
-gameArea = NodePath("../GameArea")
-entities = [NodePath("../Player")]
-
 [node name="GameManager" type="Node" parent="." unique_id=1898191257 node_paths=PackedStringArray("player", "area", "gameConfig")]
 script = ExtResource("6_q40ib")
 player = NodePath("../Player")
@@ -61,11 +56,18 @@ answerScene = ExtResource("7_e5mqp")
 game_events = ExtResource("7_7ifmk")
 root_events = ExtResource("8_xkl2s")
 
-[node name="ShotManager" type="Node" parent="." unique_id=1495127714]
+[node name="Controllers" type="Node" parent="." unique_id=1335740013]
+
+[node name="ShotManager" type="Node" parent="Controllers" unique_id=1495127714]
 script = ExtResource("10_0hyv8")
 shot_scene = ExtResource("11_ug3i8")
 explosion_scene = ExtResource("12_587mb")
 game_events = ExtResource("7_7ifmk")
+
+[node name="EntityBorder" type="Node" parent="Controllers" unique_id=2060724701 node_paths=PackedStringArray("gameArea", "entities")]
+script = ExtResource("5_0m8ko")
+gameArea = NodePath("../../GameArea")
+entities = [NodePath("../../Player")]
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=769805075]
 layer = -1
@@ -127,6 +129,6 @@ helthSprite = ExtResource("17_emdi4")
 layout_mode = 2
 text = "EXIT"
 
-[connection signal="evShoot" from="Player" to="ShotManager" method="_on_player_ev_shoot"]
+[connection signal="evShoot" from="Player" to="Controllers/ShotManager" method="_on_player_ev_shoot"]
 [connection signal="ev_question_changed" from="GameManager" to="HUD/Answer" method="_on_game_manager_ev_question_changed"]
 [connection signal="button_down" from="HUD/HBoxContainer/Exit" to="HUD" method="_on_exit_button_down"]

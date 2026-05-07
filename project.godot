@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="checkers-for-dummies"
-run/main_scene="uid://6rk3lba0km5x"
+run/main_scene="uid://ddo0h56tnwsk1"
 config/features=PackedStringArray("4.6", "Mobile")
 
 [display]
