@@ -1,5 +1,5 @@
 class_name FSMConditionalState
-extends RefCounted
+extends Node2D
 
 const UNINITIALIZED_STATE_ID = -1
 

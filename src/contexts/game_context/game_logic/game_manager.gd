@@ -61,17 +61,16 @@ class GameState extends FSMState:
 	static func get_state() -> String:
 		return '' 
 		
-	var owner: GameManager
+	var game_mamager: GameManager
 	var event_listener = EventListener.new()
 	
-	func _init(owner: GameManager) -> void:
+	func _init(_game_mamager: GameManager) -> void:
 		super(get_state())
-		
-		self.owner = owner
+		self.game_mamager = _game_mamager
 		
 	func deinit() -> void:
 		event_listener.deinit()
-		owner = null
+		game_mamager = null
 
 		
 class CountDown extends GameState:
@@ -79,7 +78,9 @@ class CountDown extends GameState:
 		return 'CountDown'
 		
 	func enter(_prev_state: FSMState, _event_data: Dictionary):
-		await owner.get_tree().create_timer(1.0).timeout
+		await game_mamager.get_tree().create_timer(4.0).timeout
+		if game_mamager == null:
+			return
 		add_event('ev_start_game')
 
 class Game extends GameState:
@@ -87,6 +88,9 @@ class Game extends GameState:
 		return 'Game'
 	
 	var options: Array[Answer] = []
+	
+	func _init(_game_mamager: GameManager) -> void:
+		super(_game_mamager)
 	
 	func deinit() -> void:
 		for option in options:
@@ -96,36 +100,38 @@ class Game extends GameState:
 	
 	func enter(_prev_state: FSMState, _event_data: Dictionary):
 		super.enter(_prev_state, _event_data)
-		event_listener.add(owner.game_events.ev_explosion, _on_event_manager_ev_explosion)
-		event_listener.add(owner.player.ev_player_colladed, _on_player_colladed)
+		event_listener.add(game_mamager.game_events.ev_explosion, _on_event_manager_ev_explosion)
+		event_listener.add(game_mamager.player.ev_player_colladed, _on_player_colladed)
 		_makeNewRound()
 	
 	func leave(_event_data: Dictionary) -> void:
 		event_listener.deinit()
 	
 	func _on_event_manager_ev_explosion(answer: Answer) -> void:
-		if answer.value == owner.question.correct_answer:
+		if answer.value == game_mamager.question.correct_answer:
 			_kill_all_answers()
 		else:
 			var index:int = options.find(answer)
 			if index != -1:
-				owner.health -= 1
+				game_mamager.health -= 1
 				options.remove_at(index)
 			answer.take_damage()
 			
 	func _makeNewRound() -> void:
-		owner.question = QuizQuestion.generate_question(owner.gameConfig)
-		await owner.get_tree().create_timer(1.0).timeout
+		game_mamager.question = QuizQuestion.generate_question(game_mamager.gameConfig)
+		await game_mamager.get_tree().create_timer(1.0).timeout
+		if game_mamager == null:
+			return
 		_makeAnswers()
 			
 	func _makeAnswers() -> void:
-		var area: GameArea = owner.area
-		var question: QuizQuestion.Question = owner.question
-		var gameConfig: GameConfig = owner.gameConfig
+		var area: GameArea = game_mamager.area
+		var question: QuizQuestion.Question = game_mamager.question
+		var gameConfig: GameConfig = game_mamager.gameConfig
 		var lines = area.getLines()
 		for index in range(len(question.options)):
 			var option:int = question.options[index]
-			var answer:Answer = owner.answerScene.instantiate()
+			var answer:Answer = game_mamager.answerScene.instantiate()
 			var line: Rect2 = lines[index]
 			var x:float = area.gameplay_area.end.x + 120
 			var y:float = line.position.y + line.size.y / 2.0
@@ -134,19 +140,19 @@ class Game extends GameState:
 			answer.setup(x, y, option, gameConfig.answer_speed)
 			answer.ev_killed.connect(_on_answer_killed)
 			options.append(answer)
-			owner.owner.add_child.call_deferred(answer)
+			game_mamager.owner.add_child.call_deferred(answer)
 			
 	func _kill_all_answers():
 		for option in options:
 			option.take_damage()			
 				
 	func _on_player_colladed(_player:Player, answer: Answer) -> void:
-		if answer.value == owner.question.correct_answer:
+		if answer.value == game_mamager.question.correct_answer:
 			_kill_all_answers()
 		else:
 			var index:int = options.find(answer)
 			if index != -1:
-				owner.health -= 1
+				game_mamager.health -= 1
 				_kill_all_answers()
 
 	func _on_answer_killed(answer:Answer):

@@ -34,7 +34,7 @@ func _setup(cfg: Dictionary):
 	if cfg.has("states"):
 		for state in cfg["states"]:
 			state.sync_fsm(self)
-			_states_map[state.name] = state
+			_states_map[state.state_name] = state
 
 	# Сборка таблицы переходов
 	_add_transaction(INIT_STATE, initial["state"], initial_event)
@@ -103,7 +103,7 @@ func _process_event(event_name: String, event_data: Dictionary):
 		var current_state = _states_map[_current_state_name]
 		current_state.enter(prev_state, event_data)
 
-		_call_callbacks(prev_state.name, current_state.name)
+		_call_callbacks(prev_state.state_name, current_state.state_name)
 	else:
 		_states_map[_current_state_name].reenter(event_data)
 

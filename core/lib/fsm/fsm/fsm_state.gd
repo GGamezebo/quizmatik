@@ -1,11 +1,11 @@
 class_name FSMState
-extends RefCounted
+extends Node
 
-var name: String
+var state_name: String
 var fsm: WeakRef
 
-func _init(p_name: String) -> void:
-	name = p_name
+func _init(_state_name: String) -> void:
+	state_name = _state_name
 
 func deinit() -> void:
 	pass

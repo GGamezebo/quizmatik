@@ -45,6 +45,4 @@ func take_damage():
    	
    	# Удаляем объект после завершения анимации
 	tween.chain().tween_callback(queue_free)
-
-func _exit_tree() -> void:
 	ev_killed.emit(self)
