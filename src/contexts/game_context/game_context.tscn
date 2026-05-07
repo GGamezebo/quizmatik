@@ -37,8 +37,7 @@ font_color = Color(0, 0.99, 0.99, 1)
 
 [node name="GameContext" type="Node" unique_id=1179940708]
 
-[node name="GameConfig" type="Node2D" parent="." unique_id=1392982771]
-position = Vector2(0, -1)
+[node name="GameConfig" type="Node" parent="." unique_id=1289995046]
 script = ExtResource("1_yej0l")
 
 [node name="GameArea" type="Node2D" parent="." unique_id=1652487391 node_paths=PackedStringArray("gameConfig")]
@@ -53,7 +52,7 @@ script = ExtResource("5_0m8ko")
 gameArea = NodePath("../GameArea")
 entities = [NodePath("../Player")]
 
-[node name="GameManager" type="Node2D" parent="." unique_id=337536268 node_paths=PackedStringArray("player", "area", "gameConfig")]
+[node name="GameManager" type="Node" parent="." unique_id=1898191257 node_paths=PackedStringArray("player", "area", "gameConfig")]
 script = ExtResource("6_q40ib")
 player = NodePath("../Player")
 area = NodePath("../GameArea")
@@ -129,6 +128,5 @@ layout_mode = 2
 text = "EXIT"
 
 [connection signal="evShoot" from="Player" to="ShotManager" method="_on_player_ev_shoot"]
-[connection signal="ev_player_colladed" from="Player" to="GameManager" method="_on_player_colladed"]
 [connection signal="ev_question_changed" from="GameManager" to="HUD/Answer" method="_on_game_manager_ev_question_changed"]
 [connection signal="button_down" from="HUD/HBoxContainer/Exit" to="HUD" method="_on_exit_button_down"]

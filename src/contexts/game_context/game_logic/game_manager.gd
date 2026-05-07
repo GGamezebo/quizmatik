@@ -1,5 +1,5 @@
 class_name GameManager
-extends Node2D
+extends Node
 
 signal ev_selected_lane_changed
 signal ev_question_changed
@@ -143,7 +143,7 @@ class Game extends GameState:
 			game_mamager.owner.add_child.call_deferred(answer)
 			
 	func _kill_all_answers():
-		for option in options:
+		for option in options.duplicate():
 			option.take_damage()			
 				
 	func _on_player_colladed(_player:Player, answer: Answer) -> void:
