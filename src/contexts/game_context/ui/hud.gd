@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-@export var rootEvents:RootEvents
+@export var main_events: MainEvents
 
 func _on_exit_button_down() -> void:
-	rootEvents.ev_exit_game.emit()
+	main_events.ev_exit_game.emit()

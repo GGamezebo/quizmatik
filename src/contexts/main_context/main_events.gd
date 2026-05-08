@@ -1,4 +1,4 @@
-class_name RootEvents
+class_name MainEvents
 extends Resource
 
 @warning_ignore("unused_signal") signal ev_start_game

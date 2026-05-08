@@ -1,0 +1,6 @@
+[gd_resource type="Resource" format=3 uid="uid://dg36ovkjdps7w"]
+
+[ext_resource type="Script" uid="uid://d3ofl0bxfmumm" path="res://src/contexts/main_context/persistent_data/settings.gd" id="1_eg2eu"]
+
+[resource]
+script = ExtResource("1_eg2eu")

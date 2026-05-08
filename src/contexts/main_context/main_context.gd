@@ -1,9 +1,13 @@
 extends Node
 
+const PATH_PROGRESS = "user://progress.tres"
+const PATH_SETTINGS = "user://settings.tres"
+
+
 @export_file("*.tscn") var game_context_path: String
 @export_file("*.tscn") var menu_context_path: String
 @export var loading_screen_scene: PackedScene
-@export var root_events:RootEvents
+@export var main_events: MainEvents
 @export var min_load_time: float = 1.5 # Минимум полторы секунды
 
 var load_start_time: float = 0.0
@@ -17,8 +21,8 @@ var target_path: String = ""
 
 func _ready() -> void:
 	current_context = $MenuContext
-	listener.add(root_events.ev_start_game, _on_start_game)
-	listener.add(root_events.ev_exit_game, _ev_exit_game)
+	listener.add(main_events.ev_start_game, _on_start_game)
+	listener.add(main_events.ev_exit_game, _ev_exit_game)
 	
 func _exit_tree() -> void:
 	listener.deinit()

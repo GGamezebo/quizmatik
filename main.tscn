@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://ddo0h56tnwsk1"]
 
-[ext_resource type="Script" uid="uid://cfiqgxelo6ks3" path="res://src/contexts/root_context.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://cfiqgxelo6ks3" path="res://src/contexts/main_context/main_context.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://fdo7cegg1sud" path="res://src/contexts/menu_context/menu_context.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cvayb5jfghll4" path="res://src/ui/loading_screen/loading_screen.tscn" id="2_0xm2m"]
-[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/root_events.tres" id="8_dg77c"]
+[ext_resource type="Script" uid="uid://djxvf8yy7uqhl" path="res://src/contexts/main_context/persistent_data/persisten_data.gd" id="4_lquwl"]
+[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/persistent_data/progress.tres" id="5_272bh"]
+[ext_resource type="Resource" uid="uid://dg36ovkjdps7w" path="res://src/contexts/main_context/persistent_data/settings.tres" id="6_272bh"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="8_dg77c"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -15,13 +18,18 @@ glow_blend_mode = 0
 
 [sub_resource type="Compositor" id="Compositor_1bvp3"]
 
-[node name="RootContext" type="Node" unique_id=1500600584]
+[node name="MainContext" type="Node" unique_id=1500600584]
 script = ExtResource("1_0xm2m")
 game_context_path = "uid://6rk3lba0km5x"
 menu_context_path = "uid://fdo7cegg1sud"
 loading_screen_scene = ExtResource("2_0xm2m")
-root_events = ExtResource("8_dg77c")
+main_events = ExtResource("8_dg77c")
 min_load_time = 0.5
+
+[node name="PersistenData" type="Node" parent="." unique_id=5266059]
+script = ExtResource("4_lquwl")
+default_progress = ExtResource("5_272bh")
+default_settings = ExtResource("6_272bh")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1724834534]
 environment = SubResource("Environment_0xm2m")
