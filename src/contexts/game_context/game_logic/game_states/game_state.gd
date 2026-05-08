@@ -27,20 +27,16 @@ var question: QuizQuestion.Question:
 			if health == 0:
 				root_events.ev_exit_game.emit()
 
-func deinit() -> void:
-	for option in options:
-		option.queue_free()
-	options.clear()
-	super.deinit()
-
 func enter(_prev_state: FSMState, _event_data: Dictionary):
-	super.enter(_prev_state, _event_data)
 	event_listener.add(game_events.ev_explosion, _on_event_manager_ev_explosion)
 	event_listener.add(player.ev_player_colladed, _on_player_colladed)
 	_makeNewRound()
 
 func leave(_event_data: Dictionary) -> void:
 	event_listener.deinit()
+	for option in options:
+		option.queue_free()
+	options.clear()
 
 func _on_event_manager_ev_explosion(answer: Answer) -> void:
 	if answer.value == question.correct_answer:
