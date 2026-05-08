@@ -1,7 +1,7 @@
 class_name EventListener
 extends RefCounted
 
-var _events:Dictionary = {}
+var _events: Dictionary = {}
 
 func deinit() -> void:
 	for event in self._events:
@@ -10,13 +10,13 @@ func deinit() -> void:
 			event.disconnect(callback)
 	self._events.clear()
 
-func add(event:Signal, callback:Callable) -> void:
+func add(event: Signal, callback: Callable) -> void:
 	var callbacks = self._events.get_or_add(event, [])
 	if callback not in callbacks:
 		event.connect(callback)
 		callbacks.append(callback)
 		
-func remove(event:Signal, callback:Callable) -> void:
+func remove(event: Signal, callback: Callable) -> void:
 	var callbacks = self._events.get(event, [])
 	if callback in callbacks:
 		event.disconnect(callback)
