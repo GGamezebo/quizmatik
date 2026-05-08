@@ -1,7 +1,7 @@
 extends HBoxContainer
 
 @export var game_events:GameEvents
-@export var gameManager:GameManager
+@export var gameStae:GameState
 @export var helthSprite:Texture2D
 
 
@@ -14,7 +14,7 @@ func _exit_tree() -> void:
 
 
 func _updateState() -> void:
-	var health:int = gameManager.health
+	var health:int = gameStae.health
 	var child_count:int = get_child_count()
 	var count:int = health - child_count
 	var action = createHealth if count > 0 else removeHealth
