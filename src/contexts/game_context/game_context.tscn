@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://b8c13uei5f6xn" path="res://src/contexts/game_context/ui/lines.gd" id="13_2jcei"]
 [ext_resource type="Script" uid="uid://c31s1xkrtgnis" path="res://src/contexts/game_context/ui/answer_label.gd" id="14_wlohk"]
 [ext_resource type="Script" uid="uid://bb48gluxno1u" path="res://src/contexts/game_context/ui/ui_health.gd" id="15_6ktr1"]
+[ext_resource type="Script" uid="uid://cwfxgx56jwul8" path="res://src/contexts/game_context/line_selector.gd" id="15_h2w07"]
 [ext_resource type="Texture2D" uid="uid://c4rcn50qkxusi" path="res://assets/icon.svg" id="17_emdi4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lquwl"]
@@ -50,11 +51,9 @@ gameConfig = NodePath("../GameConfig")
 [node name="Player" parent="." unique_id=216453935 instance=ExtResource("4_3f67i")]
 position = Vector2(200, 450)
 
-[node name="GameManager" type="Node" parent="." unique_id=1898191257 node_paths=PackedStringArray("states", "player", "area")]
+[node name="GameManager" type="Node" parent="." unique_id=1898191257 node_paths=PackedStringArray("states")]
 script = ExtResource("6_q40ib")
 states = [NodePath("CountDownState"), NodePath("GameState"), NodePath("EndGameState")]
-player = NodePath("../Player")
-area = NodePath("../GameArea")
 
 [node name="CountDownState" type="Node" parent="GameManager" unique_id=312648269]
 script = ExtResource("8_7ifmk")
@@ -70,6 +69,11 @@ root_events = ExtResource("8_xkl2s")
 
 [node name="EndGameState" type="Node" parent="GameManager" unique_id=265268692]
 script = ExtResource("10_jud5q")
+
+[node name="LineSelector" type="Node" parent="." unique_id=2097313372 node_paths=PackedStringArray("player", "area")]
+script = ExtResource("15_h2w07")
+player = NodePath("../Player")
+area = NodePath("../GameArea")
 
 [node name="Controllers" type="Node" parent="." unique_id=1335740013]
 
@@ -108,10 +112,10 @@ grow_vertical = 2
 text = "Счёт"
 label_settings = SubResource("LabelSettings_0xm2m")
 
-[node name="Lines" type="Node2D" parent="HUD" unique_id=693063014 node_paths=PackedStringArray("gameArea", "gameManager")]
+[node name="Lines" type="Node2D" parent="HUD" unique_id=693063014 node_paths=PackedStringArray("gameArea", "lineSelector")]
 script = ExtResource("13_2jcei")
 gameArea = NodePath("../../GameArea")
-gameManager = NodePath("../../GameManager")
+lineSelector = NodePath("../../LineSelector")
 
 [node name="Question" type="Label" parent="HUD" unique_id=1842566219]
 anchors_preset = 5

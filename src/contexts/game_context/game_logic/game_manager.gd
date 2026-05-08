@@ -1,20 +1,10 @@
 class_name GameManager
 extends Node
 
-signal ev_selected_lane_changed
-
 @export var states: Array[StateBase]
-@export var player: Player
-@export var area: GameArea
 
 var fsm:FSM
 var time:float = 0.0
-var selected_lane: int = 0:
-		set(value):
-			if selected_lane != value:
-				selected_lane = value
-				ev_selected_lane_changed.emit()
-
 
 func _ready() -> void:
 	for state in states:
@@ -35,4 +25,3 @@ func _exit_tree() -> void:
 	
 func _process(delta: float) -> void:
 	time += delta
-	selected_lane = area.getLine(player.position)

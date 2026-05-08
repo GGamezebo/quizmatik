@@ -6,10 +6,10 @@ extends Node2D
 @export var line_thickness: float = 3.0
 @export var glow_intensity: int = 3 # Количество слоев свечения
 @export var gameArea: GameArea
-@export var gameManager: GameManager
+@export var lineSelector: LineSelector
 
 func _ready():
-	gameManager.ev_selected_lane_changed.connect(queue_redraw)
+	lineSelector.ev_selected_lane_changed.connect(queue_redraw)
 
 func _draw():
 	var area = gameArea.gameplay_area
@@ -23,7 +23,7 @@ func _draw():
 		var end_pos = Vector2(area.end.x, y_pos)
 		
 		# Проверяем, является ли эта линия выбранной
-		var selected_lane = gameManager.selected_lane
+		var selected_lane = lineSelector.selected_lane
 		var is_selected = (i == selected_lane or i == selected_lane + 1)
 		
 		_draw_glowing_gradient_line(start_pos, end_pos, is_selected)
