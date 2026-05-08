@@ -22,16 +22,8 @@
 [ext_resource type="Script" uid="uid://cwfxgx56jwul8" path="res://src/contexts/game_context/game_logic/line_selector.gd" id="15_h2w07"]
 [ext_resource type="Texture2D" uid="uid://c4rcn50qkxusi" path="res://assets/icon.svg" id="17_emdi4"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lquwl"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0, 1.608, 1.569, 1)
-border_blend = true
-
 [sub_resource type="LabelSettings" id="LabelSettings_0xm2m"]
+font_size = 45
 font_color = Color(0, 18.892157, 18.892157, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_dg77c"]
@@ -96,21 +88,34 @@ main_events = ExtResource("8_xkl2s")
 [node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]
 position = Vector2(0, -2)
 
-[node name="Score" type="Panel" parent="HUD" unique_id=1944420270]
-offset_top = -1.0
-offset_right = 261.0
-offset_bottom = 152.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_lquwl")
+[node name="LeftPanel" type="HBoxContainer" parent="HUD" unique_id=63369239]
+offset_right = 272.0
+offset_bottom = 105.0
+alignment = 1
 
-[node name="Label" type="Label" parent="HUD/Score" unique_id=345963575]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Счёт"
+[node name="Name" type="Label" parent="HUD/LeftPanel" unique_id=345963575]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "счёт:"
 label_settings = SubResource("LabelSettings_0xm2m")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="HUD/LeftPanel" unique_id=1130806769]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "0"
+label_settings = SubResource("LabelSettings_0xm2m")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MaxScore" type="Label" parent="HUD/LeftPanel" unique_id=1314264146]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "/30"
+label_settings = SubResource("LabelSettings_0xm2m")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Lines" type="Node2D" parent="HUD" unique_id=693063014 node_paths=PackedStringArray("gameArea", "lineSelector")]
 script = ExtResource("13_2jcei")
@@ -129,7 +134,7 @@ label_settings = SubResource("LabelSettings_dg77c")
 script = ExtResource("14_wlohk")
 metadata/_edit_use_anchors_ = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD" unique_id=2075508658]
+[node name="RightPanel" type="HBoxContainer" parent="HUD" unique_id=2075508658]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -137,17 +142,17 @@ offset_left = -40.0
 offset_bottom = 40.0
 grow_horizontal = 0
 
-[node name="Health" type="HBoxContainer" parent="HUD/HBoxContainer" unique_id=2085066688 node_paths=PackedStringArray("gameStae")]
+[node name="Health" type="HBoxContainer" parent="HUD/RightPanel" unique_id=2085066688 node_paths=PackedStringArray("gameStae")]
 layout_mode = 2
 script = ExtResource("15_6ktr1")
 game_events = ExtResource("7_7ifmk")
 gameStae = NodePath("../../../GameManager/GameState")
 helthSprite = ExtResource("17_emdi4")
 
-[node name="Exit" type="Button" parent="HUD/HBoxContainer" unique_id=1598725368]
+[node name="Exit" type="Button" parent="HUD/RightPanel" unique_id=1598725368]
 layout_mode = 2
 text = "EXIT"
 
 [connection signal="evShoot" from="Player" to="Controllers/ShotManager" method="_on_player_ev_shoot"]
 [connection signal="ev_question_changed" from="GameManager/GameState" to="HUD/Question" method="_on_game_state_ev_question_changed"]
-[connection signal="button_down" from="HUD/HBoxContainer/Exit" to="HUD" method="_on_exit_button_down"]
+[connection signal="button_down" from="HUD/RightPanel/Exit" to="HUD" method="_on_exit_button_down"]
