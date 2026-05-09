@@ -3,25 +3,37 @@ extends Node
 
 @export_category('stacked_windows_settings')
 @export var default_window: Control
-@export var button_transitions: Array[ButtonWindowTransition]
 
 var window_stack: Array[Control] = []
 
 func _ready() -> void:
-	for transition in button_transitions:
-		transition.target_window.hide()
-		transition.button.pressed.connect(_on_button_pressed.bind(transition.target_window))
-	
+	for node in get_children():
+		var transition = node as ButtonWindowTransition
+		if transition:
+			transition.target_window.hide()
+			transition.button.pressed.connect(_on_button_pressed.bind(transition.target_window))
+		
 	open_stacked_window(default_window)
 
 func open_stacked_window(new_window: Control) -> void:
-	if not window_stack.is_empty():
-		window_stack.back().hide() # Скрываем текущее верхнее окно
-	
-	window_stack.append(new_window)
-	new_window.show()
-	
-	# Опционально: фокусируемся на первой кнопке для геймпадов
+	# 1. Проверяем наличие окна через .has()
+	if window_stack.has(new_window):
+		# Если окно уже в стеке, "схлопываем" стек до него
+		while window_stack.back() != new_window:
+			var top_window = window_stack.pop_back()
+			top_window.hide()
+		
+		# Показываем целевое окно (оно теперь вверху стека)
+		new_window.show()
+	else:
+		# 2. Если окна нет, скрываем текущее и добавляем новое
+		if not window_stack.is_empty():
+			window_stack.back().hide()
+		
+		window_stack.append(new_window)
+		new_window.show()
+
+	# 3. Управление фокусом
 	var first_button = new_window.find_next_valid_focus()
 	if first_button:
 		first_button.grab_focus()
