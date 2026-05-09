@@ -15,7 +15,6 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="quizmatic"
-run/main_scene="uid://ddo0h56tnwsk1"
 config/features=PackedStringArray("4.6", "Mobile")
 
 [display]
@@ -26,6 +25,10 @@ window/size/viewport_height=720
 [dotnet]
 
 project/assembly_name="quizmatic"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/github_copilot/plugin.cfg")
 
 [global]
 
