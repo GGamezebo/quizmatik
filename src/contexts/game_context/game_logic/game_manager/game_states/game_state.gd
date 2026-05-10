@@ -11,7 +11,6 @@ static func get_state() -> String:
 @export var gameConfig: GameConfig
 @export var answerScene: PackedScene
 @export var game_events: GameEvents
-@export var main_events: MainEvents
 
 var options: Array[Answer] = []
 var question: QuizQuestion.Question:
@@ -25,7 +24,7 @@ var question: QuizQuestion.Question:
 			health = new_value
 			game_events.ev_health_changed.emit(health)
 			if health == 0:
-				main_events.ev_exit_game.emit()
+				add_event(FSMGameEvents.END_GAME)
 
 func enter(_prev_state: FSMState, _event_data: Dictionary):
 	event_listener.add(game_events.ev_explosion, _on_event_manager_ev_explosion)

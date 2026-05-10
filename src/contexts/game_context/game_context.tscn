@@ -59,10 +59,10 @@ area = NodePath("../../GameArea")
 gameConfig = NodePath("../../GameConfig")
 answerScene = ExtResource("7_e5mqp")
 game_events = ExtResource("7_7ifmk")
-main_events = ExtResource("8_xkl2s")
 
 [node name="EndGameState" type="Node" parent="GameManager" unique_id=265268692]
 script = ExtResource("10_jud5q")
+main_events = ExtResource("8_xkl2s")
 
 [node name="LineSelector" type="Node" parent="." unique_id=2097313372 node_paths=PackedStringArray("player", "area")]
 script = ExtResource("15_h2w07")
