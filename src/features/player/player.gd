@@ -48,3 +48,4 @@ func get_size() -> Vector2:
 
 func _on_area_entered(area: Area2D) -> void:
 	ev_player_colladed.emit(self, area)
+	

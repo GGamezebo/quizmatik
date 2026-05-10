@@ -10,14 +10,14 @@ extends StateBase
 static func get_state() -> String:
 	return FSMGameStates.COUNTDOWN
 	
-func enter(_prev_state: FSMState, _event_data: Dictionary):
+func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	player.set_process(false)
 	_start_spawn_animation()
 	
 func leave(_event_data: Dictionary) -> void:
 	player.set_process(true)
 	
-func _start_spawn_animation():	
+func _start_spawn_animation() -> void:
 	var default_position: Vector2 = player.position
 	var spawn_offset = Vector2.from_angle(randf() * TAU) * spawn_distance
 	var start_pos = default_position + spawn_offset
