@@ -4,7 +4,7 @@ extends StateBase
 signal ev_question_changed(question: QuizQuestion.Question)
 
 static func get_state() -> String:
-	return 'Game'
+	return FSMGameStates.GAME
 
 @export var player: Player
 @export var area: GameArea

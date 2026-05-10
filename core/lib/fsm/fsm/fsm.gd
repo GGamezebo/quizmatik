@@ -1,5 +1,7 @@
 class_name FSM
-extends RefCounted
+extends Node
+
+signal ev_state_changed(from_state_name: String, to_state_name: String)
 
 # Константы для специальных переходов
 const ALL_STATES = "*"
@@ -141,6 +143,7 @@ func _ensure_state(state_name: String):
 		_states_map[state_name] = new_state
 
 func _call_callbacks(from_name: String, to_name: String) -> void:
+	ev_state_changed.emit(from_name, to_name)
 	var key = from_name + "->" + to_name
 	if _callbacks.has(key):
 		for callback in _callbacks[key]:

@@ -5,14 +5,14 @@
 [ext_resource type="Script" uid="uid://bb18r63uri507" path="res://src/contexts/game_context/game_logic/game_area.gd" id="3_5eju7"]
 [ext_resource type="PackedScene" uid="uid://47fqtynve6g3" path="res://src/features/player/player.tscn" id="4_3f67i"]
 [ext_resource type="Script" uid="uid://c7cuoe35fok4i" path="res://src/contexts/game_context/game_logic/entity_border.gd" id="5_0m8ko"]
-[ext_resource type="Script" uid="uid://nrjrwaslqq0y" path="res://src/contexts/game_context/game_logic/game_manager.gd" id="6_q40ib"]
+[ext_resource type="Script" uid="uid://nrjrwaslqq0y" path="res://src/contexts/game_context/game_logic/game_manager/game_manager.gd" id="6_q40ib"]
 [ext_resource type="Resource" uid="uid://bg11w4vfrn34r" path="res://src/contexts/game_context/game_events.tres" id="7_7ifmk"]
 [ext_resource type="PackedScene" uid="uid://cafp7vy16q1kc" path="res://src/features/answer/answer.tscn" id="7_e5mqp"]
-[ext_resource type="Script" uid="uid://cmbems0pu3ovc" path="res://src/contexts/game_context/game_logic/game_states/count_down_state.gd" id="8_7ifmk"]
+[ext_resource type="Script" uid="uid://cmbems0pu3ovc" path="res://src/contexts/game_context/game_logic/game_manager/game_states/count_down_state.gd" id="8_7ifmk"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="8_xkl2s"]
-[ext_resource type="Script" uid="uid://bcoffunfcj6lw" path="res://src/contexts/game_context/game_logic/game_states/game_state.gd" id="9_irda4"]
+[ext_resource type="Script" uid="uid://bcoffunfcj6lw" path="res://src/contexts/game_context/game_logic/game_manager/game_states/game_state.gd" id="9_irda4"]
 [ext_resource type="Script" uid="uid://dcrpw105eqlxa" path="res://src/contexts/game_context/game_logic/shot_manager.gd" id="10_0hyv8"]
-[ext_resource type="Script" uid="uid://c12eynxqm0o4m" path="res://src/contexts/game_context/game_logic/game_states/end_game_state.gd" id="10_jud5q"]
+[ext_resource type="Script" uid="uid://c12eynxqm0o4m" path="res://src/contexts/game_context/game_logic/game_manager/game_states/end_game_state.gd" id="10_jud5q"]
 [ext_resource type="PackedScene" uid="uid://bwyvda87ui0x5" path="res://src/features/shot/shot.tscn" id="11_ug3i8"]
 [ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://src/features/explosion/explosion.tscn" id="12_587mb"]
 [ext_resource type="Script" uid="uid://bm2tjky763w3k" path="res://src/contexts/game_context/ui/hud.gd" id="12_lu6cl"]
@@ -45,10 +45,12 @@ position = Vector2(200, 450)
 
 [node name="GameManager" type="Node" parent="." unique_id=1898191257 node_paths=PackedStringArray("states")]
 script = ExtResource("6_q40ib")
+gameEvents = ExtResource("7_7ifmk")
 states = [NodePath("CountDownState"), NodePath("GameState"), NodePath("EndGameState")]
 
-[node name="CountDownState" type="Node" parent="GameManager" unique_id=312648269]
+[node name="CountDownState" type="Node" parent="GameManager" unique_id=312648269 node_paths=PackedStringArray("player")]
 script = ExtResource("8_7ifmk")
+player = NodePath("../../Player")
 
 [node name="GameState" type="Node" parent="GameManager" unique_id=1143929338 node_paths=PackedStringArray("player", "area", "gameConfig")]
 script = ExtResource("9_irda4")
