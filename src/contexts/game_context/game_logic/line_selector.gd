@@ -3,7 +3,7 @@ extends Node
 
 signal ev_selected_lane_changed
 
-@export var player: Player
+@export var air_plane: AirPlane
 @export var area: GameArea
 
 var selected_lane: int = 0:
@@ -13,4 +13,4 @@ var selected_lane: int = 0:
 				ev_selected_lane_changed.emit()
 
 func _process(_delta: float) -> void:
-	selected_lane = area.getLine(player.position)
+	selected_lane = area.getLine(air_plane.position)

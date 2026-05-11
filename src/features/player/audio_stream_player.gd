@@ -1,16 +1,16 @@
 extends AudioStreamPlayer
 
-func setup(parent:Node) -> void:
-	_updateSound(parent.directionY)
+func initialize(parent: Node) -> void:
+	_updateSound(parent.direction_y)
 
-func update(_delta:float) -> void:
+func update(_delta: float) -> void:
 	pass
 
-func setDirection(directionY:float) -> void:
-	_updateSound(directionY)
+func setDirection(direction_y: float) -> void:
+	_updateSound(direction_y)
 
-func _updateSound(directionY:float) -> void:
-	if directionY != 0:
+func _updateSound(direction_y: float) -> void:
+	if direction_y != 0:
 		play()
 	else:
 		stop()

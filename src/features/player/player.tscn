@@ -40,10 +40,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("components", "directionComponents", "animated_sprite")]
+[node name="Plane" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("components", "directionComponents", "animated_sprite")]
 collision_mask = 4
 script = ExtResource("1_c4h5g")
-components = [NodePath("AnimatedSprite2D"), NodePath("Label"), NodePath("AudioStreamPlayer")]
+components = [NodePath("Label"), NodePath("AnimatedSprite2D"), NodePath("AudioStreamPlayer")]
 directionComponents = [NodePath("AnimatedSprite2D"), NodePath("AudioStreamPlayer")]
 animated_sprite = NodePath("AnimatedSprite2D")
 

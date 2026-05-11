@@ -40,7 +40,7 @@ script = ExtResource("1_yej0l")
 script = ExtResource("3_5eju7")
 gameConfig = NodePath("../GameConfig")
 
-[node name="Player" parent="." unique_id=216453935 instance=ExtResource("4_3f67i")]
+[node name="AirPlane" parent="." unique_id=216453935 instance=ExtResource("4_3f67i")]
 position = Vector2(200, 450)
 
 [node name="GameManager" type="Node" parent="." unique_id=1898191257 node_paths=PackedStringArray("states")]
@@ -48,13 +48,13 @@ script = ExtResource("6_q40ib")
 gameEvents = ExtResource("7_7ifmk")
 states = [NodePath("CountDownState"), NodePath("GameState"), NodePath("EndGameState")]
 
-[node name="CountDownState" type="Node" parent="GameManager" unique_id=312648269 node_paths=PackedStringArray("player")]
+[node name="CountDownState" type="Node" parent="GameManager" unique_id=312648269 node_paths=PackedStringArray("air_plane")]
 script = ExtResource("8_7ifmk")
-player = NodePath("../../Player")
+air_plane = NodePath("../../AirPlane")
 
-[node name="GameState" type="Node" parent="GameManager" unique_id=1143929338 node_paths=PackedStringArray("player", "area", "gameConfig")]
+[node name="GameState" type="Node" parent="GameManager" unique_id=1143929338 node_paths=PackedStringArray("air_plane", "area", "gameConfig")]
 script = ExtResource("9_irda4")
-player = NodePath("../../Player")
+air_plane = NodePath("../../AirPlane")
 area = NodePath("../../GameArea")
 gameConfig = NodePath("../../GameConfig")
 answerScene = ExtResource("7_e5mqp")
@@ -64,23 +64,24 @@ game_events = ExtResource("7_7ifmk")
 script = ExtResource("10_jud5q")
 main_events = ExtResource("8_xkl2s")
 
-[node name="LineSelector" type="Node" parent="." unique_id=2097313372 node_paths=PackedStringArray("player", "area")]
+[node name="LineSelector" type="Node" parent="." unique_id=2097313372 node_paths=PackedStringArray("air_plane", "area")]
 script = ExtResource("15_h2w07")
-player = NodePath("../Player")
+air_plane = NodePath("../AirPlane")
 area = NodePath("../GameArea")
 
 [node name="Controllers" type="Node" parent="." unique_id=1335740013]
 
-[node name="ShotManager" type="Node" parent="Controllers" unique_id=1495127714]
+[node name="ShotManager" type="Node" parent="Controllers" unique_id=1495127714 node_paths=PackedStringArray("air_plane")]
 script = ExtResource("10_0hyv8")
 shot_scene = ExtResource("11_ug3i8")
 explosion_scene = ExtResource("12_587mb")
 game_events = ExtResource("7_7ifmk")
+air_plane = NodePath("../../AirPlane")
 
 [node name="EntityBorder" type="Node" parent="Controllers" unique_id=2060724701 node_paths=PackedStringArray("gameArea", "entities")]
 script = ExtResource("5_0m8ko")
 gameArea = NodePath("../../GameArea")
-entities = [NodePath("../../Player")]
+entities = [NodePath("../../AirPlane")]
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=769805075]
 layer = -1
@@ -155,6 +156,5 @@ helthSprite = ExtResource("17_emdi4")
 layout_mode = 2
 text = "EXIT"
 
-[connection signal="evShoot" from="Player" to="Controllers/ShotManager" method="_on_player_ev_shoot"]
 [connection signal="ev_question_changed" from="GameManager/GameState" to="HUD/Question" method="_on_game_state_ev_question_changed"]
 [connection signal="button_down" from="HUD/RightPanel/Exit" to="HUD" method="_on_exit_button_down"]

@@ -3,8 +3,12 @@ extends Node
 @export var shot_scene: PackedScene
 @export var explosion_scene: PackedScene
 @export var game_events: GameEvents
+@export var air_plane: AirPlane
 
-func _on_player_ev_shoot(position:Vector2) -> void:
+func _ready() -> void:
+	air_plane.ev_shoot.connect(_on_air_plane_ev_shoot)
+
+func _on_air_plane_ev_shoot(position: Vector2) -> void:
 	if shot_scene:
 		var shot = shot_scene.instantiate()
 		shot.init(position)
@@ -12,7 +16,7 @@ func _on_player_ev_shoot(position:Vector2) -> void:
 		owner.add_child(shot)
 		
 func _on_explosion(answer:Answer) -> void:
-	var explosion:Explosion = explosion_scene.instantiate()
+	var explosion: Explosion = explosion_scene.instantiate()
 	explosion.init(answer.position)
 	owner.add_child.call_deferred(explosion)
 	game_events.ev_explosion.emit(answer)

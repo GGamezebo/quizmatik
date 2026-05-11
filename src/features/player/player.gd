@@ -1,34 +1,37 @@
-class_name Player
+class_name AirPlane
 extends Area2D
 
-signal evDirectionChanged
-signal evShoot
-signal ev_player_colladed(player:Player, area:Area2D)
+signal ev_shoot
+signal ev_air_plane_colladed(airPlane: AirPlane, area: Area2D)
 
-const VELOCITY_SPEED: float = 800.0
+const SPEED_DEFAULTS: float = 800.0
 
 @export var components:Array[Node] = []
 @export var directionComponents:Array[Node] = []
 @export var animated_sprite:AnimatedSprite2D
 
-var directionY = 0
+var direction_y: int = 0
+var speed: float = SPEED_DEFAULTS
 
 func _ready() -> void:
 	for component in components:
-		component.setup(self)
+		component.initialize(self)
+
+func initialize(_speed: float) -> void:
+	direction_y = 0
+	speed = _speed
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("shoot"):
-		evShoot.emit(self.position + Vector2(get_size().x / 2.0, 0.0))
+		ev_shoot.emit(self.position + Vector2(get_size().x / 2.0, 0.0))
 	
 	var dirY = sign(Input.get_axis("ui_up","ui_down"))
-	position.y = clamp(position.y + directionY * VELOCITY_SPEED * delta, 0, get_viewport_rect().size.y)
+	position.y = clamp(position.y + direction_y * speed * delta, 0, get_viewport_rect().size.y)
 	
-	if dirY != directionY:
-		directionY = dirY
+	if dirY != direction_y:
+		direction_y = dirY
 		for component in directionComponents:
-			component.setDirection(directionY)
-		evDirectionChanged.emit(directionY)
+			component.setDirection(direction_y)
 	
 	for component in components:
 		component.update(delta)
@@ -47,4 +50,4 @@ func get_size() -> Vector2:
 	return Vector2.ZERO
 
 func _on_area_entered(area: Area2D) -> void:
-	ev_player_colladed.emit(self, area)
+	ev_air_plane_colladed.emit(self, area)

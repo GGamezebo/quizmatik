@@ -8,3 +8,6 @@ static func get_state() -> String:
 	
 func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	main_events.ev_exit_game.emit()
+	
+func leave(_event_data: Dictionary) -> void:
+	pass

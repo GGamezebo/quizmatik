@@ -1,6 +1,6 @@
 extends AnimatedSprite2D
 
-@export var ROTATION:float = deg_to_rad(2)
+@export var ROTATION: float = deg_to_rad(2)
 @onready var _position_shaker: PositionShaker = PositionShaker.new(10, 10)
 @onready var _scale_shaker: ScaleShacker = ScaleShacker.new()
 @onready var _rotationShacker: RotationShaker = RotationShaker.new()
@@ -8,13 +8,13 @@ extends AnimatedSprite2D
 @onready var _base_rotation: float = rotation
 
 
-func setup(parent:Node) -> void:
-	_updateAnimation(parent.directionY)
-	_updateRotation(parent.directionY)
+func initialize(parent: Node) -> void:
+	_updateAnimation(parent.direction_y)
+	_updateRotation(parent.direction_y)
 
-func setDirection(directionY:float) -> void:
-	_updateAnimation(directionY)
-	_updateRotation(directionY)
+func setDirection(direction_y: float) -> void:
+	_updateAnimation(direction_y)
+	_updateRotation(direction_y)
 
 func update(delta: float) -> void:
 	_position_shaker.update(delta)
@@ -25,19 +25,19 @@ func update(delta: float) -> void:
 	scale = _base_scale + _scale_shaker.get_scale_offset()
 	rotation = _base_rotation + _rotationShacker.get_rotation_offset()
 
-func _updateAnimation(directionY:float) -> void:
+func _updateAnimation(direction_y: float) -> void:
 	var animationName = 'default'
-	if directionY < 0.0:
+	if direction_y < 0.0:
 		animationName = 'up'
-	elif directionY > 0.0:
+	elif direction_y > 0.0:
 		animationName = 'down'
 	play(animationName)
 	
 	
-func _updateRotation(directionY:float) -> void:
+func _updateRotation(direction_y: float) -> void:
 	_base_rotation = 0.0
-	if directionY > 0:
+	if direction_y > 0:
 		_base_rotation += ROTATION
-	elif directionY < 0:
+	elif direction_y < 0:
 		_base_rotation -= ROTATION
 		

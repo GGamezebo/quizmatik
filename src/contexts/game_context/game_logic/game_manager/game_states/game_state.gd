@@ -6,7 +6,7 @@ signal ev_question_changed(question: QuizQuestion.Question)
 static func get_state() -> String:
 	return FSMGameStates.GAME
 
-@export var player: Player
+@export var air_plane: AirPlane
 @export var area: GameArea
 @export var gameConfig: GameConfig
 @export var answerScene: PackedScene
@@ -28,7 +28,7 @@ var question: QuizQuestion.Question:
 
 func enter(_prev_state: FSMState, _event_data: Dictionary):
 	event_listener.add(game_events.ev_explosion, _on_event_manager_ev_explosion)
-	event_listener.add(player.ev_player_colladed, _on_player_colladed)
+	event_listener.add(air_plane.ev_air_plane_colladed, _on_air_plane_colladed)
 	_makeNewRound()
 
 func leave(_event_data: Dictionary) -> void:
@@ -41,10 +41,10 @@ func _on_event_manager_ev_explosion(answer: Answer) -> void:
 	if answer.value == question.correct_answer:
 		_kill_all_answers()
 	else:
-		var index:int = options.find(answer)
+		var index: int = options.find(answer)
 		if index != -1:
-			health -= 1
 			options.remove_at(index)
+			health -= 1
 		answer.take_damage()
 		
 func _makeNewRound() -> void:
@@ -73,7 +73,7 @@ func _kill_all_answers():
 	for option in options.duplicate():
 		option.take_damage()			
 			
-func _on_player_colladed(_player:Player, answer: Answer) -> void:
+func _on_air_plane_colladed(_air_plane:AirPlane, answer: Answer) -> void:
 	if answer.value == question.correct_answer:
 		_kill_all_answers()
 	else:
