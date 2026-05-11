@@ -1,8 +1,8 @@
 extends HBoxContainer
 
-@export var game_events:GameEvents
-@export var gameStae:GameState
-@export var helthSprite:Texture2D
+@export var game_events: GameEvents
+@export var player: Player
+@export var helthSprite: Texture2D
 
 
 func _ready() -> void:
@@ -12,22 +12,18 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	game_events.ev_health_changed.disconnect(_on_health_changed)
 
-
 func _updateState() -> void:
-	var health:int = gameStae.health
-	var child_count:int = get_child_count()
-	var count:int = health - child_count
-	var action = createHealth if count > 0 else removeHealth
+	var health: int = player.health
+	var child_count: int = get_child_count()
+	var count: int = health - child_count
+	var action = _createHealth if count > 0 else _removeHealth
 	for _index in range(abs(count)):
 		action.call()
 	
-
-
 func _on_health_changed(_health):
 	_updateState()
 	
-
-func createHealth():
+func _createHealth():
 	# 1. Создаем экземпляр TextureRect
 	var new_texture_rect = TextureRect.new()
 	
@@ -48,7 +44,7 @@ func createHealth():
 	add_child(new_texture_rect)
 	
 	
-func removeHealth():
+func _removeHealth():
 	var child_count = get_child_count()
 	if child_count > 0:
 		var last_child = get_child(child_count - 1)

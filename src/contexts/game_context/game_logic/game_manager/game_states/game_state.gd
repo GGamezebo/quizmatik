@@ -6,11 +6,12 @@ signal ev_question_changed(question: QuizQuestion.Question)
 static func get_state() -> String:
 	return FSMGameStates.GAME
 
+@export var game_events: GameEvents
+@export var gameConfig: GameConfig
+@export var player: Player
 @export var air_plane: AirPlane
 @export var area: GameArea
-@export var gameConfig: GameConfig
 @export var answerScene: PackedScene
-@export var game_events: GameEvents
 
 var options: Array[Answer] = []
 var question: QuizQuestion.Question:
@@ -18,13 +19,6 @@ var question: QuizQuestion.Question:
 		question = new_question
 		ev_question_changed.emit(question)
 
-@onready var health:int = gameConfig.health:
-	set(new_value):
-		if health != new_value:
-			health = new_value
-			game_events.ev_health_changed.emit(health)
-			if health == 0:
-				add_event(FSMGameEvents.END_GAME)
 
 func enter(_prev_state: FSMState, _event_data: Dictionary):
 	event_listener.add(game_events.ev_explosion, _on_event_manager_ev_explosion)
@@ -44,7 +38,7 @@ func _on_event_manager_ev_explosion(answer: Answer) -> void:
 		var index: int = options.find(answer)
 		if index != -1:
 			options.remove_at(index)
-			health -= 1
+			_get_damage()
 		answer.take_damage()
 		
 func _makeNewRound() -> void:
@@ -73,16 +67,21 @@ func _kill_all_answers():
 	for option in options.duplicate():
 		option.take_damage()			
 			
-func _on_air_plane_colladed(_air_plane:AirPlane, answer: Answer) -> void:
+func _on_air_plane_colladed(_air_plane: AirPlane, answer: Answer) -> void:
 	if answer.value == question.correct_answer:
 		_kill_all_answers()
 	else:
 		var index:int = options.find(answer)
 		if index != -1:
-			health -= 1
+			_get_damage()
 			_kill_all_answers()
 
-func _on_answer_killed(answer:Answer):
+func _on_answer_killed(answer: Answer) -> void:
 	options.erase(answer)
 	if len(options) == 0:
 		_makeNewRound()
+
+func _get_damage() -> void:
+	player.health -= 1
+	if player.health == 0:
+		add_event(FSMGameEvents.END_GAME)
