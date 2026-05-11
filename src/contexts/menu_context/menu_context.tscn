@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cy2a8f3w1035e" path="res://src/contexts/menu_context/ui.gd" id="1_ux2mn"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="2_35kkh"]
-[ext_resource type="Script" uid="uid://bcskwis6ebs5f" path="res://src/components/window_stack_manager/window_stack_manager.gd" id="3_5oxuo"]
-[ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://src/components/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
+[ext_resource type="Script" uid="uid://bcskwis6ebs5f" path="res://core/lib/window_stack_manager/window_stack_manager.gd" id="3_5oxuo"]
+[ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://core/lib/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
 
 [sub_resource type="Gradient" id="Gradient_r3o0b"]
 colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 1)
