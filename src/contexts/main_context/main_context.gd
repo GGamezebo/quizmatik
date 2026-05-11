@@ -8,7 +8,7 @@ const PATH_SETTINGS = "user://settings.tres"
 @export_file("*.tscn") var menu_context_path: String
 @export var loading_screen_scene: PackedScene
 @export var main_events: MainEvents
-@export var min_load_time: float = 1.5 # Минимум полторы секунды
+@export var min_load_time: float = 0.0
 
 var load_start_time: float = 0.0
 
