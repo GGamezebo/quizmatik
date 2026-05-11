@@ -1,16 +1,15 @@
 extends HBoxContainer
 
-@export var game_events: GameEvents
 @export var player: Player
 @export var helthSprite: Texture2D
 
 
 func _ready() -> void:
-	game_events.ev_health_changed.connect(_on_health_changed)
+	player.ev_health_changed.connect(_on_health_changed)
 	_updateState()
 	
 func _exit_tree() -> void:
-	game_events.ev_health_changed.disconnect(_on_health_changed)
+	player.ev_health_changed.disconnect(_on_health_changed)
 
 func _updateState() -> void:
 	var health: int = player.health

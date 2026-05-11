@@ -30,16 +30,6 @@ func leave(_event_data: Dictionary) -> void:
 	for option in options:
 		option.queue_free()
 	options.clear()
-
-func _on_event_manager_ev_explosion(answer: Answer) -> void:
-	if answer.value == question.correct_answer:
-		_kill_all_answers()
-	else:
-		var index: int = options.find(answer)
-		if index != -1:
-			options.remove_at(index)
-			_get_damage()
-		answer.take_damage()
 		
 func _makeNewRound() -> void:
 	question = QuizQuestion.generate_question(gameConfig)
@@ -62,19 +52,36 @@ func _makeAnswers() -> void:
 		answer.ev_killed.connect(_on_answer_killed)
 		options.append(answer)
 		game_mamager.owner.add_child.call_deferred(answer)
-		
-func _kill_all_answers():
-	for option in options.duplicate():
-		option.take_damage()			
 			
+
+func _on_event_manager_ev_explosion(answer: Answer) -> void:
+	if answer.value == question.correct_answer:
+		_process_correct_answer()
+	else:
+		var index: int = options.find(answer)
+		if index != -1:
+			options.remove_at(index)
+			_get_damage()
+		answer.take_damage()
+
 func _on_air_plane_colladed(_air_plane: AirPlane, answer: Answer) -> void:
 	if answer.value == question.correct_answer:
-		_kill_all_answers()
+		_process_correct_answer()
 	else:
 		var index:int = options.find(answer)
 		if index != -1:
 			_get_damage()
 			_kill_all_answers()
+
+func _process_correct_answer() -> void:
+	_kill_all_answers()
+	player.score += 1
+	if player.score == gameConfig.questions_count:
+		add_event(FSMGameEvents.END_GAME)
+
+func _kill_all_answers():
+	for option in options.duplicate():
+		option.take_damage()		
 
 func _on_answer_killed(answer: Answer) -> void:
 	options.erase(answer)

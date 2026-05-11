@@ -22,6 +22,7 @@
 [ext_resource type="Script" uid="uid://bb48gluxno1u" path="res://src/contexts/game_context/ui/ui_health.gd" id="15_6ktr1"]
 [ext_resource type="Script" uid="uid://cwfxgx56jwul8" path="res://src/contexts/game_context/game_logic/line_selector.gd" id="15_h2w07"]
 [ext_resource type="Texture2D" uid="uid://c4rcn50qkxusi" path="res://assets/icon.svg" id="17_emdi4"]
+[ext_resource type="Script" uid="uid://bujyufbdn6yo" path="res://src/contexts/game_context/ui/score.gd" id="19_73ia8"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0xm2m"]
 font_size = 45
@@ -98,12 +99,17 @@ main_events = ExtResource("8_xkl2s")
 [node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]
 position = Vector2(0, -2)
 
-[node name="LeftPanel" type="HBoxContainer" parent="HUD" unique_id=63369239]
+[node name="Score" type="HBoxContainer" parent="HUD" unique_id=63369239 node_paths=PackedStringArray("player", "gameConfig", "score", "maxScore")]
 offset_right = 272.0
 offset_bottom = 105.0
 alignment = 1
+script = ExtResource("19_73ia8")
+player = NodePath("../../Player")
+gameConfig = NodePath("../../GameConfig")
+score = NodePath("Score")
+maxScore = NodePath("MaxScore")
 
-[node name="Name" type="Label" parent="HUD/LeftPanel" unique_id=345963575]
+[node name="Name" type="Label" parent="HUD/Score" unique_id=345963575]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "счёт:"
@@ -111,7 +117,7 @@ label_settings = SubResource("LabelSettings_0xm2m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Score" type="Label" parent="HUD/LeftPanel" unique_id=1130806769]
+[node name="Score" type="Label" parent="HUD/Score" unique_id=1130806769]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "0"
@@ -119,10 +125,18 @@ label_settings = SubResource("LabelSettings_0xm2m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MaxScore" type="Label" parent="HUD/LeftPanel" unique_id=1314264146]
+[node name="Separator" type="Label" parent="HUD/Score" unique_id=1191885687]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "/30"
+text = "/"
+label_settings = SubResource("LabelSettings_0xm2m")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MaxScore" type="Label" parent="HUD/Score" unique_id=1314264146]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "30"
 label_settings = SubResource("LabelSettings_0xm2m")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -155,7 +169,6 @@ grow_horizontal = 0
 [node name="Health" type="HBoxContainer" parent="HUD/RightPanel" unique_id=2085066688 node_paths=PackedStringArray("player")]
 layout_mode = 2
 script = ExtResource("15_6ktr1")
-game_events = ExtResource("7_7ifmk")
 player = NodePath("../../../Player")
 helthSprite = ExtResource("17_emdi4")
 
