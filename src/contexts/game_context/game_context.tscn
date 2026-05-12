@@ -48,7 +48,7 @@ game_events = ExtResource("7_7ifmk")
 gameConfig = NodePath("../GameConfig")
 
 [node name="AirPlane" parent="Player" unique_id=216453935 instance=ExtResource("4_3f67i")]
-position = Vector2(200, 450)
+position = Vector2(200, 361)
 
 [node name="GameManager" type="Node" parent="." unique_id=1898191257 node_paths=PackedStringArray("states")]
 script = ExtResource("6_q40ib")
@@ -97,7 +97,7 @@ script = ExtResource("12_lu6cl")
 main_events = ExtResource("8_xkl2s")
 
 [node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]
-position = Vector2(0, -2)
+position = Vector2(7, -16)
 
 [node name="Score" type="HBoxContainer" parent="HUD" unique_id=63369239 node_paths=PackedStringArray("player", "gameConfig", "score", "maxScore")]
 offset_right = 272.0
