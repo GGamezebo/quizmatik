@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://6rk3lba0km5x"]
 
+[ext_resource type="Script" uid="uid://bgc6jttorojdb" path="res://src/contexts/game_context/game_context.gd" id="1_j4hd0"]
 [ext_resource type="Script" uid="uid://cjyn2dgnipjnn" path="res://src/contexts/game_context/game_logic/game_config.gd" id="1_yej0l"]
 [ext_resource type="PackedScene" uid="uid://dvy13cfq73jxs" path="res://src/ui/background/background.tscn" id="2_lu6cl"]
 [ext_resource type="Script" uid="uid://bb18r63uri507" path="res://src/contexts/game_context/game_logic/game_area.gd" id="3_5eju7"]
@@ -34,6 +35,7 @@ font_size = 92
 font_color = Color(0, 0.99, 0.99, 1)
 
 [node name="GameContext" type="Node" unique_id=1179940708]
+script = ExtResource("1_j4hd0")
 
 [node name="GameConfig" type="Node" parent="." unique_id=1289995046]
 script = ExtResource("1_yej0l")

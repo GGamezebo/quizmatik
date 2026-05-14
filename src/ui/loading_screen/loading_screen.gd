@@ -6,8 +6,8 @@ extends CanvasLayer
 const duration: float = 1.0
 
 func update_progress(value: float):
-	progress_bar.value = value * 100
 
+	progress_bar.value = value * 100
 func fade_out():
 	var tween = create_tween()
 	tween.set_parallel(true)

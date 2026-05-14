@@ -1,4 +1,4 @@
-extends CanvasLayer
+extends IContext
 
 @export_category('Major components')
 @export var main_events: MainEvents

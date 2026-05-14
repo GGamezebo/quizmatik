@@ -27,26 +27,13 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	listener.deinit()
 
-func _process(_delta:float) -> void:
-	if not is_loading: return
-	
-	var progress = []
-	var status = ResourceLoader.load_threaded_get_status(target_path, progress)
-	
-	# Обновляем полоску (progress[0] — это float от 0.0 до 1.0)
-	if current_loading_screen:
-		current_loading_screen.update_progress(progress[0])
-	
-	if status == ResourceLoader.THREAD_LOAD_LOADED:
-		_on_loading_complete()
-
 func _on_start_game() -> void:
 	switch_game_context(game_context_path)
 	
 func _ev_exit_game() -> void:
 	switch_game_context(menu_context_path)
 	
-func switch_game_context(scene_path: String):
+func switch_game_context(scene_path: String, use_loading_screen: bool = true, data: Dictionary = {}):
 	if is_loading: return
 	
 	if current_context:
@@ -55,16 +42,31 @@ func switch_game_context(scene_path: String):
 	target_path = scene_path
 	is_loading = true
 	
-	# 1. Создаем экран загрузки
 	if current_loading_screen:
 		current_loading_screen.queue_free()
-	current_loading_screen = loading_screen_scene.instantiate()
-	add_child(current_loading_screen)
-	#
-	# 3. Запрашиваем фоновую загрузку
-	ResourceLoader.load_threaded_request(scene_path)
+	if use_loading_screen:
+		current_loading_screen = loading_screen_scene.instantiate()
+		add_child(current_loading_screen)
 	
-func _on_loading_complete():
+	var scene: PackedScene = await _async_load_scene(scene_path, _update_progress)
+	if scene:
+		_on_loading_complete(scene, data)
+		
+func _async_load_scene(path: String, progress_callback: Callable) -> PackedScene:
+	ResourceLoader.load_threaded_request(path)
+	var progress_state = []
+	while true:
+		var state: int = ResourceLoader.load_threaded_get_status(path, progress_state)
+		var progress: float = progress_state[0]
+		progress_callback.call(progress)
+		if state == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+			await get_tree().process_frame
+		else:
+			break
+		
+	return ResourceLoader.load_threaded_get(path)
+	
+func _on_loading_complete(scene: PackedScene, data: Dictionary):
 	is_loading = false
 	
 	var current_time = Time.get_unix_time_from_system()
@@ -74,11 +76,13 @@ func _on_loading_complete():
 		var wait_time = min_load_time - time_passed
 		await get_tree().create_timer(wait_time).timeout
 	
-	# Получаем загруженный ресурс и инстанцируем
-	var new_scene_res = ResourceLoader.load_threaded_get(target_path)
-	current_context = new_scene_res.instantiate()
+	current_context = scene.instantiate()
+	current_context.initialize(data)
 	add_child(current_context)
 	
-	# Убираем экран загрузки с эффектом
 	if current_loading_screen:
 		current_loading_screen.fade_out()
+
+func _update_progress(progress: float) -> void:
+	if current_loading_screen:
+		current_loading_screen.update_progress(progress)

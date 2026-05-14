@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://fdo7cegg1sud"]
 
-[ext_resource type="Script" uid="uid://cy2a8f3w1035e" path="res://src/contexts/menu_context/ui.gd" id="1_ux2mn"]
+[ext_resource type="Script" uid="uid://cy2a8f3w1035e" path="res://src/contexts/menu_context/menu_context.gd" id="1_5oxuo"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="2_35kkh"]
 [ext_resource type="Script" uid="uid://bcskwis6ebs5f" path="res://core/lib/window_stack_manager/window_stack_manager.gd" id="3_5oxuo"]
 [ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://core/lib/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
@@ -15,13 +15,13 @@ gradient = SubResource("Gradient_r3o0b")
 font_size = 42
 font_color = Color(0, 1, 1, 1)
 
-[node name="MenuContext" type="Node" unique_id=1044355188]
-
-[node name="UI" type="CanvasLayer" parent="." unique_id=2419366 node_paths=PackedStringArray("start_button", "exit_button")]
-script = ExtResource("1_ux2mn")
+[node name="MenuContext" type="Node" unique_id=1044355188 node_paths=PackedStringArray("start_button", "exit_button")]
+script = ExtResource("1_5oxuo")
 main_events = ExtResource("2_35kkh")
-start_button = NodePath("MainMenuWindow/CenterContainer/VBoxContainer/Start")
-exit_button = NodePath("MainMenuWindow/CenterContainer/VBoxContainer/Exit")
+start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Start")
+exit_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Exit")
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=2419366]
 
 [node name="StackWindowController" type="Node" parent="UI" unique_id=412551555 node_paths=PackedStringArray("default_window")]
 script = ExtResource("3_5oxuo")
