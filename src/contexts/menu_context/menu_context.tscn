@@ -4,7 +4,6 @@
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="2_35kkh"]
 [ext_resource type="Script" uid="uid://bcskwis6ebs5f" path="res://core/lib/window_stack_manager/window_stack_manager.gd" id="3_5oxuo"]
 [ext_resource type="Resource" uid="uid://dsqbcw3nqv3lc" path="res://src/common/game_config_default.tres" id="3_c311k"]
-[ext_resource type="Resource" uid="uid://dm0y63q0p566f" path="res://src/contexts/game_context/game_config.tres" id="3_po8ig"]
 [ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://core/lib/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
 [ext_resource type="Script" uid="uid://dwus2ghsyt5xv" path="res://src/contexts/menu_context/training_room_window/training_room_window.gd" id="5_n67ar"]
 [ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/contexts/menu_context/training_room_window/training_room_game_config.tres" id="6_vp6ju"]
@@ -159,7 +158,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("5_n67ar")
-config = ExtResource("3_po8ig")
+config = ExtResource("6_vp6ju")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer" unique_id=325016311]
 layout_mode = 2

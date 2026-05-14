@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="GameConfigDefault" format=3 uid="uid://dm0y63q0p566f"]
+[gd_resource type="Resource" script_class="GameConfig" format=3 uid="uid://dm0y63q0p566f"]
 
 [ext_resource type="Script" uid="uid://cjyn2dgnipjnn" path="res://src/common/game_config_default.gd" id="1_5nvfc"]
 

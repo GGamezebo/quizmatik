@@ -12,8 +12,8 @@ const BLACK_LIST = [
 
 
 func _ready():
-	config = load_saved_config()
-	
+	var new_config = load_saved_config()
+	ResourceUtils.update_resource(config, new_config)
 	if config:
 		regenerate_ui()
 
@@ -23,7 +23,7 @@ func load_saved_config() -> GameConfig:
 		return load(SAVE_PATH)
 	elif config:
 		print("Clone training room game config")
-		return config.clone()
+		return config
 	return null
 
 func save_config_to_disk():
@@ -94,6 +94,6 @@ func create_editor_row(prop_name: String, type: int):
 	add_child(hbox)
 
 func _on_reset_setting_pressed() -> void:
-	config = GameConfig.new()
+	ResourceUtils.update_resource(config, GameConfig.new())
 	regenerate_ui()
 	save_config_to_disk()

@@ -5,4 +5,4 @@ extends IContext
 func initialize(_data: Dictionary) -> void:
 	var scenario: GameConfig = _data.get('game_config')
 	if scenario:
-		game_config = scenario
+		ResourceUtils.update_resource(game_config, scenario)
