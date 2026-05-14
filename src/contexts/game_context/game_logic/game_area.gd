@@ -3,11 +3,11 @@ extends Node
 
 signal boundary_changed(new_rect)
 
-@export var gameConfig: GameConfig
+@export var game_config: GameConfig
 
 var gameplay_area: Rect2
 
-@onready var lines = Lines.new(gameConfig.answer_lines_count, gameplay_area)
+@onready var lines = Lines.new(game_config.answer_lines_count, gameplay_area)
 
 func _ready() -> void:
 	get_tree().root.size_changed.connect(update_boundaries)

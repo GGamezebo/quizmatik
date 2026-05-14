@@ -5,9 +5,9 @@ signal ev_health_changed(new_health: int)
 signal ev_score_changed(new_score: int)
 
 @export var game_events: GameEvents
-@export var gameConfig: GameConfig
+@export var game_config: GameConfig
 
-@onready var health: int = gameConfig.health:
+@onready var health: int = game_config.health:
 	set(new_value):
 		if health != new_value:
 			health = new_value

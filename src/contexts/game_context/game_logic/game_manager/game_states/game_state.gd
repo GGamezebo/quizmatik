@@ -7,7 +7,7 @@ static func get_state() -> String:
 	return FSMGameStates.GAME
 
 @export var game_events: GameEvents
-@export var gameConfig: GameConfig
+@export var game_config: GameConfig
 @export var player: Player
 @export var air_plane: AirPlane
 @export var area: GameArea
@@ -32,7 +32,7 @@ func leave(_event_data: Dictionary) -> void:
 	options.clear()
 		
 func _makeNewRound() -> void:
-	question = QuizQuestion.generate_question(gameConfig)
+	question = QuizQuestion.generate_question(game_config)
 	await game_mamager.get_tree().create_timer(1.0).timeout
 	if game_mamager == null:
 		return
@@ -48,7 +48,7 @@ func _makeAnswers() -> void:
 		var y:float = line.position.y + line.size.y / 2.0
 		answer.position.x = x
 		answer.position.y = x
-		answer.setup(x, y, option, gameConfig.answer_speed)
+		answer.setup(x, y, option, game_config.answer_speed)
 		answer.ev_killed.connect(_on_answer_killed)
 		options.append(answer)
 		game_mamager.owner.add_child.call_deferred(answer)
@@ -76,7 +76,7 @@ func _on_air_plane_colladed(_air_plane: AirPlane, answer: Answer) -> void:
 func _process_correct_answer() -> void:
 	_kill_all_answers()
 	player.score += 1
-	if player.score == gameConfig.questions_count:
+	if player.score == game_config.questions_count:
 		add_event(FSMGameEvents.END_GAME)
 
 func _kill_all_answers():

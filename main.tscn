@@ -7,6 +7,8 @@
 [ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/persistent_data/progress.tres" id="5_272bh"]
 [ext_resource type="Resource" uid="uid://dg36ovkjdps7w" path="res://src/contexts/main_context/persistent_data/settings.tres" id="6_272bh"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="8_dg77c"]
+[ext_resource type="Resource" uid="uid://dsqbcw3nqv3lc" path="res://src/common/game_config_default.tres" id="8_kek77"]
+[ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/contexts/menu_context/training_room_window/training_room_game_config.tres" id="9_4c57u"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -36,3 +38,5 @@ camera_attributes = SubResource("CameraAttributesPractical_h2yge")
 compositor = SubResource("Compositor_1bvp3")
 
 [node name="MenuContext" parent="." unique_id=1044355188 instance=ExtResource("1_ig7tw")]
+game_config = ExtResource("8_kek77")
+training_room_config = ExtResource("9_4c57u")

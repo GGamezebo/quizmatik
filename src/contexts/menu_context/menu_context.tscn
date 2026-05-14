@@ -3,7 +3,11 @@
 [ext_resource type="Script" uid="uid://cy2a8f3w1035e" path="res://src/contexts/menu_context/menu_context.gd" id="1_5oxuo"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="2_35kkh"]
 [ext_resource type="Script" uid="uid://bcskwis6ebs5f" path="res://core/lib/window_stack_manager/window_stack_manager.gd" id="3_5oxuo"]
+[ext_resource type="Resource" uid="uid://dsqbcw3nqv3lc" path="res://src/common/game_config_default.tres" id="3_c311k"]
+[ext_resource type="Resource" uid="uid://dm0y63q0p566f" path="res://src/contexts/game_context/game_config.tres" id="3_po8ig"]
 [ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://core/lib/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
+[ext_resource type="Script" uid="uid://dwus2ghsyt5xv" path="res://src/contexts/menu_context/training_room_window/training_room_window.gd" id="5_n67ar"]
+[ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/contexts/menu_context/training_room_window/training_room_game_config.tres" id="6_vp6ju"]
 
 [sub_resource type="Gradient" id="Gradient_r3o0b"]
 colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 1)
@@ -15,10 +19,13 @@ gradient = SubResource("Gradient_r3o0b")
 font_size = 42
 font_color = Color(0, 1, 1, 1)
 
-[node name="MenuContext" type="Node" unique_id=1044355188 node_paths=PackedStringArray("start_button", "exit_button")]
+[node name="MenuContext" type="Node" unique_id=1044355188 node_paths=PackedStringArray("start_button", "training_room_start_button", "exit_button")]
 script = ExtResource("1_5oxuo")
 main_events = ExtResource("2_35kkh")
+game_config = ExtResource("3_c311k")
+training_room_config = ExtResource("6_vp6ju")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Start")
+training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/StartBattle")
 exit_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Exit")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2419366]
@@ -34,7 +41,7 @@ target_window = NodePath("../../TrainingRoomWindow")
 
 [node name="TrainingRoomToMainMenuTransition" type="Node" parent="UI/StackWindowController" unique_id=545675404 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../TrainingRoomWindow/CenterContainer/VBoxContainer/ButtonExit")
+button = NodePath("../../TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/ButtonExit")
 target_window = NodePath("../../MainMenuWindow")
 
 [node name="SettingsTransition" type="Node" parent="UI/StackWindowController" unique_id=1469774925 node_paths=PackedStringArray("button", "target_window")]
@@ -98,7 +105,6 @@ layout_mode = 2
 text = "Выход"
 
 [node name="TrainingRoomWindow" type="Control" parent="UI" unique_id=326554877]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -123,16 +129,51 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer" unique_id=1621749446]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer" unique_id=1983983751]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer" unique_id=840643840]
+[node name="TitleContainer" type="HBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer" unique_id=1065138038]
 layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer" unique_id=840643840]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Тренеровочкая комната"
 label_settings = SubResource("LabelSettings_35kkh")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="ButtonExit" type="Button" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer" unique_id=2107233293]
+[node name="ResetSetting" type="Button" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer" unique_id=859378919]
 layout_mode = 2
+size_flags_horizontal = 4
+text = " Reset "
+icon_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer" unique_id=204686701]
+custom_minimum_size = Vector2(800, 500)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/ScrollContainer" unique_id=1621749446]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("5_n67ar")
+config = ExtResource("3_po8ig")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer" unique_id=325016311]
+layout_mode = 2
+alignment = 1
+
+[node name="StartBattle" type="Button" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer" unique_id=658686200]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Начать Игру
+"
+
+[node name="ButtonExit" type="Button" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer" unique_id=2107233293]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Выход"
 
 [node name="SettingsWindow" type="Control" parent="UI" unique_id=1104414761]
@@ -175,3 +216,4 @@ text = "Выход"
 
 [connection signal="button_down" from="UI/MainMenuWindow/CenterContainer/VBoxContainer/TrainigRoom" to="UI/StackWindowController" method="_on_trainig_room_button_down"]
 [connection signal="button_down" from="UI/MainMenuWindow/CenterContainer/VBoxContainer/Settings" to="UI/StackWindowController" method="_on_trainig_room_button_down"]
+[connection signal="pressed" from="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer/ResetSetting" to="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/ScrollContainer/VBoxContainer" method="_on_reset_setting_pressed"]

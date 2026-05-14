@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://6rk3lba0km5x"]
 
 [ext_resource type="Script" uid="uid://bgc6jttorojdb" path="res://src/contexts/game_context/game_context.gd" id="1_j4hd0"]
-[ext_resource type="Script" uid="uid://cjyn2dgnipjnn" path="res://src/contexts/game_context/game_logic/game_config.gd" id="1_yej0l"]
+[ext_resource type="Resource" uid="uid://dm0y63q0p566f" path="res://src/contexts/game_context/game_config.tres" id="2_j4hd0"]
 [ext_resource type="PackedScene" uid="uid://dvy13cfq73jxs" path="res://src/ui/background/background.tscn" id="2_lu6cl"]
 [ext_resource type="Script" uid="uid://bb18r63uri507" path="res://src/contexts/game_context/game_logic/game_area.gd" id="3_5eju7"]
 [ext_resource type="Script" uid="uid://cswfv8mbtar2j" path="res://src/contexts/game_context/player.gd" id="3_yr17v"]
@@ -36,18 +36,16 @@ font_color = Color(0, 0.99, 0.99, 1)
 
 [node name="GameContext" type="Node" unique_id=1179940708]
 script = ExtResource("1_j4hd0")
+game_config = ExtResource("2_j4hd0")
 
-[node name="GameConfig" type="Node" parent="." unique_id=1289995046]
-script = ExtResource("1_yej0l")
-
-[node name="GameArea" type="Node2D" parent="." unique_id=1652487391 node_paths=PackedStringArray("gameConfig")]
+[node name="GameArea" type="Node2D" parent="." unique_id=1652487391]
 script = ExtResource("3_5eju7")
-gameConfig = NodePath("../GameConfig")
+game_config = ExtResource("2_j4hd0")
 
-[node name="Player" type="Node" parent="." unique_id=1431788154 node_paths=PackedStringArray("gameConfig")]
+[node name="Player" type="Node" parent="." unique_id=1431788154]
 script = ExtResource("3_yr17v")
 game_events = ExtResource("7_7ifmk")
-gameConfig = NodePath("../GameConfig")
+game_config = ExtResource("2_j4hd0")
 
 [node name="AirPlane" parent="Player" unique_id=216453935 instance=ExtResource("4_3f67i")]
 position = Vector2(200, 361)
@@ -61,10 +59,10 @@ states = [NodePath("CountDownState"), NodePath("GameState"), NodePath("EndGameSt
 script = ExtResource("8_7ifmk")
 air_plane = NodePath("../../Player/AirPlane")
 
-[node name="GameState" type="Node" parent="GameManager" unique_id=1143929338 node_paths=PackedStringArray("gameConfig", "player", "air_plane", "area")]
+[node name="GameState" type="Node" parent="GameManager" unique_id=1143929338 node_paths=PackedStringArray("player", "air_plane", "area")]
 script = ExtResource("9_irda4")
 game_events = ExtResource("7_7ifmk")
-gameConfig = NodePath("../../GameConfig")
+game_config = ExtResource("2_j4hd0")
 player = NodePath("../../Player")
 air_plane = NodePath("../../Player/AirPlane")
 area = NodePath("../../GameArea")
@@ -100,13 +98,13 @@ main_events = ExtResource("8_xkl2s")
 
 [node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]
 
-[node name="Score" type="HBoxContainer" parent="HUD" unique_id=63369239 node_paths=PackedStringArray("player", "gameConfig", "score", "maxScore")]
+[node name="Score" type="HBoxContainer" parent="HUD" unique_id=63369239 node_paths=PackedStringArray("player", "score", "maxScore")]
 offset_right = 272.0
 offset_bottom = 105.0
 alignment = 1
 script = ExtResource("19_73ia8")
 player = NodePath("../../Player")
-gameConfig = NodePath("../../GameConfig")
+game_config = ExtResource("2_j4hd0")
 score = NodePath("Score")
 maxScore = NodePath("MaxScore")
 
@@ -177,5 +175,4 @@ helthSprite = ExtResource("17_emdi4")
 layout_mode = 2
 text = "EXIT"
 
-[connection signal="ev_question_changed" from="GameManager/GameState" to="HUD/Question" method="_on_game_state_ev_question_changed"]
 [connection signal="button_down" from="HUD/RightPanel/Exit" to="HUD" method="_on_exit_button_down"]
