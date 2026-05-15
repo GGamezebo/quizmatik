@@ -1,5 +1,5 @@
-extends Resource
 class_name GameConfig
+extends Resource
 
 @export_category("Global Game Settings")
 @export var answer_lines_count: int = 4
@@ -7,10 +7,7 @@ class_name GameConfig
 @export var questions_count: int = 5
 @export var min_generate_number: int = 2
 @export var max_generate_number: int = 9
-@export var answer_speed: float = 50.0
+@export var answer_speed: float = 80.0
 
 @export_category("AirPlane")
-@export var player_air_plane_speed: float = 800.0
-
-func clone() -> GameConfig:
-	return self.duplicate(true)
+@export var player_air_plane_speed: float = 600.0
