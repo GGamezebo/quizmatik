@@ -19,10 +19,9 @@ gradient = SubResource("Gradient_r3o0b")
 font_size = 42
 font_color = Color(0, 1, 1, 1)
 
-[node name="MenuContext" type="Node" unique_id=1044355188 node_paths=PackedStringArray("levels", "start_button", "training_room_start_button", "exit_button")]
+[node name="MenuContext" type="Node" unique_id=1044355188 node_paths=PackedStringArray("start_button", "training_room_start_button", "exit_button")]
 script = ExtResource("1_5oxuo")
 main_events = ExtResource("2_35kkh")
-levels = NodePath("UI/LevelsWindow")
 game_config = ExtResource("3_c311k")
 training_room_config = ExtResource("6_vp6ju")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Start")
@@ -33,17 +32,12 @@ exit_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Exit")
 
 [node name="StackWindowController" type="Node" parent="UI" unique_id=412551555 node_paths=PackedStringArray("default_window")]
 script = ExtResource("3_5oxuo")
-default_window = NodePath("../MainMenuWindow")
+default_window = NodePath("../LevelsWindow")
 
 [node name="LevelsTransition" type="Node" parent="UI/StackWindowController" unique_id=789999502 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Start")
 target_window = NodePath("../../LevelsWindow")
-
-[node name="LevelsToMainMenuTransition" type="Node" parent="UI/StackWindowController" unique_id=1686751771 node_paths=PackedStringArray("button", "target_window")]
-script = ExtResource("4_haj1v")
-button = NodePath("../../LevelsWindow/CenterContainer/VBoxContainer/Exit")
-target_window = NodePath("../../MainMenuWindow")
 
 [node name="TrainingRoomTransition" type="Node" parent="UI/StackWindowController" unique_id=1342848864 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
@@ -66,6 +60,7 @@ button = NodePath("../../SettingsWindow/CenterContainer/VBoxContainer/ButtonExit
 target_window = NodePath("../../MainMenuWindow")
 
 [node name="MainMenuWindow" type="Control" parent="UI" unique_id=1158717007]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -116,7 +111,6 @@ layout_mode = 2
 text = "Выход"
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=1440931957 node_paths=PackedStringArray("grid_container")]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -126,7 +120,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("7_c311k")
 levels_dir = "res://src/levels"
-grid_container = NodePath("CenterContainer/VBoxContainer/HBoxContainer")
+grid_container = NodePath("ScrollContainer/GridContainer")
 
 [node name="TextureRect" type="TextureRect" parent="UI/LevelsWindow" unique_id=1850430846]
 layout_mode = 1
@@ -137,23 +131,13 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_ux2mn")
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/LevelsWindow" unique_id=1222674983]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/LevelsWindow" unique_id=1983366296]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/LevelsWindow/CenterContainer" unique_id=1243316238]
+[node name="GridContainer" type="GridContainer" parent="UI/LevelsWindow/ScrollContainer" unique_id=964936515]
 layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/LevelsWindow/CenterContainer/VBoxContainer" unique_id=1642804423]
-layout_mode = 2
-
-[node name="Exit" type="Button" parent="UI/LevelsWindow/CenterContainer/VBoxContainer" unique_id=2038540606]
-layout_mode = 2
-text = "Выход"
 
 [node name="TrainingRoomWindow" type="Control" parent="UI" unique_id=326554877 node_paths=PackedStringArray("params_container")]
 visible = false
