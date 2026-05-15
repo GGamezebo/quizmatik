@@ -103,13 +103,17 @@ text = "Настройки"
 layout_mode = 2
 text = "Выход"
 
-[node name="TrainingRoomWindow" type="Control" parent="UI" unique_id=326554877]
+[node name="TrainingRoomWindow" type="Control" parent="UI" unique_id=326554877 node_paths=PackedStringArray("params_container")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("5_n67ar")
+config = ExtResource("6_vp6ju")
+params_container = NodePath("CenterContainer/VBoxContainer/TrainingRoomConfig/TrainingRoomParamsContainer")
 
 [node name="TextureRect" type="TextureRect" parent="UI/TrainingRoomWindow" unique_id=485422946]
 layout_mode = 1
@@ -149,16 +153,14 @@ size_flags_horizontal = 4
 text = " Reset "
 icon_alignment = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer" unique_id=204686701]
+[node name="TrainingRoomConfig" type="ScrollContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer" unique_id=204686701]
 custom_minimum_size = Vector2(800, 500)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/ScrollContainer" unique_id=1621749446]
+[node name="TrainingRoomParamsContainer" type="VBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TrainingRoomConfig" unique_id=1621749446]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("5_n67ar")
-config = ExtResource("6_vp6ju")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer" unique_id=325016311]
 layout_mode = 2
@@ -215,4 +217,4 @@ text = "Выход"
 
 [connection signal="button_down" from="UI/MainMenuWindow/CenterContainer/VBoxContainer/TrainigRoom" to="UI/StackWindowController" method="_on_trainig_room_button_down"]
 [connection signal="button_down" from="UI/MainMenuWindow/CenterContainer/VBoxContainer/Settings" to="UI/StackWindowController" method="_on_trainig_room_button_down"]
-[connection signal="pressed" from="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer/ResetSetting" to="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/ScrollContainer/VBoxContainer" method="_on_reset_setting_pressed"]
+[connection signal="pressed" from="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer/ResetSetting" to="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TrainingRoomConfig/TrainingRoomParamsContainer" method="_on_reset_setting_pressed"]

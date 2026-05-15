@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends Control
 
 const SAVE_PATH = "user://training_settings.tres"
 const BLACK_LIST = [
@@ -9,24 +9,25 @@ const BLACK_LIST = [
 	]
 
 @export var config: GameConfig
+@export var params_container: VBoxContainer
 
 
 func _ready():
-	var new_config = load_saved_config()
+	var new_config = _load_saved_config()
 	ResourceUtils.update_resource(config, new_config)
 	if config:
 		regenerate_ui()
 
-func load_saved_config() -> GameConfig:
+func _load_saved_config() -> GameConfig:
 	if ResourceLoader.exists(SAVE_PATH):
 		print("load config: ", SAVE_PATH)
 		return load(SAVE_PATH)
 	elif config:
 		print("Clone training room game config")
-		return config
+		return config.clone()
 	return null
 
-func save_config_to_disk():
+func _save_config_to_disk():
 	var error = ResourceSaver.save(config, SAVE_PATH)
 	if error == OK:
 		print("Config is saved")
@@ -35,7 +36,7 @@ func save_config_to_disk():
 
 func regenerate_ui():
 	# Очистка старых элементов, кроме кнопки выхода
-	for child in get_children():
+	for child in params_container.get_children():
 		child.queue_free()
 
 	var properties = config.get_property_list()
@@ -44,20 +45,20 @@ func regenerate_ui():
 		if prop.usage & PROPERTY_USAGE_CATEGORY:
 			if prop.name.ends_with(".gd") or prop.name in BLACK_LIST:
 				continue
-			create_category_label(prop.name)
+			_create_category_label(prop.name)
 			continue
 		
 		if prop.usage & PROPERTY_USAGE_SCRIPT_VARIABLE:
-			create_editor_row(prop.name, prop.type)
+			_create_editor_row(prop.name, prop.type)
 
-func create_category_label(cat_name: String):
+func _create_category_label(cat_name: String):
 	var label = Label.new()
 	label.text = "\n— " + cat_name.to_upper() + " —"
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.add_theme_color_override("font_color", Color.YELLOW)
-	add_child(label)
+	params_container.add_child(label)
 
-func create_editor_row(prop_name: String, type: int):
+func _create_editor_row(prop_name: String, type: int):
 	var hbox = HBoxContainer.new()
 	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	
@@ -78,7 +79,7 @@ func create_editor_row(prop_name: String, type: int):
 
 			spin_box.value_changed.connect(func(val): 
 				config.set(prop_name, val)
-				save_config_to_disk()
+				_save_config_to_disk()
 			)
 			hbox.add_child(spin_box)
 			
@@ -87,13 +88,13 @@ func create_editor_row(prop_name: String, type: int):
 			check_box.button_pressed = current_value
 			check_box.toggled.connect(func(val): 
 				config.set(prop_name, val)
-				save_config_to_disk()
+				_save_config_to_disk()
 			)
 			hbox.add_child(check_box)
 
-	add_child(hbox)
+	params_container.add_child(hbox)
 
 func _on_reset_setting_pressed() -> void:
 	ResourceUtils.update_resource(config, GameConfig.new())
 	regenerate_ui()
-	save_config_to_disk()
+	_save_config_to_disk()
