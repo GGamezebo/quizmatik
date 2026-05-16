@@ -19,10 +19,8 @@ func _load_levels() -> void:
 	
 	var dir = DirAccess.open(levels_dir)
 	if dir:
-		dir.list_dir_begin()
-		var file_name = dir.get_next()
-		
-		while file_name != "":
+		var files: PackedStringArray = dir.get_files()
+		for file_name in files:
 			# Учитываем особенности экспорта (tres или remap для импортированных ресурсов)
 			if not dir.current_is_dir() and (file_name.ends_with(".tres") or file_name.ends_with(".remap")):
 				var clean_path = levels_dir + '/' +file_name.replace(".remap", "")
@@ -30,8 +28,6 @@ func _load_levels() -> void:
 				
 				if resource is GameConfig:
 					_create_level_button(resource, clean_path)
-			
-			file_name = dir.get_next()
 	else:
 		print("Ошибка: Не удалось открыть папку ", levels_dir)
 
