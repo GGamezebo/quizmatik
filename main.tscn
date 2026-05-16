@@ -5,8 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://cvayb5jfghll4" path="res://src/ui/loading_screen/loading_screen.tscn" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://djxvf8yy7uqhl" path="res://src/contexts/main_context/persistent_data/persisten_data.gd" id="4_lquwl"]
 [ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/persistent_data/progress.tres" id="5_272bh"]
-[ext_resource type="Resource" uid="uid://dg36ovkjdps7w" path="res://src/contexts/main_context/persistent_data/settings.tres" id="6_272bh"]
+[ext_resource type="Resource" uid="uid://dg36ovkjdps7w" path="res://src/contexts/main_context/persistent_data/user_settings.tres" id="6_272bh"]
 [ext_resource type="AudioStream" uid="uid://bchaw1l2muu4w" path="res://assets/background_music.mp3" id="7_5vw27"]
+[ext_resource type="Script" uid="uid://cie8xsfj6hchd" path="res://src/contexts/main_context/settings_manager.gd" id="7_kek77"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="8_dg77c"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
@@ -29,7 +30,10 @@ main_events = ExtResource("8_dg77c")
 [node name="PersistenData" type="Node" parent="." unique_id=5266059]
 script = ExtResource("4_lquwl")
 default_progress = ExtResource("5_272bh")
-default_settings = ExtResource("6_272bh")
+
+[node name="SettingsManager" type="Node" parent="." unique_id=434486154]
+script = ExtResource("7_kek77")
+user_settings = ExtResource("6_272bh")
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1216630300]
 stream = ExtResource("7_5vw27")

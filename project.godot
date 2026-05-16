@@ -18,6 +18,10 @@ config/name="quizmatic"
 run/main_scene="uid://ddo0h56tnwsk1"
 config/features=PackedStringArray("4.6", "Mobile")
 
+[audio]
+
+buses/default_bus_layout="uid://dhqwa53ij6mjm"
+
 [display]
 
 window/size/viewport_width=1280
