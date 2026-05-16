@@ -24,7 +24,7 @@ func _load_saved_config() -> GameConfig:
 		return load(SAVE_PATH)
 	elif config:
 		print("Clone training room game config")
-		return config.clone()
+		return config.duplicate(true)
 	return null
 
 func _save_config_to_disk():
@@ -93,6 +93,7 @@ func _create_editor_row(prop_name: String, type: int):
 			hbox.add_child(check_box)
 
 	params_container.add_child(hbox)
+
 
 func _on_reset_setting_pressed() -> void:
 	ResourceUtils.update_resource(config, GameConfig.new())

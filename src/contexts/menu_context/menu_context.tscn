@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://cy2a8f3w1035e" path="res://src/contexts/menu_context/menu_context.gd" id="1_5oxuo"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="2_35kkh"]
 [ext_resource type="Script" uid="uid://bcskwis6ebs5f" path="res://core/lib/window_stack_manager/window_stack_manager.gd" id="3_5oxuo"]
-[ext_resource type="Resource" uid="uid://dsqbcw3nqv3lc" path="res://src/common/game_config_default.tres" id="3_c311k"]
 [ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://core/lib/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
 [ext_resource type="Script" uid="uid://dwus2ghsyt5xv" path="res://src/contexts/menu_context/training_room_window/training_room_window.gd" id="5_n67ar"]
 [ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/contexts/menu_context/training_room_window/training_room_game_config.tres" id="6_vp6ju"]
@@ -23,7 +22,6 @@ font_color = Color(0, 1, 1, 1)
 script = ExtResource("1_5oxuo")
 main_events = ExtResource("2_35kkh")
 levels = NodePath("UI/LevelsWindow")
-game_config = ExtResource("3_c311k")
 training_room_config = ExtResource("6_vp6ju")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Start")
 training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/StartBattle")
@@ -269,4 +267,4 @@ text = "Выход"
 
 [connection signal="button_down" from="UI/MainMenuWindow/CenterContainer/VBoxContainer/TrainigRoom" to="UI/StackWindowController" method="_on_trainig_room_button_down"]
 [connection signal="button_down" from="UI/MainMenuWindow/CenterContainer/VBoxContainer/Settings" to="UI/StackWindowController" method="_on_trainig_room_button_down"]
-[connection signal="pressed" from="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer/ResetSetting" to="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TrainingRoomConfig/TrainingRoomParamsContainer" method="_on_reset_setting_pressed"]
+[connection signal="pressed" from="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer/ResetSetting" to="UI/TrainingRoomWindow" method="_on_reset_setting_pressed"]
