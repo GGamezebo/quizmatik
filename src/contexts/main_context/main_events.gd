@@ -4,3 +4,4 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_start_game
 @warning_ignore("unused_signal") signal ev_exit_game
 @warning_ignore("unused_signal") signal ev_reset_account_progress
+@warning_ignore("unused_signal") signal ev_return_to_menu

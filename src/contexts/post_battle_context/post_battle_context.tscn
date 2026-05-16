@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://df5u08rtrxes8"]
+
+[ext_resource type="Script" uid="uid://15oswvc8w8gn" path="res://src/contexts/post_battle_context/post_battle_context.gd" id="1_uxaqq"]
+
+[sub_resource type="Gradient" id="Gradient_8ab8u"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uxaqq"]
+gradient = SubResource("Gradient_8ab8u")
+
+[sub_resource type="LabelSettings" id="LabelSettings_8ab8u"]
+font_size = 42
+
+[node name="PostBattleContext" type="Node" unique_id=1710544667]
+script = ExtResource("1_uxaqq")
+
+[node name="Control" type="Control" parent="." unique_id=5903422]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=1219923398]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 32.025
+anchor_bottom = 18.025002
+offset_left = 1.0
+offset_top = 1.0
+offset_bottom = -6.1035156e-05
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_uxaqq")
+
+[node name="Label" type="Label" parent="Control" unique_id=103335890]
+layout_mode = 0
+offset_left = 571.0
+offset_top = 212.0
+offset_right = 708.0
+offset_bottom = 235.0
+text = "Post Battle Result"
+label_settings = SubResource("LabelSettings_8ab8u")
