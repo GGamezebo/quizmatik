@@ -78,10 +78,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Shot" type="Area2D" unique_id=2028095031]
+[node name="Shot" type="Area2D" unique_id=2028095031 node_paths=PackedStringArray("ray_cast")]
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_asq14")
+ray_cast = NodePath("RayCast2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=211650346]
 
@@ -97,5 +98,11 @@ frame_progress = 0.03287645
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=136813701]
 rect = Rect2(-99, -10, 198, 20)
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=804121743]
+target_position = Vector2(100, 0)
+collision_mask = 4
+collide_with_areas = true
+collide_with_bodies = false
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

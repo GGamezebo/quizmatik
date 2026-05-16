@@ -54,7 +54,7 @@ func _makeAnswers() -> void:
 		game_mamager.owner.add_child.call_deferred(answer)
 			
 
-func _on_event_manager_ev_explosion(answer: Answer) -> void:
+func _on_event_manager_ev_explosion(answer: Answer, _hit_point: Vector2) -> void:
 	if answer.value == question.correct_answer:
 		_process_correct_answer()
 	else:
