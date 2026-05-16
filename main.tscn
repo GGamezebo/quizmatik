@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://djxvf8yy7uqhl" path="res://src/contexts/main_context/persistent_data/persisten_data.gd" id="4_lquwl"]
 [ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/persistent_data/progress.tres" id="5_272bh"]
 [ext_resource type="Resource" uid="uid://dg36ovkjdps7w" path="res://src/contexts/main_context/persistent_data/settings.tres" id="6_272bh"]
+[ext_resource type="AudioStream" uid="uid://bchaw1l2muu4w" path="res://assets/background_music.mp3" id="7_5vw27"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="8_dg77c"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
@@ -29,6 +30,12 @@ main_events = ExtResource("8_dg77c")
 script = ExtResource("4_lquwl")
 default_progress = ExtResource("5_272bh")
 default_settings = ExtResource("6_272bh")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1216630300]
+stream = ExtResource("7_5vw27")
+volume_db = -7.69
+autoplay = true
+bus = &"Music"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1724834534]
 environment = SubResource("Environment_0xm2m")
