@@ -1,6 +1,8 @@
 extends AnimatedSprite2D
 
 @export var ROTATION: float = deg_to_rad(2)
+@export var flame_animation: AnimatedSprite2D
+
 @onready var _position_shaker: PositionShaker = PositionShaker.new(10, 10)
 @onready var _scale_shaker: ScaleShacker = ScaleShacker.new()
 @onready var _rotationShacker: RotationShaker = RotationShaker.new()
@@ -24,7 +26,11 @@ func update(delta: float) -> void:
 	offset = _position_shaker.get_pos_offset()
 	scale = _base_scale + _scale_shaker.get_scale_offset()
 	rotation = _base_rotation + _rotationShacker.get_rotation_offset()
-
+	
+	flame_animation.offset = offset
+	flame_animation.scale = scale
+	flame_animation.rotation = rotation
+	
 func _updateAnimation(direction_y: float) -> void:
 	var animationName = 'idle'
 	if direction_y < 0.0:

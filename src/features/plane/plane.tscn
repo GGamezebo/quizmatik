@@ -78,9 +78,11 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="Plane" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("animated_sprite")]
+[node name="Plane" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("components", "directionComponents", "animated_sprite")]
 collision_mask = 4
 script = ExtResource("1_c4h5g")
+components = [NodePath("Label"), NodePath("AnimatedSprite2D"), NodePath("AudioStreamPlayer")]
+directionComponents = [NodePath("AnimatedSprite2D"), NodePath("AudioStreamPlayer")]
 animated_sprite = NodePath("AnimatedSprite2D")
 explosion_scene = ExtResource("2_502ij")
 
@@ -96,19 +98,20 @@ script = ExtResource("2_dl1wr")
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_272bh")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1524436245]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1524436245 node_paths=PackedStringArray("flame_animation")]
 sprite_frames = SubResource("SpriteFrames_1bvp3")
 animation = &"up"
 script = ExtResource("6_7tfl1")
+flame_animation = NodePath("FlameAnimation")
+
+[node name="FlameAnimation" type="AnimatedSprite2D" parent="AnimatedSprite2D" unique_id=348875614]
+position = Vector2(-148, 8)
+sprite_frames = SubResource("SpriteFrames_yjdog")
+autoplay = "default"
+frame_progress = 0.563382
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=130746522]
 stream = ExtResource("3_incis")
 script = ExtResource("8_jxtnq")
-
-[node name="FlameAnimation" type="AnimatedSprite2D" parent="." unique_id=348875614]
-position = Vector2(-149, 8)
-sprite_frames = SubResource("SpriteFrames_yjdog")
-autoplay = "default"
-frame_progress = 0.6955615
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
