@@ -4,10 +4,16 @@ class_name Answer
 
 signal ev_killed(answer:Answer)
 
+@export var label: Label
+@export var animation_time: float = 1.0
+@export var dead_animation_scale: float = 1.5
+@export_color_no_alpha var right_color: Color = Color.GREEN
+@export_color_no_alpha var wrong_color: Color = Color.RED
+
 var value: int = 0:
 	set(new_value):
 		value = new_value
-		$Label.text = str(value)
+		label.text = str(value)
 		
 var speed = 50
 var _acceleration = GameConfig.PLAYER_ACCELERATION_DEFAULT
@@ -16,7 +22,6 @@ var _acceleration = GameConfig.PLAYER_ACCELERATION_DEFAULT
 func _process(delta):
 	position.x -= speed * _acceleration * delta
 	
-	# Удаляем, если вылетел за экран
 	if position.x < -100:
 		queue_free()
 		
@@ -41,14 +46,20 @@ func take_damage():
 	var tween = create_tween().set_parallel(true)
 	
 	# Плавное исчезновение
-	tween.tween_property(self, "modulate:a", 0.0, 0.5)
+	tween.tween_property(self, "modulate:a", 0.0, animation_time)
 	# Небольшое увеличение
-	tween.tween_property(self, "scale", scale * 1.5, 0.5)
+	tween.tween_property(self, "scale", scale * dead_animation_scale, animation_time)
 	# Сдвиг вверх
-	tween.tween_property(self, "position:y", position.y, 0.5)
+	tween.tween_property(self, "position:y", position.y, animation_time)
    	
    	# Удаляем объект после завершения анимации
 	tween.chain().tween_callback(queue_free)
 
 func _exit_tree() -> void:
 	ev_killed.emit(self)
+	
+func right() -> void:
+	label.label_settings.font_color = right_color
+	
+func fail() -> void:
+	label.label_settings.font_color = wrong_color

@@ -138,6 +138,7 @@ animations = [{
 }]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" unique_id=197881885]
+scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_4k2k6")
 autoplay = "default"
 frame = 17

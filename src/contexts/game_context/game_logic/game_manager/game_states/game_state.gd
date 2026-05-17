@@ -60,20 +60,24 @@ func _makeAnswers() -> void:
 
 func _on_event_manager_ev_explosion(answer: Answer, _hit_point: Vector2) -> void:
 	if answer.value == question.correct_answer:
+		answer.right()
 		_process_correct_answer()
 	else:
 		var index: int = options.find(answer)
 		if index != -1:
 			options.remove_at(index)
 			_get_damage()
+		answer.fail()
 		answer.take_damage()
 
 func _on_air_plane_colladed(_air_plane: AirPlane, answer: Answer) -> void:
 	if answer.value == question.correct_answer:
+		answer.right()
 		_process_correct_answer()
 	else:
 		var index:int = options.find(answer)
 		if index != -1:
+			answer.fail()
 			_get_damage()
 			_kill_all_answers()
 
