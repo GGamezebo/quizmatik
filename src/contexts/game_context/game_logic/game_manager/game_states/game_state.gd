@@ -30,7 +30,11 @@ func leave(_event_data: Dictionary) -> void:
 	for option in options:
 		option.queue_free()
 	options.clear()
-		
+	
+func _process(_delta: float) -> void:
+	for answer in options:
+		answer.set_acceleration(player.acceleration)
+	
 func _makeNewRound() -> void:
 	question = QuizQuestion.generate_question(game_config)
 	await game_mamager.get_tree().create_timer(1.0).timeout

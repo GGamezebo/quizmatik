@@ -10,10 +10,11 @@ var value: int = 0:
 		$Label.text = str(value)
 		
 var speed = 50
+var _acceleration = GameConfig.PLAYER_ACCELERATION_DEFAULT
 
 
 func _process(delta):
-	position.x -= speed * delta
+	position.x -= speed * _acceleration * delta
 	
 	# Удаляем, если вылетел за экран
 	if position.x < -100:
@@ -26,6 +27,9 @@ func setup(x:float, y:float, new_value:int, _speed:float) -> void:
 	self.position = Vector2(x, y)
 	self.value = new_value
 	self.speed = _speed
+	
+func set_acceleration(acceleration: float) -> void:
+	_acceleration = acceleration
 
 func _disable_collision():
 	collision_layer = 0
