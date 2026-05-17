@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://5831aq1tr7kg" path="res://src/features/shot/shot.gd" id="1_asq14"]
 [ext_resource type="Texture2D" uid="uid://bm1tc308cj6wb" path="res://src/features/shot/sprites/exhaust02_spritesheet.png" id="1_f1rbr"]
+[ext_resource type="Texture2D" uid="uid://rux51tr7d7c5" path="res://assets/light effect starlight shining.png" id="2_4rxj0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f1rbr"]
 radius = 7.0
@@ -85,6 +86,10 @@ script = ExtResource("1_asq14")
 ray_cast = NodePath("RayCast2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=211650346]
+self_modulate = Color(1, 1, 1, 0.33333334)
+position = Vector2(38.999996, 0)
+scale = Vector2(0.3, 0.182)
+texture = ExtResource("2_4rxj0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=467212049]
 rotation = 1.5707964
@@ -100,6 +105,7 @@ frame_progress = 0.03287645
 rect = Rect2(-99, -10, 198, 20)
 
 [node name="RayCast2D" type="RayCast2D" parent="." unique_id=804121743]
+position = Vector2(3, 0)
 target_position = Vector2(100, 0)
 collision_mask = 4
 collide_with_areas = true

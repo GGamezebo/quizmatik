@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://brklvy5vxkef7"
-path="res://.godot/imported/—Pngtree—light effect starlight shining starry_8348061.png-6e04afbbe7dae380a333e8919660d1b4.ctex"
+uid="uid://rux51tr7d7c5"
+path="res://.godot/imported/light effect starlight shining.png-7a17be2e863214bb84f1abe7d64d164f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/features/plane/—Pngtree—light effect starlight shining starry_8348061.png"
-dest_files=["res://.godot/imported/—Pngtree—light effect starlight shining starry_8348061.png-6e04afbbe7dae380a333e8919660d1b4.ctex"]
+source_file="res://assets/light effect starlight shining.png"
+dest_files=["res://.godot/imported/light effect starlight shining.png-7a17be2e863214bb84f1abe7d64d164f.ctex"]
 
 [params]
 

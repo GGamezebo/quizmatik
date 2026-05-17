@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bilwdiggndliv" path="res://src/features/plane/PlaneUp.png" id="5_n7rn1"]
 [ext_resource type="Script" uid="uid://wokwb6w0qo1j" path="res://src/features/plane/animated_sprite_2d.gd" id="6_7tfl1"]
 [ext_resource type="Script" uid="uid://c26vc5jhui0yf" path="res://src/features/plane/audio_stream_player.gd" id="8_jxtnq"]
+[ext_resource type="Texture2D" uid="uid://rux51tr7d7c5" path="res://assets/light effect starlight shining.png" id="9_i07py"]
 [ext_resource type="Texture2D" uid="uid://bgrnq02qv15pk" path="res://src/features/plane/flame.png" id="10_ijmsw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_272bh"]
@@ -109,6 +110,12 @@ position = Vector2(-148, 8)
 sprite_frames = SubResource("SpriteFrames_yjdog")
 autoplay = "default"
 frame_progress = 0.563382
+
+[node name="Sprite2D" type="Sprite2D" parent="AnimatedSprite2D/FlameAnimation" unique_id=578953194]
+modulate = Color(1, 1, 1, 0.40392157)
+position = Vector2(-10.999996, -1.1920929e-07)
+scale = Vector2(0.15, 0.061)
+texture = ExtResource("9_i07py")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=130746522]
 stream = ExtResource("3_incis")
