@@ -28,6 +28,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary):
 func leave(_event_data: Dictionary) -> void:
 	event_listener.deinit()
 	for option in options:
+		option.ev_killed.disconnect(_on_answer_killed)
 		option.queue_free()
 	options.clear()
 	

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://47fqtynve6g3"]
 
 [ext_resource type="Script" uid="uid://cxln14046h23n" path="res://src/features/player/player.gd" id="1_c4h5g"]
+[ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://src/features/explosion/explosion.tscn" id="2_502ij"]
 [ext_resource type="Script" uid="uid://6b5kg6wtuj55" path="res://src/features/player/label.gd" id="2_dl1wr"]
 [ext_resource type="AudioStream" uid="uid://d022f3yjwbamj" path="res://src/features/player/thrust.mp3" id="3_incis"]
 [ext_resource type="Texture2D" uid="uid://dbhsvvmis8tyx" path="res://src/features/player/Plane.png" id="3_wwtew"]
@@ -40,12 +41,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Plane" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("components", "directionComponents", "animated_sprite")]
+[node name="Plane" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("animated_sprite")]
 collision_mask = 4
 script = ExtResource("1_c4h5g")
-components = [NodePath("Label"), NodePath("AnimatedSprite2D"), NodePath("AudioStreamPlayer")]
-directionComponents = [NodePath("AnimatedSprite2D"), NodePath("AudioStreamPlayer")]
 animated_sprite = NodePath("AnimatedSprite2D")
+explosion_scene = ExtResource("2_502ij")
 
 [node name="Label" type="Label" parent="." unique_id=1382119237]
 offset_left = -73.0

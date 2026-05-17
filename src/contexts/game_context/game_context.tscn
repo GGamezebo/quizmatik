@@ -49,6 +49,7 @@ game_config = ExtResource("2_j4hd0")
 
 [node name="AirPlane" parent="Player" unique_id=216453935 instance=ExtResource("4_3f67i")]
 position = Vector2(200, 361)
+dead_animation_time = 3.0
 
 [node name="GameManager" type="Node" parent="." unique_id=1898191257 node_paths=PackedStringArray("states")]
 script = ExtResource("6_q40ib")
@@ -68,9 +69,10 @@ air_plane = NodePath("../../Player/AirPlane")
 area = NodePath("../../GameArea")
 answerScene = ExtResource("7_e5mqp")
 
-[node name="EndGameState" type="Node" parent="GameManager" unique_id=265268692]
+[node name="EndGameState" type="Node" parent="GameManager" unique_id=265268692 node_paths=PackedStringArray("air_plane")]
 script = ExtResource("10_jud5q")
 main_events = ExtResource("8_xkl2s")
+air_plane = NodePath("../../Player/AirPlane")
 
 [node name="LineSelector" type="Node" parent="." unique_id=2097313372 node_paths=PackedStringArray("air_plane", "area")]
 script = ExtResource("15_h2w07")
