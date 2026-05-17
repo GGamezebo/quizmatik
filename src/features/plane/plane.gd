@@ -164,7 +164,7 @@ func win_animation() -> void:
 	victory_tween.tween_property(self, "global_position", target_position, win_fly_animation_time)
 	
 	# Simulate gaining altitude/depth via dynamic scaling
-	victory_tween.tween_property(animated_sprite, "scale", Vector2(0.15, 0.15), win_fly_animation_time)
+	victory_tween.tween_property(self, "scale", Vector2(0.15, 0.15), win_fly_animation_time)
 	
 	# Handle aircraft rotation based on the flight path
 	var target_rotation: float = 0.0
@@ -174,10 +174,10 @@ func win_animation() -> void:
 		target_rotation = deg_to_rad(15.0)  # Nose down
 	# For case 0 (Straight), target_rotation stays 0.0
 	
-	victory_tween.tween_property(animated_sprite, "rotation", target_rotation, win_fly_animation_time * 0.4)
+	victory_tween.tween_property(self, "rotation", target_rotation, win_fly_animation_time * 0.4)
 	
 	# Smoothly fade out into the clouds/distance near the end of the flight
-	victory_tween.tween_property(animated_sprite, "modulate:a", 0.0, win_fly_animation_time - 0.1).set_delay(0.1)
+	victory_tween.tween_property(self, "modulate:a", 0.0, win_fly_animation_time - 0.1).set_delay(0.1)
 	
 	await victory_tween.finished
 	

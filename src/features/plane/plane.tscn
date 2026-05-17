@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bilwdiggndliv" path="res://src/features/plane/PlaneUp.png" id="5_n7rn1"]
 [ext_resource type="Script" uid="uid://wokwb6w0qo1j" path="res://src/features/plane/animated_sprite_2d.gd" id="6_7tfl1"]
 [ext_resource type="Script" uid="uid://c26vc5jhui0yf" path="res://src/features/plane/audio_stream_player.gd" id="8_jxtnq"]
+[ext_resource type="Texture2D" uid="uid://bgrnq02qv15pk" path="res://src/features/plane/flame.png" id="10_ijmsw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_272bh"]
 radius = 21.72
@@ -41,6 +42,42 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ijmsw"]
+atlas = ExtResource("10_ijmsw")
+region = Rect2(100, 0, 100, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i07py"]
+atlas = ExtResource("10_ijmsw")
+region = Rect2(100, 40, 100, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6lgrm"]
+atlas = ExtResource("10_ijmsw")
+region = Rect2(100, 80, 100, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7dyig"]
+atlas = ExtResource("10_ijmsw")
+region = Rect2(100, 120, 100, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yjdog"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ijmsw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i07py")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6lgrm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7dyig")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
 [node name="Plane" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("animated_sprite")]
 collision_mask = 4
 script = ExtResource("1_c4h5g")
@@ -67,5 +104,11 @@ script = ExtResource("6_7tfl1")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=130746522]
 stream = ExtResource("3_incis")
 script = ExtResource("8_jxtnq")
+
+[node name="FlameAnimation" type="AnimatedSprite2D" parent="." unique_id=348875614]
+position = Vector2(-149, 8)
+sprite_frames = SubResource("SpriteFrames_yjdog")
+autoplay = "default"
+frame_progress = 0.6955615
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
