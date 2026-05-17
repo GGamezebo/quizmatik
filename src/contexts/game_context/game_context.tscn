@@ -69,9 +69,11 @@ air_plane = NodePath("../../Player/AirPlane")
 area = NodePath("../../GameArea")
 answerScene = ExtResource("7_e5mqp")
 
-[node name="EndGameState" type="Node" parent="GameManager" unique_id=265268692 node_paths=PackedStringArray("air_plane")]
+[node name="EndGameState" type="Node" parent="GameManager" unique_id=265268692 node_paths=PackedStringArray("player", "air_plane")]
 script = ExtResource("10_jud5q")
 main_events = ExtResource("8_xkl2s")
+game_config = ExtResource("2_j4hd0")
+player = NodePath("../../Player")
 air_plane = NodePath("../../Player/AirPlane")
 
 [node name="LineSelector" type="Node" parent="." unique_id=2097313372 node_paths=PackedStringArray("air_plane", "area")]
