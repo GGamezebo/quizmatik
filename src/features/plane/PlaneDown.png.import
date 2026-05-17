@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bilwdiggndliv"
-path="res://.godot/imported/PlaneUp.png-ce91b897c083a1516a5bfbb65b3b753f.ctex"
+uid="uid://bpbyqmy6knfil"
+path="res://.godot/imported/PlaneDown.png-b2677bd9c7a50287000533b4b83f874d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/features/player/PlaneUp.png"
-dest_files=["res://.godot/imported/PlaneUp.png-ce91b897c083a1516a5bfbb65b3b753f.ctex"]
+source_file="res://src/features/plane/PlaneDown.png"
+dest_files=["res://.godot/imported/PlaneDown.png-b2677bd9c7a50287000533b4b83f874d.ctex"]
 
 [params]
 

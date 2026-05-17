@@ -26,7 +26,7 @@ func update(delta: float) -> void:
 	rotation = _base_rotation + _rotationShacker.get_rotation_offset()
 
 func _updateAnimation(direction_y: float) -> void:
-	var animationName = 'default'
+	var animationName = 'idle'
 	if direction_y < 0.0:
 		animationName = 'up'
 	elif direction_y > 0.0:
