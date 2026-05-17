@@ -76,6 +76,8 @@ func _disable() -> void:
 	_disable_collision()
 	
 func die_animation() -> void:
+	_disable()
+	
 	var tween = create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(self, "rotation", rotation + randf_range(-3, 3), dead_animation_time * 0.6).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
