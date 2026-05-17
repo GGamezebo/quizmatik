@@ -1,8 +1,8 @@
 extends Node
 
-const Meta = UserSettings.Meta
+const Meta = UserSettingsDefault.Meta
 
-@export var _user_settings: UserSettings
+@export var _user_settings: UserSettingsDefault
 
 var _config: ConfigFile = ConfigFile.new()
 

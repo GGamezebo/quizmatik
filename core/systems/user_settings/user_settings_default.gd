@@ -1,4 +1,4 @@
-class_name UserSettings
+class_name UserSettingsDefault
 extends Resource
 
 const SAVE_PATH: String = "user://settings.cfg"
