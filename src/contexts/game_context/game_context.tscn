@@ -25,15 +25,6 @@
 [ext_resource type="Texture2D" uid="uid://c4rcn50qkxusi" path="res://assets/icon.svg" id="17_emdi4"]
 [ext_resource type="Script" uid="uid://bujyufbdn6yo" path="res://src/contexts/game_context/ui/score.gd" id="19_73ia8"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_0xm2m"]
-font_size = 45
-font_color = Color(0, 18.892157, 18.892157, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_dg77c"]
-line_spacing = 2.0
-font_size = 92
-font_color = Color(0, 0.99, 0.99, 1)
-
 [node name="GameContext" type="Node" unique_id=1179940708]
 script = ExtResource("1_j4hd0")
 game_config = ExtResource("2_j4hd0")
@@ -116,7 +107,6 @@ maxScore = NodePath("MaxScore")
 layout_mode = 2
 size_flags_horizontal = 4
 text = "счёт:"
-label_settings = SubResource("LabelSettings_0xm2m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -124,7 +114,6 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 4
 text = "0"
-label_settings = SubResource("LabelSettings_0xm2m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -132,7 +121,6 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 4
 text = "/"
-label_settings = SubResource("LabelSettings_0xm2m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -140,7 +128,6 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 4
 text = "30"
-label_settings = SubResource("LabelSettings_0xm2m")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -157,9 +144,13 @@ offset_left = -20.0
 offset_right = 20.0
 offset_bottom = 126.0
 grow_horizontal = 2
-label_settings = SubResource("LabelSettings_dg77c")
+size_flags_horizontal = 4
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 84
+text = "fdsa"
+horizontal_alignment = 1
+vertical_alignment = 1
 script = ExtResource("14_wlohk")
-metadata/_edit_use_anchors_ = true
 
 [node name="RightPanel" type="HBoxContainer" parent="HUD" unique_id=2075508658]
 anchors_preset = 1

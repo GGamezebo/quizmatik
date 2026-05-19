@@ -19,7 +19,7 @@ colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 1)
 gradient = SubResource("Gradient_r3o0b")
 
 [sub_resource type="LabelSettings" id="LabelSettings_35kkh"]
-font_size = 42
+font_size = 64
 font_color = Color(0, 1, 1, 1)
 
 [node name="MenuContext" type="Node" unique_id=1044355188 node_paths=PackedStringArray("levels", "start_button", "training_room_start_button", "exit_button")]
@@ -95,11 +95,12 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenuWindow/CenterContainer" unique_id=92845443]
 layout_mode = 2
+theme_override_constants/separation = 12
 
 [node name="Label" type="Label" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=1617486808]
 layout_mode = 2
 text = "Улётная математика"
-label_settings = SubResource("LabelSettings_35kkh")
+horizontal_alignment = 1
 
 [node name="Start" type="Button" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=671841128]
 layout_mode = 2

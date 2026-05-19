@@ -3,9 +3,20 @@
 [ext_resource type="Script" uid="uid://cu637lmffdld0" path="res://src/features/answer/answer.gd" id="1_uxhp0"]
 [ext_resource type="Texture2D" uid="uid://bi4oup4a3y23t" path="res://src/features/answer/blue_ring_140.png" id="2_0rjkt"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_uxhp0"]
+[sub_resource type="SystemFont" id="SystemFont_gn7kk"]
+font_names = PackedStringArray("Impact")
+
+[sub_resource type="LabelSettings" id="LabelSettings_73wma"]
 resource_local_to_scene = true
-font_color = Color(0, 6.4662685, 6.9061527, 1)
+font = SubResource("SystemFont_gn7kk")
+font_size = 18
+font_color = Color(0, 1, 1, 1)
+outline_size = 4
+outline_color = Color(0.050980393, 0.29803923, 0.54901963, 1)
+shadow_size = 4
+stacked_outline_count = 1
+stacked_outline_0/size = 1
+stacked_outline_0/color = Color(1, 0, 0.8352941, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pm5v5"]
 radius = 64.0
@@ -24,7 +35,7 @@ offset_right = 8.0
 offset_bottom = -12.000004
 scale = Vector2(1.6799991, 3.0800004)
 text = "12"
-label_settings = SubResource("LabelSettings_uxhp0")
+label_settings = SubResource("LabelSettings_73wma")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 1
