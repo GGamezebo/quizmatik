@@ -34,8 +34,8 @@ func _on_start_game(game_config: GameConfig) -> void:
 	var data: Dictionary = {'game_config': game_config}
 	switch_game_context(game_context_path, use_loading_screen, data)
 	
-func _ev_exit_game() -> void:	
-	switch_game_context(post_battle_context_path)
+func _ev_exit_game(data: Dictionary = {}) -> void:	
+	switch_game_context(post_battle_context_path, true, data)
 
 func _return_to_menu() -> void:
 	switch_game_context(menu_context_path)

@@ -21,4 +21,9 @@ func leave(_event_data: Dictionary) -> void:
 	pass
 	
 func _on_animation_finished() -> void:
-	main_events.ev_exit_game.emit()
+	var data := {
+		"game_config": game_config,
+		"score": player.score,
+		"max_score": game_config.questions_count
+	}
+	main_events.ev_exit_game.emit(data)
