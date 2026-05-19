@@ -40,6 +40,10 @@ enabled=PackedStringArray("res://addons/github_copilot/plugin.cfg")
 Player=false
 Projectile=false
 
+[gui]
+
+theme/custom="uid://c8ypt8n6u1p2k"
+
 [input]
 
 shoot={
