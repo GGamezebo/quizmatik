@@ -28,12 +28,8 @@ func _load_saved_config() -> GameConfig:
 	return null
 
 func _save_config_to_disk():
-	var error = ResourceSaver.save(config, SAVE_PATH)
-	if error == OK:
-		print("Config is saved")
-	else:
-		print("Error while saving_config: ", error)
-
+	ResourceUtils.save_resource_to_disk(config, SAVE_PATH)
+	
 func regenerate_ui():
 	# Очистка старых элементов, кроме кнопки выхода
 	for child in params_container.get_children():
@@ -97,5 +93,5 @@ func _create_editor_row(prop_name: String, type: int):
 
 func _on_reset_setting_pressed() -> void:
 	ResourceUtils.update_resource(config, GameConfig.new())
-	regenerate_ui()
 	_save_config_to_disk()
+	regenerate_ui()

@@ -36,3 +36,18 @@ static func update_resource(target: Resource, source: Resource) -> void:
 	
 	# Notify all subscribers that the data has been updated
 	target.emit_changed()
+	
+static func reset_resource_to_default(resource: Resource, default_resource: Resource) -> void:
+	update_resource(resource, default_resource)
+	
+static func save_resource_to_disk(resource: Resource, path: String) -> void:
+	var error = ResourceSaver.save(resource, path)
+	if error == OK:
+		print("resource %s is saved " % path)
+	else:
+		print("Error %s while saving resource %s" % [str(error), path])
+
+static func hard_reset_resource(path: String, resource: Resource, default_resource_class: Variant) -> void:
+	var default_resource = default_resource_class.new()
+	reset_resource_to_default(resource, default_resource)
+	save_resource_to_disk(resource, path)

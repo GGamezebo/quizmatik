@@ -8,6 +8,7 @@ extends IContext
 @export_group('Buttons')
 @export var start_button: Button
 @export var training_room_start_button: Button
+@export var reset_account_progress: Button
 @export var exit_button: Button
 
 
@@ -17,6 +18,7 @@ func _ready() -> void:
 	training_room_start_button.pressed.connect(_on_training_room_start_pressed)
 	exit_button.pressed.connect(_on_exit_pressed)
 	levels.ev_start_level.connect(_on_start_level)
+	reset_account_progress.pressed.connect(_on_reset_account_progress)
 
 func _on_start_level(game_config: GameConfig) -> void:
 	main_events.ev_start_game.emit(game_config)
@@ -26,3 +28,8 @@ func _on_training_room_start_pressed() -> void:
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()
+	
+func _on_reset_account_progress() -> void:
+	main_events.ev_reset_account_progress.emit()
+
+	
