@@ -147,7 +147,6 @@ grow_horizontal = 2
 size_flags_horizontal = 4
 theme_override_constants/outline_size = 16
 theme_override_font_sizes/font_size = 84
-text = "fdsa"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("14_wlohk")
