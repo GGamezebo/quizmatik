@@ -1,17 +1,18 @@
 [gd_scene format=3 uid="uid://df5u08rtrxes8"]
 
 [ext_resource type="Script" uid="uid://15oswvc8w8gn" path="res://src/contexts/post_battle_context/post_battle_context.gd" id="1_uxaqq"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="2_jg6wr"]
 
 [sub_resource type="Gradient" id="Gradient_8ab8u"]
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_uxaqq"]
 gradient = SubResource("Gradient_8ab8u")
 
-[sub_resource type="LabelSettings" id="LabelSettings_8ab8u"]
-font_size = 42
-
-[node name="PostBattleContext" type="Node" unique_id=1710544667]
+[node name="PostBattleContext" type="Node" unique_id=1710544667 node_paths=PackedStringArray("menu_button", "repeat_button")]
 script = ExtResource("1_uxaqq")
+main_events = ExtResource("2_jg6wr")
+menu_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Menu")
+repeat_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Repeat")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=908970863]
 anchors_preset = 15
@@ -31,5 +32,16 @@ size_flags_vertical = 4
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=103335890]
 layout_mode = 2
-text = "Post Battle Result"
-label_settings = SubResource("LabelSettings_8ab8u")
+text = "Результаты "
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1271393554]
+layout_mode = 2
+
+[node name="Menu" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1286239246]
+layout_mode = 2
+text = "Meню"
+
+[node name="Repeat" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=470955958]
+layout_mode = 2
+text = "Повторить"

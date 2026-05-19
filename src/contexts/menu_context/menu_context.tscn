@@ -10,7 +10,7 @@
 [ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/contexts/menu_context/training_room_window/training_room_game_config.tres" id="6_vp6ju"]
 [ext_resource type="Texture2D" uid="uid://ccjtahowlfjpj" path="res://assets/sound-off.svg" id="7_82bx7"]
 [ext_resource type="Script" uid="uid://fq7icdo2mxf" path="res://src/contexts/menu_context/levels_window.gd" id="7_c311k"]
-[ext_resource type="Script" path="res://src/contexts/menu_context/texture_button.gd" id="8_82bx7"]
+[ext_resource type="Script" uid="uid://b26jidolbwdpn" path="res://src/contexts/menu_context/texture_button.gd" id="8_82bx7"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="9_3qhmn"]
 
 [sub_resource type="Gradient" id="Gradient_r3o0b"]
