@@ -8,9 +8,10 @@
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_uxaqq"]
 gradient = SubResource("Gradient_8ab8u")
 
-[node name="PostBattleContext" type="Node" unique_id=1710544667 node_paths=PackedStringArray("menu_button", "repeat_button")]
+[node name="PostBattleContext" type="Node" unique_id=1710544667 node_paths=PackedStringArray("score_label", "menu_button", "repeat_button")]
 script = ExtResource("1_uxaqq")
 main_events = ExtResource("2_jg6wr")
+score_label = NodePath("MarginContainer/VBoxContainer/Label")
 menu_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Menu")
 repeat_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Repeat")
 
