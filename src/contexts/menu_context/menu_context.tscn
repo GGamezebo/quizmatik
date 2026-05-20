@@ -14,7 +14,7 @@
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="9_3qhmn"]
 
 [sub_resource type="Gradient" id="Gradient_r3o0b"]
-colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 0.5529412)
+colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 0.072000004)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ux2mn"]
 gradient = SubResource("Gradient_r3o0b")
@@ -85,6 +85,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -48.5
+offset_top = -24.0
+offset_right = 48.5
+offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_ux2mn")
