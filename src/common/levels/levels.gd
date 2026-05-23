@@ -7,7 +7,7 @@ var levels = {
    "containers": [
 		{
 			"container_id": "container_1_addition",
-			"pack_name": "Долина Сложения",
+			"name": "Долина Сложения",
 			"unlock_condition": {
 				"name": "is_unlocked_by_default",
 				"args": [],
@@ -24,7 +24,6 @@ var levels = {
 	],
 }
 
-
 func _init() -> void:
 	for container in levels["containers"]:
 		for level_data in container["levels"]:
@@ -37,3 +36,15 @@ func _init() -> void:
 				print("[Loader] Level config loaded successfully for level", level_data["level_id"], ": ", full_path)
 			else:
 				assert(false, "[Loader] Файл конфигурации не найден по пути: " + full_path)
+
+func find_container_in_config(container_id: String) -> Dictionary:
+	if not levels.has("containers") or not (levels["containers"] is Array):
+		push_error("[ProgressManager] Error: Invalid level configuration format.")
+		return {}
+
+	for container in levels["containers"]:
+		if container.get("container_id") == container_id:
+			return container
+
+	push_warning("[ProgressManager] Warning: Container '" + container_id + "' not found in configuration.")
+	return {}

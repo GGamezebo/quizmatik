@@ -1,6 +1,0 @@
-[gd_resource type="Resource" format=3 uid="uid://c3obr6l816wak"]
-
-[ext_resource type="Script" uid="uid://tx3yd3q8p763" path="res://src/common/levels/conditions.gd" id="1_i5ewi"]
-
-[resource]
-script = ExtResource("1_i5ewi")

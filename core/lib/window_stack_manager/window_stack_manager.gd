@@ -27,7 +27,7 @@ func open_stacked_window(new_window: Control) -> void:
 		new_window.show()
 	else:
 		# 2. Если окна нет, скрываем текущее и добавляем новое
-		if not window_stack.is_empty():
+		if not window_stack.is_empty() and not window_stack.back().is_ancestor_of(new_window):
 			window_stack.back().hide()
 		
 		window_stack.append(new_window)

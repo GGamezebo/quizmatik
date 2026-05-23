@@ -1,8 +1,9 @@
+class_name ProgressController
 extends Node
 
 @export var pdata: PDataProgress
 @export var levelsConfig: LevelsConfig
-@export var conditions: Resource
+@export var conditions: Script
 
 
 func save() -> void:
@@ -20,13 +21,12 @@ func post_battle(container_id: String, level_id: int, stars: int) -> void:
 
 
 func is_container_unlocked(container_id: String) -> bool:
-	var container_config = _find_container_in_config(container_id)
+	var container_config = find_container_in_config(container_id)
 	if container_config:
 		var unlock_condition = container_config["unlock_condition"]
 		var condition_func_name = unlock_condition["name"]
 		var condition_args = unlock_condition["args"]
-		var module = conditions as Script
-		return module.call(condition_func_name, pdata.levels, condition_args)	
+		return conditions.call(condition_func_name, pdata, condition_args)	
 	return false
 
 
@@ -51,6 +51,10 @@ func is_level_unlocked(container_id: String, level_id: int) -> bool:
 		
 	return false
 
+func get_level_stars(container_id: String, level_id: int) -> int:
+	var container_progress = pdata.progress["levels"].get(container_id, {})
+	var stars = container_progress.get("completed_levels", {}).get(level_id, 0)
+	return stars
 
 func pass_container_exam(container_id: String, total_levels_in_pack: int) -> void:
 	var levels = pdata.progress["levels"]
@@ -101,7 +105,7 @@ func _unlock_next_container(current_id: String) -> void:
 		print("[ProgressManager] Info: No more containers left to unlock after '", current_id, "'.")
 	
 
-func _find_container_in_config(container_id: String) -> Dictionary:
+func find_container_in_config(container_id: String) -> Dictionary:
 	var levels = levelsConfig.levels
 	if not levels.has("containers") or not (levels["containers"] is Array):
 		push_error("[ProgressManager] Error: Invalid level configuration format.")

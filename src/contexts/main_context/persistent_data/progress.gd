@@ -16,6 +16,7 @@ var progress = {
 			"completed_levels": {
 				1: 3, 
 				2: 1,
+				3: 2,
 			},
 			"exam_passed": false,
 		}
