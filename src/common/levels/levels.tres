@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LevelsConfig" format=3 uid="uid://u571j6g52gih"]
+
+[ext_resource type="Script" uid="uid://bkhl1lik2jft0" path="res://src/common/levels/levels.gd" id="1_1m154"]
+[ext_resource type="Resource" uid="uid://bkm5q7f63qjoy" path="res://src/levels/level_1.tres" id="1_bbhpc"]
+
+[resource]
+script = ExtResource("1_1m154")
+countainer1_level1 = ExtResource("1_bbhpc")
+levels_resource = Dictionary[String, Resource]({
+"": null
+})

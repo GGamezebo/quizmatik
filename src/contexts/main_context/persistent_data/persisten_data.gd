@@ -5,12 +5,12 @@ extends Node
 @export var main_event: MainEvents
 
 func _ready() -> void:
-	load_resource(_user_settings)
-	load_resource(_progress)
+	_load_resource(_user_settings)
+	_load_resource(_progress)
 	main_event.ev_reset_account_progress.connect(ev_reset_account_progress)
 	print("Data system initialized successfully.")
 
-func load_resource(resource: Resource) -> void:
+func _load_resource(resource: Resource) -> void:
 	if ResourceLoader.exists(resource.SAVE_PATH):
 		var saved_res = ResourceLoader.load(resource.SAVE_PATH)
 		if saved_res:
