@@ -47,7 +47,6 @@ static func save_resource_to_disk(resource: Resource, path: String) -> void:
 	else:
 		print("Error %s while saving resource %s" % [str(error), path])
 
-static func hard_reset_resource(path: String, resource: Resource, default_resource_class: Variant) -> void:
-	var default_resource = default_resource_class.new()
+static func hard_reset_resource(path: String, resource: Resource, default_resource: Resource) -> void:
 	reset_resource_to_default(resource, default_resource)
 	save_resource_to_disk(resource, path)

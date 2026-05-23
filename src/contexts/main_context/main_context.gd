@@ -1,9 +1,5 @@
 extends Node
 
-const PATH_PROGRESS = "user://progress.tres"
-const PATH_SETTINGS = "user://settings.tres"
-
-
 @export_file("*.tscn") var game_context_path: String
 @export_file("*.tscn") var menu_context_path: String
 @export var loading_screen_scene: PackedScene
@@ -16,8 +12,8 @@ var current_context:Node
 var current_loading_screen = null
 var is_loading: bool = false
 var target_path: String = ""
+var listener: EventListener = EventListener.new()
 
-@onready var listener:EventListener = EventListener.new()
 
 func _ready() -> void:
 	current_context = $MenuContext

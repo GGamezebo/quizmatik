@@ -8,3 +8,16 @@ var total_time: float = 0.0
 var game_session_cout: int = 0
 var battle_total_time: float = 0.0
 var total_shoot_cout: int = 0
+
+
+var progress = {
+	"levels": {
+		"container_1_addition": {
+			"completed_levels": {
+				1: 3, 
+				2: 1,
+			},
+			"exam_passed": false,
+		}
+	}
+}

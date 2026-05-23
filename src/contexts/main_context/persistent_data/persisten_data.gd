@@ -16,8 +16,10 @@ func _load_resource(resource: Resource) -> void:
 		if saved_res:
 			ResourceUtils.update_resource(resource, saved_res)
 			print("Resource is loaded ", resource.SAVE_PATH)
+		else:
+			ResourceUtils.hard_reset_resource(resource.SAVE_PATH, resource, resource.get_script().new())
 	else:
 		print("Resource is not found ", resource.SAVE_PATH)
 
 func ev_reset_account_progress() -> void:
-	ResourceUtils.hard_reset_resource(_progress.SAVE_PATH, _progress, PDataProgress)
+	ResourceUtils.hard_reset_resource(_progress.SAVE_PATH, _progress, _progress.get_script().new())
