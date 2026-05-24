@@ -6,4 +6,4 @@
 script = ExtResource("1_7wr4q")
 answer_lines_count = 3
 health = 4
-questions_count = 10
+questions_count = 1

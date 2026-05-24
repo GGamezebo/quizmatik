@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://c5lvxj06c7cww" path="res://src/contexts/menu_context/levels/level.tscn" id="1_dluyd"]
 [ext_resource type="Script" uid="uid://dyd76vl3xqfew" path="res://src/contexts/menu_context/levels/levels_selection.gd" id="1_k33vu"]
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels.tres" id="3_c7uxm"]
-[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/persistent_data/progress.tres" id="4_wsbu4"]
-[ext_resource type="Script" uid="uid://bpjyr4m3gtxpq" path="res://src/contexts/main_context/persistent_data/progress_controller.gd" id="5_e017k"]
+[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/account/progress.tres" id="4_wsbu4"]
+[ext_resource type="Script" uid="uid://bpjyr4m3gtxpq" path="res://src/contexts/main_context/account/progress_controller.gd" id="5_e017k"]
 [ext_resource type="Script" uid="uid://tx3yd3q8p763" path="res://src/common/levels/conditions.gd" id="6_e017k"]
 
 [sub_resource type="Gradient" id="Gradient_r3o0b"]

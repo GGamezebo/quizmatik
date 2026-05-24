@@ -3,22 +3,18 @@ extends Resource
 
 const SAVE_PATH: String = "user://progress.tres"
 
-@export_category('statistics')
-var total_time: float = 0.0
-var game_session_cout: int = 0
-var battle_total_time: float = 0.0
-var total_shoot_cout: int = 0
-
-
 var progress = {
 	"levels": {
 		"container_1_addition": {
 			"completed_levels": {
-				1: 3, 
-				2: 1,
-				3: 2,
 			},
 			"exam_passed": false,
 		}
-	}
+	},
+	'statistics': {
+		'total_time': 0.0,
+		'game_session_count': 0,
+		'battle_total_time': 0.0,
+		'total_shoot_count': 0,
+	},
 }
