@@ -9,8 +9,10 @@ func initialize(_data: Dictionary) -> void:
 	if not scenario:
 		var container_id: String = _data.get("container_id", "")
 		var level_id: int = _data.get("level_id", -1)
+		var is_exam: bool = _data.get("is_exam", false)
 		extra_info['container_id'] = container_id
 		extra_info['level_id'] = level_id
+		extra_info['is_exam'] = is_exam
 		scenario = levels_config.get_level_config(container_id, level_id)
 		
 	if scenario:

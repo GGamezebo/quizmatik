@@ -24,18 +24,22 @@ func _populate_levels_grid() -> void:
 	
 	for level in container["levels"]:
 		var lvl_id: int = level["level_id"]
+		var is_exam: bool = level.get("is_exam", false)
 		var btn = level_button.instantiate()
-		btn.initialize(lvl_id, false, 0)
+		btn.initialize(lvl_id, false, 0, is_exam)
 		grid_container.add_child(btn)
 		
 		var is_unlocked: bool = progress.is_level_unlocked(container_id, lvl_id)
 		var stars: int = progress.get_level_stars(container_id, lvl_id)
 		btn.set_params(is_unlocked, stars)
 		if is_unlocked:
-			btn.pressed.connect(_on_level_selected.bind(container_id, lvl_id))
+			btn.pressed.connect(_on_level_selected.bind(container_id, lvl_id, is_exam))
 #
-func _on_level_selected(_container_id: String, level_id: int) -> void:
+func _on_level_selected(_container_id: String, level_id: int, is_exam: bool) -> void:
 	print("Loading gameplay for: ", _container_id, " | Level: ", level_id)
-	var data = {'container_id': _container_id, "level_id": level_id}
-	main_events.ev_start_game.emit(data)
+	main_events.ev_start_game.emit({
+		'container_id': _container_id, 
+		"level_id": level_id,
+		 "is_exam": is_exam
+	})
 #

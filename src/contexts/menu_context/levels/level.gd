@@ -2,9 +2,11 @@ extends Button
 
 @export var text_lable: Label
 @export var stars: Array[TextureRect]
+var is_exam: bool = false
 
-func initialize(level_id: int, is_unlocked: bool, stars_count: int) -> void:
+func initialize(level_id: int, is_unlocked: bool, stars_count: int, _is_exam: bool) -> void:
 	text_lable.text = str(level_id)
+	is_exam = _is_exam
 	_set_params(is_unlocked, stars_count)
 	
 func set_params(is_unlocked: bool, stars_count: int) -> void:

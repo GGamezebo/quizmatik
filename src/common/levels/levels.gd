@@ -20,7 +20,55 @@ var levels = {
 				{ "level_id": 5, "config": 'level_5' },
 				{ "level_id": 6, "config": 'level_6', 'is_exam': true },
 			]
-		},	
+		},
+		{
+			"container_id": "container_2_subtraction",
+			"name": "Долина Вычитания",
+			"unlock_condition": {
+				"name": "is_unlocked_by_exam",
+				"args": ["container_1_addition"],
+			},
+			"levels": [
+				{ "level_id": 1, "config": 'level_1' },
+				{ "level_id": 2, "config": 'level_2' },
+				{ "level_id": 3, "config": 'level_3' },
+				{ "level_id": 4, "config": 'level_4' },
+				{ "level_id": 5, "config": 'level_5' },
+				{ "level_id": 6, "config": 'level_6', 'is_exam': true },
+			]
+		},
+		{
+			"container_id": "container_3_multiplication",
+			"name": "Долина Умножения",
+			"unlock_condition": {
+				"name": "is_unlocked_by_exam",
+				"args": ["container_2_subtraction"],
+			},
+			"levels": [
+				{ "level_id": 1, "config": 'level_1' },
+				{ "level_id": 2, "config": 'level_2' },
+				{ "level_id": 3, "config": 'level_3' },
+				{ "level_id": 4, "config": 'level_4' },
+				{ "level_id": 5, "config": 'level_5' },
+				{ "level_id": 6, "config": 'level_6', 'is_exam': true },
+			]
+		},
+		{
+			"container_id": "container_4_division",
+			"name": "Долина Деления",
+			"unlock_condition": {
+				"name": "is_unlocked_by_exam",
+				"args": ["container_3_multiplication"],
+			},
+			"levels": [
+				{ "level_id": 1, "config": 'level_1' },
+				{ "level_id": 2, "config": 'level_2' },
+				{ "level_id": 3, "config": 'level_3' },
+				{ "level_id": 4, "config": 'level_4' },
+				{ "level_id": 5, "config": 'level_5' },
+				{ "level_id": 6, "config": 'level_6', 'is_exam': true },
+			]
+		},
 	],
 }
 
