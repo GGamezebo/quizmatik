@@ -2,7 +2,6 @@ extends IContext
 
 @export_category('Major components')
 @export var main_events: MainEvents
-@export var levels: LevelsWindow
 @export_group('Configs')
 @export var training_room_config: GameConfig
 @export_group('Buttons')
@@ -17,11 +16,7 @@ func _ready() -> void:
 	
 	training_room_start_button.pressed.connect(_on_training_room_start_pressed)
 	exit_button.pressed.connect(_on_exit_pressed)
-	levels.ev_start_level.connect(_on_start_level)
 	reset_account_progress.pressed.connect(_on_reset_account_progress)
-
-func _on_start_level(game_config: GameConfig) -> void:
-	main_events.ev_start_game.emit({'game_config': game_config})
 	
 func _on_training_room_start_pressed() -> void:
 	main_events.ev_start_game.emit({'game_config': training_room_config})

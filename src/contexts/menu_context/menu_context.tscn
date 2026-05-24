@@ -9,7 +9,6 @@
 [ext_resource type="Texture2D" uid="uid://clq0g1vwuxqgn" path="res://assets/sound-on.svg" id="6_vk307"]
 [ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/contexts/menu_context/training_room_window/training_room_game_config.tres" id="6_vp6ju"]
 [ext_resource type="Texture2D" uid="uid://ccjtahowlfjpj" path="res://assets/sound-off.svg" id="7_82bx7"]
-[ext_resource type="Script" uid="uid://fq7icdo2mxf" path="res://src/contexts/menu_context/levels_window.gd" id="7_c311k"]
 [ext_resource type="Script" uid="uid://b26jidolbwdpn" path="res://src/contexts/menu_context/texture_button.gd" id="8_82bx7"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="9_3qhmn"]
 [ext_resource type="Script" uid="uid://duom6pk08ldyp" path="res://src/contexts/menu_context/levels/levels_choice_window.gd" id="11_3k6yn"]
@@ -30,10 +29,9 @@ gradient = SubResource("Gradient_kcyx7")
 font_size = 64
 font_color = Color(0, 1, 1, 1)
 
-[node name="MenuContext" type="Node" unique_id=1044355188 node_paths=PackedStringArray("levels", "start_button", "training_room_start_button", "reset_account_progress", "exit_button")]
+[node name="MenuContext" type="Node" unique_id=1044355188 node_paths=PackedStringArray("start_button", "training_room_start_button", "reset_account_progress", "exit_button")]
 script = ExtResource("1_5oxuo")
 main_events = ExtResource("2_35kkh")
-levels = NodePath("UI/LevelsWindow")
 training_room_config = ExtResource("6_vp6ju")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Start")
 training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/StartBattle")
@@ -46,24 +44,14 @@ exit_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Exit")
 script = ExtResource("3_5oxuo")
 default_window = NodePath("../MainMenuWindow")
 
-[node name="LevelsChoiceTransition" type="Node" parent="UI/StackWindowController" unique_id=1547222537 node_paths=PackedStringArray("button", "target_window")]
-script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Levels")
-target_window = NodePath("../../LevelsChoiceWindow")
-
-[node name="LevelsChoiceToMainMenuTransition" type="Node" parent="UI/StackWindowController" unique_id=785798505 node_paths=PackedStringArray("button", "target_window")]
-script = ExtResource("4_haj1v")
-button = NodePath("../../LevelsChoiceWindow/MarginContainer/Back")
-target_window = NodePath("../../MainMenuWindow")
-
-[node name="LevelsTransition" type="Node" parent="UI/StackWindowController" unique_id=789999502 node_paths=PackedStringArray("button", "target_window")]
+[node name="LevelsWindowTransition" type="Node" parent="UI/StackWindowController" unique_id=1547222537 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Start")
 target_window = NodePath("../../LevelsWindow")
 
-[node name="LevelsToMainMenuTransition" type="Node" parent="UI/StackWindowController" unique_id=1686751771 node_paths=PackedStringArray("button", "target_window")]
+[node name="LevelsWindowToMainMenuTransition" type="Node" parent="UI/StackWindowController" unique_id=785798505 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../LevelsWindow/CenterContainer/VBoxContainer/Exit")
+button = NodePath("../../LevelsWindow/MarginContainer/Back")
 target_window = NodePath("../../MainMenuWindow")
 
 [node name="TrainingRoomTransition" type="Node" parent="UI/StackWindowController" unique_id=1342848864 node_paths=PackedStringArray("button", "target_window")]
@@ -132,13 +120,9 @@ theme_override_font_sizes/font_size = 58
 text = "Улётная математика"
 horizontal_alignment = 1
 
-[node name="Levels" type="Button" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=1563473388]
+[node name="Start" type="Button" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=1563473388]
 layout_mode = 2
-text = "Уровни"
-
-[node name="Start" type="Button" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=671841128]
-layout_mode = 2
-text = "Старт"
+text = "Играть"
 
 [node name="TrainigRoom" type="Button" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=1885115665]
 layout_mode = 2
@@ -162,7 +146,7 @@ texture_pressed = ExtResource("7_82bx7")
 script = ExtResource("8_82bx7")
 user_settings = ExtResource("9_3qhmn")
 
-[node name="LevelsChoiceWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("packs_list_container", "progress", "windows_stack_manager", "level_selection_window")]
+[node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("packs_list_container", "progress", "windows_stack_manager", "level_selection_window")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -179,13 +163,13 @@ progress = NodePath("ProgressController")
 windows_stack_manager = NodePath("../StackWindowController")
 level_selection_window = NodePath("LevelsSelection")
 
-[node name="ProgressController" type="Node" parent="UI/LevelsChoiceWindow" unique_id=1054897702]
+[node name="ProgressController" type="Node" parent="UI/LevelsWindow" unique_id=1054897702]
 script = ExtResource("14_6400f")
 pdata = ExtResource("15_dlu52")
 levelsConfig = ExtResource("13_dwe1a")
 conditions = ExtResource("16_osakx")
 
-[node name="TextureRect" type="TextureRect" parent="UI/LevelsChoiceWindow" unique_id=1822700520]
+[node name="TextureRect" type="TextureRect" parent="UI/LevelsWindow" unique_id=1822700520]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -194,7 +178,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_ux2mn")
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/LevelsChoiceWindow" unique_id=2124016150]
+[node name="CenterContainer" type="CenterContainer" parent="UI/LevelsWindow" unique_id=2124016150]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -202,37 +186,37 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="UI/LevelsChoiceWindow/CenterContainer" unique_id=1985711011]
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/LevelsWindow/CenterContainer" unique_id=1985711011]
 custom_minimum_size = Vector2(760, 400)
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/LevelsChoiceWindow/CenterContainer/ScrollContainer" unique_id=1932800174]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/LevelsWindow/CenterContainer/ScrollContainer" unique_id=1932800174]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 30
 alignment = 1
 
-[node name="LevelContainer" parent="UI/LevelsChoiceWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=1113403507 instance=ExtResource("13_a4m0n")]
+[node name="LevelContainer" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=1113403507 instance=ExtResource("13_a4m0n")]
 layout_mode = 2
 
-[node name="LevelContainer2" parent="UI/LevelsChoiceWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=805568362 instance=ExtResource("13_a4m0n")]
+[node name="LevelContainer2" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=805568362 instance=ExtResource("13_a4m0n")]
 layout_mode = 2
 
-[node name="LevelContainer3" parent="UI/LevelsChoiceWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=707288287 instance=ExtResource("13_a4m0n")]
+[node name="LevelContainer3" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=707288287 instance=ExtResource("13_a4m0n")]
 layout_mode = 2
 
-[node name="LevelContainer4" parent="UI/LevelsChoiceWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=117755645 instance=ExtResource("13_a4m0n")]
+[node name="LevelContainer4" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=117755645 instance=ExtResource("13_a4m0n")]
 layout_mode = 2
 
-[node name="LevelContainer5" parent="UI/LevelsChoiceWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=11573905 instance=ExtResource("13_a4m0n")]
+[node name="LevelContainer5" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=11573905 instance=ExtResource("13_a4m0n")]
 layout_mode = 2
 
-[node name="LevelContainer6" parent="UI/LevelsChoiceWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=117749005 instance=ExtResource("13_a4m0n")]
+[node name="LevelContainer6" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=117749005 instance=ExtResource("13_a4m0n")]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/LevelsChoiceWindow" unique_id=502794224]
+[node name="MarginContainer" type="MarginContainer" parent="UI/LevelsWindow" unique_id=502794224]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -243,54 +227,14 @@ grow_vertical = 0
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="Back" type="Button" parent="UI/LevelsChoiceWindow/MarginContainer" unique_id=1251858034]
+[node name="Back" type="Button" parent="UI/LevelsWindow/MarginContainer" unique_id=1251858034]
 layout_mode = 2
 text = "Назад"
 
-[node name="LevelsSelection" parent="UI/LevelsChoiceWindow" unique_id=519807597 instance=ExtResource("15_foifc")]
+[node name="LevelsSelection" parent="UI/LevelsWindow" unique_id=519807597 instance=ExtResource("15_foifc")]
 visible = false
 layout_mode = 1
 main_events = ExtResource("2_35kkh")
-
-[node name="LevelsWindow" type="Control" parent="UI" unique_id=1440931957 node_paths=PackedStringArray("grid_container")]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-script = ExtResource("7_c311k")
-levels_dir = "res://src/levels"
-grid_container = NodePath("CenterContainer/VBoxContainer/HBoxContainer")
-
-[node name="TextureRect" type="TextureRect" parent="UI/LevelsWindow" unique_id=1850430846]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("GradientTexture2D_ux2mn")
-
-[node name="CenterContainer" type="CenterContainer" parent="UI/LevelsWindow" unique_id=1222674983]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/LevelsWindow/CenterContainer" unique_id=1243316238]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/LevelsWindow/CenterContainer/VBoxContainer" unique_id=1642804423]
-layout_mode = 2
-
-[node name="Exit" type="Button" parent="UI/LevelsWindow/CenterContainer/VBoxContainer" unique_id=2038540606]
-layout_mode = 2
-text = "Выход"
 
 [node name="TrainingRoomWindow" type="Control" parent="UI" unique_id=326554877 node_paths=PackedStringArray("params_container")]
 visible = false
