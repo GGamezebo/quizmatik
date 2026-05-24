@@ -11,22 +11,66 @@ class Question:
 static func generate_question(gameConfig: GameConfig) -> Question:
 	var q = QuizQuestion.Question.new()
 	
-	# 1. Выбираем случайные множители
+	var active_operations: Array[int] = []
+	if gameConfig.allowed_operations & GameConfig.Operations.ADDITION:
+		active_operations.append(GameConfig.Operations.ADDITION)
+	if gameConfig.allowed_operations & GameConfig.Operations.SUBTRACTION:
+		active_operations.append(GameConfig.Operations.SUBTRACTION)
+	if gameConfig.allowed_operations & GameConfig.Operations.MULTIPLICATION:
+		active_operations.append(GameConfig.Operations.MULTIPLICATION)
+	if gameConfig.allowed_operations & GameConfig.Operations.DIVISION:
+		active_operations.append(GameConfig.Operations.DIVISION)
+		
+	if active_operations.is_empty():
+		active_operations.append(GameConfig.Operations.MULTIPLICATION)
+		
+	var chosen_operation = active_operations.pick_random()
+	
+	# Генерируем базовые числа
 	var a = randi_range(gameConfig.min_generate_number, gameConfig.max_generate_number)
 	var b = randi_range(gameConfig.min_generate_number, gameConfig.max_generate_number)
-	q.correct_answer = a * b
-	q.text = str(a) + " x " + str(b) + " = ?"
 	
-	# 2. Генерируем варианты ответов
+	# 2. Логика генерации в зависимости от выбранной операции
+	match chosen_operation:
+		GameConfig.Operations.ADDITION:
+			q.correct_answer = a + b
+			q.text = str(a) + " + " + str(b) + " = ?"
+			
+		GameConfig.Operations.SUBTRACTION:
+			# Чтобы не было отрицательных ответов, гарантируем, что 'a' больше или равно 'b'
+			if a < b:
+				var temp = a
+				a = b
+				b = temp
+			q.correct_answer = a - b
+			q.text = str(a) + " - " + str(b) + " = ?"
+			
+		GameConfig.Operations.MULTIPLICATION:
+			# Ваш оригинальный код умножения (без изменений)
+			q.correct_answer = a * b
+			q.text = str(a) + " x " + str(b) + " = ?"
+			
+		GameConfig.Operations.DIVISION:
+			# Для деления без остатка мы сначала перемножаем числа, 
+			# делая результат деления красивым целым числом.
+			# Пример: a = 5, b = 3. Делаем делимое (a * b) = 15. Вопрос: 15 / 5 = ? (ответ 3)
+			var product = a * b
+			q.correct_answer = b
+			q.text = str(product) + " / " + str(a) + " = ?"
+			
+	# 3. Генерируем варианты ответов (общая логика для всех операций)
 	var options_set = [q.correct_answer]
 	
 	while options_set.size() < gameConfig.answer_lines_count:
+		# Передаем в генератор фейков текущие числа и правильный ответ
+		# (Вам может потребоваться адаптировать _generate_plausible_fake под другие знаки, 
+		# но структура вызова остается прежней)
 		var fake_answer = _generate_plausible_fake(a, b, q.correct_answer)
 		
 		if not fake_answer in options_set:
 			options_set.append(fake_answer)
 	
-	# 3. Перемешиваем ответы
+	# 4. Перемешиваем ответы
 	options_set.shuffle()
 	q.options = options_set
 	

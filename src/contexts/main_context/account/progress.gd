@@ -3,7 +3,7 @@ extends Resource
 
 const SAVE_PATH: String = "user://progress.tres"
 
-var progress = {
+@export var progress: Dictionary = {
 	"levels": {
 		"container_1_addition": {
 			"completed_levels": {

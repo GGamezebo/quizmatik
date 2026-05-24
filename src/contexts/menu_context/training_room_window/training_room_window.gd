@@ -65,6 +65,44 @@ func _create_editor_row(prop_name: String, type: int):
 
 	var current_value = config.get(prop_name)
 	
+	# ХАК/ПРОВЕРКА: Если это наше битовое поле операций, 
+	# обрабатываем его отдельно, игнорируя стандартный TYPE_INT
+	if prop_name == "allowed_operations":
+		var flags_container = VBoxContainer.new() # Контейнер для списка галочек
+		
+		# Массив с названиями для UI и соответствующими битовыми масками из нашего enum
+		var operations_data = [
+			{"name": "Addition", "value": GameConfig.Operations.ADDITION},
+			{"name": "Subtraction", "value": GameConfig.Operations.SUBTRACTION},
+			{"name": "Multiplication", "value": GameConfig.Operations.MULTIPLICATION},
+			{"name": "Division", "value": GameConfig.Operations.DIVISION}
+		]
+		
+		for op in operations_data:
+			var check_box = CheckBox.new()
+			check_box.text = op["name"]
+			
+			# Проверяем, включен ли этот бит в текущем значении конфига
+			check_box.button_pressed = (current_value & op["value"]) != 0
+			
+			# При переключении флага обновляем битовую маску в конфиге
+			check_box.toggled.connect(func(is_checked):
+				var flags = config.get(prop_name)
+				if is_checked:
+					flags |= op["value"]  # Включаем бит (Побитовое ИЛИ)
+				else:
+					flags &= ~op["value"] # Выключаем бит (Побитовое И НЕ)
+				
+				config.set(prop_name, flags)
+				_save_config_to_disk()
+			)
+			flags_container.add_child(check_box)
+		
+		hbox.add_child(flags_container)
+		params_container.add_child(hbox)
+		return # Выходим из метода, чтобы не срабатывал match ниже
+		
+	# Стандартная обработка остальных типов
 	match type:
 		TYPE_INT, TYPE_FLOAT:
 			var spin_box = SpinBox.new()
