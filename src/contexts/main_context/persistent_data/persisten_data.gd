@@ -7,7 +7,7 @@ extends Node
 func _ready() -> void:
 	_load_resource(_user_settings)
 	_load_resource(_progress)
-	main_event.ev_reset_account_progress.connect(ev_reset_account_progress)
+	main_event.ev_reset_account_progress.connect(_on_reset_account_progress)
 	print("Data system initialized successfully.")
 
 func _load_resource(resource: Resource) -> void:
@@ -21,5 +21,5 @@ func _load_resource(resource: Resource) -> void:
 	else:
 		print("Resource is not found ", resource.SAVE_PATH)
 
-func ev_reset_account_progress() -> void:
+func _on_reset_account_progress() -> void:
 	ResourceUtils.hard_reset_resource(_progress.SAVE_PATH, _progress, _progress.get_script().new())

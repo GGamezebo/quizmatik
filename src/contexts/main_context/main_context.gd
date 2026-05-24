@@ -23,9 +23,8 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	listener.deinit()
 
-func _on_start_game(game_config: GameConfig) -> void:
+func _on_start_game(data: Dictionary) -> void:
 	var use_loading_screen: bool = true
-	var data: Dictionary = {'game_config': game_config}
 	switch_game_context(game_context_path, use_loading_screen, data)
 	
 func _ev_exit_game() -> void:

@@ -4,6 +4,7 @@
 [ext_resource type="Resource" uid="uid://dm0y63q0p566f" path="res://src/contexts/game_context/game_config.tres" id="2_j4hd0"]
 [ext_resource type="PackedScene" uid="uid://dvy13cfq73jxs" path="res://src/ui/background/background.tscn" id="2_lu6cl"]
 [ext_resource type="Script" uid="uid://bb18r63uri507" path="res://src/contexts/game_context/game_logic/game_area.gd" id="3_5eju7"]
+[ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels.tres" id="3_hmv8q"]
 [ext_resource type="Script" uid="uid://cswfv8mbtar2j" path="res://src/contexts/game_context/player.gd" id="3_yr17v"]
 [ext_resource type="PackedScene" uid="uid://47fqtynve6g3" path="res://src/features/plane/plane.tscn" id="4_3f67i"]
 [ext_resource type="Script" uid="uid://c7cuoe35fok4i" path="res://src/contexts/game_context/game_logic/entity_border.gd" id="5_0m8ko"]
@@ -19,15 +20,22 @@
 [ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://src/features/explosion/explosion.tscn" id="12_587mb"]
 [ext_resource type="Script" uid="uid://bm2tjky763w3k" path="res://src/contexts/game_context/ui/hud.gd" id="12_lu6cl"]
 [ext_resource type="Script" uid="uid://b8c13uei5f6xn" path="res://src/contexts/game_context/ui/lines.gd" id="13_2jcei"]
+[ext_resource type="Script" uid="uid://bpjyr4m3gtxpq" path="res://src/contexts/main_context/persistent_data/progress_controller.gd" id="14_k70fq"]
 [ext_resource type="Script" uid="uid://c31s1xkrtgnis" path="res://src/contexts/game_context/ui/answer_label.gd" id="14_wlohk"]
 [ext_resource type="Script" uid="uid://bb48gluxno1u" path="res://src/contexts/game_context/ui/ui_health.gd" id="15_6ktr1"]
 [ext_resource type="Script" uid="uid://cwfxgx56jwul8" path="res://src/contexts/game_context/game_logic/line_selector.gd" id="15_h2w07"]
+[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/persistent_data/progress.tres" id="15_wy78v"]
+[ext_resource type="Script" uid="uid://tx3yd3q8p763" path="res://src/common/levels/conditions.gd" id="16_4g4f7"]
 [ext_resource type="Texture2D" uid="uid://c4rcn50qkxusi" path="res://assets/icon.svg" id="17_emdi4"]
 [ext_resource type="Script" uid="uid://bujyufbdn6yo" path="res://src/contexts/game_context/ui/score.gd" id="19_73ia8"]
+
+[sub_resource type="Resource" id="Resource_vlftu"]
+script = ExtResource("16_4g4f7")
 
 [node name="GameContext" type="Node" unique_id=1179940708]
 script = ExtResource("1_j4hd0")
 game_config = ExtResource("2_j4hd0")
+levels_config = ExtResource("3_hmv8q")
 
 [node name="GameArea" type="Node2D" parent="." unique_id=1652487391]
 script = ExtResource("3_5eju7")
@@ -60,12 +68,19 @@ air_plane = NodePath("../../Player/AirPlane")
 area = NodePath("../../GameArea")
 answerScene = ExtResource("7_e5mqp")
 
-[node name="EndGameState" type="Node" parent="GameManager" unique_id=265268692 node_paths=PackedStringArray("player", "air_plane")]
+[node name="EndGameState" type="Node" parent="GameManager" unique_id=265268692 node_paths=PackedStringArray("player", "air_plane", "progress_controller")]
 script = ExtResource("10_jud5q")
 main_events = ExtResource("8_xkl2s")
 game_config = ExtResource("2_j4hd0")
 player = NodePath("../../Player")
 air_plane = NodePath("../../Player/AirPlane")
+progress_controller = NodePath("ProgressController")
+
+[node name="ProgressController" type="Node" parent="GameManager/EndGameState" unique_id=973463372]
+script = ExtResource("14_k70fq")
+pdata = ExtResource("15_wy78v")
+levelsConfig = ExtResource("3_hmv8q")
+conditions = SubResource("Resource_vlftu")
 
 [node name="LineSelector" type="Node" parent="." unique_id=2097313372 node_paths=PackedStringArray("air_plane", "area")]
 script = ExtResource("15_h2w07")

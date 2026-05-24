@@ -48,3 +48,15 @@ func find_container_in_config(container_id: String) -> Dictionary:
 
 	push_warning("[ProgressManager] Warning: Container '" + container_id + "' not found in configuration.")
 	return {}
+	
+func get_level_config(container_id: String, level_id: int) -> GameConfig:
+	var container: Dictionary = find_container_in_config(container_id)
+	if container.is_empty():
+		return null
+	
+	for level in container["levels"]:
+		if level.get("level_id") == level_id:
+			return level['config']
+	
+	push_warning("[ProgressManager] Warning: Level '" + str(level_id) + "' not found in container '" + container_id + "'.")
+	return null

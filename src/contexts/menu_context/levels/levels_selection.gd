@@ -1,5 +1,6 @@
 extends Control
 
+@export var main_events: MainEvents
 @export var grid_container: GridContainer
 @export var level_button: PackedScene
 @export var levels: LevelsConfig
@@ -35,4 +36,6 @@ func _populate_levels_grid() -> void:
 #
 func _on_level_selected(_container_id: String, level_id: int) -> void:
 	print("Loading gameplay for: ", _container_id, " | Level: ", level_id)
+	var data = {'container_id': _container_id, "level_id": level_id}
+	main_events.ev_start_game.emit(data)
 #

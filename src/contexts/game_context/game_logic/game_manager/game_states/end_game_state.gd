@@ -8,17 +8,37 @@ static func get_state() -> String:
 @export var game_config: GameConfig
 @export var player: Player
 @export var air_plane: AirPlane
+@export var progress_controller: ProgressController
 	
 func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	if player.score == game_config.questions_count:
-		air_plane.ev_win_animation_finished.connect(_on_animation_finished)
+		air_plane.ev_win_animation_finished.connect(_on_animation_finished.bind(true))
 		air_plane.win_animation()
 	else:
-		air_plane.ev_dead_animation_finished.connect(_on_animation_finished)
+		air_plane.ev_dead_animation_finished.connect(_on_animation_finished.bind(false))
 		air_plane.die_animation()
 	
 func leave(_event_data: Dictionary) -> void:
 	pass
 	
-func _on_animation_finished() -> void:
+func _on_animation_finished(is_win) -> void:
+	_apply_battle_result(is_win)
 	main_events.ev_exit_game.emit()
+	
+func _apply_battle_result(is_win: bool) -> void:
+	var extra_info = game_config.extra_info
+	if is_win and not extra_info.is_empty():
+		progress_controller.post_battle(
+			extra_info['container_id'], 
+			extra_info['level_id'], 
+			_calculate_stars(player.score)
+		)
+		
+func _calculate_stars(score: int) -> int:
+	var percentage: float = float(score) / float(game_config.questions_count)
+	if percentage >= 1.0:
+		return 3
+	elif percentage >= 0.75:
+		return 2
+	else:
+		return 1

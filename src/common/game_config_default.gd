@@ -1,6 +1,8 @@
 class_name GameConfig
 extends Resource
 
+var extra_info: Dictionary = {}
+
 @export_category("Global Game Settings")
 @export var answer_lines_count: int = 4
 @export var health: int = 3
