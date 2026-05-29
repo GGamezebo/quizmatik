@@ -14,10 +14,8 @@
 [ext_resource type="Script" uid="uid://duom6pk08ldyp" path="res://src/contexts/menu_context/levels/levels_choice_window.gd" id="11_3k6yn"]
 [ext_resource type="PackedScene" uid="uid://dpecfsso1dokv" path="res://src/contexts/menu_context/levels/level_container.tscn" id="13_a4m0n"]
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels.tres" id="13_dwe1a"]
-[ext_resource type="Script" uid="uid://bpjyr4m3gtxpq" path="res://src/contexts/main_context/account/progress_controller.gd" id="14_6400f"]
-[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/account/progress.tres" id="15_dlu52"]
+[ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/contexts/main_context/account/progress_controller.tscn" id="14_cjfjs"]
 [ext_resource type="PackedScene" uid="uid://bvsvg4k1oa70y" path="res://src/contexts/menu_context/levels/levels_selection.tscn" id="15_foifc"]
-[ext_resource type="Script" uid="uid://tx3yd3q8p763" path="res://src/common/levels/conditions.gd" id="16_osakx"]
 
 [sub_resource type="Gradient" id="Gradient_kcyx7"]
 colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 0.072000004)
@@ -163,11 +161,7 @@ progress = NodePath("ProgressController")
 windows_stack_manager = NodePath("../StackWindowController")
 level_selection_window = NodePath("LevelsSelection")
 
-[node name="ProgressController" type="Node" parent="UI/LevelsWindow" unique_id=1054897702]
-script = ExtResource("14_6400f")
-pdata = ExtResource("15_dlu52")
-levelsConfig = ExtResource("13_dwe1a")
-conditions = ExtResource("16_osakx")
+[node name="ProgressController" parent="UI/LevelsWindow" unique_id=2109216065 instance=ExtResource("14_cjfjs")]
 
 [node name="TextureRect" type="TextureRect" parent="UI/LevelsWindow" unique_id=1822700520]
 layout_mode = 1
@@ -234,7 +228,6 @@ text = "Назад"
 [node name="LevelsSelection" parent="UI/LevelsWindow" unique_id=519807597 instance=ExtResource("15_foifc")]
 visible = false
 layout_mode = 1
-main_events = ExtResource("2_35kkh")
 
 [node name="TrainingRoomWindow" type="Control" parent="UI" unique_id=326554877 node_paths=PackedStringArray("params_container")]
 visible = false

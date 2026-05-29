@@ -2,10 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://c5lvxj06c7cww" path="res://src/contexts/menu_context/levels/level.tscn" id="1_dluyd"]
 [ext_resource type="Script" uid="uid://dyd76vl3xqfew" path="res://src/contexts/menu_context/levels/levels_selection.gd" id="1_k33vu"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="2_e017k"]
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels.tres" id="3_c7uxm"]
 [ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/account/progress.tres" id="4_wsbu4"]
-[ext_resource type="Script" uid="uid://bpjyr4m3gtxpq" path="res://src/contexts/main_context/account/progress_controller.gd" id="5_e017k"]
-[ext_resource type="Script" uid="uid://tx3yd3q8p763" path="res://src/common/levels/conditions.gd" id="6_e017k"]
+[ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/contexts/main_context/account/progress_controller.tscn" id="5_wsbu4"]
 
 [sub_resource type="Gradient" id="Gradient_r3o0b"]
 colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 1)
@@ -21,6 +21,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_k33vu")
+main_events = ExtResource("2_e017k")
 grid_container = NodePath("CenterContainer/MarginContainer/GridContainer")
 level_button = ExtResource("1_dluyd")
 levels = ExtResource("3_c7uxm")
@@ -29,11 +30,7 @@ container_id = "container_1_addition"
 progress = NodePath("ProgressController")
 back_button = NodePath("MarginContainer/Back")
 
-[node name="ProgressController" type="Node" parent="." unique_id=2043119532]
-script = ExtResource("5_e017k")
-pdata = ExtResource("4_wsbu4")
-levelsConfig = ExtResource("3_c7uxm")
-conditions = ExtResource("6_e017k")
+[node name="ProgressController" parent="." unique_id=2109216065 instance=ExtResource("5_wsbu4")]
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1248577389]
 layout_mode = 1

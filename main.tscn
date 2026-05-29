@@ -4,16 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://fdo7cegg1sud" path="res://src/contexts/menu_context/menu_context.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cvayb5jfghll4" path="res://src/ui/loading_screen/loading_screen.tscn" id="2_0xm2m"]
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels.tres" id="2_kek77"]
-[ext_resource type="Script" uid="uid://tx3yd3q8p763" path="res://src/common/levels/conditions.gd" id="4_4c57u"]
 [ext_resource type="Script" uid="uid://djxvf8yy7uqhl" path="res://src/contexts/main_context/account/persisten_data.gd" id="4_lquwl"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="5_4c57u"]
 [ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/account/progress.tres" id="5_272bh"]
 [ext_resource type="AudioStream" uid="uid://bchaw1l2muu4w" path="res://assets/background_music.mp3" id="7_5vw27"]
+[ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/contexts/main_context/account/progress_controller.tscn" id="8_4c57u"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="8_dg77c"]
-[ext_resource type="Script" uid="uid://bpjyr4m3gtxpq" path="res://src/contexts/main_context/account/progress_controller.gd" id="9_efxa6"]
-
-[sub_resource type="Resource" id="Resource_efxa6"]
-script = ExtResource("4_4c57u")
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -43,11 +39,7 @@ _user_settings = ExtResource("5_4c57u")
 _progress = ExtResource("5_272bh")
 main_event = ExtResource("8_dg77c")
 
-[node name="ProgressController" type="Node" parent="Account" unique_id=2015705160]
-script = ExtResource("9_efxa6")
-pdata = ExtResource("5_272bh")
-levelsConfig = ExtResource("2_kek77")
-conditions = SubResource("Resource_efxa6")
+[node name="ProgressController" parent="Account" unique_id=2109216065 instance=ExtResource("8_4c57u")]
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1216630300]
 stream = ExtResource("7_5vw27")

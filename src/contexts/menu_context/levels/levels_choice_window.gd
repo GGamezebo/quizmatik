@@ -9,11 +9,11 @@ extends Control
 
 
 func _ready() -> void:
-	_render_packs_menu()
+	visibility_changed.connect(_on_visibility_changed)
 	level_selection_window.back_button.pressed.connect(windows_stack_manager.close_stacked_window)
+	_update_window()
 
-
-func _render_packs_menu() -> void:
+func _update_window() -> void:
 	for child in packs_list_container.get_children():
 		child.queue_free()
 		
@@ -41,3 +41,7 @@ func _render_packs_menu() -> void:
 func _on_pack_enter_requested(container_id: String) -> void:
 	level_selection_window.initialize(container_id)
 	windows_stack_manager.open_stacked_window(level_selection_window)
+	
+func _on_visibility_changed():
+	if is_visible_in_tree():
+		_update_window()

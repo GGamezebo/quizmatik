@@ -19,4 +19,4 @@ func _set_params(is_unlocked: bool, stars_count: int):
 		else:
 			stars[i].visible = false
 	
-	self.disabled = not is_unlocked
+	self.disabled = not is_exam and not is_unlocked

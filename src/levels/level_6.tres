@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_08yqy")
-questions_count = 10
+questions_count = 1
 answer_speed = 280.0

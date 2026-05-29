@@ -29,8 +29,7 @@ func _apply_battle_result(is_win: bool) -> void:
 	var extra_info = game_config.extra_info
 	if is_win and not extra_info.is_empty():
 		progress_controller.post_battle(
-			extra_info['container_id'], 
-			extra_info['level_id'], 
+			extra_info,
 			_calculate_stars(player.score)
 		)
 		
