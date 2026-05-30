@@ -19,7 +19,7 @@ func _ready() -> void:
 	reset_account_progress.pressed.connect(_on_reset_account_progress)
 	
 func _on_training_room_start_pressed() -> void:
-	main_events.ev_start_game.emit({'game_config': training_room_config})
+	main_events.ev_start_game.emit({'custom_battle': training_room_config})
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()

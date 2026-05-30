@@ -26,10 +26,10 @@ func _on_animation_finished(is_win) -> void:
 	main_events.ev_exit_game.emit()
 	
 func _apply_battle_result(is_win: bool) -> void:
-	var extra_info = game_config.extra_info
-	if is_win and not extra_info.is_empty():
+	var battle_info = game_config.battle_info
+	if is_win and battle_info:
 		progress_controller.post_battle(
-			extra_info,
+			battle_info,
 			_calculate_stars(player.score)
 		)
 		

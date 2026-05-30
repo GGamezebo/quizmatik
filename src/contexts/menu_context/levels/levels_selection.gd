@@ -33,13 +33,12 @@ func _populate_levels_grid() -> void:
 		var stars: int = progress.get_level_stars(container_id, lvl_id)
 		btn.set_params(is_unlocked, stars)
 		if is_unlocked:
-			btn.pressed.connect(_on_level_selected.bind(container_id, lvl_id, is_exam))
+			var battle_info = GameConfig.BattleInfo.new(container_id, lvl_id, is_exam)
+			btn.pressed.connect(_on_level_selected.bind(battle_info))
 #
-func _on_level_selected(_container_id: String, level_id: int, is_exam: bool) -> void:
-	print("Loading gameplay for: ", _container_id, " | Level: ", level_id)
+func _on_level_selected(battle_info: GameConfig.BattleInfo) -> void:
+	print("Loading gameplay for: ", battle_info.container_id, " | Level: ", battle_info.level_id)
 	main_events.ev_start_game.emit({
-		'container_id': _container_id, 
-		"level_id": level_id,
-		 "is_exam": is_exam
+		"battle_info": battle_info
 	})
 #

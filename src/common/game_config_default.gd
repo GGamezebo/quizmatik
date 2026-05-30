@@ -1,7 +1,18 @@
 class_name GameConfig
 extends Resource
 
-var extra_info: Dictionary = {}
+class BattleInfo:
+	var container_id: String = ""
+	var level_id: int = 0
+	var is_exam: bool = false
+	
+	func _init(_container_id: String, _level_id: int, _is_exam: bool) -> void:
+		container_id = _container_id
+		level_id = _level_id
+		is_exam = _is_exam
+	
+var battle_info: BattleInfo = null
+var custom_battle: GameConfig = null
 
 enum Operations {
 	ADDITION = 1,       # 1 << 0

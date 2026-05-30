@@ -9,14 +9,11 @@ extends Node
 func save() -> void:
 	ResourceUtils.save_resource_to_disk(pdata, pdata.SAVE_PATH)
 
-func post_battle(extra_info: Dictionary, stars: int) -> void:
-	var container_id: String = extra_info['container_id']
-	var	level_id: int = extra_info['level_id']
-	var	is_exam: bool = extra_info['is_exam']
-	if is_exam:
-		pass_exam(container_id, stars)
+func post_battle(battle_info: GameConfig.BattleInfo, stars: int) -> void:
+	if battle_info.is_exam:
+		pass_exam(battle_info.container_id, stars)
 	else:
-		pass_level(container_id, level_id, stars)
+		pass_level(battle_info.container_id, battle_info.level_id, stars)
 	save()
 
 func is_container_unlocked(container_id: String) -> bool:

@@ -4,21 +4,17 @@ extends IContext
 @export var levels_config: LevelsConfig
 
 func initialize(_data: Dictionary) -> void:
-	var extra_info = {}
-	var scenario: GameConfig = _data.get('game_config')
-	if not scenario:
-		var container_id: String = _data.get("container_id", "")
-		var level_id: int = _data.get("level_id", -1)
-		var is_exam: bool = _data.get("is_exam", false)
-		extra_info['container_id'] = container_id
-		extra_info['level_id'] = level_id
-		extra_info['is_exam'] = is_exam
-		scenario = levels_config.get_level_config(container_id, level_id)
+	var scenario: GameConfig = _data.get('custom_battle')
+	var battle_info: GameConfig.BattleInfo = _data.get('battle_info')
+	assert(not scenario or not battle_info, 'Incorrect battle config')
+	
+	if battle_info:
+		scenario = levels_config.get_level_config(battle_info.container_id, battle_info.level_id)
 		
 	if scenario:
 		_load_game_scenario(scenario)
 		
-	game_config.extra_info = extra_info
+	game_config.battle_info = _data.battle_info
 	
 func _load_game_scenario(scenario: GameConfig):
 	ResourceUtils.update_resource(game_config, scenario)
