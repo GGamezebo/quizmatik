@@ -2,6 +2,7 @@ extends Node
 
 @export_file("*.tscn") var game_context_path: String
 @export_file("*.tscn") var menu_context_path: String
+@export_file("*.tscn") var post_battle_context_path: String
 @export var loading_screen_scene: PackedScene
 @export var main_events: MainEvents
 @export var min_load_time: float = 0.0
@@ -19,6 +20,7 @@ func _ready() -> void:
 	current_context = $MenuContext
 	listener.add(main_events.ev_start_game, _on_start_game)
 	listener.add(main_events.ev_exit_game, _ev_exit_game)
+	listener.add(main_events.ev_return_to_menu, _return_to_menu)
 	
 func _exit_tree() -> void:
 	listener.deinit()
@@ -27,9 +29,12 @@ func _on_start_game(data: Dictionary) -> void:
 	var use_loading_screen: bool = true
 	switch_game_context(game_context_path, use_loading_screen, data)
 	
-func _ev_exit_game() -> void:
+func _ev_exit_game(data: Dictionary = {}) -> void:	
+	switch_game_context(post_battle_context_path, false, data)
+
+func _return_to_menu() -> void:
 	switch_game_context(menu_context_path)
-	
+
 func switch_game_context(scene_path: String, use_loading_screen: bool = true, data: Dictionary = {}):
 	if is_loading: return
 	

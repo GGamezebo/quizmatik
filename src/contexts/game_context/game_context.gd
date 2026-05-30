@@ -14,7 +14,7 @@ func initialize(_data: Dictionary) -> void:
 	if scenario:
 		_load_game_scenario(scenario)
 		
-	game_config.battle_info = _data.battle_info
+	game_config.battle_info = battle_info
 	
 func _load_game_scenario(scenario: GameConfig):
 	ResourceUtils.update_resource(game_config, scenario)

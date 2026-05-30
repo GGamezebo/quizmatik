@@ -22,15 +22,22 @@ func leave(_event_data: Dictionary) -> void:
 	pass
 	
 func _on_animation_finished(is_win) -> void:
-	_apply_battle_result(is_win)
-	main_events.ev_exit_game.emit()
+	var score: int = player.score
+	var stars: int = _calculate_stars(player.score)
+	_apply_battle_result(is_win, stars)
+	var battle_result = {
+		"game_config": game_config,
+		"stars": stars,
+		"score": score,
+	}
+	main_events.ev_exit_game.emit(battle_result)
 	
-func _apply_battle_result(is_win: bool) -> void:
+func _apply_battle_result(is_win: bool, stars: int) -> void:
 	var battle_info = game_config.battle_info
 	if is_win and battle_info:
 		progress_controller.post_battle(
 			battle_info,
-			_calculate_stars(player.score)
+			stars
 		)
 		
 func _calculate_stars(score: int) -> int:
