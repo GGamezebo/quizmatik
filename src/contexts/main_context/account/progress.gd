@@ -2,8 +2,10 @@ class_name PDataProgress
 extends Resource
 
 const SAVE_PATH: String = "user://progress.tres"
+const CURRENT_VERSION: int = 0
 
 @export var progress: Dictionary = {
+	"version": 0,  # don't change it
 	"levels": {
 		"container_1_addition": {
 			"completed_levels": {

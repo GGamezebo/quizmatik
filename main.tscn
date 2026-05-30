@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://cfiqgxelo6ks3" path="res://src/contexts/main_context/main_context.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://fdo7cegg1sud" path="res://src/contexts/menu_context/menu_context.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cvayb5jfghll4" path="res://src/ui/loading_screen/loading_screen.tscn" id="2_0xm2m"]
-[ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels.tres" id="2_kek77"]
-[ext_resource type="Script" uid="uid://djxvf8yy7uqhl" path="res://src/contexts/main_context/account/persisten_data.gd" id="4_lquwl"]
+[ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="2_kek77"]
+[ext_resource type="Script" uid="uid://djxvf8yy7uqhl" path="res://src/contexts/main_context/account/persisten_data_controller.gd" id="4_lquwl"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="5_4c57u"]
 [ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/account/progress.tres" id="5_272bh"]
 [ext_resource type="AudioStream" uid="uid://bchaw1l2muu4w" path="res://assets/background_music.mp3" id="7_5vw27"]
@@ -33,7 +33,7 @@ resources = [PackedStringArray("levels"), [ExtResource("2_kek77")]]
 
 [node name="Account" type="Node" parent="." unique_id=641068330]
 
-[node name="PersistenData" type="Node" parent="Account" unique_id=5266059]
+[node name="PersistenDataController" type="Node" parent="Account" unique_id=5266059]
 script = ExtResource("4_lquwl")
 _user_settings = ExtResource("5_4c57u")
 _progress = ExtResource("5_272bh")
