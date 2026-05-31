@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cvd72fn4wjj5c"]
+
+[ext_resource type="Shader" uid="uid://c7uqg6fdjg4ss" path="res://assets/shadow_shader.gdshader" id="1_tjwbt"]
+
+[resource]
+shader = ExtResource("1_tjwbt")
+shader_parameter/shadow_offset = Vector2(10, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
