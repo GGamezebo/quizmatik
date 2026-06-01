@@ -1,9 +1,0 @@
-[gd_resource type="AtlasTexture" format=3 uid="uid://bdhyu2oxmehxs"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_n453t"]
-load_path = "res://.godot/imported/белые облака.png-91ab498544fb58f5b9c3b86232a20271.ctex"
-
-[resource]
-resource_local_to_scene = true
-atlas = SubResource("CompressedTexture2D_n453t")
-region = Rect2(1168, 103, 315, 168)
