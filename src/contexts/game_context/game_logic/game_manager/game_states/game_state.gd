@@ -23,6 +23,7 @@ var question: QuizQuestion.Question:
 func enter(_prev_state: FSMState, _event_data: Dictionary):
 	event_listener.add(game_events.ev_explosion, _on_event_manager_ev_explosion)
 	event_listener.add(air_plane.ev_air_plane_colladed, _on_air_plane_colladed)
+	air_plane.initialize(game_config.player_air_plane_speed, AirPlane.MovementMode.DISCRETE)
 	_makeNewRound()
 
 func leave(_event_data: Dictionary) -> void:

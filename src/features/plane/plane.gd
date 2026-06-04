@@ -10,7 +10,12 @@ signal ev_air_plane_colladed(airPlane: AirPlane, area: Area2D)
 signal ev_dead_animation_finished
 signal ev_win_animation_finished
 
-const SPEED_DEFAULTS: float = 800.0
+const SPEED_DEFAULTS: float = 100.0
+
+enum MovementMode {
+	DIRECT,
+	DISCRETE
+}
 
 @export var components:Array[Node] = []
 @export var directionComponents:Array[Node] = []
@@ -19,35 +24,54 @@ const SPEED_DEFAULTS: float = 800.0
 @export var win_anticipation_animation_time: float = 0.35
 @export var win_fly_animation_time: float = 1.6
 @export var explosion_scene: PackedScene
+@export var movement_mode: MovementMode = MovementMode.DIRECT
 
 var direction_y: int = 0
 var speed: float = SPEED_DEFAULTS
+var movement: IMovementComponent = null
+var discrete_positions: Array[float] = []
 
-	
-func _ready() -> void:
-	for component in components:
-		component.initialize(self)
 
-func initialize(_speed: float) -> void:
+func initialize(_speed: float, _movement_mode=MovementMode.DIRECT) -> void:
 	direction_y = 0
 	speed = _speed
+	movement_mode = movement_mode
+	set_movement(_movement_mode)
+	
+func _ready() -> void:
+	set_movement(movement_mode)
+	
+	for component in components:
+		component.initialize(self)
 
 func _process(delta: float) -> void:
 	if not Engine.is_editor_hint():
 		if Input.is_action_just_pressed("shoot"):
 			ev_shoot.emit(self.position + Vector2(get_size().x / 2.0, 0.0))
 		
-	var dirY = sign(Input.get_axis("ui_up","ui_down"))
-	position.y = clamp(position.y + direction_y * speed * delta, 0, get_viewport_rect().size.y)
+	movement.update(delta)
+	for component in components:
+		component.update(delta)
 	
+	var dirY = movement.get_direction()
 	if dirY != direction_y:
 		direction_y = dirY
 		for component in directionComponents:
 			component.setDirection(direction_y)
-	
-	for component in components:
-		component.update(delta)
-		
+
+func set_movement(_movement_mode: MovementMode) -> void:
+	if movement:
+		movement.deinit()
+	movement_mode = _movement_mode
+	movement = MOVEMENT_COMPONENTS[movement_mode].new(self)
+
+func set_discret_positions(positions: Array[float]) -> void:
+	discrete_positions = positions
+
+# TODO: do refactoring of this fuction and movement system
+func get_discret_lane() -> int:
+	return movement.current_line_index
+
 func get_size() -> Vector2:
 	# 1. Получаем имя текущей анимации
 	var anim_name = animated_sprite.animation
@@ -92,26 +116,6 @@ func die_animation() -> void:
 	
 	await tween.finished
 	ev_dead_animation_finished.emit()
-
-func _spawn_explosion_at_random_pos(offset = Vector2.ZERO, scale_multiplier = 1.0):
-	var explosion = explosion_scene.instantiate()
-	
-	if offset == Vector2.ZERO:
-		var sprite = animated_sprite
-		var current_frame_texture = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
-		
-		if current_frame_texture:
-			var size = current_frame_texture.get_size()
-			# Генерируем случайную точку в пределах размеров кадра
-			offset = Vector2(
-				randf_range(-size.x / 2, size.x / 2),
-				randf_range(-size.y / 2, size.y / 2)
-			) * scale
-		
-	get_parent().add_child(explosion)
-	explosion.global_position = global_position + offset
-	explosion.scale = Vector2(scale_multiplier, scale_multiplier)
-
 
 func win_animation() -> void:
 	_disable()
@@ -184,3 +188,100 @@ func win_animation() -> void:
 	await victory_tween.finished
 	
 	ev_win_animation_finished.emit()
+	
+func _spawn_explosion_at_random_pos(offset = Vector2.ZERO, scale_multiplier = 1.0):
+	var explosion = explosion_scene.instantiate()
+	
+	if offset == Vector2.ZERO:
+		var sprite = animated_sprite
+		var current_frame_texture = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame)
+		
+		if current_frame_texture:
+			var size = current_frame_texture.get_size()
+			# Генерируем случайную точку в пределах размеров кадра
+			offset = Vector2(
+				randf_range(-size.x / 2, size.x / 2),
+				randf_range(-size.y / 2, size.y / 2)
+			) * scale
+		
+	get_parent().add_child(explosion)
+	explosion.global_position = global_position + offset
+	explosion.scale = Vector2(scale_multiplier, scale_multiplier)
+	
+	
+@abstract class IMovementComponent:
+	var owner = null
+	var dirY = 0
+	
+	func _init(_owner: Node) -> void:
+		owner = _owner
+	
+	func deinit() -> void:
+		owner = null
+	
+	func update(_delta: float) -> void:
+		pass
+		
+	func get_direction() -> int:
+		return dirY
+		
+		
+class DirectMovementComponent extends IMovementComponent:
+	func update(delta: float) -> void:
+		dirY = sign(Input.get_axis("ui_up","ui_down"))
+		owner.position.y = clamp(owner.position.y + dirY * owner.speed * delta, 0, owner.get_viewport_rect().size.y)
+
+class DiscreteMovementComponent extends IMovementComponent:
+	var current_line_index: int = 0
+	var target_y: float = 0.0
+	
+	func _init(_owner: Node) -> void:
+		super._init(_owner)
+		current_line_index = 0
+		target_y = owner.position.y
+		_update_current_line_index_by_distance()
+	
+	func update(delta: float) -> void:
+		if Input.is_action_just_pressed("ui_up"):
+			if current_line_index > 0:
+				current_line_index -= 1
+				target_y = owner.discrete_positions[current_line_index]
+				
+		elif Input.is_action_just_pressed("ui_down"):
+			# Проверяем, можем ли мы сдвинуться ниже (размер массива - 1 — это самый низ)
+			if current_line_index < owner.discrete_positions.size() - 1:
+				current_line_index += 1
+				target_y = owner.discrete_positions[current_line_index]
+		
+
+		print(owner.global_position.y, "->", target_y)
+		owner.global_position.y = move_toward(owner.global_position.y, target_y, owner.speed * delta)
+		
+		if owner.global_position.y == target_y:
+			dirY = 0
+		elif owner.global_position.y < target_y:
+			dirY = 1
+		else:
+			dirY = -1
+			
+	func _update_current_line_index_by_distance() -> void:
+		var closest_index: int = 0
+		# Инициализируем минимальную дистанцию как максимально возможное число
+		var min_distance: float = INF 
+		
+		# Проходим по всем индексам массива
+		for i in range(owner.discrete_positions.size()):
+			# Считаем абсолютное расстояние (разницу) между самолётом и точкой i
+			var distance: float = abs(owner.global_position.y - owner.discrete_positions[i])
+			
+			# Если нашли точку, которая ближе, чем предыдущая «самая ближняя»
+			if distance < min_distance:
+				min_distance = distance
+				closest_index = i
+				
+		current_line_index = closest_index
+	
+const MOVEMENT_COMPONENTS = {
+	MovementMode.DIRECT: DirectMovementComponent,
+	MovementMode.DISCRETE: DiscreteMovementComponent
+}
