@@ -55,7 +55,7 @@ func _makeAnswers() -> void:
 		var x:float = area.gameplay_area.end.x + 120
 		var y:float = line.position.y + line.size.y / 2.0
 		answer.position.x = x
-		answer.position.y = x
+		answer.position.y = y
 		answer.setup(x, y, option, game_config.answer_speed)
 		answer.ev_killed.connect(_on_answer_killed)
 		options.append(answer)
