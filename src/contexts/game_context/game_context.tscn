@@ -24,7 +24,7 @@
 [ext_resource type="Script" uid="uid://c31s1xkrtgnis" path="res://src/contexts/game_context/ui/answer_label.gd" id="14_wlohk"]
 [ext_resource type="Script" uid="uid://bb48gluxno1u" path="res://src/contexts/game_context/ui/ui_health.gd" id="15_6ktr1"]
 [ext_resource type="Script" uid="uid://cwfxgx56jwul8" path="res://src/contexts/game_context/game_logic/line_selector.gd" id="15_h2w07"]
-[ext_resource type="Texture2D" uid="uid://c4rcn50qkxusi" path="res://assets/icon.svg" id="17_emdi4"]
+[ext_resource type="Texture2D" path="res://assets/health_icon.svg" id="17_emdi4"]
 [ext_resource type="Script" uid="uid://bujyufbdn6yo" path="res://src/contexts/game_context/ui/score.gd" id="19_73ia8"]
 
 [node name="GameContext" type="Node" unique_id=1179940708]

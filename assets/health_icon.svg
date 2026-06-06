@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="fill" x1="32" y1="10" x2="32" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF7A9A"/>
+      <stop offset="55%" stop-color="#F03D6B"/>
+      <stop offset="100%" stop-color="#C2185B"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="36%" cy="30%" r="30%">
+      <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <path
+    fill="url(#fill)"
+    stroke="#5AD4FF"
+    stroke-width="2.5"
+    stroke-linejoin="round"
+    d="M32 52
+       C32 52 10 38 10 24
+       C10 16 16 10 24 10
+       C27 10 30 12 32 16
+       C34 12 37 10 40 10
+       C48 10 54 16 54 24
+       C54 38 32 52 32 52 Z"/>
+  <ellipse cx="25" cy="20" rx="6" ry="4.5" fill="url(#shine)"/>
+</svg>
