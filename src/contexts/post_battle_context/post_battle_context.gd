@@ -38,15 +38,15 @@ func deinit() -> void:
 	_game_config = null
 
 func _update_results(is_win: bool, score: int, max_score: int, stars_count: int) -> void:
-	title_label.text = "Победа!" if is_win else "Поражение"
+	title_label.text = "ПОБЕДНЫЙ ПОЛЁТ!" if is_win else "ПОСАДКА..."
 	var title_settings: LabelSettings = title_label.label_settings.duplicate()
 	title_settings.font_color = Color(0.45, 1.0, 1.0, 1.0) if is_win else Color(1.0, 0.55, 0.55, 1.0)
 	title_label.label_settings = title_settings
 
 	if max_score > 0:
-		score_label.text = "Правильных ответов: %d / %d" % [score, max_score]
+		score_label.text = "Точность: %d / %d" % [score, max_score]
 	else:
-		score_label.text = "Правильных ответов: %d" % score
+		score_label.text = "Точность: %d" % score
 
 	_show_stars(stars_count)
 
