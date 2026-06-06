@@ -32,7 +32,7 @@ func _update_window() -> void:
 		packs_list_container.add_child(container_instance)
 		
 		var is_unlocked: bool = progress.is_container_unlocked(container_id)
-		var container = progress.find_container_in_config(container_id)
+		var container = levelsConfig.find_container_in_config(container_id)
 		container_instance.initialize(container['name'], is_unlocked)
 		
 		if is_unlocked:

@@ -17,7 +17,7 @@ func post_battle(battle_info: GameConfig.BattleInfo, stars: int) -> void:
 	save()
 
 func is_container_unlocked(container_id: String) -> bool:
-	var container_config = find_container_in_config(container_id)
+	var container_config = levels_config.find_container_in_config(container_id)
 	if container_config:
 		var unlock_condition = container_config["unlock_condition"]
 		var condition_func_name = unlock_condition["name"]
@@ -77,16 +77,3 @@ func pass_exam(container_id: String, stars: int) -> void:
 		var level_id: int = config_level['level_id']
 		var prev_stars: int = container_data["completed_levels"].get(level_id, 0)
 		container_data["completed_levels"][level_id] = max(prev_stars, stars)
-
-func find_container_in_config(container_id: String) -> Dictionary:
-	var levels = levels_config.levels
-	if not levels.has("containers") or not (levels["containers"] is Array):
-		push_error("[ProgressManager] Error: Invalid level configuration format.")
-		return {}
-
-	for container in levels["containers"]:
-		if container.get("container_id") == container_id:
-			return container
-
-	push_warning("[ProgressManager] Warning: Container '" + container_id + "' not found in configuration.")
-	return {}

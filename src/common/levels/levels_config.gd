@@ -3,6 +3,8 @@ extends Resource
 
 @export_dir var levels_dir = "res://src/levels"
 
+var _containers_by_id: Dictionary = {}
+
 var levels = {
    "containers": [
 		{
@@ -144,8 +146,13 @@ var levels = {
 }
 
 func _init() -> void:
+	if not levels.has("containers") or not (levels["containers"] is Array):
+		push_error("[LevelsConfig] Invalid level configuration format.")
+		return
+
 	for container in levels["containers"]:
 		var container_id: String = container["container_id"]
+		_containers_by_id[container_id] = container
 		for level_data in container["levels"]:
 			var config_name = level_data["config"]
 			var file_name = config_name + ".tres"
@@ -158,16 +165,10 @@ func _init() -> void:
 				assert(false, "[Loader] Level config not found: " + full_path)
 
 func find_container_in_config(container_id: String) -> Dictionary:
-	if not levels.has("containers") or not (levels["containers"] is Array):
-		push_error("[ProgressManager] Error: Invalid level configuration format.")
+	if not _containers_by_id.has(container_id):
+		push_warning("[LevelsConfig] Container '" + container_id + "' not found.")
 		return {}
-
-	for container in levels["containers"]:
-		if container.get("container_id") == container_id:
-			return container
-
-	push_warning("[ProgressManager] Warning: Container '" + container_id + "' not found in configuration.")
-	return {}
+	return _containers_by_id[container_id]
 
 func get_level_config(container_id: String, level_id: int) -> GameConfig:
 	var container: Dictionary = find_container_in_config(container_id)
