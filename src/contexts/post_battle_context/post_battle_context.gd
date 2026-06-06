@@ -10,6 +10,10 @@ extends IContext
 
 var _game_config: GameConfig
 
+
+func _ready() -> void:
+	repeat_button.grab_focus()
+
 func initialize(data: Dictionary) -> void:
 	if data.has("game_config"):
 		_game_config = data["game_config"]
@@ -20,11 +24,13 @@ func initialize(data: Dictionary) -> void:
 	else:
 		score_label.text = "Результаты"
 
-func _ready() -> void:
-	repeat_button.grab_focus()
-	
 	menu_button.pressed.connect(_on_menu)
 	repeat_button.pressed.connect(_on_repeat)
+
+func deinit() -> void:
+	menu_button.pressed.disconnect(_on_menu)
+	repeat_button.pressed.disconnect(_on_repeat)
+	_game_config = null
 
 func _on_menu() -> void:
 	main_events.ev_return_to_menu.emit()

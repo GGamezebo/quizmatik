@@ -18,12 +18,15 @@ var listener: EventListener = EventListener.new()
 
 func _ready() -> void:
 	current_context = $MenuContext
+	current_context.initialize({})
+
 	listener.add(main_events.ev_start_game, _on_start_game)
 	listener.add(main_events.ev_exit_game, _ev_exit_game)
 	listener.add(main_events.ev_return_to_menu, _return_to_menu)
 	
 func _exit_tree() -> void:
 	listener.deinit()
+	_release_current_context()
 
 func _on_start_game(data: Dictionary) -> void:
 	var use_loading_screen: bool = true
@@ -35,11 +38,17 @@ func _ev_exit_game(data: Dictionary = {}) -> void:
 func _return_to_menu() -> void:
 	switch_game_context(menu_context_path)
 
+func _release_current_context() -> void:
+	if current_context == null:
+		return
+	current_context.deinit()
+	current_context.queue_free()
+	current_context = null
+
 func switch_game_context(scene_path: String, use_loading_screen: bool = true, data: Dictionary = {}):
 	if is_loading: return
 	
-	if current_context:
-		current_context.queue_free()
+	_release_current_context()
 	load_start_time = Time.get_unix_time_from_system()
 	target_path = scene_path
 	is_loading = true
