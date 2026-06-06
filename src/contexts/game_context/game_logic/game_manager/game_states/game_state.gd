@@ -41,8 +41,8 @@ func _process(_delta: float) -> void:
 	
 func _makeNewRound() -> void:
 	question = QuizQuestion.generate_question(game_config)
-	await game_mamager.get_tree().create_timer(1.0).timeout
-	if game_mamager == null:
+	await game_manager.get_tree().create_timer(1.0).timeout
+	if game_manager == null:
 		return
 	_makeAnswers()
 		
@@ -59,7 +59,7 @@ func _makeAnswers() -> void:
 		answer.setup(x, y, option, game_config.answer_speed)
 		answer.ev_killed.connect(_on_answer_killed)
 		options.append(answer)
-		game_mamager.owner.add_child.call_deferred(answer)
+		game_manager.owner.add_child.call_deferred(answer)
 			
 
 func _on_event_manager_ev_explosion(answer: Answer, _hit_point: Vector2) -> void:

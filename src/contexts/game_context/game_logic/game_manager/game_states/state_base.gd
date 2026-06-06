@@ -4,15 +4,15 @@ extends FSMState
 static func get_state() -> String:
 	return '' 
 	
-var game_mamager: GameManager
+var game_manager: GameManager
 var event_listener = EventListener.new()
 
 func _init() -> void:
 	super(get_state())
 	
-func initialize(_game_mamager: GameManager) -> void:
-	self.game_mamager = _game_mamager
+func initialize(_game_manager: GameManager) -> void:
+	self.game_manager = _game_manager
 	
 func deinit() -> void:
 	event_listener.deinit()
-	game_mamager = null
+	game_manager = null

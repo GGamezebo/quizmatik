@@ -2,12 +2,12 @@ extends Node
 
 @export var _user_settings: UserSettings
 @export var _progress: PDataProgress
-@export var main_event: MainEvents
+@export var main_events: MainEvents
 
 func _ready() -> void:
 	_load_settings(_user_settings)
 	_load_progress(_progress)
-	main_event.ev_reset_account_progress.connect(_on_reset_account_progress)
+	main_events.ev_reset_account_progress.connect(_on_reset_account_progress)
 	print("Data system initialized successfully.")
 
 func _load_settings(resource: Resource) -> void:

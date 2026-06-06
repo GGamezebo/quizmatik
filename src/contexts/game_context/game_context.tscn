@@ -47,7 +47,7 @@ dead_animation_time = 3.0
 
 [node name="GameManager" type="Node" parent="." unique_id=1898191257 node_paths=PackedStringArray("states")]
 script = ExtResource("6_q40ib")
-gameEvents = ExtResource("7_7ifmk")
+game_events = ExtResource("7_7ifmk")
 states = [NodePath("CountDownState"), NodePath("GameState"), NodePath("EndGameState")]
 
 [node name="CountDownState" type="Node" parent="GameManager" unique_id=312648269 node_paths=PackedStringArray("air_plane")]

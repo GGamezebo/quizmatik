@@ -1,7 +1,7 @@
 class_name GameManager
 extends Node
 
-@export var gameEvents: GameEvents
+@export var game_events: GameEvents
 @export var states: Array[StateBase]
 
 var fsm: FSM
@@ -32,4 +32,4 @@ func _process(delta: float) -> void:
 	time += delta
 	
 func _on_state_changed(from_state_name: String, to_state_name: String) -> void:
-	gameEvents.ev_game_state_changed.emit(from_state_name, to_state_name)
+	game_events.ev_game_state_changed.emit(from_state_name, to_state_name)
