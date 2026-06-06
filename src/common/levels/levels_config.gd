@@ -18,7 +18,18 @@ var levels = {
 				{ "level_id": 3, "config": 'level_3' },
 				{ "level_id": 4, "config": 'level_4' },
 				{ "level_id": 5, "config": 'level_5' },
-				{ "level_id": 6, "config": 'level_6', 'is_exam': true },
+				{ "level_id": 6, "config": 'level_6' },
+				{ "level_id": 7, "config": 'level_7' },
+				{ "level_id": 8, "config": 'level_8' },
+				{ "level_id": 9, "config": 'level_9' },
+				{ "level_id": 10, "config": 'level_10' },
+				{ "level_id": 11, "config": 'level_11' },
+				{ "level_id": 12, "config": 'level_12' },
+				{ "level_id": 13, "config": 'level_13' },
+				{ "level_id": 14, "config": 'level_14' },
+				{ "level_id": 15, "config": 'level_15' },
+				{ "level_id": 16, "config": 'level_16' },
+				{ "level_id": 17, "config": 'level_17', 'is_exam': true },
 			]
 		},
 		{
@@ -34,7 +45,18 @@ var levels = {
 				{ "level_id": 3, "config": 'level_3' },
 				{ "level_id": 4, "config": 'level_4' },
 				{ "level_id": 5, "config": 'level_5' },
-				{ "level_id": 6, "config": 'level_6', 'is_exam': true },
+				{ "level_id": 6, "config": 'level_6' },
+				{ "level_id": 7, "config": 'level_7' },
+				{ "level_id": 8, "config": 'level_8' },
+				{ "level_id": 9, "config": 'level_9' },
+				{ "level_id": 10, "config": 'level_10' },
+				{ "level_id": 11, "config": 'level_11' },
+				{ "level_id": 12, "config": 'level_12' },
+				{ "level_id": 13, "config": 'level_13' },
+				{ "level_id": 14, "config": 'level_14' },
+				{ "level_id": 15, "config": 'level_15' },
+				{ "level_id": 16, "config": 'level_16' },
+				{ "level_id": 17, "config": 'level_17', 'is_exam': true },
 			]
 		},
 		{
@@ -50,7 +72,18 @@ var levels = {
 				{ "level_id": 3, "config": 'level_3' },
 				{ "level_id": 4, "config": 'level_4' },
 				{ "level_id": 5, "config": 'level_5' },
-				{ "level_id": 6, "config": 'level_6', 'is_exam': true },
+				{ "level_id": 6, "config": 'level_6' },
+				{ "level_id": 7, "config": 'level_7' },
+				{ "level_id": 8, "config": 'level_8' },
+				{ "level_id": 9, "config": 'level_9' },
+				{ "level_id": 10, "config": 'level_10' },
+				{ "level_id": 11, "config": 'level_11' },
+				{ "level_id": 12, "config": 'level_12' },
+				{ "level_id": 13, "config": 'level_13' },
+				{ "level_id": 14, "config": 'level_14' },
+				{ "level_id": 15, "config": 'level_15' },
+				{ "level_id": 16, "config": 'level_16' },
+				{ "level_id": 17, "config": 'level_17', 'is_exam': true },
 			]
 		},
 		{
@@ -66,15 +99,26 @@ var levels = {
 				{ "level_id": 3, "config": 'level_3' },
 				{ "level_id": 4, "config": 'level_4' },
 				{ "level_id": 5, "config": 'level_5' },
-				{ "level_id": 6, "config": 'level_6', 'is_exam': true },
+				{ "level_id": 6, "config": 'level_6' },
+				{ "level_id": 7, "config": 'level_7' },
+				{ "level_id": 8, "config": 'level_8' },
+				{ "level_id": 9, "config": 'level_9' },
+				{ "level_id": 10, "config": 'level_10' },
+				{ "level_id": 11, "config": 'level_11' },
+				{ "level_id": 12, "config": 'level_12' },
+				{ "level_id": 13, "config": 'level_13' },
+				{ "level_id": 14, "config": 'level_14' },
+				{ "level_id": 15, "config": 'level_15' },
+				{ "level_id": 16, "config": 'level_16' },
+				{ "level_id": 17, "config": 'level_17', 'is_exam': true },
 			]
 		},
 		{
 			"container_id": "mix",
-			"name": "Долина Деления",
+			"name": "Долина Смешения",
 			"unlock_condition": {
 				"name": "is_unlocked_by_exam",
-				"args": ["multiplication"],
+				"args": ["division"],
 			},
 			"levels": [
 				{ "level_id": 1, "config": 'level_1' },
@@ -82,9 +126,20 @@ var levels = {
 				{ "level_id": 3, "config": 'level_3' },
 				{ "level_id": 4, "config": 'level_4' },
 				{ "level_id": 5, "config": 'level_5' },
-				{ "level_id": 6, "config": 'level_6', 'is_exam': true },
+				{ "level_id": 6, "config": 'level_6' },
+				{ "level_id": 7, "config": 'level_7' },
+				{ "level_id": 8, "config": 'level_8' },
+				{ "level_id": 9, "config": 'level_9' },
+				{ "level_id": 10, "config": 'level_10' },
+				{ "level_id": 11, "config": 'level_11' },
+				{ "level_id": 12, "config": 'level_12' },
+				{ "level_id": 13, "config": 'level_13' },
+				{ "level_id": 14, "config": 'level_14' },
+				{ "level_id": 15, "config": 'level_15' },
+				{ "level_id": 16, "config": 'level_16' },
+				{ "level_id": 17, "config": 'level_17', 'is_exam': true },
 			]
-		},
+		}
 	],
 }
 
@@ -95,7 +150,7 @@ func _init() -> void:
 			var config_name = level_data["config"]
 			var file_name = config_name + ".tres"
 			var full_path = levels_dir.path_join(container_id).path_join(file_name)
-			
+
 			if ResourceLoader.exists(full_path):
 				level_data["config"] = ResourceLoader.load(full_path)
 				print("[Loader] Level config loaded successfully for level", level_data["level_id"], ": ", full_path)
@@ -113,28 +168,27 @@ func find_container_in_config(container_id: String) -> Dictionary:
 
 	push_warning("[ProgressManager] Warning: Container '" + container_id + "' not found in configuration.")
 	return {}
-	
+
 func get_level_config(container_id: String, level_id: int) -> GameConfig:
 	var container: Dictionary = find_container_in_config(container_id)
 	if container.is_empty():
 		return null
-	
+
 	for level in container["levels"]:
 		if level.get("level_id") == level_id:
 			return level['config']
-	
+
 	push_warning("[ProgressManager] Warning: Level '" + str(level_id) + "' not found in container '" + container_id + "'.")
 	return null
-	
 
 func is_level_exam(container_id: String, level_id: int) -> bool:
 	var container: Dictionary = find_container_in_config(container_id)
 	if container.is_empty():
 		return false
-	
+
 	for level in container["levels"]:
 		if level.get("level_id") == level_id:
 			return level.get('is_exam', false)
-	
+
 	push_warning("[ProgressManager] Warning: Level '" + str(level_id) + "' not found in container '" + container_id + "'.")
 	return false

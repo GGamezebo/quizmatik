@@ -1,9 +1,13 @@
-[gd_resource type="Resource" script_class="GameConfig" format=3 uid="uid://cs4yxlke175af"]
+[gd_resource type="Resource" script_class="GameConfig" load_steps=2 format=3]
 
-[ext_resource type="Script" uid="uid://cjyn2dgnipjnn" path="res://src/common/game_config_default.gd" id="1_7wr4q"]
+[ext_resource type="Script" path="res://src/common/game_config_default.gd" id="1_script"]
 
 [resource]
-script = ExtResource("1_7wr4q")
+script = ExtResource("1_script")
+allowed_operations = 8
+min_generate_number = 2
+max_generate_number = 3
 answer_lines_count = 3
-health = 4
-questions_count = 1
+health = 3
+questions_count = 5
+answer_speed = 65.0
