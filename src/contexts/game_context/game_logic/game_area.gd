@@ -16,7 +16,7 @@ func _ready() -> void:
 func update_boundaries() -> void:
 	var screen_size = get_viewport().get_visible_rect().size
 	
-	# Оставляем отступы (например, 50 пикселей для UI)
+	# Margins for HUD and screen edges
 	var margin_top = 160.0
 	var margin_bottom = 20.0
 	var margin_side = 20.0

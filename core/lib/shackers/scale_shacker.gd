@@ -7,7 +7,7 @@ var time := 0.0
 var pulse_speed: float
 var pulse_strength: float
 
-# Храним текущие вычисленные значения
+# Current computed offset
 var scale_offset := Vector2.ZERO
 
 func _init(_pulse_speed := 5.0, _pulse_strength := 0.05, frequency=0.05):
@@ -20,7 +20,7 @@ func _init(_pulse_speed := 5.0, _pulse_strength := 0.05, frequency=0.05):
 func update(delta: float) -> void:
 	time += delta
 	
-	# Расчет пульсации (масштаб)
+	# Scale pulse
 	var p_time = time * pulse_speed
 	var p_val = noise.get_noise_1d(p_time + 200.0) * pulse_strength
 	scale_offset = Vector2(p_val, p_val)

@@ -6,7 +6,7 @@ var _time := 0.0
 var _rotation := 0.0
 
 var rotation_speed := 8.0
-var rotation_strength := 3.0 # В градусах
+var rotation_strength := 3.0 # In degrees
 
 func _init(_rotation_speed :float = 8.0, _rotation_strength :float = 3.0, frequency=0.05) -> void:
 	self.rotation_speed = _rotation_speed

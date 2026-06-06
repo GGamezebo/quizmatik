@@ -11,7 +11,7 @@ var _transitions: Dictionary = {} # {from_idx: {to_idx: [Callable, Callable]}}
 var _current_state_index: int = 0
 var is_destroyed: bool = false
 
-## Создание FSM из конфигурации (как в Python make)
+## Create an FSM from config (similar to Python make)
 static func make_from_config(config: Dictionary) -> FiniteStateMachineConditional:
 	var init_state = config["init"]
 	var state_set = []
@@ -115,7 +115,7 @@ func _update_transitions() -> bool:
 			var condition = data[0]
 			var callback = data[1]
 			
-			# Если условия нет (null/invalid) или оно возвращает true
+			# Transition when there is no condition or it returns true
 			if not condition.is_valid() or condition.call():
 				_perform_transition(to_idx, callback)
 				return true

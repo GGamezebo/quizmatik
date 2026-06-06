@@ -45,14 +45,14 @@ func take_damage():
 	
 	var tween = create_tween().set_parallel(true)
 	
-	# Плавное исчезновение
+	# Fade out
 	tween.tween_property(self, "modulate:a", 0.0, animation_time)
-	# Небольшое увеличение
+	# Slight scale up
 	tween.tween_property(self, "scale", scale * dead_animation_scale, animation_time)
-	# Сдвиг вверх
+	# Drift upward
 	tween.tween_property(self, "position:y", position.y, animation_time)
    	
-   	# Удаляем объект после завершения анимации
+   	# Free after the animation finishes
 	tween.chain().tween_callback(queue_free)
 
 func _exit_tree() -> void:

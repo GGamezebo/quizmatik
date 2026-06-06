@@ -29,6 +29,8 @@ enum Operations {
 @export var min_generate_number: int = 2
 @export var max_generate_number: int = 9
 @export var answer_speed: float = 80.0
+## Answer speed multipliers after round N, e.g. {4: 1.2, 10: 1.4}
+@export var answer_speed_round_coeffs: Dictionary = {}
 
 @export_category("AirPlane")
 @export var player_air_plane_speed: float = 600.0
@@ -36,3 +38,14 @@ const PLAYER_ACCELERATION_DEFAULT: float = 1.0  # default acceleration coefficie
 @export var player_acceleration_min: float = 0.5  # min acceleration coefficient
 @export var player_acceleration_max: float = 2.0  # max acceleration coefficient
 @export var player_acceleration_speed: float = 1.0  # acceleration coefficient per second
+
+
+func apply_answer_speed_after_round(completed_rounds: int, base_speed: float) -> void:
+	var coeff: float = 1.0
+	var best_threshold: int = -1
+	for threshold_key in answer_speed_round_coeffs.keys():
+		var threshold: int = int(threshold_key)
+		if completed_rounds >= threshold and threshold > best_threshold:
+			best_threshold = threshold
+			coeff = float(answer_speed_round_coeffs[threshold_key])
+	answer_speed = base_speed * coeff

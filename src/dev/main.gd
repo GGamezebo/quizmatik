@@ -1,30 +1,30 @@
 extends Node
 
 func _ready():
-	# Вызываем создание и сохранение при запуске (или по кнопке в тулсе)
+	# Create and save on startup (or from an editor tool button)
 	var my_theme = create_stylish_theme()
 	save_theme_to_disk(my_theme, "res://ui/modern_sci_fi.tres")
 
 func create_stylish_theme() -> Theme:
 	var theme = Theme.new()
 	
-	# --- ЦВЕТОВАЯ ПАЛИТРА ---
+	# --- Color palette ---
 	var color_cyan = Color("#00f2ff")
 	var color_dark = Color("#0a192f")
 	var color_glass = Color(0.1, 0.2, 0.4, 0.6)
 	
-	# --- КНОПКА (Normal) ---
+	# --- Button (normal) ---
 	var btn_normal = StyleBoxFlat.new()
 	btn_normal.bg_color = color_glass
 	btn_normal.border_width_left = 4
 	btn_normal.border_color = color_cyan
 	btn_normal.corner_radius_top_left = 12
 	btn_normal.corner_radius_bottom_right = 12
-	btn_normal.skew = Vector2(0.1, 0) # Легкий наклон для "драйва"
+	btn_normal.skew = Vector2(0.1, 0) # Slight skew for a dynamic look
 	btn_normal.content_margin_left = 20
 	btn_normal.content_margin_right = 20
 	
-	# --- КНОПКА (Hover) ---
+	# --- Button (hover) ---
 	var btn_hover = btn_normal.duplicate()
 	btn_hover.bg_color = Color(color_cyan, 0.3)
 	btn_hover.border_color = Color.WHITE
@@ -34,7 +34,7 @@ func create_stylish_theme() -> Theme:
 	theme.set_stylebox("normal", "Button", btn_normal)
 	theme.set_stylebox("hover", "Button", btn_hover)
 	theme.set_stylebox("pressed", "Button", btn_normal)
-	theme.set_stylebox("focus", "Button", StyleBoxEmpty.new()) # Убираем рамку фокуса
+	theme.set_stylebox("focus", "Button", StyleBoxEmpty.new()) # Hide default focus outline
 
 	# --- PROGRESS BAR ---
 	var pb_bg = StyleBoxFlat.new()
@@ -55,12 +55,12 @@ func create_stylish_theme() -> Theme:
 	return theme
 
 func save_theme_to_disk(theme: Theme, path: String):
-	# Проверяем, существует ли папка, если нет — создаем
+	# Create the target directory if needed
 	var dir = path.get_base_dir()
 	if not DirAccess.dir_exists_absolute(dir):
 		DirAccess.make_dir_recursive_absolute(dir)
 	
-	# Сохраняем ресурс
+	# Save the resource
 	var error = ResourceSaver.save(theme, path)
 	if error == OK:
 		print("Успех! Тема сохранена по пути: ", path)

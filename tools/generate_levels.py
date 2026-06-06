@@ -19,30 +19,30 @@ BLOCKS = [
     {"id": "mix", "name": "Долина Смешения", "unlock_name": "is_unlocked_by_exam", "unlock_args": ["division"], "ops": 15},
 ]
 
-# 4 этапа × 4 уровня + экзамен. HP всегда 3, вопросы 5→18.
-# Лёгкость ранних уровней — за счёт скорости, линий и диапазона чисел.
+# 4 acts x 4 levels + exam. HP always 3, questions 5 to 18.
+# Early levels are easier via speed, lane count, and number range.
 LEVEL_CURVE = {
-    # Этап 1 — разминка: 5–6 вопросов, 3 линии, медленно
+    # Act 1 — warmup: 5-6 questions, 3 lanes, slow
     1: {"q": 5, "spd": 65, "lines": 3},
     2: {"q": 5, "spd": 72, "lines": 3},
     3: {"q": 6, "spd": 78, "lines": 3},
     4: {"q": 6, "spd": 88, "lines": 3},
-    # Этап 2 — числа: 7–8 вопросов, переход к 4 линиям
+    # Act 2 — numbers: 7-8 questions, transition to 4 lanes
     5: {"q": 7, "spd": 88, "lines": 3},
     6: {"q": 7, "spd": 98, "lines": 3},
     7: {"q": 8, "spd": 102, "lines": 4},
     8: {"q": 8, "spd": 108, "lines": 4},
-    # Этап 3 — выносливость и скорость: 9–12 вопросов
+    # Act 3 — endurance and speed: 9-12 questions
     9: {"q": 9, "spd": 112, "lines": 4},
     10: {"q": 10, "spd": 120, "lines": 4},
     11: {"q": 11, "spd": 128, "lines": 4},
     12: {"q": 12, "spd": 138, "lines": 4},
-    # Этап 4 — мастерство: 13–16 вопросов, ускорение ←/→
+    # Act 4 — mastery: 13-16 questions, plane acceleration
     13: {"q": 13, "spd": 148, "lines": 4, "acc_min": 0.75, "acc_max": 1.4},
     14: {"q": 14, "spd": 160, "lines": 4, "acc_min": 0.75, "acc_max": 1.4},
     15: {"q": 15, "spd": 172, "lines": 4, "acc_min": 0.65, "acc_max": 1.65},
     16: {"q": 16, "spd": 182, "lines": 4, "acc_min": 0.65, "acc_max": 1.65},
-    # Экзамен — 18 вопросов, скорость чуть ниже пика
+    # Exam — 18 questions, speed slightly below the peak
     17: {"q": 18, "spd": 170, "lines": 4, "acc_min": 0.65, "acc_max": 1.65},
 }
 

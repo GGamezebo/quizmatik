@@ -8,13 +8,12 @@ static func update_resource(target: Resource, source: Resource) -> void:
 		push_error("Resource update failed: Target or Source is null.")
 		return
 	
-	# Если скрипты разные, мы не сможем безопасно скопировать свойства.
-	# Лучше жестко прервать выполнение, так как это гарантированная ошибка.
+	# Different scripts mean properties cannot be copied safely — abort early.
 	if target.get_script() != source.get_script():
 		push_error("Resource update failed: Target and Source scripts mismatch. Cannot override.")
 		return
 
-	# Черный список свойств, которые не нужно трогать при оверрайде
+	# Properties that must not be overwritten
 	var property_blacklist = [
 		"script", 
 		"resource_path", 
@@ -22,16 +21,16 @@ static func update_resource(target: Resource, source: Resource) -> void:
 		"resource_local_to_scene"
 	]
 
-	# Итерируемся по свойствам ИСТОЧНИКА
+	# Iterate over source properties
 	for property in source.get_property_list():
 		var prop_name: String = property["name"]
 		var prop_usage: int = property["usage"]
 
-		# 1. Проверяем флаг STORAGE
-		# 2. Исключаем свойства из черного списка
+		# 1. Check STORAGE flag
+		# 2. Skip blacklisted properties
 		if (prop_usage & USAGE_PROPERY) and not (prop_name in property_blacklist):
 			
-			# Безопасность: проверяем, существует ли вообще это свойство в target
+			# Safety: skip if target does not have this property
 			if not prop_name in target:
 				continue
 				
@@ -41,25 +40,24 @@ static func update_resource(target: Resource, source: Resource) -> void:
 				target.set(prop_name, null)
 				continue
 
-			# Обработка типов данных
+			# Handle value types
 			if value is Array or value is Dictionary:
 				target.set(prop_name, value.duplicate(true))
 			elif value is Resource:
-				# Опция А: Полное дублирование (создает независимую копию подресурса)
+				# Option A: deep duplicate (independent sub-resource copy)
 				target.set(prop_name, value.duplicate(true))
 				
-				# Опция Б: Если вам нужен рекурсивный оверрайд вложенного ресурса,
-				# вместо duplicate(true) используйте:
+				# Option B: for recursive nested resource override, use:
 				# var target_sub_res = target.get(prop_name)
 				# if target_sub_res and target_sub_res.get_script() == value.get_script():
 				#     update_resource(target_sub_res, value)
 				# else:
 				#     target.set(prop_name, value.duplicate(true))
 			else:
-				# Атомарные типы (int, float, Vector, etc.)
+				# Atomic types (int, float, Vector, etc.)
 				target.set(prop_name, value)
 	
-	# Оповещаем систему об изменениях
+	# Notify listeners of changes
 	target.emit_changed()
 	
 static func reset_resource_to_default(resource: Resource, default_resource: Resource) -> void:

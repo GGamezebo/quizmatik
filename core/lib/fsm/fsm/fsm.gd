@@ -3,7 +3,7 @@ extends Node
 
 signal ev_state_changed(from_state_name: String, to_state_name: String)
 
-# Константы для специальных переходов
+# Special transition constants
 const ALL_STATES = "*"
 const SAME_DST = "="
 const INIT_STATE = "__default_root_state"
@@ -32,13 +32,13 @@ func _setup(cfg: Dictionary):
 		push_error("FSM Config: missing 'transitions'")
 		return
 
-	# Регистрация переданных объектов состояний
+	# Register provided state objects
 	if cfg.has("states"):
 		for state in cfg["states"]:
 			state.sync_fsm(self)
 			_states_map[state.state_name] = state
 
-	# Сборка таблицы переходов
+	# Build the transition table
 	_add_transaction(INIT_STATE, initial["state"], initial_event)
 	
 	for t in cfg["transitions"]:
@@ -46,7 +46,7 @@ func _setup(cfg: Dictionary):
 
 	_final_state_name = cfg.get("final", "")
 	
-	# Начальный запуск
+	# Initial startup
 	if not initial.has("event"):
 		add_event(INIT_EVENT_NAME)
 
@@ -125,7 +125,7 @@ func _add_transaction(src, dst: String, event: String):
 	else:
 		srcs = [src]
 
-	# Автоматическое создание состояний, если их нет в statesMap
+	# Auto-create states missing from statesMap
 	for s_name in srcs:
 		_ensure_state(s_name)
 	_ensure_state(dst)

@@ -8,7 +8,7 @@ var state_id: int = UNINITIALIZED_STATE_ID
 func _init(p_state_id: int = UNINITIALIZED_STATE_ID):
 	state_id = p_state_id
 
-## Эквивалент Python @classmethod make
+## Equivalent to a Python @classmethod make
 static func make(p_state_id: int = UNINITIALIZED_STATE_ID) -> FSMConditionalState:
 	return FSMConditionalState.new(p_state_id)
 

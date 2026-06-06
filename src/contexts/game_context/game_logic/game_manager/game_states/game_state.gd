@@ -14,6 +14,7 @@ static func get_state() -> String:
 @export var answerScene: PackedScene
 
 var options: Array[Answer] = []
+var _base_answer_speed: float = 0.0
 var question: QuizQuestion.Question:
 	set(new_question):
 		question = new_question
@@ -23,6 +24,7 @@ var question: QuizQuestion.Question:
 func enter(_prev_state: FSMState, _event_data: Dictionary):
 	event_listener.add(game_events.ev_explosion, _on_event_manager_ev_explosion)
 	event_listener.add(air_plane.ev_air_plane_colladed, _on_air_plane_colladed)
+	_base_answer_speed = game_config.answer_speed
 	air_plane.initialize(game_config.player_air_plane_speed, AirPlane.MovementMode.DISCRETE)
 	_makeNewRound()
 
@@ -86,6 +88,7 @@ func _on_air_plane_colladed(_air_plane: AirPlane, answer: Answer) -> void:
 func _process_correct_answer() -> void:
 	_kill_all_answers()
 	player.score += 1
+	game_config.apply_answer_speed_after_round(player.score, _base_answer_speed)
 	if player.score == game_config.questions_count:
 		add_event(FSMGameEvents.END_GAME)
 

@@ -1,10 +1,10 @@
 extends Node2D
 
-@export var line_color: Color = Color(1, 1, 1, 0.3) # Белый цвет с прозрачностью
+@export var line_color: Color = Color(1, 1, 1, 0.3) # White with transparency
 @export var line_width: float = 2.0
-@export var glow_color: Color = Color(0.0, 0.8, 1.0) # Яркий голубой
+@export var glow_color: Color = Color(0.0, 0.8, 1.0) # Bright cyan
 @export var line_thickness: float = 3.0
-@export var glow_intensity: int = 3 # Количество слоев свечения
+@export var glow_intensity: int = 3 # Glow layer count
 @export var gameArea: GameArea
 @export var lineSelector: LineSelector
 
@@ -22,7 +22,7 @@ func _draw():
 		var start_pos = Vector2(area.position.x, y_pos)
 		var end_pos = Vector2(area.end.x, y_pos)
 		
-		# Проверяем, является ли эта линия выбранной
+		# Highlight the selected lane borders
 		var selected_lane = lineSelector.selected_lane
 		var is_selected = (i == selected_lane or i == selected_lane + 1)
 		
@@ -31,7 +31,7 @@ func _draw():
 func _draw_glowing_gradient_line(start: Vector2, end: Vector2, highlighted: bool):
 	var points = PackedVector2Array([start, start.lerp(end, 0.5), end])
 	
-	# Настройки яркости
+	# Brightness settings
 	var base_alpha = 1.0 if highlighted else 0.3
 	var thickness = line_thickness * (2.0 if highlighted else 1.0)
 
@@ -41,7 +41,7 @@ func _draw_glowing_gradient_line(start: Vector2, end: Vector2, highlighted: bool
 	var color_main = glow_color
 	color_main.a = base_alpha
 
-	# 1. Свечение (делаем его намного сильнее, если линия выбрана)
+	# 1. Glow layers (stronger when highlighted)
 	var layers = 6 if highlighted else 2
 	for layer in range(layers, 0, -1):
 		var layer_color = glow_color
@@ -50,5 +50,5 @@ func _draw_glowing_gradient_line(start: Vector2, end: Vector2, highlighted: bool
 		
 		draw_polyline_colors(points, PackedColorArray([color_transparent, layer_color, color_transparent]), layer_width, true)
 
-	# 2. Основная линия
+	# 2. Main line
 	draw_polyline_colors(points, PackedColorArray([color_transparent, color_main, color_transparent]), thickness, true)

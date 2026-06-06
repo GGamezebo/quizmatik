@@ -73,15 +73,13 @@ func get_discret_lane() -> int:
 	return movement.current_line_index
 
 func get_size() -> Vector2:
-	# 1. Получаем имя текущей анимации
+	# Read the current animation frame texture
 	var anim_name = animated_sprite.animation
-	# 2. Получаем индекс текущего кадра
 	var frame_index = animated_sprite.frame
-	# 3. Достаем текстуру этого конкретного кадра
 	var texture = animated_sprite.sprite_frames.get_frame_texture(anim_name, frame_index)
 	
 	if texture:
-		# Умножаем чистый размер картинки на масштаб узла
+		# Scale texture size by the sprite's global scale
 		return texture.get_size() * animated_sprite.global_scale
 	return Vector2.ZERO
 
@@ -105,13 +103,13 @@ func die_animation() -> void:
 	var tween = create_tween()
 	tween.set_parallel(true)
 	tween.tween_property(self, "rotation", rotation + randf_range(-3, 3), dead_animation_time * 0.6).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tween.tween_property(self, "scale", Vector2(0.1, 0.1), dead_animation_time).set_ease(Tween.EASE_IN) # Сжимаем
+	tween.tween_property(self, "scale", Vector2(0.1, 0.1), dead_animation_time).set_ease(Tween.EASE_IN) # Shrink
 
 	for i in range(4):
-		await get_tree().create_timer(0.15).timeout # Пауза между взрывами
+		await get_tree().create_timer(0.15).timeout # Pause between explosions
 		_spawn_explosion_at_random_pos()
 
-	_spawn_explosion_at_random_pos(Vector2.ZERO, 1.5) # Большой взрыв в центре
+	_spawn_explosion_at_random_pos(Vector2.ZERO, 1.5) # Large center explosion
 	animated_sprite.visible = false
 	
 	await tween.finished
@@ -198,7 +196,7 @@ func _spawn_explosion_at_random_pos(offset = Vector2.ZERO, scale_multiplier = 1.
 		
 		if current_frame_texture:
 			var size = current_frame_texture.get_size()
-			# Генерируем случайную точку в пределах размеров кадра
+			# Random point within the current frame bounds
 			offset = Vector2(
 				randf_range(-size.x / 2, size.x / 2),
 				randf_range(-size.y / 2, size.y / 2)
@@ -248,7 +246,7 @@ class DiscreteMovementComponent extends IMovementComponent:
 				target_y = owner.discrete_positions[current_line_index]
 				
 		elif Input.is_action_just_pressed("ui_down"):
-			# Проверяем, можем ли мы сдвинуться ниже (размер массива - 1 — это самый низ)
+			# Check if we can move down (last index is the bottom lane)
 			if current_line_index < owner.discrete_positions.size() - 1:
 				current_line_index += 1
 				target_y = owner.discrete_positions[current_line_index]
@@ -266,15 +264,12 @@ class DiscreteMovementComponent extends IMovementComponent:
 			
 	func _update_current_line_index_by_distance() -> void:
 		var closest_index: int = 0
-		# Инициализируем минимальную дистанцию как максимально возможное число
 		var min_distance: float = INF 
 		
-		# Проходим по всем индексам массива
 		for i in range(owner.discrete_positions.size()):
-			# Считаем абсолютное расстояние (разницу) между самолётом и точкой i
 			var distance: float = abs(owner.global_position.y - owner.discrete_positions[i])
 			
-			# Если нашли точку, которая ближе, чем предыдущая «самая ближняя»
+			# Track the closest lane position
 			if distance < min_distance:
 				min_distance = distance
 				closest_index = i
