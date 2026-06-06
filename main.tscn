@@ -3,12 +3,13 @@
 [ext_resource type="Script" uid="uid://cfiqgxelo6ks3" path="res://src/contexts/main_context/main_context.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cvayb5jfghll4" path="res://src/ui/loading_screen/loading_screen.tscn" id="2_0xm2m"]
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="2_kek77"]
-[ext_resource type="Script" uid="uid://djxvf8yy7uqhl" path="res://src/contexts/main_context/account/persistent_data_controller.gd" id="4_lquwl"]
+[ext_resource type="Script" uid="uid://djxvf8yy7uqhl" path="res://src/contexts/main_context/account/persisten_data_controller.gd" id="4_lquwl"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="5_4c57u"]
 [ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/account/progress.tres" id="5_272bh"]
 [ext_resource type="AudioStream" uid="uid://bchaw1l2muu4w" path="res://assets/background_music.mp3" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/contexts/main_context/account/progress_controller.tscn" id="8_4c57u"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="8_dg77c"]
+[ext_resource type="PackedScene" uid="uid://fdo7cegg1sud" path="res://src/contexts/menu_context/menu_context.tscn" id="10_4c57u"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -20,13 +21,14 @@ glow_blend_mode = 0
 
 [sub_resource type="Compositor" id="Compositor_1bvp3"]
 
-[node name="MainContext" type="Node" unique_id=1500600584]
+[node name="MainContext" type="Node" unique_id=1500600584 node_paths=PackedStringArray("current_context")]
 script = ExtResource("1_0xm2m")
 game_context_path = "uid://6rk3lba0km5x"
 menu_context_path = "uid://fdo7cegg1sud"
 post_battle_context_path = "uid://df5u08rtrxes8"
 loading_screen_scene = ExtResource("2_0xm2m")
 main_events = ExtResource("8_dg77c")
+current_context = NodePath("MenuContext")
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="." unique_id=1725798495]
 resources = [PackedStringArray("levels"), [ExtResource("2_kek77")]]
@@ -52,3 +54,5 @@ parameters/looping = true
 environment = SubResource("Environment_0xm2m")
 camera_attributes = SubResource("CameraAttributesPractical_h2yge")
 compositor = SubResource("Compositor_1bvp3")
+
+[node name="MenuContext" parent="." unique_id=1044355188 instance=ExtResource("10_4c57u")]

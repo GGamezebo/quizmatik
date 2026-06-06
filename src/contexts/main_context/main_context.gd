@@ -9,7 +9,7 @@ extends Node
 
 var load_start_time: float = 0.0
 
-var current_context:Node
+@export var current_context:Node
 var current_loading_screen = null
 var is_loading: bool = false
 var target_path: String = ""
@@ -20,7 +20,9 @@ func _ready() -> void:
 	listener.add(main_events.ev_start_game, _on_start_game)
 	listener.add(main_events.ev_exit_game, _ev_exit_game)
 	listener.add(main_events.ev_return_to_menu, _return_to_menu)
-	switch_game_context(menu_context_path, false)
+	
+	var menu_context: IContext = current_context as IContext
+	menu_context.initialize({})
 	
 func _exit_tree() -> void:
 	listener.deinit()
