@@ -17,11 +17,11 @@
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/contexts/main_context/account/progress_controller.tscn" id="14_cjfjs"]
 [ext_resource type="PackedScene" uid="uid://bvsvg4k1oa70y" path="res://src/contexts/menu_context/levels/levels_selection.tscn" id="15_foifc"]
 
-[sub_resource type="Gradient" id="Gradient_kcyx7"]
+[sub_resource type="Gradient" id="Gradient_cjfjs"]
 colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 0.072000004)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ux2mn"]
-gradient = SubResource("Gradient_kcyx7")
+gradient = SubResource("Gradient_cjfjs")
 
 [sub_resource type="LabelSettings" id="LabelSettings_35kkh"]
 font_size = 64
@@ -145,7 +145,6 @@ script = ExtResource("8_82bx7")
 user_settings = ExtResource("9_3qhmn")
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("packs_list_container", "progress", "windows_stack_manager", "level_selection_window")]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -352,81 +351,6 @@ text = "Сброс прогресса"
 layout_mode = 2
 text = "Выход"
 
-[node name="TrainingRoomWindow2" type="Control" parent="UI" unique_id=1482113315 node_paths=PackedStringArray("params_container")]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("5_n67ar")
-config = ExtResource("6_vp6ju")
-params_container = NodePath("CenterContainer/VBoxContainer/TrainingRoomConfig/TrainingRoomParamsContainer")
-
-[node name="TextureRect" type="TextureRect" parent="UI/TrainingRoomWindow2" unique_id=824374166]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("GradientTexture2D_ux2mn")
-
-[node name="CenterContainer" type="CenterContainer" parent="UI/TrainingRoomWindow2" unique_id=1610222432]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/TrainingRoomWindow2/CenterContainer" unique_id=1169189521]
-layout_mode = 2
-
-[node name="TitleContainer" type="HBoxContainer" parent="UI/TrainingRoomWindow2/CenterContainer/VBoxContainer" unique_id=328975157]
-layout_mode = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="UI/TrainingRoomWindow2/CenterContainer/VBoxContainer/TitleContainer" unique_id=1345058963]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Тренеровочкая комната"
-label_settings = SubResource("LabelSettings_35kkh")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ResetSetting" type="Button" parent="UI/TrainingRoomWindow2/CenterContainer/VBoxContainer/TitleContainer" unique_id=1859119122]
-layout_mode = 2
-size_flags_horizontal = 4
-text = " Reset "
-icon_alignment = 1
-
-[node name="TrainingRoomConfig" type="ScrollContainer" parent="UI/TrainingRoomWindow2/CenterContainer/VBoxContainer" unique_id=313857216]
-custom_minimum_size = Vector2(800, 500)
-layout_mode = 2
-
-[node name="TrainingRoomParamsContainer" type="VBoxContainer" parent="UI/TrainingRoomWindow2/CenterContainer/VBoxContainer/TrainingRoomConfig" unique_id=1918682670]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/TrainingRoomWindow2/CenterContainer/VBoxContainer" unique_id=1894720464]
-layout_mode = 2
-alignment = 1
-
-[node name="StartBattle" type="Button" parent="UI/TrainingRoomWindow2/CenterContainer/VBoxContainer/HBoxContainer" unique_id=1596929755]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Начать Игру
-"
-
-[node name="ButtonExit" type="Button" parent="UI/TrainingRoomWindow2/CenterContainer/VBoxContainer/HBoxContainer" unique_id=1677977193]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Выход"
-
 [connection signal="button_down" from="UI/MainMenuWindow/CenterContainer/VBoxContainer/TrainigRoom" to="UI/StackWindowController" method="_on_trainig_room_button_down"]
 [connection signal="button_down" from="UI/MainMenuWindow/CenterContainer/VBoxContainer/Settings" to="UI/StackWindowController" method="_on_trainig_room_button_down"]
 [connection signal="pressed" from="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer/ResetSetting" to="UI/TrainingRoomWindow" method="_on_reset_setting_pressed"]
-[connection signal="pressed" from="UI/TrainingRoomWindow2/CenterContainer/VBoxContainer/TitleContainer/ResetSetting" to="UI/TrainingRoomWindow2" method="_on_reset_setting_pressed"]

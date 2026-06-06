@@ -1,0 +1,138 @@
+[gd_scene format=3 uid="uid://c8qm5n2k7xwfd"]
+
+[ext_resource type="Script" uid="uid://dd0vjogf5bk8c" path="res://src/ui/confirm_dialog/confirm_dialog.gd" id="1_script"]
+
+[sub_resource type="Gradient" id="Gradient_kcyx7"]
+colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 0.072000004)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_r4ora"]
+gradient = SubResource("Gradient_kcyx7")
+
+[sub_resource type="Gradient" id="Gradient_overlay"]
+colors = PackedColorArray(0, 0, 0.627451, 0.42, 0, 1, 1, 0.1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_overlay"]
+gradient = SubResource("Gradient_overlay")
+width = 1280
+height = 720
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 40.0
+content_margin_top = 36.0
+content_margin_right = 40.0
+content_margin_bottom = 36.0
+bg_color = Color(0.04, 0.1, 0.24, 0.9)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.25, 0.72, 1, 0.75)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+shadow_color = Color(0.1, 0.45, 0.9, 0.35)
+shadow_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 48
+font_color = Color(0.45, 1, 1, 1)
+outline_size = 6
+outline_color = Color(0.02, 0.18, 0.35, 0.9)
+
+[sub_resource type="LabelSettings" id="LabelSettings_message"]
+font_size = 26
+font_color = Color(0.82, 0.93, 1, 1)
+
+[node name="ConfirmDialog" type="CanvasLayer" unique_id=392520155 node_paths=PackedStringArray("screen", "title_label", "message_label", "confirm_button", "cancel_button")]
+layer = 10
+script = ExtResource("1_script")
+screen = NodePath("Screen")
+title_label = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Title")
+message_label = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Message")
+confirm_button = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Confirm")
+cancel_button = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Cancel")
+
+[node name="Screen" type="Control" parent="." unique_id=1784713183]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Screen" unique_id=573368634]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_r4ora")
+
+[node name="Overlay" type="TextureRect" parent="Screen" unique_id=221175626]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_overlay")
+
+[node name="CenterContainer" type="CenterContainer" parent="Screen" unique_id=729865602]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Screen/CenterContainer" unique_id=1069471334]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="Screen/CenterContainer/PanelContainer" unique_id=48501217]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer" unique_id=1452001157]
+layout_mode = 2
+theme_override_constants/separation = 28
+alignment = 1
+
+[node name="Title" type="Label" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=392980260]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+text = "Заголовок"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Message" type="Label" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1384578067]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+text = "Текст сообщения"
+label_settings = SubResource("LabelSettings_message")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1646009899]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="Cancel" type="Button" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons" unique_id=1254686295]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "Отмена"
+
+[node name="Confirm" type="Button" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons" unique_id=1647958014]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "ОК"

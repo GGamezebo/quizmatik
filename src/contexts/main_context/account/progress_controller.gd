@@ -50,6 +50,21 @@ func is_level_unlocked(container_id: String, level_id: int) -> bool:
 		
 	return false
 
+func are_all_regular_levels_completed(container_id: String) -> bool:
+	var container_config: Dictionary = levels_config.find_container_in_config(container_id)
+	if container_config.is_empty():
+		return false
+
+	var completed_levels: Dictionary = pdata.progress["levels"].get(container_id, {}).get("completed_levels", {})
+	for level in container_config["levels"]:
+		if level.get("is_exam", false):
+			continue
+		var level_id: int = level["level_id"]
+		if completed_levels.get(level_id, 0) < 1:
+			return false
+	return true
+
+
 func get_level_stars(container_id: String, level_id: int) -> int:
 	var container_progress = pdata.progress["levels"].get(container_id, {})
 	var stars = container_progress.get("completed_levels", {}).get(level_id, 0)

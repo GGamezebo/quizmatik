@@ -6,6 +6,7 @@
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="3_c7uxm"]
 [ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/account/progress.tres" id="4_wsbu4"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/contexts/main_context/account/progress_controller.tscn" id="5_wsbu4"]
+[ext_resource type="PackedScene" uid="uid://c8qm5n2k7xwfd" path="res://src/ui/confirm_dialog/confirm_dialog.tscn" id="6_confirm"]
 
 [sub_resource type="Gradient" id="Gradient_r3o0b"]
 colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 1)
@@ -13,7 +14,7 @@ colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_51m4l"]
 gradient = SubResource("Gradient_r3o0b")
 
-[node name="LevelsSelection" type="Control" unique_id=519807597 node_paths=PackedStringArray("grid_container", "progress", "back_button")]
+[node name="LevelsSelection" type="Control" unique_id=519807597 node_paths=PackedStringArray("grid_container", "progress", "back_button", "early_exam_dialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,6 +30,9 @@ pdata = ExtResource("4_wsbu4")
 container_id = "container_1_addition"
 progress = NodePath("ProgressController")
 back_button = NodePath("MarginContainer/Back")
+early_exam_dialog = NodePath("EarlyExamDialog")
+
+[node name="EarlyExamDialog" parent="." instance=ExtResource("6_confirm")]
 
 [node name="ProgressController" parent="." unique_id=2109216065 instance=ExtResource("5_wsbu4")]
 

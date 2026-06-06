@@ -48,6 +48,8 @@ LEVEL_CURVE = {
         "round_coeffs": {6: 1.15, 12: 1.3, 15: 1.45, 18: 1.55},
         "acc_min": 0.65,
         "acc_max": 1.65,
+        "early_exam_questions_multiplier": 1.5,
+        "early_exam_answer_speed_multiplier": 1.25,
     },
 }
 
@@ -120,6 +122,9 @@ def make_tres(block: dict, level_id: int) -> str:
         lines.append(f'player_acceleration_min = {params["acc_min"]}')
         lines.append(f'player_acceleration_max = {params["acc_max"]}')
         lines.append("player_acceleration_speed = 1.0")
+    if "early_exam_questions_multiplier" in params:
+        lines.append(f'early_exam_questions_multiplier = {params["early_exam_questions_multiplier"]}')
+        lines.append(f'early_exam_answer_speed_multiplier = {params["early_exam_answer_speed_multiplier"]}')
     return "\n".join(lines) + "\n"
 
 

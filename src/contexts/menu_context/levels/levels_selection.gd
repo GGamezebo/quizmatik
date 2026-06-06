@@ -8,10 +8,17 @@ extends Control
 @export var container_id: String
 @export var progress: ProgressController
 @export var back_button: Button
+@export var early_exam_dialog: ConfirmDialog
+
+var _pending_battle_info: GameConfig.BattleInfo = null
 
 func initialize(_container_id: String) -> void:
 	container_id = _container_id
 	_populate_levels_grid()
+
+func _ready() -> void:
+	early_exam_dialog.ev_confirmed.connect(_on_early_exam_confirmed)
+	early_exam_dialog.ev_canceled.connect(_on_early_exam_canceled)
 
 func _populate_levels_grid() -> void:
 	for child in grid_container.get_children():
@@ -32,10 +39,35 @@ func _populate_levels_grid() -> void:
 		if is_unlocked:
 			var battle_info = GameConfig.BattleInfo.new(container_id, lvl_id, is_exam)
 			btn.pressed.connect(_on_level_selected.bind(battle_info))
-#
+
 func _on_level_selected(battle_info: GameConfig.BattleInfo) -> void:
-	print("Loading gameplay for: ", battle_info.container_id, " | Level: ", battle_info.level_id)
+	if battle_info.is_exam and not progress.are_all_regular_levels_completed(battle_info.container_id):
+		_pending_battle_info = battle_info
+		early_exam_dialog.open(
+			"Усложнённый экзамен",
+			"Вы не прошли все уровни в этом блоке. Экзамен будет усложнённым.",
+			"Начать",
+			"Отмена",
+		)
+		return
+	_start_game(battle_info)
+
+func _on_early_exam_confirmed() -> void:
+	if _pending_battle_info == null:
+		return
+	var battle_info := GameConfig.BattleInfo.new(
+		_pending_battle_info.container_id,
+		_pending_battle_info.level_id,
+		true,
+		true,
+	)
+	_pending_battle_info = null
+	_start_game(battle_info)
+
+func _on_early_exam_canceled() -> void:
+	_pending_battle_info = null
+
+func _start_game(battle_info: GameConfig.BattleInfo) -> void:
 	main_events.ev_start_game.emit({
 		"battle_info": battle_info
 	})
-#

@@ -10,6 +10,10 @@ func initialize(_data: Dictionary) -> void:
 	
 	if battle_info:
 		scenario = levels_config.get_level_config(battle_info.container_id, battle_info.level_id)
+		if scenario:
+			scenario = scenario.duplicate(true)
+			if battle_info.is_early_exam:
+				scenario.apply_early_exam_modifiers()
 		
 	if scenario:
 		_load_game_scenario(scenario)
