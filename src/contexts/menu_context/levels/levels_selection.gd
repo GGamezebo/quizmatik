@@ -13,9 +13,6 @@ func initialize(_container_id: String) -> void:
 	container_id = _container_id
 	_populate_levels_grid()
 
-func _ready() -> void:
-	_populate_levels_grid()
-
 func _populate_levels_grid() -> void:
 	for child in grid_container.get_children():
 		child.queue_free()
