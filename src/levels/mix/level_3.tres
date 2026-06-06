@@ -10,4 +10,7 @@ max_generate_number = 4
 answer_lines_count = 3
 health = 3
 questions_count = 6
-answer_speed = 78.0
+answer_speed = 65.0
+answer_speed_round_coeffs = {
+4: 1.1,
+}

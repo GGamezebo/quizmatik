@@ -8,8 +8,6 @@ LEVEL_COUNT = 17
 EXAM_LEVEL = 17
 
 HEALTH = 3
-MIN_QUESTIONS = 5
-MAX_QUESTIONS = 18
 
 BLOCKS = [
     {"id": "addition", "name": "Долина Сложения", "unlock_name": "is_unlocked_by_default", "unlock_args": [], "ops": 1},
@@ -19,31 +17,38 @@ BLOCKS = [
     {"id": "mix", "name": "Долина Смешения", "unlock_name": "is_unlocked_by_exam", "unlock_args": ["division"], "ops": 15},
 ]
 
-# 4 acts x 4 levels + exam. HP always 3, questions 5 to 18.
-# Early levels are easier via speed, lane count, and number range.
+# 4 acts x 4 levels + exam. HP always 3, questions 5-18.
+# Base speed is moderate; answer_speed_round_coeffs ramps difficulty mid-battle.
 LEVEL_CURVE = {
-    # Act 1 — warmup: 5-6 questions, 3 lanes, slow
-    1: {"q": 5, "spd": 65, "lines": 3},
-    2: {"q": 5, "spd": 72, "lines": 3},
-    3: {"q": 6, "spd": 78, "lines": 3},
-    4: {"q": 6, "spd": 88, "lines": 3},
-    # Act 2 — numbers: 7-8 questions, transition to 4 lanes
-    5: {"q": 7, "spd": 88, "lines": 3},
-    6: {"q": 7, "spd": 98, "lines": 3},
-    7: {"q": 8, "spd": 102, "lines": 4},
-    8: {"q": 8, "spd": 108, "lines": 4},
-    # Act 3 — endurance and speed: 9-12 questions
-    9: {"q": 9, "spd": 112, "lines": 4},
-    10: {"q": 10, "spd": 120, "lines": 4},
-    11: {"q": 11, "spd": 128, "lines": 4},
-    12: {"q": 12, "spd": 138, "lines": 4},
-    # Act 4 — mastery: 13-16 questions, plane acceleration
-    13: {"q": 13, "spd": 148, "lines": 4, "acc_min": 0.75, "acc_max": 1.4},
-    14: {"q": 14, "spd": 160, "lines": 4, "acc_min": 0.75, "acc_max": 1.4},
-    15: {"q": 15, "spd": 172, "lines": 4, "acc_min": 0.65, "acc_max": 1.65},
-    16: {"q": 16, "spd": 182, "lines": 4, "acc_min": 0.65, "acc_max": 1.65},
-    # Exam — 18 questions, speed slightly below the peak
-    17: {"q": 18, "spd": 170, "lines": 4, "acc_min": 0.65, "acc_max": 1.65},
+    # Act 1 — warmup, no or mild in-battle acceleration
+    1: {"q": 5, "spd": 58, "lines": 3, "round_coeffs": {}},
+    2: {"q": 5, "spd": 62, "lines": 3, "round_coeffs": {}},
+    3: {"q": 6, "spd": 65, "lines": 3, "round_coeffs": {4: 1.1}},
+    4: {"q": 6, "spd": 70, "lines": 3, "round_coeffs": {4: 1.15}},
+    # Act 2 — numbers grow, first real speed ramps
+    5: {"q": 7, "spd": 72, "lines": 3, "round_coeffs": {4: 1.1, 6: 1.2}},
+    6: {"q": 7, "spd": 78, "lines": 3, "round_coeffs": {4: 1.15, 7: 1.25}},
+    7: {"q": 8, "spd": 80, "lines": 4, "round_coeffs": {4: 1.15, 7: 1.25}},
+    8: {"q": 8, "spd": 85, "lines": 4, "round_coeffs": {4: 1.2, 8: 1.3}},
+    # Act 3 — endurance; speed ramps at ~40%, ~70%, and final round
+    9: {"q": 9, "spd": 88, "lines": 4, "round_coeffs": {4: 1.15, 7: 1.3, 9: 1.4}},
+    10: {"q": 10, "spd": 92, "lines": 4, "round_coeffs": {4: 1.2, 7: 1.3, 10: 1.45}},
+    11: {"q": 11, "spd": 96, "lines": 4, "round_coeffs": {4: 1.2, 8: 1.35, 11: 1.45}},
+    12: {"q": 12, "spd": 100, "lines": 4, "round_coeffs": {4: 1.2, 8: 1.35, 12: 1.5}},
+    # Act 4 — plane acceleration + stronger mid-battle ramps
+    13: {"q": 13, "spd": 95, "lines": 4, "round_coeffs": {5: 1.2, 9: 1.35, 13: 1.5}, "acc_min": 0.75, "acc_max": 1.4},
+    14: {"q": 14, "spd": 98, "lines": 4, "round_coeffs": {5: 1.2, 9: 1.35, 14: 1.5}, "acc_min": 0.75, "acc_max": 1.4},
+    15: {"q": 15, "spd": 100, "lines": 4, "round_coeffs": {5: 1.25, 10: 1.4, 15: 1.55}, "acc_min": 0.65, "acc_max": 1.65},
+    16: {"q": 16, "spd": 102, "lines": 4, "round_coeffs": {5: 1.25, 10: 1.45, 16: 1.6}, "acc_min": 0.65, "acc_max": 1.65},
+    # Exam — long fight with steady escalation
+    17: {
+        "q": 18,
+        "spd": 95,
+        "lines": 4,
+        "round_coeffs": {6: 1.15, 12: 1.3, 15: 1.45, 18: 1.55},
+        "acc_min": 0.65,
+        "acc_max": 1.65,
+    },
 }
 
 
@@ -52,34 +57,49 @@ def number_range(block_id: str, level_id: int) -> tuple[int, int]:
         if level_id <= 4:
             return 1, 4
         if level_id <= 8:
-            return 1, 6
+            return 1, 7
         if level_id <= 12:
             return 1, 9
         if level_id <= 16:
-            return 2, 10
-        return 1, 12
+            return 2, 12
+        return 1, 15
     if block_id in ("multiplication", "division"):
         if level_id <= 4:
             return 2, 3
         if level_id <= 8:
-            return 2, 5
+            return 2, 6
         if level_id <= 12:
-            return 2, 7
+            return 2, 8
         if level_id <= 16:
-            return 2, 9
-        return 2, 10
+            return 2, 10
+        return 2, 12
     if level_id <= 4:
         return 2, 4
     if level_id <= 8:
-        return 2, 6
+        return 2, 7
     if level_id <= 12:
-        return 2, 8
-    return 2, 10
+        return 2, 9
+    return 2, 12
+
+
+def format_round_coeffs_tres(round_coeffs: dict) -> list[str]:
+    if not round_coeffs:
+        return ["answer_speed_round_coeffs = {}"]
+    lines = ["answer_speed_round_coeffs = {"]
+    for round_num in sorted(round_coeffs.keys()):
+        coeff = round_coeffs[round_num]
+        if coeff == int(coeff):
+            lines.append(f"{round_num}: {int(coeff)}.0,")
+        else:
+            lines.append(f"{round_num}: {coeff},")
+    lines.append("}")
+    return lines
 
 
 def make_tres(block: dict, level_id: int) -> str:
     params = LEVEL_CURVE[level_id]
     min_n, max_n = number_range(block["id"], level_id)
+    round_coeffs = params.get("round_coeffs", {})
     lines = [
         '[gd_resource type="Resource" script_class="GameConfig" load_steps=2 format=3]',
         "",
@@ -94,6 +114,7 @@ def make_tres(block: dict, level_id: int) -> str:
         f"health = {HEALTH}",
         f'questions_count = {params["q"]}',
         f'answer_speed = {float(params["spd"])}',
+        *format_round_coeffs_tres(round_coeffs),
     ]
     if "acc_min" in params:
         lines.append(f'player_acceleration_min = {params["acc_min"]}')
@@ -158,7 +179,7 @@ def make_levels_config() -> str:
         '\t\t\t\tlevel_data["config"] = ResourceLoader.load(full_path)',
         '\t\t\t\tprint("[Loader] Level config loaded successfully for level", level_data["level_id"], ": ", full_path)',
         "\t\t\telse:",
-        '\t\t\t\tassert(false, "[Loader] Файл конфигурации не найден по пути: " + full_path)',
+        '\t\t\t\tassert(false, "[Loader] Level config not found: " + full_path)',
         "",
         "func find_container_in_config(container_id: String) -> Dictionary:",
         '\tif not levels.has("containers") or not (levels["containers"] is Array):',

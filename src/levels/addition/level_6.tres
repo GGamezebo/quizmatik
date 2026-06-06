@@ -6,8 +6,12 @@
 script = ExtResource("1_script")
 allowed_operations = 1
 min_generate_number = 1
-max_generate_number = 6
+max_generate_number = 7
 answer_lines_count = 3
 health = 3
 questions_count = 7
-answer_speed = 98.0
+answer_speed = 78.0
+answer_speed_round_coeffs = {
+4: 1.15,
+7: 1.25,
+}

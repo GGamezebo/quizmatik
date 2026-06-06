@@ -155,7 +155,7 @@ func _init() -> void:
 				level_data["config"] = ResourceLoader.load(full_path)
 				print("[Loader] Level config loaded successfully for level", level_data["level_id"], ": ", full_path)
 			else:
-				assert(false, "[Loader] Файл конфигурации не найден по пути: " + full_path)
+				assert(false, "[Loader] Level config not found: " + full_path)
 
 func find_container_in_config(container_id: String) -> Dictionary:
 	if not levels.has("containers") or not (levels["containers"] is Array):
