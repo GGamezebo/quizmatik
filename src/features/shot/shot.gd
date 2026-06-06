@@ -1,6 +1,6 @@
 extends Area2D
 
-signal ev_explosion(answer:Answer)
+signal ev_explosion(answer: Answer, hit_point: Vector2)
 
 @export var speed: float = 600.0
 @export var ray_cast: RayCast2D
