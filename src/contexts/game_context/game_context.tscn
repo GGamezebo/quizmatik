@@ -26,6 +26,10 @@
 [ext_resource type="Script" uid="uid://cwfxgx56jwul8" path="res://src/contexts/game_context/game_logic/line_selector.gd" id="15_h2w07"]
 [ext_resource type="Texture2D" path="res://assets/health_icon.svg" id="17_emdi4"]
 [ext_resource type="Script" uid="uid://bujyufbdn6yo" path="res://src/contexts/game_context/ui/score.gd" id="19_73ia8"]
+[ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="20_settings"]
+[ext_resource type="Script" path="res://src/contexts/game_context/ui/movement_mode_button.gd" id="21_movebtn"]
+[ext_resource type="Texture2D" path="res://assets/movement_direct.svg" id="22_direct"]
+[ext_resource type="Texture2D" path="res://assets/movement_discrete.svg" id="23_discrete"]
 
 [node name="GameContext" type="Node" unique_id=1179940708]
 script = ExtResource("1_j4hd0")
@@ -58,6 +62,7 @@ air_plane = NodePath("../../Player/AirPlane")
 script = ExtResource("9_irda4")
 game_events = ExtResource("7_7ifmk")
 game_config = ExtResource("2_j4hd0")
+user_settings = ExtResource("20_settings")
 player = NodePath("../../Player")
 air_plane = NodePath("../../Player/AirPlane")
 area = NodePath("../../GameArea")
@@ -100,38 +105,63 @@ game_confg = ExtResource("2_j4hd0")
 
 [node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]
 
-[node name="Score" type="HBoxContainer" parent="HUD" unique_id=63369239 node_paths=PackedStringArray("player", "score", "maxScore")]
-offset_right = 272.0
-offset_bottom = 105.0
+[node name="TopLeftPanel" type="MarginContainer" parent="HUD"]
+anchors_preset = 0
+offset_right = 390.0
+offset_bottom = 117.0
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+
+[node name="HBox" type="HBoxContainer" parent="HUD/TopLeftPanel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="MovementMode" type="TextureButton" parent="HUD/TopLeftPanel/HBox" node_paths=PackedStringArray("air_plane")]
+custom_minimum_size = Vector2(105, 105)
+layout_mode = 2
+focus_mode = 0
+size_flags_vertical = 4
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("21_movebtn")
+user_settings = ExtResource("20_settings")
+air_plane = NodePath("../../../../Player/AirPlane")
+direct_texture = ExtResource("22_direct")
+discrete_texture = ExtResource("23_discrete")
+
+[node name="Score" type="HBoxContainer" parent="HUD/TopLeftPanel/HBox" unique_id=63369239 node_paths=PackedStringArray("player", "score", "maxScore")]
+layout_mode = 2
+size_flags_vertical = 4
 alignment = 1
 script = ExtResource("19_73ia8")
-player = NodePath("../../Player")
+player = NodePath("../../../../Player")
 game_config = ExtResource("2_j4hd0")
 score = NodePath("Score")
 maxScore = NodePath("MaxScore")
 
-[node name="Name" type="Label" parent="HUD/Score" unique_id=345963575]
+[node name="Name" type="Label" parent="HUD/TopLeftPanel/HBox/Score" unique_id=345963575]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "счёт:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Score" type="Label" parent="HUD/Score" unique_id=1130806769]
+[node name="Score" type="Label" parent="HUD/TopLeftPanel/HBox/Score" unique_id=1130806769]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Separator" type="Label" parent="HUD/Score" unique_id=1191885687]
+[node name="Separator" type="Label" parent="HUD/TopLeftPanel/HBox/Score" unique_id=1191885687]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "/"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MaxScore" type="Label" parent="HUD/Score" unique_id=1314264146]
+[node name="MaxScore" type="Label" parent="HUD/TopLeftPanel/HBox/Score" unique_id=1314264146]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "30"

@@ -8,6 +8,7 @@ static func get_state() -> String:
 
 @export var game_events: GameEvents
 @export var game_config: GameConfig
+@export var user_settings: UserSettings
 @export var player: Player
 @export var air_plane: AirPlane
 @export var area: GameArea
@@ -18,7 +19,7 @@ var __components: Array[Variant] = []
 
 
 func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
-	air_plane.initialize(game_config.player_air_plane_speed, AirPlane.MovementMode.DISCRETE)
+	air_plane.initialize(game_config.player_air_plane_speed, user_settings.movement_mode)
 
 	var answer_spawner: AnswerSpawner = AnswerSpawner.new(area, answerScene, game_manager.owner)
 	_round_controller = RoundController.new(game_config, player, answer_spawner, game_manager.get_tree(), ev_question_changed)
