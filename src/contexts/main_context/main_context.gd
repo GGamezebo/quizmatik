@@ -48,7 +48,6 @@ func _release_current_context() -> void:
 func switch_game_context(scene_path: String, use_loading_screen: bool = true, data: Dictionary = {}):
 	if is_loading: return
 	
-	_release_current_context()
 	load_start_time = Time.get_unix_time_from_system()
 	target_path = scene_path
 	is_loading = true
@@ -58,8 +57,13 @@ func switch_game_context(scene_path: String, use_loading_screen: bool = true, da
 	if use_loading_screen:
 		current_loading_screen = loading_screen_scene.instantiate()
 		add_child(current_loading_screen)
+		_release_current_context()
 	
 	var scene: PackedScene = await _async_load_scene(scene_path, _update_progress)
+	
+	if not use_loading_screen:
+		_release_current_context()
+	
 	if scene:
 		_on_loading_complete(scene, data)
 		

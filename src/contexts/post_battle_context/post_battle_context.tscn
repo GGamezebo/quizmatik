@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://15oswvc8w8gn" path="res://src/contexts/post_battle_context/post_battle_context.gd" id="1_uxaqq"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="2_jg6wr"]
 [ext_resource type="PackedScene" uid="uid://dvy13cfq73jxs" path="res://src/ui/background/background.tscn" id="3_bg"]
-[ext_resource type="Script" uid="uid://ce1b4qses4ui2" path="res://src/contexts/post_battle_context/post_battle_stars.gd" id="4_stars"]
 [ext_resource type="Texture2D" uid="uid://c8c6ld7mnpu8l" path="res://assets/star.svg" id="5_star"]
 
 [sub_resource type="Gradient" id="Gradient_overlay"]
@@ -44,12 +43,12 @@ outline_color = Color(0.02, 0.18, 0.35, 0.9)
 font_size = 28
 font_color = Color(0.82, 0.93, 1, 1)
 
-[node name="PostBattleContext" type="Node" unique_id=1710544667 node_paths=PackedStringArray("title_label", "score_label", "stars_row", "menu_button", "repeat_button")]
+[node name="PostBattleContext" type="Node" unique_id=1710544667 node_paths=PackedStringArray("title_label", "score_label", "stars", "menu_button", "repeat_button")]
 script = ExtResource("1_uxaqq")
 main_events = ExtResource("2_jg6wr")
 title_label = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Title")
 score_label = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Score")
-stars_row = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow")
+stars = [NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow/Star1"), NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow/Star2"), NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow/Star3")]
 menu_button = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Menu")
 repeat_button = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Repeat")
 
@@ -111,12 +110,10 @@ text = "Правильных ответов: 0 / 5"
 label_settings = SubResource("LabelSettings_score")
 horizontal_alignment = 1
 
-[node name="StarsRow" type="HBoxContainer" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1661167855 node_paths=PackedStringArray("stars")]
+[node name="StarsRow" type="HBoxContainer" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1661167855]
 layout_mode = 2
 theme_override_constants/separation = 18
 alignment = 1
-script = ExtResource("4_stars")
-stars = [NodePath("Star1"), NodePath("Star2"), NodePath("Star3")]
 
 [node name="Star1" type="TextureRect" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow" unique_id=1069630170]
 custom_minimum_size = Vector2(72, 72)

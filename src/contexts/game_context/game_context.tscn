@@ -96,6 +96,7 @@ entities = [NodePath("../../Player/AirPlane")]
 layer = -1
 script = ExtResource("12_lu6cl")
 main_events = ExtResource("8_xkl2s")
+game_confg = ExtResource("2_j4hd0")
 
 [node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]
 
