@@ -2,47 +2,154 @@
 
 [ext_resource type="Script" uid="uid://15oswvc8w8gn" path="res://src/contexts/post_battle_context/post_battle_context.gd" id="1_uxaqq"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="2_jg6wr"]
+[ext_resource type="PackedScene" uid="uid://dvy13cfq73jxs" path="res://src/ui/background/background.tscn" id="3_bg"]
+[ext_resource type="Script" uid="uid://ce1b4qses4ui2" path="res://src/contexts/post_battle_context/post_battle_stars.gd" id="4_stars"]
+[ext_resource type="Texture2D" uid="uid://c8c6ld7mnpu8l" path="res://assets/star.svg" id="5_star"]
 
-[sub_resource type="Gradient" id="Gradient_8ab8u"]
+[sub_resource type="Gradient" id="Gradient_overlay"]
+colors = PackedColorArray(0, 0, 0.627451, 0.35, 0, 1, 1, 0.08)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_uxaqq"]
-gradient = SubResource("Gradient_8ab8u")
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_overlay"]
+gradient = SubResource("Gradient_overlay")
+width = 1280
+height = 720
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
 
-[node name="PostBattleContext" type="Node" unique_id=1710544667 node_paths=PackedStringArray("score_label", "menu_button", "repeat_button")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 40.0
+content_margin_top = 36.0
+content_margin_right = 40.0
+content_margin_bottom = 36.0
+bg_color = Color(0.04, 0.1, 0.24, 0.88)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.25, 0.72, 1, 0.75)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+shadow_color = Color(0.1, 0.45, 0.9, 0.35)
+shadow_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 56
+font_color = Color(0.45, 1, 1, 1)
+outline_size = 6
+outline_color = Color(0.02, 0.18, 0.35, 0.9)
+
+[sub_resource type="LabelSettings" id="LabelSettings_score"]
+font_size = 28
+font_color = Color(0.82, 0.93, 1, 1)
+
+[node name="PostBattleContext" type="Node" unique_id=1710544667 node_paths=PackedStringArray("title_label", "score_label", "stars_row", "menu_button", "repeat_button")]
 script = ExtResource("1_uxaqq")
 main_events = ExtResource("2_jg6wr")
-score_label = NodePath("MarginContainer/VBoxContainer/Label")
-menu_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Menu")
-repeat_button = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Repeat")
+title_label = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Title")
+score_label = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Score")
+stars_row = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow")
+menu_button = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Menu")
+repeat_button = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Repeat")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=908970863]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1755344619]
+
+[node name="Screen" type="Control" parent="UI" unique_id=2009000142]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer" unique_id=1219923398]
-layout_mode = 2
-texture = SubResource("GradientTexture2D_uxaqq")
+[node name="Background" parent="UI/Screen" unique_id=1769336873 instance=ExtResource("3_bg")]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=204939522]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+[node name="Overlay" type="TextureRect" parent="UI/Screen" unique_id=843163409]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_overlay")
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=103335890]
+[node name="CenterContainer" type="CenterContainer" parent="UI/Screen" unique_id=1840846823]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/Screen/CenterContainer" unique_id=854590390]
+custom_minimum_size = Vector2(560, 420)
 layout_mode = 2
-text = "Результаты "
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Screen/CenterContainer/PanelContainer" unique_id=1936752462]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer" unique_id=751253180]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="Title" type="Label" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=723593679]
+layout_mode = 2
+text = "Победа!"
+label_settings = SubResource("LabelSettings_title")
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1271393554]
+[node name="Score" type="Label" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=131603087]
 layout_mode = 2
+text = "Правильных ответов: 0 / 5"
+label_settings = SubResource("LabelSettings_score")
+horizontal_alignment = 1
 
-[node name="Menu" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1286239246]
+[node name="StarsRow" type="HBoxContainer" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1661167855 node_paths=PackedStringArray("stars")]
 layout_mode = 2
-text = "Meню"
+theme_override_constants/separation = 18
+alignment = 1
+script = ExtResource("4_stars")
+stars = [NodePath("Star1"), NodePath("Star2"), NodePath("Star3")]
 
-[node name="Repeat" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=470955958]
+[node name="Star1" type="TextureRect" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow" unique_id=1069630170]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+texture = ExtResource("5_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Star2" type="TextureRect" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow" unique_id=1301149994]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+texture = ExtResource("5_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Star3" type="TextureRect" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow" unique_id=165744862]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+texture = ExtResource("5_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Buttons" type="HBoxContainer" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=51419622]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Repeat" type="Button" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons" unique_id=1403790622]
+custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
 text = "Повторить"
+
+[node name="Menu" type="Button" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons" unique_id=569244344]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "Меню"

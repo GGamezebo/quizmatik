@@ -3,7 +3,9 @@ extends IContext
 
 @export_category('Major components')
 @export var main_events: MainEvents
+@export var title_label: Label
 @export var score_label: Label
+@export var stars_row: PostBattleStars
 @export_group('Buttons')
 @export var menu_button: Button
 @export var repeat_button: Button
@@ -17,12 +19,12 @@ func _ready() -> void:
 func initialize(data: Dictionary) -> void:
 	if data.has("game_config"):
 		_game_config = data["game_config"]
-	
-	if data.has("score"):
-		var max_score: int = _game_config.questions_count
-		score_label.text = "Результаты: %d / %d" % [data["score"], max_score]
-	else:
-		score_label.text = "Результаты"
+
+	var is_win: bool = data.get("is_win", false)
+	var score: int = data.get("score", 0)
+	var stars: int = data.get("stars", 0)
+	var max_score: int = _game_config.questions_count if _game_config else 0
+	_update_results(is_win, score, max_score, stars)
 
 	menu_button.pressed.connect(_on_menu)
 	repeat_button.pressed.connect(_on_repeat)
@@ -31,6 +33,19 @@ func deinit() -> void:
 	menu_button.pressed.disconnect(_on_menu)
 	repeat_button.pressed.disconnect(_on_repeat)
 	_game_config = null
+
+func _update_results(is_win: bool, score: int, max_score: int, stars: int) -> void:
+	title_label.text = "Победа!" if is_win else "Поражение"
+	var title_settings: LabelSettings = title_label.label_settings.duplicate()
+	title_settings.font_color = Color(0.45, 1.0, 1.0, 1.0) if is_win else Color(1.0, 0.55, 0.55, 1.0)
+	title_label.label_settings = title_settings
+
+	if max_score > 0:
+		score_label.text = "Правильных ответов: %d / %d" % [score, max_score]
+	else:
+		score_label.text = "Правильных ответов: %d" % score
+
+	stars_row.show_stars(stars)
 
 func _on_menu() -> void:
 	main_events.ev_return_to_menu.emit()

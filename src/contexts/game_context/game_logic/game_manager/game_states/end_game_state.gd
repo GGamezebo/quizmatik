@@ -23,12 +23,13 @@ func leave(_event_data: Dictionary) -> void:
 	
 func _on_animation_finished(is_win) -> void:
 	var score: int = player.score
-	var stars: int = _calculate_stars(player.score)
+	var stars: int = _calculate_stars(player.health) if is_win else 0
 	_apply_battle_result(is_win, stars)
 	var battle_result = {
 		"game_config": game_config,
 		"stars": stars,
 		"score": score,
+		"is_win": is_win,
 	}
 	main_events.ev_exit_game.emit(battle_result)
 	
@@ -40,8 +41,8 @@ func _apply_battle_result(is_win: bool, stars: int) -> void:
 			stars
 		)
 		
-func _calculate_stars(score: int) -> int:
-	var percentage: float = float(score) / float(game_config.questions_count)
+func _calculate_stars(health: int) -> int:
+	var percentage: float = float(health) / float(game_config.health)
 	if percentage >= 1.0:
 		return 3
 	elif percentage >= 0.75:
