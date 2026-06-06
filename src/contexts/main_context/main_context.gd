@@ -17,12 +17,10 @@ var listener: EventListener = EventListener.new()
 
 
 func _ready() -> void:
-	current_context = $MenuContext
-	current_context.initialize({})
-
 	listener.add(main_events.ev_start_game, _on_start_game)
 	listener.add(main_events.ev_exit_game, _ev_exit_game)
 	listener.add(main_events.ev_return_to_menu, _return_to_menu)
+	switch_game_context(menu_context_path, false)
 	
 func _exit_tree() -> void:
 	listener.deinit()
@@ -36,7 +34,7 @@ func _ev_exit_game(data: Dictionary = {}) -> void:
 	switch_game_context(post_battle_context_path, false, data)
 
 func _return_to_menu() -> void:
-	switch_game_context(menu_context_path)
+	switch_game_context(menu_context_path, false)
 
 func _release_current_context() -> void:
 	if current_context == null:

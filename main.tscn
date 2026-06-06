@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://ddo0h56tnwsk1"]
 
 [ext_resource type="Script" uid="uid://cfiqgxelo6ks3" path="res://src/contexts/main_context/main_context.gd" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://fdo7cegg1sud" path="res://src/contexts/menu_context/menu_context.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cvayb5jfghll4" path="res://src/ui/loading_screen/loading_screen.tscn" id="2_0xm2m"]
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="2_kek77"]
 [ext_resource type="Script" uid="uid://djxvf8yy7uqhl" path="res://src/contexts/main_context/account/persisten_data_controller.gd" id="4_lquwl"]
@@ -53,5 +52,3 @@ parameters/looping = true
 environment = SubResource("Environment_0xm2m")
 camera_attributes = SubResource("CameraAttributesPractical_h2yge")
 compositor = SubResource("Compositor_1bvp3")
-
-[node name="MenuContext" parent="." unique_id=1044355188 instance=ExtResource("1_ig7tw")]
