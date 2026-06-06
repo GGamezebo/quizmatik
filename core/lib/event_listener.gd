@@ -4,6 +4,9 @@ extends RefCounted
 var _events: Dictionary = {}
 
 func deinit() -> void:
+	self.clear()
+	
+func clear() -> void:
 	for event in self._events:
 		var callbacks = self._events[event]
 		for callback in callbacks:

@@ -13,95 +13,64 @@ static func get_state() -> String:
 @export var area: GameArea
 @export var answerScene: PackedScene
 
-var options: Array[Answer] = []
-var _base_answer_speed: float = 0.0
-var question: QuizQuestion.Question:
-	set(new_question):
-		question = new_question
-		ev_question_changed.emit(question)
+var _round_controller: RoundController
+var __components: Array[Variant] = []
 
 
-func enter(_prev_state: FSMState, _event_data: Dictionary):
-	event_listener.add(game_events.ev_explosion, _on_event_manager_ev_explosion)
-	event_listener.add(air_plane.ev_air_plane_colladed, _on_air_plane_colladed)
-	_base_answer_speed = game_config.answer_speed
+func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	air_plane.initialize(game_config.player_air_plane_speed, AirPlane.MovementMode.DISCRETE)
-	_makeNewRound()
+
+	var answer_spawner: AnswerSpawner = AnswerSpawner.new(area, answerScene, game_manager.owner)
+	_round_controller = RoundController.new(game_config, player, answer_spawner, game_manager.get_tree(), ev_question_changed)
+		
+	__components.append_array([
+		answer_spawner,
+		_round_controller,
+	])
+	
+	event_listener.add(game_events.ev_explosion, _on_explosion)
+	event_listener.add(air_plane.ev_air_plane_colladed, _on_air_plane_collided)
+	
+	_round_controller.start()
 
 func leave(_event_data: Dictionary) -> void:
-	event_listener.deinit()
-	for option in options:
-		option.ev_killed.disconnect(_on_answer_killed)
-		option.queue_free()
-	options.clear()
+	event_listener.clear()
 	
+	__components.reverse()
+	for component in __components:
+		component.deinit()
+	
+	_round_controller = null
+
 func _process(_delta: float) -> void:
-	for answer in options:
-		answer.set_acceleration(player.acceleration)
-	
-func _makeNewRound() -> void:
-	question = QuizQuestion.generate_question(game_config)
-	await game_manager.get_tree().create_timer(1.0).timeout
-	if game_manager == null:
-		return
-	_makeAnswers()
-		
-func _makeAnswers() -> void:
-	var lines = area.getLines()
-	for index in range(len(question.options)):
-		var option:int = question.options[index]
-		var answer:Answer = answerScene.instantiate()
-		var line: Rect2 = lines[index]
-		var x:float = area.gameplay_area.end.x + 120
-		var y:float = line.position.y + line.size.y / 2.0
-		answer.position.x = x
-		answer.position.y = y
-		answer.setup(x, y, option, game_config.answer_speed)
-		answer.ev_killed.connect(_on_answer_killed)
-		options.append(answer)
-		game_manager.owner.add_child.call_deferred(answer)
-			
+	if _round_controller:
+		_round_controller.update_answer_acceleration(player.acceleration)
 
-func _on_event_manager_ev_explosion(answer: Answer, _hit_point: Vector2) -> void:
-	if answer.value == question.correct_answer:
-		answer.right()
-		_process_correct_answer()
-	else:
-		var index: int = options.find(answer)
-		if index != -1:
-			options.remove_at(index)
-			_get_damage()
-		answer.fail()
-		answer.take_damage()
+func _on_explosion(answer: Answer, _hit_point: Vector2) -> void:
+	_apply_combat(CombatResolver.resolve(answer, _round_controller.question, false), answer)
 
-func _on_air_plane_colladed(_air_plane: AirPlane, answer: Answer) -> void:
-	if answer.value == question.correct_answer:
-		answer.right()
-		_process_correct_answer()
-	else:
-		var index:int = options.find(answer)
-		if index != -1:
+func _on_air_plane_collided(_air_plane: AirPlane, answer: Answer) -> void:
+	_apply_combat(CombatResolver.resolve(answer, _round_controller.question, true), answer)
+
+func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
+	match action:
+		CombatResolver.HitAction.CORRECT:
+			answer.right()
+			if _round_controller.on_correct_answer():
+				_end_game()
+		CombatResolver.HitAction.WRONG_SHOT:
+			_round_controller.remove_answer(answer)
 			answer.fail()
-			_get_damage()
-			_kill_all_answers()
+			answer.take_damage()
+			if CombatResolver.apply_damage(player):
+				_end_game()
+		CombatResolver.HitAction.WRONG_COLLISION:
+			if _round_controller.has_answer(answer):
+				answer.fail()
+				_round_controller.kill_all_answers()
+				if CombatResolver.apply_damage(player):
+					_end_game()
 
-func _process_correct_answer() -> void:
-	_kill_all_answers()
-	player.score += 1
-	game_config.apply_answer_speed_after_round(player.score, _base_answer_speed)
-	if player.score == game_config.questions_count:
-		add_event(FSMGameEvents.END_GAME)
-
-func _kill_all_answers():
-	for option in options.duplicate():
-		option.take_damage()		
-
-func _on_answer_killed(answer: Answer) -> void:
-	options.erase(answer)
-	if len(options) == 0:
-		_makeNewRound()
-
-func _get_damage() -> void:
-	player.health -= 1
-	if player.health == 0:
-		add_event(FSMGameEvents.END_GAME)
+func _end_game() -> void:
+	_round_controller.stop()
+	add_event(FSMGameEvents.END_GAME)
