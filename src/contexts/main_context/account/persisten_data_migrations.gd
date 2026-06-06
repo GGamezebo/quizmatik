@@ -21,7 +21,7 @@ static func migrate(data_dict: Dictionary, from_version: int, to_version: int) -
 #
 #static func _migrate_1_to_2(data: Dictionary) -> void:
 	#if data.has("levels"):
-		#data["levels"]["container_2_subtraction"] = {
+		#data["levels"]["subtraction"] = {
 			#"completed_levels": {},
 			#"exam_passed": true,
 		#}

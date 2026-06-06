@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="GameConfig" format=3 uid="uid://6tu2mqrdkujo"]
+
+[ext_resource type="Script" uid="uid://cjyn2dgnipjnn" path="res://src/common/game_config_default.gd" id="1_7wr4q"]
+
+[resource]
+script = ExtResource("1_7wr4q")
+answer_lines_count = 3
+health = 4
+questions_count = 1

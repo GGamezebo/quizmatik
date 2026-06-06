@@ -228,6 +228,7 @@ text = "Назад"
 [node name="LevelsSelection" parent="UI/LevelsWindow" unique_id=519807597 instance=ExtResource("15_foifc")]
 visible = false
 layout_mode = 1
+container_id = "addition"
 
 [node name="TrainingRoomWindow" type="Control" parent="UI" unique_id=326554877 node_paths=PackedStringArray("params_container")]
 visible = false

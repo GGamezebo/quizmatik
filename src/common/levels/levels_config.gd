@@ -6,7 +6,7 @@ extends Resource
 var levels = {
    "containers": [
 		{
-			"container_id": "container_1_addition",
+			"container_id": "addition",
 			"name": "Долина Сложения",
 			"unlock_condition": {
 				"name": "is_unlocked_by_default",
@@ -22,11 +22,11 @@ var levels = {
 			]
 		},
 		{
-			"container_id": "container_2_subtraction",
+			"container_id": "subtraction",
 			"name": "Долина Вычитания",
 			"unlock_condition": {
 				"name": "is_unlocked_by_exam",
-				"args": ["container_1_addition"],
+				"args": ["addition"],
 			},
 			"levels": [
 				{ "level_id": 1, "config": 'level_1' },
@@ -38,11 +38,11 @@ var levels = {
 			]
 		},
 		{
-			"container_id": "container_3_multiplication",
+			"container_id": "multiplication",
 			"name": "Долина Умножения",
 			"unlock_condition": {
 				"name": "is_unlocked_by_exam",
-				"args": ["container_2_subtraction"],
+				"args": ["subtraction"],
 			},
 			"levels": [
 				{ "level_id": 1, "config": 'level_1' },
@@ -54,11 +54,27 @@ var levels = {
 			]
 		},
 		{
-			"container_id": "container_4_division",
+			"container_id": "division",
 			"name": "Долина Деления",
 			"unlock_condition": {
 				"name": "is_unlocked_by_exam",
-				"args": ["container_3_multiplication"],
+				"args": ["multiplication"],
+			},
+			"levels": [
+				{ "level_id": 1, "config": 'level_1' },
+				{ "level_id": 2, "config": 'level_2' },
+				{ "level_id": 3, "config": 'level_3' },
+				{ "level_id": 4, "config": 'level_4' },
+				{ "level_id": 5, "config": 'level_5' },
+				{ "level_id": 6, "config": 'level_6', 'is_exam': true },
+			]
+		},
+		{
+			"container_id": "mix",
+			"name": "Долина Деления",
+			"unlock_condition": {
+				"name": "is_unlocked_by_exam",
+				"args": ["multiplication"],
 			},
 			"levels": [
 				{ "level_id": 1, "config": 'level_1' },
@@ -74,10 +90,11 @@ var levels = {
 
 func _init() -> void:
 	for container in levels["containers"]:
+		var container_id: String = container["container_id"]
 		for level_data in container["levels"]:
 			var config_name = level_data["config"]
 			var file_name = config_name + ".tres"
-			var full_path = levels_dir.path_join(file_name)
+			var full_path = levels_dir.path_join(container_id).path_join(file_name)
 			
 			if ResourceLoader.exists(full_path):
 				level_data["config"] = ResourceLoader.load(full_path)

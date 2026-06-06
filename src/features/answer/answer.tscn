@@ -5,6 +5,7 @@
 
 [sub_resource type="SystemFont" id="SystemFont_gn7kk"]
 font_names = PackedStringArray("Impact")
+subpixel_positioning = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_73wma"]
 resource_local_to_scene = true

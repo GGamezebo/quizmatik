@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="GameConfig" format=3 uid="uid://cs72otqs8w3nk"]
+
+[ext_resource type="Script" uid="uid://cjyn2dgnipjnn" path="res://src/common/game_config_default.gd" id="1_hx1c4"]
+
+[resource]
+script = ExtResource("1_hx1c4")
+questions_count = 10
+answer_speed = 220.0

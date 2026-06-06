@@ -7,7 +7,7 @@ const CURRENT_VERSION: int = 0
 @export var progress: Dictionary = {
 	"version": 0,  # don't change it
 	"levels": {
-		"container_1_addition": {
+		"addition": {
 			"completed_levels": {
 			},
 			"exam_passed": false,
