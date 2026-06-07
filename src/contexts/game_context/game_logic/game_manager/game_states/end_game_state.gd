@@ -40,7 +40,7 @@ func _calculate_stars(health: int) -> int:
 	var percentage: float = float(health) / float(game_config.health)
 	if percentage >= 1.0:
 		return 3
-	elif percentage >= 0.75:
+	elif percentage >= 0.50:
 		return 2
 	else:
 		return 1
