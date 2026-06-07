@@ -17,6 +17,6 @@ func _on_air_plane_ev_shoot(position: Vector2) -> void:
 		
 func _on_explosion(answer: Answer, hit_point: Vector2) -> void:
 	var explosion: Explosion = explosion_scene.instantiate()
-	explosion.init(hit_point)
-	owner.add_child.call_deferred(explosion)
+	explosion.init(answer.to_local(hit_point))
+	answer.add_child(explosion)
 	game_events.ev_explosion.emit(answer, hit_point)

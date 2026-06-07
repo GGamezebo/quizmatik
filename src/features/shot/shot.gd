@@ -27,8 +27,8 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()
 
 func _on_area_entered(answer: Answer) -> void:
-	if answer.is_in_group("answers"): 
+	if answer.is_in_group("answers"):
 		var collision_point = _get_collision_point()
-		var hit_point: Vector2 = answer.position if collision_point == null else collision_point
+		var hit_point: Vector2 = answer.global_position if collision_point == null else collision_point
 		ev_explosion.emit(answer, hit_point)
 		queue_free()
