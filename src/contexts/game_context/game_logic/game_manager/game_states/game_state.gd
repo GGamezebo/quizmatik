@@ -60,10 +60,12 @@ func _on_air_plane_collided(collided_plane: AirPlane, answer: Answer) -> void:
 func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 	match action:
 		CombatResolver.HitAction.CORRECT:
+			game_events.ev_correct_answer.emit()
 			answer.right()
 			if _round_controller.on_correct_answer():
 				_end_game()
 		CombatResolver.HitAction.WRONG_SHOT:
+			game_events.ev_mistake.emit()
 			_round_controller.remove_answer(answer)
 			answer.fail()
 			answer.take_damage()
@@ -71,6 +73,7 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 				_end_game()
 		CombatResolver.HitAction.WRONG_COLLISION:
 			if _round_controller.has_answer(answer):
+				game_events.ev_mistake.emit()
 				answer.fail()
 				_round_controller.kill_all_answers()
 				if CombatResolver.apply_damage(player):

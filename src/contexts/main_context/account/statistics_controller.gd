@@ -13,7 +13,10 @@ func _ready() -> void:
 	_start_game_session()
 	_listener.add(main_events.ev_battle_started, _on_battle_started)
 	_listener.add(main_events.ev_battle_finished, _on_battle_finished)
+	_listener.add(main_events.ev_exit_game, _on_exit_game)
 	_listener.add(game_events.ev_shoot, _on_shoot)
+	_listener.add(game_events.ev_correct_answer, _on_correct_answer)
+	_listener.add(game_events.ev_mistake, _on_mistake)
 
 func _exit_tree() -> void:
 	_finish_game_session()
@@ -29,11 +32,14 @@ func _save() -> void:
 func _start_game_session() -> void:
 	_game_session_start_msec = Time.get_ticks_msec()
 	var stats := _statistics()
-	stats["game_session_count"] = int(stats["game_session_count"]) + 1
+	stats["game_sessions"] = int(stats["game_sessions"]) + 1
 	_save()
 
 func _on_battle_started() -> void:
 	_battle_start_msec = Time.get_ticks_msec()
+	var stats := _statistics()
+	stats["total_battles"] = int(stats["total_battles"]) + 1
+	_save()
 
 func _on_battle_finished() -> void:
 	if _battle_start_msec < 0:
@@ -60,3 +66,21 @@ func _finish_game_session() -> void:
 func _on_shoot() -> void:
 	var stats := _statistics()
 	stats["total_shoot_count"] = int(stats["total_shoot_count"]) + 1
+
+func _on_correct_answer() -> void:
+	var stats := _statistics()
+	stats["total_answers"] = int(stats["total_answers"]) + 1
+
+func _on_mistake() -> void:
+	var stats := _statistics()
+	stats["total_mistakes"] = int(stats["total_mistakes"]) + 1
+
+func _on_exit_game(data: Dictionary) -> void:
+	if not data.has("score"):
+		return
+	var stats := _statistics()
+	stats["total_scores"] = int(stats["total_scores"]) + int(data.get("score", 0))
+	stats["total_stars"] = int(stats["total_stars"]) + int(data.get("stars", 0))
+	if data.get("is_win", false):
+		stats["total_wins"] = int(stats["total_wins"]) + 1
+	_save()

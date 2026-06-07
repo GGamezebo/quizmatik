@@ -22,7 +22,13 @@ static func default_levels_progress() -> Dictionary:
 static func default_statistics() -> Dictionary:
 	return {
 		"total_time": 0.0,
-		"game_session_count": 0,
+		"game_sessions": 0,
 		"battle_total_time": 0.0,
 		"total_shoot_count": 0,
+		"total_battles": 0,
+		"total_wins": 0,
+		"total_answers": 0,
+		"total_scores": 0,
+		"total_stars": 0,
+		"total_mistakes": 0,
 	}
