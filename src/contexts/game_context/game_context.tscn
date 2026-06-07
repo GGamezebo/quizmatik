@@ -35,6 +35,7 @@
 script = ExtResource("1_j4hd0")
 game_config = ExtResource("2_j4hd0")
 levels_config = ExtResource("3_hmv8q")
+main_events = ExtResource("8_xkl2s")
 
 [node name="GameArea" type="Node2D" parent="." unique_id=1652487391]
 script = ExtResource("3_5eju7")

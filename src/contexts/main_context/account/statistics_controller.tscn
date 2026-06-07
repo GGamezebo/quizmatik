@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://vkrgvxacawgf"]
+
+[ext_resource type="Script" uid="uid://bb4lawsidwt8v" path="res://src/contexts/main_context/account/statistics_controller.gd" id="1_script"]
+[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/account/progress.tres" id="2_pdata"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="3_main_events"]
+[ext_resource type="Resource" uid="uid://bg11w4vfrn34r" path="res://src/contexts/game_context/game_events.tres" id="4_game_events"]
+
+[node name="StatisticsController" type="Node" unique_id=1136393900]
+script = ExtResource("1_script")
+pdata = ExtResource("2_pdata")
+main_events = ExtResource("3_main_events")
+game_events = ExtResource("4_game_events")

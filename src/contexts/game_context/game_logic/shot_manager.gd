@@ -9,6 +9,7 @@ func _ready() -> void:
 	air_plane.ev_shoot.connect(_on_air_plane_ev_shoot)
 
 func _on_air_plane_ev_shoot(position: Vector2) -> void:
+	game_events.ev_shoot.emit()
 	if shot_scene:
 		var shot = shot_scene.instantiate()
 		shot.init(position)

@@ -2,6 +2,7 @@ extends IContext
 
 @export var game_config: GameConfig
 @export var levels_config: LevelsConfig
+@export var main_events: MainEvents
 
 func initialize(_data: Dictionary) -> void:
 	var scenario: GameConfig = _data.get('custom_battle')
@@ -19,6 +20,10 @@ func initialize(_data: Dictionary) -> void:
 		_load_game_scenario(scenario)
 		
 	game_config.battle_info = battle_info
+	main_events.ev_battle_started.emit()
+
+func deinit() -> void:
+	main_events.ev_battle_finished.emit()
 
 func _load_game_scenario(scenario: GameConfig):
 	ResourceUtils.update_resource(game_config, scenario)

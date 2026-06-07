@@ -48,6 +48,7 @@ font_color = Color(0.82, 0.93, 1, 1)
 
 [node name="ConfirmDialog" type="CanvasLayer" unique_id=392520155 node_paths=PackedStringArray("screen", "title_label", "message_label", "confirm_button", "cancel_button")]
 layer = 10
+visible = false
 script = ExtResource("1_script")
 screen = NodePath("Screen")
 title_label = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Title")

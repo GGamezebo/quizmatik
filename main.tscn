@@ -9,6 +9,8 @@
 [ext_resource type="AudioStream" uid="uid://bchaw1l2muu4w" path="res://assets/background_music.mp3" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/contexts/main_context/account/progress_controller.tscn" id="8_4c57u"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="8_dg77c"]
+[ext_resource type="Script" uid="uid://bb4lawsidwt8v" path="res://src/contexts/main_context/account/statistics_controller.gd" id="9_stats"]
+[ext_resource type="Resource" uid="uid://bg11w4vfrn34r" path="res://src/contexts/game_context/game_events.tres" id="10_game_events"]
 [ext_resource type="PackedScene" uid="uid://fdo7cegg1sud" path="res://src/contexts/menu_context/menu_context.tscn" id="10_4c57u"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
@@ -28,7 +30,7 @@ menu_context_path = "uid://fdo7cegg1sud"
 post_battle_context_path = "uid://df5u08rtrxes8"
 loading_screen_scene = ExtResource("2_0xm2m")
 main_events = ExtResource("8_dg77c")
-current_context = NodePath("MenuContext")
+current_context = NodePath("UI/MenuContext")
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="." unique_id=1725798495]
 resources = [PackedStringArray("levels"), [ExtResource("2_kek77")]]
@@ -43,6 +45,12 @@ main_events = ExtResource("8_dg77c")
 
 [node name="ProgressController" parent="Account" unique_id=2109216065 instance=ExtResource("8_4c57u")]
 
+[node name="StatisticsController" type="Node" parent="Account" unique_id=1499524146]
+script = ExtResource("9_stats")
+pdata = ExtResource("5_272bh")
+main_events = ExtResource("8_dg77c")
+game_events = ExtResource("10_game_events")
+
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=1216630300]
 stream = ExtResource("7_5vw27")
 volume_db = -7.69
@@ -55,4 +63,6 @@ environment = SubResource("Environment_0xm2m")
 camera_attributes = SubResource("CameraAttributesPractical_h2yge")
 compositor = SubResource("Compositor_1bvp3")
 
-[node name="MenuContext" parent="." unique_id=1044355188 instance=ExtResource("10_4c57u")]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1551026547]
+
+[node name="MenuContext" parent="UI" unique_id=1044355188 instance=ExtResource("10_4c57u")]

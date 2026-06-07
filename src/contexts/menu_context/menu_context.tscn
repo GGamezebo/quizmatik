@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://b26jidolbwdpn" path="res://src/contexts/menu_context/texture_button.gd" id="8_82bx7"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="9_3qhmn"]
 [ext_resource type="Script" uid="uid://duom6pk08ldyp" path="res://src/contexts/menu_context/levels/levels_choice_window.gd" id="11_3k6yn"]
+[ext_resource type="PackedScene" uid="uid://ewae8a21ohl3" path="res://src/ui/debug/progress_statistics_debug.tscn" id="11_foifc"]
 [ext_resource type="PackedScene" uid="uid://dpecfsso1dokv" path="res://src/contexts/menu_context/levels/level_container.tscn" id="13_a4m0n"]
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="13_dwe1a"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/contexts/main_context/account/progress_controller.tscn" id="14_cjfjs"]
@@ -144,7 +145,13 @@ texture_pressed = ExtResource("7_82bx7")
 script = ExtResource("8_82bx7")
 user_settings = ExtResource("9_3qhmn")
 
+[node name="ProgressStatisticsDebug" parent="UI/MainMenuWindow" unique_id=463360187 instance=ExtResource("11_foifc")]
+layout_mode = 1
+offset_top = 60.0
+offset_bottom = 60.0
+
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("packs_list_container", "progress", "windows_stack_manager", "level_selection_window")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

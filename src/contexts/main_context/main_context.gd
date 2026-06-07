@@ -32,7 +32,7 @@ func _on_start_game(data: Dictionary) -> void:
 	var use_loading_screen: bool = true
 	switch_game_context(game_context_path, use_loading_screen, data)
 	
-func _ev_exit_game(data: Dictionary = {}) -> void:	
+func _ev_exit_game(data: Dictionary = {}) -> void:
 	switch_game_context(post_battle_context_path, false, data)
 
 func _return_to_menu() -> void:
