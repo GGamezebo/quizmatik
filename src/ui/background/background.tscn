@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dvy13cfq73jxs"]
 
+[ext_resource type="Script" path="res://src/ui/background/background.gd" id="1_bgscript"]
 [ext_resource type="Texture2D" uid="uid://jl5tjjusnin3" path="res://src/ui/background/Sky2.png" id="1_jougr"]
 [ext_resource type="Texture2D" uid="uid://cjds8r57pey1g" path="res://src/ui/background/Sky1.png" id="2_cbsqf"]
 [ext_resource type="Texture2D" uid="uid://5xved5dnk0eo" path="res://src/ui/background/Sky3.png" id="3_wisxt"]
@@ -58,6 +59,7 @@ scale_min = 0.3
 scale_max = 1.1
 
 [node name="Background" type="Node2D" unique_id=1217069396]
+script = ExtResource("1_bgscript")
 metadata/logic_bricks_graph = {
 "connections": [],
 "next_id": 0,
@@ -136,9 +138,13 @@ metadata/logic_bricks_frames = [{
 }]
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=139264846]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 1280.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = SubResource("GradientTexture2D_1gw3d")
+expand_mode = 1
+stretch_mode = 0
 metadata/logic_bricks_graph = {
 "connections": [],
 "next_id": 0,
