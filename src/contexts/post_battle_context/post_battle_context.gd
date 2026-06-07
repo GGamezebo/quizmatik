@@ -16,6 +16,21 @@ const STAR_EMPTY_COLOR := Color(0.35, 0.42, 0.55, 0.45)
 var _game_config: GameConfig
 
 
+static func build_result_data(
+	game_config: GameConfig,
+	player: Player,
+	is_win: bool,
+	stars_count: int = 0,
+) -> Dictionary:
+	return {
+		"game_config": game_config,
+		"score": player.score,
+		"max_score": game_config.questions_count,
+		"is_win": is_win,
+		"stars": stars_count,
+	}
+
+
 func _ready() -> void:
 	repeat_button.grab_focus()
 
@@ -26,7 +41,7 @@ func initialize(data: Dictionary) -> void:
 	var is_win: bool = data.get("is_win", false)
 	var score: int = data.get("score", 0)
 	var stars_count: int = data.get("stars", 0)
-	var max_score: int = _game_config.questions_count if _game_config else 0
+	var max_score: int = data.get("max_score", _game_config.questions_count if _game_config else 0)
 	_update_results(is_win, score, max_score, stars_count)
 
 	menu_button.pressed.connect(_on_menu)
@@ -44,28 +59,19 @@ func _update_results(is_win: bool, score: int, max_score: int, stars_count: int)
 	title_label.label_settings = title_settings
 
 	if max_score > 0:
-		score_label.text = "Точность: %d / %d" % [score, max_score]
+		score_label.text = "Правильных ответов: %d / %d" % [score, max_score]
 	else:
-		score_label.text = "Точность: %d" % score
+		score_label.text = "Правильных ответов: %d" % score
 
 	_show_stars(stars_count)
 
-func _show_stars(count: int, animate: bool = true) -> void:
+func _show_stars(count: int) -> void:
 	for index in range(stars.size()):
 		var star: TextureRect = stars[index]
 		var is_filled: bool = index < count
 		star.visible = true
-		star.modulate = STAR_FILLED_COLOR if is_filled else STAR_EMPTY_COLOR
 		star.scale = Vector2.ONE
-		star.pivot_offset = star.custom_minimum_size * 0.5
-		if animate and is_filled:
-			_animate_star(star, index)
-
-func _animate_star(star: TextureRect, index: int) -> void:
-	star.scale = Vector2.ZERO
-	var tween: Tween = create_tween()
-	tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tween.tween_property(star, "scale", Vector2.ONE, 0.35).set_delay(index * 0.12)
+		star.modulate = STAR_FILLED_COLOR if is_filled else STAR_EMPTY_COLOR
 
 func _on_menu() -> void:
 	main_events.ev_return_to_menu.emit()

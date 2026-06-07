@@ -22,16 +22,11 @@ func leave(_event_data: Dictionary) -> void:
 	pass
 	
 func _on_animation_finished(is_win) -> void:
-	var score: int = player.score
 	var stars: int = _calculate_stars(player.health) if is_win else 0
 	_apply_battle_result(is_win, stars)
-	var battle_result = {
-		"game_config": game_config,
-		"stars": stars,
-		"score": score,
-		"is_win": is_win,
-	}
-	main_events.ev_exit_game.emit(battle_result)
+	main_events.ev_exit_game.emit(
+		PostBattleContext.build_result_data(game_config, player, is_win, stars)
+	)
 	
 func _apply_battle_result(is_win: bool, stars: int) -> void:
 	var battle_info = game_config.battle_info

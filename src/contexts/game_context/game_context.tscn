@@ -98,11 +98,12 @@ script = ExtResource("5_0m8ko")
 gameArea = NodePath("../../GameArea")
 entities = [NodePath("../../Player/AirPlane")]
 
-[node name="HUD" type="CanvasLayer" parent="." unique_id=769805075]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=769805075 node_paths=PackedStringArray("player")]
 layer = -1
 script = ExtResource("12_lu6cl")
 main_events = ExtResource("8_xkl2s")
 game_confg = ExtResource("2_j4hd0")
+player = NodePath("../Player")
 
 [node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]
 
