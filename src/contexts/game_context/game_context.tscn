@@ -67,6 +67,7 @@ player = NodePath("../../Player")
 air_plane = NodePath("../../Player/AirPlane")
 area = NodePath("../../GameArea")
 answerScene = ExtResource("7_e5mqp")
+explosion_scene = ExtResource("12_587mb")
 
 [node name="EndGameState" type="Node" parent="GameManager" unique_id=265268692 node_paths=PackedStringArray("player", "air_plane", "progress_controller")]
 script = ExtResource("10_jud5q")

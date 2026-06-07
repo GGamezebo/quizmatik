@@ -83,6 +83,10 @@ func get_size() -> Vector2:
 		return texture.get_size() * animated_sprite.global_scale
 	return Vector2.ZERO
 
+func get_contact_point_with(target: Node2D) -> Vector2:
+	var nose := global_position + Vector2(get_size().x * 0.5, 0.0)
+	return nose.lerp(target.global_position, 0.5)
+
 func _on_area_entered(area: Area2D) -> void:
 	ev_air_plane_colladed.emit(self, area)
 

@@ -13,6 +13,7 @@ static func get_state() -> String:
 @export var air_plane: AirPlane
 @export var area: GameArea
 @export var answerScene: PackedScene
+@export var explosion_scene: PackedScene
 
 var _round_controller: RoundController
 var __components: Array[Variant] = []
@@ -50,8 +51,11 @@ func _process(_delta: float) -> void:
 func _on_explosion(answer: Answer, _hit_point: Vector2) -> void:
 	_apply_combat(CombatResolver.resolve(answer, _round_controller.question, false), answer)
 
-func _on_air_plane_collided(_air_plane: AirPlane, answer: Answer) -> void:
-	_apply_combat(CombatResolver.resolve(answer, _round_controller.question, true), answer)
+func _on_air_plane_collided(collided_plane: AirPlane, answer: Answer) -> void:
+	var action: CombatResolver.HitAction = CombatResolver.resolve(answer, _round_controller.question, true)
+	if action == CombatResolver.HitAction.WRONG_COLLISION:
+		Explosion.spawn_attached(explosion_scene, answer, collided_plane.get_contact_point_with(answer))
+	_apply_combat(action, answer)
 
 func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 	match action:
