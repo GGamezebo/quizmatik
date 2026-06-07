@@ -10,8 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/contexts/main_context/account/progress_controller.tscn" id="8_4c57u"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="8_dg77c"]
 [ext_resource type="Script" uid="uid://bb4lawsidwt8v" path="res://src/contexts/main_context/account/statistics_controller.gd" id="9_stats"]
-[ext_resource type="Resource" uid="uid://bg11w4vfrn34r" path="res://src/contexts/game_context/game_events.tres" id="10_game_events"]
 [ext_resource type="PackedScene" uid="uid://fdo7cegg1sud" path="res://src/contexts/menu_context/menu_context.tscn" id="10_4c57u"]
+[ext_resource type="Resource" uid="uid://bg11w4vfrn34r" path="res://src/contexts/game_context/game_events.tres" id="10_game_events"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true

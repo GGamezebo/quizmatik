@@ -1,0 +1,9 @@
+[gd_resource type="FontVariation" format=3 uid="uid://diy6rnlbukphg"]
+
+[ext_resource type="FontFile" uid="uid://c5xku0uo7egww" path="res://assets/fonts/Oswald-Variable.ttf" id="1_base"]
+
+[resource]
+base_font = ExtResource("1_base")
+variation_opentype = {
+2003265652: 700.0
+}

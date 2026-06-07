@@ -2,15 +2,12 @@
 
 [ext_resource type="Script" uid="uid://cu637lmffdld0" path="res://src/features/answer/answer.gd" id="1_uxhp0"]
 [ext_resource type="Texture2D" uid="uid://bi4oup4a3y23t" path="res://src/features/answer/blue_ring_140.png" id="2_0rjkt"]
-
-[sub_resource type="SystemFont" id="SystemFont_gn7kk"]
-font_names = PackedStringArray("Impact")
-subpixel_positioning = 0
+[ext_resource type="FontFile" uid="uid://ba0ye0eys0i2v" path="res://assets/fonts/Oswald-Bold.ttf" id="3_font"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_73wma"]
 resource_local_to_scene = true
-font = SubResource("SystemFont_gn7kk")
-font_size = 18
+font = ExtResource("3_font")
+font_size = 42
 font_color = Color(0, 1, 1, 1)
 outline_size = 4
 outline_color = Color(0.050980393, 0.29803923, 0.54901963, 1)
@@ -29,21 +26,18 @@ script = ExtResource("1_uxhp0")
 label = NodePath("Label")
 animation_time = 1.5
 
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1225723819]
+texture = ExtResource("2_0rjkt")
+
 [node name="Label" type="Label" parent="." unique_id=695334285]
-offset_left = -32.0
-offset_top = -35.000004
-offset_right = 8.0
-offset_bottom = -12.000004
-scale = Vector2(1.6799991, 3.0800004)
+offset_left = -36.0
+offset_top = -36.0
+offset_right = 36.0
+offset_bottom = 36.0
 text = "12"
 label_settings = SubResource("LabelSettings_73wma")
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 1
-clip_text = true
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1225723819]
-texture = ExtResource("2_0rjkt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1937359867]
 shape = SubResource("CircleShape2D_pm5v5")
