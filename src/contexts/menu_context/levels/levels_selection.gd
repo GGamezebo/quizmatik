@@ -37,6 +37,7 @@ func _populate_levels_grid() -> void:
 		var stars: int = progress.get_level_stars(container_id, lvl_id)
 		btn.set_params(is_unlocked, stars)
 		if is_unlocked:
+			progress.mark_level_seen(container_id, lvl_id)
 			var battle_info = GameConfig.BattleInfo.new(container_id, lvl_id, is_exam)
 			btn.pressed.connect(_on_level_selected.bind(battle_info))
 

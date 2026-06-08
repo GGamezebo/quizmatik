@@ -36,6 +36,7 @@ func _update_window() -> void:
 		container_instance.initialize(container['name'], is_unlocked)
 		
 		if is_unlocked:
+			progress.mark_container_seen(container_id)
 			container_instance.button.pressed.connect(_on_pack_enter_requested.bind(container_id))
 
 func _on_pack_enter_requested(container_id: String) -> void:
