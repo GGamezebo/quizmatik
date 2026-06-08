@@ -59,10 +59,15 @@ static func generate_question(gameConfig: GameConfig) -> Question:
 			
 	# Generate wrong answer options
 	var options_set = [q.correct_answer]
+	var use_close_fakes: bool = chosen_operation == GameConfig.Operations.ADDITION \
+		or chosen_operation == GameConfig.Operations.SUBTRACTION
 	
 	while options_set.size() < gameConfig.answer_lines_count:
-		# Plausible wrong answers based on operands and the correct result
-		var fake_answer = _generate_plausible_fake(a, b, q.correct_answer)
+		var fake_answer: int
+		if use_close_fakes:
+			fake_answer = _generate_close_fake_add_sub(a, b, q.correct_answer, chosen_operation, options_set)
+		else:
+			fake_answer = _generate_plausible_fake(a, b, q.correct_answer)
 		
 		if not fake_answer in options_set:
 			options_set.append(fake_answer)
@@ -73,7 +78,35 @@ static func generate_question(gameConfig: GameConfig) -> Question:
 	
 	return q
 
-# Generate plausible wrong answers
+static func _generate_close_fake_add_sub(
+	a: int,
+	b: int,
+	correct: int,
+	operation: int,
+	existing: Array,
+) -> int:
+	var candidates: Array[int] = []
+	for offset in [-1, 1, -2, 2, -3, 3]:
+		candidates.append(correct + offset)
+	
+	if operation == GameConfig.Operations.ADDITION:
+		candidates.append_array([(a - 1) + b, (a + 1) + b, a + (b - 1), a + (b + 1)])
+	else:
+		candidates.append_array([(a - 1) - b, (a + 1) - b, a - (b - 1), a - (b + 1)])
+	
+	var valid: Array[int] = []
+	for candidate in candidates:
+		if candidate < 0 or candidate == correct or candidate in existing or candidate in valid:
+			continue
+		valid.append(candidate)
+	
+	if not valid.is_empty():
+		return valid.pick_random()
+	
+	return maxi(0, correct + [-1, 1, 2, -2].pick_random())
+
+
+# Generate plausible wrong answers for multiplication and division
 static func _generate_plausible_fake(a: int, b: int, correct: int) -> int:
 	var strategy = randi() % 3
 	var fake = 0
