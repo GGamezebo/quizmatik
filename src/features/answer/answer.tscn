@@ -19,12 +19,14 @@ stacked_outline_0/color = Color(1, 0, 0.8352941, 1)
 [sub_resource type="CircleShape2D" id="CircleShape2D_pm5v5"]
 radius = 64.0
 
-[node name="Answer" type="Area2D" unique_id=1255482807 node_paths=PackedStringArray("label") groups=["answers"]]
+[node name="Answer" type="Area2D" unique_id=1255482807 node_paths=PackedStringArray("label", "_collision_shape", "_sprite") groups=["answers"]]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_uxhp0")
 label = NodePath("Label")
 animation_time = 1.5
+_collision_shape = NodePath("CollisionShape2D")
+_sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1225723819]
 texture = ExtResource("2_0rjkt")
