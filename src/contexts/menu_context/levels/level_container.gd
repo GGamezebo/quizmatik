@@ -1,7 +1,6 @@
-extends MarginContainer
+extends PanelButton
 
-@export var button: Button
 
-func initialize(text: String, is_unlocked: bool) -> void:
-	button.text = text
-	button.disabled = not is_unlocked
+func initialize(pack_name: String, is_unlocked: bool) -> void:
+	text = pack_name
+	disabled = not is_unlocked

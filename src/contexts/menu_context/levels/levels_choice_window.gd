@@ -37,7 +37,7 @@ func _update_window() -> void:
 		
 		if is_unlocked:
 			progress.mark_container_seen(container_id)
-			container_instance.button.pressed.connect(_on_pack_enter_requested.bind(container_id))
+			container_instance.pressed.connect(_on_pack_enter_requested.bind(container_id))
 
 func _on_pack_enter_requested(container_id: String) -> void:
 	level_selection_window.initialize(container_id)
