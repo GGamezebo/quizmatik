@@ -1,0 +1,6 @@
+# .cursorignore
+.godot/
+.import/
+*.import
+*.translation
+*.export/

@@ -151,7 +151,6 @@ offset_top = 60.0
 offset_bottom = 60.0
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("packs_list_container", "progress", "windows_stack_manager", "level_selection_window")]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -160,7 +159,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("11_3k6yn")
-packs_list_container = NodePath("CenterContainer/ScrollContainer/HBoxContainer")
+packs_list_container = NodePath("PacksArea/ScrollContainer/HBoxContainer")
 level_container_scene = ExtResource("13_a4m0n")
 levelsConfig = ExtResource("13_dwe1a")
 progress = NodePath("ProgressController")
@@ -178,43 +177,30 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_ux2mn")
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/LevelsWindow" unique_id=2124016150]
+[node name="PacksArea" type="MarginContainer" parent="UI/LevelsWindow" unique_id=2124016150]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 128
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 128
+theme_override_constants/margin_bottom = 180
 
-[node name="ScrollContainer" type="ScrollContainer" parent="UI/LevelsWindow/CenterContainer" unique_id=1985711011]
-custom_minimum_size = Vector2(760, 400)
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/LevelsWindow/PacksArea" unique_id=1985711011]
 layout_mode = 2
-size_flags_stretch_ratio = 0.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 2
+vertical_scroll_mode = 0
+scroll_deadzone = 24
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/LevelsWindow/CenterContainer/ScrollContainer" unique_id=1932800174]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/LevelsWindow/PacksArea/ScrollContainer" unique_id=1932800174]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 3
 theme_override_constants/separation = 30
-alignment = 1
-
-[node name="LevelContainer" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=1113403507 instance=ExtResource("13_a4m0n")]
-layout_mode = 2
-
-[node name="LevelContainer2" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=805568362 instance=ExtResource("13_a4m0n")]
-layout_mode = 2
-
-[node name="LevelContainer3" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=707288287 instance=ExtResource("13_a4m0n")]
-layout_mode = 2
-
-[node name="LevelContainer4" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=117755645 instance=ExtResource("13_a4m0n")]
-layout_mode = 2
-
-[node name="LevelContainer5" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=11573905 instance=ExtResource("13_a4m0n")]
-layout_mode = 2
-
-[node name="LevelContainer6" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=117749005 instance=ExtResource("13_a4m0n")]
-layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/LevelsWindow" unique_id=502794224]
 layout_mode = 1
