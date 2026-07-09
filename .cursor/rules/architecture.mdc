@@ -1,0 +1,99 @@
+---
+description: Quizmatik architecture map — where code lives and how systems connect
+alwaysApply: true
+---
+
+# Architecture (Quizmatik / Godot 4.7)
+
+Math-quiz arcade shooter. Prefer the smallest change that fits existing patterns. Do not invent parallel systems.
+
+## #1 Scene isolation (critical)
+
+**Every scene must open and run alone in the editor without crashes**, with no parent context required.
+
+- Bake safe defaults into **Resource files** (`.tres`) and `@export` them on the scene — enough to boot, play, and not null-ref.
+- Parent contexts do **not** inject required nodes at edit-time. They **override** those resource defaults at runtime via events / `initialize(data)`.
+- Typical override path: parent emits event → child `initialize` → `ResourceUtils.update_resource(live_resource, incoming)` (see `GameContext` + `game_config.tres`).
+- Standalone defaults are valid fallbacks; full-app data always wins when the parent provides it.
+- Never assume “only runs under `MainContext`”: no required autoloads, no required sibling contexts, no crash if event payload is empty (keep resource defaults).
+- When adding a dependency, ask: *can this scene still F6/run isolated?* If not, put a default Resource on the scene.
+
+## Entry & folders
+
+| Path | Role |
+|------|------|
+| `main.tscn` → `MainContext` | App root / context switcher |
+| `src/contexts/` | Screens / orchestration: `main_`, `menu_`, `game_`, `post_battle_` |
+| `src/features/` | Isolated gameplay features (own almost all deps) |
+| `src/common/` | Project-shared Resources (`GameConfig`, `LevelsConfig`, settings) |
+| `src/levels/{container}/` | Campaign `level_N.tres` (canonical) |
+| `core/` | Project-agnostic code only (no Quizmatik types/scenes) |
+| `tools/` | Offline generators (e.g. levels) |
+| `src/dev/` | Non-runtime utilities — not the game entry |
+
+Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level_*.tres` (root).
+
+## Layer contracts
+
+### `src/features/` — isolated features
+- One folder = one feature (`plane`, `answer`, `shot`, `explosion`, …).
+- Keep **almost all dependencies inside** the feature: scripts, scenes, local helpers, feature-specific assets refs.
+- Talk to the outside via a **small public surface** (signals `ev_*`, `initialize`/`setup`, exported PackedScenes).
+- Features must **not** import other features' internals or context scripts.
+- Contexts **compose/spawn** features; they do not reimplement feature logic.
+
+### `core/` — project-agnostic
+- May be reused in any Godot project: FSM, `EventListener`, shackers, window stack, ResourceUtils, etc.
+- **Must not** depend on `src/` (no `GameConfig`, contexts, features, quiz types, project scenes).
+- If code needs Quizmatik types → it belongs in `src/`, not `core/`.
+
+### `src/contexts/` — orchestration only
+- Wire features + shared config; own flow/FSM/UI for that screen.
+- Do not dump reusable feature guts here — extract to `src/features/` or (if generic) `core/`.
+- Each context scene ships its own default Resources; parents override them through `MainEvents` / `initialize(data)`, never by requiring the parent to be open in the editor.
+
+## UI — editor-first (critical)
+
+- Build and change UI **in the Godot editor** (nodes in `.tscn`), not by constructing controls in GDScript.
+- Scripts only: bind `@export` node refs, update texts/visibility/state, connect signals.
+- Need a repeated item (level button, row)? Create a **template `.tscn` in the editor**, then `instantiate()` — do not `Control.new()` + build the tree in code.
+- Prefer editing the scene file / asking for editor steps over large programmatic UI diffs.
+- Exception: tiny debug overlays or one-off runtime labels — still prefer a scene node when practical.
+
+## Context flow
+
+```
+Menu --ev_start_game--> Game --ev_exit_game--> PostBattle
+PostBattle --ev_return_to_menu--> Menu
+PostBattle --ev_start_game--> Game (retry)
+```
+
+- New screens: implement `IContext` (`initialize` / `deinit`), switch **only** via `MainEvents`.
+- App-level signals: `MainEvents`. In-battle: `GameEvents`. No cross-context node refs.
+- Subscribe with `EventListener`; always `deinit()` on teardown.
+- Battle payload: **either** `custom_battle: GameConfig` **or** `battle_info: GameConfig.BattleInfo` — never both.
+
+## Battle loop
+
+`GameManager` FSM: `CountDown` → `Game` → `EndGame` (via `FSMGameEvents`).
+Round logic: `RoundController` + `AnswerSpawner` + `CombatResolver` + `QuizQuestion`.
+Do not drive win/lose with ad-hoc flags outside the FSM.
+
+## Placement rules
+
+- New isolated gameplay unit → `src/features/{name}/` (self-contained; `.gd` + `.tscn` colocated)
+- New screen / flow → `src/contexts/{name}_context/`
+- Project-shared Resource/type → `src/common/`
+- Generic reusable utility (no project deps) → `core/lib/`
+- Level data → `src/levels/{container}/`; metadata → `levels_config.gd` / `tools/generate_levels.py`
+- Progress mutations → `ProgressController` only (`user://progress.tres`)
+
+## Cheap-change heuristics
+
+1. Match nearest existing file; copy its wiring (`@export`, signals `ev_*`).
+2. Prefer editing one layer: data (`.tres`) → feature → context orchestration.
+3. Before adding to `core/`: confirm zero `src/` imports. Before splitting a feature: keep deps inside it.
+4. New scene dependency → default `.tres` on the scene + optional runtime override from parent event.
+5. Do not rename entrenched typos (`persisten_*`, `fsm game_states.gd`) unless asked.
+6. Do not edit `addons/` or binary assets; reference `res://` paths.
+7. Live context Resources (e.g. `game_config.tres`) are defaults/overridden at runtime — change level `.tres` or `GameConfig` schema for real content.

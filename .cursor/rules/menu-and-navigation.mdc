@@ -1,0 +1,30 @@
+---
+description: Menu, windows, and MainEvents navigation rules
+globs: "{src/contexts/menu_context/**/*,src/contexts/main_context/**/*,src/contexts/post_battle_context/**/*}"
+alwaysApply: false
+---
+
+# Menu & navigation
+
+## Rules
+
+- Start battle only by emitting `MainEvents.ev_start_game`
+  - Campaign: `{ "battle_info": GameConfig.BattleInfo(...) }`
+  - Training: `{ "custom_battle": GameConfig }`
+- Return: `ev_return_to_menu`; quit battle early: `ev_exit_game`
+- Nested menu UI: `WindowStackManager` / `ButtonWindowTransition` — don't invent a second stack
+- Training settings persist via `ResourceUtils` to `user://training_settings.tres`
+
+## Placement
+
+- Level select UI → `menu_context/levels/`
+- Training UI → `menu_context/training_room_window/`
+- Results UI → `post_battle_context/`
+- Account/progress controllers stay under `main_context/account/`
+- New/changed UI controls → edit the `.tscn` in the editor (or provide editor steps); scripts only bind and set state
+
+## Avoid
+
+- Loading `GameContext` directly from menu scripts
+- Duplicating unlock logic outside `ProgressController` / `conditions.gd`
+- Creating menu/window UI trees in GDScript instead of scene nodes / item templates

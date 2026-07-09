@@ -1,0 +1,57 @@
+﻿# Cursor indexing ignore — keep AI context cheap and relevant
+# Game source under src/ and core/ must remain visible.
+
+# Godot cache / generated
+.godot/
+.import/
+*.import
+*.translation
+*.uid
+*.tmp
+
+# Editor / IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# Third-party & build output (do not edit for gameplay)
+addons/
+bin/
+android/
+.mono/
+data_*/
+mono_crash.*.json
+godot_sandbox/
+*export/
+*.export/
+
+# Export secrets / local export noise
+export.cfg
+export_credentials.cfg
+
+# Binary / media assets (reference res:// paths; don't index blobs)
+assets/**/*.png
+assets/**/*.jpg
+assets/**/*.jpeg
+assets/**/*.webp
+assets/**/*.svg
+assets/**/*.mp3
+assets/**/*.ogg
+assets/**/*.wav
+assets/**/*.ttf
+assets/**/*.otf
+assets/**/*.woff
+assets/**/*.woff2
+
+# Legacy orphan level configs (canonical: src/levels/{container}/)
+src/levels/level_1.tres
+src/levels/level_2.tres
+src/levels/level_3.tres
+src/levels/level_4.tres
+src/levels/level_5.tres
+src/levels/level_6.tres
+
+# OS junk
+Thumbs.db
+Desktop.ini
+.DS_Store

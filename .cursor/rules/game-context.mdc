@@ -1,0 +1,33 @@
+---
+description: Battle loop, combat, and GameContext change rules
+globs: "src/contexts/game_context/**/*"
+alwaysApply: false
+---
+
+# Game context / battle
+
+## Ownership
+
+- Orchestration: `game_context.gd` resolves scenario → `ResourceUtils.update_resource` into live `GameConfig`
+- Live `game_config.tres` on the scene = **standalone defaults** (scene must run alone); parent overrides via `ev_start_game` → `initialize(data)`
+- States: `GameManager` FSM only (`CountDown` / `Game` / `EndGame`)
+- Round: `round/round_controller.gd`, `answer_spawner.gd`, `combat_resolver.gd`
+- Questions: `question_generator.gd` (`QuizQuestion`)
+- Features: spawn/compose from `src/features/` — keep feature logic inside the feature; context only wires and reacts to `ev_*`
+
+## Change guide
+
+| Goal | Touch |
+|------|--------|
+| Win/lose / transitions | FSM states + `FSMGameEvents` |
+| Scoring / health | `Player` + `CombatResolver` |
+| Spawn layout / lanes | `GameArea` + `AnswerSpawner` |
+| Question math | `QuizQuestion` + `GameConfig` fields |
+| HUD only | `ui/` — listen to `GameEvents`, don't own combat |
+
+## Constraints
+
+- Exit battle via `main_events.ev_exit_game` with post-battle payload
+- Answers: respect `is_hittable()` during entry tween
+- Speed ramp / health / question count come from `GameConfig`, not hardcode
+- Prefer small `RefCounted` helpers over growing `GameState` further
