@@ -1,0 +1,33 @@
+---
+description: Levels, GameConfig, and progress persistence rules
+globs: "{src/common/**/*,src/levels/**/*,src/contexts/main_context/account/**/*,tools/**/*}"
+alwaysApply: false
+---
+
+# Levels & progress
+
+## Levels
+
+- Canonical files: `src/levels/{addition|subtraction|multiplication|division|mix}/level_N.tres`
+- Container metadata + unlocks: `src/common/levels/levels_config.gd`
+- Bulk generation: `tools/generate_levels.py` (prefer over hand-editing dozens of `.tres`)
+- Ignore legacy `src/levels/level_*.tres` at root
+- Missing level file → assert at `LevelsConfig` init — always add file + config entry together
+
+## GameConfig
+
+- Schema: `src/common/game_config_default.gd`
+- Difficulty = exported fields on level `.tres` (ops, ranges, speeds, health, questions)
+- Do not permanently edit runtime `game_context/game_config.tres` (overwritten per battle)
+
+## Progress
+
+- Schema: `PDataProgress` → `user://progress.tres`
+- All mutations through `ProgressController` (+ migrations via `PDataMigrator`)
+- Unlock helpers: `LevelsContainerConditions` in `conditions.gd`
+- Settings: `UserSettings` → `user://settings.tres`
+
+## Must
+
+- Keep `container_id` strings stable (progress keys)
+- Bump progress `version` + add migration when schema changes

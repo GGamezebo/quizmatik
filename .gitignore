@@ -17,3 +17,4 @@ godot_sandbox
 .mono/
 data_*/
 mono_crash.*.json
+*export/
