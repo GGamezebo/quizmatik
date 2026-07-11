@@ -14,6 +14,7 @@ When a change alters structure, contracts, or placement conventions, update `.cu
 - Feature isolation or `core/` project-agnostic boundary changes
 - Scene-isolation / Resource-default / parent-override-via-events contract changes
 - Editor-first UI policy changes (scene nodes vs programmatic UI)
+- Target platforms (Mobile / Steam / HTML) or cross-platform playability rules change
 - Battle start payload / `IContext` / progress schema changes
 - Level layout or `LevelsConfig` container IDs change
 - Entry point or main-scene wiring changes

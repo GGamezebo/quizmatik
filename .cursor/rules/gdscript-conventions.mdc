@@ -29,7 +29,8 @@ alwaysApply: false
 - Prefix new cross-object signals with `ev_`
 - Tear down listeners on context/FSM leave
 - Use existing physics layers: player=1, shots=2, answers=3
-- Use input action `shoot` (Space / LMB)
+- Use InputMap actions (`shoot`, movement) — support touch + keyboard/mouse (Mobile, Steam, HTML)
+- New controls/UI must be usable on phone landscape, desktop, and web
 
 ## Layers
 
@@ -51,5 +52,6 @@ alwaysApply: false
 - Feature A importing Feature B internals (compose in context instead)
 - Putting project-specific types into `core/`
 - Building menus/HUD/forms programmatically (`Label.new()`, nested `HBoxContainer.new()`, etc.)
+- Desktop-only or touch-only features that break other target platforms
 - New parallel FSM unless existing `core/lib/fsm` cannot fit
 - Drive-by renames of typo filenames without explicit request

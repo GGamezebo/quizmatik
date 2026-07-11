@@ -1,13 +1,3 @@
-You are an expert game developer specializing in Godot 4 and GDScript. 
-Always follow the official Godot 4.x documentation and syntax guidelines.
-
-Strict syntax rules:
-- Use Godot 4 annotations with the '@' symbol (e.g., @onready, @export, @icon). Never use Godot 3 style 'onready var'.
-- Use the new signal syntax: 'signal_name.connect(_on_callback)' instead of 'connect("signal_name", self, "_on_callback")'.
-- For instantiating scenes, use 'scene.instantiate()' instead of 'scene.instance()'.
-- Use 'Input.is_action_pressed()' and modern property naming conventions.
-- Provide clean, static-typed GDScript whenever possible (e.g., 'var speed: float = 200.0').
-
 ---
 description: Quizmatik architecture map — where code lives and how systems connect
 alwaysApply: true
@@ -16,6 +6,19 @@ alwaysApply: true
 # Architecture (Quizmatik / Godot 4.7)
 
 Math-quiz arcade shooter. Prefer the smallest change that fits existing patterns. Do not invent parallel systems.
+
+Godot 4.x only: `@export`/`@onready`, `signal.connect(cb)`, `instantiate()`, typed GDScript, `Input` actions.
+
+## Target platforms (critical)
+
+Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (desktop), **HTML5** (web).
+
+- Design every feature/control/UI for comfortable play on touch **and** mouse/keyboard — not PC-first with mobile as afterthought.
+- Prefer InputMap actions (`shoot`, `ui_*`) over hard-coded keys; add touch controls (on-screen buttons / gestures) without breaking desktop/web.
+- UI: readable at phone landscape, safe areas, hit targets large enough for fingers; still clean on 16:9 desktop and browser.
+- Performance: mobile renderer / mid-range phones and browsers matter — avoid heavy one-platform-only effects unless gated.
+- Platform-specific code: isolate behind small helpers/`OS.has_feature(...)` — do not fork gameplay into three codepaths.
+- Before merging a feature, ask: *playable with touch, with keyboard/mouse, and in browser?*
 
 ## #1 Scene isolation (critical)
 

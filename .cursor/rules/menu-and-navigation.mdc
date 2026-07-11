@@ -22,9 +22,11 @@ alwaysApply: false
 - Results UI → `post_battle_context/`
 - Account/progress controllers stay under `main_context/account/`
 - New/changed UI controls → edit the `.tscn` in the editor (or provide editor steps); scripts only bind and set state
+- Menus/HUD must be comfortable on Mobile, Steam, and HTML (touch targets, safe area, mouse/keyboard)
 
 ## Avoid
 
 - Loading `GameContext` directly from menu scripts
 - Duplicating unlock logic outside `ProgressController` / `conditions.gd`
 - Creating menu/window UI trees in GDScript instead of scene nodes / item templates
+- UI that only works well on one platform
