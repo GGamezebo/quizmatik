@@ -1,0 +1,55 @@
+---
+description: HFSM JSON config schema and conventions
+globs: "**/*hfsm*.json"
+alwaysApply: false
+---
+
+# HFSM JSON config
+
+## Shape
+
+- Exactly **one** root state key per file
+- Reserved keys: `enter`, `leave`, `consume`, `states`
+- Any other key = **binding slot** → entity `NAME` string (`context`, `window`, `dialog`, …)
+
+```json
+{
+  "Root": {
+    "context": "AppRoot",
+    "states": {
+      "Child": {
+        "enter": ["ev.open"],
+        "leave": ["ev.close"],
+        "consume": ["ev.ui_*"],
+        "window": "SomeWindow",
+        "states": {}
+      }
+    }
+  }
+}
+```
+
+## Events
+
+- Prefer `ev.*` for game/UI; `sys.enter` is system-only
+- Omit `enter` → defaults to `["sys.enter"]` (default child when parent has no active child)
+- If you list custom enters, pure auto-enter is lost unless `enter` is exactly `["sys.enter"]`
+- `leave` / `consume` default to `[]`
+- Wildcards: only trailing `*` (`ev.*`, `ev.ui_*`) — never `ev.*.foo`
+
+## Bindings
+
+- Slot name → entity NAME string (must exist in HFSM entity registry for that slot)
+- Same entity NAME cannot appear twice in one slot registry
+- State names must be unique across the whole tree
+
+## Design hints (config-level)
+
+- Large phases bind `context`; UI screens bind `window`; modals bind `dialog`
+- Use `consume` on pause/modals to block lower-priority UI events
+- Prefer shallow trees; put micro-logic inside entities, not dozens of leaf states
+
+## Validation
+
+- Load via `HfsmLoader.try_load_tree` during bring-up; fix assert messages from loader
+- Reference examples: Library `GDScript/HFSM/tests/fixtures/game_config.json`, `Python3/HFSM/examples/demo_config.json`

@@ -1,0 +1,50 @@
+---
+description: HFSM library architecture — modules, transitions, entity bindings
+globs: "core/lib/hfsm/**/*"
+alwaysApply: false
+---
+
+# HFSM library (`core/lib/hfsm`)
+
+Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep semantics in sync; do not invent parallel FSM APIs here.
+
+## Modules
+
+| File | Role |
+|------|------|
+| `state_node.gd` / `state_tree.gd` | Config data only — no live entities |
+| `loader.gd` | JSON/dict → tree; reserved keys: `enter`, `leave`, `consume`, `states` |
+| `hfsm.gd` | Queue, transitions, `sys.enter` propagation |
+| `binding_registry.gd` | Entity lifecycle; instances by `state.name` → `{slot: entity}` |
+| `bound_entity.gd` | Base: `const NAME`, `on_event`, `deinit` |
+| `event.gd` / `utils.gd` / `consts.gd` | Event + pattern helpers |
+
+## Public API
+
+- `HFSM.new(tree, entities)` — `entities`: `{ slot: { EntityNAME: Script } }`
+- `HfsmLoader.load_tree(path|Dictionary)` / `try_load_tree` (errors without throw)
+- `add_event(name, data)`, `get_active_path()`, `get_binding(state, slot)`, `reset()`
+
+## Transition semantics (do not change casually)
+
+- Post-order: children processed before parent
+- `leave` → deactivate subtree + `entity.deinit()`
+- Matching child `enter` → activate + `on_enter` + entity `on_event` (except `sys.enter`)
+- `consume`: stop bubble **unless** event also matches this state's enter/leave
+- `sys.enter`: no entity `on_event`; used for default child activation
+- Auto-activate child only if `enter` is **exactly** `["sys.enter"]` (omitted `enter` in JSON → that)
+- If parent active and **no** active child → activate all pure-`sys.enter` children
+- Wildcard `*` only at **end** of pattern (`ev.ui_*`)
+
+## Entities
+
+- Subclass `HfsmBoundEntity`; define `const NAME = "..."` matching JSON binding value
+- Registry key must equal `NAME` (registry indexes by script `NAME`)
+- `on_enter` constructs `script.new(event_data)`; `on_leave` calls `deinit()`
+- Machine must not instantiate entities outside `HfsmBindingRegistry`
+
+## Must / avoid
+
+- Keep library project-agnostic (no Quizmatik types in `core/lib/hfsm`)
+- Behavior change → add/adjust tests (Library suite is the reference)
+- Avoid Godot nodes inside the lib — `RefCounted` only
