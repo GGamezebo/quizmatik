@@ -86,6 +86,7 @@ PostBattle --ev_start_game--> Game (retry)
 - App-level signals: `MainEvents`. In-battle: `GameEvents`. No cross-context node refs.
 - Subscribe with `EventListener`; always `deinit()` on teardown.
 - Battle payload: **either** `custom_battle: GameConfig` **or** `battle_info: GameConfig.BattleInfo` — never both.
+- Menu windows: one `WindowStackManager` — forward `ButtonWindowTransition`, back `ButtonWindowBack` / pop (not “open MainMenu”). Dialogs stay off the stack.
 
 ## Battle loop
 
