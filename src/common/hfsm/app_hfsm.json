@@ -1,0 +1,56 @@
+{
+  "App": {
+	"context": "AppRoot",
+	"states": {
+	  "Menu": {
+		"context": "MenuContext",
+		"leave": ["ev.start_game"],
+		"states": {
+		  "MainMenu": {
+			"window": "MainMenuWindow",
+			"leave": [
+			  "ev.open_levels",
+			  "ev.open_training",
+              "ev.open_settings"
+			]
+		  },
+		  "Levels": {
+			"window": "LevelsWindow",
+			"enter": ["ev.open_levels"],
+			"leave": ["ev.back_to_main", "ev.start_game"],
+			"states": {
+			  "LevelSelect": {
+				"window": "LevelSelectWindow",
+				"enter": ["ev.open_level_select"],
+				"leave": [
+				  "ev.back_from_level_select",
+                  "ev.start_game"
+				]
+			  }
+			}
+		  },
+		  "Training": {
+			"window": "TrainingRoomWindow",
+			"enter": ["ev.open_training"],
+			"leave": ["ev.back_to_main", "ev.start_game"]
+		  },
+		  "Settings": {
+			"window": "SettingsWindow",
+			"enter": ["ev.open_settings"],
+			"leave": ["ev.back_to_main"]
+		  }
+		}
+	  },
+	  "Battle": {
+		"context": "GameContext",
+		"enter": ["ev.start_game"],
+		"leave": ["ev.exit_game"]
+	  },
+	  "PostBattle": {
+		"context": "PostBattleContext",
+		"enter": ["ev.exit_game"],
+		"leave": ["ev.return_to_menu", "ev.start_game"]
+	  }
+	}
+  }
+}
