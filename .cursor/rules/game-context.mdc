@@ -31,3 +31,4 @@ alwaysApply: false
 - Answers: respect `is_hittable()` during entry tween
 - Speed ramp / health / question count come from `GameConfig`, not hardcode
 - Prefer small `RefCounted` helpers over growing `GameState` further
+- Combat controls/HUD must work on Mobile (touch), Steam (KBM), and HTML — no platform-locked input
