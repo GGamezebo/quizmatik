@@ -4,6 +4,7 @@
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="2_jg6wr"]
 [ext_resource type="PackedScene" uid="uid://dvy13cfq73jxs" path="res://src/ui/background/background.tscn" id="3_bg"]
 [ext_resource type="Texture2D" uid="uid://c8c6ld7mnpu8l" path="res://assets/star.svg" id="5_star"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_overlay"]
 colors = PackedColorArray(0, 0, 0.627451, 0.35, 0, 1, 1, 0.08)
@@ -61,6 +62,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("theme_ui")
 
 [node name="Background" parent="UI/Screen" unique_id=1769336873 instance=ExtResource("3_bg")]
 

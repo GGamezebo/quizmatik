@@ -2,12 +2,14 @@
 
 [ext_resource type="Script" uid="uid://tfrrmqoqw5gp" path="res://src/contexts/menu_context/levels/level.gd" id="1_106m3"]
 [ext_resource type="Texture2D" uid="uid://c8c6ld7mnpu8l" path="res://assets/star.svg" id="1_ce0mg"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [node name="Level" type="Button" unique_id=1224477009 node_paths=PackedStringArray("text_lable", "stars")]
 custom_minimum_size = Vector2(100, 100)
 offset_right = 90.0
 offset_bottom = 90.0
 size_flags_horizontal = 4
+theme = ExtResource("theme_ui")
 script = ExtResource("1_106m3")
 text_lable = NodePath("text")
 stars = [NodePath("HBoxContainer/star1"), NodePath("HBoxContainer/star2"), NodePath("HBoxContainer/star3")]
