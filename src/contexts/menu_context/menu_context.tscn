@@ -4,6 +4,7 @@
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/contexts/main_context/main_events.tres" id="2_35kkh"]
 [ext_resource type="Script" uid="uid://bcskwis6ebs5f" path="res://core/lib/window_stack_manager/window_stack_manager.gd" id="3_5oxuo"]
 [ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://core/lib/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
+[ext_resource type="Script" path="res://core/lib/window_stack_manager/button_window_back.gd" id="4_back"]
 [ext_resource type="Script" uid="uid://dwus2ghsyt5xv" path="res://src/contexts/menu_context/training_room_window/training_room_window.gd" id="5_n67ar"]
 [ext_resource type="PackedScene" uid="uid://dvy13cfq73jxs" path="res://src/ui/background/background.tscn" id="6_kcyx7"]
 [ext_resource type="Texture2D" uid="uid://clq0g1vwuxqgn" path="res://assets/sound-on.svg" id="6_vk307"]
@@ -49,30 +50,31 @@ script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Start")
 target_window = NodePath("../../LevelsWindow")
 
-[node name="LevelsWindowToMainMenuTransition" type="Node" parent="UI/StackWindowController" unique_id=785798505 node_paths=PackedStringArray("button", "target_window")]
-script = ExtResource("4_haj1v")
-button = NodePath("../../LevelsWindow/MarginContainer/Back")
-target_window = NodePath("../../MainMenuWindow")
-
 [node name="TrainingRoomTransition" type="Node" parent="UI/StackWindowController" unique_id=1342848864 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/TrainigRoom")
 target_window = NodePath("../../TrainingRoomWindow")
-
-[node name="TrainingRoomToMainMenuTransition" type="Node" parent="UI/StackWindowController" unique_id=545675404 node_paths=PackedStringArray("button", "target_window")]
-script = ExtResource("4_haj1v")
-button = NodePath("../../TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/ButtonExit")
-target_window = NodePath("../../MainMenuWindow")
 
 [node name="SettingsTransition" type="Node" parent="UI/StackWindowController" unique_id=1469774925 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Settings")
 target_window = NodePath("../../SettingsWindow")
 
-[node name="SettingsToMainMenuTransition" type="Node" parent="UI/StackWindowController" unique_id=1482088119 node_paths=PackedStringArray("button", "target_window")]
-script = ExtResource("4_haj1v")
+[node name="LevelsWindowBack" type="Node" parent="UI/StackWindowController" unique_id=785798505 node_paths=PackedStringArray("button")]
+script = ExtResource("4_back")
+button = NodePath("../../LevelsWindow/MarginContainer/Back")
+
+[node name="LevelsSelectionBack" type="Node" parent="UI/StackWindowController" unique_id=785798506 node_paths=PackedStringArray("button")]
+script = ExtResource("4_back")
+button = NodePath("../../LevelsWindow/LevelsSelection/MarginContainer/Back")
+
+[node name="TrainingRoomBack" type="Node" parent="UI/StackWindowController" unique_id=545675404 node_paths=PackedStringArray("button")]
+script = ExtResource("4_back")
+button = NodePath("../../TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/ButtonExit")
+
+[node name="SettingsBack" type="Node" parent="UI/StackWindowController" unique_id=1482088119 node_paths=PackedStringArray("button")]
+script = ExtResource("4_back")
 button = NodePath("../../SettingsWindow/CenterContainer/VBoxContainer/ButtonExit")
-target_window = NodePath("../../MainMenuWindow")
 
 [node name="MainMenuWindow" type="Control" parent="UI" unique_id=1158717007]
 layout_mode = 3
