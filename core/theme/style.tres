@@ -84,7 +84,7 @@ shadow_size = 25
 [resource]
 default_font = ExtResource("1_font")
 default_font_size = 46
-Button/colors/font_color = Color(0, 18.892157, 18.892157, 1)
+Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_outline_color = Color(0.02, 0.15, 0.3, 1)
 Button/constants/outline_size = 16
 Button/styles/focus = SubResource("StyleBoxFlat_focus")

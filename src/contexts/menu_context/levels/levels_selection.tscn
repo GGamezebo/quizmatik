@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/contexts/main_context/account/progress.tres" id="4_wsbu4"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/contexts/main_context/account/progress_controller.tscn" id="5_wsbu4"]
 [ext_resource type="PackedScene" uid="uid://c8qm5n2k7xwfd" path="res://src/ui/confirm_dialog/confirm_dialog.tscn" id="6_confirm"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_r3o0b"]
 colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 1)
@@ -21,6 +22,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("theme_ui")
 script = ExtResource("1_k33vu")
 main_events = ExtResource("2_e017k")
 grid_container = NodePath("CenterContainer/MarginContainer/GridContainer")

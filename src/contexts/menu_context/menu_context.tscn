@@ -17,6 +17,7 @@
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="13_dwe1a"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/contexts/main_context/account/progress_controller.tscn" id="14_cjfjs"]
 [ext_resource type="PackedScene" uid="uid://bvsvg4k1oa70y" path="res://src/contexts/menu_context/levels/levels_selection.tscn" id="15_foifc"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
 colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 0.072000004)
@@ -81,6 +82,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
+theme = ExtResource("theme_ui")
 
 [node name="Background" parent="UI/MainMenuWindow" unique_id=1217069396 instance=ExtResource("6_kcyx7")]
 
@@ -159,6 +161,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
+theme = ExtResource("theme_ui")
 script = ExtResource("11_3k6yn")
 packs_list_container = NodePath("CenterContainer/ScrollContainer/HBoxContainer")
 level_container_scene = ExtResource("13_a4m0n")
@@ -244,6 +247,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("theme_ui")
 script = ExtResource("5_n67ar")
 config = ExtResource("6_vp6ju")
 params_container = NodePath("CenterContainer/VBoxContainer/TrainingRoomConfig/TrainingRoomParamsContainer")
@@ -318,6 +322,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("theme_ui")
 
 [node name="TextureRect" type="TextureRect" parent="UI/SettingsWindow" unique_id=1440231049]
 layout_mode = 1
