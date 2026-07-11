@@ -1,4 +1,4 @@
-﻿# Cursor indexing ignore — keep AI context cheap and relevant
+# Cursor indexing ignore — keep AI context cheap and relevant
 # Game source under src/ and core/ must remain visible.
 
 # Godot cache / generated
@@ -16,6 +16,7 @@
 
 # Third-party & build output (do not edit for gameplay)
 addons/
+!addons/hfsm_editor/
 bin/
 android/
 .mono/
