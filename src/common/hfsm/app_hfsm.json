@@ -43,6 +43,7 @@
 	  },
 	  "Battle": {
 		"context": "GameContext",
+		"scene": "GameScene",
 		"enter": ["ev.start_game"],
 		"leave": ["ev.exit_game"]
 	  },

@@ -77,16 +77,18 @@ Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level
 ## Context flow
 
 ```
-Menu --ev_start_game--> Game --ev_exit_game--> PostBattle
-PostBattle --ev_return_to_menu--> Menu
-PostBattle --ev_start_game--> Game (retry)
+Menu --ev.start_game--> Battle --ev.exit_game--> PostBattle
+PostBattle --ev.return_to_menu--> Menu
+PostBattle --ev.start_game--> Battle (retry)
 ```
 
-- New screens: implement `IContext` (`initialize` / `deinit`), switch **only** via `MainEvents`.
-- App-level signals: `MainEvents`. In-battle: `GameEvents`. No cross-context node refs.
-- Subscribe with `EventListener`; always `deinit()` on teardown.
-- Battle payload: **either** `custom_battle: GameConfig` **or** `battle_info: GameConfig.BattleInfo` — never both.
-- Menu windows: one `WindowStackManager` — forward `ButtonWindowTransition`, back `ButtonWindowBack` / pop (not “open MainMenu”). Dialogs stay off the stack.
+App phases are driven by HFSM (`src/common/hfsm/app_hfsm.json`) via `MainContext`:
+- `MainEvents` signals bridge to `hfsm.add_event("ev.*", data)`
+- `context` entities mount/release `.tscn` through `MainContext.mount_context`
+- Host: `AppRootEntity.host` set before deferred `HFSM.new` (after main-scene deps settle)
+- Window entities in config are stubs until layer 3; menu still uses `WindowStackManager`
+- Battle payload: **either** `custom_battle` **or** `battle_info` — never both
+- In-battle: `GameEvents` + `GameManager` FSM (not HFSM yet)
 
 ## Battle loop
 

@@ -1,0 +1,39 @@
+---
+description: App-level HFSM integration (MainContext bridge and context entities)
+globs: "{src/contexts/main_context/**/*,src/common/hfsm/**/*}"
+alwaysApply: false
+---
+
+# App HFSM integration
+
+## Wiring
+
+- Config: `src/common/hfsm/app_hfsm.json`
+- Registry: `HfsmEntityRegistry.build()`
+- Host: `AppRootEntity.host = MainContext` **before** `HFSM.new`
+- Start HFSM after 2 idle frames (`_start_hfsm_when_ready`) so first Menu mount does not race `main.tscn` dependency load
+- Menu / PostBattle mounts use **sync** `load()` (no loading screen); Battle uses threaded load + loading screen
+- Bridge: `MainEvents.ev_*` → `hfsm.add_event("ev.*", data)` (dot names in JSON)
+
+## Context entities
+
+| NAME | Mount |
+|------|--------|
+| `MenuContext` | `menu_context_path`, no loading screen |
+| `GameContext` | `game_context_path`, loading screen |
+| `PostBattleContext` | `post_battle_context_path`, no loading screen |
+
+- Mount via `MainContext.mount_context` (async, cancellable via `_mount_token`)
+- `deinit` → `release_current_context()`
+- Do not load contexts from window entities (layer 3 later)
+
+## Windows (current)
+
+- JSON binds `window` slots; entities are **no-op stubs**
+- Real menu navigation still `WindowStackManager` inside `MenuContext`
+
+## Must
+
+- Keep `GameManager` battle FSM separate for now
+- New app phase → JSON state + context entity + registry entry
+- Prefer shallow HFSM; micro-flow stays inside context/window scripts

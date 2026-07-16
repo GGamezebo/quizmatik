@@ -21,10 +21,10 @@ static func _build_index(entities: Dictionary) -> Dictionary:
 			var script: Script = slot_entities[entity_name]
 			var name := HfsmBoundEntity.get_entity_name(script)
 			if name.is_empty():
-				push_error("Entity script must define const NAME")
+				push_error("Entity script must override static func NAME()")
 				assert(false)
 			if name in slot_index:
-				push_error("Duplicate NAME '%s' in entities['%s']" % [name, slot])
+				push_error("Duplicate NAME() '%s' in entities['%s']" % [name, slot])
 				assert(false)
 			slot_index[name] = script
 		index[slot] = slot_index
@@ -67,7 +67,7 @@ func on_enter(state: HfsmStateNode, data: Dictionary = {}) -> void:
 func on_event(state: HfsmStateNode, event: HfsmEvent) -> void:
 	var instances: Dictionary = _state_instances(state)
 	for entity in instances.values():
-		if entity is HfsmBoundEntity:
+		if entity.has_method("on_event"):
 			entity.on_event(event.name, event.data)
 
 
@@ -77,7 +77,7 @@ func on_leave(state: HfsmStateNode) -> void:
 	var instances: Dictionary = _instances[state.name]
 	_instances.erase(state.name)
 	for entity in instances.values():
-		if entity is HfsmBoundEntity:
+		if entity.has_method("deinit"):
 			entity.deinit()
 
 
@@ -100,6 +100,6 @@ func clear() -> void:
 	for state_name in _instances.keys():
 		var instances: Dictionary = _instances[state_name]
 		for entity in instances.values():
-			if entity is HfsmBoundEntity:
+			if entity.has_method("deinit"):
 				entity.deinit()
 	_instances.clear()
