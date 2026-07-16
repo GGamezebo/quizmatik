@@ -16,7 +16,7 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep semantics in sync; do not
 | `loader.gd` | JSON/dict → tree; reserved keys: `enter`, `leave`, `consume`, `states` |
 | `hfsm.gd` | Queue, transitions, `sys.enter` propagation |
 | `binding_registry.gd` | Entity lifecycle; instances by `state.name` → `{slot: entity}` |
-| `bound_entity.gd` | Base: `const NAME`, `on_event`, `deinit` |
+| `bound_entity.gd` | Base: `static NAME()`, `on_event`, `deinit` |
 | `event.gd` / `utils.gd` / `consts.gd` | Event + pattern helpers |
 
 ## Public API
@@ -38,8 +38,9 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep semantics in sync; do not
 
 ## Entities
 
-- Subclass `HfsmBoundEntity`; define `const NAME = "..."` matching JSON binding value
-- Registry key must equal `NAME` (registry indexes by script `NAME`)
+- Subclass `HfsmBoundEntity`; override `static func NAME() -> String` matching JSON binding value
+- Registry key must equal `NAME()` (registry indexes by script `NAME()`)
+
 - `on_enter` constructs `script.new(event_data)`; `on_leave` calls `deinit()`
 - Machine must not instantiate entities outside `HfsmBindingRegistry`
 

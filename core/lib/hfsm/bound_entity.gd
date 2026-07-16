@@ -2,18 +2,16 @@ class_name HfsmBoundEntity
 extends RefCounted
 
 ## Base class for entities bound to FSM states.
-## Subclasses must define: const NAME = "EntityName"
+## Subclasses must override: static func NAME() -> String
 
-var data: Dictionary = {}
+static func NAME() -> String:
+	return ""
 
-
-func _init(p_data: Dictionary = {}) -> void:
-	data = p_data.duplicate()
-
+func _init(_data: Dictionary = {}) -> void:
+	pass
 
 func on_event(_event_name: String, _data: Dictionary) -> void:
 	pass
-
 
 func deinit() -> void:
 	pass
@@ -22,8 +20,6 @@ func deinit() -> void:
 static func get_entity_name(script: Variant) -> String:
 	if script == null:
 		return ""
-	if script is GDScript:
-		var constants: Dictionary = (script as GDScript).get_script_constant_map()
-		if constants.has("NAME"):
-			return str(constants["NAME"])
+	if script is GDScript and (script as GDScript).has_method("NAME"):
+		return str((script as GDScript).call("NAME"))
 	return ""
