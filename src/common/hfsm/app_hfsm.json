@@ -3,7 +3,7 @@
 	"context": "AppRoot",
 	"states": {
 	  "Menu": {
-		"context": "MenuContext",
+		"scene": { "id": "menu", "loading": false },
 		"leave": ["ev.start_game"],
 		"states": {
 		  "MainMenu": {
@@ -11,7 +11,7 @@
 			"leave": [
 			  "ev.open_levels",
 			  "ev.open_training",
-              "ev.open_settings"
+			  "ev.open_settings"
 			]
 		  },
 		  "Levels": {
@@ -24,7 +24,7 @@
 				"enter": ["ev.open_level_select"],
 				"leave": [
 				  "ev.back_from_level_select",
-                  "ev.start_game"
+				  "ev.start_game"
 				]
 			  }
 			}
@@ -42,13 +42,12 @@
 		}
 	  },
 	  "Battle": {
-		"context": "GameContext",
-		"scene": "GameScene",
+		"scene": { "id": "game", "loading": true },
 		"enter": ["ev.start_game"],
 		"leave": ["ev.exit_game"]
 	  },
 	  "PostBattle": {
-		"context": "PostBattleContext",
+		"scene": { "id": "post_battle", "loading": false },
 		"enter": ["ev.exit_game"],
 		"leave": ["ev.return_to_menu", "ev.start_game"]
 	  }

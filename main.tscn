@@ -24,9 +24,6 @@ glow_blend_mode = 0
 
 [node name="MainContext" type="Node" unique_id=1500600584]
 script = ExtResource("1_0xm2m")
-game_context_path = "uid://6rk3lba0km5x"
-menu_context_path = "uid://fdo7cegg1sud"
-post_battle_context_path = "uid://df5u08rtrxes8"
 loading_screen_scene = ExtResource("2_0xm2m")
 main_events = ExtResource("8_dg77c")
 
