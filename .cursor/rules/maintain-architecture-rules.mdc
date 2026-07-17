@@ -16,7 +16,7 @@ When a change alters structure, contracts, or placement conventions, update `.cu
 - Editor-first UI policy changes (scene nodes vs programmatic UI)
 - Target platforms (Mobile / Steam / HTML) or cross-platform playability rules change
 - HFSM library semantics or JSON config conventions change (`core/lib/hfsm`, `hfsm-*.mdc`)
-- Battle start payload / `IContext` / progress schema changes
+- Battle start payload / `IScene` / progress schema changes
 - Level layout or `LevelsConfig` container IDs change
 - Entry point or main-scene wiring changes
 - A convention in these rules is deliberately broken or replaced

@@ -26,17 +26,17 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 
 - Bake safe defaults into **Resource files** (`.tres`) and `@export` them on the scene — enough to boot, play, and not null-ref.
 - Parent contexts do **not** inject required nodes at edit-time. They **override** those resource defaults at runtime via events / `initialize(data)`.
-- Typical override path: parent emits event → child `initialize` → `ResourceUtils.update_resource(live_resource, incoming)` (see `GameContext` + `game_config.tres`).
+- Typical override path: parent emits event → child `initialize` → `ResourceUtils.update_resource(live_resource, incoming)` (see `GameScene` + `game_config.tres`).
 - Standalone defaults are valid fallbacks; full-app data always wins when the parent provides it.
-- Never assume “only runs under `MainContext`”: no required autoloads, no required sibling contexts, no crash if event payload is empty (keep resource defaults).
+- Never assume “only runs under `MainScene`”: no required autoloads, no required sibling contexts, no crash if event payload is empty (keep resource defaults).
 - When adding a dependency, ask: *can this scene still F6/run isolated?* If not, put a default Resource on the scene.
 
 ## Entry & folders
 
 | Path | Role |
 |------|------|
-| `main.tscn` → `MainContext` | App root / context switcher |
-| `src/contexts/` | Screens / orchestration: `main_`, `menu_`, `game_`, `post_battle_` |
+| `main.tscn` → `MainScene` | App root / context switcher |
+| `src/game/scene/` | Screens / orchestration: `main_`, `menu_`, `game_`, `post_battle_` |
 | `src/features/` | Isolated gameplay features (own almost all deps) |
 | `src/common/` | Project-shared Resources (`GameConfig`, `LevelsConfig`, settings) |
 | `src/levels/{container}/` | Campaign `level_N.tres` (canonical) |
@@ -52,18 +52,18 @@ Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level
 - One folder = one feature (`plane`, `answer`, `shot`, `explosion`, …).
 - Keep **almost all dependencies inside** the feature: scripts, scenes, local helpers, feature-specific assets refs.
 - Talk to the outside via a **small public surface** (signals `ev_*`, `initialize`/`setup`, exported PackedScenes).
-- Features must **not** import other features' internals or context scripts.
-- Contexts **compose/spawn** features; they do not reimplement feature logic.
+- Features must **not** import other features' internals or scene scripts.
+- Scenes **compose/spawn** features; they do not reimplement feature logic.
 
 ### `core/` — project-agnostic
 - May be reused in any Godot project: FSM, `EventListener`, shackers, window stack, ResourceUtils, etc.
 - **Must not** depend on `src/` (no `GameConfig`, contexts, features, quiz types, project scenes).
 - If code needs Quizmatik types → it belongs in `src/`, not `core/`.
 
-### `src/contexts/` — orchestration only
+### `src/game/scene/` — orchestration only
 - Wire features + shared config; own flow/FSM/UI for that screen.
 - Do not dump reusable feature guts here — extract to `src/features/` or (if generic) `core/`.
-- Each context scene ships its own default Resources; parents override them through `MainEvents` / `initialize(data)`, never by requiring the parent to be open in the editor.
+- Each scene ships its own default Resources; parents override them through `MainEvents` / `initialize(data)`, never by requiring the parent to be open in the editor.
 
 ## UI — editor-first (critical)
 
@@ -82,7 +82,7 @@ PostBattle --ev.return_to_menu--> Menu
 PostBattle --ev.start_game--> Battle (retry)
 ```
 
-App phases are driven by HFSM (`src/common/hfsm/app_hfsm.json`) via `MainContext`:
+App phases are driven by HFSM (`src/common/hfsm/app_hfsm.json`) via `MainScene`:
 - `MainEvents` → `hfsm.add_event("ev.*", data)` only (no manual scene sync)
 - JSON `scene: { id, loading }` → HFSM mounts via `HfsmSceneRegistry` + `HfsmScenePaths.PATHS`
 - Scene node lifecycle: `initialize` / `deinit` / `on_event` called by HFSM
@@ -100,7 +100,7 @@ Do not drive win/lose with ad-hoc flags outside the FSM.
 ## Placement rules
 
 - New isolated gameplay unit → `src/features/{name}/` (self-contained; `.gd` + `.tscn` colocated)
-- New screen / flow → `src/contexts/{name}_context/`
+- New screen / flow → `src/game/scene/{name}_scene/`
 - Project-shared Resource/type → `src/common/`
 - Generic reusable utility (no project deps) → `core/lib/`
 - Level data → `src/levels/{container}/`; metadata → `levels_config.gd` / `tools/generate_levels.py`
@@ -109,7 +109,7 @@ Do not drive win/lose with ad-hoc flags outside the FSM.
 ## Cheap-change heuristics
 
 1. Match nearest existing file; copy its wiring (`@export`, signals `ev_*`).
-2. Prefer editing one layer: data (`.tres`) → feature → context orchestration.
+2. Prefer editing one layer: data (`.tres`) → feature → scene orchestration.
 3. Before adding to `core/`: confirm zero `src/` imports. Before splitting a feature: keep deps inside it.
 4. New scene dependency → default `.tres` on the scene + optional runtime override from parent event.
 5. Do not rename entrenched typos (`persisten_*`, `fsm game_states.gd`) unless asked.

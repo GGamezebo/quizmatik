@@ -1,6 +1,6 @@
 ---
 description: Levels, GameConfig, and progress persistence rules
-globs: "{src/common/**/*,src/levels/**/*,src/contexts/main_context/account/**/*,tools/**/*}"
+globs: "{src/common/**/*,src/levels/**/*,src/game/scene/main_scene/account/**/*,tools/**/*}"
 alwaysApply: false
 ---
 
@@ -18,7 +18,7 @@ alwaysApply: false
 
 - Schema: `src/common/game_config_default.gd`
 - Difficulty = exported fields on level `.tres` (ops, ranges, speeds, health, questions)
-- Do not permanently edit runtime `game_context/game_config.tres` (overwritten per battle)
+- Do not permanently edit runtime `game_scene/game_config.tres` (overwritten per battle)
 
 ## Progress
 

@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dvnnrqop6w6sc"]
+
+[ext_resource type="Script" uid="uid://bpjyr4m3gtxpq" path="res://src/game/scene/main_scene/account/progress_controller.gd" id="1_8k8ik"]
+[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/game/scene/main_scene/account/progress.tres" id="2_b7kjd"]
+[ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="3_00pro"]
+[ext_resource type="Script" uid="uid://tx3yd3q8p763" path="res://src/common/levels/conditions.gd" id="4_iain2"]
+
+[node name="ProgressController" type="Node" unique_id=2109216065]
+script = ExtResource("1_8k8ik")
+pdata = ExtResource("2_b7kjd")
+levels_config = ExtResource("3_00pro")
+conditions = ExtResource("4_iain2")

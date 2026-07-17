@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://c5lvxj06c7cww"]
+
+[ext_resource type="Script" uid="uid://tfrrmqoqw5gp" path="res://src/game/scene/menu_scene/levels/level.gd" id="1_106m3"]
+[ext_resource type="Texture2D" uid="uid://c8c6ld7mnpu8l" path="res://assets/star.svg" id="1_ce0mg"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+
+[node name="Level" type="Button" unique_id=1224477009 node_paths=PackedStringArray("text_lable", "stars")]
+custom_minimum_size = Vector2(100, 100)
+offset_right = 90.0
+offset_bottom = 90.0
+size_flags_horizontal = 4
+theme = ExtResource("theme_ui")
+script = ExtResource("1_106m3")
+text_lable = NodePath("text")
+stars = [NodePath("HBoxContainer/star1"), NodePath("HBoxContainer/star2"), NodePath("HBoxContainer/star3")]
+
+[node name="text" type="Label" parent="." unique_id=1806930391]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.5
+offset_top = -28.75
+offset_right = 12.5
+offset_bottom = 28.75
+grow_horizontal = 2
+grow_vertical = 2
+text = "3"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=101332959]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = -5
+alignment = 1
+
+[node name="star1" type="TextureRect" parent="HBoxContainer" unique_id=115954102]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+texture = ExtResource("1_ce0mg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="star2" type="TextureRect" parent="HBoxContainer" unique_id=132915066]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+texture = ExtResource("1_ce0mg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="star3" type="TextureRect" parent="HBoxContainer" unique_id=1801431797]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+texture = ExtResource("1_ce0mg")
+expand_mode = 1
+stretch_mode = 5

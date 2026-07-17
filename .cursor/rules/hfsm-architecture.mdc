@@ -18,6 +18,7 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep transition semantics in s
 | `binding_registry.gd` | Light BoundEntity lifecycle |
 | `scene_registry.gd` | Godot scene mount (`Node`); async load |
 | `bound_entity.gd` | Base: `static NAME()`, `on_event`, `deinit` |
+| `iscene.gd` | Base Node: `initialize` / `deinit` / `on_event` (+ isolated F6) |
 | `event.gd` / `utils.gd` / `consts.gd` | Event + pattern helpers |
 
 ## Public API
@@ -29,6 +30,7 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep transition semantics in s
 
 ## Scene lifecycle (automatic)
 
+- Mounted nodes should extend `IScene` (`initialize` / `deinit` / `on_event`)
 - State `scene: { id, loading }` → on enter: load/instantiate/`initialize(data)`
 - on leave: `deinit()` + `queue_free`
 - on event (non-`sys.enter`): `on_event(name, data)` on mounted node
