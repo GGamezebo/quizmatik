@@ -96,6 +96,33 @@ static func _parse_bindings(data: Dictionary, state_name: String) -> Dictionary:
 	return {"bindings": bindings, "error": ""}
 
 
+static func _parse_scene(raw: Variant, state_name: String) -> Dictionary:
+	if raw == null:
+		return {"scene": {}, "error": ""}
+	if not raw is Dictionary:
+		return {
+			"error": "State '%s' field 'scene' must be an object" % state_name
+		}
+	var scene_data: Dictionary = raw
+	if not scene_data.has("id") or not scene_data.id is String:
+		return {
+			"error": "State '%s' scene.id must be a non-empty string" % state_name
+		}
+	var scene_id := String(scene_data.id)
+	if scene_id.is_empty():
+		return {
+			"error": "State '%s' scene.id must be a non-empty string" % state_name
+		}
+	var loading := false
+	if scene_data.has("loading"):
+		if not scene_data.loading is bool:
+			return {
+				"error": "State '%s' scene.loading must be a bool" % state_name
+			}
+		loading = scene_data.loading
+	return {"scene": {"id": scene_id, "loading": loading}, "error": ""}
+
+
 static func _parse_state(
 	name: String,
 	data: Variant,
@@ -127,6 +154,10 @@ static func _parse_state(
 			return {"error": consume_result.error}
 		consume_events = consume_result.events
 
+	var scene_result := _parse_scene(data.get("scene"), name)
+	if _failed(scene_result):
+		return {"error": scene_result.error}
+
 	var bindings_result := _parse_bindings(data, name)
 	if _failed(bindings_result):
 		return {"error": bindings_result.error}
@@ -137,7 +168,8 @@ static func _parse_state(
 		enter_events,
 		leave_events,
 		consume_events,
-		bindings_result.bindings
+		bindings_result.bindings,
+		scene_result.scene
 	)
 
 	var states = data.get("states", {})

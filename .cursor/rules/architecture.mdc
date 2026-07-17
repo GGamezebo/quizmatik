@@ -83,9 +83,10 @@ PostBattle --ev.start_game--> Battle (retry)
 ```
 
 App phases are driven by HFSM (`src/common/hfsm/app_hfsm.json`) via `MainContext`:
-- `MainEvents` signals bridge to `hfsm.add_event("ev.*", data)`
-- `context` entities mount/release `.tscn` through `MainContext.mount_context`
-- Host: `AppRootEntity.host` set before deferred `HFSM.new` (after main-scene deps settle)
+- `MainEvents` → `hfsm.add_event("ev.*", data)` only (no manual scene sync)
+- JSON `scene: { id, loading }` → HFSM mounts via `HfsmSceneRegistry` + `HfsmScenePaths.PATHS`
+- Scene node lifecycle: `initialize` / `deinit` / `on_event` called by HFSM
+- Host: `AppRootEntity.host` set before deferred `HFSM.new`
 - Window entities in config are stubs until layer 3; menu still uses `WindowStackManager`
 - Battle payload: **either** `custom_battle` **or** `battle_info` — never both
 - In-battle: `GameEvents` + `GameManager` FSM (not HFSM yet)

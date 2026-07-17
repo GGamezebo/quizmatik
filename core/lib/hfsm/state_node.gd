@@ -7,6 +7,8 @@ var enter_events: Array[String] = []
 var leave_events: Array[String] = []
 var consume_events: Array[String] = []
 var bindings: Dictionary = {}
+## Optional host hint: { "id": String, "loading": bool }. Empty = no scene.
+var scene: Dictionary = {}
 var children: Dictionary = {}
 var is_active: bool = false
 
@@ -17,7 +19,8 @@ func _init(
 	p_enter_events: Array = [],
 	p_leave_events: Array = [],
 	p_consume_events: Array = [],
-	p_bindings: Dictionary = {}
+	p_bindings: Dictionary = {},
+	p_scene: Dictionary = {}
 ) -> void:
 	name = p_name
 	parent = p_parent
@@ -25,6 +28,11 @@ func _init(
 	leave_events.assign(p_leave_events)
 	consume_events.assign(p_consume_events)
 	bindings = p_bindings.duplicate()
+	scene = p_scene.duplicate()
+
+
+func has_scene() -> bool:
+	return scene.has("id") and not str(scene.id).is_empty()
 
 
 func active_children() -> Array[HfsmStateNode]:

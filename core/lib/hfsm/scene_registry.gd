@@ -1,0 +1,248 @@
+class_name HfsmSceneRegistry
+extends Node
+
+## Mounts Godot scenes declared on HFSM states (`scene: { id, loading }`).
+## Lives as a child of the host Node so async loads can await process frames.
+
+var _paths: Dictionary = {}
+var _loading_screen_scene: PackedScene = null
+var _min_load_time: float = 0.0
+
+## state_name -> mounted Node
+var _instances: Dictionary = {}
+## state_name -> mount generation (cancel token)
+var _tokens: Dictionary = {}
+var _loading_screens: Dictionary = {}
+var _is_loading: Dictionary = {}
+## state_name -> Array[HfsmEvent] while mount in flight
+var _pending_events: Dictionary = {}
+
+
+func setup(
+	paths: Dictionary,
+	loading_screen_scene: PackedScene = null,
+	min_load_time: float = 0.0
+) -> void:
+	_paths = paths.duplicate()
+	_loading_screen_scene = loading_screen_scene
+	_min_load_time = min_load_time
+
+
+func on_enter(state: HfsmStateNode, data: Dictionary = {}) -> void:
+	if not state.has_scene():
+		return
+	_pending_events[state.name] = []
+	_mount_async(state, data if data else {})
+
+
+func on_event(state: HfsmStateNode, event: HfsmEvent) -> void:
+	var node: Node = _instances.get(state.name)
+	if node != null and is_instance_valid(node):
+		if node.has_method("on_event"):
+			node.on_event(event.name, event.data)
+		return
+	if state.name in _pending_events:
+		(_pending_events[state.name] as Array).append(event)
+
+
+func on_leave(state: HfsmStateNode) -> void:
+	if not state.has_scene() and state.name not in _instances and state.name not in _tokens:
+		return
+	_pending_events.erase(state.name)
+	_release(state.name)
+
+
+func on_reset_all(states: Array) -> void:
+	for state in states:
+		if state is HfsmStateNode:
+			on_leave(state)
+
+
+func get_instance(state_name: String) -> Node:
+	var node: Node = _instances.get(state_name)
+	if node != null and is_instance_valid(node):
+		return node
+	return null
+
+
+func clear() -> void:
+	var names: Array = _tokens.keys()
+	for state_name in names:
+		_release(str(state_name))
+	_instances.clear()
+	_tokens.clear()
+	_loading_screens.clear()
+	_is_loading.clear()
+	_pending_events.clear()
+
+
+func _release(state_name: String) -> void:
+	_bump_token(state_name)
+	_is_loading[state_name] = false
+	_free_loading_screen(state_name)
+
+	var node: Node = _instances.get(state_name)
+	_instances.erase(state_name)
+	if node == null or not is_instance_valid(node):
+		return
+	if node.has_method("deinit"):
+		node.deinit()
+	node.queue_free()
+
+
+func _mount_async(state: HfsmStateNode, data: Dictionary) -> void:
+	var state_name: String = state.name
+	var scene_id: String = str(state.scene.id)
+	var path: String = str(_paths.get(scene_id, ""))
+	if path.is_empty():
+		push_error("[HfsmSceneRegistry] Unknown scene id '%s' (state '%s')" % [scene_id, state_name])
+		return
+
+	var token: int = _bump_token(state_name)
+	_is_loading[state_name] = true
+	var use_loading: bool = state.scene.get("loading", false)
+	var load_start: float = Time.get_unix_time_from_system()
+
+	_free_loading_screen(state_name)
+	if use_loading and _loading_screen_scene != null:
+		var loading_screen = _loading_screen_scene.instantiate()
+		_loading_screens[state_name] = loading_screen
+		add_child(loading_screen)
+		# Drop previous instance of this state while loading screen shows.
+		var prev: Node = _instances.get(state_name)
+		if prev != null and is_instance_valid(prev):
+			_instances.erase(state_name)
+			if prev.has_method("deinit"):
+				prev.deinit()
+			prev.queue_free()
+
+	var packed: PackedScene = await _load_packed(
+		path,
+		use_loading,
+		token,
+		state_name,
+		func(progress: float) -> void:
+			var ls = _loading_screens.get(state_name)
+			if ls != null and is_instance_valid(ls) and ls.has_method("update_progress"):
+				ls.update_progress(progress)
+	)
+	if token != int(_tokens.get(state_name, 0)):
+		_is_loading[state_name] = false
+		return
+
+	if not use_loading:
+		var existing: Node = _instances.get(state_name)
+		if existing != null and is_instance_valid(existing):
+			_instances.erase(state_name)
+			if existing.has_method("deinit"):
+				existing.deinit()
+			existing.queue_free()
+
+	if packed == null:
+		_is_loading[state_name] = false
+		push_error("[HfsmSceneRegistry] Failed to load scene '%s' for state '%s'" % [path, state_name])
+		return
+
+	var elapsed: float = Time.get_unix_time_from_system() - load_start
+	if elapsed < _min_load_time:
+		await get_tree().create_timer(_min_load_time - elapsed).timeout
+		if token != int(_tokens.get(state_name, 0)):
+			_is_loading[state_name] = false
+			return
+
+	if token != int(_tokens.get(state_name, 0)):
+		_is_loading[state_name] = false
+		return
+
+	var instance: Node = packed.instantiate()
+	_instances[state_name] = instance
+	add_child(instance)
+	if instance.has_method("initialize"):
+		instance.initialize(data)
+	_is_loading[state_name] = false
+	_flush_pending_events(state_name, instance)
+
+	var ls_done = _loading_screens.get(state_name)
+	_loading_screens.erase(state_name)
+	if ls_done != null and is_instance_valid(ls_done):
+		if ls_done.has_method("fade_out"):
+			ls_done.fade_out()
+		else:
+			ls_done.queue_free()
+
+
+func _flush_pending_events(state_name: String, instance: Node) -> void:
+	var queued: Array = _pending_events.get(state_name, [])
+	_pending_events.erase(state_name)
+	if not instance.has_method("on_event"):
+		return
+	for event in queued:
+		if event is HfsmEvent:
+			instance.on_event(event.name, event.data)
+
+func _load_packed(
+	path: String,
+	use_loading: bool,
+	token: int,
+	state_name: String,
+	progress_callback: Callable
+) -> PackedScene:
+	var resolved: String = path
+	if path.begins_with("uid://"):
+		var uid := ResourceUID.text_to_id(path)
+		if uid != ResourceUID.INVALID_ID:
+			var uid_path := ResourceUID.get_id_path(uid)
+			if not uid_path.is_empty():
+				resolved = uid_path
+
+	if not use_loading:
+		if token != int(_tokens.get(state_name, 0)):
+			return null
+		progress_callback.call(1.0)
+		return load(resolved) as PackedScene
+
+	var err: Error = ResourceLoader.load_threaded_request(resolved)
+	if err != OK:
+		push_error(
+			"[HfsmSceneRegistry] load_threaded_request failed (%s): %s"
+			% [error_string(err), resolved]
+		)
+		if token != int(_tokens.get(state_name, 0)):
+			return null
+		return load(resolved) as PackedScene
+
+	var progress_state: Array = []
+	var status: int = ResourceLoader.THREAD_LOAD_IN_PROGRESS
+	while status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+		if token != int(_tokens.get(state_name, 0)):
+			return null
+		status = ResourceLoader.load_threaded_get_status(resolved, progress_state)
+		if progress_state.size() > 0:
+			progress_callback.call(progress_state[0])
+		if status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+			await get_tree().process_frame
+
+	if token != int(_tokens.get(state_name, 0)):
+		return null
+
+	if status == ResourceLoader.THREAD_LOAD_LOADED:
+		return ResourceLoader.load_threaded_get(resolved) as PackedScene
+
+	push_warning(
+		"[HfsmSceneRegistry] Threaded load status %s for %s; trying sync load"
+		% [status, resolved]
+	)
+	return load(resolved) as PackedScene
+
+
+func _bump_token(state_name: String) -> int:
+	var next: int = int(_tokens.get(state_name, 0)) + 1
+	_tokens[state_name] = next
+	return next
+
+
+func _free_loading_screen(state_name: String) -> void:
+	var ls = _loading_screens.get(state_name)
+	_loading_screens.erase(state_name)
+	if ls != null and is_instance_valid(ls):
+		ls.queue_free()

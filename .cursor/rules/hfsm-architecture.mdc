@@ -1,51 +1,55 @@
 ---
-description: HFSM library architecture — modules, transitions, entity bindings
+description: HFSM library architecture — modules, transitions, entity/scene bindings
 globs: "core/lib/hfsm/**/*"
 alwaysApply: false
 ---
 
 # HFSM library (`core/lib/hfsm`)
 
-Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep semantics in sync; do not invent parallel FSM APIs here.
+Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep transition semantics in sync.
 
 ## Modules
 
 | File | Role |
 |------|------|
-| `state_node.gd` / `state_tree.gd` | Config data only — no live entities |
-| `loader.gd` | JSON/dict → tree; reserved keys: `enter`, `leave`, `consume`, `states` |
-| `hfsm.gd` | Queue, transitions, `sys.enter` propagation |
-| `binding_registry.gd` | Entity lifecycle; instances by `state.name` → `{slot: entity}` |
+| `state_node.gd` / `state_tree.gd` | Config data — bindings + optional `scene` |
+| `loader.gd` | JSON/dict → tree; reserved: `enter`, `leave`, `consume`, `states`, `scene` |
+| `hfsm.gd` | Queue, transitions, entity + scene lifecycle |
+| `binding_registry.gd` | Light BoundEntity lifecycle |
+| `scene_registry.gd` | Godot scene mount (`Node`); async load |
 | `bound_entity.gd` | Base: `static NAME()`, `on_event`, `deinit` |
 | `event.gd` / `utils.gd` / `consts.gd` | Event + pattern helpers |
 
 ## Public API
 
-- `HFSM.new(tree, entities)` — `entities`: `{ slot: { EntityNAME: Script } }`
-- `HfsmLoader.load_tree(path|Dictionary)` / `try_load_tree` (errors without throw)
-- `add_event(name, data)`, `get_active_path()`, `get_binding(state, slot)`, `reset()`
+- `HFSM.new(tree, entities, scene_config={})`
+  - `entities`: `{ slot: { EntityNAME: Script } }`
+  - `scene_config`: `{ host: Node, paths: {id: path}, loading_screen?, min_load_time? }`
+- `add_event`, `get_active_path()`, `get_active_scene()`, `get_mounted_scene(state)`, `get_binding`, `reset()`, `clear()`
+
+## Scene lifecycle (automatic)
+
+- State `scene: { id, loading }` → on enter: load/instantiate/`initialize(data)`
+- on leave: `deinit()` + `queue_free`
+- on event (non-`sys.enter`): `on_event(name, data)` on mounted node
+- `paths[id]` resolves `.tscn`; unknown id → error
+- `loading: true` → optional loading screen + threaded load
+- Cancel via per-state mount token when leave/re-enter races
 
 ## Transition semantics (do not change casually)
 
-- Post-order: children processed before parent
-- `leave` → deactivate subtree + `entity.deinit()`
-- Matching child `enter` → activate + `on_enter` + entity `on_event` (except `sys.enter`)
-- `consume`: stop bubble **unless** event also matches this state's enter/leave
-- `sys.enter`: no entity `on_event`; used for default child activation
-- Auto-activate child only if `enter` is **exactly** `["sys.enter"]` (omitted `enter` in JSON → that)
-- If parent active and **no** active child → activate all pure-`sys.enter` children
-- Wildcard `*` only at **end** of pattern (`ev.ui_*`)
+- Post-order: children before parent
+- `leave` → scene leave + entity `deinit`, then deactivate
+- Matching child `enter` → activate + entity/scene enter + `on_event` (except `sys.enter`)
+- `consume`: stop bubble unless event also matches this state's enter/leave
+- Auto-activate child only if `enter` is exactly `["sys.enter"]`
 
 ## Entities
 
-- Subclass `HfsmBoundEntity`; override `static func NAME() -> String` matching JSON binding value
-- Registry key must equal `NAME()` (registry indexes by script `NAME()`)
-
-- `on_enter` constructs `script.new(event_data)`; `on_leave` calls `deinit()`
-- Machine must not instantiate entities outside `HfsmBindingRegistry`
+- Light logic only (`RefCounted`); do **not** mount scenes from entities
+- Scenes own heavy UI via `scene` keyword
 
 ## Must / avoid
 
-- Keep library project-agnostic (no Quizmatik types in `core/lib/hfsm`)
-- Behavior change → add/adjust tests (Library suite is the reference)
-- Avoid Godot nodes inside the lib — `RefCounted` only
+- No Quizmatik types in `core/lib/hfsm` (paths dict is injected by host)
+- `HfsmSceneRegistry` is the only Node helper in the lib (needs SceneTree for async)
