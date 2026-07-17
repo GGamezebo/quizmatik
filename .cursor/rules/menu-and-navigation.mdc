@@ -1,6 +1,6 @@
 ---
 description: Menu, windows, and MainEvents navigation rules
-globs: "{src/contexts/menu_context/**/*,src/contexts/main_context/**/*,src/contexts/post_battle_context/**/*,core/lib/window_stack_manager/**/*}"
+globs: "{src/game/scene/menu_scene/**/*,src/game/scene/main_scene/**/*,src/game/scene/post_battle_scene/**/*,core/lib/window_stack_manager/**/*}"
 alwaysApply: false
 ---
 
@@ -8,13 +8,13 @@ alwaysApply: false
 
 ## Layers
 
-1. **Contexts** (Menu/Game/PostBattle) — only via `MainEvents`
+1. **Scenes** (Menu/Game/PostBattle) — only via `MainEvents`
 2. **Full-screen windows** — only via `WindowStackManager`
 3. **Dialogs/overlays** (confirm, pause popup) — NOT on the window stack
 
 ## Window stack
 
-- One `WindowStackManager` per menu (under `MenuContext/UI`)
+- One `WindowStackManager` per menu (under `MenuScene/UI`)
 - **Forward:** `ButtonWindowTransition` (button → `open_stacked_window(target)`)
 - **Back:** `ButtonWindowBack` (button → `close_stacked_window`) or `ui_cancel`
 - Never “Back → open MainMenu”; always **pop** so nested paths work (`Main → Levels → LevelSelect`)
@@ -29,15 +29,15 @@ alwaysApply: false
 
 ## Placement
 
-- Level select → `menu_context/levels/`
-- Training → `menu_context/training_room_window/`
-- Results → `post_battle_context/`
+- Level select → `menu_scene/levels/`
+- Training → `menu_scene/training_room_window/`
+- Results → `post_battle_scene/`
 - Stack helpers → `core/lib/window_stack_manager/`
-- Account/progress → `main_context/account/`
+- Account/progress → `main_scene/account/`
 
 ## Avoid
 
 - Second navigation stack/router beside `WindowStackManager`
-- Loading `GameContext` from menu scripts directly
+- Loading `GameScene` from menu scripts directly
 - Putting confirm/pause dialogs on the full-screen stack
 - Building window UI trees in GDScript

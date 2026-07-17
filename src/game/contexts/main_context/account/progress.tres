@@ -1,6 +1,0 @@
-[gd_resource type="Resource" script_class="PDataProgress" format=3 uid="uid://jlqn1nvhge6"]
-
-[ext_resource type="Script" uid="uid://c0rvd537to37u" path="res://src/contexts/main_context/account/progress.gd" id="1_g5748"]
-
-[resource]
-script = ExtResource("1_g5748")

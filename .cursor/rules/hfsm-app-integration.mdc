@@ -1,6 +1,6 @@
 ---
-description: App-level HFSM integration (MainContext bridge)
-globs: "{src/game/contexts/main_context/**/*,src/common/hfsm/**/*}"
+description: App-level HFSM integration (MainScene bridge)
+globs: "{src/game/scene/main_scene/**/*,src/common/hfsm/**/*}"
 alwaysApply: false
 ---
 
@@ -10,7 +10,7 @@ alwaysApply: false
 
 - Config: `src/common/hfsm/app_hfsm.json`
 - Registry: `HfsmEntityRegistry.build()` (AppRoot + window stubs)
-- Host: `AppRootEntity.host = MainContext` before `HFSM.new`
+- Host: `AppRootEntity.host = MainScene` before `HFSM.new`
 - Start HFSM after 2 idle frames
 - Bridge **only**: `MainEvents.ev_*` → `hfsm.add_event(...)` — **no** manual scene sync
 
@@ -19,11 +19,11 @@ alwaysApply: false
 - JSON `scene: { id, loading }` on phase states
 - Paths: `hfsm/hfsm_scene_paths.gd` → passed as `scene_config.paths`
 - HFSM mounts under host; calls `initialize` / `deinit` / `on_event` on the scene node
-- MainContext must not call mount/release/`_sync_scenes`
+- MainScene must not call mount/release/`_sync_scenes`
 
 ## Windows (current)
 
-- JSON `window` stubs; real nav still `WindowStackManager` inside MenuContext
+- JSON `window` stubs; real nav still `WindowStackManager` inside MenuScene
 
 ## Must
 
