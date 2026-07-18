@@ -9,6 +9,14 @@ Math-quiz arcade shooter. Prefer the smallest change that fits existing patterns
 
 Godot 4.x only: `@export`/`@onready`, `signal.connect(cb)`, `instantiate()`, typed GDScript, `Input` actions.
 
+## Stable references (critical)
+
+Avoid hardcoded `res://` strings that break when files move.
+
+- Prefer `class_name` + typed use over `preload("res://path/script.gd")`
+- Prefer `@export` / `@export_file` / PackedScene assigned in the editor
+- Do not add new path constants for scripts/resources unless no other option (document why)
+
 ## Target platforms (critical)
 
 Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (desktop), **HTML5** (web).

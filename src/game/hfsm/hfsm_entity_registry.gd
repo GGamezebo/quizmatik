@@ -1,3 +1,4 @@
+class_name HfsmEntityRegistry
 extends RefCounted
 
 static func build() -> Dictionary:
