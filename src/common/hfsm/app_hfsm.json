@@ -1,6 +1,6 @@
 {
   "App": {
-	"context": "AppRoot",
+	"scene": { "id": "app_root", "loading": false },
 	"states": {
 	  "Menu": {
 		"scene": { "id": "menu", "loading": false },

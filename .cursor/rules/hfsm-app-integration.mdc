@@ -1,6 +1,6 @@
 ---
-description: App-level HFSM integration (MainScene bridge)
-globs: "{src/game/scene/main_scene/**/*,src/common/hfsm/**/*}"
+description: App-level HFSM integration (main.gd bootstrap)
+globs: "{src/game/main.gd,src/game/hfsm/**/*,src/game/scenes/app_root/**/*,src/common/hfsm/**/*}"
 alwaysApply: false
 ---
 
@@ -8,18 +8,18 @@ alwaysApply: false
 
 ## Wiring
 
+- Entry: `main.tscn` → `src/game/main.gd` boots HFSM (host for `HfsmSceneRegistry`)
 - Config: `src/common/hfsm/app_hfsm.json`
-- Registry: `HfsmEntityRegistry.build()` (AppRoot + window stubs)
-- Host: `AppRootEntity.host = MainScene` before `HFSM.new`
+- Registry: `src/game/hfsm/hfsm_entity_registry.gd` (window stubs only)
+- Paths: `src/game/hfsm/hfsm_scene_paths.gd` → `scene_config.paths`
 - Start HFSM after 2 idle frames
-- Bridge **only**: `MainEvents.ev_*` → `hfsm.add_event(...)` — **no** manual scene sync
 
 ## Scenes (owned by HFSM)
 
-- JSON `scene: { id, loading }` on phase states
-- Paths: `hfsm/hfsm_scene_paths.gd` → passed as `scene_config.paths`
-- HFSM mounts under host; calls `initialize` / `deinit` / `on_event` on the scene node
-- MainScene must not call mount/release/`_sync_scenes`
+- Root `App` mounts `app_root` → `app_root/root.tscn` (account/progress/music + RootEvents bridge)
+- Phase scenes: `menu` / `game` / `post_battle`
+- Bridge: `RootEvents.ev_*` → `hfsm.add_event(...)` lives on **app_root** scene — not on `main.gd`
+- No `AppRootEntity.host` — app root is a normal `IScene`
 
 ## Windows (current)
 

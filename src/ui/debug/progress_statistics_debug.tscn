@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ewae8a21ohl3"]
 
 [ext_resource type="Script" uid="uid://dfdyv16vhjxli" path="res://src/ui/debug/progress_statistics_debug.gd" id="1_script"]
-[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/game/scene/main_scene/account/progress.tres" id="2_0fcx3"]
+[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/game/scenes/app_root/account/progress.tres" id="2_0fcx3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 content_margin_left = 14.0
