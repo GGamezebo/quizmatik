@@ -9,9 +9,8 @@ alwaysApply: false
 ## Wiring
 
 - Entry: `main.tscn` → `src/game/main.gd` boots HFSM (host for `HfsmSceneRegistry`)
-- Config: `src/common/hfsm/app_hfsm.json`
-- Registry: `src/game/hfsm/hfsm_entity_registry.gd` (window stubs only)
-- Paths: `src/game/hfsm/hfsm_scene_paths.gd` → `scene_config.paths`
+- Config: `@export_file hfsm_config_path` → `src/common/hfsm/app_hfsm.json`
+- Registry / paths: `HfsmEntityRegistry` / `HfsmScenePaths` (`class_name`, no path preload)
 - Start HFSM after 2 idle frames
 
 ## Scenes (owned by HFSM)

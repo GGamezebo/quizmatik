@@ -6,6 +6,13 @@ alwaysApply: false
 
 # GDScript conventions
 
+## Avoid brittle `res://` paths
+
+- Prefer `class_name` for shared scripts — call by type, no `preload("res://...")`
+- Prefer `@export` / `@export_file` / PackedScene refs set in the editor (survive moves via UID)
+- Prefer relative `preload("sibling.gd")` only when files must stay colocated
+- Hardcoded `res://...` strings break on rename/move — avoid in app code; OK only for rare path maps (e.g. HFSM scene id → `.tscn`) until replaced by exports
+
 ## Naming
 
 - Signals: `ev_*` (`ev_start_game`, `ev_correct_answer`)

@@ -1,3 +1,4 @@
+class_name HfsmScenePaths
 extends RefCounted
 
 const PATHS := {
