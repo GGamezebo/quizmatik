@@ -13,13 +13,13 @@ static func _build_index(entities: Dictionary) -> Dictionary:
 	var index: Dictionary = {}
 	for slot in entities.keys():
 		var slot_entities = entities[slot]
-		if not slot_entities is Dictionary:
-			push_error("entities['%s'] must be a Dictionary" % slot)
-			assert(false)
+		var scripts: Array = _slot_scripts(slot, slot_entities)
 		var slot_index: Dictionary = {}
-		for entity_name in slot_entities.keys():
-			var script: Script = slot_entities[entity_name]
-			var name := HfsmBoundEntity.get_entity_name(script)
+		for script in scripts:
+			if script == null or not script is Script:
+				push_error("entities['%s'] entries must be Script" % slot)
+				assert(false)
+			var name := str(script.call("NAME"))
 			if name.is_empty():
 				push_error("Entity script must override static func NAME()")
 				assert(false)
@@ -29,6 +29,14 @@ static func _build_index(entities: Dictionary) -> Dictionary:
 			slot_index[name] = script
 		index[slot] = slot_index
 	return index
+
+
+static func _slot_scripts(slot: String, slot_entities: Variant) -> Array:
+	if slot_entities is Array:
+		return slot_entities
+	push_error("entities['%s'] must be an Array of Script" % slot)
+	assert(false)
+	return []
 
 
 func _state_instances(state: HfsmStateNode) -> Dictionary:

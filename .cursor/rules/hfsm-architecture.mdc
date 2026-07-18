@@ -24,7 +24,7 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep transition semantics in s
 ## Public API
 
 - `HFSM.new(tree, entities, scene_config={})`
-  - `entities`: `{ slot: { EntityNAME: Script } }`
+  - `entities`: `{ slot: [Script, ...] }` — key = each script’s `static NAME()`
   - `scene_config`: `{ host: Node, paths: {id: path}, loading_screen?, min_load_time? }`
 - `add_event`, `get_active_path()`, `get_active_scene()`, `get_mounted_scene(state)`, `get_binding`, `reset()`, `clear()`
 
