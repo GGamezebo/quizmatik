@@ -47,7 +47,7 @@ alwaysApply: false
 
 ## Avoid
 
-- Autoloads for new game flow (use `MainEvents` / `GameEvents` Resources)
+- Autoloads for new game flow (use `RootEvents` / `GameEvents` Resources)
 - Direct references across contexts
 - Feature A importing Feature B internals (compose in context instead)
 - Putting project-specific types into `core/`

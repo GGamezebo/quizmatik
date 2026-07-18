@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://bvsvg4k1oa70y"]
+
+[ext_resource type="PackedScene" uid="uid://c5lvxj06c7cww" path="res://src/game/scenes/menu/levels/level.tscn" id="1_dluyd"]
+[ext_resource type="Script" uid="uid://dyd76vl3xqfew" path="res://src/game/scenes/menu/levels/levels_selection.gd" id="1_k33vu"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="2_e017k"]
+[ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="3_c7uxm"]
+[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/game/scenes/app_root/account/progress.tres" id="4_wsbu4"]
+[ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/scenes/app_root/account/progress_controller.tscn" id="5_wsbu4"]
+[ext_resource type="PackedScene" uid="uid://c8qm5n2k7xwfd" path="res://src/ui/confirm_dialog/confirm_dialog.tscn" id="6_confirm"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+
+[sub_resource type="Gradient" id="Gradient_r3o0b"]
+colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_51m4l"]
+gradient = SubResource("Gradient_r3o0b")
+
+[node name="LevelsSelection" type="Control" unique_id=519807597 node_paths=PackedStringArray("grid_container", "progress", "back_button", "early_exam_dialog")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("theme_ui")
+script = ExtResource("1_k33vu")
+root_events = ExtResource("2_e017k")
+grid_container = NodePath("CenterContainer/MarginContainer/GridContainer")
+level_button = ExtResource("1_dluyd")
+levels = ExtResource("3_c7uxm")
+pdata = ExtResource("4_wsbu4")
+container_id = "container_1_addition"
+progress = NodePath("ProgressController")
+back_button = NodePath("MarginContainer/Back")
+early_exam_dialog = NodePath("EarlyExamDialog")
+
+[node name="EarlyExamDialog" parent="." instance=ExtResource("6_confirm")]
+
+[node name="ProgressController" parent="." unique_id=2109216065 instance=ExtResource("5_wsbu4")]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1248577389]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_51m4l")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1882960893]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer" unique_id=1973629566]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/MarginContainer" unique_id=294495911]
+custom_minimum_size = Vector2(600, 600)
+layout_mode = 2
+theme_override_constants/h_separation = 40
+theme_override_constants/v_separation = 60
+columns = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1779078648]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -118.0
+offset_right = 204.0
+grow_vertical = 0
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="Back" type="Button" parent="MarginContainer" unique_id=2126220335]
+layout_mode = 2
+text = "Назад"

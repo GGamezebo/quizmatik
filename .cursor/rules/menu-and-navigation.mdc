@@ -1,6 +1,6 @@
 ---
-description: Menu, windows, and MainEvents navigation rules
-globs: "{src/game/scene/menu_scene/**/*,src/game/scene/main_scene/**/*,src/game/scene/post_battle_scene/**/*,core/lib/window_stack_manager/**/*}"
+description: Menu, windows, and RootEvents navigation rules
+globs: "{src/game/scenes/menu/**/*,src/game/scenes/app_root/**/*,src/game/scenes/post_battle/**/*,core/lib/window_stack_manager/**/*}"
 alwaysApply: false
 ---
 
@@ -8,7 +8,7 @@ alwaysApply: false
 
 ## Layers
 
-1. **Scenes** (Menu/Game/PostBattle) — only via `MainEvents`
+1. **Scenes** (Menu/Game/PostBattle) — only via `RootEvents`
 2. **Full-screen windows** — only via `WindowStackManager`
 3. **Dialogs/overlays** (confirm, pause popup) — NOT on the window stack
 
@@ -29,11 +29,11 @@ alwaysApply: false
 
 ## Placement
 
-- Level select → `menu_scene/levels/`
-- Training → `menu_scene/training_room_window/`
-- Results → `post_battle_scene/`
+- Level select → `menu/levels/`
+- Training → `menu/training_room_window/`
+- Results → `post_battle/`
 - Stack helpers → `core/lib/window_stack_manager/`
-- Account/progress → `main_scene/account/`
+- Account/progress → `app_root/account/`
 
 ## Avoid
 
