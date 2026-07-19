@@ -38,11 +38,12 @@ func _setup_scenes(scene_config: Dictionary) -> void:
 	var paths: Dictionary = scene_config.get("paths", {})
 	_scenes = HfsmSceneRegistry.new()
 	_scenes.setup(
+		self,
+		host,
 		paths,
 		scene_config.get("loading_screen"),
 		float(scene_config.get("min_load_time", 0.0))
 	)
-	host.add_child(_scenes)
 
 
 func reset() -> void:
@@ -64,7 +65,6 @@ func reset() -> void:
 func clear() -> void:
 	if _scenes:
 		_scenes.clear()
-		_scenes.queue_free()
 		_scenes = null
 	_bindings.clear()
 

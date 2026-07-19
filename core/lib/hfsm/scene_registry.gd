@@ -1,5 +1,5 @@
 class_name HfsmSceneRegistry
-extends Node
+extends RefCounted
 
 ## Mounts Godot scenes declared on HFSM states (`scene: { id, loading }`).
 ## Lives as a child of the host Node so async loads can await process frames.
@@ -16,17 +16,22 @@ var _loading_screens: Dictionary = {}
 var _is_loading: Dictionary = {}
 ## state_name -> Array[HfsmEvent] while mount in flight
 var _pending_events: Dictionary = {}
+var _hfsm: HFSM = null
+var _host: Node = null
 
 
 func setup(
+	hfsm: HFSM,
+	host: Node,
 	paths: Dictionary,
 	loading_screen_scene: PackedScene = null,
-	min_load_time: float = 0.0
+	min_load_time: float = 0.0,
 ) -> void:
+	_hfsm = hfsm
+	_host = host
 	_paths = paths.duplicate()
 	_loading_screen_scene = loading_screen_scene
 	_min_load_time = min_load_time
-
 
 func on_enter(state: HfsmStateNode, data: Dictionary = {}) -> void:
 	if not state.has_scene():
@@ -74,6 +79,8 @@ func clear() -> void:
 	_loading_screens.clear()
 	_is_loading.clear()
 	_pending_events.clear()
+	_hfsm = null
+	_host = null
 
 
 func _release(state_name: String) -> void:
@@ -107,7 +114,7 @@ func _mount_async(state: HfsmStateNode, data: Dictionary) -> void:
 	if use_loading and _loading_screen_scene != null:
 		var loading_screen = _loading_screen_scene.instantiate()
 		_loading_screens[state_name] = loading_screen
-		add_child(loading_screen)
+		_host.add_child(loading_screen)
 		# Drop previous instance of this state while loading screen shows.
 		var prev: Node = _instances.get(state_name)
 		if prev != null and is_instance_valid(prev):
@@ -145,7 +152,7 @@ func _mount_async(state: HfsmStateNode, data: Dictionary) -> void:
 
 	var elapsed: float = Time.get_unix_time_from_system() - load_start
 	if elapsed < _min_load_time:
-		await get_tree().create_timer(_min_load_time - elapsed).timeout
+		await _host.get_tree().create_timer(_min_load_time - elapsed).timeout
 		if token != int(_tokens.get(state_name, 0)):
 			_is_loading[state_name] = false
 			return
@@ -154,11 +161,11 @@ func _mount_async(state: HfsmStateNode, data: Dictionary) -> void:
 		_is_loading[state_name] = false
 		return
 
-	var instance: Node = packed.instantiate()
+	var instance: IScene = packed.instantiate()
 	_instances[state_name] = instance
-	add_child(instance)
-	if instance.has_method("initialize"):
-		instance.initialize(data)
+	_host.add_child(instance)
+	instance.sync_hfsm(_hfsm)
+	instance.initialize(data)
 	_is_loading[state_name] = false
 	_flush_pending_events(state_name, instance)
 
@@ -220,7 +227,7 @@ func _load_packed(
 		if progress_state.size() > 0:
 			progress_callback.call(progress_state[0])
 		if status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
-			await get_tree().process_frame
+			await _host.get_tree().process_frame
 
 	if token != int(_tokens.get(state_name, 0)):
 		return null
