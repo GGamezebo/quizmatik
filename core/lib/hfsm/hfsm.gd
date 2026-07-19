@@ -1,13 +1,11 @@
 class_name HFSM
 extends RefCounted
 
-const HfsmSceneRegistryScript := preload("res://core/lib/hfsm/scene_registry.gd")
-
 var tree: HfsmStateTree
 var history: Array[String] = []
 
 var _bindings: HfsmBindingRegistry
-var _scenes = null
+var _scenes: HfsmSceneRegistry = null
 var _pending: Array[HfsmEvent] = []
 
 
@@ -38,7 +36,7 @@ func _setup_scenes(scene_config: Dictionary) -> void:
 		assert(false)
 		return
 	var paths: Dictionary = scene_config.get("paths", {})
-	_scenes = HfsmSceneRegistryScript.new()
+	_scenes = HfsmSceneRegistry.new()
 	_scenes.setup(
 		paths,
 		scene_config.get("loading_screen"),
