@@ -31,11 +31,11 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep transition semantics in s
 ## Scene lifecycle (automatic)
 
 - Mounted nodes should extend `IScene` (`initialize` / `deinit` / `on_event`)
-- State `scene: { id, loading }` → on enter: load/instantiate/`initialize(data)`
+- State `scene: { id, loading_screen, async_loading }` → on enter: load/instantiate/`initialize(data)`
 - on leave: `deinit()` + `queue_free`
 - on event (non-`sys.enter`): `on_event(name, data)` on mounted node
 - `paths[id]` resolves `.tscn`; unknown id → error
-- `loading: true` → optional loading screen + threaded load
+- `loading_screen: true` → optional loading overlay on `_mount_async`; `async_loading` default `true`, `false` → `_mount` sync one-frame load
 - Cancel via per-state mount token when leave/re-enter races
 
 ## Transition semantics (do not change casually)
