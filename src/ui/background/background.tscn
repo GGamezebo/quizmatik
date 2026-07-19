@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dvy13cfq73jxs"]
 
-[ext_resource type="Script" path="res://src/ui/background/background.gd" id="1_bgscript"]
+[ext_resource type="Script" uid="uid://cde7ojvqvt828" path="res://src/ui/background/background.gd" id="1_bgscript"]
 [ext_resource type="Texture2D" uid="uid://jl5tjjusnin3" path="res://src/ui/background/Sky2.png" id="1_jougr"]
 [ext_resource type="Texture2D" uid="uid://cjds8r57pey1g" path="res://src/ui/background/Sky1.png" id="2_cbsqf"]
 [ext_resource type="Texture2D" uid="uid://5xved5dnk0eo" path="res://src/ui/background/Sky3.png" id="3_wisxt"]
@@ -144,7 +144,6 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_1gw3d")
 expand_mode = 1
-stretch_mode = 0
 metadata/logic_bricks_graph = {
 "connections": [],
 "next_id": 0,

@@ -15,6 +15,9 @@ var _enter_edit: TextEdit
 var _leave_edit: TextEdit
 var _consume_edit: TextEdit
 var _bindings_list: VBoxContainer
+var _scene_id_edit: LineEdit
+var _scene_loading_screen: CheckBox
+var _scene_async_loading: CheckBox
 var _open_dialog: FileDialog
 var _save_dialog: FileDialog
 
@@ -98,6 +101,30 @@ func _build_ui() -> void:
 	inspector.add_child(_section_label("consume"))
 	_consume_edit = _make_events_edit()
 	inspector.add_child(_consume_edit)
+
+	inspector.add_child(_section_label("scene"))
+	var scene_id_row := HBoxContainer.new()
+	scene_id_row.add_theme_constant_override("separation", 4)
+	inspector.add_child(scene_id_row)
+	var scene_id_label := Label.new()
+	scene_id_label.text = "id"
+	scene_id_row.add_child(scene_id_label)
+	_scene_id_edit = LineEdit.new()
+	_scene_id_edit.placeholder_text = "scene id (leave blank for none)"
+	_scene_id_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_scene_id_edit.focus_exited.connect(_apply_inspector)
+	scene_id_row.add_child(_scene_id_edit)
+
+	_scene_loading_screen = CheckBox.new()
+	_scene_loading_screen.text = "loading_screen"
+	_scene_loading_screen.toggled.connect(func(_v: bool) -> void: _apply_inspector())
+	inspector.add_child(_scene_loading_screen)
+
+	_scene_async_loading = CheckBox.new()
+	_scene_async_loading.text = "async_loading (default true)"
+	_scene_async_loading.button_pressed = true
+	_scene_async_loading.toggled.connect(func(_v: bool) -> void: _apply_inspector())
+	inspector.add_child(_scene_async_loading)
 
 	var bind_header := HBoxContainer.new()
 	inspector.add_child(bind_header)
@@ -245,6 +272,10 @@ func _load_inspector() -> void:
 	_enter_edit.text = "\n".join(_doc.get_event_list(_selected_path, "enter"))
 	_leave_edit.text = "\n".join(_doc.get_event_list(_selected_path, "leave"))
 	_consume_edit.text = "\n".join(_doc.get_event_list(_selected_path, "consume"))
+	var scene: Dictionary = _doc.get_scene(_selected_path)
+	_scene_id_edit.text = str(scene.get("id", ""))
+	_scene_loading_screen.button_pressed = bool(scene.get("loading_screen", false))
+	_scene_async_loading.button_pressed = bool(scene.get("async_loading", true))
 	_rebuild_bindings_ui(_doc.get_bindings(_selected_path))
 	_updating_ui = false
 
@@ -318,6 +349,15 @@ func _apply_inspector() -> void:
 		_set_status(err, true)
 		return
 	err = _doc.set_event_list(path, "consume", _lines_from_edit(_consume_edit))
+	if err != "":
+		_set_status(err, true)
+		return
+	var scene_payload := {
+		"id": _scene_id_edit.text.strip_edges(),
+		"loading_screen": _scene_loading_screen.button_pressed,
+		"async_loading": _scene_async_loading.button_pressed,
+	}
+	err = _doc.set_scene(path, scene_payload)
 	if err != "":
 		_set_status(err, true)
 		return

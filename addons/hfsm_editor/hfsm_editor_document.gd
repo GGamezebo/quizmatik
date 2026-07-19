@@ -4,7 +4,7 @@ class_name HfsmEditorDocument
 
 signal changed
 
-const RESERVED := ["enter", "leave", "consume", "states"]
+const RESERVED := ["enter", "leave", "consume", "states", "scene"]
 
 var root_name: String = "App"
 var root_data: Dictionary = {}
@@ -46,11 +46,61 @@ func load_from_path(path: String) -> String:
 
 
 func to_dict() -> Dictionary:
-	return {root_name: root_data.duplicate(true)}
+	var data: Dictionary = root_data.duplicate(true)
+	_strip_defaults_in_state(data)
+	return {root_name: data}
 
 
 func to_json_text() -> String:
-	return JSON.stringify(to_dict(), "\t")
+	return _stringify_compact(to_dict()) + "\n"
+
+
+## Pretty-print: expand nested state objects; keep scene/event values on one line.
+func _stringify_compact(value: Variant, depth: int = 0) -> String:
+	if value is Array:
+		return _stringify_inline(value)
+	if value is Dictionary:
+		var dict: Dictionary = value
+		if _is_inline_object(dict):
+			return _stringify_inline(dict)
+		var pad := "\t".repeat(depth)
+		var pad_inner := "\t".repeat(depth + 1)
+		var parts: PackedStringArray = PackedStringArray()
+		for key in dict.keys():
+			var key_s := str(key)
+			var child: Variant = dict[key]
+			parts.append('%s"%s": %s' % [pad_inner, key_s, _stringify_compact(child, depth + 1)])
+		return "{\n%s\n%s}" % [",\n".join(parts), pad]
+	return _stringify_inline(value)
+
+
+func _is_inline_object(dict: Dictionary) -> bool:
+	for key in dict.keys():
+		if dict[key] is Dictionary:
+			return false
+	return true
+
+
+func _stringify_inline(value: Variant) -> String:
+	if value is String:
+		return JSON.stringify(value)
+	if value is bool:
+		return "true" if value else "false"
+	if value is int or value is float:
+		return str(value)
+	if value == null:
+		return "null"
+	if value is Array:
+		var items: PackedStringArray = PackedStringArray()
+		for item in value:
+			items.append(_stringify_inline(item))
+		return "[%s]" % ", ".join(items)
+	if value is Dictionary:
+		var parts: PackedStringArray = PackedStringArray()
+		for key in value.keys():
+			parts.append('"%s": %s' % [str(key), _stringify_inline(value[key])])
+		return "{ %s }" % ", ".join(parts)
+	return JSON.stringify(value)
 
 
 func save_to_path(path: String = "") -> String:
@@ -190,7 +240,7 @@ func set_event_list(path: PackedStringArray, field: String, lines: PackedStringA
 			return err
 		events.append(s)
 	if field == "enter":
-		if events.is_empty():
+		if events.is_empty() or (events.size() == 1 and str(events[0]) == HfsmConsts.SYS_ENTER):
 			node.erase("enter")
 		else:
 			node["enter"] = events
@@ -215,6 +265,36 @@ func get_event_list(path: PackedStringArray, field: String) -> PackedStringArray
 		for item in raw:
 			out.append(str(item))
 	return out
+
+
+func get_scene(path: PackedStringArray) -> Dictionary:
+	var node := get_state(path)
+	if node.is_empty():
+		return {}
+	var raw = node.get("scene", null)
+	if raw is Dictionary:
+		return (raw as Dictionary).duplicate(true)
+	return {}
+
+
+func set_scene(path: PackedStringArray, scene: Dictionary) -> String:
+	var node := get_state(path)
+	if node.is_empty():
+		return "State not found"
+	var scene_id := str(scene.get("id", "")).strip_edges()
+	if scene_id.is_empty():
+		node.erase("scene")
+		_mark_dirty()
+		return ""
+	var out: Dictionary = {"id": scene_id}
+	# Omit loader defaults: loading_screen=false, async_loading=true
+	if bool(scene.get("loading_screen", false)):
+		out["loading_screen"] = true
+	if not bool(scene.get("async_loading", true)):
+		out["async_loading"] = false
+	node["scene"] = out
+	_mark_dirty()
+	return ""
 
 
 func get_bindings(path: PackedStringArray) -> Dictionary:
@@ -252,6 +332,30 @@ func set_bindings(path: PackedStringArray, bindings: Dictionary) -> String:
 		node[slot_name] = entity_name
 	_mark_dirty()
 	return ""
+
+
+func _strip_defaults_in_state(node: Dictionary) -> void:
+	if node.has("enter"):
+		var enter = node["enter"]
+		if enter is Array and enter.size() == 1 and str(enter[0]) == HfsmConsts.SYS_ENTER:
+			node.erase("enter")
+	if node.has("scene") and node["scene"] is Dictionary:
+		var scene: Dictionary = (node["scene"] as Dictionary).duplicate(true)
+		if not bool(scene.get("loading_screen", false)):
+			scene.erase("loading_screen")
+		else:
+			scene["loading_screen"] = true
+		if bool(scene.get("async_loading", true)):
+			scene.erase("async_loading")
+		else:
+			scene["async_loading"] = false
+		node["scene"] = scene
+	var states = node.get("states", null)
+	if states is Dictionary:
+		for child_name in states.keys():
+			var child = states[child_name]
+			if child is Dictionary:
+				_strip_defaults_in_state(child)
 
 
 func _mark_dirty() -> void:

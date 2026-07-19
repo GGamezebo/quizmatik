@@ -1,21 +1,21 @@
 {
-  "App": {
-	"scene": { "id": "app_root", "loading_screen": true },
-	"states": {
-	  "Menu": {
-		"scene": { "id": "menu" },
-		"leave": ["ev.start_game"]
-	  },
-	  "Battle": {
-		"scene": { "id": "game", "loading_screen": true },
-		"enter": ["ev.start_game"],
-		"leave": ["ev.exit_game"]
-	  },
-	  "PostBattle": {
-		"scene": { "id": "post_battle" },
-		"enter": ["ev.exit_game"],
-		"leave": ["ev.return_to_menu", "ev.start_game"]
-	  }
+	"App": {
+		"scene": { "id": "app_root", "loading_screen": true },
+		"states": {
+			"Menu": {
+				"scene": { "id": "menu" },
+				"leave": ["ev.start_game"]
+			},
+			"Battle": {
+				"scene": { "id": "game", "loading_screen": true },
+				"enter": ["ev.start_game"],
+				"leave": ["ev.exit_game"]
+			},
+			"PostBattle": {
+				"scene": { "id": "post_battle" },
+				"enter": ["ev.exit_game"],
+				"leave": ["ev.return_to_menu", "ev.start_game"]
+			}
+		}
 	}
-  }
 }
