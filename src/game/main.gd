@@ -2,7 +2,7 @@ extends Node
 
 ## App entry: boots HFSM. Gameplay/UI live in mounted IScene nodes + HFSM states.
 
-@export_file("*.json") var hfsm_config_path: String = "res://src/game/hfsm/app_hfsm.json"
+@export_file("*.json") var _hfsm_config_path: String = "res://src/game/hfsm/app_hfsm.json"
 @export var loading_screen_scene: PackedScene
 @export var min_load_time: float = 0.0
 
@@ -10,17 +10,12 @@ var _hfsm: HFSM
 
 
 func _ready() -> void:
-	# Defer past tree settle so mounted scenes can resolve shared deps.
 	_start_hfsm_when_ready()
 
 
 func _start_hfsm_when_ready() -> void:
-	await get_tree().process_frame
-	await get_tree().process_frame
-	if not is_inside_tree():
-		return
 	_hfsm = HFSM.new(
-		HfsmLoader.load_tree(hfsm_config_path),
+		HfsmLoader.load_tree(_hfsm_config_path),
 		{},
 		{
 			"host": self,
