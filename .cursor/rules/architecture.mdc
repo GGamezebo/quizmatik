@@ -95,7 +95,7 @@ App phases are driven by HFSM (`src/game/hfsm/app_hfsm.json`) via `src/game/main
 - Root `App` scene id `app_root` → `app_root/root.tscn` (`IScene`; RootEvents → `hfsm.add_event`)
 - JSON `scene: { id, loading }` → HFSM mounts via `HfsmSceneRegistry` + `HfsmScenePaths.PATHS`
 - Scene node lifecycle: `initialize` / `deinit` / `on_event` called by HFSM
-- Window entities in config are stubs until layer 3; menu still uses `WindowStackManager`
+- Menu UI windows use `WindowStackManager` (not HFSM bindings)
 - Battle payload: **either** `custom_battle` **or** `battle_info` — never both
 - In-battle: `GameEvents` + `GameManager` FSM (not HFSM yet)
 

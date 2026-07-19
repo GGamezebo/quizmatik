@@ -29,5 +29,7 @@ alwaysApply: false
 
 ## Design
 
-- Heavy screens: `scene`; light logic: `context`/`window` BoundEntity
+- Heavy screens: `scene`; light logic: BoundEntity slots when needed
 - Prefer shallow trees
+- Do not put menu UI windows in HFSM — use `WindowStackManager`
+

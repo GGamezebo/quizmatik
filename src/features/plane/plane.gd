@@ -255,8 +255,6 @@ class DiscreteMovementComponent extends IMovementComponent:
 				current_line_index += 1
 				target_y = owner.discrete_positions[current_line_index]
 		
-
-		print(owner.global_position.y, "->", target_y)
 		owner.global_position.y = move_toward(owner.global_position.y, target_y, owner.speed * delta)
 		
 		if owner.global_position.y == target_y:

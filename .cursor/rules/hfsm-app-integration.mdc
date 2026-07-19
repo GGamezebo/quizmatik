@@ -10,7 +10,7 @@ alwaysApply: false
 
 - Entry: `main.tscn` → `src/game/main.gd` boots HFSM (host for `HfsmSceneRegistry`)
 - Config: `@export_file hfsm_config_path` → `src/game/hfsm/app_hfsm.json`
-- Registry / paths: `HfsmEntityRegistry` / `HfsmScenePaths` (`class_name`, no path preload)
+- Paths: `HfsmScenePaths` (`class_name`); entity bindings `{}` until needed
 - Start HFSM after 2 idle frames
 
 ## Scenes (owned by HFSM)
@@ -20,9 +20,9 @@ alwaysApply: false
 - Bridge: `RootEvents.ev_*` → `hfsm.add_event(...)` lives on **app_root** scene — not on `main.gd`
 - No `AppRootEntity.host` — app root is a normal `IScene`
 
-## Windows (current)
+## Menu UI
 
-- JSON `window` stubs; real nav still `WindowStackManager` inside MenuScene
+- Full-screen menu windows: `WindowStackManager` inside MenuScene — not HFSM bindings
 
 ## Must
 
