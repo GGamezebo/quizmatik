@@ -1,14 +1,14 @@
-[gd_scene format=3 uid="uid://capp_root_main01"]
+[gd_scene format=3 uid="uid://dbdi7ketg27qr"]
 
-[ext_resource type="Script" path="res://src/game/scenes/app_root/root.gd" id="1_main"]
+[ext_resource type="Script" uid="uid://cfiqgxelo6ks3" path="res://src/game/scenes/app_root/root.gd" id="1_main"]
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="2_kek77"]
-[ext_resource type="Script" uid="uid://djxvf8yy7uqhl" path="res://src/game/scenes/app_root/account/persisten_data_controller.gd" id="4_lquwl"]
+[ext_resource type="Script" uid="uid://djxvf8yy7uqhl" path="res://src/game/account/persisten_data_controller.gd" id="4_lquwl"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="5_4c57u"]
-[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/game/scenes/app_root/account/progress.tres" id="5_272bh"]
+[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/game/account/progress.tres" id="5_272bh"]
 [ext_resource type="AudioStream" uid="uid://bchaw1l2muu4w" path="res://assets/background_music.mp3" id="7_5vw27"]
-[ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/scenes/app_root/account/progress_controller.tscn" id="8_4c57u"]
+[ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="8_4c57u"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="8_dg77c"]
-[ext_resource type="Script" uid="uid://bb4lawsidwt8v" path="res://src/game/scenes/app_root/account/statistics_controller.gd" id="9_stats"]
+[ext_resource type="Script" uid="uid://bb4lawsidwt8v" path="res://src/game/account/statistics_controller.gd" id="9_stats"]
 [ext_resource type="Resource" uid="uid://bg11w4vfrn34r" path="res://src/game/scenes/game/game_events.tres" id="10_game_events"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
@@ -21,39 +21,39 @@ glow_blend_mode = 0
 
 [sub_resource type="Compositor" id="Compositor_1bvp3"]
 
-[node name="AppRoot" type="Node" node_paths=PackedStringArray()]
+[node name="AppRoot" type="Node" unique_id=74498543]
 script = ExtResource("1_main")
 root_events = ExtResource("8_dg77c")
 
-[node name="ResourcePreloader" type="ResourcePreloader" parent="."]
+[node name="ResourcePreloader" type="ResourcePreloader" parent="." unique_id=1055067511]
 resources = [PackedStringArray("levels"), [ExtResource("2_kek77")]]
 
-[node name="Account" type="Node" parent="."]
+[node name="Account" type="Node" parent="." unique_id=1213818519]
 
-[node name="PersistentDataController" type="Node" parent="Account"]
+[node name="PersistentDataController" type="Node" parent="Account" unique_id=477123728]
 script = ExtResource("4_lquwl")
 _user_settings = ExtResource("5_4c57u")
 _progress = ExtResource("5_272bh")
 root_events = ExtResource("8_dg77c")
 
-[node name="ProgressController" parent="Account" instance=ExtResource("8_4c57u")]
+[node name="ProgressController" parent="Account" unique_id=907297279 instance=ExtResource("8_4c57u")]
 
-[node name="StatisticsController" type="Node" parent="Account"]
+[node name="StatisticsController" type="Node" parent="Account" unique_id=1674268049]
 script = ExtResource("9_stats")
 pdata = ExtResource("5_272bh")
 root_events = ExtResource("8_dg77c")
 game_events = ExtResource("10_game_events")
 
-[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=205950014]
 stream = ExtResource("7_5vw27")
 volume_db = -7.69
 autoplay = true
 bus = &"Music"
 parameters/looping = true
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1266379388]
 environment = SubResource("Environment_0xm2m")
 camera_attributes = SubResource("CameraAttributesPractical_h2yge")
 compositor = SubResource("Compositor_1bvp3")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1376372513]

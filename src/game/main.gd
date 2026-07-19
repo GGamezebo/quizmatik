@@ -21,7 +21,7 @@ func _start_hfsm_when_ready() -> void:
 		return
 	_hfsm = HFSM.new(
 		HfsmLoader.load_tree(hfsm_config_path),
-		HfsmEntityRegistry.build(),
+		{},
 		{
 			"host": self,
 			"paths": HfsmScenePaths.PATHS,
