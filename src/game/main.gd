@@ -2,7 +2,7 @@ extends Node
 
 ## App entry: boots HFSM. Gameplay/UI live in mounted IScene nodes + HFSM states.
 
-@export_file("*.json") var hfsm_config_path: String = "res://src/common/hfsm/app_hfsm.json"
+@export_file("*.json") var hfsm_config_path: String = "res://src/game/hfsm/app_hfsm.json"
 @export var loading_screen_scene: PackedScene
 @export var min_load_time: float = 0.0
 

@@ -1,6 +1,6 @@
 ---
 description: App-level HFSM integration (main.gd bootstrap)
-globs: "{src/game/main.gd,src/game/hfsm/**/*,src/game/scenes/app_root/**/*,src/common/hfsm/**/*}"
+globs: "{src/game/main.gd,src/game/hfsm/**/*,src/game/scenes/app_root/**/*}"
 alwaysApply: false
 ---
 
@@ -9,7 +9,7 @@ alwaysApply: false
 ## Wiring
 
 - Entry: `main.tscn` → `src/game/main.gd` boots HFSM (host for `HfsmSceneRegistry`)
-- Config: `@export_file hfsm_config_path` → `src/common/hfsm/app_hfsm.json`
+- Config: `@export_file hfsm_config_path` → `src/game/hfsm/app_hfsm.json`
 - Registry / paths: `HfsmEntityRegistry` / `HfsmScenePaths` (`class_name`, no path preload)
 - Start HFSM after 2 idle frames
 

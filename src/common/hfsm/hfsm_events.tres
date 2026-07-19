@@ -1,6 +1,0 @@
-[gd_resource type="Resource" format=3 uid="uid://cxm5s538cdbj3"]
-
-[ext_resource type="Script" uid="uid://mnux5w6527ai" path="res://src/common/hfsm/hfsm_events.gd" id="1_2fyrj"]
-
-[resource]
-script = ExtResource("1_2fyrj")
