@@ -11,6 +11,7 @@ func initialize(_data: Dictionary) -> void:
 	# sync_hfsm() may already set _hfsm; still must wire RootEvents → HFSM.
 	if not _bind_hfsm():
 		call_deferred("_bind_hfsm")
+	self._hfsm.add_event("ev.open_menu")
 
 
 func deinit() -> void:
@@ -44,4 +45,4 @@ func _on_ev_exit_game(data: Dictionary = {}) -> void:
 
 func _on_ev_return_to_menu() -> void:
 	if _hfsm:
-		_hfsm.add_event("ev.return_to_menu")
+		_hfsm.add_event("ev.open_menu")

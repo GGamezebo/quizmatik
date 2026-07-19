@@ -44,7 +44,7 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep transition semantics in s
 - `leave` → scene leave + entity `deinit`, then deactivate
 - Matching child `enter` → activate + entity/scene enter + `on_event` (except `sys.enter`)
 - `consume`: stop bubble unless event also matches this state's enter/leave
-- Auto-activate child only if `enter` is exactly `["sys.enter"]`
+- Auto-activate children with `enter` exactly `["sys.enter"]` **only when their parent is activated** (`_activate` / root `reset`) — not after every event
 
 ## Entities
 

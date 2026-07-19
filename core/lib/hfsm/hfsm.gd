@@ -107,7 +107,6 @@ func _run() -> bool:
 		history.append(event.name)
 		if _process_event(event, tree.root):
 			handled = true
-		_propagate_sys_enter(tree.root)
 	return handled
 
 
@@ -164,26 +163,14 @@ func _leave(state: HfsmStateNode) -> void:
 	state.is_active = false
 
 
+## Called only while activating `state`: auto-enter direct children with enter == [sys.enter].
 func _propagate_sys_enter(state: HfsmStateNode) -> void:
 	if not state.is_active:
 		return
-
-	var has_active_child := false
 	for child in state.children.values():
-		if child is HfsmStateNode and child.is_active:
-			has_active_child = true
-			break
-
-	if not has_active_child:
-		for child in state.children.values():
-			if child is HfsmStateNode and not child.is_active:
-				if child.enter_events.size() == 1 and child.enter_events[0] == HfsmConsts.SYS_ENTER:
-					_activate(child, {})
-		return
-
-	for child in state.children.values():
-		if child is HfsmStateNode and child.is_active:
-			_propagate_sys_enter(child)
+		if child is HfsmStateNode and not child.is_active:
+			if child.enter_events.size() == 1 and child.enter_events[0] == HfsmConsts.SYS_ENTER:
+				_activate(child, {})
 
 
 func _dispatches_to_entities(event: HfsmEvent) -> bool:
