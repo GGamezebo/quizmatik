@@ -1,18 +1,18 @@
 {
   "App": {
-	"scene": { "id": "app_root", "loading": false },
+	"scene": { "id": "app_root", "loading_screen": true },
 	"states": {
 	  "Menu": {
-		"scene": { "id": "menu", "loading": false },
+		"scene": { "id": "menu" },
 		"leave": ["ev.start_game"]
 	  },
 	  "Battle": {
-		"scene": { "id": "game", "loading": true },
+		"scene": { "id": "game", "loading_screen": true },
 		"enter": ["ev.start_game"],
 		"leave": ["ev.exit_game"]
 	  },
 	  "PostBattle": {
-		"scene": { "id": "post_battle", "loading": false },
+		"scene": { "id": "post_battle" },
 		"enter": ["ev.exit_game"],
 		"leave": ["ev.return_to_menu", "ev.start_game"]
 	  }

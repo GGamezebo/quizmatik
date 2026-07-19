@@ -15,11 +15,12 @@ alwaysApply: false
 ## `scene`
 
 ```json
-"scene": { "id": "game", "loading": true }
+"scene": { "id": "game", "loading_screen": true, "async_loading": true }
 ```
 
 - `id` → host path map (`HfsmScenePaths.PATHS`)
-- `loading` optional (default `false`)
+- `loading_screen` optional (default `false`) — show loading overlay while mounting (async path)
+- `async_loading` optional (default `true`) — `_mount_async` (threaded); `false` → `_mount` sync `load()` in one frame
 - HFSM auto-mounts on enter / releases on leave; forwards events to scene `on_event`
 
 ## Events

@@ -1,8 +1,8 @@
 class_name HfsmSceneRegistry
 extends RefCounted
 
-## Mounts Godot scenes declared on HFSM states (`scene: { id, loading }`).
-## Lives as a child of the host Node so async loads can await process frames.
+## Mounts Godot scenes declared on HFSM states (`scene: { id, loading_screen, async_loading }`).
+## Uses host Node so async loads can await process frames.
 
 var _paths: Dictionary = {}
 var _loading_screen_scene: PackedScene = null
@@ -37,7 +37,11 @@ func on_enter(state: HfsmStateNode, data: Dictionary = {}) -> void:
 	if not state.has_scene():
 		return
 	_pending_events[state.name] = []
-	_mount_async(state, data if data else {})
+	var payload: Dictionary = data if data else {}
+	if state.scene.get("async_loading", true):
+		_mount_async(state, payload)
+	else:
+		_mount(state, payload)
 
 
 func on_event(state: HfsmStateNode, event: HfsmEvent) -> void:
@@ -97,21 +101,66 @@ func _release(state_name: String) -> void:
 	node.queue_free()
 
 
-func _mount_async(state: HfsmStateNode, data: Dictionary) -> void:
+func _resolve_path(state: HfsmStateNode) -> Dictionary:
 	var state_name: String = state.name
 	var scene_id: String = str(state.scene.id)
 	var path: String = str(_paths.get(scene_id, ""))
 	if path.is_empty():
 		push_error("[HfsmSceneRegistry] Unknown scene id '%s' (state '%s')" % [scene_id, state_name])
+		return {}
+	return {"state_name": state_name, "path": path}
+
+
+func _finish_mount(state_name: String, packed: PackedScene, data: Dictionary) -> void:
+	if packed == null:
+		_is_loading[state_name] = false
+		push_error("[HfsmSceneRegistry] Failed to load scene for state '%s'" % state_name)
 		return
+	var instance: IScene = packed.instantiate()
+	_instances[state_name] = instance
+	_host.add_child(instance)
+	instance.sync_hfsm(_hfsm)
+	instance.initialize(data)
+	_is_loading[state_name] = false
+	_flush_pending_events(state_name, instance)
+
+
+func _mount(state: HfsmStateNode, data: Dictionary) -> void:
+	var resolved := _resolve_path(state)
+	if resolved.is_empty():
+		return
+	var state_name: String = resolved.state_name
+	var path: String = resolved.path
+
+	_bump_token(state_name)
+	_is_loading[state_name] = true
+	_free_loading_screen(state_name)
+
+	var existing: Node = _instances.get(state_name)
+	if existing != null and is_instance_valid(existing):
+		_instances.erase(state_name)
+		if existing.has_method("deinit"):
+			existing.deinit()
+		existing.queue_free()
+
+	var packed: PackedScene = load(_resolve_resource_path(path)) as PackedScene
+	_finish_mount(state_name, packed, data)
+
+
+func _mount_async(state: HfsmStateNode, data: Dictionary) -> void:
+	var resolved := _resolve_path(state)
+	if resolved.is_empty():
+		return
+	var state_name: String = resolved.state_name
+	var path: String = resolved.path
 
 	var token: int = _bump_token(state_name)
 	_is_loading[state_name] = true
-	var use_loading: bool = state.scene.get("loading", false)
+	var use_loading_screen: bool = state.scene.get("loading_screen", false)
 	var load_start: float = Time.get_unix_time_from_system()
 
 	_free_loading_screen(state_name)
-	if use_loading and _loading_screen_scene != null:
+	if use_loading_screen and _loading_screen_scene != null:
 		var loading_screen = _loading_screen_scene.instantiate()
 		_loading_screens[state_name] = loading_screen
 		_host.add_child(loading_screen)
@@ -123,9 +172,8 @@ func _mount_async(state: HfsmStateNode, data: Dictionary) -> void:
 				prev.deinit()
 			prev.queue_free()
 
-	var packed: PackedScene = await _load_packed(
+	var packed: PackedScene = await _load_packed_async(
 		path,
-		use_loading,
 		token,
 		state_name,
 		func(progress: float) -> void:
@@ -137,7 +185,7 @@ func _mount_async(state: HfsmStateNode, data: Dictionary) -> void:
 		_is_loading[state_name] = false
 		return
 
-	if not use_loading:
+	if not use_loading_screen:
 		var existing: Node = _instances.get(state_name)
 		if existing != null and is_instance_valid(existing):
 			_instances.erase(state_name)
@@ -161,13 +209,7 @@ func _mount_async(state: HfsmStateNode, data: Dictionary) -> void:
 		_is_loading[state_name] = false
 		return
 
-	var instance: IScene = packed.instantiate()
-	_instances[state_name] = instance
-	_host.add_child(instance)
-	instance.sync_hfsm(_hfsm)
-	instance.initialize(data)
-	_is_loading[state_name] = false
-	_flush_pending_events(state_name, instance)
+	_finish_mount(state_name, packed, data)
 
 	var ls_done = _loading_screens.get(state_name)
 	_loading_screens.erase(state_name)
@@ -187,13 +229,8 @@ func _flush_pending_events(state_name: String, instance: Node) -> void:
 		if event is HfsmEvent:
 			instance.on_event(event.name, event.data)
 
-func _load_packed(
-	path: String,
-	use_loading: bool,
-	token: int,
-	state_name: String,
-	progress_callback: Callable
-) -> PackedScene:
+
+func _resolve_resource_path(path: String) -> String:
 	var resolved: String = path
 	if path.begins_with("uid://"):
 		var uid := ResourceUID.text_to_id(path)
@@ -201,12 +238,16 @@ func _load_packed(
 			var uid_path := ResourceUID.get_id_path(uid)
 			if not uid_path.is_empty():
 				resolved = uid_path
+	return resolved
 
-	if not use_loading:
-		if token != int(_tokens.get(state_name, 0)):
-			return null
-		progress_callback.call(1.0)
-		return load(resolved) as PackedScene
+
+func _load_packed_async(
+	path: String,
+	token: int,
+	state_name: String,
+	progress_callback: Callable
+) -> PackedScene:
+	var resolved: String = _resolve_resource_path(path)
 
 	var err: Error = ResourceLoader.load_threaded_request(resolved)
 	if err != OK:

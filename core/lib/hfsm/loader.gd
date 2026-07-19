@@ -113,14 +113,28 @@ static func _parse_scene(raw: Variant, state_name: String) -> Dictionary:
 		return {
 			"error": "State '%s' scene.id must be a non-empty string" % state_name
 		}
-	var loading := false
-	if scene_data.has("loading"):
-		if not scene_data.loading is bool:
+	var loading_screen := false
+	if scene_data.has("loading_screen"):
+		if not scene_data.loading_screen is bool:
 			return {
-				"error": "State '%s' scene.loading must be a bool" % state_name
+				"error": "State '%s' scene.loading_screen must be a bool" % state_name
 			}
-		loading = scene_data.loading
-	return {"scene": {"id": scene_id, "loading": loading}, "error": ""}
+		loading_screen = scene_data.loading_screen
+	var async_loading := true
+	if scene_data.has("async_loading"):
+		if not scene_data.async_loading is bool:
+			return {
+				"error": "State '%s' scene.async_loading must be a bool" % state_name
+			}
+		async_loading = scene_data.async_loading
+	return {
+		"scene": {
+			"id": scene_id,
+			"loading_screen": loading_screen,
+			"async_loading": async_loading,
+		},
+		"error": "",
+	}
 
 
 static func _parse_state(
