@@ -17,7 +17,7 @@ func _ready() -> void:
 	training_room_start_button.pressed.connect(_on_training_room_start_pressed)
 	exit_button.pressed.connect(_on_exit_pressed)
 	reset_account_progress.pressed.connect(_on_reset_account_progress)
-	
+
 func _on_training_room_start_pressed() -> void:
 	root_events.ev_start_game.emit({'custom_battle': training_room_config})
 
