@@ -1,6 +1,7 @@
-extends Node2D
+extends IScene
 
 @onready var _sky: TextureRect = $TextureRect
+
 
 func _ready() -> void:
 	get_viewport().size_changed.connect(_fit_to_viewport)

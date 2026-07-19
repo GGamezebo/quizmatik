@@ -19,7 +19,7 @@ func _start_hfsm_when_ready() -> void:
 		{},
 		{
 			"host": self,
-			"paths": HfsmScenePaths.PATHS,
+			"paths": HfsmScenePaths.SCENES,
 			"loading_screen": loading_screen_scene,
 			"min_load_time": min_load_time,
 		}
