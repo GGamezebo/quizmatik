@@ -7,7 +7,6 @@ extends Node
 
 var _hfsm: HFSM = null
 
-
 func _ready() -> void:
 	if _is_isolated_run():
 		initialize(_default_data())
@@ -29,3 +28,7 @@ func _is_isolated_run() -> bool:
 
 func _default_data() -> Dictionary:
 	return {}
+	
+func add_event(event_name: String, data: Dictionary = {}) -> void:
+	if _hfsm:
+		_hfsm.add_event(event_name, data)
