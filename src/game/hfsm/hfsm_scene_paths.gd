@@ -26,7 +26,3 @@ func _get_exports_in_category(category_name: String) -> Dictionary:
 		if in_category and (usage & PROPERTY_USAGE_EDITOR) and (usage & PROPERTY_USAGE_SCRIPT_VARIABLE):
 			result[prop.name] = get(prop.name)
 	return result
-
-
-func getPath(scene_id: String) -> String:
-	return SCENES.get(scene_id, "")
