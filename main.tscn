@@ -2,7 +2,16 @@
 
 [ext_resource type="Script" uid="uid://yv6b12qlgtk1" path="res://src/game/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://cvayb5jfghll4" path="res://src/ui/loading_screen/loading_screen.tscn" id="2_load"]
+[ext_resource type="Script" uid="uid://bge52j27dk3i5" path="res://src/game/hfsm/hfsm_scene_paths.gd" id="3_h2yge"]
 
-[node name="Main" type="Node" unique_id=2145438113]
+[node name="Main" type="Node" unique_id=2145438113 node_paths=PackedStringArray("_scene_paths")]
 script = ExtResource("1_main")
+_scene_paths = NodePath("ScenePaths")
 loading_screen_scene = ExtResource("2_load")
+
+[node name="ScenePaths" type="Node" parent="." unique_id=647894587]
+script = ExtResource("3_h2yge")
+app_root = "uid://dbdi7ketg27qr"
+menu = "uid://fdo7cegg1sud"
+game = "uid://6rk3lba0km5x"
+post_battle = "uid://df5u08rtrxes8"

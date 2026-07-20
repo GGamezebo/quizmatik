@@ -3,6 +3,7 @@ extends Node
 ## App entry: boots HFSM. Gameplay/UI live in mounted IScene nodes + HFSM states.
 
 @export_file("*.json") var _hfsm_config_path: String = "res://src/game/hfsm/app_hfsm.json"
+@export var _scene_paths: HfsmScenePaths
 @export var loading_screen_scene: PackedScene
 @export var min_load_time: float = 0.0
 
@@ -19,7 +20,7 @@ func _start_hfsm_when_ready() -> void:
 		{},
 		{
 			"host": self,
-			"paths": HfsmScenePaths.SCENES,
+			"paths": _scene_paths.SCENES,
 			"loading_screen": loading_screen_scene,
 			"min_load_time": min_load_time,
 		}
