@@ -10,7 +10,7 @@ alwaysApply: false
 
 - Exactly **one** root state key per file
 - Reserved keys: `enter`, `leave`, `consume`, `states`, `scene`
-- Any other key = **binding slot** → entity `NAME()` string
+- Any other key = **binding slot** → entity name string (registered in host `{ slot: { name: Script } }`)
 
 ## `scene`
 

@@ -13,30 +13,29 @@ static func _build_index(entities: Dictionary) -> Dictionary:
 	var index: Dictionary = {}
 	for slot in entities.keys():
 		var slot_entities = entities[slot]
-		var scripts: Array = _slot_scripts(slot, slot_entities)
+		if not slot_entities is Dictionary:
+			push_error("entities['%s'] must be a Dictionary of name -> Script" % slot)
+			assert(false)
+			continue
 		var slot_index: Dictionary = {}
-		for script in scripts:
+		for entity_name in slot_entities.keys():
+			var script = slot_entities[entity_name]
 			if script == null or not script is Script:
-				push_error("entities['%s'] entries must be Script" % slot)
+				push_error("entities['%s']['%s'] must be a Script" % [slot, entity_name])
 				assert(false)
-			var name := str(script.call("NAME"))
+				continue
+			var name := str(entity_name)
 			if name.is_empty():
-				push_error("Entity script must override static func NAME()")
+				push_error("Entity name in entities['%s'] cannot be empty" % slot)
 				assert(false)
+				continue
 			if name in slot_index:
-				push_error("Duplicate NAME() '%s' in entities['%s']" % [name, slot])
+				push_error("Duplicate entity name '%s' in entities['%s']" % [name, slot])
 				assert(false)
+				continue
 			slot_index[name] = script
 		index[slot] = slot_index
 	return index
-
-
-static func _slot_scripts(slot: String, slot_entities: Variant) -> Array:
-	if slot_entities is Array:
-		return slot_entities
-	push_error("entities['%s'] must be an Array of Script" % slot)
-	assert(false)
-	return []
 
 
 func _state_instances(state: HfsmStateNode) -> Dictionary:

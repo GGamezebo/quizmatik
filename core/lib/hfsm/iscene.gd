@@ -1,13 +1,11 @@
 class_name IScene
 extends Node
 
-## Base for HFSM-mounted Godot scenes (`scene: { id, loading }` on a state).
+## Base for HFSM-mounted Godot scenes (`scene: { id, ... }` on a state).
+## Scene id comes from JSON + host paths map.
 ## HfsmSceneRegistry calls initialize / deinit / on_event.
 
 var _hfsm: HFSM = null
-
-static func NAME() -> String:
-	return ""
 
 
 func _ready() -> void:
