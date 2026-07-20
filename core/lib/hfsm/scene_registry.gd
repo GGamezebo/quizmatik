@@ -1,8 +1,9 @@
 class_name HfsmSceneRegistry
 extends RefCounted
 
-## Mounts Godot scenes declared on HFSM states (`scene: { id, loading_screen, async_loading }`).
-## Uses host Node so async loads can await process frames.
+## Mounts Godot scenes declared on HFSM states (`scene: { id, loading_screen, async_loading, on_event }`).
+## Nesting matches the HFSM tree: a state's scene is parented under the nearest ancestor scene
+## (or `_host` for the root). Sibling order follows JSON `states` key order.
 
 var _paths: Dictionary = {}
 var _loading_screen_scene: PackedScene = null
@@ -119,7 +120,7 @@ func _finish_mount(state: HfsmStateNode, packed: PackedScene, data: Dictionary) 
 		return
 	var instance: IScene = packed.instantiate()
 	_instances[state_name] = instance
-	_host.add_child(instance)
+	_attach_instance(state, instance)
 	instance.sync_hfsm(_hfsm)
 	instance.initialize(data)
 	var post_mount_event: String = str(state.scene.get("on_event", ""))
@@ -128,6 +129,48 @@ func _finish_mount(state: HfsmStateNode, packed: PackedScene, data: Dictionary) 
 	_is_loading[state_name] = false
 	if is_instance_valid(instance):
 		_flush_pending_events(state_name, instance)
+
+
+## Parent under nearest ancestor scene instance; fall back to host for the tree root.
+func _resolve_mount_parent(state: HfsmStateNode) -> Node:
+	var ancestor := state.parent
+	while ancestor != null:
+		if ancestor.has_scene():
+			var parent_inst: Node = _instances.get(ancestor.name)
+			if parent_inst != null and is_instance_valid(parent_inst):
+				return parent_inst
+		ancestor = ancestor.parent
+	return _host
+
+
+func _attach_instance(state: HfsmStateNode, instance: Node) -> void:
+	var parent_node := _resolve_mount_parent(state)
+	parent_node.add_child(instance)
+	_sort_mounted_siblings(state, parent_node)
+
+
+## Keep HFSM-mounted siblings in the same order as `states` in the JSON config.
+func _sort_mounted_siblings(state: HfsmStateNode, parent_node: Node) -> void:
+	var parent_state := state.parent
+	if parent_state == null or parent_node == null:
+		return
+	var desired: Array[Node] = []
+	for child_name in parent_state.children.keys():
+		var child: HfsmStateNode = parent_state.children[child_name]
+		if child == null or not child.has_scene():
+			continue
+		var inst: Node = _instances.get(child.name)
+		if inst != null and is_instance_valid(inst) and inst.get_parent() == parent_node:
+			desired.append(inst)
+	if desired.is_empty():
+		return
+	var start := parent_node.get_child_count()
+	for child in parent_node.get_children():
+		if child in desired:
+			start = child.get_index()
+			break
+	for i in range(desired.size()):
+		parent_node.move_child(desired[i], start + i)
 
 
 func _mount(state: HfsmStateNode, data: Dictionary) -> void:
