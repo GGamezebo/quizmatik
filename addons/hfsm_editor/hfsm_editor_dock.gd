@@ -16,6 +16,7 @@ var _leave_edit: TextEdit
 var _consume_edit: TextEdit
 var _bindings_list: VBoxContainer
 var _scene_id_edit: LineEdit
+var _scene_on_event_edit: LineEdit
 var _scene_loading_screen: CheckBox
 var _scene_async_loading: CheckBox
 var _open_dialog: FileDialog
@@ -114,6 +115,18 @@ func _build_ui() -> void:
 	_scene_id_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_scene_id_edit.focus_exited.connect(_apply_inspector)
 	scene_id_row.add_child(_scene_id_edit)
+
+	var scene_on_event_row := HBoxContainer.new()
+	scene_on_event_row.add_theme_constant_override("separation", 4)
+	inspector.add_child(scene_on_event_row)
+	var scene_on_event_label := Label.new()
+	scene_on_event_label.text = "on_event"
+	scene_on_event_row.add_child(scene_on_event_label)
+	_scene_on_event_edit = LineEdit.new()
+	_scene_on_event_edit.placeholder_text = "HFSM event after initialize"
+	_scene_on_event_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_scene_on_event_edit.focus_exited.connect(_apply_inspector)
+	scene_on_event_row.add_child(_scene_on_event_edit)
 
 	_scene_loading_screen = CheckBox.new()
 	_scene_loading_screen.text = "loading_screen"
@@ -274,6 +287,7 @@ func _load_inspector() -> void:
 	_consume_edit.text = "\n".join(_doc.get_event_list(_selected_path, "consume"))
 	var scene: Dictionary = _doc.get_scene(_selected_path)
 	_scene_id_edit.text = str(scene.get("id", ""))
+	_scene_on_event_edit.text = str(scene.get("on_event", ""))
 	_scene_loading_screen.button_pressed = bool(scene.get("loading_screen", false))
 	_scene_async_loading.button_pressed = bool(scene.get("async_loading", true))
 	_rebuild_bindings_ui(_doc.get_bindings(_selected_path))
@@ -354,6 +368,7 @@ func _apply_inspector() -> void:
 		return
 	var scene_payload := {
 		"id": _scene_id_edit.text.strip_edges(),
+		"on_event": _scene_on_event_edit.text.strip_edges(),
 		"loading_screen": _scene_loading_screen.button_pressed,
 		"async_loading": _scene_async_loading.button_pressed,
 	}

@@ -292,6 +292,9 @@ func set_scene(path: PackedStringArray, scene: Dictionary) -> String:
 		out["loading_screen"] = true
 	if not bool(scene.get("async_loading", true)):
 		out["async_loading"] = false
+	var on_event := str(scene.get("on_event", "")).strip_edges()
+	if not on_event.is_empty():
+		out["on_event"] = on_event
 	node["scene"] = out
 	_mark_dirty()
 	return ""
@@ -349,6 +352,11 @@ func _strip_defaults_in_state(node: Dictionary) -> void:
 			scene.erase("async_loading")
 		else:
 			scene["async_loading"] = false
+		var on_event := str(scene.get("on_event", "")).strip_edges()
+		if on_event.is_empty():
+			scene.erase("on_event")
+		else:
+			scene["on_event"] = on_event
 		node["scene"] = scene
 	var states = node.get("states", null)
 	if states is Dictionary:

@@ -127,14 +127,20 @@ static func _parse_scene(raw: Variant, state_name: String) -> Dictionary:
 				"error": "State '%s' scene.async_loading must be a bool" % state_name
 			}
 		async_loading = scene_data.async_loading
-	return {
-		"scene": {
-			"id": scene_id,
-			"loading_screen": loading_screen,
-			"async_loading": async_loading,
-		},
-		"error": "",
+	var on_event := ""
+	if scene_data.has("on_event"):
+		if not scene_data.on_event is String:
+			return {
+				"error": "State '%s' scene.on_event must be a string" % state_name
+			}
+		on_event = String(scene_data.on_event).strip_edges()
+	var scene_out := {
+		"id": scene_id,
+		"loading_screen": loading_screen,
+		"async_loading": async_loading,
+		"on_event": on_event,
 	}
+	return {"scene": scene_out, "error": ""}
 
 
 static func _parse_state(
