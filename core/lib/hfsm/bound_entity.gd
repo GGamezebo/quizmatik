@@ -2,10 +2,7 @@ class_name HfsmBoundEntity
 extends RefCounted
 
 ## Base class for entities bound to FSM states.
-## Subclasses must override: static func NAME() -> String
-
-static func NAME() -> String:
-	return ""
+## Registered by name via host entities map: { slot: { name: Script } }.
 
 
 func _init(_data: Dictionary = {}) -> void:

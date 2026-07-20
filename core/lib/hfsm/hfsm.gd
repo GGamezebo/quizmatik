@@ -9,7 +9,7 @@ var _scenes: HfsmSceneRegistry = null
 var _pending: Array[HfsmEvent] = []
 
 
-## entities: { slot: Array[Script] } — each Script must implement static NAME()
+## entities: { slot: { entity_name: Script } }
 ## scene_config (optional): {
 ##   host: Node,
 ##   paths: { id: "res://...tscn" },

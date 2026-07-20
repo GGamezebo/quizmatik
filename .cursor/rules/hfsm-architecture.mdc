@@ -17,14 +17,14 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep transition semantics in s
 | `hfsm.gd` | Queue, transitions, entity + scene lifecycle |
 | `binding_registry.gd` | Light BoundEntity lifecycle |
 | `scene_registry.gd` | Godot scene mount (`Node`); async load |
-| `bound_entity.gd` | Base: `static NAME()`, `on_event`, `deinit` |
-| `iscene.gd` | Base Node: `initialize` / `deinit` / `on_event` (+ isolated F6) |
+| `bound_entity.gd` | Base: `on_event`, `deinit`; registered as `{ slot: { name: Script } }` |
+| `iscene.gd` | Base Node: `initialize` / `deinit` / `on_event` (+ isolated F6); id via paths map |
 | `event.gd` / `utils.gd` / `consts.gd` | Event + pattern helpers |
 
 ## Public API
 
 - `HFSM.new(tree, entities, scene_config={})`
-  - `entities`: `{ slot: [Script, ...] }` — key = each script’s `static NAME()`
+  - `entities`: `{ slot: { name: Script } }` — names match JSON binding values
   - `scene_config`: `{ host: Node, paths: {id: path}, loading_screen?, min_load_time? }`
 - `add_event`, `get_active_path()`, `get_active_scene()`, `get_mounted_scene(state)`, `get_binding`, `reset()`, `clear()`
 
