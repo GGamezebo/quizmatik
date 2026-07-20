@@ -31,7 +31,7 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep transition semantics in s
 ## Scene lifecycle (automatic)
 
 - Mounted nodes should extend `IScene` (`initialize` / `deinit` / `on_event`)
-- State `scene: { id, loading_screen, async_loading }` → on enter: load/instantiate/`initialize(data)`
+- State `scene: { id, loading_screen, async_loading, on_event }` → on enter: load/instantiate/`initialize(data)` then optional `hfsm.add_event(on_event, data)`
 - on leave: `deinit()` + `queue_free`
 - on event (non-`sys.enter`): `on_event(name, data)` on mounted node
 - `paths[id]` resolves `.tscn`; unknown id → error

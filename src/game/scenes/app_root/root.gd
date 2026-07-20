@@ -11,7 +11,6 @@ func initialize(_data: Dictionary) -> void:
 	# sync_hfsm() may already set _hfsm; still must wire RootEvents → HFSM.
 	if not _bind_hfsm():
 		call_deferred("_bind_hfsm")
-	self._hfsm.add_event("ev.open_menu")
 
 
 func deinit() -> void:

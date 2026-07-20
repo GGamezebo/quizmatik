@@ -2,10 +2,7 @@
 
 [ext_resource type="Script" uid="uid://yv6b12qlgtk1" path="res://src/game/main.gd" id="1_main"]
 [ext_resource type="PackedScene" uid="uid://cvayb5jfghll4" path="res://src/ui/loading_screen/loading_screen.tscn" id="2_load"]
-[ext_resource type="PackedScene" uid="uid://dvy13cfq73jxs" path="res://src/ui/background/background.tscn" id="3_h2yge"]
 
 [node name="Main" type="Node" unique_id=2145438113]
 script = ExtResource("1_main")
 loading_screen_scene = ExtResource("2_load")
-
-[node name="Background" parent="." unique_id=1217069396 instance=ExtResource("3_h2yge")]

@@ -93,7 +93,7 @@ PostBattle --ev.start_game--> Battle (retry)
 App phases are driven by HFSM (`src/game/hfsm/app_hfsm.json`) via `src/game/main.gd`:
 - `main.gd` only creates HFSM + scene host; no gameplay bridge
 - Root `App` scene id `app_root` → `app_root/root.tscn` (`IScene`; RootEvents → `hfsm.add_event`)
-- JSON `scene: { id, loading_screen, async_loading }` → HFSM mounts via `HfsmSceneRegistry` + `HfsmScenePaths.PATHS`
+- JSON `scene: { id, loading_screen, async_loading, on_event }` → HFSM mounts via `HfsmSceneRegistry` + `HfsmScenePaths.PATHS`
 - Scene node lifecycle: `initialize` / `deinit` / `on_event` called by HFSM
 - Menu UI windows use `WindowStackManager` (not HFSM bindings)
 - Battle payload: **either** `custom_battle` **or** `battle_info` — never both

@@ -111,7 +111,8 @@ func _resolve_path(state: HfsmStateNode) -> Dictionary:
 	return {"state_name": state_name, "path": path}
 
 
-func _finish_mount(state_name: String, packed: PackedScene, data: Dictionary) -> void:
+func _finish_mount(state: HfsmStateNode, packed: PackedScene, data: Dictionary) -> void:
+	var state_name: String = state.name
 	if packed == null:
 		_is_loading[state_name] = false
 		push_error("[HfsmSceneRegistry] Failed to load scene for state '%s'" % state_name)
@@ -121,8 +122,12 @@ func _finish_mount(state_name: String, packed: PackedScene, data: Dictionary) ->
 	_host.add_child(instance)
 	instance.sync_hfsm(_hfsm)
 	instance.initialize(data)
+	var post_mount_event: String = str(state.scene.get("on_event", ""))
+	if not post_mount_event.is_empty() and _hfsm != null:
+		_hfsm.add_event(post_mount_event, data)
 	_is_loading[state_name] = false
-	_flush_pending_events(state_name, instance)
+	if is_instance_valid(instance):
+		_flush_pending_events(state_name, instance)
 
 
 func _mount(state: HfsmStateNode, data: Dictionary) -> void:
@@ -144,7 +149,7 @@ func _mount(state: HfsmStateNode, data: Dictionary) -> void:
 		existing.queue_free()
 
 	var packed: PackedScene = load(_resolve_resource_path(path)) as PackedScene
-	_finish_mount(state_name, packed, data)
+	_finish_mount(state, packed, data)
 
 
 func _mount_async(state: HfsmStateNode, data: Dictionary) -> void:
@@ -209,7 +214,7 @@ func _mount_async(state: HfsmStateNode, data: Dictionary) -> void:
 		_is_loading[state_name] = false
 		return
 
-	_finish_mount(state_name, packed, data)
+	_finish_mount(state, packed, data)
 
 	var ls_done = _loading_screens.get(state_name)
 	_loading_screens.erase(state_name)
