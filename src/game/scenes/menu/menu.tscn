@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cy2a8f3w1035e" path="res://src/game/scenes/menu/menu.gd" id="1_5oxuo"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="2_35kkh"]
 [ext_resource type="Script" uid="uid://bcskwis6ebs5f" path="res://core/lib/window_stack_manager/window_stack_manager.gd" id="3_5oxuo"]
+[ext_resource type="Resource" uid="uid://ceumjd7gvwho" path="res://src/game/scenes/menu/menu_events.tres" id="3_k2ump"]
 [ext_resource type="Script" uid="uid://dg8bdljs16a6h" path="res://core/lib/window_stack_manager/button_window_back.gd" id="4_back"]
 [ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://core/lib/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
 [ext_resource type="Script" uid="uid://dwus2ghsyt5xv" path="res://src/game/scenes/menu/training_room_window/training_room_window.gd" id="5_n67ar"]
@@ -18,6 +19,7 @@
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="13_dwe1a"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="14_cjfjs"]
 [ext_resource type="PackedScene" uid="uid://bvsvg4k1oa70y" path="res://src/game/scenes/menu/levels/levels_selection.tscn" id="15_foifc"]
+[ext_resource type="PackedScene" uid="uid://bkoeytpeqxe1w" path="res://src/game/scenes/settings_window/settings_window.tscn" id="20_r0b7e"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
@@ -30,13 +32,14 @@ gradient = SubResource("Gradient_cjfjs")
 font_size = 64
 font_color = Color(0, 1, 1, 1)
 
-[node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("start_button", "training_room_start_button", "reset_account_progress", "exit_button")]
+[node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "start_button", "training_room_start_button", "exit_button")]
 script = ExtResource("1_5oxuo")
 root_events = ExtResource("2_35kkh")
+menu_events = ExtResource("3_k2ump")
+windows_stack_manager = NodePath("UI/StackWindowController")
 training_room_config = ExtResource("6_vp6ju")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Start")
 training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/StartBattle")
-reset_account_progress = NodePath("UI/SettingsWindow/CenterContainer/VBoxContainer/ResetAccountProgress")
 exit_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Exit")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2419366]
@@ -45,36 +48,35 @@ exit_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Exit")
 script = ExtResource("3_5oxuo")
 default_window = NodePath("../MainMenuWindow")
 
-[node name="LevelsWindowTransition" type="Node" parent="UI/StackWindowController" unique_id=1547222537 node_paths=PackedStringArray("button", "target_window")]
+[node name="LevelsWindowOpen" type="Node" parent="UI/StackWindowController" unique_id=1547222537 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Start")
 target_window = NodePath("../../LevelsWindow")
-
-[node name="TrainingRoomTransition" type="Node" parent="UI/StackWindowController" unique_id=1342848864 node_paths=PackedStringArray("button", "target_window")]
-script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/TrainigRoom")
-target_window = NodePath("../../TrainingRoomWindow")
-
-[node name="SettingsTransition" type="Node" parent="UI/StackWindowController" unique_id=1469774925 node_paths=PackedStringArray("button", "target_window")]
-script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Settings")
-target_window = NodePath("../../SettingsWindow")
 
 [node name="LevelsWindowBack" type="Node" parent="UI/StackWindowController" unique_id=785798505 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
 button = NodePath("../../LevelsWindow/MarginContainer/Back")
 
-[node name="LevelsSelectionBack" type="Node" parent="UI/StackWindowController" unique_id=785798506 node_paths=PackedStringArray("button")]
-script = ExtResource("4_back")
-button = NodePath("../../LevelsWindow/LevelsSelection/MarginContainer/Back")
+[node name="TrainingRoomOpen" type="Node" parent="UI/StackWindowController" unique_id=1342848864 node_paths=PackedStringArray("button", "target_window")]
+script = ExtResource("4_haj1v")
+button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/TrainigRoom")
+target_window = NodePath("../../TrainingRoomWindow")
 
 [node name="TrainingRoomBack" type="Node" parent="UI/StackWindowController" unique_id=545675404 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
 button = NodePath("../../TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/ButtonExit")
 
-[node name="SettingsBack" type="Node" parent="UI/StackWindowController" unique_id=1482088119 node_paths=PackedStringArray("button")]
+[node name="SettingsWindowOpen" type="Node" parent="UI/StackWindowController" unique_id=226461501 node_paths=PackedStringArray("button", "target_window")]
+script = ExtResource("4_haj1v")
+button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Settings")
+target_window = NodePath("../../SettingsWindow")
+
+[node name="SettingsWindowBack" type="Node" parent="UI/StackWindowController" unique_id=477464347]
 script = ExtResource("4_back")
-button = NodePath("../../SettingsWindow/CenterContainer/VBoxContainer/ButtonExit")
+
+[node name="LevelsSelectionBack" type="Node" parent="UI/StackWindowController" unique_id=785798506 node_paths=PackedStringArray("button")]
+script = ExtResource("4_back")
+button = NodePath("../../LevelsWindow/LevelsSelection/MarginContainer/Back")
 
 [node name="MainMenuWindow" type="Control" parent="UI" unique_id=1158717007]
 layout_mode = 3
@@ -316,55 +318,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Выход"
 
-[node name="SettingsWindow" type="Control" parent="UI" unique_id=1104414761]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("theme_ui")
-
-[node name="TextureRect" type="TextureRect" parent="UI/SettingsWindow" unique_id=1440231049]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("GradientTexture2D_ux2mn")
-
-[node name="CenterContainer" type="CenterContainer" parent="UI/SettingsWindow" unique_id=216162144]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/SettingsWindow/CenterContainer" unique_id=663094655]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="UI/SettingsWindow/CenterContainer/VBoxContainer" unique_id=2059230277]
-layout_mode = 2
-text = "Настройки"
-label_settings = SubResource("LabelSettings_35kkh")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MarginContainer" type="MarginContainer" parent="UI/SettingsWindow/CenterContainer/VBoxContainer" unique_id=1355833563]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-
-[node name="ResetAccountProgress" type="Button" parent="UI/SettingsWindow/CenterContainer/VBoxContainer" unique_id=118947742]
-layout_mode = 2
-text = "Сброс прогресса"
-
-[node name="ButtonExit" type="Button" parent="UI/SettingsWindow/CenterContainer/VBoxContainer" unique_id=220292013]
-layout_mode = 2
-text = "Выход"
+[node name="SettingsWindow" parent="UI" unique_id=2314529 instance=ExtResource("20_r0b7e")]
 
 [connection signal="button_down" from="UI/MainMenuWindow/CenterContainer/VBoxContainer/TrainigRoom" to="UI/StackWindowController" method="_on_trainig_room_button_down"]
-[connection signal="button_down" from="UI/MainMenuWindow/CenterContainer/VBoxContainer/Settings" to="UI/StackWindowController" method="_on_trainig_room_button_down"]
 [connection signal="pressed" from="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer/ResetSetting" to="UI/TrainingRoomWindow" method="_on_reset_setting_pressed"]
