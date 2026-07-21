@@ -9,6 +9,8 @@ var _player: Player
 var _spawner: AnswerSpawner
 var _tree: SceneTree
 var _base_answer_speed: float = 0.0
+var _base_min_generate: int = 0
+var _base_max_generate: int = 0
 var _is_active: bool = false
 var _ev_question_changed_callback: Signal
 
@@ -35,6 +37,8 @@ func deinit() -> void:
 
 func start() -> void:
 	_base_answer_speed = _game_config.answer_speed
+	_base_min_generate = _game_config.min_generate_number
+	_base_max_generate = _game_config.max_generate_number
 	_is_active = true
 	_start_round()
 
@@ -53,7 +57,13 @@ func update_answer_acceleration(acceleration: float) -> void:
 		answer.set_acceleration(acceleration)
 
 func on_correct_answer() -> bool:
-	var is_win: bool = CombatResolver.apply_correct(_player, _game_config, _base_answer_speed)
+	var is_win: bool = CombatResolver.apply_correct(
+		_player,
+		_game_config,
+		_base_answer_speed,
+		_base_min_generate,
+		_base_max_generate,
+	)
 	kill_all_answers()
 	return is_win
 

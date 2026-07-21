@@ -54,8 +54,46 @@ LEVEL_CURVE = {
 }
 
 
+# Addition: both operands grow with level so late stages yield e.g. 22+87.
+# min rises too so hard levels are not diluted by tiny sums.
+ADDITION_NUMBER_RANGE = {
+    # Act 1 — single digits / small tens
+    1: (1, 5),
+    2: (1, 7),
+    3: (1, 9),
+    4: (2, 12),
+    # Act 2 — teens → low twenties
+    5: (2, 16),
+    6: (3, 20),
+    7: (4, 25),
+    8: (5, 32),
+    # Act 3 — solid two-digit
+    9: (6, 40),
+    10: (8, 48),
+    11: (10, 58),
+    12: (12, 68),
+    # Act 4 — large two-digit
+    13: (15, 78),
+    14: (18, 85),
+    15: (20, 92),
+    16: (22, 97),
+    # Exam — start mid; generate_number_round_ranges ramps during battle
+    17: (5, 25),
+}
+
+# score → (min, max); same thresholds as exam answer_speed_round_coeffs
+ADDITION_EXAM_NUMBER_ROUND_RANGES = {
+    6: (10, 40),
+    12: (15, 60),
+    15: (20, 80),
+    18: (25, 99),
+}
+
+
 def number_range(block_id: str, level_id: int) -> tuple[int, int]:
-    if block_id in ("addition", "subtraction"):
+    if block_id == "addition":
+        return ADDITION_NUMBER_RANGE[level_id]
+    if block_id == "subtraction":
         if level_id <= 4:
             return 1, 4
         if level_id <= 8:
@@ -98,10 +136,27 @@ def format_round_coeffs_tres(round_coeffs: dict) -> list[str]:
     return lines
 
 
+def format_number_round_ranges_tres(ranges: dict) -> list[str]:
+    if not ranges:
+        return []
+    lines = ["generate_number_round_ranges = {"]
+    for score in sorted(ranges.keys()):
+        min_n, max_n = ranges[score]
+        lines.append(f"{score}: {{")
+        lines.append(f'"min_generate_number": {min_n},')
+        lines.append(f'"max_generate_number": {max_n},')
+        lines.append("},")
+    lines.append("}")
+    return lines
+
+
 def make_tres(block: dict, level_id: int) -> str:
     params = LEVEL_CURVE[level_id]
     min_n, max_n = number_range(block["id"], level_id)
     round_coeffs = params.get("round_coeffs", {})
+    number_round_ranges = {}
+    if block["id"] == "addition" and level_id == EXAM_LEVEL:
+        number_round_ranges = ADDITION_EXAM_NUMBER_ROUND_RANGES
     lines = [
         '[gd_resource type="Resource" script_class="GameConfig" load_steps=2 format=3]',
         "",
@@ -117,6 +172,7 @@ def make_tres(block: dict, level_id: int) -> str:
         f'questions_count = {params["q"]}',
         f'answer_speed = {float(params["spd"])}',
         *format_round_coeffs_tres(round_coeffs),
+        *format_number_round_ranges_tres(number_round_ranges),
     ]
     if "acc_min" in params:
         lines.append(f'player_acceleration_min = {params["acc_min"]}')

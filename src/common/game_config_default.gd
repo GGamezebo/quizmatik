@@ -36,8 +36,11 @@ enum Operations {
 @export var min_generate_number: int = 2
 @export var max_generate_number: int = 9
 @export var answer_speed: float = 80.0
-## Answer speed multipliers after round N, e.g. {4: 1.2, 10: 1.4}
+## Answer speed multipliers after score N, e.g. {4: 1.2, 10: 1.4}
 @export var answer_speed_round_coeffs: Dictionary = {}
+## Operand ranges after score N, e.g. {6: {"min_generate_number": 10, "max_generate_number": 40}}
+## Empty → keep min/max_generate_number for the whole battle.
+@export var generate_number_round_ranges: Dictionary = {}
 
 @export_category("Early Exam")
 ## Applied when the player starts the exam before completing all regular levels in the block.
@@ -68,3 +71,19 @@ func apply_answer_speed_after_round(completed_rounds: int, base_speed: float) ->
 			best_threshold = threshold
 			coeff = float(answer_speed_round_coeffs[threshold_key])
 	answer_speed = base_speed * coeff
+
+
+func apply_generate_number_after_round(completed_rounds: int, base_min: int, base_max: int) -> void:
+	var min_n: int = base_min
+	var max_n: int = base_max
+	var best_threshold: int = -1
+	for threshold_key in generate_number_round_ranges.keys():
+		var threshold: int = int(threshold_key)
+		if completed_rounds >= threshold and threshold > best_threshold:
+			var entry: Variant = generate_number_round_ranges[threshold_key]
+			if entry is Dictionary:
+				best_threshold = threshold
+				min_n = int(entry.get("min_generate_number", min_n))
+				max_n = int(entry.get("max_generate_number", max_n))
+	min_generate_number = mini(min_n, max_n)
+	max_generate_number = maxi(min_n, max_n)

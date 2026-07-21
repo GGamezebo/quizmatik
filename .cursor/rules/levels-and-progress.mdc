@@ -18,6 +18,7 @@ alwaysApply: false
 
 - Schema: `src/common/game_config_default.gd`
 - Difficulty = exported fields on level `.tres` (ops, ranges, speeds, health, questions)
+- Mid-battle ramps: `answer_speed_round_coeffs` and optional `generate_number_round_ranges` (score → min/max)
 - Do not permanently edit runtime `game/game_config.tres` (overwritten per battle)
 
 ## Progress
