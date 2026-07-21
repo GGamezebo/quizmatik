@@ -5,7 +5,7 @@
 			"Menu": {
 				"scene": { "id": "menu", "loading_screen": true },
 				"enter": ["ev.open_menu"],
-				"leave": ["ev.start_game"]
+				"leave": ["ev.start_game"],
 			},
 			"Battle": {
 				"scene": { "id": "game", "loading_screen": true },

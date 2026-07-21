@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="MenuEvents" format=3 uid="uid://ceumjd7gvwho"]
+
+[ext_resource type="Script" uid="uid://b6kgsg8ng2hyi" path="res://src/game/scenes/menu/menu_events.gd" id="1_5wmg2"]
+
+[resource]
+script = ExtResource("1_5wmg2")

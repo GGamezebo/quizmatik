@@ -32,3 +32,6 @@ func _default_data() -> Dictionary:
 func add_event(event_name: String, data: Dictionary = {}) -> void:
 	if _hfsm:
 		_hfsm.add_event(event_name, data)
+		
+func _get_deapth() -> int:
+	return _hfsm.get_active_path().size() if _hfsm else 0
