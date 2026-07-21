@@ -71,9 +71,6 @@ script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Settings")
 target_window = NodePath("../../SettingsWindow")
 
-[node name="SettingsWindowBack" type="Node" parent="UI/StackWindowController" unique_id=477464347]
-script = ExtResource("4_back")
-
 [node name="LevelsSelectionBack" type="Node" parent="UI/StackWindowController" unique_id=785798506 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
 button = NodePath("../../LevelsWindow/LevelsSelection/MarginContainer/Back")
