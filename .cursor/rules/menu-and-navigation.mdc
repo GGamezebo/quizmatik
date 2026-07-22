@@ -31,6 +31,7 @@ alwaysApply: false
 
 - Level select → `menu/levels/`
 - Training → `menu/training_room_window/`
+- Trophy room / stats → `menu/trophy_room_window/`
 - Results → `post_battle/`
 - Stack helpers → `core/lib/window_stack_manager/`
 - Account/progress → `app_root/account/`
