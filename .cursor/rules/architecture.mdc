@@ -75,11 +75,11 @@ Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level
 
 ## UI — editor-first (critical)
 
-- Build and change UI **in the Godot editor** (nodes in `.tscn`), not by constructing controls in GDScript.
-- Scripts only: bind `@export` node refs, update texts/visibility/state, connect signals.
+- Prefer building UI **graphically in the Godot editor** (nodes in `.tscn`). Build controls in GDScript only in rare places that need runtime dynamism.
+- Scripts normally only: bind `@export` node refs, update texts/visibility/state, connect signals.
 - Need a repeated item (level button, row)? Create a **template `.tscn` in the editor**, then `instantiate()` — do not `Control.new()` + build the tree in code.
 - Prefer editing the scene file / asking for editor steps over large programmatic UI diffs.
-- Exception: tiny debug overlays or one-off runtime labels — still prefer a scene node when practical.
+- OK programmatic exceptions: lists/grids filled from data, tiny debug overlays, one-off runtime labels — still prefer a scene template when practical.
 - **Theme in editor:** Project Settings `gui/theme/custom` applies at runtime, but isolated scene preview often shows the default theme. Assign `core/theme/style.tres` to the root `Control` of each UI window (`theme = ...`) so the editor matches the game.
 
 ## Context flow

@@ -316,6 +316,7 @@ size_flags_horizontal = 3
 text = "Выход"
 
 [node name="SettingsWindow" parent="UI" unique_id=2314529 instance=ExtResource("20_r0b7e")]
+visible = false
 
 [connection signal="button_down" from="UI/MainMenuWindow/CenterContainer/VBoxContainer/TrainigRoom" to="UI/StackWindowController" method="_on_trainig_room_button_down"]
 [connection signal="pressed" from="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer/ResetSetting" to="UI/TrainingRoomWindow" method="_on_reset_setting_pressed"]
