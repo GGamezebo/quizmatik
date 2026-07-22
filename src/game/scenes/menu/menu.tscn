@@ -14,12 +14,12 @@
 [ext_resource type="Script" uid="uid://b26jidolbwdpn" path="res://src/game/scenes/menu/texture_button.gd" id="8_82bx7"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="9_3qhmn"]
 [ext_resource type="Script" uid="uid://duom6pk08ldyp" path="res://src/game/scenes/menu/levels/levels_choice_window.gd" id="11_3k6yn"]
-[ext_resource type="PackedScene" uid="uid://ewae8a21ohl3" path="res://src/ui/debug/progress_statistics_debug.tscn" id="11_foifc"]
 [ext_resource type="PackedScene" uid="uid://dpecfsso1dokv" path="res://src/game/scenes/menu/levels/level_container.tscn" id="13_a4m0n"]
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="13_dwe1a"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="14_cjfjs"]
 [ext_resource type="PackedScene" uid="uid://bvsvg4k1oa70y" path="res://src/game/scenes/menu/levels/levels_selection.tscn" id="15_foifc"]
 [ext_resource type="PackedScene" uid="uid://bkoeytpeqxe1w" path="res://src/game/scenes/settings_window/settings_window.tscn" id="20_r0b7e"]
+[ext_resource type="PackedScene" uid="uid://trophyroomwindow01" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.tscn" id="21_trophy"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
@@ -70,6 +70,15 @@ button = NodePath("../../TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxCo
 script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Settings")
 target_window = NodePath("../../SettingsWindow")
+
+[node name="TrophyRoomOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
+script = ExtResource("4_haj1v")
+button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/TrophyRoom")
+target_window = NodePath("../../TrophyRoomWindow")
+
+[node name="TrophyRoomBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button")]
+script = ExtResource("4_back")
+button = NodePath("../../TrophyRoomWindow/CenterContainer/VBoxContainer/ButtonExit")
 
 [node name="LevelsSelectionBack" type="Node" parent="UI/StackWindowController" unique_id=785798506 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
@@ -130,6 +139,10 @@ text = "Играть"
 layout_mode = 2
 text = "Тренеровочная комната"
 
+[node name="TrophyRoom" type="Button" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=245908660]
+layout_mode = 2
+text = "Зал трофеев"
+
 [node name="Settings" type="Button" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=98761202]
 layout_mode = 2
 text = "Настройки"
@@ -147,11 +160,6 @@ texture_normal = ExtResource("6_vk307")
 texture_pressed = ExtResource("7_82bx7")
 script = ExtResource("8_82bx7")
 user_settings = ExtResource("9_3qhmn")
-
-[node name="ProgressStatisticsDebug" parent="UI/MainMenuWindow" unique_id=463360187 instance=ExtResource("11_foifc")]
-layout_mode = 1
-offset_top = 60.0
-offset_bottom = 60.0
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("packs_list_container", "progress", "windows_stack_manager", "level_selection_window")]
 visible = false
@@ -318,5 +326,7 @@ text = "Выход"
 [node name="SettingsWindow" parent="UI" unique_id=2314529 instance=ExtResource("20_r0b7e")]
 visible = false
 
-[connection signal="button_down" from="UI/MainMenuWindow/CenterContainer/VBoxContainer/TrainigRoom" to="UI/StackWindowController" method="_on_trainig_room_button_down"]
+[node name="TrophyRoomWindow" parent="UI" instance=ExtResource("21_trophy")]
+visible = false
+
 [connection signal="pressed" from="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer/ResetSetting" to="UI/TrainingRoomWindow" method="_on_reset_setting_pressed"]
