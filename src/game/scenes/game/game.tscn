@@ -32,21 +32,18 @@
 [ext_resource type="Texture2D" uid="uid://pp8uiix7qkg" path="res://assets/movement_discrete.svg" id="23_discrete"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
-
-[node name="GameScene" type="Node" unique_id=1179940708]
+[node name="GameScene" type="Node" unique_id=1179940708 node_paths=PackedStringArray("initable_components")]
 script = ExtResource("1_j4hd0")
 game_config = ExtResource("2_j4hd0")
 levels_config = ExtResource("3_hmv8q")
 root_events = ExtResource("8_xkl2s")
+initable_components = [NodePath("GameArea"), NodePath("LineSelector"), NodePath("Player"), NodePath("GameManager"), NodePath("HUD")]
 
 [node name="GameArea" type="Node2D" parent="." unique_id=1652487391]
 script = ExtResource("3_5eju7")
-game_config = ExtResource("2_j4hd0")
 
 [node name="Player" type="Node" parent="." unique_id=1431788154]
 script = ExtResource("3_yr17v")
-game_events = ExtResource("7_7ifmk")
-game_config = ExtResource("2_j4hd0")
 
 [node name="AirPlane" parent="Player" unique_id=216453935 instance=ExtResource("4_3f67i")]
 position = Vector2(200, 361)
@@ -64,7 +61,6 @@ air_plane = NodePath("../../Player/AirPlane")
 [node name="GameState" type="Node" parent="GameManager" unique_id=1143929338 node_paths=PackedStringArray("player", "air_plane", "area")]
 script = ExtResource("9_irda4")
 game_events = ExtResource("7_7ifmk")
-game_config = ExtResource("2_j4hd0")
 user_settings = ExtResource("20_settings")
 player = NodePath("../../Player")
 air_plane = NodePath("../../Player/AirPlane")
@@ -75,7 +71,6 @@ explosion_scene = ExtResource("12_587mb")
 [node name="EndGameState" type="Node" parent="GameManager" unique_id=265268692 node_paths=PackedStringArray("player", "air_plane", "progress_controller")]
 script = ExtResource("10_jud5q")
 root_events = ExtResource("8_xkl2s")
-game_config = ExtResource("2_j4hd0")
 player = NodePath("../../Player")
 air_plane = NodePath("../../Player/AirPlane")
 progress_controller = NodePath("ProgressController")
@@ -105,7 +100,6 @@ entities = [NodePath("../../Player/AirPlane")]
 layer = -1
 script = ExtResource("12_lu6cl")
 root_events = ExtResource("8_xkl2s")
-game_confg = ExtResource("2_j4hd0")
 player = NodePath("../Player")
 
 [node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]

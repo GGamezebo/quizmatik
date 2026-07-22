@@ -6,12 +6,14 @@ static func get_state() -> String:
 	
 var game_manager: GameManager
 var event_listener = EventListener.new()
+var game_config: GameConfig
 
 func _init() -> void:
 	super(get_state())
 	
-func initialize(_game_manager: GameManager) -> void:
+func initialize(_game_manager: GameManager, _game_config: GameConfig) -> void:
 	self.game_manager = _game_manager
+	self.game_config = _game_config
 	
 func deinit() -> void:
 	event_listener.deinit()

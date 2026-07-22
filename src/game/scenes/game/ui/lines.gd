@@ -10,6 +10,7 @@ extends Node2D
 
 func _ready():
 	lineSelector.ev_selected_lane_changed.connect(queue_redraw)
+	gameArea.boundary_changed.connect(queue_redraw.unbind(1))
 
 func _draw():
 	var area = gameArea.gameplay_area

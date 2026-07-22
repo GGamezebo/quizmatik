@@ -7,7 +7,6 @@ static func get_state() -> String:
 	return FSMGameStates.GAME
 
 @export var game_events: GameEvents
-@export var game_config: GameConfig
 @export var user_settings: UserSettings
 @export var player: Player
 @export var air_plane: AirPlane

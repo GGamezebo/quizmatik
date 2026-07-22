@@ -7,12 +7,9 @@ signal ev_acceleration_changed(acceleration: float)
 
 const ACCELERATION_DEFAULT: float = GameConfig.PLAYER_ACCELERATION_DEFAULT
 
-@export var game_events: GameEvents
-@export var game_config: GameConfig
-
+var game_events: GameEvents
 var components: Array[PlayerComponent] = []
-
-@onready var health: int = game_config.health:
+var health: int = 1:
 	set(new_value):
 		if health != new_value:
 			health = new_value
@@ -30,7 +27,9 @@ var components: Array[PlayerComponent] = []
 			acceleration = new_value
 			ev_acceleration_changed.emit(acceleration)		
 
-func _ready() -> void:
+func initialize(game_config: GameConfig) -> void:
+	self.health = game_config.health
+	
 	var componentClasses = [
 		AccelerationComponent
 	]

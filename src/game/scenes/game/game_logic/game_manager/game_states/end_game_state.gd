@@ -5,7 +5,6 @@ static func get_state() -> String:
 	return FSMGameStates.END_GAME
 	
 @export var root_events: RootEvents
-@export var game_config: GameConfig
 @export var player: Player
 @export var air_plane: AirPlane
 @export var progress_controller: ProgressController
