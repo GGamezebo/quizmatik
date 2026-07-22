@@ -20,7 +20,6 @@
 [ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://src/features/explosion/explosion.tscn" id="12_587mb"]
 [ext_resource type="Script" uid="uid://bm2tjky763w3k" path="res://src/game/scenes/game/ui/hud.gd" id="12_lu6cl"]
 [ext_resource type="Script" uid="uid://b8c13uei5f6xn" path="res://src/game/scenes/game/ui/lines.gd" id="13_2jcei"]
-[ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="14_2jwt3"]
 [ext_resource type="Script" uid="uid://c31s1xkrtgnis" path="res://src/game/scenes/game/ui/answer_label.gd" id="14_wlohk"]
 [ext_resource type="Script" uid="uid://bb48gluxno1u" path="res://src/game/scenes/game/ui/ui_health.gd" id="15_6ktr1"]
 [ext_resource type="Script" uid="uid://cwfxgx56jwul8" path="res://src/game/scenes/game/game_logic/line_selector.gd" id="15_h2w07"]
@@ -68,14 +67,11 @@ area = NodePath("../../GameArea")
 answerScene = ExtResource("7_e5mqp")
 explosion_scene = ExtResource("12_587mb")
 
-[node name="EndGameState" type="Node" parent="GameManager" unique_id=265268692 node_paths=PackedStringArray("player", "air_plane", "progress_controller")]
+[node name="EndGameState" type="Node" parent="GameManager" unique_id=265268692 node_paths=PackedStringArray("player", "air_plane")]
 script = ExtResource("10_jud5q")
 root_events = ExtResource("8_xkl2s")
 player = NodePath("../../Player")
 air_plane = NodePath("../../Player/AirPlane")
-progress_controller = NodePath("ProgressController")
-
-[node name="ProgressController" parent="GameManager/EndGameState" unique_id=2109216065 instance=ExtResource("14_2jwt3")]
 
 [node name="LineSelector" type="Node" parent="." unique_id=2097313372 node_paths=PackedStringArray("air_plane", "area")]
 script = ExtResource("15_h2w07")

@@ -3,6 +3,8 @@ extends IScene
 ## App-root HFSM scene: shared account/progress/music + RootEvents → HFSM bridge.
 
 @export var root_events: RootEvents
+@export var progress_controller: ProgressController
+
 var _listener: EventListener = EventListener.new()
 
 
@@ -19,7 +21,19 @@ func _on_ev_start_game(data: Dictionary) -> void:
 	add_event("ev.start_game", data)
 
 func _on_ev_exit_game(data: Dictionary = {}) -> void:
+	_apply_battle_result(data)
 	add_event("ev.exit_game", data)
 
 func _on_ev_return_to_menu() -> void:
 	add_event("ev.open_menu")
+
+func _apply_battle_result(data: Dictionary) -> void:
+	var is_win: bool = data['is_win']
+	var stars: int = data['stars']
+	var game_config: GameConfig = data['game_config']
+	var battle_info = game_config.battle_info
+	if is_win and battle_info:
+		progress_controller.post_battle(
+			battle_info,
+			stars
+		)

@@ -21,9 +21,10 @@ glow_blend_mode = 0
 
 [sub_resource type="Compositor" id="Compositor_1bvp3"]
 
-[node name="AppRoot" type="Node" unique_id=74498543]
+[node name="AppRoot" type="Node" unique_id=74498543 node_paths=PackedStringArray("progress_controller")]
 script = ExtResource("1_main")
 root_events = ExtResource("8_dg77c")
+progress_controller = NodePath("Account/ProgressController")
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="." unique_id=1055067511]
 resources = [PackedStringArray("levels"), [ExtResource("2_kek77")]]

@@ -18,3 +18,4 @@ godot_sandbox
 data_*/
 mono_crash.*.json
 *export/
+tools/__pycache__/generate_levels.cpython-312.pyc
