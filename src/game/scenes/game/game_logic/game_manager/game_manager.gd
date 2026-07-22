@@ -7,9 +7,9 @@ extends Node
 var fsm: FSM
 var time: float = 0.0
 
-func _ready() -> void:
+func initialize(game_config: GameConfig) -> void:
 	for state in states:
-		state.initialize(self)
+		state.initialize(self, game_config)
 	
 	fsm = FSM.new({
 		"initial": {"state": CountDownState.get_state()},

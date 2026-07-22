@@ -12,7 +12,7 @@ var selected_lane: int = 0:
 				selected_lane = value
 				ev_selected_lane_changed.emit()
 
-func _ready() -> void:
+func initialize(_game_config: GameConfig) -> void:
 	area.boundary_changed.connect(_on_boundary_changed)
 	_update_plane_discret_positions()
 
@@ -23,6 +23,7 @@ func _process(_delta: float) -> void:
 		selected_lane = air_plane.get_discret_lane()
 	
 func _on_boundary_changed() -> void:
+	_update_plane_discret_positions()
 	selected_lane = area.getLine(air_plane.position)
 	
 func _update_plane_discret_positions() -> void:

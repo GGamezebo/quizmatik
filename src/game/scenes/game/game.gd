@@ -3,6 +3,7 @@ extends IScene
 @export var game_config: GameConfig
 @export var levels_config: LevelsConfig
 @export var root_events: RootEvents
+@export var initable_components: Array[Node]
 
 func initialize(_data: Dictionary) -> void:
 	var scenario: GameConfig = _data.get('custom_battle')
@@ -20,6 +21,10 @@ func initialize(_data: Dictionary) -> void:
 		_load_game_scenario(scenario)
 		
 	game_config.battle_info = battle_info
+	
+	for component in initable_components:
+		component.initialize(game_config)
+	
 	root_events.ev_battle_started.emit()
 
 func deinit() -> void:
