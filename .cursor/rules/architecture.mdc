@@ -89,6 +89,7 @@ Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level
 Menu --ev.start_game--> Battle --ev.exit_game--> PostBattle
 PostBattle --ev.return_to_menu--> Menu
 PostBattle --ev.start_game--> Battle (retry)
+Battle --ev.start_game--> Battle (in-battle restart remount)
 ```
 
 App phases are driven by HFSM (`src/game/hfsm/app_hfsm.json`) via `src/game/main.gd`:
