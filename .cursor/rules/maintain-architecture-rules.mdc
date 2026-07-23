@@ -9,7 +9,8 @@ When a change alters structure, contracts, or placement conventions, update `.cu
 
 ## Update when
 
-- New/renamed folder under `src/`, `core/`, `tools/`
+- New/renamed folder under `src/`, `core/`, `tools/`, `concepts/`
+- Visual art direction / UI look conventions (`concepts/ART_DIRECTION.md`)
 - New context, feature, event bus, or FSM state
 - Feature isolation or `core/` project-agnostic boundary changes
 - Scene-isolation / Resource-default / parent-override-via-events contract changes
