@@ -49,6 +49,11 @@ func _on_pack_enter_requested(container_id: String) -> void:
 	windows_stack_manager.open_stacked_window(level_selection_window)
 
 
+func open_level_select(container_id: String) -> void:
+	windows_stack_manager.open_stacked_window(self)
+	_on_pack_enter_requested(container_id)
+
+
 func _on_visibility_changed() -> void:
 	if is_visible_in_tree():
 		_update_window()

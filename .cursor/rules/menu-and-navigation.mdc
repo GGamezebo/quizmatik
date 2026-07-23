@@ -25,7 +25,8 @@ alwaysApply: false
 
 - Campaign: `{ "battle_info": GameConfig.BattleInfo(...) }`
 - Training: `{ "custom_battle": GameConfig }`
-- Return: `ev_return_to_menu`; quit battle: `ev_exit_game`
+- Return: `ev_return_to_menu` (optional `{ "open_level_select": container_id }` → Menu opens pack level grid)
+- Quit battle: `ev_exit_game`
 
 ## Placement
 

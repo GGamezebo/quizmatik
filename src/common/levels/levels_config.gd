@@ -182,6 +182,26 @@ func get_level_config(container_id: String, level_id: int) -> GameConfig:
 	push_warning("[ProgressManager] Warning: Level '" + str(level_id) + "' not found in container '" + container_id + "'.")
 	return null
 
+func has_level(container_id: String, level_id: int) -> bool:
+	var container: Dictionary = find_container_in_config(container_id)
+	if container.is_empty():
+		return false
+	for level in container["levels"]:
+		if level.get("level_id") == level_id:
+			return true
+	return false
+
+func get_next_container_id(container_id: String) -> String:
+	if not levels.has("containers") or not (levels["containers"] is Array):
+		return ""
+	var containers: Array = levels["containers"]
+	for i in containers.size():
+		if containers[i].get("container_id") == container_id:
+			if i + 1 < containers.size():
+				return str(containers[i + 1].get("container_id", ""))
+			return ""
+	return ""
+
 func is_level_exam(container_id: String, level_id: int) -> bool:
 	var container: Dictionary = find_container_in_config(container_id)
 	if container.is_empty():
