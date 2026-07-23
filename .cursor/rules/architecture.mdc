@@ -50,6 +50,7 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 | `src/levels/{container}/` | Campaign `level_N.tres` (canonical) |
 | `core/` | Project-agnostic code only (no Quizmatik types/scenes) |
 | `tools/` | Offline generators (e.g. levels) |
+| `concepts/` | Visual art direction + concept frames (menu/battle) — match before UI restyles |
 | `src/dev/` | Non-runtime utilities — not the game entry |
 
 Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level_*.tres` (root).
