@@ -32,11 +32,12 @@ gradient = SubResource("Gradient_cjfjs")
 font_size = 64
 font_color = Color(0, 1, 1, 1)
 
-[node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "start_button", "training_room_start_button", "exit_button")]
+[node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "levels_choice_window", "start_button", "training_room_start_button", "exit_button")]
 script = ExtResource("1_5oxuo")
 root_events = ExtResource("2_35kkh")
 menu_events = ExtResource("3_k2ump")
 windows_stack_manager = NodePath("UI/StackWindowController")
+levels_choice_window = NodePath("UI/LevelsWindow")
 training_room_config = ExtResource("6_vp6ju")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Start")
 training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/StartBattle")

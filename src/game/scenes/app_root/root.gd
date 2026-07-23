@@ -24,8 +24,8 @@ func _on_ev_exit_game(data: Dictionary = {}) -> void:
 	_apply_battle_result(data)
 	add_event("ev.exit_game", data)
 
-func _on_ev_return_to_menu() -> void:
-	add_event("ev.open_menu")
+func _on_ev_return_to_menu(data: Dictionary = {}) -> void:
+	add_event("ev.open_menu", data)
 
 func _apply_battle_result(data: Dictionary) -> void:
 	var is_win: bool = data['is_win']
