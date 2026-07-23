@@ -5,6 +5,8 @@ const SAVE_PATH: String = "user://settings.tres"
 
 @export_category("Audio")
 @export var is_music_mute = false
+## Mutes the Master bus (all game audio).
+@export var is_sound_mute = false
 
 @export_category("Controls")
 ## AirPlane.MovementMode: 0 = DIRECT, 1 = DISCRETE
