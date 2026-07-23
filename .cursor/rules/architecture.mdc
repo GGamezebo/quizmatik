@@ -47,6 +47,7 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 | `src/game/scenes/` | Screens / orchestration: `app_root`, `menu`, `game`, `post_battle` |
 | `src/features/` | Isolated gameplay features (own almost all deps) |
 | `src/common/` | Project-shared Resources (`GameConfig`, `LevelsConfig`, settings) |
+| `src/ui/` | Shared UI widgets (dialogs, buttons, loading, background) |
 | `src/levels/{container}/` | Campaign `level_N.tres` (canonical) |
 | `core/` | Project-agnostic code only (no Quizmatik types/scenes) |
 | `tools/` | Offline generators (e.g. levels) |
@@ -112,6 +113,7 @@ Do not drive win/lose with ad-hoc flags outside the FSM.
 - New isolated gameplay unit → `src/features/{name}/` (self-contained; `.gd` + `.tscn` colocated)
 - New screen / flow → `src/game/scenes/{name}/`
 - Project-shared Resource/type → `src/common/`
+- Shared UI widget (button base, dialog, loading) → `src/ui/`
 - Generic reusable utility (no project deps) → `core/lib/`
 - Level data → `src/levels/{container}/`; metadata → `levels_config.gd` / `tools/generate_levels.py`
 - Progress mutations → `ProgressController` only (`user://progress.tres`)
