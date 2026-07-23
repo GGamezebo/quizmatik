@@ -33,7 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://8ek02u3tnr7d" path="res://assets/icon_exit.svg" id="25_exit"]
 [ext_resource type="Texture2D" uid="uid://clq0g1vwuxqgn" path="res://assets/sound-on.svg" id="26_sound_on"]
 [ext_resource type="Texture2D" uid="uid://ccjtahowlfjpj" path="res://assets/sound-off.svg" id="27_sound_off"]
-[ext_resource type="Script" path="res://src/game/scenes/game/ui/sound_mute_button.gd" id="28_mute"]
+[ext_resource type="Script" uid="uid://dxdf03het6j0r" path="res://src/game/scenes/game/ui/sound_mute_button.gd" id="28_mute"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [node name="GameScene" type="Node" unique_id=1179940708 node_paths=PackedStringArray("initable_components")]
