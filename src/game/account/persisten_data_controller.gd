@@ -18,6 +18,18 @@ func _load_settings(resource: Resource) -> void:
 			print("Resource is loaded ", resource.SAVE_PATH)
 	else:
 		print("Resource is not found ", resource.SAVE_PATH)
+	_apply_audio_mute_settings(resource as UserSettings)
+
+
+func _apply_audio_mute_settings(settings: UserSettings) -> void:
+	if settings == null:
+		return
+	var master_idx: int = AudioServer.get_bus_index("Master")
+	if master_idx != -1:
+		AudioServer.set_bus_mute(master_idx, settings.is_sound_mute)
+	var music_idx: int = AudioServer.get_bus_index("Music")
+	if music_idx != -1:
+		AudioServer.set_bus_mute(music_idx, settings.is_music_mute)
 
 func _load_progress(pdata: PDataProgress) -> void:
 	if ResourceLoader.exists(pdata.SAVE_PATH):

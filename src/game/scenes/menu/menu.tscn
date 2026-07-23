@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://clq0g1vwuxqgn" path="res://assets/sound-on.svg" id="6_vk307"]
 [ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/game/scenes/menu/training_room_window/training_room_game_config.tres" id="6_vp6ju"]
 [ext_resource type="Texture2D" uid="uid://ccjtahowlfjpj" path="res://assets/sound-off.svg" id="7_82bx7"]
-[ext_resource type="Script" uid="uid://b26jidolbwdpn" path="res://src/game/scenes/menu/texture_button.gd" id="8_82bx7"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/music_mute_button.gd" id="8_82bx7"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="9_3qhmn"]
 [ext_resource type="Script" uid="uid://duom6pk08ldyp" path="res://src/game/scenes/menu/levels/levels_choice_window.gd" id="11_3k6yn"]
 [ext_resource type="PackedScene" uid="uid://dpecfsso1dokv" path="res://src/game/scenes/menu/levels/level_container.tscn" id="13_a4m0n"]
