@@ -10,7 +10,7 @@
 			"Battle": {
 				"scene": { "id": "game", "loading_screen": true },
 				"enter": ["ev.start_game"],
-				"leave": ["ev.open_post_battle"]
+				"leave": ["ev.open_post_battle", "ev.start_game"]
 			},
 			"PostBattle": {
 				"scene": { "id": "post_battle", "on_event": "ev.open_post_battle" },

@@ -29,6 +29,8 @@
 [ext_resource type="Script" uid="uid://b16rw3tfshgjb" path="res://src/game/scenes/game/ui/movement_mode_button.gd" id="21_movebtn"]
 [ext_resource type="Texture2D" uid="uid://b2jnhlljief14" path="res://assets/movement_direct.svg" id="22_direct"]
 [ext_resource type="Texture2D" uid="uid://pp8uiix7qkg" path="res://assets/movement_discrete.svg" id="23_discrete"]
+[ext_resource type="Texture2D" path="res://assets/icon_restart.svg" id="24_restart"]
+[ext_resource type="Texture2D" path="res://assets/icon_exit.svg" id="25_exit"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [node name="GameScene" type="Node" unique_id=1179940708 node_paths=PackedStringArray("initable_components")]
@@ -92,11 +94,13 @@ script = ExtResource("5_0m8ko")
 gameArea = NodePath("../../GameArea")
 entities = [NodePath("../../Player/AirPlane")]
 
-[node name="HUD" type="CanvasLayer" parent="." unique_id=769805075 node_paths=PackedStringArray("player")]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=769805075 node_paths=PackedStringArray("player", "restart_button", "exit_button")]
 layer = -1
 script = ExtResource("12_lu6cl")
 root_events = ExtResource("8_xkl2s")
 player = NodePath("../Player")
+restart_button = NodePath("RightPanel/ActionButtons/Restart")
+exit_button = NodePath("RightPanel/ActionButtons/Exit")
 
 [node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]
 
@@ -188,20 +192,44 @@ script = ExtResource("14_wlohk")
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -45.0
-offset_bottom = 40.0
+offset_left = -220.0
+offset_top = 8.0
+offset_right = -12.0
+offset_bottom = 100.0
 grow_horizontal = 0
 theme = ExtResource("theme_ui")
+theme_override_constants/separation = 12
+alignment = 2
 
 [node name="Health" type="HBoxContainer" parent="HUD/RightPanel" unique_id=2085066688 node_paths=PackedStringArray("player")]
 layout_mode = 2
+size_flags_vertical = 4
 script = ExtResource("15_6ktr1")
 player = NodePath("../../../Player")
 helthSprite = ExtResource("17_emdi4")
 
-[node name="Exit" type="Button" parent="HUD/RightPanel" unique_id=1598725368]
+[node name="ActionButtons" type="HBoxContainer" parent="HUD/RightPanel"]
 layout_mode = 2
-text = "EXIT"
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="Restart" type="TextureButton" parent="HUD/RightPanel/ActionButtons"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+texture_normal = ExtResource("24_restart")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Exit" type="TextureButton" parent="HUD/RightPanel/ActionButtons"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+texture_normal = ExtResource("25_exit")
+ignore_texture_size = true
+stretch_mode = 5
 
 [connection signal="ev_question_changed" from="GameManager/GameState" to="HUD/Question" method="_on_game_state_ev_question_changed"]
-[connection signal="button_down" from="HUD/RightPanel/Exit" to="HUD" method="_on_exit_button_down"]
