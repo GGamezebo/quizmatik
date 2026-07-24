@@ -4,6 +4,7 @@ extends Node
 signal ev_daily_changed
 
 @export var pdata: PDataProgress
+@export var root_events: RootEvents
 
 
 func _ready() -> void:
@@ -11,7 +12,7 @@ func _ready() -> void:
 
 
 func save() -> void:
-	ResourceUtils.save_resource_to_disk(pdata, pdata.SAVE_PATH)
+	root_events.ev_save_progress.emit()
 
 
 func _ensure_today() -> bool:

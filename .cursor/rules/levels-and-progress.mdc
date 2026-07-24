@@ -26,6 +26,7 @@ alwaysApply: false
 - Schema: `PDataProgress` → `user://progress.tres`
 - Campaign mutations: `ProgressController` only
 - Daily challenges (UTC day, 5 win-slots): `DailyChallengesController` — any battle win fills one slot
+- Disk write: only `PersistentDataController.save()` (controllers emit `RootEvents.ev_save_progress`)
 - Migrations: `PDataMigrator` when `CURRENT_VERSION` bumps
 - Unlock helpers: `LevelsContainerConditions` in `conditions.gd`
 - Settings: `UserSettings` → `user://settings.tres`
