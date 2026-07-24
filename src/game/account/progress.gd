@@ -2,13 +2,15 @@ class_name PDataProgress
 extends Resource
 
 const SAVE_PATH: String = "user://progress.tres"
-const CURRENT_VERSION: int = 0
+const CURRENT_VERSION: int = 1
+const DAILY_SLOT_COUNT: int = 5
 
 @export var progress: Dictionary = {
 	"version": 0,  # don't change it
 	"levels": default_levels_progress(),
 	"state": default_state(),
 	"statistics": default_statistics(),
+	"daily": default_daily(),
 }
 
 static func default_container() -> Dictionary:
@@ -43,3 +45,21 @@ static func default_statistics() -> Dictionary:
 		"total_stars": 0,
 		"total_mistakes": 0,
 	}
+
+static func default_daily() -> Dictionary:
+	var slots: Array = []
+	slots.resize(DAILY_SLOT_COUNT)
+	slots.fill(false)
+	return {
+		"utc_day": "",
+		"slots": slots,
+	}
+
+static func utc_day_key(unix_time: int = -1) -> String:
+	# get_datetime_dict_from_unix_time is always UTC; system() needs utc=true.
+	var dt: Dictionary = (
+		Time.get_datetime_dict_from_unix_time(unix_time)
+		if unix_time >= 0
+		else Time.get_datetime_dict_from_system(true)
+	)
+	return "%04d-%02d-%02d" % [dt.year, dt.month, dt.day]

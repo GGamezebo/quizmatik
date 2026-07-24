@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://b00ddsqtwrab5"]
+
+[ext_resource type="Script" uid="uid://dmjp0ugdseco5" path="res://src/game/scenes/menu/daily/daily_challenges_panel.gd" id="1_panel"]
+[ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="2_ctrl"]
+[ext_resource type="PackedScene" uid="uid://b00dg4sbcrab5" path="res://src/game/scenes/menu/daily/daily_slot.tscn" id="3_slot"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+
+[node name="DailyChallengesPanel" type="VBoxContainer" unique_id=891062476 node_paths=PackedStringArray("daily_controller", "slots_row", "title_label")]
+mouse_filter = 2
+theme = ExtResource("theme_ui")
+theme_override_constants/separation = 8
+alignment = 1
+script = ExtResource("1_panel")
+daily_controller = NodePath("DailyChallengesController")
+slots_row = NodePath("SlotsColumn")
+slot_scene = ExtResource("3_slot")
+title_label = NodePath("Title")
+
+[node name="DailyChallengesController" parent="." unique_id=79809210 instance=ExtResource("2_ctrl")]
+
+[node name="Title" type="Label" parent="." unique_id=269389005]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 22
+text = "Дейлики
+0 / 5"
+horizontal_alignment = 1
+
+[node name="SlotsColumn" type="VBoxContainer" parent="." unique_id=205347490]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1

@@ -33,9 +33,10 @@ alwaysApply: false
 - Level select → `menu/levels/`
 - Training → `menu/training_room_window/`
 - Trophy room / stats → `menu/trophy_room_window/`
+- Daily slots (display-only) → `menu/daily/` on MainMenuWindow
 - Results → `post_battle/`
 - Stack helpers → `core/lib/window_stack_manager/`
-- Account/progress → `app_root/account/`
+- Account/progress/daily → `src/game/account/` (wired in `app_root/root.tscn`)
 
 ## Avoid
 

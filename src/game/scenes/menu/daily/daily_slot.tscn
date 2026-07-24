@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://dailyslot00001"]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/daily/daily_slot.gd" id="1_slot"]
+[ext_resource type="Texture2D" uid="uid://c8c6ld7mnpu8l" path="res://assets/star.svg" id="2_star"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot"]
+bg_color = Color(0.03, 0.07, 0.18, 0.88)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.92, 0.74, 0.28, 0.75)
+corner_radius_top_left = 14
+corner_radius_top_right = 8
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 8
+shadow_color = Color(0.15, 0.55, 0.95, 0.2)
+shadow_size = 6
+
+[node name="DailySlot" type="PanelContainer" node_paths=PackedStringArray("mark")]
+custom_minimum_size = Vector2(48, 48)
+size_flags_horizontal = 4
+mouse_filter = 2
+theme = ExtResource("theme_ui")
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
+script = ExtResource("1_slot")
+mark = NodePath("Mark")
+
+[node name="Mark" type="TextureRect" parent="."]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_star")
+expand_mode = 1
+stretch_mode = 5
+modulate = Color(0.35, 0.4, 0.55, 0.4)

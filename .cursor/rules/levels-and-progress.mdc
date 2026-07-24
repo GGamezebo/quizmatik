@@ -24,7 +24,9 @@ alwaysApply: false
 ## Progress
 
 - Schema: `PDataProgress` → `user://progress.tres`
-- All mutations through `ProgressController` (+ migrations via `PDataMigrator`)
+- Campaign mutations: `ProgressController` only
+- Daily challenges (UTC day, 5 win-slots): `DailyChallengesController` — any battle win fills one slot
+- Migrations: `PDataMigrator` when `CURRENT_VERSION` bumps
 - Unlock helpers: `LevelsContainerConditions` in `conditions.gd`
 - Settings: `UserSettings` → `user://settings.tres`
 
@@ -32,3 +34,4 @@ alwaysApply: false
 
 - Keep `container_id` strings stable (progress keys)
 - Bump progress `version` + add migration when schema changes
+- Daily rollover via `PDataProgress.utc_day_key()` (UTC); menu slots are display-only (not clickable)
