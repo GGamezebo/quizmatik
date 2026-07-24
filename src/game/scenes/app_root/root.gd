@@ -4,6 +4,7 @@ extends IScene
 
 @export var root_events: RootEvents
 @export var progress_controller: ProgressController
+@export var daily_challenges_controller: DailyChallengesController
 
 var _listener: EventListener = EventListener.new()
 
@@ -32,8 +33,10 @@ func _apply_battle_result(data: Dictionary) -> void:
 	var stars: int = data['stars']
 	var game_config: GameConfig = data['game_config']
 	var battle_info = game_config.battle_info
-	if is_win and battle_info:
-		progress_controller.post_battle(
-			battle_info,
-			stars
-		)
+	if is_win:
+		daily_challenges_controller.register_win()
+		if battle_info:
+			progress_controller.post_battle(
+				battle_info,
+				stars
+			)

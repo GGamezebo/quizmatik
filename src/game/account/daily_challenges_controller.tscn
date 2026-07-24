@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b00c0du2crab5"]
+
+[ext_resource type="Script" path="res://src/game/account/daily_challenges_controller.gd" id="1_daily"]
+[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/game/account/progress.tres" id="2_pdata"]
+
+[node name="DailyChallengesController" type="Node"]
+script = ExtResource("1_daily")
+pdata = ExtResource("2_pdata")

@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://clq0g1vwuxqgn" path="res://assets/sound-on.svg" id="6_vk307"]
 [ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/game/scenes/menu/training_room_window/training_room_game_config.tres" id="6_vp6ju"]
 [ext_resource type="Texture2D" uid="uid://ccjtahowlfjpj" path="res://assets/sound-off.svg" id="7_82bx7"]
-[ext_resource type="Script" path="res://src/game/scenes/menu/music_mute_button.gd" id="8_82bx7"]
+[ext_resource type="Script" uid="uid://7sd3kio5id34" path="res://src/game/scenes/menu/music_mute_button.gd" id="8_82bx7"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="9_3qhmn"]
 [ext_resource type="Script" uid="uid://duom6pk08ldyp" path="res://src/game/scenes/menu/levels/levels_choice_window.gd" id="11_3k6yn"]
 [ext_resource type="PackedScene" uid="uid://dpecfsso1dokv" path="res://src/game/scenes/menu/levels/level_container.tscn" id="13_a4m0n"]
@@ -19,7 +19,8 @@
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="14_cjfjs"]
 [ext_resource type="PackedScene" uid="uid://bvsvg4k1oa70y" path="res://src/game/scenes/menu/levels/levels_selection.tscn" id="15_foifc"]
 [ext_resource type="PackedScene" uid="uid://bkoeytpeqxe1w" path="res://src/game/scenes/settings_window/settings_window.tscn" id="20_r0b7e"]
-[ext_resource type="PackedScene" uid="uid://trophyroomwindow01" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.tscn" id="21_trophy"]
+[ext_resource type="PackedScene" uid="uid://caclv7nru701m" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.tscn" id="21_trophy"]
+[ext_resource type="PackedScene" uid="uid://b00ddsqtwrab5" path="res://src/game/scenes/menu/daily/daily_challenges_panel.tscn" id="23_daily"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
@@ -72,12 +73,12 @@ script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Settings")
 target_window = NodePath("../../SettingsWindow")
 
-[node name="TrophyRoomOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
+[node name="TrophyRoomOpen" type="Node" parent="UI/StackWindowController" unique_id=551433926 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/TrophyRoom")
 target_window = NodePath("../../TrophyRoomWindow")
 
-[node name="TrophyRoomBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button")]
+[node name="TrophyRoomBack" type="Node" parent="UI/StackWindowController" unique_id=1133530387 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
 button = NodePath("../../TrophyRoomWindow/CenterContainer/VBoxContainer/ButtonExit")
 
@@ -105,6 +106,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_ux2mn")
+
+[node name="DailyLeftColumn" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=1900100000]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 148.0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 16
+
+[node name="DailyChallengesPanel" parent="UI/MainMenuWindow/DailyLeftColumn" unique_id=1900100001 instance=ExtResource("23_daily")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="UI/MainMenuWindow" unique_id=487516089]
 layout_mode = 1
@@ -327,7 +345,7 @@ text = "Выход"
 [node name="SettingsWindow" parent="UI" unique_id=2314529 instance=ExtResource("20_r0b7e")]
 visible = false
 
-[node name="TrophyRoomWindow" parent="UI" instance=ExtResource("21_trophy")]
+[node name="TrophyRoomWindow" parent="UI" unique_id=965242045 instance=ExtResource("21_trophy")]
 visible = false
 
 [connection signal="pressed" from="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer/ResetSetting" to="UI/TrainingRoomWindow" method="_on_reset_setting_pressed"]
