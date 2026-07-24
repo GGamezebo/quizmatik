@@ -8,7 +8,12 @@ func _ready() -> void:
 	_load_settings(_user_settings)
 	_load_progress(_progress)
 	root_events.ev_reset_account_progress.connect(_on_reset_account_progress)
+	root_events.ev_save_progress.connect(save)
 	print("Data system initialized successfully.")
+
+func save() -> void:
+	_progress.progress["version"] = PDataProgress.CURRENT_VERSION
+	ResourceUtils.save_resource_to_disk(_progress, _progress.SAVE_PATH)
 
 func _load_settings(resource: Resource) -> void:
 	if ResourceLoader.exists(resource.SAVE_PATH):
@@ -45,15 +50,11 @@ func _load_progress(pdata: PDataProgress) -> void:
 					saved_version, 
 					PDataProgress.CURRENT_VERSION
 				)
-				_save_pdata(pdata)
+				save()
 	else:
-		_save_pdata(pdata)
+		save()
 
 func _on_reset_account_progress() -> void:
 	var default: PDataProgress = PDataProgress.new()
 	_progress.progress = default.progress.duplicate(true)
-	_save_pdata(_progress)
-	
-func _save_pdata(pdata: PDataProgress) -> void:
-	pdata.progress["version"] = PDataProgress.CURRENT_VERSION
-	ResourceUtils.save_resource_to_disk(pdata, pdata.SAVE_PATH)
+	save()

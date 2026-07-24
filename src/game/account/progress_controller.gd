@@ -7,10 +7,11 @@ signal ev_level_seen(container_id: String, level_id: int)
 @export var pdata: PDataProgress
 @export var levels_config: LevelsConfig
 @export var conditions: Script
+@export var root_events: RootEvents
 
 
 func save() -> void:
-	ResourceUtils.save_resource_to_disk(pdata, pdata.SAVE_PATH)
+	root_events.ev_save_progress.emit()
 
 func post_battle(battle_info: GameConfig.BattleInfo, stars: int) -> void:
 	if battle_info.is_exam:

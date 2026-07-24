@@ -27,7 +27,7 @@ func _statistics() -> Dictionary:
 	return pdata.progress["statistics"]
 
 func _save() -> void:
-	ResourceUtils.save_resource_to_disk(pdata, pdata.SAVE_PATH)
+	root_events.ev_save_progress.emit()
 
 func _start_game_session() -> void:
 	_game_session_start_msec = Time.get_ticks_msec()
