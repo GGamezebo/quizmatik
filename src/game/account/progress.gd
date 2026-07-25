@@ -1,7 +1,7 @@
 class_name PDataProgress
 extends Resource
 
-const SAVE_PATH: String = "user://progress.tres"
+const SAVE_PATH: String = "user://progress.json"
 const CURRENT_VERSION: int = 1
 const DAILY_SLOT_COUNT: int = 5
 
@@ -54,6 +54,24 @@ static func default_daily() -> Dictionary:
 		"utc_day": "",
 		"slots": slots,
 	}
+
+## JSON forces every dictionary key to a String. Restore the int keys the
+## progress schema relies on (per-container completed_levels is keyed by level_id).
+static func normalize_loaded(data: Dictionary) -> Dictionary:
+	var levels: Variant = data.get("levels")
+	if levels is Dictionary:
+		for container_id in levels:
+			var container: Variant = levels[container_id]
+			if not (container is Dictionary):
+				continue
+			var completed: Variant = container.get("completed_levels")
+			if not (completed is Dictionary):
+				continue
+			var fixed: Dictionary = {}
+			for level_key in completed:
+				fixed[int(level_key)] = completed[level_key]
+			container["completed_levels"] = fixed
+	return data
 
 static func utc_day_key(unix_time: int = -1) -> String:
 	# get_datetime_dict_from_unix_time is always UTC; system() needs utc=true.
