@@ -4,7 +4,6 @@ extends Control
 @export var grid_container: GridContainer
 @export var level_button: PackedScene
 @export var levels: LevelsConfig
-@export var pdata: PDataProgress
 @export var container_id: String
 @export var progress: ProgressController
 @export var back_button: Button

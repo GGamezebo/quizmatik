@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://vkrgvxacawgf"]
 
 [ext_resource type="Script" uid="uid://bb4lawsidwt8v" path="res://src/game/account/statistics_controller.gd" id="1_script"]
-[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/game/account/progress.tres" id="2_pdata"]
+[ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="2_pdata"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="3_root_events"]
 [ext_resource type="Resource" uid="uid://bg11w4vfrn34r" path="res://src/game/scenes/game/game_events.tres" id="4_game_events"]
 

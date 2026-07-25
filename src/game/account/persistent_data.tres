@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="PData" format=3 uid="uid://ib6tyr8mqb71"]
+
+[ext_resource type="Script" uid="uid://b5qk4rlf8f650" path="res://src/game/account/persistent_data.gd" id="1_qc6jq"]
+
+[resource]
+script = ExtResource("1_qc6jq")
