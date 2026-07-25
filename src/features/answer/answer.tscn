@@ -9,7 +9,7 @@
 resource_local_to_scene = true
 font = ExtResource("3_font")
 font_size = 42
-font_color = Color(0, 1, 1, 1)
+font_color = Color(1, 1, 1, 1)
 outline_size = 4
 outline_color = Color(0.050980393, 0.29803923, 0.54901963, 1)
 shadow_size = 4
