@@ -107,6 +107,7 @@ exit_button = NodePath("RightPanel/ActionButtons/Exit")
 
 [node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]
 position = Vector2(-3, 24)
+sky_scroll_speed = 0.02
 
 [node name="TopLeftPanel" type="MarginContainer" parent="HUD" unique_id=173333125]
 offset_right = 390.0

@@ -31,7 +31,7 @@ func refresh() -> void:
 	if title_label:
 		title_label.text = "Дейлики\n%d / %d" % [
 			daily_controller.get_completed_count(),
-			PDataProgress.DAILY_SLOT_COUNT,
+			PData.DAILY_SLOT_COUNT,
 		]
 	_fit_slot_sizes()
 
@@ -45,7 +45,7 @@ func _build_slots() -> void:
 		slots_row.remove_child(child)
 		child.free()
 	_slots.clear()
-	for _index in range(PDataProgress.DAILY_SLOT_COUNT):
+	for _index in range(PData.DAILY_SLOT_COUNT):
 		var slot: DailySlot = slot_scene.instantiate() as DailySlot
 		slots_row.add_child(slot)
 		_slots.append(slot)

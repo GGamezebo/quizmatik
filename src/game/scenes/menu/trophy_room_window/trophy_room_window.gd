@@ -1,6 +1,6 @@
 extends Control
 
-@export var pdata: PDataProgress
+@export var pdata: PData
 @export var stats_list: VBoxContainer
 @export var stat_row_scene: PackedScene
 
@@ -17,7 +17,7 @@ func _rebuild_stats() -> void:
 		stats_list.remove_child(child)
 		child.free()
 
-	var stats: Dictionary = pdata.progress.get("statistics", {})
+	var stats: Dictionary = pdata.statistics.to_dict()
 	for row_data in ProgressStatistics.DISPLAY_ROWS:
 		var key: String = row_data[0]
 		var title: String = row_data[1]

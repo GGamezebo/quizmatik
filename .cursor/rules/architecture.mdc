@@ -116,7 +116,7 @@ Do not drive win/lose with ad-hoc flags outside the FSM.
 - Shared UI widget (button base, dialog, loading) → `src/ui/`
 - Generic reusable utility (no project deps) → `core/lib/`
 - Level data → `src/levels/{container}/`; metadata → `levels_config.gd` / `tools/generate_levels.py`
-- Progress mutations → `ProgressController` / `DailyChallengesController` / `StatisticsController`; disk write only via `RootEvents.ev_save_progress` → `PersistentDataController.save()` (debounced; suppressed during battle; force-flush at battle end / app close)
+- Progress mutations → `ProgressController` / `DailyChallengesController` / `StatisticsController`; disk write only via `RootEvents.ev_save_progress` → `SaveManager.save()` (debounced; suppressed during battle; force-flush at battle end / app close)
 
 ## Cheap-change heuristics
 

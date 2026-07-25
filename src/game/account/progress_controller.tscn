@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dvnnrqop6w6sc"]
 
 [ext_resource type="Script" uid="uid://bpjyr4m3gtxpq" path="res://src/game/account/progress_controller.gd" id="1_8k8ik"]
-[ext_resource type="Resource" uid="uid://jlqn1nvhge6" path="res://src/game/account/progress.tres" id="2_b7kjd"]
+[ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="2_b7kjd"]
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="3_00pro"]
 [ext_resource type="Script" uid="uid://tx3yd3q8p763" path="res://src/common/levels/conditions.gd" id="4_iain2"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="5_root_ev"]
