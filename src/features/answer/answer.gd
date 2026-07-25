@@ -29,6 +29,8 @@ const BALLOON_TINTS: Array[Color] = [
 
 @export var label: Label
 @export var balloon_pop_scene: PackedScene
+@export var animation_time: float = 1.0
+@export var dead_animation_scale: float = 1.5
 @export var _entry_pending: bool = true
 @export var _collision_shape: CollisionShape2D = null
 @export var _sprite: Sprite2D = null
@@ -60,13 +62,18 @@ var _is_entering: bool = false
 var _is_dying: bool = false
 var _base_sprite_scale: Vector2 = Vector2.ONE
 var _base_sprite_offset: Vector2 = Vector2.ZERO
+var _forced_balloon_frame: int = -1
 var _wind_pos: PositionShaker
 var _wind_rot: RotationShaker
 var _wind_scale: ScaleShacker
 
 
 func _ready() -> void:
-	_sprite.frame = randi() % (_sprite.hframes * _sprite.vframes)
+	var frame_count: int = _sprite.hframes * _sprite.vframes
+	if _forced_balloon_frame >= 0:
+		_sprite.frame = _forced_balloon_frame % frame_count
+	else:
+		_sprite.frame = randi() % frame_count
 	_saved_collision_layer = collision_layer
 	_base_sprite_scale = _sprite.scale
 	_base_sprite_offset = _sprite.offset
@@ -75,6 +82,13 @@ func _ready() -> void:
 	_init_wind()
 	if _entry_pending:
 		_begin_entry()
+
+
+func set_balloon_frame(frame: int) -> void:
+	_forced_balloon_frame = frame
+	if _sprite:
+		var frame_count: int = maxi(_sprite.hframes * _sprite.vframes, 1)
+		_sprite.frame = frame % frame_count
 
 func _exit_tree() -> void:
 	ev_killed.emit(self)
@@ -217,29 +231,49 @@ func _disable_collision() -> void:
 	collision_mask = 0
 
 
-func take_damage() -> void:
+func take_damage(play_pop: bool = true) -> void:
 	if _is_dying:
 		return
 	_is_dying = true
 	_disable_collision()
 
-	if label:
-		label.visible = false
+	if play_pop:
+		_play_pop()
+	else:
+		_play_fade_out()
+
+
+func _play_pop() -> void:
 	if _sprite:
 		_sprite.visible = false
 
-	if balloon_pop_scene == null:
-		queue_free()
-		return
+	# Spawn on parent so Answer scale/fade does not squash the pop VFX.
+	if balloon_pop_scene and get_parent():
+		var tint: Color = Color.WHITE
+		if _sprite:
+			tint = BALLOON_TINTS[_sprite.frame % BALLOON_TINTS.size()]
+		var pop_local: Vector2 = _base_sprite_offset * _base_sprite_scale
+		if _visual:
+			pop_local += _visual.position
+		BalloonPop.spawn(
+			balloon_pop_scene,
+			get_parent(),
+			to_global(pop_local),
+			tint,
+		)
 
-	var tint: Color = Color.WHITE
-	if _sprite:
-		tint = BALLOON_TINTS[_sprite.frame % BALLOON_TINTS.size()]
-	var pop_pos: Vector2 = _base_sprite_offset * _base_sprite_scale
-	if _visual:
-		pop_pos += _visual.position
-	var pop: BalloonPop = BalloonPop.spawn(balloon_pop_scene, self, pop_pos, tint)
-	pop.tree_exited.connect(queue_free, CONNECT_ONE_SHOT)
+	# Number keeps the old expand + fade (green/red already set by right()/fail()).
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(self, "modulate:a", 0.0, animation_time)
+	tween.tween_property(self, "scale", scale * dead_animation_scale, animation_time)
+	tween.chain().tween_callback(queue_free)
+
+
+func _play_fade_out() -> void:
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(self, "modulate:a", 0.0, animation_time)
+	tween.tween_property(self, "scale", scale * dead_animation_scale, animation_time)
+	tween.chain().tween_callback(queue_free)
 
 
 func right() -> void:

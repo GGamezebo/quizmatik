@@ -70,7 +70,7 @@ See `battle_concept.png` and gameplay ref `ref_current_battle_hud.png`.
 ## Motion
 
 - Menu: gentle bob on balloons/clouds, soft “paste-on” pops  
-- Battle: balloon sway + float, short pop on hit, light plane motion  
+- Battle: balloon sway + float, short watercolor pop on hit (`balloon_pop_atlas.png`), light plane motion  
 - Prefer 2–3 intentional motions
 
 ## Implementation mapping
@@ -80,6 +80,7 @@ See `battle_concept.png` and gameplay ref `ref_current_battle_hud.png`.
 | Menu layout / windows | `src/game/scenes/menu/` |
 | Battle HUD / world | `src/game/scenes/game/` |
 | Answer look → balloons | `src/features/answer/` (+ art) |
+| Balloon pop VFX | `src/features/answer/balloon_pop.tscn` |
 | Plane / shot | `src/features/plane/`, `shot/` |
 | Theme | `core/theme/` — retarget toward paper buttons over neon StyleBoxes |
 | Background | `src/ui/background/` |

@@ -26,6 +26,7 @@ collision_mask = 0
 script = ExtResource("1_uxhp0")
 label = NodePath("Visual/Label")
 balloon_pop_scene = ExtResource("4_pop")
+animation_time = 1.5
 _collision_shape = NodePath("CollisionShape2D")
 _sprite = NodePath("Visual/Sprite2D")
 _visual = NodePath("Visual")

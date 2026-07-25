@@ -61,7 +61,7 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 		CombatResolver.HitAction.CORRECT:
 			game_events.ev_correct_answer.emit()
 			answer.right()
-			if _round_controller.on_correct_answer():
+			if _round_controller.on_correct_answer(answer):
 				_end_game()
 		CombatResolver.HitAction.WRONG_SHOT:
 			game_events.ev_mistake.emit()
@@ -74,7 +74,7 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 			if _round_controller.has_answer(answer):
 				game_events.ev_mistake.emit()
 				answer.fail()
-				_round_controller.kill_all_answers()
+				_round_controller.kill_all_answers(answer)
 				if CombatResolver.apply_damage(player):
 					_end_game()
 
