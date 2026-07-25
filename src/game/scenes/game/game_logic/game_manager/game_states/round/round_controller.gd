@@ -56,7 +56,7 @@ func update_answer_acceleration(acceleration: float) -> void:
 	for answer in options:
 		answer.set_acceleration(acceleration)
 
-func on_correct_answer() -> bool:
+func on_correct_answer(hit_answer: Answer) -> bool:
 	var is_win: bool = CombatResolver.apply_correct(
 		_player,
 		_game_config,
@@ -64,12 +64,12 @@ func on_correct_answer() -> bool:
 		_base_min_generate,
 		_base_max_generate,
 	)
-	kill_all_answers()
+	kill_all_answers(hit_answer)
 	return is_win
 
-func kill_all_answers() -> void:
+func kill_all_answers(hit_answer: Answer = null) -> void:
 	for option in options.duplicate():
-		option.take_damage()
+		option.take_damage(option == hit_answer)
 
 func _start_round() -> void:
 	_set_question(QuizQuestion.generate_question(_game_config))

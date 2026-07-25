@@ -18,6 +18,7 @@ func deinit() -> void:
 func spawn(question: QuizQuestion.Question, speed: float) -> Array[Answer]:
 	var spawned: Array[Answer] = []
 	var lines: Array = _area.getLines()
+	var color_frames: Array[int] = _unique_balloon_frames(question.options.size())
 
 	for index in range(question.options.size()):
 		var option_value: int = question.options[index]
@@ -26,7 +27,23 @@ func spawn(question: QuizQuestion.Question, speed: float) -> Array[Answer]:
 		var x: float = _area.gameplay_area.end.x + 120.0
 		var y: float = line.position.y + line.size.y / 2.0
 		answer.initialize(x, y, option_value, speed, _area.gameplay_area, line.size.y)
+		answer.set_balloon_frame(color_frames[index])
 		spawned.append(answer)
 		_spawn_parent.add_child.call_deferred(answer)
 
 	return spawned
+
+
+func _unique_balloon_frames(count: int) -> Array[int]:
+	var frames: Array[int] = []
+	for i in Answer.BALLOON_TINTS.size():
+		frames.append(i)
+	frames.shuffle()
+	var unique: Array[int] = []
+	for i in range(mini(count, frames.size())):
+		unique.append(frames[i])
+	# If somehow more balloons than colors, keep going without immediate repeats.
+	while unique.size() < count:
+		frames.shuffle()
+		unique.append(frames[unique.size() % frames.size()])
+	return unique
