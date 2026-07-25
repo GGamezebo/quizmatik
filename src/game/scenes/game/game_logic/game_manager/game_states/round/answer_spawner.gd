@@ -25,7 +25,7 @@ func spawn(question: QuizQuestion.Question, speed: float) -> Array[Answer]:
 		var line: Rect2 = lines[index]
 		var x: float = _area.gameplay_area.end.x + 120.0
 		var y: float = line.position.y + line.size.y / 2.0
-		answer.initialize(x, y, option_value, speed, _area.gameplay_area)
+		answer.initialize(x, y, option_value, speed, _area.gameplay_area, line.size.y)
 		spawned.append(answer)
 		_spawn_parent.add_child.call_deferred(answer)
 

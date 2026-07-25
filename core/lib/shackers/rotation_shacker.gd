@@ -16,7 +16,7 @@ func _init(_rotation_speed :float = 8.0, _rotation_strength :float = 3.0, freque
 
 func update(delta: float) -> void:
 	_time += delta
-	_rotation = deg_to_rad(_noise.get_noise_1d(_time * rotation_speed + 300.0))
+	_rotation = deg_to_rad(_noise.get_noise_1d(_time * rotation_speed + 300.0) * rotation_strength)
 
 func get_rotation_offset() -> float:
 	return _rotation
