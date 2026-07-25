@@ -1,6 +1,6 @@
 extends Control
 
-const SAVE_PATH = "user://training_settings.tres"
+const SAVE_PATH = "user://training_settings.json"
 const BLACK_LIST = [
 		"RefCounted", 
 		"Resource", 
@@ -13,22 +13,25 @@ const BLACK_LIST = [
 
 
 func _ready():
-	var new_config = _load_saved_config()
-	ResourceUtils.update_resource(config, new_config)
 	if config:
+		var result: Dictionary = ResourceUtils.load_json(SAVE_PATH)
+		match int(result["status"]):
+			ResourceUtils.JsonLoadStatus.OK:
+				print("load config: ", SAVE_PATH)
+				ResourceUtils.apply_dict(config, result["data"])
+			ResourceUtils.JsonLoadStatus.CORRUPT:
+				var bak: Dictionary = ResourceUtils.load_json(ResourceUtils.bak_path(SAVE_PATH))
+				if int(bak["status"]) == ResourceUtils.JsonLoadStatus.OK:
+					print("load config from bak: ", ResourceUtils.bak_path(SAVE_PATH))
+					ResourceUtils.apply_dict(config, bak["data"])
+					ResourceUtils.save_json(SAVE_PATH, ResourceUtils.resource_to_dict(config), false)
+				else:
+					push_error("Training settings corrupt, keeping scene defaults: %s" % SAVE_PATH)
 		regenerate_ui()
 
-func _load_saved_config() -> GameConfig:
-	if ResourceLoader.exists(SAVE_PATH):
-		print("load config: ", SAVE_PATH)
-		return load(SAVE_PATH)
-	elif config:
-		print("Clone training room game config")
-		return config.duplicate(true)
-	return null
-
 func _save_config_to_disk():
-	ResourceUtils.save_resource_to_disk(config, SAVE_PATH)
+	if config:
+		ResourceUtils.save_json(SAVE_PATH, ResourceUtils.resource_to_dict(config))
 	
 func regenerate_ui():
 	# Clear old parameter rows

@@ -23,7 +23,7 @@ alwaysApply: false
 
 ## Progress
 
-- Schema: `PDataProgress` → `user://progress.tres`
+- Schema: `PDataProgress` → `user://progress.json` (plain JSON via `ResourceUtils.save_json`/`load_json`, never a `.tres`/Resource)
 - Campaign mutations: `ProgressController` only
 - Daily challenges (UTC day, 5 win-slots): `DailyChallengesController` — any battle win fills one slot
 - Disk write: only `PersistentDataController` (controllers emit `RootEvents.ev_save_progress` → `save()`)
@@ -31,9 +31,13 @@ alwaysApply: false
 - **Never writes during battle** (`ev_battle_started`→`ev_battle_finished`); force-flush at battle end
 - Force-flush on `ev_battle_finished`, app close/back, pause, focus-out
 - Immediate write only for one-time ops: first-run create, migration, `ev_reset_account_progress`
+- **user:// save format is JSON, never `.tres`.** Use `ResourceUtils.save_json` / `load_json` (+ `resource_to_dict`/`apply_dict`); never `ResourceLoader.load`/`ResourceSaver.save` under `user://`
+- `save_json`: atomic write (`path.tmp` → rename) + previous file kept as `path.bak`
+- `load_json` status: `OK` / `MISSING` / `CORRUPT` — on `CORRUPT` try `.bak`, never overwrite a damaged primary with defaults
+- JSON forces String dict keys → restore int keys on load (`PDataProgress.normalize_loaded` for `completed_levels`)
 - Migrations: `PDataMigrator` when `CURRENT_VERSION` bumps
 - Unlock helpers: `LevelsContainerConditions` in `conditions.gd`
-- Settings: `UserSettings` → `user://settings.tres`
+- Settings: `UserSettings` → `user://settings.json` (JSON via `ResourceUtils`)
 
 ## Must
 

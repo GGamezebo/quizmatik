@@ -1,7 +1,7 @@
 class_name UserSettings
 extends Resource
 
-const SAVE_PATH: String = "user://settings.tres"
+const SAVE_PATH: String = "user://settings.json"
 
 @export_category("Audio")
 @export var is_music_mute = false
@@ -13,7 +13,6 @@ const SAVE_PATH: String = "user://settings.tres"
 @export var movement_mode: int = 0
 
 
-func save():
-	var error = ResourceSaver.save(self, SAVE_PATH)
-	if error == OK:
+func save() -> void:
+	if ResourceUtils.save_json(SAVE_PATH, ResourceUtils.resource_to_dict(self)) == OK:
 		print("settings is saved on the disc")
