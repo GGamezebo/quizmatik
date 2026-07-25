@@ -3,16 +3,14 @@
 [ext_resource type="Script" uid="uid://cde7ojvqvt828" path="res://src/ui/background/background.gd" id="1_bgscript"]
 [ext_resource type="Texture2D" uid="uid://jl5tjjusnin3" path="res://src/ui/background/Sky2.png" id="1_jougr"]
 [ext_resource type="Texture2D" uid="uid://cjds8r57pey1g" path="res://src/ui/background/Sky1.png" id="2_cbsqf"]
+[ext_resource type="Texture2D" uid="uid://cky4u4d1m2ian" path="res://src/ui/background/bg_gameplay_sky.png" id="2_ndjld"]
 [ext_resource type="Texture2D" uid="uid://5xved5dnk0eo" path="res://src/ui/background/Sky3.png" id="3_wisxt"]
+[ext_resource type="Shader" path="res://src/ui/background/sky_scroll.gdshader" id="4_skyscroll"]
 
-[sub_resource type="Gradient" id="Gradient_ay0jx"]
-colors = PackedColorArray(0, 0.172549, 1, 1, 0, 0.623529, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_1gw3d"]
-gradient = SubResource("Gradient_ay0jx")
-width = 1280
-height = 720
-fill_from = Vector2(1, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skyscroll"]
+resource_local_to_scene = true
+shader = ExtResource("4_skyscroll")
+shader_parameter/scroll_offset = 0.0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ctueq"]
 particle_flag_disable_z = true
@@ -26,6 +24,7 @@ spread = 0.0
 initial_velocity_min = 25.0
 initial_velocity_max = 75.0
 gravity = Vector3(0, 0, 0)
+scale_min = 0.55
 scale_max = 2.0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dvhti"]
@@ -138,11 +137,12 @@ metadata/logic_bricks_frames = [{
 }]
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=139264846]
+material = SubResource("ShaderMaterial_skyscroll")
 offset_right = 1280.0
 offset_bottom = 720.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("GradientTexture2D_1gw3d")
+texture = ExtResource("2_ndjld")
 expand_mode = 1
 metadata/logic_bricks_graph = {
 "connections": [],

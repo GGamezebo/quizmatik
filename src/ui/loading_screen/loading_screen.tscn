@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cvayb5jfghll4"]
 
 [ext_resource type="Script" uid="uid://besgghwghmqhr" path="res://src/ui/loading_screen/loading_screen.gd" id="1_8cml4"]
+[ext_resource type="Texture2D" uid="uid://ddgge7swn72ld" path="res://src/ui/loading_screen/bg_loading.png" id="2_hdbts"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_a8kcw"]
 font_size = 64
@@ -22,6 +23,12 @@ offset_bottom = 720.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0.46666667, 1, 1)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup" unique_id=1858456992]
+offset_right = 1722.6667
+offset_bottom = 1024.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_hdbts")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup" unique_id=544803380]
 anchors_preset = 8
