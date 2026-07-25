@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cafp7vy16q1kc"]
 
 [ext_resource type="Script" uid="uid://cu637lmffdld0" path="res://src/features/answer/answer.gd" id="1_uxhp0"]
-[ext_resource type="Texture2D" uid="uid://bi4oup4a3y23t" path="res://src/features/answer/blue_ring_140.png" id="2_0rjkt"]
+[ext_resource type="Texture2D" path="res://src/features/answer/balloons_atlas.png" id="2_0rjkt"]
 [ext_resource type="FontFile" uid="uid://ba0ye0eys0i2v" path="res://assets/fonts/Oswald-Bold.ttf" id="3_font"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_73wma"]
@@ -29,7 +29,11 @@ _collision_shape = NodePath("CollisionShape2D")
 _sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1225723819]
+scale = Vector2(0.69, 0.69)
 texture = ExtResource("2_0rjkt")
+offset = Vector2(0, 18)
+hframes = 5
+vframes = 3
 
 [node name="Label" type="Label" parent="." unique_id=695334285]
 offset_left = -36.0

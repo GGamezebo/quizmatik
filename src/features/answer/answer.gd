@@ -32,6 +32,7 @@ var _is_entering: bool = false
 
 
 func _ready() -> void:
+	_sprite.frame = randi() % (_sprite.hframes * _sprite.vframes)
 	_saved_collision_layer = collision_layer
 	var shape: CircleShape2D = _collision_shape.shape as CircleShape2D
 	if shape:
@@ -50,8 +51,6 @@ func _process(delta: float) -> void:
 
 	if position.x < -100:
 		queue_free()
-
-	_sprite.rotation += delta
 
 
 func initialize(x: float, y: float, new_value: int, _speed: float, gameplay_area: Rect2) -> void:
