@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cu637lmffdld0" path="res://src/features/answer/answer.gd" id="1_uxhp0"]
 [ext_resource type="Texture2D" path="res://src/features/answer/balloons_atlas.png" id="2_0rjkt"]
 [ext_resource type="FontFile" uid="uid://ba0ye0eys0i2v" path="res://assets/fonts/Oswald-Bold.ttf" id="3_font"]
+[ext_resource type="PackedScene" path="res://src/features/answer/balloon_pop.tscn" id="4_pop"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_73wma"]
 resource_local_to_scene = true
@@ -19,27 +20,30 @@ stacked_outline_0/color = Color(1, 0, 0.8352941, 1)
 [sub_resource type="CircleShape2D" id="CircleShape2D_pm5v5"]
 radius = 64.0
 
-[node name="Answer" type="Area2D" unique_id=1255482807 node_paths=PackedStringArray("label", "_collision_shape", "_sprite") groups=["answers"]]
+[node name="Answer" type="Area2D" unique_id=1255482807 node_paths=PackedStringArray("label", "_collision_shape", "_sprite", "_visual") groups=["answers"]]
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_uxhp0")
-label = NodePath("Label")
-animation_time = 1.5
+label = NodePath("Visual/Label")
+balloon_pop_scene = ExtResource("4_pop")
 _collision_shape = NodePath("CollisionShape2D")
-_sprite = NodePath("Sprite2D")
+_sprite = NodePath("Visual/Sprite2D")
+_visual = NodePath("Visual")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1225723819]
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visual" unique_id=1225723819]
 scale = Vector2(0.69, 0.69)
 texture = ExtResource("2_0rjkt")
 offset = Vector2(0, 18)
 hframes = 5
 vframes = 3
 
-[node name="Label" type="Label" parent="." unique_id=695334285]
+[node name="Label" type="Label" parent="Visual" unique_id=695334285]
 offset_left = -36.0
-offset_top = -36.0
+offset_top = -28.0
 offset_right = 36.0
-offset_bottom = 36.0
+offset_bottom = 44.0
 text = "12"
 label_settings = SubResource("LabelSettings_73wma")
 horizontal_alignment = 1

@@ -12,6 +12,6 @@ Must match:
 
 - **Style:** watercolor papercraft (`ref_style_paper_sky.png`) — not cyan neon
 - **Menu layout:** Jet Math–style (`ref_layout_jetmath.png`) — 2 bottom CTAs + right utilities + center mascot
-- **Battle:** horizontal flight (plane left → right), 4 horizontal lanes, round paper balloons (`ref_answer_balloon.png`), Paper Sky style (`battle_concept.png`)
+- **Battle:** horizontal flight (plane left → right), 4 horizontal lanes, round paper balloons (`ref_answer_balloon.png`), short watercolor balloon pop (`balloon_pop_atlas.png`), Paper Sky style (`battle_concept.png`)
 
 Frames: `concepts/menu_concept.png`, `concepts/battle_concept.png`.
