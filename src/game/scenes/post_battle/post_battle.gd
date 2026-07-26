@@ -1,15 +1,14 @@
 class_name PostBattleScene
 extends IScene
 
-const STAR_FILLED_COLOR := Color(1.0, 0.84, 0.2, 1.0)
-const STAR_EMPTY_COLOR := Color(0.35, 0.42, 0.55, 0.45)
-
 @export_category('Major components')
 @export var root_events: RootEvents
 @export var progress: ProgressController
 @export var title_label: Label
 @export var score_label: Label
 @export var stars: Array[TextureRect] = []
+@export var star_empty: Texture2D
+@export var star_filled: Texture2D
 @export_group('Buttons')
 @export var next_level_button: Button
 @export var menu_button: Button
@@ -81,7 +80,8 @@ func _show_stars(count: int) -> void:
 		var is_filled: bool = index < count
 		star.visible = true
 		star.scale = Vector2.ONE
-		star.modulate = STAR_FILLED_COLOR if is_filled else STAR_EMPTY_COLOR
+		star.modulate = Color.WHITE
+		star.texture = star_filled if is_filled else star_empty
 
 
 func _setup_next_level_button(is_win: bool) -> void:
