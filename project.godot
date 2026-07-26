@@ -15,6 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="quizmatic"
+config/version="0.1.0"
 run/main_scene="uid://ddo0h56tnwsk1"
 config/features=PackedStringArray("4.7", "Mobile")
 
@@ -27,6 +28,8 @@ buses/default_bus_layout="uid://dhqwa53ij6mjm"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=4
 
 [dotnet]
 
@@ -63,3 +66,4 @@ shoot={
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

@@ -5,6 +5,7 @@ extends IScene
 @export var root_events: RootEvents
 @export var progress_controller: ProgressController
 @export var daily_challenges_controller: DailyChallengesController
+@export var music_player: AudioStreamPlayer
 
 var _listener: EventListener = EventListener.new()
 
@@ -13,6 +14,11 @@ func initialize(_data: Dictionary) -> void:
 	_listener.add(root_events.ev_start_game, _on_ev_start_game)
 	_listener.add(root_events.ev_exit_game, _on_ev_exit_game)
 	_listener.add(root_events.ev_return_to_menu, _on_ev_return_to_menu)
+	
+	if OS.has_feature("web"):
+		add_event("ev.open_web", {"music_player": music_player})
+		
+	music_player.play()
 
 func deinit() -> void:
 	_listener.deinit()
