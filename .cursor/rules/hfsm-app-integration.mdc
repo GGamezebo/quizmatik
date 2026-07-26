@@ -10,15 +10,26 @@ alwaysApply: false
 
 - Entry: `main.tscn` → `src/game/main.gd` boots HFSM (host for `HfsmSceneRegistry`)
 - Config: `@export_file hfsm_config_path` → `src/game/hfsm/app_hfsm.json`
-- Paths: `HfsmScenePaths` (`class_name`); entity bindings `{}` until needed
+- Paths: `HfsmScenePaths` (`class_name`); entity bindings registered in `main.gd`
 - Start HFSM after 2 idle frames
 
 ## Scenes (owned by HFSM)
 
 - Root `App` mounts `app_root` → `app_root/root.tscn` (account/progress/music + RootEvents bridge)
+- `scene.on_event`: `ev.open_menu` (Menu)
 - Phase scenes: `menu` / `game` / `post_battle`
 - Bridge: `RootEvents.ev_*` → `hfsm.add_event(...)` lives on **app_root** scene — not on `main.gd`
 - No `AppRootEntity.host` — app root is a normal `IScene`
+
+## Platform BoundEntity contexts
+
+- `AppRoot.initialize()` emits `ev.open_web` only when `OS.has_feature("web")`
+- Event payload includes `music_player`; `AppRoot` also calls `music_player.play()`
+- Nested `WEB` state enters on `ev.open_web` and binds `"context": "WEBContext"`
+- Register slot in `main.gd`: `{ "context": { "WEBContext": WEBContext } }`
+- `WEBContext` lives at `src/game/hfsm/contexts/web_context.gd`
+- Keep all light HTML5-only hooks in `WEBContext`; do not name it after one feature such as music
+- Heavy UI stays in scenes; BoundEntity contexts must not mount scenes
 
 ## Menu UI
 

@@ -7,6 +7,10 @@
 				"enter": ["ev.open_menu"],
 				"leave": ["ev.start_game"],
 			},
+			"WEB": {
+				"context": "WEBContext",
+				"enter": ["ev.open_web"],
+			},
 			"Battle": {
 				"scene": { "id": "game", "loading_screen": true },
 				"enter": ["ev.start_game"],

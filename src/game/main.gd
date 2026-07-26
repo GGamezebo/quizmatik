@@ -17,7 +17,9 @@ func _ready() -> void:
 func _start_hfsm_when_ready() -> void:
 	_hfsm = HFSM.new(
 		HfsmLoader.load_tree(_hfsm_config_path),
-		{},
+		{
+			"context": { "WEBContext": WEBContext },
+		},
 		{
 			"host": self,
 			"paths": _scene_paths.SCENES,

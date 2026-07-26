@@ -24,11 +24,12 @@ glow_blend_mode = 0
 
 [sub_resource type="Compositor" id="Compositor_1bvp3"]
 
-[node name="AppRoot" type="Node" unique_id=74498543 node_paths=PackedStringArray("progress_controller", "daily_challenges_controller")]
+[node name="AppRoot" type="Node" unique_id=74498543 node_paths=PackedStringArray("progress_controller", "daily_challenges_controller", "music_player")]
 script = ExtResource("1_main")
 root_events = ExtResource("8_dg77c")
 progress_controller = NodePath("Account/ProgressController")
 daily_challenges_controller = NodePath("Account/DailyChallengesController")
+music_player = NodePath("MusicPlayer")
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="." unique_id=1055067511]
 resources = [PackedStringArray("levels"), [ExtResource("2_kek77")]]
@@ -62,8 +63,8 @@ game_events = ExtResource("10_game_events")
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=205950014]
 stream = ExtResource("7_5vw27")
 volume_db = -7.69
-autoplay = true
 bus = &"Music"
+playback_type = 1
 parameters/looping = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1266379388]
