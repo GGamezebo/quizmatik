@@ -5,7 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://dvy13cfq73jxs" path="res://src/ui/background/background.tscn" id="3_bg"]
 [ext_resource type="Resource" uid="uid://dsqbcw3nqv3lc" path="res://src/common/game_config_default.tres" id="3_isyvk"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="4_progress"]
-[ext_resource type="Texture2D" uid="uid://c8c6ld7mnpu8l" path="res://assets/star.svg" id="5_star"]
+[ext_resource type="Texture2D" uid="uid://dj5bxtw0dw0ke" path="res://assets/ui/icons/star_empty.png" id="5_star_empty"]
+[ext_resource type="Texture2D" uid="uid://clq8x5grir3ri" path="res://assets/ui/icons/star_filled.png" id="6_star_filled"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_overlay"]
@@ -53,6 +54,8 @@ progress = NodePath("ProgressController")
 title_label = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Title")
 score_label = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Score")
 stars = [NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow/Star1"), NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow/Star2"), NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow/Star3")]
+star_empty = ExtResource("5_star_empty")
+star_filled = ExtResource("6_star_filled")
 next_level_button = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/NextLevel")
 menu_button = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Menu")
 repeat_button = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Repeat")
@@ -121,27 +124,27 @@ horizontal_alignment = 1
 
 [node name="StarsRow" type="HBoxContainer" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1661167855]
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="Star1" type="TextureRect" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow" unique_id=1069630170]
-custom_minimum_size = Vector2(72, 72)
+custom_minimum_size = Vector2(40, 28)
 layout_mode = 2
-texture = ExtResource("5_star")
+texture = ExtResource("5_star_empty")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Star2" type="TextureRect" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow" unique_id=1301149994]
-custom_minimum_size = Vector2(72, 72)
+custom_minimum_size = Vector2(40, 28)
 layout_mode = 2
-texture = ExtResource("5_star")
+texture = ExtResource("5_star_empty")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Star3" type="TextureRect" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow" unique_id=165744862]
-custom_minimum_size = Vector2(72, 72)
+custom_minimum_size = Vector2(40, 28)
 layout_mode = 2
-texture = ExtResource("5_star")
+texture = ExtResource("5_star_empty")
 expand_mode = 1
 stretch_mode = 5
 

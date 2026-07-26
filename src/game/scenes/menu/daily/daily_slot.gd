@@ -4,9 +4,8 @@ extends PanelContainer
 ## Display-only daily challenge slot (not interactive).
 
 @export var mark: TextureRect
-
-const EMPTY_MODULATE := Color(0.35, 0.4, 0.55, 0.4)
-const FILLED_MODULATE := Color(1.0, 0.92, 0.55, 1.0)
+@export var star_empty: Texture2D
+@export var star_filled: Texture2D
 
 
 func _ready() -> void:
@@ -15,4 +14,5 @@ func _ready() -> void:
 
 
 func set_filled(filled: bool) -> void:
-	mark.modulate = FILLED_MODULATE if filled else EMPTY_MODULATE
+	mark.texture = star_filled if filled else star_empty
+	mark.modulate = Color.WHITE

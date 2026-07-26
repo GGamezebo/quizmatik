@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://c5lvxj06c7cww"]
 
 [ext_resource type="Script" uid="uid://tfrrmqoqw5gp" path="res://src/game/scenes/menu/levels/level.gd" id="1_106m3"]
-[ext_resource type="Texture2D" uid="uid://c8c6ld7mnpu8l" path="res://assets/star.svg" id="1_ce0mg"]
+[ext_resource type="Texture2D" uid="uid://dj5bxtw0dw0ke" path="res://assets/ui/icons/star_empty.png" id="2_star_empty"]
+[ext_resource type="Texture2D" uid="uid://clq8x5grir3ri" path="res://assets/ui/icons/star_filled.png" id="3_star_filled"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [node name="Level" type="Button" unique_id=1224477009 node_paths=PackedStringArray("text_lable", "stars")]
@@ -13,6 +14,8 @@ theme = ExtResource("theme_ui")
 script = ExtResource("1_106m3")
 text_lable = NodePath("text")
 stars = [NodePath("HBoxContainer/star1"), NodePath("HBoxContainer/star2"), NodePath("HBoxContainer/star3")]
+star_empty = ExtResource("2_star_empty")
+star_filled = ExtResource("3_star_filled")
 
 [node name="text" type="Label" parent="." unique_id=1806930391]
 layout_mode = 1
@@ -39,26 +42,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = -5
+theme_override_constants/separation = -2
 alignment = 1
 
 [node name="star1" type="TextureRect" parent="HBoxContainer" unique_id=115954102]
-custom_minimum_size = Vector2(22, 22)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
-texture = ExtResource("1_ce0mg")
+texture = ExtResource("2_star_empty")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="star2" type="TextureRect" parent="HBoxContainer" unique_id=132915066]
-custom_minimum_size = Vector2(22, 22)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
-texture = ExtResource("1_ce0mg")
+texture = ExtResource("2_star_empty")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="star3" type="TextureRect" parent="HBoxContainer" unique_id=1801431797]
-custom_minimum_size = Vector2(22, 22)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
-texture = ExtResource("1_ce0mg")
+texture = ExtResource("2_star_empty")
 expand_mode = 1
 stretch_mode = 5
