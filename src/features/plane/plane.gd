@@ -100,7 +100,13 @@ func _disable() -> void:
 	set_process_input(false)
 	set_process_unhandled_input(false)
 	_disable_collision()
-	
+	_stop()
+
+func _stop() -> void:
+	direction_y = 0
+	for component in directionComponents:
+		component.setDirection(0)
+
 func die_animation() -> void:
 	_disable()
 	
