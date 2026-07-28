@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://dvy13cfq73jxs"]
 
 [ext_resource type="Script" uid="uid://cde7ojvqvt828" path="res://src/ui/background/background.gd" id="1_bgscript"]
-[ext_resource type="Texture2D" uid="uid://jl5tjjusnin3" path="res://src/ui/background/Sky2.png" id="1_jougr"]
-[ext_resource type="Texture2D" uid="uid://cjds8r57pey1g" path="res://src/ui/background/Sky1.png" id="2_cbsqf"]
+[ext_resource type="Texture2D" uid="uid://bo30du3miv3ts" path="res://src/ui/background/cloud_notebook_a.png" id="1_jougr"]
+[ext_resource type="Texture2D" uid="uid://d0h8hijgl2hm8" path="res://src/ui/background/cloud_notebook_b.png" id="2_cbsqf"]
 [ext_resource type="Texture2D" uid="uid://cky4u4d1m2ian" path="res://src/ui/background/bg_gameplay_sky.png" id="2_ndjld"]
-[ext_resource type="Texture2D" uid="uid://5xved5dnk0eo" path="res://src/ui/background/Sky3.png" id="3_wisxt"]
+[ext_resource type="Texture2D" uid="uid://dok2i4isw0tyf" path="res://src/ui/background/cloud_notebook_c.png" id="3_wisxt"]
 [ext_resource type="Shader" path="res://src/ui/background/sky_scroll.gdshader" id="4_skyscroll"]
+[ext_resource type="PackedScene" path="res://src/features/ink_blot/ink_blot.tscn" id="6_ink"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_skyscroll"]
 resource_local_to_scene = true
@@ -24,8 +25,8 @@ spread = 0.0
 initial_velocity_min = 25.0
 initial_velocity_max = 75.0
 gravity = Vector3(0, 0, 0)
-scale_min = 0.55
-scale_max = 2.0
+scale_min = 0.9
+scale_max = 2.8
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dvhti"]
 particle_flag_disable_z = true
@@ -39,8 +40,8 @@ spread = 0.0
 initial_velocity_min = 100.0
 initial_velocity_max = 250.0
 gravity = Vector3(0, 0, 0)
-scale_min = 0.8
-scale_max = 1.3
+scale_min = 1.2
+scale_max = 2.0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4312q"]
 particle_flag_disable_z = true
@@ -54,11 +55,12 @@ spread = 0.0
 initial_velocity_min = 50.0
 initial_velocity_max = 1000.0
 gravity = Vector3(0, 0, 0)
-scale_min = 0.3
-scale_max = 1.1
+scale_min = 0.5
+scale_max = 1.6
 
 [node name="Background" type="Node2D" unique_id=1217069396]
 script = ExtResource("1_bgscript")
+ink_blot_scene = ExtResource("6_ink")
 metadata/logic_bricks_graph = {
 "connections": [],
 "next_id": 0,
@@ -221,7 +223,10 @@ metadata/logic_bricks_frames = [{
 "title": "New Frame"
 }]
 
+[node name="InkLayer" type="Node2D" parent="."]
+
 [node name="SlowestClouds" type="GPUParticles2D" parent="." unique_id=718439702]
+modulate = Color(1, 1, 1, 0.08)
 position = Vector2(1800, 360)
 amount = 6
 texture = ExtResource("1_jougr")
@@ -307,6 +312,7 @@ metadata/logic_bricks_frames = [{
 }]
 
 [node name="SlowClouds" type="GPUParticles2D" parent="." unique_id=842146306]
+modulate = Color(1, 1, 1, 0.07)
 position = Vector2(1800, 360)
 amount = 5
 texture = ExtResource("2_cbsqf")
@@ -392,6 +398,7 @@ metadata/logic_bricks_frames = [{
 }]
 
 [node name="FastClouds" type="GPUParticles2D" parent="." unique_id=800638798]
+modulate = Color(1, 1, 1, 0.06)
 position = Vector2(1800, 360)
 amount = 20
 texture = ExtResource("3_wisxt")

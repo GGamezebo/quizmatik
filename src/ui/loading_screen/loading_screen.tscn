@@ -2,6 +2,10 @@
 
 [ext_resource type="Script" uid="uid://besgghwghmqhr" path="res://src/ui/loading_screen/loading_screen.gd" id="1_8cml4"]
 [ext_resource type="Texture2D" uid="uid://ddgge7swn72ld" path="res://src/ui/loading_screen/bg_loading.png" id="2_hdbts"]
+[ext_resource type="Shader" path="res://src/ui/background/grayscale_texture.gdshader" id="3_gray"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gray"]
+shader = ExtResource("3_gray")
 
 [sub_resource type="LabelSettings" id="LabelSettings_a8kcw"]
 font_size = 64
@@ -22,9 +26,10 @@ offset_right = 1280.0
 offset_bottom = 720.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0.46666667, 1, 1)
+color = Color(0.22, 0.22, 0.22, 1)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasGroup" unique_id=1858456992]
+material = SubResource("ShaderMaterial_gray")
 offset_right = 1722.6667
 offset_bottom = 1024.0
 scale = Vector2(0.75, 0.75)

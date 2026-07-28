@@ -11,7 +11,10 @@ Before changing menu/battle look, read `concepts/ART_DIRECTION.md`.
 Must match:
 
 - **Style:** watercolor papercraft (`ref_style_paper_sky.png`) — not cyan neon
+- **Backgrounds:** sky + clouds are **grayscale** via shaders on `Background` (`sky_scroll` / `grayscale_texture`); gameplay / UI accents stay colored
 - **Menu layout:** Jet Math–style (`ref_layout_jetmath.png`) — 2 bottom CTAs + right utilities + center mascot
 - **Battle:** horizontal flight (plane left → right), 4 horizontal lanes, round paper balloons (`ref_answer_balloon.png`), short watercolor balloon pop (`balloon_pop_atlas.png`), Paper Sky style (`battle_concept.png`)
 
 Frames: `concepts/menu_concept.png`, `concepts/battle_concept.png`.
+
+Unused exploratory pack: `concepts/notebook_pencil/` (pencil-on-grid) — do not wire in unless asked.
