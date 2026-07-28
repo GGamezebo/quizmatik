@@ -6,17 +6,17 @@
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot"]
-bg_color = Color(0.03, 0.07, 0.18, 0.88)
+bg_color = Color(0.953, 0.902, 0.784, 0.95)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.92, 0.74, 0.28, 0.75)
+border_color = Color(0.165, 0.2, 0.251, 0.9)
 corner_radius_top_left = 10
 corner_radius_top_right = 6
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 6
-shadow_color = Color(0.15, 0.55, 0.95, 0.2)
+shadow_color = Color(0.15, 0.12, 0.08, 0.2)
 shadow_size = 4
 
 [node name="DailySlot" type="PanelContainer" node_paths=PackedStringArray("mark")]

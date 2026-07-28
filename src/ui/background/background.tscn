@@ -5,13 +5,24 @@
 [ext_resource type="Texture2D" uid="uid://d0h8hijgl2hm8" path="res://src/ui/background/cloud_notebook_b.png" id="2_cbsqf"]
 [ext_resource type="Texture2D" uid="uid://cky4u4d1m2ian" path="res://src/ui/background/bg_gameplay_sky.png" id="2_ndjld"]
 [ext_resource type="Texture2D" uid="uid://dok2i4isw0tyf" path="res://src/ui/background/cloud_notebook_c.png" id="3_wisxt"]
-[ext_resource type="Shader" path="res://src/ui/background/sky_scroll.gdshader" id="4_skyscroll"]
+[ext_resource type="Shader" uid="uid://dbory75vd2otg" path="res://src/ui/background/sky_scroll.gdshader" id="4_skyscroll"]
 [ext_resource type="PackedScene" path="res://src/features/ink_blot/ink_blot.tscn" id="6_ink"]
+[ext_resource type="Texture2D" path="res://src/ui/background/sketches/01_sleepy_desk.jpg" id="sk01"]
+[ext_resource type="Texture2D" path="res://src/ui/background/sketches/02_paper_airplane.jpg" id="sk02"]
+[ext_resource type="Texture2D" path="res://src/ui/background/sketches/03_called_to_board.jpg" id="sk03"]
+[ext_resource type="Texture2D" path="res://src/ui/background/sketches/04_diary_grade.jpg" id="sk04"]
+[ext_resource type="Texture2D" path="res://src/ui/background/sketches/05_last_lesson_clock.jpg" id="sk05"]
+[ext_resource type="Texture2D" path="res://src/ui/background/sketches/06_eraser_war.jpg" id="sk06"]
+[ext_resource type="Texture2D" path="res://src/ui/background/sketches/07_late_to_school.jpg" id="sk07"]
+[ext_resource type="Texture2D" path="res://src/ui/background/sketches/08_cheat_sheet.jpg" id="sk08"]
+[ext_resource type="Texture2D" path="res://src/ui/background/sketches/09_canteen_chaos.jpg" id="sk09"]
+[ext_resource type="Texture2D" path="res://src/ui/background/sketches/10_pe_fail.jpg" id="sk10"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_skyscroll"]
 resource_local_to_scene = true
 shader = ExtResource("4_skyscroll")
 shader_parameter/scroll_offset = 0.0
+shader_parameter/color_amount = 0.0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ctueq"]
 particle_flag_disable_z = true
@@ -60,6 +71,7 @@ scale_max = 1.6
 
 [node name="Background" type="Node2D" unique_id=1217069396]
 script = ExtResource("1_bgscript")
+sky_textures = Array[Texture2D]([ExtResource("sk01"), ExtResource("sk02"), ExtResource("sk03"), ExtResource("sk04"), ExtResource("sk05"), ExtResource("sk06"), ExtResource("sk07"), ExtResource("sk08"), ExtResource("sk09"), ExtResource("sk10")])
 ink_blot_scene = ExtResource("6_ink")
 metadata/logic_bricks_graph = {
 "connections": [],
@@ -223,7 +235,7 @@ metadata/logic_bricks_frames = [{
 "title": "New Frame"
 }]
 
-[node name="InkLayer" type="Node2D" parent="."]
+[node name="InkLayer" type="Node2D" parent="." unique_id=2022859538]
 
 [node name="SlowestClouds" type="GPUParticles2D" parent="." unique_id=718439702]
 modulate = Color(1, 1, 1, 0.08)
@@ -482,3 +494,8 @@ metadata/logic_bricks_frames = [{
 "size": Vector2(400, 300),
 "title": "New Frame"
 }]
+
+[node name="Parallax2D" type="Parallax2D" parent="." unique_id=259063948]
+scroll_offset = Vector2(11, 0)
+ignore_camera_scroll = true
+screen_offset = Vector2(55, 0)

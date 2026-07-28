@@ -16,29 +16,28 @@ Exploratory alt pack (unused): `concepts/notebook_pencil/` — colored-pencil on
 
 ## Mood
 
-Handmade kids’ sky adventure: cut paper, soft shadows, cheerful — not neon arcade, not grim sci‑fi.
+Handmade kids’ notebook adventure: graphite pencil on grid paper, cream parchment UI — not neon arcade, not grim sci‑fi.
 
 ## Palette
 
 | Token | Approx | Use |
 |-------|--------|-----|
-| Sky wash | grayscale sky / clouds | Background shaders (`sky_scroll`, cloud grayscale) |
-| Cloud paper | grayscale paper cutouts | Layered sky particles |
-| Cream parchment | `#F3E6C8` | Quest notes, question banner |
-| CTA purple | `#6B4FA2` | Adventure button |
-| CTA green | `#3FA86A` | Practice button |
-| Accent warm | `#F0C94A` | Sun, stars, plates |
-| Ink | `#2A3340` | Titles / numbers (high contrast) |
+| Cream parchment | `#F3E6C8` | Buttons, panels, quest notes |
+| Ink graphite | `#2A3340` | Titles, button text, borders |
+| Paper hover | `#FAF0DB` | Button hover fill |
+| Paper pressed | `#E0D1B3` | Button pressed fill |
+| Accent warm | `#F0C94A` | Stars / highlights |
 | Heart red | `#E85A5A` | Health |
+| Win green | `#38704D` | Post-battle win title |
+| Lose red | `#B34742` | Post-battle lose title |
 
 Avoid as primary look: cyan neon HUD, purple-on-white AI gradients, flat Material cards.
 
 ## Materials & edges
 
-- Textured paper grain, watercolor blotches
-- Irregular / torn / hand-cut edges on panels and buttons
-- Soft drop shadows between layers (papercraft depth)
-- Stickers, pins, origami birds OK as decoration — sparingly
+- Cream paper fills with graphite outlines (theme `core/theme/style.tres`)
+- Soft drop shadows like sticker depth on notebook
+- Stickers, pins OK as decoration — sparingly
 
 ## Main menu layout (required)
 
@@ -85,7 +84,7 @@ See `battle_concept.png` and gameplay ref `ref_current_battle_hud.png`.
 | Balloon pop VFX | `src/features/answer/balloon_pop.tscn` |
 | Plane / shot / ink trail | `src/features/plane/`, `shot/`, `ink_blot/` |
 
-| Theme | `core/theme/` — retarget toward paper buttons over neon StyleBoxes |
+| Theme | `core/theme/` — cream paper + graphite ink (`style.tres`) |
 | Background | `src/ui/background/` |
 
 ## Rules for agents

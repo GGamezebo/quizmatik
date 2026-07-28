@@ -3,16 +3,19 @@
 [ext_resource type="Resource" uid="uid://ceumjd7gvwho" path="res://src/game/scenes/menu/menu_events.tres" id="2_0qy20"]
 [ext_resource type="Script" uid="uid://dg2v2xjnvp2di" path="res://src/game/scenes/settings_window/settings_window.gd" id="2_vrugg"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="3_0qy20"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
-colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 0.072000004)
+colors = PackedColorArray(0.165, 0.2, 0.251, 0.5, 0.953, 0.902, 0.784, 0.06)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ux2mn"]
 gradient = SubResource("Gradient_cjfjs")
 
 [sub_resource type="LabelSettings" id="LabelSettings_35kkh"]
 font_size = 64
-font_color = Color(0, 1, 1, 1)
+font_color = Color(0.165, 0.2, 0.251, 1)
+outline_size = 8
+outline_color = Color(0.98, 0.95, 0.9, 0.95)
 
 [node name="SettingsWindow" type="Control" unique_id=916521375]
 layout_mode = 3
@@ -21,6 +24,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("theme_ui")
 script = ExtResource("2_vrugg")
 menu_events = ExtResource("2_0qy20")
 root_events = ExtResource("3_0qy20")

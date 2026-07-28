@@ -19,9 +19,12 @@ Hand-drawn **colored pencil + graphite on school grid paper** (see `battle_conce
 | `battle_concept_ref.png` | Full battle mockup (source concept) |
 | `bg_grid_paper.png` | Grid-paper background (opaque RGB) |
 | `clouds_atlas.png` | Cloud sheet, **RGBA** transparent; trial: 3 slices → `src/ui/background/cloud_notebook_*.png` |
-| `ui_atlas.png` | Score scrap, question banner, hearts — **RGBA**; battle HUD uses slices in `src/ui/hud/` |
+| `ui_atlas.png` | Score scrap, question banner, hearts — **RGBA** |
 | `balloons_atlas.png` | **16** blank balloons (4×4), no strings, no numbers — **RGBA**; pencil style + `BALLOON_TINTS` order |
 | `plane_idle.png` / `plane_up.png` / `plane_down.png` | Same 3 orientations as `src/features/plane/`, notebook style — **RGBA** |
+| `bg_gameplay_sky.png` | Pencil landscape on grid paper (style ref for sketches) |
+| `bg_sketches/` | 10 hand-colored school sketches; battle reveals paint with score (`color_amount`) |
+| `bg_parallax/` | 5 transparent stack layers for parallax |
 | `_process_assets.py` | Optional regen helper (chroma-key + balloon atlas) |
 
 ## Balloon colors
