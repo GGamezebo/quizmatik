@@ -109,9 +109,13 @@ player = NodePath("../Player")
 restart_button = NodePath("RightPanel/ActionButtons/Restart")
 exit_button = NodePath("RightPanel/ActionButtons/Exit")
 
-[node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]
+[node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl") node_paths=PackedStringArray("player")]
 position = Vector2(-3, 24)
 sky_scroll_speed = 0.02
+paint_from_score = true
+player = NodePath("../../Player")
+game_config = ExtResource("2_j4hd0")
+paint_tween_seconds = 0.7
 ink_blot_scene = ExtResource("13_ink")
 
 [node name="TopLeftPanel" type="MarginContainer" parent="HUD" unique_id=173333125]

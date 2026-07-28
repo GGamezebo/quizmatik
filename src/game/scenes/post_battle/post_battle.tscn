@@ -24,28 +24,28 @@ content_margin_left = 40.0
 content_margin_top = 36.0
 content_margin_right = 40.0
 content_margin_bottom = 36.0
-bg_color = Color(0.04, 0.1, 0.24, 0.88)
+bg_color = Color(0.953, 0.902, 0.784, 0.96)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(0.25, 0.72, 1, 0.75)
+border_color = Color(0.165, 0.2, 0.251, 1)
 corner_radius_top_left = 28
 corner_radius_top_right = 28
 corner_radius_bottom_right = 28
 corner_radius_bottom_left = 28
-shadow_color = Color(0.1, 0.45, 0.9, 0.35)
+shadow_color = Color(0.15, 0.12, 0.08, 0.28)
 shadow_size = 18
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font_size = 56
-font_color = Color(0.45, 1, 1, 1)
+font_color = Color(0.165, 0.2, 0.251, 1)
 outline_size = 6
-outline_color = Color(0.02, 0.18, 0.35, 0.9)
+outline_color = Color(0.98, 0.95, 0.9, 0.95)
 
 [sub_resource type="LabelSettings" id="LabelSettings_score"]
 font_size = 28
-font_color = Color(0.82, 0.93, 1, 1)
+font_color = Color(0.28, 0.32, 0.38, 1)
 
 [node name="PostBattleScene" type="Node" unique_id=1710544667 node_paths=PackedStringArray("progress", "title_label", "score_label", "stars", "next_level_button", "menu_button", "repeat_button")]
 script = ExtResource("1_uxaqq")

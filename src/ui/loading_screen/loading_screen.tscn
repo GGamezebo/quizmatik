@@ -9,7 +9,9 @@ shader = ExtResource("3_gray")
 
 [sub_resource type="LabelSettings" id="LabelSettings_a8kcw"]
 font_size = 64
-font_color = Color(0, 1, 1, 1)
+font_color = Color(0.165, 0.2, 0.251, 1)
+outline_size = 8
+outline_color = Color(0.98, 0.95, 0.9, 0.95)
 
 [node name="LoadingScreen" type="CanvasLayer" unique_id=1540173069 node_paths=PackedStringArray("progress_bar", "background")]
 script = ExtResource("1_8cml4")

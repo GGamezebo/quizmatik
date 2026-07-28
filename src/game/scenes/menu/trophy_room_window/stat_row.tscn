@@ -2,11 +2,11 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_row_title"]
 font_size = 28
-font_color = Color(0.75, 0.92, 1, 1)
+font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_row_value"]
 font_size = 28
-font_color = Color(1, 0.95, 0.55, 1)
+font_color = Color(0.45, 0.35, 0.18, 1)
 
 [node name="StatRow" type="HBoxContainer"]
 layout_mode = 2

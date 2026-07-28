@@ -63,7 +63,7 @@ func deinit() -> void:
 func _update_results(is_win: bool, score: int, max_score: int, stars_count: int) -> void:
 	title_label.text = "ПОБЕДНЫЙ ПОЛЁТ!" if is_win else "ПОСАДКА..."
 	var title_settings: LabelSettings = title_label.label_settings.duplicate()
-	title_settings.font_color = Color(0.45, 1.0, 1.0, 1.0) if is_win else Color(1.0, 0.55, 0.55, 1.0)
+	title_settings.font_color = Color(0.22, 0.42, 0.3, 1.0) if is_win else Color(0.7, 0.28, 0.26, 1.0)
 	title_label.label_settings = title_settings
 
 	if max_score > 0:

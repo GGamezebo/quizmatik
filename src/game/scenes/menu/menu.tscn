@@ -24,14 +24,16 @@
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
-colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 0.072000004)
+colors = PackedColorArray(0.165, 0.2, 0.251, 0.5, 0.953, 0.902, 0.784, 0.06)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ux2mn"]
 gradient = SubResource("Gradient_cjfjs")
 
 [sub_resource type="LabelSettings" id="LabelSettings_35kkh"]
 font_size = 64
-font_color = Color(0, 1, 1, 1)
+font_color = Color(0.165, 0.2, 0.251, 1)
+outline_size = 8
+outline_color = Color(0.98, 0.95, 0.9, 0.95)
 
 [node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "levels_choice_window", "start_button", "training_room_start_button", "exit_button")]
 script = ExtResource("1_5oxuo")
