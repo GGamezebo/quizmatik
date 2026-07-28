@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://src/features/ink_blot/ink_blots_atlas.png" id="1_tex"]
+[ext_resource type="Script" path="res://src/features/ink_blot/ink_blot.gd" id="2_script"]
+
+[node name="InkBlot" type="Sprite2D"]
+texture = ExtResource("1_tex")
+hframes = 2
+vframes = 2
+centered = true
+script = ExtResource("2_script")

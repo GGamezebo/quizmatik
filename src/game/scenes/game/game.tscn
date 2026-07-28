@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://c12eynxqm0o4m" path="res://src/game/scenes/game/game_logic/game_manager/game_states/end_game_state.gd" id="10_jud5q"]
 [ext_resource type="PackedScene" uid="uid://bwyvda87ui0x5" path="res://src/features/shot/shot.tscn" id="11_ug3i8"]
 [ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://src/features/explosion/explosion.tscn" id="12_587mb"]
+[ext_resource type="PackedScene" path="res://src/features/ink_blot/ink_blot.tscn" id="13_ink"]
 [ext_resource type="Script" uid="uid://bm2tjky763w3k" path="res://src/game/scenes/game/ui/hud.gd" id="12_lu6cl"]
 [ext_resource type="Script" uid="uid://b8c13uei5f6xn" path="res://src/game/scenes/game/ui/lines.gd" id="13_2jcei"]
 [ext_resource type="Script" uid="uid://c31s1xkrtgnis" path="res://src/game/scenes/game/ui/answer_label.gd" id="14_wlohk"]
@@ -34,6 +35,8 @@
 [ext_resource type="Texture2D" uid="uid://clq0g1vwuxqgn" path="res://assets/sound-on.svg" id="26_sound_on"]
 [ext_resource type="Texture2D" uid="uid://ccjtahowlfjpj" path="res://assets/sound-off.svg" id="27_sound_off"]
 [ext_resource type="Script" uid="uid://dxdf03het6j0r" path="res://src/game/scenes/game/ui/sound_mute_button.gd" id="28_mute"]
+[ext_resource type="Texture2D" path="res://src/ui/hud/score_frame.png" id="29_score_frame"]
+[ext_resource type="Texture2D" path="res://src/ui/hud/question_banner.png" id="30_q_banner"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [node name="GameScene" type="Node" unique_id=1179940708 node_paths=PackedStringArray("initable_components")]
@@ -85,12 +88,13 @@ area = NodePath("../GameArea")
 
 [node name="Controllers" type="Node" parent="." unique_id=1335740013]
 
-[node name="ShotManager" type="Node" parent="Controllers" unique_id=1495127714 node_paths=PackedStringArray("air_plane")]
+[node name="ShotManager" type="Node" parent="Controllers" unique_id=1495127714 node_paths=PackedStringArray("air_plane", "background")]
 script = ExtResource("10_0hyv8")
 shot_scene = ExtResource("11_ug3i8")
 explosion_scene = ExtResource("12_587mb")
 game_events = ExtResource("7_7ifmk")
 air_plane = NodePath("../../Player/AirPlane")
+background = NodePath("../../HUD/Background")
 
 [node name="EntityBorder" type="Node" parent="Controllers" unique_id=2060724701 node_paths=PackedStringArray("gameArea", "entities")]
 script = ExtResource("5_0m8ko")
@@ -108,10 +112,11 @@ exit_button = NodePath("RightPanel/ActionButtons/Exit")
 [node name="Background" parent="HUD" unique_id=1217069396 instance=ExtResource("2_lu6cl")]
 position = Vector2(-3, 24)
 sky_scroll_speed = 0.02
+ink_blot_scene = ExtResource("13_ink")
 
 [node name="TopLeftPanel" type="MarginContainer" parent="HUD" unique_id=173333125]
-offset_right = 390.0
-offset_bottom = 117.0
+offset_right = 460.0
+offset_bottom = 120.0
 theme = ExtResource("theme_ui")
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 12
@@ -147,40 +152,82 @@ air_plane = NodePath("../../../../Player/AirPlane")
 direct_texture = ExtResource("22_direct")
 discrete_texture = ExtResource("23_discrete")
 
-[node name="Score" type="HBoxContainer" parent="HUD/TopLeftPanel/HBox" unique_id=63369239 node_paths=PackedStringArray("player", "score", "maxScore")]
+[node name="ScoreFrame" type="Control" parent="HUD/TopLeftPanel/HBox" unique_id=63369238]
+custom_minimum_size = Vector2(230, 86)
 layout_mode = 2
 size_flags_vertical = 4
+
+[node name="Frame" type="TextureRect" parent="HUD/TopLeftPanel/HBox/ScoreFrame" unique_id=63369237]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("29_score_frame")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Score" type="HBoxContainer" parent="HUD/TopLeftPanel/HBox/ScoreFrame" unique_id=63369239 node_paths=PackedStringArray("player", "score", "maxScore")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 16.0
+offset_right = -28.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
 alignment = 1
 script = ExtResource("19_73ia8")
-player = NodePath("../../../../Player")
+player = NodePath("../../../../../Player")
 game_config = ExtResource("2_j4hd0")
 score = NodePath("Score")
 maxScore = NodePath("MaxScore")
 
-[node name="Name" type="Label" parent="HUD/TopLeftPanel/HBox/Score" unique_id=345963575]
+[node name="Name" type="Label" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Score" unique_id=345963575]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.18, 0.24, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0.96, 0.93, 0.86, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 28
 text = "счёт:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Score" type="Label" parent="HUD/TopLeftPanel/HBox/Score" unique_id=1130806769]
+[node name="Score" type="Label" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Score" unique_id=1130806769]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.18, 0.24, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0.96, 0.93, 0.86, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 28
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Separator" type="Label" parent="HUD/TopLeftPanel/HBox/Score" unique_id=1191885687]
+[node name="Separator" type="Label" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Score" unique_id=1191885687]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.18, 0.24, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0.96, 0.93, 0.86, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 28
 text = "/"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MaxScore" type="Label" parent="HUD/TopLeftPanel/HBox/Score" unique_id=1314264146]
+[node name="MaxScore" type="Label" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Score" unique_id=1314264146]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.18, 0.24, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0.96, 0.93, 0.86, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 28
 text = "30"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -190,18 +237,38 @@ script = ExtResource("13_2jcei")
 gameArea = NodePath("../../GameArea")
 lineSelector = NodePath("../../LineSelector")
 
-[node name="Question" type="Label" parent="HUD" unique_id=1842566219]
+[node name="QuestionBanner" type="NinePatchRect" parent="HUD" unique_id=1842566218]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 126.0
+offset_left = -430.0
+offset_top = 6.0
+offset_right = 430.0
+offset_bottom = 118.0
 grow_horizontal = 2
+texture = ExtResource("30_q_banner")
+patch_margin_left = 108
+patch_margin_top = 52
+patch_margin_right = 108
+patch_margin_bottom = 52
+
+[node name="Question" type="Label" parent="HUD/QuestionBanner" unique_id=1842566219]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = 16.0
+offset_right = -100.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
 theme = ExtResource("theme_ui")
-theme_override_constants/outline_size = 16
-theme_override_font_sizes/font_size = 84
+theme_override_colors/font_color = Color(0.16, 0.22, 0.38, 1)
+theme_override_colors/font_outline_color = Color(0.97, 0.94, 0.88, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 56
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("14_wlohk")
@@ -250,4 +317,4 @@ texture_normal = ExtResource("25_exit")
 ignore_texture_size = true
 stretch_mode = 5
 
-[connection signal="ev_question_changed" from="GameManager/GameState" to="HUD/Question" method="_on_game_state_ev_question_changed"]
+[connection signal="ev_question_changed" from="GameManager/GameState" to="HUD/QuestionBanner/Question" method="_on_game_state_ev_question_changed"]

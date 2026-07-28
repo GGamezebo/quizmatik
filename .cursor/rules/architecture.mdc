@@ -59,7 +59,7 @@ Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level
 ## Layer contracts
 
 ### `src/features/` — isolated features
-- One folder = one feature (`plane`, `answer`, `shot`, `explosion`, …).
+- One folder = one feature (`plane`, `answer`, `shot`, `explosion`, `ink_blot`, …).
 - Keep **almost all dependencies inside** the feature: scripts, scenes, local helpers, feature-specific assets refs.
 - Talk to the outside via a **small public surface** (signals `ev_*`, `initialize`/`setup`, exported PackedScenes).
 - Features must **not** import other features' internals or scene scripts.

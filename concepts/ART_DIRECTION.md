@@ -12,6 +12,8 @@ Canonical art direction. Match this folder before restyling UI or battle.
 
 Final frames: `menu_concept.png`, `battle_concept.png`.
 
+Exploratory alt pack (unused): `concepts/notebook_pencil/` — colored-pencil on grid paper; see that folder’s README.
+
 ## Mood
 
 Handmade kids’ sky adventure: cut paper, soft shadows, cheerful — not neon arcade, not grim sci‑fi.
@@ -20,8 +22,8 @@ Handmade kids’ sky adventure: cut paper, soft shadows, cheerful — not neon a
 
 | Token | Approx | Use |
 |-------|--------|-----|
-| Sky wash | `#A8D4F0` → `#E8F4FC` | Background |
-| Cloud paper | `#FFFFFF` / `#D6EAF8` | Layered cutouts |
+| Sky wash | grayscale sky / clouds | Background shaders (`sky_scroll`, cloud grayscale) |
+| Cloud paper | grayscale paper cutouts | Layered sky particles |
 | Cream parchment | `#F3E6C8` | Quest notes, question banner |
 | CTA purple | `#6B4FA2` | Adventure button |
 | CTA green | `#3FA86A` | Practice button |
@@ -42,7 +44,7 @@ Avoid as primary look: cyan neon HUD, purple-on-white AI gradients, flat Materia
 
 Top → bottom / sides:
 
-1. Soft paper-cloud sky background  
+1. Soft grayscale paper-cloud sky background  
 2. Title **Улётная математика** (paper letters or parchment banner)  
 3. Center: mascot (“Нулик”) + speech bubble  
 4. Optional feed quest: pinned parchment + plate slots (progression teaser)  
@@ -81,7 +83,8 @@ See `battle_concept.png` and gameplay ref `ref_current_battle_hud.png`.
 | Battle HUD / world | `src/game/scenes/game/` |
 | Answer look → balloons | `src/features/answer/` (+ art) |
 | Balloon pop VFX | `src/features/answer/balloon_pop.tscn` |
-| Plane / shot | `src/features/plane/`, `shot/` |
+| Plane / shot / ink trail | `src/features/plane/`, `shot/`, `ink_blot/` |
+
 | Theme | `core/theme/` — retarget toward paper buttons over neon StyleBoxes |
 | Background | `src/ui/background/` |
 

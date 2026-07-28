@@ -10,7 +10,7 @@
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_overlay"]
-colors = PackedColorArray(0, 0, 0.627451, 0.35, 0, 1, 1, 0.08)
+colors = PackedColorArray(0, 0, 0, 0.4, 0.55, 0.55, 0.55, 0.08)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_overlay"]
 gradient = SubResource("Gradient_overlay")
