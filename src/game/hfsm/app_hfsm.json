@@ -10,6 +10,12 @@
 			"WEB": {
 				"context": "WEBContext",
 				"enter": ["ev.open_web"],
+				"states": {
+					"Yandex": {
+						"context": "YandexContext",
+						"enter": ["ev.open_yandex"]
+					}
+				}
 			},
 			"Battle": {
 				"scene": { "id": "game", "loading_screen": true },

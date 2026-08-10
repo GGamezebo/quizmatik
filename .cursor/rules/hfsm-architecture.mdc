@@ -17,7 +17,7 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep transition semantics in s
 | `hfsm.gd` | Queue, transitions, entity + scene lifecycle |
 | `binding_registry.gd` | Light BoundEntity lifecycle |
 | `scene_registry.gd` | Godot scene mount (`Node`); async load |
-| `bound_entity.gd` | Base: `on_event`, `deinit`; registered as `{ slot: { name: Script } }` |
+| `bound_entity.gd` | Base: `sync_hfsm` / `on_event` / `deinit` / `add_event`; registered as `{ slot: { name: Script } }` |
 | `iscene.gd` | Base Node: `initialize` / `deinit` / `on_event` (+ isolated F6); id via paths map |
 | `event.gd` / `utils.gd` / `consts.gd` | Event + pattern helpers |
 
@@ -50,6 +50,7 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep transition semantics in s
 ## Entities
 
 - Light logic only (`RefCounted`); do **not** mount scenes from entities
+- On enter, registry calls `sync_hfsm` so entities can `add_event` like `IScene`
 - Scenes own heavy UI via `scene` keyword
 
 ## Must / avoid

@@ -18,7 +18,10 @@ func _start_hfsm_when_ready() -> void:
 	_hfsm = HFSM.new(
 		HfsmLoader.load_tree(_hfsm_config_path),
 		{
-			"context": { "WEBContext": WEBContext },
+			"context": {
+				"WEBContext": WEBContext,
+				"YandexContext": YandexContext,
+			},
 		},
 		{
 			"host": self,
