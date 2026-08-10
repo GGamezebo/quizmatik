@@ -1,19 +1,34 @@
+class_name BackgroundBase
 extends IScene
+
+## Shared scroll / paint / ink logic for every background variant.
+## Variant .tscn files only supply art (TextureRect, particles, sky_textures).
 
 const SCROLL_OFFSET_PARAM := &"scroll_offset"
 const NEXT_TEXTURE_PARAM := &"next_texture"
 const COLOR_AMOUNT_PARAM := &"color_amount"
+const MIRROR_SEAMLESS_PARAM := &"mirror_seamless"
 
 ## Sky drift in texture widths per second. 0 keeps the sky static (menu, post battle).
 @export_range(0.0, 0.2, 0.001) var sky_scroll_speed: float = 0.0
+## Classic sky: scroll through a mirrored copy so left/right edges never seam.
+@export var mirror_seamless: bool = false
 ## Pool of skies. Drawn without replacement until the deck is empty, then reshuffled.
+## Empty → scroll the TextureRect texture against itself (or mirrored if mirror_seamless).
 @export var sky_textures: Array[Texture2D] = []
 ## Battle: paint fills in with each correct answer (score / questions_count).
 @export var paint_from_score: bool = false
 @export var player: Player
 @export var game_config: GameConfig
-## Seconds to ease color after each correct answer.
+## Menu: paint fills in with completed daily slots (0..DAILY_SLOT_COUNT).
+@export var paint_from_daily: bool = false
+@export var daily_controller: DailyChallengesController
+## Seconds to ease color after each correct answer / daily change.
 @export_range(0.15, 2.0, 0.05) var paint_tween_seconds: float = 0.65
+## Ease-in power for paint clarity: 1 = linear; higher = stays soft longer, pops at the end.
+@export_range(1.0, 5.0, 0.1) var paint_curve_power: float = 2.8
+## Clarity when not driven by score/dailies — keep soft so UI stays readable.
+@export_range(0.0, 1.0, 0.01) var idle_color_amount: float = 0.1
 ## Fountain-pen ink stains left while shots fly (battle). Safe empty default for menu.
 @export var ink_blot_scene: PackedScene
 @export_range(8, 300, 1) var max_ink_blots: int = 140
@@ -37,32 +52,76 @@ func _ready() -> void:
 		# Instance-local copy so menu/battle don't share color_amount.
 		_sky_material = _sky_material.duplicate() as ShaderMaterial
 		_sky.material = _sky_material
+		_sky_material.set_shader_parameter(MIRROR_SEAMLESS_PARAM, mirror_seamless)
 	_bootstrap_skies()
 	if paint_from_score:
 		_color_amount = 0.0
 		_color_target = 0.0
 		_apply_color_amount()
 		call_deferred("_bind_paint_score")
+	elif paint_from_daily:
+		_color_amount = idle_color_amount
+		_color_target = idle_color_amount
+		_apply_color_amount()
+		call_deferred("_bind_paint_daily")
 	else:
-		_color_amount = 1.0
-		_color_target = 1.0
+		_color_amount = idle_color_amount
+		_color_target = idle_color_amount
 		_apply_color_amount()
 	get_viewport().size_changed.connect(_fit_to_viewport)
 	_fit_to_viewport()
+
+
+func apply_host_config(config: Dictionary) -> void:
+	## Called by BackgroundHost before add_child so _ready sees the values.
+	if config.has("sky_scroll_speed"):
+		sky_scroll_speed = config["sky_scroll_speed"]
+	if config.has("mirror_seamless"):
+		mirror_seamless = config["mirror_seamless"]
+	if config.has("paint_from_score"):
+		paint_from_score = config["paint_from_score"]
+	if config.has("player"):
+		player = config["player"]
+	if config.has("game_config"):
+		game_config = config["game_config"]
+	if config.has("paint_from_daily"):
+		paint_from_daily = config["paint_from_daily"]
+	if config.has("daily_controller"):
+		daily_controller = config["daily_controller"]
+	if config.has("paint_tween_seconds"):
+		paint_tween_seconds = config["paint_tween_seconds"]
+	if config.has("paint_curve_power"):
+		paint_curve_power = config["paint_curve_power"]
+	if config.has("idle_color_amount"):
+		idle_color_amount = config["idle_color_amount"]
+	if config.has("ink_blot_scene") and config["ink_blot_scene"] != null:
+		ink_blot_scene = config["ink_blot_scene"]
+	if config.has("max_ink_blots"):
+		max_ink_blots = config["max_ink_blots"]
 
 
 func _bind_paint_score() -> void:
 	if player == null:
 		player = _find_player()
 	if player == null:
-		push_warning("Background: paint_from_score on, but Player not found")
+		push_warning("BackgroundBase: paint_from_score on, but Player not found")
 		return
 	if not player.ev_score_changed.is_connected(_on_score_changed):
 		player.ev_score_changed.connect(_on_score_changed)
 	if game_config != null and not game_config.changed.is_connected(_on_game_config_changed):
 		game_config.changed.connect(_on_game_config_changed)
 	_set_color_target_from_score(player.score)
-	# Start grayscale; only animate when score moves.
+	_color_amount = _color_target
+	_apply_color_amount()
+
+
+func _bind_paint_daily() -> void:
+	if daily_controller == null:
+		push_warning("BackgroundBase: paint_from_daily on, but DailyChallengesController not set")
+		return
+	if not daily_controller.ev_daily_changed.is_connected(_on_daily_changed):
+		daily_controller.ev_daily_changed.connect(_on_daily_changed)
+	_set_color_target_from_daily()
 	_color_amount = _color_target
 	_apply_color_amount()
 
@@ -78,9 +137,12 @@ func _process(delta: float) -> void:
 	if _sky_material == null or is_zero_approx(sky_scroll_speed):
 		return
 	_scroll_offset += sky_scroll_speed * delta
-	while _scroll_offset >= 1.0:
-		_scroll_offset -= 1.0
-		_advance_sky()
+	# Mirror loop period is 2 (normal + flipped); sketch deck advances every 1 width.
+	var period := 2.0 if mirror_seamless else 1.0
+	while _scroll_offset >= period:
+		_scroll_offset -= period
+		if not mirror_seamless:
+			_advance_sky()
 	_sky_material.set_shader_parameter(SCROLL_OFFSET_PARAM, _scroll_offset)
 	_ink_layer.position.x -= sky_scroll_speed * _sky.size.x * delta
 
@@ -95,12 +157,32 @@ func _on_game_config_changed() -> void:
 		_set_color_target_from_score(player.score)
 
 
+func _on_daily_changed() -> void:
+	_set_color_target_from_daily()
+	_tween_paint_to_target()
+
+
 func _set_color_target_from_score(score: int) -> void:
 	if game_config == null or game_config.questions_count <= 0:
 		_color_target = 1.0 if score > 0 else 0.0
 		return
-	# 0 correct → 0 color; last correct (score == questions_count) → 1.0 full paint.
-	_color_target = clampf(float(score) / float(game_config.questions_count), 0.0, 1.0)
+	var linear := clampf(float(score) / float(game_config.questions_count), 0.0, 1.0)
+	_color_target = pow(linear, paint_curve_power)
+
+
+func _set_color_target_from_daily() -> void:
+	if daily_controller == null:
+		_color_target = idle_color_amount
+		return
+	var linear := clampf(
+		float(daily_controller.get_completed_count()) / float(PData.DAILY_SLOT_COUNT),
+		0.0,
+		1.0,
+	)
+	if is_zero_approx(linear):
+		_color_target = idle_color_amount
+		return
+	_color_target = pow(linear, paint_curve_power)
 
 
 func _tween_paint_to_target() -> void:
@@ -175,6 +257,7 @@ func _apply_sky_pair() -> void:
 		_sky.texture = _current_sky
 	if _sky_material == null:
 		return
+	_sky_material.set_shader_parameter(MIRROR_SEAMLESS_PARAM, mirror_seamless)
 	if _next_sky != null:
 		_sky_material.set_shader_parameter(NEXT_TEXTURE_PARAM, _next_sky)
 	_sky_material.set_shader_parameter(SCROLL_OFFSET_PARAM, _scroll_offset)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ba07b2kojr6uf"
-path="res://.godot/imported/01_sleepy_desk.jpg-c02fb969536065a67bcabddf378a5ee3.ctex"
+uid="uid://7eh3hipcqtob"
+path="res://.godot/imported/03_called_to_board.jpg-3576a0bdb8ba05a7c9aba0b76454c575.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/background/sketches/01_sleepy_desk.jpg"
-dest_files=["res://.godot/imported/01_sleepy_desk.jpg-c02fb969536065a67bcabddf378a5ee3.ctex"]
+source_file="res://src/ui/backgrounds/notebook/sketches/03_called_to_board.jpg"
+dest_files=["res://.godot/imported/03_called_to_board.jpg-3576a0bdb8ba05a7c9aba0b76454c575.ctex"]
 
 [params]
 

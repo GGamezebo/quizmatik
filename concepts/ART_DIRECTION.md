@@ -43,7 +43,7 @@ Avoid as primary look: cyan neon HUD, purple-on-white AI gradients, flat Materia
 
 Top → bottom / sides:
 
-1. Soft grayscale paper-cloud sky background  
+1. Soft grayscale paper-cloud sky background (color blooms with completed dailies; 5/5 = full paint)  
 2. Title **Улётная математика** (paper letters or parchment banner)  
 3. Center: mascot (“Нулик”) + speech bubble  
 4. Optional feed quest: pinned parchment + plate slots (progression teaser)  
@@ -85,7 +85,7 @@ See `battle_concept.png` and gameplay ref `ref_current_battle_hud.png`.
 | Plane / shot / ink trail | `src/features/plane/`, `shot/`, `ink_blot/` |
 
 | Theme | `core/theme/` — cream paper + graphite ink (`style.tres`) |
-| Background | `src/ui/background/` |
+| Backgrounds | `src/ui/backgrounds/` — `BackgroundHost` (battle random) + variant folders |
 
 ## Rules for agents
 

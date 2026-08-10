@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cxl774dd82ets"
-path="res://.godot/imported/05_last_lesson_clock.jpg-f8eaadd58bc08328936e423e39f8cb79.ctex"
+uid="uid://d0h8hijgl2hm8"
+path="res://.godot/imported/cloud_notebook_b.png-97f95728dc117b9918c3b40b042bef98.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/background/sketches/05_last_lesson_clock.jpg"
-dest_files=["res://.godot/imported/05_last_lesson_clock.jpg-f8eaadd58bc08328936e423e39f8cb79.ctex"]
+source_file="res://src/ui/backgrounds/notebook_sky/cloud_notebook_b.png"
+dest_files=["res://.godot/imported/cloud_notebook_b.png-97f95728dc117b9918c3b40b042bef98.ctex"]
 
 [params]
 

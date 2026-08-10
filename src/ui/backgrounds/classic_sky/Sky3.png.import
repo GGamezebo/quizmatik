@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dok2i4isw0tyf"
-path="res://.godot/imported/cloud_notebook_c.png-83512d8bea64d6861f85978d6a69623b.ctex"
+uid="uid://5xved5dnk0eo"
+path="res://.godot/imported/Sky3.png-2b141b034e30892a1e8854640fc722d3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/background/cloud_notebook_c.png"
-dest_files=["res://.godot/imported/cloud_notebook_c.png-83512d8bea64d6861f85978d6a69623b.ctex"]
+source_file="res://src/ui/backgrounds/classic_sky/Sky3.png"
+dest_files=["res://.godot/imported/Sky3.png-2b141b034e30892a1e8854640fc722d3.ctex"]
 
 [params]
 

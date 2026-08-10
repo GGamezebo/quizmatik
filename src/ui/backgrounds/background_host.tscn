@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bqhostbg01quiz"]
+
+[ext_resource type="Script" path="res://src/ui/backgrounds/background_host.gd" id="1_host"]
+[ext_resource type="PackedScene" uid="uid://bnbookbg01quiz" path="res://src/ui/backgrounds/notebook/notebook_background.tscn" id="2_notebook"]
+[ext_resource type="PackedScene" uid="uid://bclassky01quiz" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="3_classic"]
+[ext_resource type="PackedScene" uid="uid://bnskybg01quiz" path="res://src/ui/backgrounds/notebook_sky/notebook_sky_background.tscn" id="4_notebook_sky"]
+
+[node name="BackgroundHost" type="Node2D"]
+script = ExtResource("1_host")
+variants = Array[PackedScene]([ExtResource("2_notebook"), ExtResource("3_classic"), ExtResource("4_notebook_sky")])
+pick_random = true

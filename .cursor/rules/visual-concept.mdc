@@ -12,7 +12,7 @@ Must match:
 
 - **Style:** graphite pencil on notebook paper — not cyan neon
 - **Theme:** `core/theme/style.tres` — cream parchment buttons/panels, ink `#2A3340` text
-- **Backgrounds:** sketch cycle via `Background.sky_textures` + `sky_scroll` dual-texture flight
+- **Backgrounds:** `src/ui/backgrounds/` — shared `BackgroundBase` + per-variant folders (`notebook` sketches, `classic_sky`, `notebook_sky`); battle `BackgroundHost` picks random from `variants[]`; menu uses notebook + daily paint
 - **Menu layout:** Jet Math–style (`ref_layout_jetmath.png`) — 2 bottom CTAs + right utilities + center mascot
 - **Battle:** horizontal flight (plane left → right), 4 lanes, round balloons, paper HUD language
 

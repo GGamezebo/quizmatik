@@ -18,7 +18,7 @@ Hand-drawn **colored pencil + graphite on school grid paper** (see `battle_conce
 |------|------|
 | `battle_concept_ref.png` | Full battle mockup (source concept) |
 | `bg_grid_paper.png` | Grid-paper background (opaque RGB) |
-| `clouds_atlas.png` | Cloud sheet, **RGBA** transparent; trial: 3 slices → `src/ui/background/cloud_notebook_*.png` |
+| `clouds_atlas.png` | Cloud sheet, **RGBA** transparent; trial: 3 slices → `src/ui/backgrounds/notebook_sky/cloud_notebook_*.png` |
 | `ui_atlas.png` | Score scrap, question banner, hearts — **RGBA** |
 | `balloons_atlas.png` | **16** blank balloons (4×4), no strings, no numbers — **RGBA**; pencil style + `BALLOON_TINTS` order |
 | `plane_idle.png` / `plane_up.png` / `plane_down.png` | Same 3 orientations as `src/features/plane/`, notebook style — **RGBA** |

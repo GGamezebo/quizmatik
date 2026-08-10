@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7eh3hipcqtob"
-path="res://.godot/imported/03_called_to_board.jpg-889907fbf40e2240c11ca871ff653580.ctex"
+uid="uid://cky4u4d1m2ian"
+path="res://.godot/imported/bg_gameplay_sky.png-70b184c239576922dfc011749b30e8c9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/background/sketches/03_called_to_board.jpg"
-dest_files=["res://.godot/imported/03_called_to_board.jpg-889907fbf40e2240c11ca871ff653580.ctex"]
+source_file="res://src/ui/backgrounds/notebook_sky/bg_gameplay_sky.png"
+dest_files=["res://.godot/imported/bg_gameplay_sky.png-70b184c239576922dfc011749b30e8c9.ctex"]
 
 [params]
 

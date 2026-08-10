@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bo30du3miv3ts"
-path="res://.godot/imported/cloud_notebook_a.png-93733e87322e8242bdd19d9ba5353791.ctex"
+path="res://.godot/imported/cloud_notebook_a.png-ba16b340bf6b3987eae7ea45b80a1439.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/background/cloud_notebook_a.png"
-dest_files=["res://.godot/imported/cloud_notebook_a.png-93733e87322e8242bdd19d9ba5353791.ctex"]
+source_file="res://src/ui/backgrounds/notebook_sky/cloud_notebook_a.png"
+dest_files=["res://.godot/imported/cloud_notebook_a.png-ba16b340bf6b3987eae7ea45b80a1439.ctex"]
 
 [params]
 

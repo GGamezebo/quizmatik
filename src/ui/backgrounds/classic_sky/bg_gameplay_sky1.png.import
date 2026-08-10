@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://duih2i275k5x"
-path="res://.godot/imported/04_diary_grade.jpg-dbbebfc089cfbc32d47dfc9e51a52320.ctex"
+uid="uid://7ng0qxncvluj"
+path="res://.godot/imported/bg_gameplay_sky1.png-b1267370b1475996a554380ed531f219.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/background/sketches/04_diary_grade.jpg"
-dest_files=["res://.godot/imported/04_diary_grade.jpg-dbbebfc089cfbc32d47dfc9e51a52320.ctex"]
+source_file="res://src/ui/backgrounds/classic_sky/bg_gameplay_sky1.png"
+dest_files=["res://.godot/imported/bg_gameplay_sky1.png-b1267370b1475996a554380ed531f219.ctex"]
 
 [params]
 
