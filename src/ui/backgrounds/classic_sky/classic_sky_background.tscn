@@ -1,9 +1,9 @@
-[gd_scene format=3 uid="uid://bclassky01quiz"]
+[gd_scene format=3 uid="uid://bslyh2pqxwyo4"]
 
-[ext_resource type="Script" path="res://src/ui/backgrounds/background_base.gd" id="1_base"]
+[ext_resource type="Script" uid="uid://bih4q7fqq6kw3" path="res://src/ui/backgrounds/background_base.gd" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://jl5tjjusnin3" path="res://src/ui/backgrounds/classic_sky/Sky2.png" id="2_sky2"]
 [ext_resource type="Texture2D" uid="uid://cjds8r57pey1g" path="res://src/ui/backgrounds/classic_sky/Sky1.png" id="3_sky1"]
-[ext_resource type="Texture2D" path="res://src/ui/backgrounds/classic_sky/bg_gameplay_sky1.png" id="4_bg"]
+[ext_resource type="Texture2D" uid="uid://7ng0qxncvluj" path="res://src/ui/backgrounds/classic_sky/bg_gameplay_sky1.png" id="4_bg"]
 [ext_resource type="Texture2D" uid="uid://5xved5dnk0eo" path="res://src/ui/backgrounds/classic_sky/Sky3.png" id="5_sky3"]
 [ext_resource type="Shader" uid="uid://dbory75vd2otg" path="res://src/ui/backgrounds/sky_scroll.gdshader" id="6_shader"]
 [ext_resource type="PackedScene" path="res://src/features/ink_blot/ink_blot.tscn" id="7_ink"]
@@ -63,12 +63,12 @@ scale_min = 0.3
 scale_max = 1.1
 color_initial_ramp = SubResource("GradientTexture1D_cloud_alpha")
 
-[node name="ClassicSkyBackground" type="Node2D"]
+[node name="ClassicSkyBackground" type="Node2D" unique_id=1301843701]
 script = ExtResource("1_base")
 mirror_seamless = true
 ink_blot_scene = ExtResource("7_ink")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1672587190]
 material = SubResource("ShaderMaterial_skyscroll")
 offset_right = 1280.0
 offset_bottom = 720.0
@@ -77,9 +77,9 @@ grow_vertical = 2
 texture = ExtResource("4_bg")
 expand_mode = 1
 
-[node name="InkLayer" type="Node2D" parent="."]
+[node name="InkLayer" type="Node2D" parent="." unique_id=1127801432]
 
-[node name="SlowestClouds" type="GPUParticles2D" parent="."]
+[node name="SlowestClouds" type="GPUParticles2D" parent="." unique_id=1032081965]
 modulate = Color(1, 1, 1, 0.78)
 position = Vector2(1800, 360)
 amount = 6
@@ -89,7 +89,7 @@ preprocess = 120.0
 visibility_rect = Rect2(-2000, -2000, 4000, 4000)
 process_material = SubResource("ParticleProcessMaterial_slowest")
 
-[node name="SlowClouds" type="GPUParticles2D" parent="."]
+[node name="SlowClouds" type="GPUParticles2D" parent="." unique_id=611300972]
 modulate = Color(1, 1, 1, 0.72)
 position = Vector2(1800, 360)
 amount = 5
@@ -99,7 +99,7 @@ preprocess = 40.0
 visibility_rect = Rect2(-2000, -2000, 4000, 4000)
 process_material = SubResource("ParticleProcessMaterial_slow")
 
-[node name="FastClouds" type="GPUParticles2D" parent="."]
+[node name="FastClouds" type="GPUParticles2D" parent="." unique_id=1395472284]
 modulate = Color(1, 1, 1, 0.65)
 position = Vector2(1800, 360)
 amount = 16

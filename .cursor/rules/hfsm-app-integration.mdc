@@ -1,6 +1,6 @@
 ---
 description: App-level HFSM integration (main.gd bootstrap)
-globs: "{src/game/main.gd,src/game/hfsm/**/*,src/game/scenes/app_root/**/*}"
+globs: "{src/game/main.gd,src/game/hfsm/**/*,src/game/contexts/**/*,src/game/scenes/app_root/**/*}"
 alwaysApply: false
 ---
 
@@ -26,9 +26,12 @@ alwaysApply: false
 - `AppRoot.initialize()` emits `ev.open_web` only when `OS.has_feature("web")`
 - Event payload includes `music_player`; `AppRoot` also calls `music_player.play()`
 - Nested `WEB` state enters on `ev.open_web` and binds `"context": "WEBContext"`
-- Register slot in `main.gd`: `{ "context": { "WEBContext": WEBContext } }`
-- `WEBContext` lives at `src/game/hfsm/contexts/web_context.gd`
-- Keep all light HTML5-only hooks in `WEBContext`; do not name it after one feature such as music
+- `WEBContext` emits `ev.open_yandex` when `OS.has_feature("yandex_games")` (export preset custom feature)
+- Nested `WEB/Yandex` binds `"context": "YandexContext"`; receives the same payload
+- Register slot in `main.gd`: `{ "context": { "WEBContext": WEBContext, "YandexContext": YandexContext } }`
+- Contexts live under `src/game/contexts/` (next to `scenes/`)
+- Generic HTML5 hooks in `WEBContext`; Yandex SDK / ads in `YandexContext`
+- BoundEntity can `add_event` (HFSM injects via `sync_hfsm` on enter)
 - Heavy UI stays in scenes; BoundEntity contexts must not mount scenes
 
 ## Menu UI
