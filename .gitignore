@@ -2,6 +2,7 @@
 .godot/
 .idea/
 /android/
+/bin/
 .nomedia
 
 # Godot-specific ignores
