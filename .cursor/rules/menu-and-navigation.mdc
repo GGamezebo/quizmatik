@@ -33,7 +33,7 @@ alwaysApply: false
 - Level select → `menu/levels/`
 - Training → `menu/training_room_window/`
 - Trophy room / stats → `menu/trophy_room_window/`
-- Daily slots (display-only) → `menu/daily/` on MainMenuWindow
+- Daily slots (display-only) → `menu/daily/` on MainMenuWindow; menu sky color from completed dailies via notebook `BackgroundBase.paint_from_daily`
 - Results → `post_battle/`
 - Stack helpers → `core/lib/window_stack_manager/`
 - Account/progress/daily → `src/game/account/` (wired in `app_root/root.tscn`)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhvwsxwwa7kfr"
-path="res://.godot/imported/02_paper_airplane.jpg-70a067bf9612400751eea12fab79d421.ctex"
+uid="uid://duih2i275k5x"
+path="res://.godot/imported/04_diary_grade.jpg-67b4b70acc56dd4661d7471578d4386c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/background/sketches/02_paper_airplane.jpg"
-dest_files=["res://.godot/imported/02_paper_airplane.jpg-70a067bf9612400751eea12fab79d421.ctex"]
+source_file="res://src/ui/backgrounds/notebook/sketches/04_diary_grade.jpg"
+dest_files=["res://.godot/imported/04_diary_grade.jpg-67b4b70acc56dd4661d7471578d4386c.ctex"]
 
 [params]
 

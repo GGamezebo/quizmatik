@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bl2awrcngwvpj"
-path="res://.godot/imported/08_cheat_sheet.jpg-73ebee22f203bccc50849a974e4e4ec7.ctex"
+uid="uid://cpy7ccorf6rpk"
+path="res://.godot/imported/06_eraser_war.jpg-d6a3914f0f57a782c52ec6d5366d9341.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/background/sketches/08_cheat_sheet.jpg"
-dest_files=["res://.godot/imported/08_cheat_sheet.jpg-73ebee22f203bccc50849a974e4e4ec7.ctex"]
+source_file="res://src/ui/backgrounds/notebook/sketches/06_eraser_war.jpg"
+dest_files=["res://.godot/imported/06_eraser_war.jpg-d6a3914f0f57a782c52ec6d5366d9341.ctex"]
 
 [params]
 

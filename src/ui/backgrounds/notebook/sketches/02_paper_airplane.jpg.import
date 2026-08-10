@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://duseg5h8cwlmw"
-path="res://.godot/imported/07_late_to_school.jpg-c8dd3c0152de8f43372183b287f4bfb6.ctex"
+uid="uid://dhvwsxwwa7kfr"
+path="res://.godot/imported/02_paper_airplane.jpg-0708e151749758df9b57407c2803569d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/background/sketches/07_late_to_school.jpg"
-dest_files=["res://.godot/imported/07_late_to_school.jpg-c8dd3c0152de8f43372183b287f4bfb6.ctex"]
+source_file="res://src/ui/backgrounds/notebook/sketches/02_paper_airplane.jpg"
+dest_files=["res://.godot/imported/02_paper_airplane.jpg-0708e151749758df9b57407c2803569d.ctex"]
 
 [params]
 

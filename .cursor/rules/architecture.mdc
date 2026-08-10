@@ -47,7 +47,7 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 | `src/game/scenes/` | Screens / orchestration: `app_root`, `menu`, `game`, `post_battle` |
 | `src/features/` | Isolated gameplay features (own almost all deps) |
 | `src/common/` | Project-shared Resources (`GameConfig`, `LevelsConfig`, settings) |
-| `src/ui/` | Shared UI widgets (dialogs, buttons, loading, background) |
+| `src/ui/` | Shared UI widgets (dialogs, buttons, loading, backgrounds) |
 | `src/levels/{container}/` | Campaign `level_N.tres` (canonical) |
 | `core/` | Project-agnostic code only (no Quizmatik types/scenes) |
 | `tools/` | Offline generators (e.g. levels) |
@@ -116,6 +116,7 @@ Do not drive win/lose with ad-hoc flags outside the FSM.
 - New screen / flow → `src/game/scenes/{name}/`
 - Project-shared Resource/type → `src/common/`
 - Shared UI widget (button base, dialog, loading) → `src/ui/`
+- New battle/menu sky variant → `src/ui/backgrounds/{name}/` + add PackedScene to `BackgroundHost.variants`
 - Generic reusable utility (no project deps) → `core/lib/`
 - Level data → `src/levels/{container}/`; metadata → `levels_config.gd` / `tools/generate_levels.py`
 - Progress mutations → `ProgressController` / `DailyChallengesController` / `StatisticsController`; disk write only via `RootEvents.ev_save_progress` → `SaveManager.save()` (debounced; suppressed during battle; force-flush at battle end / app close)

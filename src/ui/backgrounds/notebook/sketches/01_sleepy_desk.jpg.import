@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jl5tjjusnin3"
-path="res://.godot/imported/Sky2.png-331ea87db4b73e1c1d6fc24a87774925.ctex"
+uid="uid://ba07b2kojr6uf"
+path="res://.godot/imported/01_sleepy_desk.jpg-c86325ef737babf9898ab286fa8f5658.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/background/Sky2.png"
-dest_files=["res://.godot/imported/Sky2.png-331ea87db4b73e1c1d6fc24a87774925.ctex"]
+source_file="res://src/ui/backgrounds/notebook/sketches/01_sleepy_desk.jpg"
+dest_files=["res://.godot/imported/01_sleepy_desk.jpg-c86325ef737babf9898ab286fa8f5658.ctex"]
 
 [params]
 

@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://bnskybg01quiz"]
+
+[ext_resource type="Script" path="res://src/ui/backgrounds/background_base.gd" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://bo30du3miv3ts" path="res://src/ui/backgrounds/notebook_sky/cloud_notebook_a.png" id="2_cloud_a"]
+[ext_resource type="Texture2D" uid="uid://d0h8hijgl2hm8" path="res://src/ui/backgrounds/notebook_sky/cloud_notebook_b.png" id="3_cloud_b"]
+[ext_resource type="Texture2D" path="res://src/ui/backgrounds/notebook_sky/bg_gameplay_sky.png" id="4_bg"]
+[ext_resource type="Texture2D" uid="uid://dok2i4isw0tyf" path="res://src/ui/backgrounds/notebook_sky/cloud_notebook_c.png" id="5_cloud_c"]
+[ext_resource type="Shader" uid="uid://dbory75vd2otg" path="res://src/ui/backgrounds/sky_scroll.gdshader" id="6_shader"]
+[ext_resource type="PackedScene" path="res://src/features/ink_blot/ink_blot.tscn" id="7_ink"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skyscroll"]
+resource_local_to_scene = true
+shader = ExtResource("6_shader")
+shader_parameter/scroll_offset = 0.0
+shader_parameter/color_amount = 0.0
+shader_parameter/subdue = 0.82
+shader_parameter/paper_tint = Vector3(0.953, 0.902, 0.784)
+shader_parameter/mirror_seamless = true
+
+[sub_resource type="Gradient" id="Gradient_cloud_alpha"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(1, 1, 1, 0.14, 1, 1, 1, 0.3, 1, 1, 1, 0.48)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cloud_alpha"]
+gradient = SubResource("Gradient_cloud_alpha")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_slowest"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 25.0
+initial_velocity_max = 75.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.55
+scale_max = 2.0
+color_initial_ramp = SubResource("GradientTexture1D_cloud_alpha")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_slow"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 100.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.8
+scale_max = 1.3
+color_initial_ramp = SubResource("GradientTexture1D_cloud_alpha")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fast"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 40.0
+initial_velocity_max = 420.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.3
+scale_max = 1.1
+color_initial_ramp = SubResource("GradientTexture1D_cloud_alpha")
+
+[node name="NotebookSkyBackground" type="Node2D"]
+script = ExtResource("1_base")
+mirror_seamless = true
+ink_blot_scene = ExtResource("7_ink")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_skyscroll")
+offset_right = 1280.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_bg")
+expand_mode = 1
+
+[node name="InkLayer" type="Node2D" parent="."]
+
+[node name="SlowestClouds" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.42)
+position = Vector2(1800, 360)
+amount = 6
+texture = ExtResource("2_cloud_a")
+lifetime = 126.04
+preprocess = 120.0
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+process_material = SubResource("ParticleProcessMaterial_slowest")
+
+[node name="SlowClouds" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.38)
+position = Vector2(1800, 360)
+amount = 5
+texture = ExtResource("3_cloud_b")
+lifetime = 46.06
+preprocess = 40.0
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+process_material = SubResource("ParticleProcessMaterial_slow")
+
+[node name="FastClouds" type="GPUParticles2D" parent="."]
+modulate = Color(1, 1, 1, 0.32)
+position = Vector2(1800, 360)
+amount = 16
+texture = ExtResource("5_cloud_c")
+lifetime = 68.0
+preprocess = 55.0
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+process_material = SubResource("ParticleProcessMaterial_fast")

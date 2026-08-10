@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpy7ccorf6rpk"
-path="res://.godot/imported/06_eraser_war.jpg-1aaa2ed54779948b58ef9677cadb9c41.ctex"
+uid="uid://jl5tjjusnin3"
+path="res://.godot/imported/Sky2.png-4f5173d3a76b7c0c605fb196ec368279.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/background/sketches/06_eraser_war.jpg"
-dest_files=["res://.godot/imported/06_eraser_war.jpg-1aaa2ed54779948b58ef9677cadb9c41.ctex"]
+source_file="res://src/ui/backgrounds/classic_sky/Sky2.png"
+dest_files=["res://.godot/imported/Sky2.png-4f5173d3a76b7c0c605fb196ec368279.ctex"]
 
 [params]
 
