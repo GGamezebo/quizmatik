@@ -36,6 +36,7 @@
 [ext_resource type="Texture2D" uid="uid://bseq47l6tpmaq" path="res://src/ui/hud/btn_sound_off.png" id="27_sound_off"]
 [ext_resource type="Script" uid="uid://dxdf03het6j0r" path="res://src/game/scenes/game/ui/sound_mute_button.gd" id="28_mute"]
 [ext_resource type="Texture2D" uid="uid://cb3h6dwi6e0vd" path="res://src/ui/hud/score_frame.png" id="29_score_frame"]
+[ext_resource type="Script" path="res://src/ui/buttons/hover_scale_button.gd" id="30_hover"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_orq3g"]
@@ -304,6 +305,7 @@ focus_mode = 0
 texture_normal = ExtResource("24_restart")
 ignore_texture_size = true
 stretch_mode = 5
+script = ExtResource("30_hover")
 
 [node name="Exit" type="TextureButton" parent="HUD/RightPanel/ActionButtons" unique_id=526698830]
 custom_minimum_size = Vector2(72, 72)
@@ -313,5 +315,6 @@ focus_mode = 0
 texture_normal = ExtResource("25_exit")
 ignore_texture_size = true
 stretch_mode = 5
+script = ExtResource("30_hover")
 
 [connection signal="ev_question_changed" from="GameManager/GameState" to="HUD/QuestionBanner/Question" method="_on_game_state_ev_question_changed"]
