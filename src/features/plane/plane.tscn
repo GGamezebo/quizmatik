@@ -2,10 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cxln14046h23n" path="res://src/features/plane/plane.gd" id="1_c4h5g"]
 [ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://src/features/explosion/explosion.tscn" id="2_502ij"]
+[ext_resource type="Texture2D" uid="uid://bhvth81jmerbb" path="res://src/features/plane/planes_atlas_spaced.png" id="3_6bhuu"]
 [ext_resource type="AudioStream" uid="uid://d022f3yjwbamj" path="res://src/features/plane/thrust.mp3" id="3_incis"]
-[ext_resource type="Texture2D" uid="uid://dbhsvvmis8tyx" path="res://src/features/plane/Plane.png" id="3_wwtew"]
-[ext_resource type="Texture2D" uid="uid://bpbyqmy6knfil" path="res://src/features/plane/PlaneUp.png" id="4_uxo23"]
-[ext_resource type="Texture2D" uid="uid://bilwdiggndliv" path="res://src/features/plane/PlaneDown.png" id="5_n7rn1"]
 [ext_resource type="Script" uid="uid://wokwb6w0qo1j" path="res://src/features/plane/animated_sprite_2d.gd" id="6_7tfl1"]
 [ext_resource type="Script" uid="uid://c26vc5jhui0yf" path="res://src/features/plane/audio_stream_player.gd" id="8_jxtnq"]
 [ext_resource type="Texture2D" uid="uid://rux51tr7d7c5" path="res://assets/light effect starlight shining.png" id="9_i07py"]
@@ -15,11 +13,23 @@
 radius = 21.72
 height = 234.85217
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bhuu"]
+atlas = ExtResource("3_6bhuu")
+region = Rect2(0, 108, 288, 108)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6smis"]
+atlas = ExtResource("3_6bhuu")
+region = Rect2(0, 0, 288, 108)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0n5re"]
+atlas = ExtResource("3_6bhuu")
+region = Rect2(0, 216, 288, 108)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_1bvp3"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_n7rn1")
+"texture": SubResource("AtlasTexture_6bhuu")
 }],
 "loop": 0,
 "name": &"down",
@@ -27,7 +37,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_wwtew")
+"texture": SubResource("AtlasTexture_6smis")
 }],
 "loop": 1,
 "name": &"idle",
@@ -35,7 +45,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_uxo23")
+"texture": SubResource("AtlasTexture_0n5re")
 }],
 "loop": 1,
 "name": &"up",
@@ -93,7 +103,7 @@ shape = SubResource("CapsuleShape2D_272bh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1524436245 node_paths=PackedStringArray("flame_animation")]
 sprite_frames = SubResource("SpriteFrames_1bvp3")
-animation = &"down"
+animation = &"up"
 script = ExtResource("6_7tfl1")
 flame_animation = NodePath("FlameAnimation")
 
