@@ -239,9 +239,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Lines" type="Node2D" parent="HUD" unique_id=693063014 node_paths=PackedStringArray("gameArea", "lineSelector")]
+visible = false
 script = ExtResource("13_2jcei")
 gameArea = NodePath("../../GameArea")
 lineSelector = NodePath("../../LineSelector")
+game_events = ExtResource("7_7ifmk")
 
 [node name="QuestionBanner" type="NinePatchRect" parent="HUD" unique_id=1842566218]
 custom_minimum_size = Vector2(200, 20)
