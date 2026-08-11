@@ -63,10 +63,11 @@ Same **Paper Sky** papercraft as `ref_style_paper_sky.png` (cut paper clouds, gr
 2. Exactly **4 horizontal lanes** (rows) across the playfield  
 3. **One round paper balloon per lane** on the right — style of `ref_answer_balloon.png` (watercolor fill, white rim, knot + string, big number); balloons move along the lane toward the plane  
 4. Layered paper clouds drifting in the sky  
-5. HUD on torn parchment / paper chips (score, hearts, exit, question banner)  
-6. Numbers always readable  
+5. HUD on torn parchment / paper chips (score, hearts, exit, question banner) — battle sprites in `src/ui/hud/` (notebook sticker set)  
+6. Lane guides: graphite **dashed** center lines per row (`ui/lines.gd`) — not neon glow  
+7. Numbers always readable  
 
-See `battle_concept.png` and gameplay ref `ref_current_battle_hud.png`.
+See `battle_concept.png`, notebook modern ref `concepts/notebook_pencil/battle_modern_v1.png`, HUD atlas `concepts/notebook_pencil/ui_atlas_modern.png`.
 
 ## Motion
 

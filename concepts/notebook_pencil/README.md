@@ -17,6 +17,9 @@ Hand-drawn **colored pencil + graphite on school grid paper** (see `battle_conce
 | File | Role |
 |------|------|
 | `battle_concept_ref.png` | Full battle mockup (source concept) |
+| `battle_modern_v1.png` | Modernized UI pass — paper sticker HUD, dashed graphite lanes, no neon |
+| `ui_atlas_modern.png` | Sliced modern HUD atlas (score, banner, hearts, buttons, lane dashes) |
+| `hud_modern/` | Individual RGBA sprites mirrored to `src/ui/hud/` |
 | `bg_grid_paper.png` | Grid-paper background (opaque RGB) |
 | `clouds_atlas.png` | Cloud sheet, **RGBA** transparent; trial: 3 slices → `src/ui/backgrounds/notebook_sky/cloud_notebook_*.png` |
 | `ui_atlas.png` | Score scrap, question banner, hearts — **RGBA** |
