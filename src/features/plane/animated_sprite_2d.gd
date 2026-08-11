@@ -27,9 +27,10 @@ func update(delta: float) -> void:
 	scale = _base_scale + _scale_shaker.get_scale_offset()
 	rotation = _base_rotation + _rotationShacker.get_rotation_offset()
 	
-	flame_animation.offset = offset
-	flame_animation.scale = scale
-	flame_animation.rotation = rotation
+	if flame_animation:
+		flame_animation.offset = offset
+		flame_animation.scale = scale
+		flame_animation.rotation = rotation
 	
 func _updateAnimation(direction_y: float) -> void:
 	var animationName = 'idle'

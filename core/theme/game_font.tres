@@ -1,9 +1,8 @@
-[gd_resource type="FontVariation" format=3 uid="uid://diy6rnlbukphg"]
-
-[ext_resource type="FontFile" uid="uid://c5xku0uo7egww" path="res://assets/fonts/Oswald-Variable.ttf" id="1_base"]
+[gd_resource type="SystemFont" format=3 uid="uid://diy6rnlbukphg"]
 
 [resource]
-base_font = ExtResource("1_base")
-variation_opentype = {
-2003265652: 700.0
-}
+font_names = PackedStringArray("Arial Rounded MT Bold", "SF Pro Rounded", "Nunito", "Varela Round", "Segoe UI", "Helvetica Neue", "Roboto", "Noto Sans", "sans-serif")
+font_weight = 700
+antialiasing = 1
+hinting = 1
+subpixel_positioning = 1
