@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cu637lmffdld0" path="res://src/features/answer/answer.gd" id="1_uxhp0"]
 [ext_resource type="Texture2D" path="res://src/features/answer/balloons_atlas.png" id="2_0rjkt"]
-[ext_resource type="FontFile" uid="uid://ba0ye0eys0i2v" path="res://assets/fonts/Oswald-Bold.ttf" id="3_font"]
+[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="3_font"]
 [ext_resource type="PackedScene" path="res://src/features/answer/balloon_pop.tscn" id="4_pop"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_73wma"]
@@ -10,12 +10,9 @@ resource_local_to_scene = true
 font = ExtResource("3_font")
 font_size = 42
 font_color = Color(1, 1, 1, 1)
-outline_size = 4
-outline_color = Color(0.050980393, 0.29803923, 0.54901963, 1)
-shadow_size = 4
-stacked_outline_count = 1
-stacked_outline_0/size = 1
-stacked_outline_0/color = Color(1, 0, 0.8352941, 1)
+outline_size = 5
+outline_color = Color(0.165, 0.2, 0.251, 0.85)
+shadow_size = 3
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pm5v5"]
 radius = 64.0

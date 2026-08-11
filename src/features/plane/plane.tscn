@@ -21,7 +21,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("4_uxo23")
 }],
-"loop": true,
+"loop": 1,
 "name": &"down",
 "speed": 5.0
 }, {
@@ -29,7 +29,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("3_wwtew")
 }],
-"loop": true,
+"loop": 1,
 "name": &"idle",
 "speed": 5.0
 }, {
@@ -37,7 +37,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("5_n7rn1")
 }],
-"loop": false,
+"loop": 0,
 "name": &"up",
 "speed": 5.0
 }]
@@ -73,7 +73,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7dyig")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 8.0
 }]
@@ -93,7 +93,7 @@ shape = SubResource("CapsuleShape2D_272bh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1524436245 node_paths=PackedStringArray("flame_animation")]
 sprite_frames = SubResource("SpriteFrames_1bvp3")
-animation = &"up"
+animation = &"idle"
 script = ExtResource("6_7tfl1")
 flame_animation = NodePath("FlameAnimation")
 

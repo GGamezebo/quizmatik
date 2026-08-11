@@ -24,6 +24,10 @@ Handmade kids’ notebook adventure: graphite pencil on grid paper, cream parchm
 |-------|--------|-----|
 | Cream parchment | `#F3E6C8` | Buttons, panels, quest notes |
 | Ink graphite | `#2A3340` | Titles, button text, borders |
+
+Battle sprites (plane + balloons): thick cream/white **sticker outline** (die-cut look), matching `battle_notebook_modern_v1.png`.
+
+Font: theme `core/theme/game_font.tres` = `SystemFont` (rounded-first fallbacks: Arial Rounded MT Bold → SF Pro Rounded → Segoe UI / Roboto / Noto Sans) — no bundled TTF required for Mobile / Steam / HTML.
 | Paper hover | `#FAF0DB` | Button hover fill |
 | Paper pressed | `#E0D1B3` | Button pressed fill |
 | Accent warm | `#F0C94A` | Stars / highlights |
