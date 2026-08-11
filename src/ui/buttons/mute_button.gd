@@ -1,5 +1,5 @@
 class_name MuteButton
-extends TextureButton
+extends HoverScaleButton
 
 ## Base toggle that mutes an AudioServer bus and persists via UserSettings.
 
@@ -9,6 +9,7 @@ var _bus_index: int = -1
 
 
 func _ready() -> void:
+	super._ready()
 	var bus_name: String = _get_bus_name()
 	_bus_index = AudioServer.get_bus_index(bus_name)
 	if _bus_index == -1:
