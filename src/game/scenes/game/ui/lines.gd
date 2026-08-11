@@ -2,6 +2,7 @@ extends Node2D
 
 ## Graphite pencil dashed lane borders (notebook concept).
 ## 5 lines form 4 lanes; the two borders of the active lane are highlighted.
+## Visible only while battle FSM is in GameState.
 @export var dash_color: Color = Color(0.22, 0.27, 0.34, 0.55)
 @export var selected_color: Color = Color(0.18, 0.22, 0.28, 0.92)
 @export var dash_length: float = 22.0
@@ -10,14 +11,33 @@ extends Node2D
 @export var selected_thickness: float = 3.8
 @export var gameArea: GameArea
 @export var lineSelector: LineSelector
+@export var game_events: GameEvents
 
 
 func _ready() -> void:
-	lineSelector.ev_selected_lane_changed.connect(queue_redraw)
-	gameArea.boundary_changed.connect(queue_redraw.unbind(1))
+	visible = false
+	if lineSelector:
+		lineSelector.ev_selected_lane_changed.connect(queue_redraw)
+	if gameArea:
+		gameArea.boundary_changed.connect(queue_redraw.unbind(1))
+	if game_events:
+		game_events.ev_game_state_changed.connect(_on_game_state_changed)
+
+
+func _exit_tree() -> void:
+	if game_events and game_events.ev_game_state_changed.is_connected(_on_game_state_changed):
+		game_events.ev_game_state_changed.disconnect(_on_game_state_changed)
+
+
+func _on_game_state_changed(_from_state: String, to_state: String) -> void:
+	visible = to_state == FSMGameStates.GAME
+	if visible:
+		queue_redraw()
 
 
 func _draw() -> void:
+	if not visible or gameArea == null or lineSelector == null:
+		return
 	var area := gameArea.gameplay_area
 	var lines_count := gameArea.getLinesSize()
 	var spacing := area.size.y / float(lines_count)
