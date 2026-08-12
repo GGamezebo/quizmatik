@@ -4,7 +4,7 @@ extends Node2D
 ## Soft cut-paper dashes with a faint drop shadow.
 ## Visible only while battle FSM is in GameState.
 
-@export var paper_color: Color = Color(0.096, 0.08, 0.03, 0.92)
+@export var paper_color: Color = Color(0.98, 0.97, 0.94, 0.92)
 @export var selected_paper_color: Color = Color(1.0, 0.995, 0.98, 0.98)
 @export var edge_color: Color = Color(0.86, 0.84, 0.80, 0.55)
 @export var shadow_color: Color = Color(0.22, 0.26, 0.34, 0.22)
