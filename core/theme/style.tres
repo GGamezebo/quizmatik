@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://bwi5l0b7v2vm4"]
 
-[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="1_font"]
+[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="1_font"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_focus"]
 draw_center = false

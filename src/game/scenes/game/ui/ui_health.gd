@@ -1,15 +1,17 @@
 extends HBoxContainer
 
 @export var player: Player
-@export var helthSprite: Texture2D
+@export var heart_scene: PackedScene
 
 
 func _ready() -> void:
 	player.ev_health_changed.connect(_on_health_changed)
 	_update_state()
 
+
 func _exit_tree() -> void:
 	player.ev_health_changed.disconnect(_on_health_changed)
+
 
 func _update_state() -> void:
 	var health: int = player.health
@@ -19,16 +21,16 @@ func _update_state() -> void:
 	for _index in range(abs(count)):
 		action.call()
 
+
 func _on_health_changed(_health: int) -> void:
 	_update_state()
 
+
 func _create_health() -> void:
-	var icon := TextureRect.new()
-	icon.texture = helthSprite
-	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icon.custom_minimum_size = Vector2(52, 52)
-	add_child(icon)
+	if heart_scene == null:
+		return
+	add_child(heart_scene.instantiate())
+
 
 func _remove_health() -> void:
 	var child_count := get_child_count()

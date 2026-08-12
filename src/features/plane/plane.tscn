@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cxln14046h23n" path="res://src/features/plane/plane.gd" id="1_c4h5g"]
 [ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://src/features/explosion/explosion.tscn" id="2_502ij"]
 [ext_resource type="Texture2D" uid="uid://bhvth81jmerbb" path="res://src/features/plane/planes_atlas_spaced.png" id="3_6bhuu"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="3_6smis"]
 [ext_resource type="AudioStream" uid="uid://d022f3yjwbamj" path="res://src/features/plane/thrust.mp3" id="3_incis"]
 [ext_resource type="Script" uid="uid://wokwb6w0qo1j" path="res://src/features/plane/animated_sprite_2d.gd" id="6_7tfl1"]
 [ext_resource type="Script" uid="uid://c26vc5jhui0yf" path="res://src/features/plane/audio_stream_player.gd" id="8_jxtnq"]
@@ -12,6 +13,12 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_272bh"]
 radius = 21.72
 height = 234.85217
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1vivr"]
+shader = ExtResource("3_6smis")
+shader_parameter/shadow_offset = Vector2(-2, 2)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6bhuu"]
 atlas = ExtResource("3_6bhuu")
@@ -51,6 +58,12 @@ animations = [{
 "name": &"up",
 "speed": 5.0
 }]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8vrlf"]
+shader = ExtResource("3_6smis")
+shader_parameter/shadow_offset = Vector2(-2.5, 5)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 0.734000034865
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ijmsw"]
 atlas = ExtResource("10_ijmsw")
@@ -102,12 +115,14 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_272bh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1524436245 node_paths=PackedStringArray("flame_animation")]
+material = SubResource("ShaderMaterial_1vivr")
 sprite_frames = SubResource("SpriteFrames_1bvp3")
 animation = &"up"
 script = ExtResource("6_7tfl1")
 flame_animation = NodePath("FlameAnimation")
 
 [node name="FlameAnimation" type="AnimatedSprite2D" parent="AnimatedSprite2D" unique_id=348875614]
+material = SubResource("ShaderMaterial_8vrlf")
 position = Vector2(-148, 8)
 sprite_frames = SubResource("SpriteFrames_yjdog")
 autoplay = "default"
