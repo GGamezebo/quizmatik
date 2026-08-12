@@ -1,18 +1,21 @@
 extends Node2D
 
-## White paper ribbon lane guides — match concepts/gameplay_preview/02_battle.png.
-## Soft cut-paper strips with a faint drop shadow (not graphite dashes).
+## White paper ribbon lane guides as a dashed strip.
+## Soft cut-paper dashes with a faint drop shadow.
 ## Visible only while battle FSM is in GameState.
 
-@export var paper_color: Color = Color(0.98, 0.97, 0.94, 0.92)
+@export var paper_color: Color = Color(0.096, 0.08, 0.03, 0.92)
 @export var selected_paper_color: Color = Color(1.0, 0.995, 0.98, 0.98)
 @export var edge_color: Color = Color(0.86, 0.84, 0.80, 0.55)
 @export var shadow_color: Color = Color(0.22, 0.26, 0.34, 0.22)
 @export var ribbon_half_height: float = 3.4
 @export var selected_half_height: float = 4.2
 @export var shadow_offset: Vector2 = Vector2(1.5, 2.5)
-@export var edge_wobble: float = 0.85
-@export var segment_length: float = 28.0
+@export var edge_wobble: float = 0.7
+@export var dash_length: float = 22.0
+@export var gap_length: float = 14.0
+@export var dash_length_jitter: float = 5.0
+@export var gap_length_jitter: float = 4.0
 @export var end_margin: float = 6.0
 @export var gameArea: GameArea
 @export var lineSelector: LineSelector
@@ -45,6 +48,8 @@ func _draw() -> void:
 		return
 	var area := gameArea.gameplay_area
 	var lines_count := gameArea.getLinesSize()
+	if lines_count <= 0:
+		return
 	var spacing := area.size.y / float(lines_count)
 	var selected_lane := lineSelector.selected_lane
 
@@ -53,7 +58,7 @@ func _draw() -> void:
 		var start := Vector2(area.position.x + end_margin, y_pos)
 		var end := Vector2(area.end.x - end_margin, y_pos)
 		var selected := i == selected_lane or i == selected_lane + 1
-		_draw_paper_ribbon(
+		_draw_dashed_paper_ribbon(
 			start,
 			end,
 			selected_paper_color if selected else paper_color,
@@ -62,39 +67,73 @@ func _draw() -> void:
 		)
 
 
-func _draw_paper_ribbon(
+func _draw_dashed_paper_ribbon(
 	start: Vector2,
 	end: Vector2,
 	fill: Color,
 	half_h: float,
 	line_index: int,
 ) -> void:
+	var total_len := end.x - start.x
+	if total_len <= 1.0:
+		return
+
+	var cursor := 0.0
+	var dash_i := 0
+	var draw_dash := true
+	while cursor < total_len:
+		var seed_base := line_index * 997 + dash_i * 131
+		var r0 := _hash01(seed_base)
+		var r1 := _hash01(seed_base + 3)
+
+		var segment: float
+		if draw_dash:
+			segment = dash_length + (r0 - 0.5) * 2.0 * dash_length_jitter
+		else:
+			segment = gap_length + (r1 - 0.5) * 2.0 * gap_length_jitter
+		segment = maxf(segment, 3.0)
+		var next_cursor := minf(cursor + segment, total_len)
+
+		if draw_dash:
+			var a := Vector2(start.x + cursor, start.y)
+			var b := Vector2(start.x + next_cursor, start.y)
+			_draw_paper_dash(a, b, fill, half_h, line_index, dash_i)
+
+		cursor = next_cursor
+		draw_dash = not draw_dash
+		dash_i += 1
+
+
+func _draw_paper_dash(
+	start: Vector2,
+	end: Vector2,
+	fill: Color,
+	half_h: float,
+	line_index: int,
+	dash_i: int,
+) -> void:
 	var length := end.x - start.x
 	if length <= 1.0:
 		return
 
-	var top := _build_edge(start, length, -half_h, line_index, 0)
-	var bottom := _build_edge(start, length, half_h, line_index, 1)
-	# Polygon: top L→R, then bottom R→L.
+	var top := _build_edge(start, length, -half_h, line_index, dash_i * 2)
+	var bottom := _build_edge(start, length, half_h, line_index, dash_i * 2 + 1)
 	var poly: PackedVector2Array = PackedVector2Array()
 	poly.append_array(top)
 	for i in range(bottom.size() - 1, -1, -1):
 		poly.append(bottom[i])
 
-	# Soft shadow under the strip (sticker depth).
 	var shadow_poly := PackedVector2Array()
 	for p in poly:
 		shadow_poly.append(p + shadow_offset)
 	draw_colored_polygon(shadow_poly, shadow_color)
-
 	draw_colored_polygon(poly, fill)
 
-	# Hairline cut edge — reads as layered paper, not a flat vector bar.
 	var edge := edge_color
 	if fill.a > 0.95:
 		edge.a = minf(edge.a + 0.12, 1.0)
-	_stroke_polyline(top, edge, 1.1)
-	_stroke_polyline(bottom, edge, 1.1)
+	_stroke_polyline(top, edge, 1.0)
+	_stroke_polyline(bottom, edge, 1.0)
 
 
 func _build_edge(
@@ -105,15 +144,14 @@ func _build_edge(
 	edge_id: int,
 ) -> PackedVector2Array:
 	var points := PackedVector2Array()
-	var steps := maxi(int(ceil(length / segment_length)), 2)
+	var steps := maxi(int(ceil(length / 10.0)), 2)
 	for s in range(steps + 1):
 		var t := float(s) / float(steps)
 		var x := start.x + length * t
 		var h := _hash01(line_index * 113 + edge_id * 47 + s * 19)
 		var wobble := (h - 0.5) * 2.0 * edge_wobble
-		# Ends slightly tapered / torn so the strip does not look machine-cut.
 		var end_fade := 1.0
-		if t < 0.02 or t > 0.98:
+		if t < 0.08 or t > 0.92:
 			end_fade = 0.55 + h * 0.35
 		points.append(Vector2(x, start.y + base_y * end_fade + wobble))
 	return points
