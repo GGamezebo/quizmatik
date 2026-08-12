@@ -43,13 +43,18 @@ const BALLOON_TINTS: Array[Color] = [
 @export var wind_pulse_speed: float = 2.4
 @export var wind_pulse_strength: float = 0.06
 @export var label_body_offset: Vector2 = Vector2(0, 8)
+@export var font_size_1_digit: int = 68
+@export var font_size_2_digit: int = 64
+@export var font_size_3_digit: int = 42
 @export_color_no_alpha var right_color: Color = Color.GREEN
 @export_color_no_alpha var wrong_color: Color = Color.RED
 
 var value: int = 0:
 	set(new_value):
 		value = new_value
-		label.text = str(value)
+		if label != null:
+			label.text = str(value)
+			_update_label_font_size()
 
 var speed: float = 50.0
 var _acceleration: float = GameConfig.PLAYER_ACCELERATION_DEFAULT
@@ -79,6 +84,7 @@ func _ready() -> void:
 	_base_sprite_offset = _sprite.offset
 	_center_label_on_body()
 	_fit_to_lane()
+	_update_label_font_size()
 	_init_wind()
 	if _entry_pending:
 		_begin_entry()
@@ -189,6 +195,18 @@ func _center_label_on_body() -> void:
 		half = Vector2(36, 36)
 	label.position = label_body_offset - half
 	label.pivot_offset = half
+
+
+func _update_label_font_size() -> void:
+	if label == null or label.label_settings == null:
+		return
+	var digits := str(absi(value)).length()
+	if digits <= 1:
+		label.label_settings.font_size = font_size_1_digit
+	elif digits == 2:
+		label.label_settings.font_size = font_size_2_digit
+	else:
+		label.label_settings.font_size = font_size_3_digit
 
 
 func _begin_entry() -> void:
