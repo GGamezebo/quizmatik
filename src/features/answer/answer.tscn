@@ -1,15 +1,21 @@
 [gd_scene format=3 uid="uid://cafp7vy16q1kc"]
 
 [ext_resource type="Script" uid="uid://cu637lmffdld0" path="res://src/features/answer/answer.gd" id="1_uxhp0"]
-[ext_resource type="Texture2D" path="res://src/features/answer/balloons_atlas.png" id="2_0rjkt"]
+[ext_resource type="Texture2D" uid="uid://dpyvhpkltxbd7" path="res://src/features/answer/balloons_atlas.png" id="2_0rjkt"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="3_4ksk8"]
 [ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="3_font"]
 [ext_resource type="PackedScene" path="res://src/features/answer/balloon_pop.tscn" id="4_pop"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8vrlf"]
+shader = ExtResource("3_4ksk8")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_73wma"]
 resource_local_to_scene = true
 font = ExtResource("3_font")
 font_size = 42
-font_color = Color(1, 1, 1, 1)
 outline_size = 5
 outline_color = Color(0.165, 0.2, 0.251, 0.85)
 shadow_size = 3
@@ -28,9 +34,10 @@ _collision_shape = NodePath("CollisionShape2D")
 _sprite = NodePath("Visual/Sprite2D")
 _visual = NodePath("Visual")
 
-[node name="Visual" type="Node2D" parent="."]
+[node name="Visual" type="Node2D" parent="." unique_id=583478861]
 
 [node name="Sprite2D" type="Sprite2D" parent="Visual" unique_id=1225723819]
+material = SubResource("ShaderMaterial_8vrlf")
 scale = Vector2(0.69, 0.69)
 texture = ExtResource("2_0rjkt")
 offset = Vector2(0, 18)

@@ -18,4 +18,3 @@ func _refresh_max_score() -> void:
 
 func _on_score_changed(new_score: int) -> void:
 	score.text = str(new_score)
-

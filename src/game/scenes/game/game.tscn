@@ -24,7 +24,7 @@
 [ext_resource type="Script" uid="uid://c31s1xkrtgnis" path="res://src/game/scenes/game/ui/answer_label.gd" id="14_wlohk"]
 [ext_resource type="Script" uid="uid://bb48gluxno1u" path="res://src/game/scenes/game/ui/ui_health.gd" id="15_6ktr1"]
 [ext_resource type="Script" uid="uid://cwfxgx56jwul8" path="res://src/game/scenes/game/game_logic/line_selector.gd" id="15_h2w07"]
-[ext_resource type="Texture2D" uid="uid://b6p0cvu6l0ndc" path="res://src/ui/hud/heart.png" id="17_emdi4"]
+[ext_resource type="PackedScene" uid="uid://dm7ex4ie6suhi" path="res://src/features/heart/heart.tscn" id="17_heart"]
 [ext_resource type="Script" uid="uid://bujyufbdn6yo" path="res://src/game/scenes/game/ui/score.gd" id="19_73ia8"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="20_settings"]
 [ext_resource type="Script" uid="uid://b16rw3tfshgjb" path="res://src/game/scenes/game/ui/movement_mode_button.gd" id="21_movebtn"]
@@ -37,10 +37,47 @@
 [ext_resource type="Script" uid="uid://dxdf03het6j0r" path="res://src/game/scenes/game/ui/sound_mute_button.gd" id="28_mute"]
 [ext_resource type="Texture2D" uid="uid://cb3h6dwi6e0vd" path="res://src/ui/hud/score_frame.png" id="29_score_frame"]
 [ext_resource type="Script" uid="uid://f6odaxaw13hf" path="res://src/ui/buttons/hover_scale_button.gd" id="30_hover"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="36_fb8ob"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_whrcd"]
+shader = ExtResource("36_fb8ob")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_13jr8"]
+shader = ExtResource("36_fb8ob")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2qtwj"]
+shader = ExtResource("36_fb8ob")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p4hhl"]
+shader = ExtResource("36_fb8ob")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_orq3g"]
 load_path = "res://.godot/imported/question_banner.png-de7ea24202147950831a865ff27fdb6b.ctex"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5gkin"]
+shader = ExtResource("36_fb8ob")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fb8ob"]
+shader = ExtResource("36_fb8ob")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
 
 [node name="GameScene" type="Node" unique_id=1179940708 node_paths=PackedStringArray("initable_components")]
 script = ExtResource("1_j4hd0")
@@ -132,6 +169,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="SoundMute" type="TextureButton" parent="HUD/TopLeftPanel/HBox" unique_id=2048123902]
+material = SubResource("ShaderMaterial_whrcd")
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 size_flags_vertical = 4
@@ -145,6 +183,7 @@ script = ExtResource("28_mute")
 user_settings = ExtResource("20_settings")
 
 [node name="MovementMode" type="TextureButton" parent="HUD/TopLeftPanel/HBox" unique_id=1388026191 node_paths=PackedStringArray("air_plane")]
+material = SubResource("ShaderMaterial_13jr8")
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 size_flags_vertical = 4
@@ -163,6 +202,7 @@ layout_mode = 2
 size_flags_vertical = 4
 
 [node name="Frame" type="TextureRect" parent="HUD/TopLeftPanel/HBox/ScoreFrame" unique_id=63369237]
+material = SubResource("ShaderMaterial_2qtwj")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -174,48 +214,34 @@ texture = ExtResource("29_score_frame")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Score" type="HBoxContainer" parent="HUD/TopLeftPanel/HBox/ScoreFrame" unique_id=63369239 node_paths=PackedStringArray("player", "score", "maxScore")]
+[node name="Score" type="HBoxContainer" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Frame" unique_id=63369239 node_paths=PackedStringArray("player", "score", "maxScore")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 28.0
-offset_top = 16.0
-offset_right = -28.0
-offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 2
+offset_transform_enabled = true
+theme_override_constants/separation = 4
 alignment = 1
 script = ExtResource("19_73ia8")
-player = NodePath("../../../../../Player")
+player = NodePath("../../../../../../Player")
 game_config = ExtResource("2_j4hd0")
 score = NodePath("Score")
 maxScore = NodePath("MaxScore")
 
-[node name="Name" type="Label" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Score" unique_id=345963575]
+[node name="Score" type="Label" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Frame/Score" unique_id=1130806769]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_colors/font_outline_color = Color(0.98, 0.95, 0.9, 0.55)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 28
-text = "счёт:"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Score" type="Label" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Score" unique_id=1130806769]
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
-theme_override_colors/font_outline_color = Color(0.98, 0.95, 0.9, 0.55)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 42
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Separator" type="Label" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Score" unique_id=1191885687]
+[node name="Separator" type="Label" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Frame/Score" unique_id=1191885687]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
@@ -226,13 +252,13 @@ text = "/"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MaxScore" type="Label" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Score" unique_id=1314264146]
+[node name="MaxScore" type="Label" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Frame/Score" unique_id=1314264146]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_colors/font_outline_color = Color(0.98, 0.95, 0.9, 0.55)
 theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 42
 text = "30"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -245,6 +271,7 @@ lineSelector = NodePath("../../LineSelector")
 game_events = ExtResource("7_7ifmk")
 
 [node name="QuestionBanner" type="NinePatchRect" parent="HUD" unique_id=1842566218]
+material = SubResource("ShaderMaterial_p4hhl")
 custom_minimum_size = Vector2(200, 20)
 anchors_preset = 5
 anchor_left = 0.5
@@ -255,12 +282,15 @@ offset_right = 225.0
 offset_bottom = 110.0
 grow_horizontal = 2
 texture = SubResource("CompressedTexture2D_orq3g")
+region_rect = Rect2(0, 0, 640, 224)
 
 [node name="Question" type="Label" parent="HUD/QuestionBanner" unique_id=1842566219]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -8.0
+offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -269,7 +299,9 @@ theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_colors/font_outline_color = Color(0.98, 0.95, 0.9, 0.55)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 56
+text = "fd4555"
 horizontal_alignment = 1
+vertical_alignment = 1
 script = ExtResource("14_wlohk")
 
 [node name="RightPanel" type="HBoxContainer" parent="HUD" unique_id=2075508658]
@@ -290,7 +322,7 @@ layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("15_6ktr1")
 player = NodePath("../../../Player")
-helthSprite = ExtResource("17_emdi4")
+heart_scene = ExtResource("17_heart")
 
 [node name="ActionButtons" type="HBoxContainer" parent="HUD/RightPanel" unique_id=1515748703]
 layout_mode = 2
@@ -299,6 +331,7 @@ theme_override_constants/separation = 8
 alignment = 2
 
 [node name="Restart" type="TextureButton" parent="HUD/RightPanel/ActionButtons" unique_id=226694794]
+material = SubResource("ShaderMaterial_5gkin")
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 size_flags_vertical = 4
@@ -309,6 +342,7 @@ stretch_mode = 5
 script = ExtResource("30_hover")
 
 [node name="Exit" type="TextureButton" parent="HUD/RightPanel/ActionButtons" unique_id=526698830]
+material = SubResource("ShaderMaterial_fb8ob")
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 size_flags_vertical = 4

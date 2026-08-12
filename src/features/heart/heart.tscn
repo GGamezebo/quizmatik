@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dm7ex4ie6suhi"]
+
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="1_bdkra"]
+[ext_resource type="Texture2D" uid="uid://lq6oiqxogefy" path="res://src/features/heart/heart.png" id="1_tex"]
+[ext_resource type="Script" uid="uid://dudvmrmniumrc" path="res://src/features/heart/heart.gd" id="2_script"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fb8ob"]
+shader = ExtResource("1_bdkra")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
+
+[node name="Heart" type="TextureRect" unique_id=942950226]
+material = SubResource("ShaderMaterial_fb8ob")
+custom_minimum_size = Vector2(52, 52)
+mouse_filter = 2
+texture = ExtResource("1_tex")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("2_script")
