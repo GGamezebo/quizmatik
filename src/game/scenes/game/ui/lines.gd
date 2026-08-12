@@ -147,11 +147,11 @@ func _draw_x_marks(
 
 	for i in positions.size():
 		var along: float = positions[i]
-		var seed := line_index * 53 + i * 19
-		var wobble := (_hash01(seed) - 0.5) * wobble_amp * 1.2
+		var mark_seed := line_index * 53 + i * 19
+		var wobble := (_hash01(mark_seed) - 0.5) * wobble_amp * 1.2
 		var center := start + unit * along + normal * wobble
-		var size := x_mark_size * (0.85 + _hash01(seed + 5) * 0.35)
-		var rot := (_hash01(seed + 9) - 0.5) * 0.35
+		var size := x_mark_size * (0.85 + _hash01(mark_seed + 5) * 0.35)
+		var rot := (_hash01(mark_seed + 9) - 0.5) * 0.35
 		var arm_a := Vector2(cos(rot), sin(rot)) * size
 		var arm_b := Vector2(-sin(rot), cos(rot)) * size
 		var thick := maxf(thickness * 0.85, 1.4)
