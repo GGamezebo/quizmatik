@@ -1,23 +1,19 @@
 extends Node2D
 
-## Graphite pencil lane guides — match concepts/battle_notebook_modern_v1.png.
-## Dashed, slightly wobbly strokes with small "x" ticks; no neon glow.
+## White paper ribbon lane guides — match concepts/gameplay_preview/02_battle.png.
+## Soft cut-paper strips with a faint drop shadow (not graphite dashes).
 ## Visible only while battle FSM is in GameState.
 
-@export var dash_color: Color = Color(0.28, 0.32, 0.38, 0.48)
-@export var selected_color: Color = Color(0.20, 0.24, 0.30, 0.78)
-@export var dash_length: float = 17.0
-@export var gap_length: float = 15.0
-@export var dash_length_jitter: float = 7.0
-@export var gap_length_jitter: float = 6.0
-@export var wobble_amp: float = 1.45
-@export var line_thickness: float = 2.15
-@export var selected_thickness: float = 2.85
-@export var soft_pass_scale: float = 2.1
-@export var soft_pass_alpha: float = 0.28
-@export var x_mark_spacing: float = 88.0
-@export var x_mark_size: float = 5.2
-@export var end_margin: float = 10.0
+@export var paper_color: Color = Color(0.98, 0.97, 0.94, 0.92)
+@export var selected_paper_color: Color = Color(1.0, 0.995, 0.98, 0.98)
+@export var edge_color: Color = Color(0.86, 0.84, 0.80, 0.55)
+@export var shadow_color: Color = Color(0.22, 0.26, 0.34, 0.22)
+@export var ribbon_half_height: float = 3.4
+@export var selected_half_height: float = 4.2
+@export var shadow_offset: Vector2 = Vector2(1.5, 2.5)
+@export var edge_wobble: float = 0.85
+@export var segment_length: float = 28.0
+@export var end_margin: float = 6.0
 @export var gameArea: GameArea
 @export var lineSelector: LineSelector
 @export var game_events: GameEvents
@@ -57,106 +53,75 @@ func _draw() -> void:
 		var start := Vector2(area.position.x + end_margin, y_pos)
 		var end := Vector2(area.end.x - end_margin, y_pos)
 		var selected := i == selected_lane or i == selected_lane + 1
-		var color := selected_color if selected else dash_color
-		var thickness := selected_thickness if selected else line_thickness
-		_draw_pencil_lane(start, end, color, thickness, i)
+		_draw_paper_ribbon(
+			start,
+			end,
+			selected_paper_color if selected else paper_color,
+			selected_half_height if selected else ribbon_half_height,
+			i
+		)
 
 
-func _draw_pencil_lane(start: Vector2, end: Vector2, color: Color, thickness: float, line_index: int) -> void:
-	var direction := end - start
-	var length := direction.length()
-	if length <= 0.001:
+func _draw_paper_ribbon(
+	start: Vector2,
+	end: Vector2,
+	fill: Color,
+	half_h: float,
+	line_index: int,
+) -> void:
+	var length := end.x - start.x
+	if length <= 1.0:
 		return
-	var unit := direction / length
-	var normal := Vector2(-unit.y, unit.x)
 
-	# Soft graphite halo under the stroke (paper soak), then crisp core.
-	var soft := color
-	soft.a *= soft_pass_alpha
-	_stroke_pencil_dashes(start, unit, normal, length, soft, thickness * soft_pass_scale, line_index, 0)
-	_stroke_pencil_dashes(start, unit, normal, length, color, thickness, line_index, 1)
+	var top := _build_edge(start, length, -half_h, line_index, 0)
+	var bottom := _build_edge(start, length, half_h, line_index, 1)
+	# Polygon: top L→R, then bottom R→L.
+	var poly: PackedVector2Array = PackedVector2Array()
+	poly.append_array(top)
+	for i in range(bottom.size() - 1, -1, -1):
+		poly.append(bottom[i])
 
-	_draw_x_marks(start, unit, normal, length, color, thickness, line_index)
+	# Soft shadow under the strip (sticker depth).
+	var shadow_poly := PackedVector2Array()
+	for p in poly:
+		shadow_poly.append(p + shadow_offset)
+	draw_colored_polygon(shadow_poly, shadow_color)
+
+	draw_colored_polygon(poly, fill)
+
+	# Hairline cut edge — reads as layered paper, not a flat vector bar.
+	var edge := edge_color
+	if fill.a > 0.95:
+		edge.a = minf(edge.a + 0.12, 1.0)
+	_stroke_polyline(top, edge, 1.1)
+	_stroke_polyline(bottom, edge, 1.1)
 
 
-func _stroke_pencil_dashes(
+func _build_edge(
 	start: Vector2,
-	unit: Vector2,
-	normal: Vector2,
 	length: float,
-	color: Color,
-	thickness: float,
+	base_y: float,
 	line_index: int,
-	pass_id: int,
-) -> void:
-	var cursor := 0.0
-	var dash_i := 0
-	var draw_dash := true
-	while cursor < length:
-		var seed_base := line_index * 997 + dash_i * 131 + pass_id * 17
-		var r0 := _hash01(seed_base)
-		var r1 := _hash01(seed_base + 3)
-		var r2 := _hash01(seed_base + 7)
-		var r3 := _hash01(seed_base + 11)
-
-		var segment: float
-		if draw_dash:
-			segment = dash_length + (r0 - 0.5) * 2.0 * dash_length_jitter
-		else:
-			segment = gap_length + (r1 - 0.5) * 2.0 * gap_length_jitter
-		segment = maxf(segment, 3.0)
-		var next_cursor := minf(cursor + segment, length)
-
-		if draw_dash:
-			var wobble_a := (r2 - 0.5) * 2.0 * wobble_amp
-			var wobble_b := (r3 - 0.5) * 2.0 * wobble_amp
-			# Slight along-line taper / pressure change.
-			var thick := thickness * (0.82 + r0 * 0.36)
-			var a := start + unit * cursor + normal * wobble_a
-			var b := start + unit * next_cursor + normal * wobble_b
-			# Tiny second nick on longer dashes — reads as pencil grain.
-			if next_cursor - cursor > dash_length * 0.85:
-				var mid_t := 0.45 + (r1 - 0.5) * 0.2
-				var mid := a.lerp(b, mid_t) + normal * ((r2 - 0.5) * wobble_amp * 0.55)
-				draw_line(a, mid, color, thick, true)
-				draw_line(mid, b, color, thick * (0.9 + r3 * 0.2), true)
-			else:
-				draw_line(a, b, color, thick, true)
-
-		cursor = next_cursor
-		draw_dash = not draw_dash
-		dash_i += 1
+	edge_id: int,
+) -> PackedVector2Array:
+	var points := PackedVector2Array()
+	var steps := maxi(int(ceil(length / segment_length)), 2)
+	for s in range(steps + 1):
+		var t := float(s) / float(steps)
+		var x := start.x + length * t
+		var h := _hash01(line_index * 113 + edge_id * 47 + s * 19)
+		var wobble := (h - 0.5) * 2.0 * edge_wobble
+		# Ends slightly tapered / torn so the strip does not look machine-cut.
+		var end_fade := 1.0
+		if t < 0.02 or t > 0.98:
+			end_fade = 0.55 + h * 0.35
+		points.append(Vector2(x, start.y + base_y * end_fade + wobble))
+	return points
 
 
-func _draw_x_marks(
-	start: Vector2,
-	unit: Vector2,
-	normal: Vector2,
-	length: float,
-	color: Color,
-	thickness: float,
-	line_index: int,
-) -> void:
-	var mark_color := color
-	mark_color.a *= 0.85
-	var positions: Array[float] = [0.0, length]
-	var t := x_mark_spacing * 0.55
-	while t < length - x_mark_spacing * 0.4:
-		positions.append(t)
-		t += x_mark_spacing + (_hash01(line_index * 41 + int(t)) - 0.5) * 18.0
-
-	for i in positions.size():
-		var along: float = positions[i]
-		var mark_seed := line_index * 53 + i * 19
-		var wobble := (_hash01(mark_seed) - 0.5) * wobble_amp * 1.2
-		var center := start + unit * along + normal * wobble
-		var size := x_mark_size * (0.85 + _hash01(mark_seed + 5) * 0.35)
-		var rot := (_hash01(mark_seed + 9) - 0.5) * 0.35
-		var arm_a := Vector2(cos(rot), sin(rot)) * size
-		var arm_b := Vector2(-sin(rot), cos(rot)) * size
-		var thick := maxf(thickness * 0.85, 1.4)
-		draw_line(center - arm_a, center + arm_a, mark_color, thick, true)
-		draw_line(center - arm_b, center + arm_b, mark_color, thick, true)
+func _stroke_polyline(points: PackedVector2Array, color: Color, thickness: float) -> void:
+	for i in range(points.size() - 1):
+		draw_line(points[i], points[i + 1], color, thickness, true)
 
 
 func _hash01(n: int) -> float:
