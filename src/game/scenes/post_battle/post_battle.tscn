@@ -2,15 +2,24 @@
 
 [ext_resource type="Script" uid="uid://15oswvc8w8gn" path="res://src/game/scenes/post_battle/post_battle.gd" id="1_uxaqq"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="2_jg6wr"]
-[ext_resource type="PackedScene" uid="uid://bnbookbg01quiz" path="res://src/ui/backgrounds/notebook/notebook_background.tscn" id="3_bg"]
+[ext_resource type="PackedScene" uid="uid://wr8hmf0acdft" path="res://src/ui/backgrounds/notebook/notebook_background.tscn" id="3_bg"]
 [ext_resource type="Resource" uid="uid://dsqbcw3nqv3lc" path="res://src/common/game_config_default.tres" id="3_isyvk"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="4_progress"]
-[ext_resource type="Texture2D" uid="uid://dj5bxtw0dw0ke" path="res://assets/ui/icons/star_empty.png" id="5_star_empty"]
-[ext_resource type="Texture2D" uid="uid://clq8x5grir3ri" path="res://assets/ui/icons/star_filled.png" id="6_star_filled"]
+[ext_resource type="Texture2D" uid="uid://xgy53kjwuyv2" path="res://src/game/scenes/post_battle/ui/post_battle_card.png" id="5_card"]
+[ext_resource type="Texture2D" uid="uid://b47o74bs6trrp" path="res://src/game/scenes/post_battle/ui/stamp_sun.png" id="6_sun"]
+[ext_resource type="Texture2D" uid="uid://s3c4ma3ls5th" path="res://src/game/scenes/post_battle/ui/stamp_flower.png" id="7_flower"]
+[ext_resource type="Texture2D" uid="uid://bkqyjg62fx26v" path="res://src/game/scenes/post_battle/ui/stamp_cat.png" id="8_cat"]
+[ext_resource type="Texture2D" uid="uid://cj7pj2rkfp7gx" path="res://src/game/scenes/post_battle/ui/stamp_empty.png" id="9_empty"]
+[ext_resource type="Texture2D" uid="uid://bk1m43qfsn1tu" path="res://src/game/scenes/post_battle/ui/btn_back.png" id="10_back"]
+[ext_resource type="Texture2D" uid="uid://c15dt2ao0kw4b" path="res://src/ui/hud/btn_restart.png" id="11_restart"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="11_ypp4h"]
+[ext_resource type="Texture2D" uid="uid://chuow1ph231cp" path="res://src/game/scenes/post_battle/ui/btn_next.png" id="12_next"]
+[ext_resource type="Script" uid="uid://f6odaxaw13hf" path="res://src/ui/buttons/hover_scale_button.gd" id="13_hover"]
+[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="14_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_overlay"]
-colors = PackedColorArray(0, 0, 0, 0.4, 0.55, 0.55, 0.55, 0.08)
+colors = PackedColorArray(0.12, 0.1, 0.08, 0.22, 0.953, 0.902, 0.784, 0.05)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_overlay"]
 gradient = SubResource("Gradient_overlay")
@@ -19,46 +28,53 @@ height = 720
 fill_from = Vector2(0.5, 0)
 fill_to = Vector2(0.5, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-content_margin_left = 40.0
-content_margin_top = 36.0
-content_margin_right = 40.0
-content_margin_bottom = 36.0
-bg_color = Color(0.953, 0.902, 0.784, 0.96)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.165, 0.2, 0.251, 1)
-corner_radius_top_left = 28
-corner_radius_top_right = 28
-corner_radius_bottom_right = 28
-corner_radius_bottom_left = 28
-shadow_color = Color(0.15, 0.12, 0.08, 0.28)
-shadow_size = 18
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lq88b"]
+shader = ExtResource("11_ypp4h")
+shader_parameter/shadow_offset = Vector2(-10, 20)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
-font_size = 56
-font_color = Color(0.165, 0.2, 0.251, 1)
-outline_size = 6
-outline_color = Color(0.98, 0.95, 0.9, 0.95)
+font = ExtResource("14_font")
+font_size = 50
+font_color = Color(0.22, 0.44, 0.28, 1)
+outline_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_score"]
-font_size = 28
-font_color = Color(0.28, 0.32, 0.38, 1)
+font = ExtResource("14_font")
+font_size = 36
+font_color = Color(0.22, 0.25, 0.3, 1)
 
-[node name="PostBattleScene" type="Node" unique_id=1710544667 node_paths=PackedStringArray("progress", "title_label", "score_label", "stars", "next_level_button", "menu_button", "repeat_button")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p8j5v"]
+shader = ExtResource("11_ypp4h")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xycn4"]
+shader = ExtResource("11_ypp4h")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lmiu3"]
+shader = ExtResource("11_ypp4h")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
+
+[node name="PostBattleScene" type="Node" unique_id=1710544667 node_paths=PackedStringArray("progress", "title_label", "score_label", "stamps", "next_level_button", "menu_button", "repeat_button")]
 script = ExtResource("1_uxaqq")
 root_events = ExtResource("2_jg6wr")
 progress = NodePath("ProgressController")
-title_label = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Title")
-score_label = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Score")
-stars = [NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow/Star1"), NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow/Star2"), NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow/Star3")]
-star_empty = ExtResource("5_star_empty")
-star_filled = ExtResource("6_star_filled")
-next_level_button = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/NextLevel")
-menu_button = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Menu")
-repeat_button = NodePath("UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Repeat")
+title_label = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/Title")
+score_label = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/Score")
+stamps = [NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/StampsRow/Stamp1"), NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/StampsRow/Stamp2"), NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/StampsRow/Stamp3")]
+stamp_textures = Array[Texture2D]([ExtResource("6_sun"), ExtResource("7_flower"), ExtResource("8_cat")])
+stamp_empty = ExtResource("9_empty")
+next_level_button = NodePath("UI/Screen/CenterContainer/ResultCard/Buttons/NextLevel")
+menu_button = NodePath("UI/Screen/CenterContainer/ResultCard/Buttons/Menu")
+repeat_button = NodePath("UI/Screen/CenterContainer/ResultCard/Buttons/Repeat")
 _game_config = ExtResource("3_isyvk")
 
 [node name="ProgressController" parent="." unique_id=478405376 instance=ExtResource("4_progress")]
@@ -75,6 +91,7 @@ grow_vertical = 2
 theme = ExtResource("theme_ui")
 
 [node name="Background" parent="UI/Screen" unique_id=1769336873 instance=ExtResource("3_bg")]
+idle_color_amount = 1.0
 
 [node name="Overlay" type="TextureRect" parent="UI/Screen" unique_id=843163409]
 layout_mode = 1
@@ -83,6 +100,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = SubResource("GradientTexture2D_overlay")
 
 [node name="CenterContainer" type="CenterContainer" parent="UI/Screen" unique_id=1840846823]
@@ -93,78 +111,129 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="UI/Screen/CenterContainer" unique_id=854590390]
-custom_minimum_size = Vector2(560, 420)
+[node name="ResultCard" type="Control" parent="UI/Screen/CenterContainer" unique_id=854590390]
+custom_minimum_size = Vector2(780, 560)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/Screen/CenterContainer/PanelContainer" unique_id=1936752462]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+[node name="CardBg" type="TextureRect" parent="UI/Screen/CenterContainer/ResultCard" unique_id=854590391]
+material = SubResource("ShaderMaterial_lq88b")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_card")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer" unique_id=751253180]
+[node name="Content" type="MarginContainer" parent="UI/Screen/CenterContainer/ResultCard" unique_id=1936752462]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 100
+
+[node name="VBox" type="VBoxContainer" parent="UI/Screen/CenterContainer/ResultCard/Content" unique_id=751253180]
 layout_mode = 2
-theme_override_constants/separation = 24
+theme_override_constants/separation = 22
 alignment = 1
 
-[node name="Title" type="Label" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=723593679]
+[node name="Title" type="Label" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox" unique_id=723593679]
 layout_mode = 2
-text = "Победа!"
+text = "ПОБЕДНЫЙ ПОЛЁТ!"
 label_settings = SubResource("LabelSettings_title")
 horizontal_alignment = 1
 
-[node name="Score" type="Label" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=131603087]
+[node name="Score" type="Label" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox" unique_id=131603087]
 layout_mode = 2
-text = "Правильных ответов: 0 / 5"
+text = "5 / 5"
 label_settings = SubResource("LabelSettings_score")
 horizontal_alignment = 1
 
-[node name="StarsRow" type="HBoxContainer" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1661167855]
+[node name="StampsRow" type="HBoxContainer" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox" unique_id=1661167855]
 layout_mode = 2
-theme_override_constants/separation = 10
+size_flags_vertical = 3
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -10)
+theme_override_constants/separation = 44
 alignment = 1
 
-[node name="Star1" type="TextureRect" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow" unique_id=1069630170]
-custom_minimum_size = Vector2(40, 28)
+[node name="Stamp1" type="TextureRect" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/StampsRow" unique_id=1069630170]
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-texture = ExtResource("5_star_empty")
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("9_empty")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Star2" type="TextureRect" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow" unique_id=1301149994]
-custom_minimum_size = Vector2(40, 28)
+[node name="Stamp2" type="TextureRect" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/StampsRow" unique_id=1301149994]
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-texture = ExtResource("5_star_empty")
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("9_empty")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Star3" type="TextureRect" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/StarsRow" unique_id=165744862]
-custom_minimum_size = Vector2(40, 28)
+[node name="Stamp3" type="TextureRect" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/StampsRow" unique_id=165744862]
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
-texture = ExtResource("5_star_empty")
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("9_empty")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Buttons" type="HBoxContainer" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=51419622]
-layout_mode = 2
-theme_override_constants/separation = 20
+[node name="Buttons" type="HBoxContainer" parent="UI/Screen/CenterContainer/ResultCard" unique_id=51419622]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -257.0
+offset_top = -120.0
+offset_right = 257.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 32
 alignment = 1
 
-[node name="NextLevel" type="Button" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons" unique_id=1814447274]
-visible = false
-custom_minimum_size = Vector2(220, 0)
+[node name="Menu" type="TextureButton" parent="UI/Screen/CenterContainer/ResultCard/Buttons" unique_id=569244344]
+material = SubResource("ShaderMaterial_p8j5v")
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-text = "Следующий уровень"
+focus_mode = 0
+texture_normal = ExtResource("10_back")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("13_hover")
 
-[node name="Repeat" type="Button" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons" unique_id=1403790622]
-custom_minimum_size = Vector2(220, 0)
+[node name="Repeat" type="TextureButton" parent="UI/Screen/CenterContainer/ResultCard/Buttons" unique_id=1403790622]
+material = SubResource("ShaderMaterial_xycn4")
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-text = "Повторить"
+focus_mode = 0
+texture_normal = ExtResource("11_restart")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("13_hover")
 
-[node name="Menu" type="Button" parent="UI/Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons" unique_id=569244344]
-custom_minimum_size = Vector2(220, 0)
+[node name="NextLevel" type="TextureButton" parent="UI/Screen/CenterContainer/ResultCard/Buttons" unique_id=1814447274]
+material = SubResource("ShaderMaterial_lmiu3")
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-text = "Меню"
+focus_mode = 0
+texture_normal = ExtResource("12_next")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("13_hover")

@@ -1,18 +1,18 @@
 class_name PostBattleScene
 extends IScene
 
-@export_category('Major components')
+@export_category("Major components")
 @export var root_events: RootEvents
 @export var progress: ProgressController
 @export var title_label: Label
 @export var score_label: Label
-@export var stars: Array[TextureRect] = []
-@export var star_empty: Texture2D
-@export var star_filled: Texture2D
-@export_group('Buttons')
-@export var next_level_button: Button
-@export var menu_button: Button
-@export var repeat_button: Button
+@export var stamps: Array[TextureRect] = []
+@export var stamp_textures: Array[Texture2D] = []
+@export var stamp_empty: Texture2D
+@export_group("Buttons")
+@export var next_level_button: BaseButton
+@export var menu_button: BaseButton
+@export var repeat_button: BaseButton
 @export var _game_config: GameConfig
 
 var _next_battle_info: GameConfig.BattleInfo = null
@@ -33,8 +33,11 @@ static func build_result_data(
 		"stars": stars_count,
 	}
 
+
 func _ready() -> void:
-	repeat_button.grab_focus()
+	if repeat_button:
+		repeat_button.grab_focus()
+
 
 func initialize(data: Dictionary) -> void:
 	if data.has("game_config"):
@@ -46,7 +49,7 @@ func initialize(data: Dictionary) -> void:
 	var max_score: int = data.get("max_score", _game_config.questions_count if _game_config else 0)
 	_update_results(is_win, score, max_score, stars_count)
 	_setup_next_level_button(is_win)
-	
+
 	_listener.add(menu_button.pressed, _on_menu)
 	_listener.add(repeat_button.pressed, _on_repeat)
 	_listener.add(next_level_button.pressed, _on_next_level)
@@ -55,33 +58,42 @@ func initialize(data: Dictionary) -> void:
 	if not auto_container_id.is_empty():
 		call_deferred("_return_to_level_select", auto_container_id)
 
+
 func deinit() -> void:
 	_listener.deinit()
 	_game_config = null
 	_next_battle_info = null
 
+
 func _update_results(is_win: bool, score: int, max_score: int, stars_count: int) -> void:
 	title_label.text = "ПОБЕДНЫЙ ПОЛЁТ!" if is_win else "ПОСАДКА..."
 	var title_settings: LabelSettings = title_label.label_settings.duplicate()
-	title_settings.font_color = Color(0.22, 0.42, 0.3, 1.0) if is_win else Color(0.7, 0.28, 0.26, 1.0)
+	title_settings.font_color = Color(0.22, 0.44, 0.28, 1.0) if is_win else Color(0.70, 0.28, 0.26, 1.0)
 	title_label.label_settings = title_settings
 
 	if max_score > 0:
-		score_label.text = "Правильных ответов: %d / %d" % [score, max_score]
+		score_label.text = "%d / %d" % [score, max_score]
 	else:
-		score_label.text = "Правильных ответов: %d" % score
+		score_label.text = str(score)
 
-	_show_stars(stars_count)
+	_show_stamps(stars_count)
 
 
-func _show_stars(count: int) -> void:
-	for index in range(stars.size()):
-		var star: TextureRect = stars[index]
+func _show_stamps(count: int) -> void:
+	var rotations: Array[float] = [-0.12, 0.08, -0.06]
+	for index in range(stamps.size()):
+		var stamp: TextureRect = stamps[index]
 		var is_filled: bool = index < count
-		star.visible = true
-		star.scale = Vector2.ONE
-		star.modulate = Color.WHITE
-		star.texture = star_filled if is_filled else star_empty
+		stamp.visible = true
+		stamp.pivot_offset = stamp.size * 0.5
+		if stamp.size == Vector2.ZERO:
+			stamp.pivot_offset = Vector2(48, 48)
+		stamp.rotation = rotations[index % rotations.size()] if is_filled else 0.0
+		stamp.modulate = Color(1, 1, 1, 0.92) if is_filled else Color(1, 1, 1, 0.55)
+		if is_filled and index < stamp_textures.size() and stamp_textures[index] != null:
+			stamp.texture = stamp_textures[index]
+		else:
+			stamp.texture = stamp_empty
 
 
 func _setup_next_level_button(is_win: bool) -> void:
@@ -136,8 +148,10 @@ func _resolve_auto_level_select_container(is_win: bool) -> String:
 		return ""
 	return next_container_id
 
+
 func _return_to_level_select(container_id: String) -> void:
 	root_events.ev_return_to_menu.emit({"open_level_select": container_id})
+
 
 func _on_menu() -> void:
 	var container_id: String = _resolve_menu_level_select_container()
@@ -145,6 +159,7 @@ func _on_menu() -> void:
 		root_events.ev_return_to_menu.emit({})
 	else:
 		_return_to_level_select(container_id)
+
 
 func _on_repeat() -> void:
 	if _game_config:
@@ -156,6 +171,7 @@ func _on_repeat() -> void:
 		root_events.ev_start_game.emit(data)
 	else:
 		root_events.ev_return_to_menu.emit({})
+
 
 func _on_next_level() -> void:
 	if _next_battle_info == null:

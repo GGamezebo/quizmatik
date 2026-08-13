@@ -17,4 +17,4 @@ Must match:
 - **Battle:** horizontal flight (plane left → right), 4 lanes, round balloons, paper HUD language
 
 Frames: `concepts/menu_concept.png`, `concepts/battle_concept.png`.  
-Pencil pack: `concepts/notebook_pencil/`.
+Pencil pack: `concepts/notebook_pencil/` (full UI kit: `ui_pack/`).
