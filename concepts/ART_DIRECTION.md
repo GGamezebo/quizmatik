@@ -99,7 +99,7 @@ See `battle_concept.png`, notebook modern ref `concepts/notebook_pencil/battle_m
 | Plane / shot / ink trail | `src/features/plane/`, `shot/`, `ink_blot/` |
 
 | Theme | `core/theme/` — cream paper + graphite ink (`style.tres`) |
-| Backgrounds | `src/ui/backgrounds/` — `BackgroundHost` (battle random) + variant folders |
+| Backgrounds | `src/ui/backgrounds/` — battle `BackgroundHost` + variants; menu / pack / level-select paper page: `paper_page/` (`assets/background.png`); pack extras: `levels_pack/` doodles |
 
 ## Rules for agents
 
