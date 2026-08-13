@@ -70,8 +70,9 @@ Same **Paper Sky** papercraft as `ref_style_paper_sky.png` (cut paper clouds, gr
 5. HUD on torn parchment / paper chips (score, hearts, exit, question banner) — battle sprites in `src/ui/hud/` (notebook sticker set)  
 6. Lane guides: thin **white paper ribbons** across the playfield (`ui/lines.gd`) — soft shadow, cut-paper edges; see `concepts/gameplay_preview/02_battle.png`  
 7. Numbers always readable  
+8. Post-battle: smooth framed paper card + school ink stamps (not stars) + round HUD icon buttons; score as Label font (no number textures) — `concepts/post_battle_notebook_concept_v3.png`  
 
-See `battle_concept.png`, notebook modern ref `concepts/notebook_pencil/battle_modern_v1.png`, HUD atlas `concepts/notebook_pencil/ui_atlas_modern.png`.
+See `battle_concept.png`, notebook modern ref `concepts/notebook_pencil/battle_modern_v1.png`, HUD kit `concepts/notebook_pencil/ui_pack/`.
 
 ## Motion
 
