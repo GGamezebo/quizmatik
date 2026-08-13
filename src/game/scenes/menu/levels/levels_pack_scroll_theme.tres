@@ -1,0 +1,57 @@
+[gd_resource type="Theme" format=3 uid="uid://cvyfycr06mko1"]
+
+[ext_resource type="Texture2D" uid="uid://cerhegx7c1rnc" path="res://src/game/scenes/menu/levels/ui/bar_empty.png" id="1_empty"]
+[ext_resource type="Texture2D" uid="uid://bjpc7yl8doy0i" path="res://src/game/scenes/menu/levels/ui/bar_fill.png" id="2_fill"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_grabber"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+texture = ExtResource("2_fill")
+texture_margin_left = 42.0
+texture_margin_top = 24.0
+texture_margin_right = 42.0
+texture_margin_bottom = 24.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_grabber_hl"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+texture = ExtResource("2_fill")
+texture_margin_left = 42.0
+texture_margin_top = 24.0
+texture_margin_right = 42.0
+texture_margin_bottom = 24.0
+modulate_color = Color(1.08, 1.05, 0.92, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_grabber_pressed"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+texture = ExtResource("2_fill")
+texture_margin_left = 42.0
+texture_margin_top = 24.0
+texture_margin_right = 42.0
+texture_margin_bottom = 24.0
+modulate_color = Color(0.92, 0.88, 0.78, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_scroll"]
+content_margin_left = 12.0
+content_margin_top = 14.0
+content_margin_right = 12.0
+content_margin_bottom = 14.0
+texture = ExtResource("1_empty")
+texture_margin_left = 40.0
+texture_margin_top = 24.0
+texture_margin_right = 40.0
+texture_margin_bottom = 24.0
+
+[resource]
+HScrollBar/styles/grabber = SubResource("StyleBoxTexture_grabber")
+HScrollBar/styles/grabber_highlight = SubResource("StyleBoxTexture_grabber_hl")
+HScrollBar/styles/grabber_pressed = SubResource("StyleBoxTexture_grabber_pressed")
+HScrollBar/styles/scroll = SubResource("StyleBoxTexture_scroll")
+HScrollBar/styles/scroll_focus = SubResource("StyleBoxTexture_scroll")

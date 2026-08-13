@@ -6,14 +6,9 @@
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="3_c7uxm"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="5_wsbu4"]
 [ext_resource type="PackedScene" uid="uid://c8qm5n2k7xwfd" path="res://src/ui/confirm_dialog/confirm_dialog.tscn" id="6_confirm"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/paper_page/paper_page_background.tscn" id="7_paper"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
-
-[sub_resource type="Gradient" id="Gradient_r3o0b"]
-colors = PackedColorArray(0, 0, 0.627451, 1, 0, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_51m4l"]
-gradient = SubResource("Gradient_r3o0b")
 
 [node name="LevelsSelection" type="Control" unique_id=519807597 node_paths=PackedStringArray("grid_container", "progress", "back_button", "early_exam_dialog")]
 layout_mode = 3
@@ -37,14 +32,14 @@ early_exam_dialog = NodePath("EarlyExamDialog")
 
 [node name="ProgressController" parent="." unique_id=2109216065 instance=ExtResource("5_wsbu4")]
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1248577389]
+[node name="Background" parent="." instance=ExtResource("7_paper")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("GradientTexture2D_51m4l")
+mouse_filter = 2
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1882960893]
 layout_mode = 1

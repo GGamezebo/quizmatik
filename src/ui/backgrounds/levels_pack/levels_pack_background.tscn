@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://vgu8fi0hkbls"]
 
 [ext_resource type="Texture2D" uid="uid://0cysyl6x8nmn" path="res://src/ui/backgrounds/levels_pack/bg_grid_paper.png" id="2_paper"]
+[ext_resource type="Texture2D" uid="uid://dok2i4isw0tyf" path="res://src/ui/backgrounds/notebook_sky/cloud_notebook_c.png" id="4_p4mms"]
 [ext_resource type="Texture2D" uid="uid://bywwb880x13l0" path="res://src/game/scenes/menu/levels/ui/doodle_sun.png" id="4_sun"]
-[ext_resource type="Texture2D" uid="uid://ddhjo7p4ha8as" path="res://src/game/scenes/menu/levels/ui/doodle_clouds.png" id="5_clouds"]
 [ext_resource type="Texture2D" uid="uid://c6y8e1tu88lx8" path="res://src/game/scenes/menu/levels/ui/doodle_globe.png" id="6_globe"]
 [ext_resource type="Texture2D" uid="uid://nyg1r8yvpbcp" path="res://src/game/scenes/menu/levels/ui/doodle_books.png" id="7_books"]
 [ext_resource type="Texture2D" uid="uid://dytxcjrfgpwkf" path="res://src/game/scenes/menu/levels/ui/doodle_pencil.png" id="8_pencil"]
@@ -36,7 +36,6 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("2_paper")
 expand_mode = 1
-stretch_mode = 0
 
 [node name="Sun" type="TextureRect" parent="." unique_id=407488844]
 material = SubResource("ShaderMaterial_doodle")
@@ -62,7 +61,7 @@ offset_top = 18.0
 offset_right = 220.0
 offset_bottom = 110.0
 mouse_filter = 2
-texture = ExtResource("5_clouds")
+texture = ExtResource("4_p4mms")
 expand_mode = 1
 stretch_mode = 5
 
@@ -72,10 +71,10 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 52.0
-offset_top = -150.0
-offset_right = 170.0
-offset_bottom = -32.0
+offset_left = 69.0
+offset_top = -167.0
+offset_right = 187.0
+offset_bottom = -49.0
 grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("6_globe")
@@ -88,10 +87,10 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 48.0
-offset_top = -210.0
-offset_right = 190.0
-offset_bottom = -70.0
+offset_left = 52.0
+offset_top = -361.0
+offset_right = 194.0
+offset_bottom = -221.0
 grow_vertical = 0
 mouse_filter = 2
 texture = ExtResource("7_books")
@@ -104,10 +103,10 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 170.0
-offset_top = -120.0
-offset_right = 290.0
-offset_bottom = -20.0
+offset_left = 853.0
+offset_top = -116.0
+offset_right = 973.0
+offset_bottom = -16.0
 grow_vertical = 0
 mouse_filter = 2
 texture = ExtResource("8_pencil")
@@ -122,10 +121,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -200.0
-offset_top = -40.0
-offset_right = -70.0
-offset_bottom = 120.0
+offset_left = -185.0
+offset_top = -88.0
+offset_right = -55.0
+offset_bottom = 72.0
 grow_horizontal = 0
 grow_vertical = 2
 mouse_filter = 2
@@ -158,10 +157,10 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 18.0
-offset_top = -72.0
-offset_right = 72.0
-offset_bottom = -8.0
+offset_left = 953.0
+offset_top = -97.0
+offset_right = 1007.0
+offset_bottom = -33.0
 grow_vertical = 0
 mouse_filter = 2
 texture = ExtResource("11_clip")
