@@ -10,7 +10,7 @@ Canonical art direction. Match this folder before restyling UI or battle.
 | **Look & feel** | Graphite / colored pencil on cream grid paper — sticker HUD, ink stamps (`post_battle_notebook_concept_v3.png`, `battle_notebook_modern_v1.png`) |
 | **Battle answers** | Paper **balloons** with big numbers (`ref_answer_balloon.png`) |
 
-Menu frames: `menu_notebook_modern_v3.png` (canonical), `menu_notebook_modern_v2.png` (alt: school doodles + parchment title). Battle: `battle_notebook_modern_v1.png`. HUD kit: `concepts/notebook_pencil/ui_pack/`.
+Menu frames: `menu_notebook_modern_v3.png` (canonical), `menu_notebook_modern_v2.png` (alt: school doodles + parchment title). Achievements / trophy room: `achievements_notebook_concept_v1.png`. Battle: `battle_notebook_modern_v1.png`. HUD kit: `concepts/notebook_pencil/ui_pack/`.
 
 ## Mood
 
@@ -65,6 +65,16 @@ Keep the live carousel: horizontal pack cards, selected center, next peeking rig
 - Locked / next: graphite-only sketch, outline title, lock stamp — still cream paper, never charcoal fill
 - Back: round cream HUD button (same as post-battle)
 - Scroll: graphite / paper strip, not a dark digital bar
+
+## Achievements / trophy room (required)
+
+Restyle stats window to notebook — `concepts/achievements_notebook_concept_v1.png`. Same graph-paper page + margin doodles as pack / post-battle. Not cyan neon gradient.
+
+- Assets (separate): `src/game/scenes/menu/trophy_room_window/ui/` — `bg_achievements`, `plaque_achievements`, `pencil_achievements`, `trophy_sticker`, `title_dostizheniya`
+- Center cream parchment plaque + title scrap + winged trophy sticker + pencil doodle
+- Two-column stats: muted graphite labels / warm amber values — same rows as `ProgressStatistics.DISPLAY_ROWS`
+- Soft pencil row dividers — no digital table chrome
+- Back: round cream HUD circle bottom-left (`levels/ui/btn_back.png`, same as pack)
 
 ## Battle layout (required)
 

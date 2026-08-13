@@ -10,7 +10,7 @@ extends IScene
 @export_group('Buttons')
 @export var start_button: Button
 @export var training_room_start_button: Button
-@export var exit_button: Button
+@export var exit_button: BaseButton
 
 
 func _ready() -> void:

@@ -11,6 +11,7 @@ signal ev_dead_animation_finished
 signal ev_win_animation_finished
 
 const SPEED_DEFAULTS: float = 100.0
+const SCREEN_SPLIT_RATIO: float = 0.5
 
 enum MovementMode {
 	DIRECT,
@@ -34,24 +35,113 @@ var speed: float = SPEED_DEFAULTS
 var movement: IMovementComponent = null
 var discrete_positions: Array[float] = []
 
+var _left_touch_global_y_by_index: Dictionary = {}
+var _shoot_requested: bool = false
+
 
 func initialize(_speed: float, _movement_mode=MovementMode.DIRECT) -> void:
 	direction_y = 0
 	speed = _speed
-	movement_mode = movement_mode
+	movement_mode = _movement_mode
 	set_movement(_movement_mode)
-	
+
 func _ready() -> void:
 	set_movement(movement_mode)
-	
+	if _uses_touch_controls():
+		set_process_input(true)
+
 	for component in components:
 		component.initialize(self)
 
+
+func _input(event: InputEvent) -> void:
+	if not _uses_touch_controls():
+		return
+
+	if event is InputEventScreenTouch:
+		_handle_screen_touch(event)
+	elif event is InputEventScreenDrag:
+		_handle_screen_drag(event)
+
+
+func _handle_screen_touch(event: InputEventScreenTouch) -> void:
+	if event.pressed:
+		if _is_left_screen_half(event.position):
+			_left_touch_global_y_by_index[event.index] = _screen_to_global_y(event.position)
+		elif _is_right_screen_half(event.position):
+			_shoot_requested = true
+	else:
+		_left_touch_global_y_by_index.erase(event.index)
+
+
+func _handle_screen_drag(event: InputEventScreenDrag) -> void:
+	if not _is_left_screen_half(event.position):
+		return
+	if _left_touch_global_y_by_index.has(event.index):
+		_left_touch_global_y_by_index[event.index] = _screen_to_global_y(event.position)
+
+
+func _uses_touch_controls() -> bool:
+	return OS.has_feature("mobile") or (
+		OS.has_feature("web") and DisplayServer.is_touchscreen_available()
+	)
+
+
+func _is_left_screen_half(screen_position: Vector2) -> bool:
+	return screen_position.x < get_viewport().get_visible_rect().size.x * SCREEN_SPLIT_RATIO
+
+
+func _is_right_screen_half(screen_position: Vector2) -> bool:
+	return not _is_left_screen_half(screen_position)
+
+
+func _screen_to_global_y(screen_position: Vector2) -> float:
+	return (get_viewport().get_canvas_transform().affine_inverse() * screen_position).y
+
+
+func has_movement_touch() -> bool:
+	return not _left_touch_global_y_by_index.is_empty()
+
+
+func get_movement_touch_y() -> float:
+	if _left_touch_global_y_by_index.is_empty():
+		return NAN
+	var latest_y: float = NAN
+	for touch_y: float in _left_touch_global_y_by_index.values():
+		latest_y = touch_y
+	return latest_y
+
+
+func get_movement_y_limits() -> Vector2:
+	if discrete_positions.size() >= 2:
+		return Vector2(discrete_positions[0], discrete_positions[-1])
+
+	var viewport_height: float = get_viewport().get_visible_rect().size.y
+	return Vector2(160.0, viewport_height - 20.0)
+
+
+func find_nearest_discrete_index(global_y: float) -> int:
+	if discrete_positions.is_empty():
+		return 0
+
+	var closest_index: int = 0
+	var min_distance: float = INF
+	for i in range(discrete_positions.size()):
+		var distance: float = absf(global_y - discrete_positions[i])
+		if distance < min_distance:
+			min_distance = distance
+			closest_index = i
+	return closest_index
+
+
 func _process(delta: float) -> void:
 	if not Engine.is_editor_hint():
-		if Input.is_action_just_pressed("shoot"):
+		if _shoot_requested:
+			_shoot_requested = false
 			ev_shoot.emit(self.position + Vector2(get_size().x / 2.0, 0.0))
-		
+		elif not _uses_touch_controls() and Input.is_action_just_pressed("shoot"):
+			ev_shoot.emit(self.position + Vector2(get_size().x / 2.0, 0.0))
+
 	movement.update(delta)
 	for component in components:
 		component.update(delta)
@@ -102,6 +192,8 @@ func _disable() -> void:
 	set_process(false)
 	set_process_input(false)
 	set_process_unhandled_input(false)
+	_left_touch_global_y_by_index.clear()
+	_shoot_requested = false
 	_disable_collision()
 	_stop()
 
@@ -249,54 +341,77 @@ func _spawn_explosion_at_random_pos(offset = Vector2.ZERO, scale_multiplier = 1.
 		
 class DirectMovementComponent extends IMovementComponent:
 	func update(delta: float) -> void:
-		dirY = sign(Input.get_axis("ui_up","ui_down"))
-		owner.position.y = clamp(owner.position.y + dirY * owner.speed * delta, 0, owner.get_viewport_rect().size.y)
+		var y_limits: Vector2 = owner.get_movement_y_limits()
+
+		if owner._uses_touch_controls() and owner.has_movement_touch():
+			var target_y: float = clampf(owner.get_movement_touch_y(), y_limits.x, y_limits.y)
+			owner.global_position.y = move_toward(owner.global_position.y, target_y, owner.speed * delta)
+			dirY = _direction_toward(owner.global_position.y, target_y)
+			return
+
+		dirY = sign(Input.get_axis("ui_up", "ui_down"))
+		owner.global_position.y = clampf(
+			owner.global_position.y + dirY * owner.speed * delta,
+			y_limits.x,
+			y_limits.y,
+		)
+
+	func _direction_toward(current_y: float, target_y: float) -> int:
+		if is_equal_approx(current_y, target_y):
+			return 0
+		return 1 if current_y < target_y else -1
 
 class DiscreteMovementComponent extends IMovementComponent:
 	var current_line_index: int = 0
 	var target_y: float = 0.0
-	
+
 	func _init(_owner: Node) -> void:
 		super._init(_owner)
 		current_line_index = 0
-		target_y = owner.position.y
+		target_y = owner.global_position.y
 		_update_current_line_index_by_distance()
-	
+
 	func update(delta: float) -> void:
-		if Input.is_action_just_pressed("ui_up"):
-			if current_line_index > 0:
-				current_line_index -= 1
+		if owner._uses_touch_controls() and owner.has_movement_touch():
+			var touch_y: float = owner.get_movement_touch_y()
+			var nearest_index: int = owner.find_nearest_discrete_index(touch_y)
+			if nearest_index != current_line_index:
+				current_line_index = nearest_index
 				target_y = owner.discrete_positions[current_line_index]
-				
-		elif Input.is_action_just_pressed("ui_down"):
-			# Check if we can move down (last index is the bottom lane)
-			if current_line_index < owner.discrete_positions.size() - 1:
-				current_line_index += 1
-				target_y = owner.discrete_positions[current_line_index]
-		
+		else:
+			if Input.is_action_just_pressed("ui_up"):
+				if current_line_index > 0:
+					current_line_index -= 1
+					target_y = owner.discrete_positions[current_line_index]
+
+			elif Input.is_action_just_pressed("ui_down"):
+				if current_line_index < owner.discrete_positions.size() - 1:
+					current_line_index += 1
+					target_y = owner.discrete_positions[current_line_index]
+
 		owner.global_position.y = move_toward(owner.global_position.y, target_y, owner.speed * delta)
-		
-		if owner.global_position.y == target_y:
+
+		if is_equal_approx(owner.global_position.y, target_y):
 			dirY = 0
 		elif owner.global_position.y < target_y:
 			dirY = 1
 		else:
 			dirY = -1
-			
+
 	func _update_current_line_index_by_distance() -> void:
 		var closest_index: int = 0
-		var min_distance: float = INF 
-		
+		var min_distance: float = INF
+
 		for i in range(owner.discrete_positions.size()):
 			var distance: float = abs(owner.global_position.y - owner.discrete_positions[i])
-			
+
 			# Track the closest lane position
 			if distance < min_distance:
 				min_distance = distance
 				closest_index = i
-				
+
 		current_line_index = closest_index
-	
+
 const MOVEMENT_COMPONENTS = {
 	MovementMode.DIRECT: DirectMovementComponent,
 	MovementMode.DISCRETE: DiscreteMovementComponent

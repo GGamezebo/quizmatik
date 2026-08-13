@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="11_daily"]
 [ext_resource type="PackedScene" uid="uid://c8n3sfxctrlk1" path="res://src/features/sfx/sfx_controller.tscn" id="12_sfx"]
 [ext_resource type="PackedScene" uid="uid://c8n3musictrl01" path="res://src/features/music/music_controller.tscn" id="13_music"]
+[ext_resource type="PackedScene" uid="uid://c8n3vibctrl01" path="res://src/features/vibration/vibration_controller.tscn" id="14_vib"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -63,6 +64,8 @@ root_events = ExtResource("8_dg77c")
 game_events = ExtResource("10_game_events")
 
 [node name="SfxController" parent="." unique_id=205950015 instance=ExtResource("12_sfx")]
+
+[node name="VibrationController" parent="." unique_id=205950017 instance=ExtResource("14_vib")]
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=205950014]
 stream = ExtResource("7_5vw27")

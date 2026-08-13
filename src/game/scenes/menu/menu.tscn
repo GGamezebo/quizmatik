@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://dg8bdljs16a6h" path="res://core/lib/window_stack_manager/button_window_back.gd" id="4_back"]
 [ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://core/lib/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
 [ext_resource type="Script" uid="uid://dwus2ghsyt5xv" path="res://src/game/scenes/menu/training_room_window/training_room_window.gd" id="5_n67ar"]
-[ext_resource type="PackedScene" path="res://src/ui/backgrounds/paper_page/paper_page_background.tscn" id="6_kcyx7"]
+[ext_resource type="PackedScene" uid="uid://emeoar3syi38" path="res://src/ui/backgrounds/paper_page/paper_page_background.tscn" id="6_kcyx7"]
 [ext_resource type="Texture2D" uid="uid://clq0g1vwuxqgn" path="res://assets/sound-on.svg" id="6_vk307"]
 [ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/game/scenes/menu/training_room_window/training_room_game_config.tres" id="6_vp6ju"]
 [ext_resource type="Texture2D" uid="uid://ccjtahowlfjpj" path="res://assets/sound-off.svg" id="7_82bx7"]
@@ -21,10 +21,16 @@
 [ext_resource type="PackedScene" uid="uid://bkoeytpeqxe1w" path="res://src/game/scenes/settings_window/settings_window.tscn" id="20_r0b7e"]
 [ext_resource type="PackedScene" uid="uid://caclv7nru701m" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.tscn" id="21_trophy"]
 [ext_resource type="PackedScene" uid="uid://b00ddsqtwrab5" path="res://src/game/scenes/menu/daily/daily_challenges_panel.tscn" id="23_daily"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="24_6evpd"]
 [ext_resource type="PackedScene" uid="uid://vgu8fi0hkbls" path="res://src/ui/backgrounds/levels_pack/levels_pack_background.tscn" id="24_packbg"]
 [ext_resource type="Texture2D" uid="uid://hghugnctmjyn" path="res://src/game/scenes/menu/levels/ui/btn_back.png" id="25_pack_back"]
 [ext_resource type="Script" uid="uid://f6odaxaw13hf" path="res://src/ui/buttons/hover_scale_button.gd" id="28_hover"]
 [ext_resource type="Theme" uid="uid://cvyfycr06mko1" path="res://src/game/scenes/menu/levels/levels_pack_scroll_theme.tres" id="29_scroll_theme"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_circle_button.tscn" id="30_circle_btn"]
+[ext_resource type="Texture2D" uid="uid://cyg5jcu3u4kvb" path="res://src/game/scenes/menu/ui/icon_achievements.png" id="32_icon_achievements"]
+[ext_resource type="Texture2D" uid="uid://ct821hopq4mrv" path="res://src/game/scenes/menu/ui/icon_exit.png" id="33_icon_exit"]
+[ext_resource type="PackedScene" uid="uid://bbn6s78x5jx6f" path="res://src/game/scenes/menu/ui/menu_cta_button.tscn" id="34_cta_btn"]
+[ext_resource type="Texture2D" uid="uid://c7covqaft52xn" path="res://src/game/scenes/menu/ui/icon_pencil.png" id="36_icon_pencil"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
@@ -32,6 +38,12 @@ colors = PackedColorArray(0.165, 0.2, 0.251, 0.5, 0.953, 0.902, 0.784, 0.06)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ux2mn"]
 gradient = SubResource("Gradient_cjfjs")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5gnpb"]
+shader = ExtResource("24_6evpd")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_35kkh"]
 font_size = 64
@@ -46,9 +58,9 @@ menu_events = ExtResource("3_k2ump")
 windows_stack_manager = NodePath("UI/StackWindowController")
 levels_choice_window = NodePath("UI/LevelsWindow")
 training_room_config = ExtResource("6_vp6ju")
-start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Start")
+start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start")
 training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/StartBattle")
-exit_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/Exit")
+exit_button = NodePath("UI/MainMenuWindow/RightSideButtons/Exit/Hit")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2419366]
 
@@ -58,7 +70,7 @@ default_window = NodePath("../MainMenuWindow")
 
 [node name="LevelsWindowOpen" type="Node" parent="UI/StackWindowController" unique_id=1547222537 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Start")
+button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start")
 target_window = NodePath("../../LevelsWindow")
 
 [node name="LevelsWindowBack" type="Node" parent="UI/StackWindowController" unique_id=785798505 node_paths=PackedStringArray("button")]
@@ -67,7 +79,7 @@ button = NodePath("../../LevelsWindow/MarginContainer/Back")
 
 [node name="TrainingRoomOpen" type="Node" parent="UI/StackWindowController" unique_id=1342848864 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/TrainigRoom")
+button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/TrainigRoom")
 target_window = NodePath("../../TrainingRoomWindow")
 
 [node name="TrainingRoomBack" type="Node" parent="UI/StackWindowController" unique_id=545675404 node_paths=PackedStringArray("button")]
@@ -76,17 +88,17 @@ button = NodePath("../../TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxCo
 
 [node name="SettingsWindowOpen" type="Node" parent="UI/StackWindowController" unique_id=226461501 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/Settings")
+button = NodePath("../../MainMenuWindow/RightSideButtons/Settings/Hit")
 target_window = NodePath("../../SettingsWindow")
 
 [node name="TrophyRoomOpen" type="Node" parent="UI/StackWindowController" unique_id=551433926 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/TrophyRoom")
+button = NodePath("../../MainMenuWindow/RightSideButtons/Achievements/Hit")
 target_window = NodePath("../../TrophyRoomWindow")
 
 [node name="TrophyRoomBack" type="Node" parent="UI/StackWindowController" unique_id=1133530387 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
-button = NodePath("../../TrophyRoomWindow/CenterContainer/VBoxContainer/ButtonExit")
+button = NodePath("../../TrophyRoomWindow/MarginContainer/Back")
 
 [node name="LevelsSelectionBack" type="Node" parent="UI/StackWindowController" unique_id=785798506 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
@@ -158,25 +170,43 @@ theme_override_font_sizes/font_size = 58
 text = "Улётная математика"
 horizontal_alignment = 1
 
-[node name="Start" type="Button" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=1563473388]
+[node name="CtaRow" type="HBoxContainer" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=1589160987]
 layout_mode = 2
-text = "Играть"
+theme_override_constants/separation = 28
+alignment = 1
 
-[node name="TrainigRoom" type="Button" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=1885115665]
+[node name="Start" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow" unique_id=1455999940 instance=ExtResource("34_cta_btn")]
 layout_mode = 2
-text = "Тренеровочная комната"
 
-[node name="TrophyRoom" type="Button" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=245908660]
+[node name="TrainigRoom" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow" unique_id=517690015 instance=ExtResource("34_cta_btn")]
 layout_mode = 2
-text = "Зал трофеев"
+icon_texture = ExtResource("36_icon_pencil")
+caption_text = "ПРАКТИКА"
+caption_color = Color(0.329, 0.486, 0.29, 1)
 
-[node name="Settings" type="Button" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=98761202]
-layout_mode = 2
-text = "Настройки"
+[node name="RightSideButtons" type="VBoxContainer" parent="UI/MainMenuWindow" unique_id=384891345]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -128.0
+offset_bottom = 473.0
+grow_horizontal = 0
+theme_override_constants/separation = 0
+alignment = 1
 
-[node name="Exit" type="Button" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=630154561]
+[node name="Settings" parent="UI/MainMenuWindow/RightSideButtons" unique_id=319530349 instance=ExtResource("30_circle_btn")]
 layout_mode = 2
-text = "Выход"
+
+[node name="Achievements" parent="UI/MainMenuWindow/RightSideButtons" unique_id=42729555 instance=ExtResource("30_circle_btn")]
+layout_mode = 2
+icon_texture = ExtResource("32_icon_achievements")
+caption_text = "ДОСТИЖЕНИЯ"
+
+[node name="Exit" parent="UI/MainMenuWindow/RightSideButtons" unique_id=592785053 instance=ExtResource("30_circle_btn")]
+layout_mode = 2
+icon_texture = ExtResource("33_icon_exit")
+caption_text = "ВЫХОД"
 
 [node name="MusicMuteButton" type="TextureButton" parent="UI/MainMenuWindow" unique_id=1355379251]
 layout_mode = 0
@@ -189,6 +219,7 @@ script = ExtResource("8_82bx7")
 user_settings = ExtResource("9_3qhmn")
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("packs_list_container", "packs_scroll", "progress", "windows_stack_manager", "level_selection_window")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -245,10 +276,11 @@ anchor_bottom = 1.0
 offset_top = -150.0
 offset_right = 150.0
 grow_vertical = 0
-theme_override_constants/margin_left = 30
+theme_override_constants/margin_left = 60
 theme_override_constants/margin_bottom = 30
 
 [node name="Back" type="TextureButton" parent="UI/LevelsWindow/MarginContainer" unique_id=1251858034]
+material = SubResource("ShaderMaterial_5gnpb")
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 focus_mode = 0
