@@ -1,17 +1,15 @@
 [gd_scene format=3 uid="uid://vgu8fi0hkbls"]
 
-[ext_resource type="Script" path="res://src/ui/backgrounds/levels_pack/levels_pack_background.gd" id="1_bg"]
-[ext_resource type="Texture2D" path="res://src/ui/backgrounds/levels_pack/bg_grid_paper.png" id="2_paper"]
-[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/notebook_holes.png" id="3_holes"]
-[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_sun.png" id="4_sun"]
-[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_clouds.png" id="5_clouds"]
-[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_globe.png" id="6_globe"]
-[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_books.png" id="7_books"]
-[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_pencil.png" id="8_pencil"]
-[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_tree.png" id="9_tree"]
-[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_school.png" id="10_school"]
-[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_paperclip.png" id="11_clip"]
-[ext_resource type="Shader" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="12_shadow"]
+[ext_resource type="Texture2D" uid="uid://0cysyl6x8nmn" path="res://src/ui/backgrounds/levels_pack/bg_grid_paper.png" id="2_paper"]
+[ext_resource type="Texture2D" uid="uid://bywwb880x13l0" path="res://src/game/scenes/menu/levels/ui/doodle_sun.png" id="4_sun"]
+[ext_resource type="Texture2D" uid="uid://ddhjo7p4ha8as" path="res://src/game/scenes/menu/levels/ui/doodle_clouds.png" id="5_clouds"]
+[ext_resource type="Texture2D" uid="uid://c6y8e1tu88lx8" path="res://src/game/scenes/menu/levels/ui/doodle_globe.png" id="6_globe"]
+[ext_resource type="Texture2D" uid="uid://nyg1r8yvpbcp" path="res://src/game/scenes/menu/levels/ui/doodle_books.png" id="7_books"]
+[ext_resource type="Texture2D" uid="uid://dytxcjrfgpwkf" path="res://src/game/scenes/menu/levels/ui/doodle_pencil.png" id="8_pencil"]
+[ext_resource type="Texture2D" uid="uid://dx7tx3r8rw2bh" path="res://src/game/scenes/menu/levels/ui/doodle_tree.png" id="9_tree"]
+[ext_resource type="Texture2D" uid="uid://p1ib2j4i66gt" path="res://src/game/scenes/menu/levels/ui/doodle_school.png" id="10_school"]
+[ext_resource type="Texture2D" uid="uid://brkp3kw6vsdxu" path="res://src/game/scenes/menu/levels/ui/doodle_paperclip.png" id="11_clip"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="12_shadow"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_doodle"]
 shader = ExtResource("12_shadow")
@@ -19,7 +17,7 @@ shader_parameter/shadow_offset = Vector2(-4, 8)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
 shader_parameter/shadow_blur = 2.0
 
-[node name="LevelsPackBackground" type="Control"]
+[node name="LevelsPackBackground" type="Control" unique_id=1871828688]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,9 +25,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("1_bg")
 
-[node name="Paper" type="TextureRect" parent="."]
+[node name="Paper" type="TextureRect" parent="." unique_id=1102173553]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,25 +36,9 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("2_paper")
 expand_mode = 1
-stretch_mode = 6
+stretch_mode = 0
 
-[node name="Holes" type="TextureRect" parent="."]
-material = SubResource("ShaderMaterial_doodle")
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 8.0
-offset_top = -180.0
-offset_right = 48.0
-offset_bottom = 180.0
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("3_holes")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Sun" type="TextureRect" parent="."]
+[node name="Sun" type="TextureRect" parent="." unique_id=407488844]
 material = SubResource("ShaderMaterial_doodle")
 layout_mode = 1
 anchors_preset = 1
@@ -73,7 +54,7 @@ texture = ExtResource("4_sun")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Clouds" type="TextureRect" parent="."]
+[node name="Clouds" type="TextureRect" parent="." unique_id=156701598]
 material = SubResource("ShaderMaterial_doodle")
 layout_mode = 1
 offset_left = 56.0
@@ -85,7 +66,7 @@ texture = ExtResource("5_clouds")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Globe" type="TextureRect" parent="."]
+[node name="Globe" type="TextureRect" parent="." unique_id=262182241]
 material = SubResource("ShaderMaterial_doodle")
 layout_mode = 1
 anchors_preset = 4
@@ -101,7 +82,7 @@ texture = ExtResource("6_globe")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Books" type="TextureRect" parent="."]
+[node name="Books" type="TextureRect" parent="." unique_id=800092548]
 material = SubResource("ShaderMaterial_doodle")
 layout_mode = 1
 anchors_preset = 2
@@ -117,7 +98,7 @@ texture = ExtResource("7_books")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Pencil" type="TextureRect" parent="."]
+[node name="Pencil" type="TextureRect" parent="." unique_id=634870783]
 material = SubResource("ShaderMaterial_doodle")
 layout_mode = 1
 anchors_preset = 2
@@ -133,7 +114,7 @@ texture = ExtResource("8_pencil")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Tree" type="TextureRect" parent="."]
+[node name="Tree" type="TextureRect" parent="." unique_id=1548426292]
 material = SubResource("ShaderMaterial_doodle")
 layout_mode = 1
 anchors_preset = 6
@@ -152,7 +133,7 @@ texture = ExtResource("9_tree")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="School" type="TextureRect" parent="."]
+[node name="School" type="TextureRect" parent="." unique_id=1087378645]
 material = SubResource("ShaderMaterial_doodle")
 layout_mode = 1
 anchors_preset = 3
@@ -171,7 +152,7 @@ texture = ExtResource("10_school")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Paperclip" type="TextureRect" parent="."]
+[node name="Paperclip" type="TextureRect" parent="." unique_id=141616568]
 material = SubResource("ShaderMaterial_doodle")
 layout_mode = 1
 anchors_preset = 2
