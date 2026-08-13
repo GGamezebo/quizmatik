@@ -1,21 +1,188 @@
 [gd_scene format=3 uid="uid://dpecfsso1dokv"]
 
 [ext_resource type="Script" uid="uid://dwpjaw6r6sldu" path="res://src/game/scenes/menu/levels/level_container.gd" id="1_voi0a"]
+[ext_resource type="Texture2D" uid="uid://dt41y5hehb65t" path="res://src/game/scenes/menu/levels/ui/panel_card_round.png" id="2_card"]
+[ext_resource type="Texture2D" uid="uid://l1t3vjwornqv" path="res://concepts/notebook_pencil/bg_gameplay_sky.png" id="4_5sx0r"]
+[ext_resource type="Texture2D" uid="uid://d05hfcyk6v0p1" path="res://src/game/scenes/menu/levels/ui/btn_lock.png" id="5_lock"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="6_shadow"]
+[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="7_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
-[node name="LevelContainer" type="MarginContainer" unique_id=1113403507 node_paths=PackedStringArray("button")]
-custom_minimum_size = Vector2(240, 360)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p01tg"]
+shader = ExtResource("6_shadow")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("7_font")
+font_size = 22
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_progress"]
+font = ExtResource("7_font")
+font_size = 18
+font_color = Color(0.22, 0.25, 0.3, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
+
+[node name="LevelContainer" type="Control" unique_id=1077235570 node_paths=PackedStringArray("card_root", "card_bg", "art_rect", "stamp_rect", "title_label", "progress_label", "lock_overlay", "hit_button")]
+custom_minimum_size = Vector2(300, 440)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 300.0
+offset_bottom = 440.0
+theme = ExtResource("theme_ui")
+script = ExtResource("1_voi0a")
+card_root = NodePath("Card")
+card_bg = NodePath("")
+art_rect = NodePath("Card/Art")
+stamp_rect = NodePath("Card/Stamp")
+title_label = NodePath("Card/Title")
+progress_label = NodePath("Card/ProgressChip/Progress")
+lock_overlay = NodePath("Card/LockOverlay")
+hit_button = NodePath("Card/HitButton")
+
+[node name="Card" type="Control" parent="." unique_id=1324036295]
+custom_minimum_size = Vector2(300, 440)
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1023.0
-offset_bottom = -360.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("theme_ui")
-script = ExtResource("1_voi0a")
-button = NodePath("Button")
+mouse_filter = 2
 
-[node name="Button" type="Button" parent="." unique_id=221379077]
-layout_mode = 2
-text = "Сложение"
+[node name="NinePatchRect" type="NinePatchRect" parent="Card" unique_id=598156822]
+material = SubResource("ShaderMaterial_p01tg")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_card")
+region_rect = Rect2(19, 18, 1245, 823)
+patch_margin_left = 104
+patch_margin_top = 101
+patch_margin_right = 91
+patch_margin_bottom = 109
+
+[node name="Art" type="TextureRect" parent="Card" unique_id=445366007]
+custom_minimum_size = Vector2(240, 260)
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -106.5
+offset_bottom = 106.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_5sx0r")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Stamp" type="TextureRect" parent="Card" unique_id=1208759482]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -181.0
+offset_top = 29.0
+offset_right = -31.0
+offset_bottom = 166.0
+grow_horizontal = 0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Card" unique_id=1974134515]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -121.0
+offset_top = -95.0
+offset_right = 119.0
+offset_bottom = -59.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Долина Сложения"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ProgressChip" type="Control" parent="Card" unique_id=1863307747]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -73.0
+offset_top = -65.0
+offset_right = 71.0
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="Progress" type="Label" parent="Card/ProgressChip" unique_id=1505266625]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0 / 17"
+label_settings = SubResource("LabelSettings_progress")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LockOverlay" type="Control" parent="Card" unique_id=1362090153]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="LockIcon" type="TextureRect" parent="Card/LockOverlay" unique_id=857753250]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -70.0
+offset_top = -70.0
+offset_right = 70.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_lock")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HitButton" type="Button" parent="Card" unique_id=979366978]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hit")
+flat = true

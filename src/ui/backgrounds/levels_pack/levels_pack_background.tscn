@@ -1,0 +1,188 @@
+[gd_scene format=3 uid="uid://vgu8fi0hkbls"]
+
+[ext_resource type="Script" path="res://src/ui/backgrounds/levels_pack/levels_pack_background.gd" id="1_bg"]
+[ext_resource type="Texture2D" path="res://src/ui/backgrounds/levels_pack/bg_grid_paper.png" id="2_paper"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/notebook_holes.png" id="3_holes"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_sun.png" id="4_sun"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_clouds.png" id="5_clouds"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_globe.png" id="6_globe"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_books.png" id="7_books"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_pencil.png" id="8_pencil"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_tree.png" id="9_tree"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_school.png" id="10_school"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/doodle_paperclip.png" id="11_clip"]
+[ext_resource type="Shader" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="12_shadow"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_doodle"]
+shader = ExtResource("12_shadow")
+shader_parameter/shadow_offset = Vector2(-4, 8)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
+shader_parameter/shadow_blur = 2.0
+
+[node name="LevelsPackBackground" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_bg")
+
+[node name="Paper" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_paper")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Holes" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_doodle")
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -180.0
+offset_right = 48.0
+offset_bottom = 180.0
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_holes")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Sun" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_doodle")
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -150.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = 150.0
+grow_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("4_sun")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Clouds" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_doodle")
+layout_mode = 1
+offset_left = 56.0
+offset_top = 18.0
+offset_right = 220.0
+offset_bottom = 110.0
+mouse_filter = 2
+texture = ExtResource("5_clouds")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Globe" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_doodle")
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 52.0
+offset_top = -150.0
+offset_right = 170.0
+offset_bottom = -32.0
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("6_globe")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Books" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_doodle")
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = -210.0
+offset_right = 190.0
+offset_bottom = -70.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("7_books")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Pencil" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_doodle")
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 170.0
+offset_top = -120.0
+offset_right = 290.0
+offset_bottom = -20.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("8_pencil")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Tree" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_doodle")
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -40.0
+offset_right = -70.0
+offset_bottom = 120.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("9_tree")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="School" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_doodle")
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -200.0
+offset_right = -40.0
+offset_bottom = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("10_school")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Paperclip" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_doodle")
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = -72.0
+offset_right = 72.0
+offset_bottom = -8.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("11_clip")
+expand_mode = 1
+stretch_mode = 5

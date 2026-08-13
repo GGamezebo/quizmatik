@@ -10,9 +10,11 @@ static func get_state() -> String:
 	
 func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	if player.score == game_config.questions_count:
+		game_manager.game_events.ev_win.emit()
 		air_plane.ev_win_animation_finished.connect(_on_animation_finished.bind(true))
 		air_plane.win_animation()
 	else:
+		game_manager.game_events.ev_lose.emit()
 		air_plane.ev_dead_animation_finished.connect(_on_animation_finished.bind(false))
 		air_plane.die_animation()
 	

@@ -13,8 +13,8 @@ Must match:
 - **Style:** graphite pencil on notebook paper — not cyan neon
 - **Theme:** `core/theme/style.tres` — cream parchment buttons/panels, ink `#2A3340` text
 - **Backgrounds:** `src/ui/backgrounds/` — shared `BackgroundBase` + per-variant folders (`notebook` sketches, `classic_sky`, `notebook_sky`); battle `BackgroundHost` picks random from `variants[]`; menu uses notebook + daily paint
-- **Menu layout:** Jet Math–style (`ref_layout_jetmath.png`) — 2 bottom CTAs + right utilities + center mascot
+- **Menu layout:** Jet Math–style (`menu_notebook_modern_v3.png`) — 2 bottom CTAs + right HUD circles + center mascot; no 5-button stack
 - **Battle:** horizontal flight (plane left → right), 4 lanes, round balloons, paper HUD language
 
-Frames: `concepts/menu_concept.png`, `concepts/battle_concept.png`.  
+Frames: `concepts/menu_notebook_modern_v3.png`, `concepts/battle_notebook_modern_v1.png`, `concepts/post_battle_notebook_concept_v3.png`, `concepts/levels_pack_notebook_concept_v1.png`.  
 Pencil pack: `concepts/notebook_pencil/` (full UI kit: `ui_pack/`).

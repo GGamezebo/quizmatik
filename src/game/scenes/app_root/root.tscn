@@ -13,6 +13,8 @@
 [ext_resource type="Script" uid="uid://bb4lawsidwt8v" path="res://src/game/account/statistics_controller.gd" id="9_stats"]
 [ext_resource type="Resource" uid="uid://bg11w4vfrn34r" path="res://src/game/scenes/game/game_events.tres" id="10_game_events"]
 [ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="11_daily"]
+[ext_resource type="PackedScene" uid="uid://c8n3sfxctrlk1" path="res://src/features/sfx/sfx_controller.tscn" id="12_sfx"]
+[ext_resource type="PackedScene" uid="uid://c8n3musictrl01" path="res://src/features/music/music_controller.tscn" id="13_music"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -60,12 +62,17 @@ pdata = ExtResource("5_nvg4k")
 root_events = ExtResource("8_dg77c")
 game_events = ExtResource("10_game_events")
 
+[node name="SfxController" parent="." unique_id=205950015 instance=ExtResource("12_sfx")]
+
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=205950014]
 stream = ExtResource("7_5vw27")
 volume_db = -7.69
 bus = &"Music"
 playback_type = 1
 parameters/looping = true
+
+[node name="MusicController" parent="." unique_id=205950016 instance=ExtResource("13_music") node_paths=PackedStringArray("music_player")]
+music_player = NodePath("../MusicPlayer")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1266379388]
 environment = SubResource("Environment_0xm2m")

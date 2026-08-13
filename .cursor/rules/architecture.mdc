@@ -110,6 +110,8 @@ App phases are driven by HFSM (`src/game/hfsm/app_hfsm.json`) via `src/game/main
 `GameManager` FSM: `CountDown` → `Game` → `EndGame` (via `FSMGameEvents`).
 Round logic: `RoundController` + `AnswerSpawner` + `CombatResolver` + `QuizQuestion`.
 Do not drive win/lose with ad-hoc flags outside the FSM.
+SFX: `SfxController` (`src/features/sfx/`, instanced in `app_root/root.tscn`) listens to `GameEvents` + UI `BaseButton.pressed`. Plane thrust / crash / victory whoosh stay on `plane.tscn`.
+Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swaps — background by default; on `RootEvents.ev_exit_game` plays win/lose theme; restores background on `ev_return_to_menu` / `ev_start_game`.
 
 ## Placement rules
 
@@ -122,6 +124,8 @@ Do not drive win/lose with ad-hoc flags outside the FSM.
 - Generic reusable utility (no project deps) → `core/lib/`
 - Level data → `src/levels/{container}/`; metadata → `levels_config.gd` / `tools/generate_levels.py`
 - Progress mutations → `ProgressController` / `DailyChallengesController` / `StatisticsController`; disk write only via `RootEvents.ev_save_progress` → `SaveManager.save()` (debounced; suppressed during battle; force-flush at battle end / app close)
+- App-root SFX → `src/features/sfx/` (`SfxController` instanced in `app_root/root.tscn`); plane-local audio stays on `plane.tscn`
+- App-root music → `src/features/music/` (`MusicController` + win/lose themes; drives AppRoot `MusicPlayer`)
 
 ## Cheap-change heuristics
 
