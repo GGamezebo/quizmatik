@@ -6,13 +6,11 @@ Canonical art direction. Match this folder before restyling UI or battle.
 
 | Piece | Source |
 |-------|--------|
-| **Layout (menu)** | `ref_layout_jetmath.png` — hero character center, 2 big CTAs bottom, utilities on right |
-| **Look & feel** | `ref_style_paper_sky.png` — watercolor papercraft / scrapbook |
-| **Battle answers** | Paper **balloons / hot-air balloons** with big numbers (`ref_battle_balloons.png` + balloon from Jet Math) |
+| **Layout (menu)** | `menu_notebook_modern_v3.png` — hero center, 2 big CTAs bottom, circular utilities on right |
+| **Look & feel** | Graphite / colored pencil on cream grid paper — sticker HUD, ink stamps (`post_battle_notebook_concept_v3.png`, `battle_notebook_modern_v1.png`) |
+| **Battle answers** | Paper **balloons** with big numbers (`ref_answer_balloon.png`) |
 
-Final frames: `menu_concept.png`, `battle_concept.png`.
-
-Exploratory alt pack (unused): `concepts/notebook_pencil/` — colored-pencil on grid paper; see that folder’s README.
+Menu frames: `menu_notebook_modern_v3.png` (canonical), `menu_notebook_modern_v2.png` (alt: school doodles + parchment title). Battle: `battle_notebook_modern_v1.png`. HUD kit: `concepts/notebook_pencil/ui_pack/`.
 
 ## Mood
 
@@ -45,19 +43,28 @@ Avoid as primary look: cyan neon HUD, purple-on-white AI gradients, flat Materia
 
 ## Main menu layout (required)
 
-Top → bottom / sides:
+Match `menu_notebook_modern_v3.png` (alt `menu_notebook_modern_v2.png`). Same sticker/stamp language as battle HUD + post-battle.
 
-1. Soft grayscale paper-cloud sky background (color blooms with completed dailies; 5/5 = full paint)  
-2. Title **Улётная математика** (paper letters or parchment banner)  
-3. Center: mascot (“Нулик”) + speech bubble  
-4. Optional feed quest: pinned parchment + plate slots (progression teaser)  
-5. **Bottom:** two wide primary buttons  
+1. Cream squared notebook page + spiral holes. Background = gym colored-pencil sketch (current menu identity: coach, hoop, flying kid). Dailies 5/5 = **full color**; incomplete = gray graphite. Margin doodles (globe, books, pencils, school, sun) stay in the margins.  
+2. Title **Улётная математика** — green sticker letters or parchment banner (not a 5-button stack)  
+3. Center: mascot (“Нулик”) sticker + speech bubble («Полетели!»)  
+4. Left: music HUD circle + **Дейлики** scrap + 5 rubber-ink stamps (sun / flower / cat / star / check — same as post-battle)  
+5. **Bottom:** two wide cream sticker CTAs  
    - Left: Приключение → уровни  
    - Right: Практика → тренировка  
-6. **Right column:** circular cloud buttons — Настройки, Достижения (Зал трофеев), Выход  
-7. Decorative balloon / paper plane OK (same balloon language as battle)
+6. **Right column:** three circular HUD stickers (same as `src/ui/hud/` / `ui_pack` buttons) — Настройки, Достижения (Зал трофеев), Выход  
 
-No single vertical stack of equal menu buttons (old cyan arcade layout is retired).
+No single vertical stack of equal menu buttons (old Играть / Тренировка / Трофеи / Настройки / Выход list is retired).
+
+## Level pack window (required)
+
+Keep the live carousel: horizontal pack cards, selected center, next peeking right, back bottom-left. Restyle to notebook — `concepts/levels_pack_notebook_concept_v1.png`.
+
+- Graph-paper page + spiral holes + margin doodles (same language as post-battle)
+- Pack = cream paper card (graphite outline, sticker shadow); selected has a colored-pencil valley sketch + torn title banner + progress scrap `N / 17`
+- Locked / next: graphite-only sketch, outline title, lock stamp — still cream paper, never charcoal fill
+- Back: round cream HUD button (same as post-battle)
+- Scroll: graphite / paper strip, not a dark digital bar
 
 ## Battle layout (required)
 
@@ -76,7 +83,7 @@ See `battle_concept.png`, notebook modern ref `concepts/notebook_pencil/battle_m
 
 ## Motion
 
-- Menu: gentle bob on balloons/clouds, soft “paste-on” pops  
+- Menu: gentle bob on Nulik / speech bubble, soft “paste-on” pops on CTAs and stamps  
 - Battle: balloon sway + float, short watercolor pop on hit (`balloon_pop_atlas.png`), light plane motion  
 - Prefer 2–3 intentional motions
 
@@ -85,6 +92,7 @@ See `battle_concept.png`, notebook modern ref `concepts/notebook_pencil/battle_m
 | Concept | Code home |
 |---------|-----------|
 | Menu layout / windows | `src/game/scenes/menu/` |
+| Level pack carousel | `src/ui/backgrounds/levels_pack/` + `src/game/scenes/menu/levels/` |
 | Battle HUD / world | `src/game/scenes/game/` |
 | Answer look → balloons | `src/features/answer/` (+ art) |
 | Balloon pop VFX | `src/features/answer/balloon_pop.tscn` |
@@ -95,7 +103,7 @@ See `battle_concept.png`, notebook modern ref `concepts/notebook_pencil/battle_m
 
 ## Rules for agents
 
-1. Read this file + look at `menu_concept.png` / `battle_concept.png` before UI work.  
+1. Read this file + look at `menu_notebook_modern_v3.png` / `battle_notebook_modern_v1.png` / `post_battle_notebook_concept_v3.png` before UI work.  
 2. Prefer editor-built UI; templates for repeated balloon/level items.  
 3. Mobile / Steam / HTML landscape: big touch CTAs, readable balloon numbers.  
 4. Do not revert to cyan neon arcade skin unless the user asks.

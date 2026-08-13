@@ -25,6 +25,9 @@ enum MovementMode {
 @export var win_fly_animation_time: float = 1.6
 @export var explosion_scene: PackedScene
 @export var movement_mode: MovementMode = MovementMode.DIRECT
+@export var sfx_player: AudioStreamPlayer
+@export var crash_sound: AudioStream
+@export var victory_whoosh: AudioStream
 
 var direction_y: int = 0
 var speed: float = SPEED_DEFAULTS
@@ -109,6 +112,7 @@ func _stop() -> void:
 
 func die_animation() -> void:
 	_disable()
+	_play_one_shot(crash_sound)
 	
 	var tween = create_tween()
 	tween.set_parallel(true)
@@ -120,6 +124,7 @@ func die_animation() -> void:
 		_spawn_explosion_at_random_pos()
 
 	_spawn_explosion_at_random_pos(Vector2.ZERO, 1.5) # Large center explosion
+	_play_one_shot(crash_sound)
 	animated_sprite.visible = false
 	
 	await tween.finished
@@ -168,6 +173,7 @@ func win_animation() -> void:
 		.set_ease(Tween.EASE_OUT)
 	
 	await anticipation_tween.finished
+	_play_one_shot(victory_whoosh)
 
 	# --- STAGE 2: Extreme afterburner acceleration ---
 	var victory_tween := create_tween().set_parallel(true)
@@ -197,6 +203,13 @@ func win_animation() -> void:
 	
 	ev_win_animation_finished.emit()
 	
+func _play_one_shot(stream: AudioStream) -> void:
+	if stream == null or sfx_player == null:
+		return
+	sfx_player.stream = stream
+	sfx_player.play()
+
+
 func _spawn_explosion_at_random_pos(offset = Vector2.ZERO, scale_multiplier = 1.0):
 	var explosion = explosion_scene.instantiate()
 	

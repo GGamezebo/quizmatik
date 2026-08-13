@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://dg8bdljs16a6h" path="res://core/lib/window_stack_manager/button_window_back.gd" id="4_back"]
 [ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://core/lib/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
 [ext_resource type="Script" uid="uid://dwus2ghsyt5xv" path="res://src/game/scenes/menu/training_room_window/training_room_window.gd" id="5_n67ar"]
-[ext_resource type="PackedScene" uid="uid://bnbookbg01quiz" path="res://src/ui/backgrounds/notebook/notebook_background.tscn" id="6_kcyx7"]
+[ext_resource type="PackedScene" uid="uid://wr8hmf0acdft" path="res://src/ui/backgrounds/notebook/notebook_background.tscn" id="6_kcyx7"]
 [ext_resource type="Texture2D" uid="uid://clq0g1vwuxqgn" path="res://assets/sound-on.svg" id="6_vk307"]
 [ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/game/scenes/menu/training_room_window/training_room_game_config.tres" id="6_vp6ju"]
 [ext_resource type="Texture2D" uid="uid://ccjtahowlfjpj" path="res://assets/sound-off.svg" id="7_82bx7"]
@@ -21,6 +21,11 @@
 [ext_resource type="PackedScene" uid="uid://bkoeytpeqxe1w" path="res://src/game/scenes/settings_window/settings_window.tscn" id="20_r0b7e"]
 [ext_resource type="PackedScene" uid="uid://caclv7nru701m" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.tscn" id="21_trophy"]
 [ext_resource type="PackedScene" uid="uid://b00ddsqtwrab5" path="res://src/game/scenes/menu/daily/daily_challenges_panel.tscn" id="23_daily"]
+[ext_resource type="PackedScene" uid="uid://vgu8fi0hkbls" path="res://src/ui/backgrounds/levels_pack/levels_pack_background.tscn" id="24_packbg"]
+[ext_resource type="Texture2D" uid="uid://hghugnctmjyn" path="res://src/game/scenes/menu/levels/ui/btn_back.png" id="25_pack_back"]
+[ext_resource type="Texture2D" uid="uid://cerhegx7c1rnc" path="res://src/game/scenes/menu/levels/ui/bar_empty.png" id="26_bar_empty"]
+[ext_resource type="Texture2D" uid="uid://bjpc7yl8doy0i" path="res://src/game/scenes/menu/levels/ui/bar_fill.png" id="27_bar_fill"]
+[ext_resource type="Script" uid="uid://f6odaxaw13hf" path="res://src/ui/buttons/hover_scale_button.gd" id="28_hover"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
@@ -98,7 +103,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 theme = ExtResource("theme_ui")
 
-[node name="Background" parent="UI/MainMenuWindow" unique_id=1217069396 instance=ExtResource("6_kcyx7") node_paths=PackedStringArray("daily_controller")]
+[node name="Background" parent="UI/MainMenuWindow" unique_id=1217069396 node_paths=PackedStringArray("daily_controller") instance=ExtResource("6_kcyx7")]
 paint_from_daily = true
 daily_controller = NodePath("../DailyLeftColumn/DailyChallengesPanel/DailyChallengesController")
 
@@ -184,8 +189,7 @@ texture_pressed = ExtResource("7_82bx7")
 script = ExtResource("8_82bx7")
 user_settings = ExtResource("9_3qhmn")
 
-[node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("packs_list_container", "progress", "windows_stack_manager", "level_selection_window")]
-visible = false
+[node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("packs_list_container", "packs_scroll", "scroll_track", "scroll_fill", "progress", "windows_stack_manager", "level_selection_window")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -195,7 +199,10 @@ grow_vertical = 2
 size_flags_horizontal = 4
 theme = ExtResource("theme_ui")
 script = ExtResource("11_3k6yn")
-packs_list_container = NodePath("CenterContainer/ScrollContainer/HBoxContainer")
+packs_list_container = NodePath("CenterContainer/VBoxContainer/ScrollContainer/HBoxContainer")
+packs_scroll = NodePath("CenterContainer/VBoxContainer/ScrollContainer")
+scroll_track = NodePath("CenterContainer/VBoxContainer/ScrollIndicator/Track")
+scroll_fill = NodePath("CenterContainer/VBoxContainer/ScrollIndicator/Fill")
 level_container_scene = ExtResource("13_a4m0n")
 levelsConfig = ExtResource("13_dwe1a")
 progress = NodePath("ProgressController")
@@ -204,14 +211,8 @@ level_selection_window = NodePath("LevelsSelection")
 
 [node name="ProgressController" parent="UI/LevelsWindow" unique_id=2109216065 instance=ExtResource("14_cjfjs")]
 
-[node name="TextureRect" type="TextureRect" parent="UI/LevelsWindow" unique_id=1822700520]
+[node name="Background" parent="UI/LevelsWindow" unique_id=788752661 instance=ExtResource("24_packbg")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("GradientTexture2D_ux2mn")
 
 [node name="CenterContainer" type="CenterContainer" parent="UI/LevelsWindow" unique_id=2124016150]
 layout_mode = 1
@@ -221,50 +222,69 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="UI/LevelsWindow/CenterContainer" unique_id=1985711011]
-custom_minimum_size = Vector2(760, 400)
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/LevelsWindow/CenterContainer" unique_id=2124016151]
 layout_mode = 2
-size_flags_stretch_ratio = 0.0
+theme_override_constants/separation = 18
+alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/LevelsWindow/CenterContainer/ScrollContainer" unique_id=1932800174]
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/LevelsWindow/CenterContainer/VBoxContainer" unique_id=1985711011]
+custom_minimum_size = Vector2(900, 460)
+layout_mode = 2
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/LevelsWindow/CenterContainer/VBoxContainer/ScrollContainer" unique_id=1932800174]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 30
 alignment = 1
 
-[node name="LevelContainer" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=1113403507 instance=ExtResource("13_a4m0n")]
+[node name="ScrollIndicator" type="Control" parent="UI/LevelsWindow/CenterContainer/VBoxContainer" unique_id=1985711012]
+custom_minimum_size = Vector2(520, 12)
 layout_mode = 2
+size_flags_horizontal = 4
 
-[node name="LevelContainer2" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=805568362 instance=ExtResource("13_a4m0n")]
-layout_mode = 2
+[node name="Track" type="TextureRect" parent="UI/LevelsWindow/CenterContainer/VBoxContainer/ScrollIndicator" unique_id=1985711013]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("26_bar_empty")
+expand_mode = 1
+stretch_mode = 1
 
-[node name="LevelContainer3" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=707288287 instance=ExtResource("13_a4m0n")]
-layout_mode = 2
-
-[node name="LevelContainer4" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=117755645 instance=ExtResource("13_a4m0n")]
-layout_mode = 2
-
-[node name="LevelContainer5" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=11573905 instance=ExtResource("13_a4m0n")]
-layout_mode = 2
-
-[node name="LevelContainer6" parent="UI/LevelsWindow/CenterContainer/ScrollContainer/HBoxContainer" unique_id=117749005 instance=ExtResource("13_a4m0n")]
-layout_mode = 2
+[node name="Fill" type="TextureRect" parent="UI/LevelsWindow/CenterContainer/VBoxContainer/ScrollIndicator" unique_id=1985711014]
+layout_mode = 0
+offset_right = 260.0
+offset_bottom = 12.0
+mouse_filter = 2
+texture = ExtResource("27_bar_fill")
+expand_mode = 1
+stretch_mode = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/LevelsWindow" unique_id=502794224]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -118.0
-offset_right = 204.0
+offset_top = -150.0
+offset_right = 150.0
 grow_vertical = 0
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="Back" type="Button" parent="UI/LevelsWindow/MarginContainer" unique_id=1251858034]
+[node name="Back" type="TextureButton" parent="UI/LevelsWindow/MarginContainer" unique_id=1251858034]
+custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
-text = "Назад"
+focus_mode = 0
+texture_normal = ExtResource("25_pack_back")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("28_hover")
 
 [node name="LevelsSelection" parent="UI/LevelsWindow" unique_id=519807597 instance=ExtResource("15_foifc")]
 visible = false

@@ -16,6 +16,8 @@ Hand-drawn **colored pencil + graphite on school grid paper** (see `battle_conce
 
 | File | Role |
 |------|------|
+| `../menu_notebook_modern_v3.png` | Canonical main-menu frame — gym sketch + Nulik + 2 CTAs + HUD circles |
+| `../menu_notebook_modern_v2.png` | Alt menu — school doodles, parchment title, plane sticker |
 | `battle_concept_ref.png` | Full battle mockup (source concept) |
 | `battle_modern_v1.png` | Modernized UI pass — paper sticker HUD, dashed graphite lanes, no neon |
 | `ui_atlas_modern.png` | Sliced modern HUD atlas (score, banner, hearts, buttons, lane dashes) |

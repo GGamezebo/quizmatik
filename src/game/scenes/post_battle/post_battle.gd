@@ -34,11 +34,6 @@ static func build_result_data(
 	}
 
 
-func _ready() -> void:
-	if repeat_button:
-		repeat_button.grab_focus()
-
-
 func initialize(data: Dictionary) -> void:
 	if data.has("game_config"):
 		_game_config = data["game_config"]
@@ -101,9 +96,16 @@ func _setup_next_level_button(is_win: bool) -> void:
 	var show_next: bool = _next_battle_info != null
 	next_level_button.visible = show_next
 	if show_next:
-		next_level_button.grab_focus()
+		call_deferred("_grab_button_focus", next_level_button)
 	else:
-		repeat_button.grab_focus()
+		call_deferred("_grab_button_focus", repeat_button)
+
+
+func _grab_button_focus(button: BaseButton) -> void:
+	if button == null or not button.visible:
+		return
+	button.focus_mode = Control.FOCUS_ALL
+	button.grab_focus()
 
 
 func _resolve_next_battle_info(is_win: bool) -> GameConfig.BattleInfo:

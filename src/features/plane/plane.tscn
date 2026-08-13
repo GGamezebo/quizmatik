@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://bhvth81jmerbb" path="res://src/features/plane/planes_atlas_spaced.png" id="3_6bhuu"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="3_6smis"]
 [ext_resource type="AudioStream" uid="uid://d022f3yjwbamj" path="res://src/features/plane/thrust.mp3" id="3_incis"]
+[ext_resource type="AudioStream" uid="uid://dmecv67tctmxl" path="res://src/features/plane/crash.wav" id="11_crash"]
+[ext_resource type="AudioStream" uid="uid://cyruf28t01pe6" path="res://src/features/plane/victory_whoosh.wav" id="12_whoosh"]
 [ext_resource type="Script" uid="uid://wokwb6w0qo1j" path="res://src/features/plane/animated_sprite_2d.gd" id="6_7tfl1"]
 [ext_resource type="Script" uid="uid://c26vc5jhui0yf" path="res://src/features/plane/audio_stream_player.gd" id="8_jxtnq"]
 [ext_resource type="Texture2D" uid="uid://rux51tr7d7c5" path="res://assets/light effect starlight shining.png" id="9_i07py"]
@@ -101,7 +103,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="Plane" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("components", "directionComponents", "animated_sprite")]
+[node name="Plane" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("components", "directionComponents", "animated_sprite", "sfx_player")]
 collision_mask = 4
 script = ExtResource("1_c4h5g")
 components = [NodePath("AnimatedSprite2D"), NodePath("AudioStreamPlayer")]
@@ -109,6 +111,9 @@ directionComponents = [NodePath("AnimatedSprite2D"), NodePath("AudioStreamPlayer
 animated_sprite = NodePath("AnimatedSprite2D")
 explosion_scene = ExtResource("2_502ij")
 movement_mode = 1
+sfx_player = NodePath("SfxPlayer")
+crash_sound = ExtResource("11_crash")
+victory_whoosh = ExtResource("12_whoosh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1479885553]
 rotation = 1.5707964
@@ -136,6 +141,10 @@ texture = ExtResource("9_i07py")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=130746522]
 stream = ExtResource("3_incis")
+bus = &"SFX"
 script = ExtResource("8_jxtnq")
+
+[node name="SfxPlayer" type="AudioStreamPlayer" parent="." unique_id=130746523]
+bus = &"SFX"
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

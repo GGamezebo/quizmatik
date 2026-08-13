@@ -24,6 +24,7 @@ alwaysApply: false
 | Spawn layout / lanes | `GameArea` + `AnswerSpawner` |
 | Question math | `QuizQuestion` + `GameConfig` fields |
 | HUD only | `ui/` — listen to `GameEvents`, don't own combat |
+| SFX | AppRoot `SfxController` via `GameEvents` (`ev_shoot`, `ev_explosion`, `ev_correct_answer`, `ev_mistake`, `ev_win`, `ev_lose`, state change); plane thrust/crash/whoosh stay on the plane |
 
 ## Constraints
 

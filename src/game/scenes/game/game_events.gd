@@ -6,3 +6,5 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_shoot
 @warning_ignore("unused_signal") signal ev_correct_answer
 @warning_ignore("unused_signal") signal ev_mistake
+@warning_ignore("unused_signal") signal ev_win
+@warning_ignore("unused_signal") signal ev_lose
