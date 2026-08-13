@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://daurosqrmggl0"]
+
+[ext_resource type="Script" uid="uid://dk5mrcm7eq40o" path="res://src/game/scenes/menu/ui/menu_cta_button.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dt8i6prsb1087" path="res://src/game/scenes/menu/ui/icon_map.png" id="2_icon"]
+[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="3_font"]
+[ext_resource type="Texture2D" uid="uid://bmrw6xiwwmbba" path="res://src/game/scenes/menu/ui/btn_cta_wide.png" id="4_frame"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="5_shadow"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_shadow"]
+shader = ExtResource("5_shadow")
+shader_parameter/shadow_offset = Vector2(-4, 8)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_cta"]
+font = ExtResource("3_font")
+font_size = 28
+font_color = Color(0.439, 0.408, 0.592, 1)
+
+[node name="MenuCtaButton" type="Button" unique_id=1539778768 node_paths=PackedStringArray("icon_rect", "caption")]
+custom_minimum_size = Vector2(340, 72)
+offset_right = 340.0
+offset_bottom = 72.0
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hit")
+script = ExtResource("1_script")
+icon_rect = NodePath("Margin/HBox/Icon")
+caption = NodePath("Margin/HBox/Caption")
+icon_texture = ExtResource("2_icon")
+caption_text = "ПРИКЛЮЧЕНИЕ"
+caption_color = Color(0.439, 0.408, 0.592, 1)
+
+[node name="Frame" type="NinePatchRect" parent="." unique_id=46865737]
+material = SubResource("ShaderMaterial_shadow")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_frame")
+patch_margin_left = 70
+patch_margin_top = 60
+patch_margin_right = 70
+patch_margin_bottom = 60
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=936688133]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 12
+
+[node name="HBox" type="HBoxContainer" parent="Margin" unique_id=1291563265]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Margin/HBox" unique_id=953828957]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("2_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="Margin/HBox" unique_id=2063396782]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 28
+text = "ПРИКЛЮЧЕНИЕ"
+label_settings = SubResource("LabelSettings_cta")
+vertical_alignment = 1

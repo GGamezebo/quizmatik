@@ -1,8 +1,8 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://emeoar3syi38"]
 
-[ext_resource type="Texture2D" uid="uid://bpmcfcgo811mn" path="res://assets/background.png" id="1_bg"]
+[ext_resource type="Texture2D" uid="uid://npxh2fld8752" path="res://assets/background_menu.png" id="1_xa35l"]
 
-[node name="PaperPageBackground" type="Control"]
+[node name="PaperPageBackground" type="Control" unique_id=979853620]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Paper" type="TextureRect" parent="."]
+[node name="Paper" type="TextureRect" parent="." unique_id=2009123880]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,6 +19,5 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("1_bg")
+texture = ExtResource("1_xa35l")
 expand_mode = 1
-stretch_mode = 0
