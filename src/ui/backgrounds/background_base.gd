@@ -9,7 +9,7 @@ const NEXT_TEXTURE_PARAM := &"next_texture"
 const COLOR_AMOUNT_PARAM := &"color_amount"
 const MIRROR_SEAMLESS_PARAM := &"mirror_seamless"
 
-## Sky drift in texture widths per second. 0 keeps the sky static (menu, post battle).
+## Sky drift in texture widths per second. 0 keeps the sky static (e.g. post battle).
 @export_range(0.0, 0.2, 0.001) var sky_scroll_speed: float = 0.0
 ## Classic sky: scroll through a mirrored copy so left/right edges never seam.
 @export var mirror_seamless: bool = false

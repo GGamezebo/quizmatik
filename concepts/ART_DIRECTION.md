@@ -45,7 +45,7 @@ Avoid as primary look: cyan neon HUD, purple-on-white AI gradients, flat Materia
 
 Match `menu_notebook_modern_v3.png` (alt `menu_notebook_modern_v2.png`). Same sticker/stamp language as battle HUD + post-battle.
 
-1. Cream squared notebook page + spiral holes. Background = gym colored-pencil sketch (current menu identity: coach, hoop, flying kid). Dailies 5/5 = **full color**; incomplete = gray graphite. Margin doodles (globe, books, pencils, school, sun) stay in the margins.  
+1. Background = scrolling **classic sky** (`classic_sky/`). Color clarity follows completed dailies (`paint_from_daily`): 0 = soft graphite wash, 5/5 = **full color**. UI stickers/CTAs stay notebook-pencil on top.  
 2. Title **Улётная математика** — green sticker letters or parchment banner (not a 5-button stack)  
 3. Center: mascot (“Нулик”) sticker + speech bubble («Полетели!»)  
 4. Left: music HUD circle + **Дейлики** scrap + 5 rubber-ink stamps (sun / flower / cat / star / check — same as post-battle)  
@@ -109,7 +109,7 @@ See `battle_concept.png`, notebook modern ref `concepts/notebook_pencil/battle_m
 | Plane / shot / ink trail | `src/features/plane/`, `shot/`, `ink_blot/` |
 
 | Theme | `core/theme/` — cream paper + graphite ink (`style.tres`) |
-| Backgrounds | `src/ui/backgrounds/` — battle `BackgroundHost` + variants; menu / pack / level-select paper page: `paper_page/` (`assets/background.png`); pack extras: `levels_pack/` doodles |
+| Backgrounds | `src/ui/backgrounds/` — battle `BackgroundHost` + variants; main menu: scrolling `classic_sky/` + daily paint; pack / level-select: `paper_page/` / `levels_pack/` |
 
 ## Rules for agents
 

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dd0vjogf5bk8c" path="res://src/ui/confirm_dialog/confirm_dialog.gd" id="1_script"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Script" path="res://src/ui/buttons/hover_scale_binder.gd" id="2_hover_binder"]
 
 [sub_resource type="Gradient" id="Gradient_kcyx7"]
 colors = PackedColorArray(0.165, 0.2, 0.251, 0.55, 0.953, 0.902, 0.784, 0.08)
@@ -65,6 +66,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("theme_ui")
+
+[node name="HoverScaleBinder" type="Node" parent="Screen"]
+script = ExtResource("2_hover_binder")
 
 [node name="TextureRect" type="TextureRect" parent="Screen" unique_id=573368634]
 layout_mode = 1

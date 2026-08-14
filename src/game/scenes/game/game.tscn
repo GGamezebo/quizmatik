@@ -39,6 +39,7 @@
 [ext_resource type="Script" uid="uid://f6odaxaw13hf" path="res://src/ui/buttons/hover_scale_button.gd" id="30_hover"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="36_fb8ob"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Script" path="res://src/ui/buttons/hover_scale_binder.gd" id="31_hover_binder"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2qtwj"]
 shader = ExtResource("36_fb8ob")
@@ -148,6 +149,9 @@ root_events = ExtResource("8_xkl2s")
 player = NodePath("../Player")
 restart_button = NodePath("RightPanel/ActionButtons/Restart")
 exit_button = NodePath("RightPanel/ActionButtons/Exit")
+
+[node name="HoverScaleBinder" type="Node" parent="HUD"]
+script = ExtResource("31_hover_binder")
 
 [node name="Background" parent="HUD" unique_id=1217069396 node_paths=PackedStringArray("player") instance=ExtResource("2_lu6cl")]
 sky_scroll_speed = 0.02

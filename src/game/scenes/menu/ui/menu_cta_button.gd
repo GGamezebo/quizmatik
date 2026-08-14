@@ -19,6 +19,7 @@ extends Button
 
 
 func _ready() -> void:
+	HoverScaleButton.bind(self)
 	text = ""
 	icon = null
 	clip_text = true
