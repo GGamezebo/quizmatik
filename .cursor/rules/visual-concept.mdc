@@ -14,6 +14,7 @@ Must match:
 - **Style:** graphite pencil on notebook paper — not cyan neon
 - **Theme:** `core/theme/style.tres` — cream parchment buttons/panels, ink `#2A3340` text
 - **Backgrounds:** `src/ui/backgrounds/` — shared `BackgroundBase` + per-variant folders (`notebook` sketches, `classic_sky`, `notebook_sky`); battle `BackgroundHost` picks random from `variants[]`; main menu = scrolling `classic_sky/` with `paint_from_daily`; pack / level-select use `paper_page/` / `levels_pack/`; shared paper/sky files may also live in `assets/backgrounds/`
+- Shared runtime files: `assets/backgrounds/`, `assets/audio/music/`, `assets/effects/`, `assets/ui/icons/` — never leave playable assets only in `concepts/`
 - **Menu layout:** Jet Math–style (`menu_notebook_modern_v3.png` / `v2`) — 2 bottom CTAs + right HUD circles (`btn_blank` + icons: settings / achievements / exit) + center mascot; no 5-button stack
 - **Achievements window:** `trophy_room_window/` + `ui/` slices (`bg_achievements`, `plaque_achievements`, `pencil_achievements`, `trophy_sticker`, `title_dostizheniya`) — match `achievements_notebook_concept_v1.png`
 - **Battle:** horizontal flight (plane left → right), 4 lanes, round balloons, paper HUD language

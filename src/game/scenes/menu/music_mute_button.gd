@@ -1,8 +1,15 @@
 @tool
 extends MuteButton
 
+@export var image_active: Texture
+@export var image_inacitve: Texture
+
 ## Toggle mute for the Music bus.
 
+func _ready() -> void:
+	super._ready()
+	texture_normal = image_active
+	texture_pressed = image_inacitve
 
 func _get_bus_name() -> String:
 	return "Music"

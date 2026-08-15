@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://cyruf28t01pe6" path="res://src/features/plane/victory_whoosh.wav" id="12_whoosh"]
 [ext_resource type="Script" uid="uid://wokwb6w0qo1j" path="res://src/features/plane/animated_sprite_2d.gd" id="6_7tfl1"]
 [ext_resource type="Script" uid="uid://c26vc5jhui0yf" path="res://src/features/plane/audio_stream_player.gd" id="8_jxtnq"]
-[ext_resource type="Texture2D" uid="uid://rux51tr7d7c5" path="res://assets/light effect starlight shining.png" id="9_i07py"]
+[ext_resource type="Texture2D" uid="uid://rux51tr7d7c5" path="res://assets/effects/starlight_shining.png" id="9_i07py"]
 [ext_resource type="Texture2D" uid="uid://bgrnq02qv15pk" path="res://src/features/plane/flame.png" id="10_ijmsw"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_272bh"]

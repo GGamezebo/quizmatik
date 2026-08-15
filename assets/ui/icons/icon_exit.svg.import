@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pp8uiix7qkg"
-path="res://.godot/imported/movement_discrete.svg-23c0eae7d7446176db4014f66c7f152b.ctex"
+uid="uid://8ek02u3tnr7d"
+path="res://.godot/imported/icon_exit.svg-ae23a8bf8653e8496161a56f12e80b29.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/movement_discrete.svg"
-dest_files=["res://.godot/imported/movement_discrete.svg-23c0eae7d7446176db4014f66c7f152b.ctex"]
+source_file="res://assets/ui/icons/icon_exit.svg"
+dest_files=["res://.godot/imported/icon_exit.svg-ae23a8bf8653e8496161a56f12e80b29.ctex"]
 
 [params]
 

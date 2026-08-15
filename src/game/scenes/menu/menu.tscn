@@ -61,7 +61,7 @@ levels_choice_window = NodePath("UI/LevelsWindow")
 training_room_config = ExtResource("6_vp6ju")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start")
 training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/StartBattle")
-exit_button = NodePath("UI/MainMenuWindow/RightSideButtons/Exit")
+exit_button = NodePath("UI/MainMenuWindow/ExitMargin/Exit")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2419366]
 
@@ -92,7 +92,7 @@ button = NodePath("../../TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxCo
 
 [node name="SettingsWindowOpen" type="Node" parent="UI/StackWindowController" unique_id=226461501 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/RightSideButtons/Settings")
+button = NodePath("../../MainMenuWindow/MarginContainer/RightSideButtons/Settings")
 target_window = NodePath("../../SettingsWindow")
 
 [node name="SettingsWindowBack" type="Node" parent="UI/StackWindowController" unique_id=226461502 node_paths=PackedStringArray("button")]
@@ -101,7 +101,7 @@ button = NodePath("../../SettingsWindow/MenuWindowBack/Back")
 
 [node name="TrophyRoomOpen" type="Node" parent="UI/StackWindowController" unique_id=551433926 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/RightSideButtons/Achievements")
+button = NodePath("../../MainMenuWindow/MarginContainer/RightSideButtons/Achievements")
 target_window = NodePath("../../TrophyRoomWindow")
 
 [node name="TrophyRoomBack" type="Node" parent="UI/StackWindowController" unique_id=1133530387 node_paths=PackedStringArray("button")]
@@ -138,6 +138,26 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_ux2mn")
 
+[node name="MusicMute" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=755619621]
+layout_mode = 1
+offset_right = 185.0
+offset_bottom = 190.0
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_top = 70
+
+[node name="MusicMuteButton" type="TextureButton" parent="UI/MainMenuWindow/MusicMute" unique_id=1355379251]
+material = SubResource("ShaderMaterial_owodb")
+layout_mode = 2
+offset_transform_enabled = true
+toggle_mode = true
+texture_normal = ExtResource("17_owodb")
+texture_pressed = ExtResource("18_xf4oj")
+script = ExtResource("8_82bx7")
+image_active = ExtResource("17_owodb")
+image_inacitve = ExtResource("18_xf4oj")
+user_settings = ExtResource("9_3qhmn")
+metadata/hover_scale_bound = true
+
 [node name="DailyLeftColumn" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=1900100000]
 layout_mode = 1
 anchors_preset = 12
@@ -163,6 +183,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = 9.0
+offset_right = -16.0
+offset_bottom = 9.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -198,46 +222,50 @@ icon_texture = ExtResource("36_icon_pencil")
 caption_text = "ПРАКТИКА"
 caption_color = Color(0.329, 0.486, 0.29, 1)
 
-[node name="RightSideButtons" type="VBoxContainer" parent="UI/MainMenuWindow" unique_id=384891345]
+[node name="MarginContainer" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=1046765864]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -128.0
-offset_bottom = 473.0
+offset_left = -182.0
+offset_bottom = 336.0
 grow_horizontal = 0
+theme_override_constants/margin_right = 70
+
+[node name="RightSideButtons" type="VBoxContainer" parent="UI/MainMenuWindow/MarginContainer" unique_id=384891345]
+layout_mode = 2
+offset_transform_enabled = true
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Settings" parent="UI/MainMenuWindow/RightSideButtons" unique_id=319530349 instance=ExtResource("30_circle_btn")]
+[node name="Settings" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" unique_id=319530349 instance=ExtResource("30_circle_btn")]
+custom_minimum_size = Vector2(200, 112)
 layout_mode = 2
 image = ExtResource("15_op54q")
 metadata/hover_scale_bound = true
 
-[node name="Achievements" parent="UI/MainMenuWindow/RightSideButtons" unique_id=42729555 instance=ExtResource("30_circle_btn")]
+[node name="Achievements" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" unique_id=42729555 instance=ExtResource("30_circle_btn")]
 layout_mode = 2
 image = ExtResource("32_icon_achievements")
 metadata/hover_scale_bound = true
 
-[node name="Exit" parent="UI/MainMenuWindow/RightSideButtons" unique_id=592785053 instance=ExtResource("30_circle_btn")]
+[node name="ExitMargin" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=1074935488]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -112.0
+offset_top = -122.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 70
+theme_override_constants/margin_bottom = 70
+
+[node name="Exit" parent="UI/MainMenuWindow/ExitMargin" unique_id=592785053 instance=ExtResource("30_circle_btn")]
 layout_mode = 2
 image = ExtResource("33_icon_exit")
-metadata/hover_scale_bound = true
-
-[node name="MusicMuteButton" type="TextureButton" parent="UI/MainMenuWindow" unique_id=1355379251]
-material = SubResource("ShaderMaterial_owodb")
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 1
-offset_right = 185.0
-offset_bottom = 190.0
-scale = Vector2(0.7, 0.7)
-pivot_offset = Vector2(92.5, 95)
-offset_transform_enabled = true
-toggle_mode = true
-texture_normal = ExtResource("17_owodb")
-texture_pressed = ExtResource("18_xf4oj")
-script = ExtResource("8_82bx7")
-user_settings = ExtResource("9_3qhmn")
 metadata/hover_scale_bound = true
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("packs_list_container", "packs_scroll", "progress", "windows_stack_manager", "level_selection_window")]
@@ -374,7 +402,7 @@ text = "Выход"
 
 [node name="SettingsWindow" parent="UI" unique_id=2314529 instance=ExtResource("20_r0b7e")]
 visible = false
-music_mute_button = NodePath("../MainMenuWindow/MusicMuteButton")
+music_mute_button = NodePath("../MainMenuWindow/MusicMute/MusicMuteButton")
 
 [node name="TrophyRoomWindow" parent="UI" unique_id=965242045 instance=ExtResource("21_trophy")]
 visible = false

@@ -2,17 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clq0g1vwuxqgn"
-path="res://.godot/imported/sound-on.svg-6da841cbf0efa10d0de48e843bd73ec0.ctex"
+uid="uid://rux51tr7d7c5"
+path="res://.godot/imported/starlight_shining.png-57ee87567b789ba81e5a212d300a3724.ctex"
 metadata={
-"has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sound-on.svg"
-dest_files=["res://.godot/imported/sound-on.svg-6da841cbf0efa10d0de48e843bd73ec0.ctex"]
+source_file="res://assets/effects/starlight_shining.png"
+dest_files=["res://.godot/imported/starlight_shining.png-57ee87567b789ba81e5a212d300a3724.ctex"]
 
 [params]
 
@@ -39,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=0.1
-editor/scale_with_editor_scale=true
-editor/convert_colors_with_editor_theme=true

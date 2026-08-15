@@ -2,16 +2,17 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8c6ld7mnpu8l"
-path="res://.godot/imported/star.svg-6deebfd74530271030b90c50da52e564.ctex"
+uid="uid://clq0g1vwuxqgn"
+path="res://.godot/imported/sound_on.svg-a609ee08321076f7dd54bd9ac0fb4a97.ctex"
 metadata={
+"has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/star.svg"
-dest_files=["res://.godot/imported/star.svg-6deebfd74530271030b90c50da52e564.ctex"]
+source_file="res://assets/ui/icons/sound_on.svg"
+dest_files=["res://.godot/imported/sound_on.svg-a609ee08321076f7dd54bd9ac0fb4a97.ctex"]
 
 [params]
 
@@ -38,6 +39,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
+svg/scale=0.1
+editor/scale_with_editor_scale=true
+editor/convert_colors_with_editor_theme=true

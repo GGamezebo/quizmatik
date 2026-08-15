@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rux51tr7d7c5"
-path="res://.godot/imported/light effect starlight shining.png-7a17be2e863214bb84f1abe7d64d164f.ctex"
+uid="uid://pp8uiix7qkg"
+path="res://.godot/imported/movement_discrete.svg-b29b810071aa70e769c43a7f553f352b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/light effect starlight shining.png"
-dest_files=["res://.godot/imported/light effect starlight shining.png-7a17be2e863214bb84f1abe7d64d164f.ctex"]
+source_file="res://assets/ui/icons/movement_discrete.svg"
+dest_files=["res://.godot/imported/movement_discrete.svg-b29b810071aa70e769c43a7f553f352b.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false
