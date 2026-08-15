@@ -6,7 +6,7 @@ extends Node
 @export_file("*.tscn") var menu: String = "res://src/game/scenes/menu/menu.tscn"
 @export_file("*.tscn") var game: String = "res://src/game/scenes/game/game.tscn"
 @export_file("*.tscn") var post_battle: String = "res://src/game/scenes/post_battle/post_battle.tscn"
-@export_file("*.tscn") var settings_window: String = "res://src/game/scenes/settings_window/settings_window.tscn"
+@export_file("*.tscn") var settings_window: String = "res://src/game/scenes/menu/settings_window/settings_window.tscn"
 
 
 var SCENES : Dictionary = {}

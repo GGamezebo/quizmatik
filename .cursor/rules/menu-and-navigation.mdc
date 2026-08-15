@@ -33,6 +33,8 @@ alwaysApply: false
 - Level select → `menu/levels/`
 - Training → `menu/training_room_window/`
 - Trophy room / stats → `menu/trophy_room_window/`
+- Settings → `menu/settings_window/`
+- Shared window back overlay → `menu/ui/menu_window_back.tscn` (bottom-left; same as pack select)
 - Daily slots (display-only) → `menu/daily/` on MainMenuWindow; main menu `classic_sky` scrolls + color from completed dailies via `BackgroundBase.paint_from_daily`
 - Results → `post_battle/`
 - Stack helpers → `core/lib/window_stack_manager/`

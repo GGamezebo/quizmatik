@@ -52,6 +52,7 @@ auto_load_on_ready = false
 [node name="Settings" type="Node" parent="Account/SaveManager" unique_id=1411123079]
 script = ExtResource("8_nvg4k")
 _user_settings = ExtResource("5_4c57u")
+vibration_controller = NodePath("../../../VibrationController")
 
 [node name="ProgressController" parent="Account" unique_id=907297279 instance=ExtResource("8_4c57u")]
 

@@ -1,0 +1,82 @@
+[gd_resource type="Theme" format=3 uid="uid://fcbw6wv1u0xn"]
+
+[sub_resource type="Gradient" id="Gradient_grabber"]
+offsets = PackedFloat32Array(0, 0.68, 0.7, 0.92, 1)
+colors = PackedColorArray(0.99, 0.78, 0.2, 1, 0.957, 0.706, 0.102, 1, 0.165, 0.2, 0.251, 1, 0.165, 0.2, 0.251, 1, 0.165, 0.2, 0.251, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_grabber"]
+gradient = SubResource("Gradient_grabber")
+width = 28
+height = 28
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.02)
+
+[sub_resource type="Gradient" id="Gradient_grabber_hl"]
+offsets = PackedFloat32Array(0, 0.68, 0.7, 0.92, 1)
+colors = PackedColorArray(1, 0.88, 0.35, 1, 0.99, 0.78, 0.2, 1, 0.12, 0.14, 0.18, 1, 0.12, 0.14, 0.18, 1, 0.12, 0.14, 0.18, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_grabber_hl"]
+gradient = SubResource("Gradient_grabber_hl")
+width = 28
+height = 28
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0.02)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fill"]
+content_margin_left = 8.0
+content_margin_top = 10.0
+content_margin_right = 8.0
+content_margin_bottom = 10.0
+bg_color = Color(0.957, 0.706, 0.102, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fill_hl"]
+content_margin_left = 8.0
+content_margin_top = 10.0
+content_margin_right = 8.0
+content_margin_bottom = 10.0
+bg_color = Color(0.99, 0.78, 0.2, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.12, 0.14, 0.18, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slider"]
+content_margin_left = 8.0
+content_margin_top = 10.0
+content_margin_right = 8.0
+content_margin_bottom = 10.0
+bg_color = Color(0.953, 0.902, 0.784, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[resource]
+HSlider/constants/center_grabber = 1
+HSlider/icons/grabber = SubResource("GradientTexture2D_grabber")
+HSlider/icons/grabber_disabled = SubResource("GradientTexture2D_grabber")
+HSlider/icons/grabber_highlight = SubResource("GradientTexture2D_grabber_hl")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_fill")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_fill_hl")
+HSlider/styles/slider = SubResource("StyleBoxFlat_slider")

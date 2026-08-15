@@ -1,0 +1,34 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/settings_window/ui/toggle_off.png" id="1_off"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/settings_window/ui/toggle_on.png" id="2_on"]
+[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="3_font"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("3_font")
+font_size = 26
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[node name="SettingToggleRow" type="HBoxContainer"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Настройка"
+label_settings = SubResource("LabelSettings_title")
+vertical_alignment = 1
+
+[node name="Toggle" type="TextureButton" parent="."]
+custom_minimum_size = Vector2(72, 40)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+toggle_mode = true
+texture_normal = ExtResource("1_off")
+texture_pressed = ExtResource("2_on")
+ignore_texture_size = true
+stretch_mode = 5

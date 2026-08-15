@@ -6,7 +6,7 @@ extends Control
 @export var levels: LevelsConfig
 @export var container_id: String
 @export var progress: ProgressController
-@export var back_button: Button
+@export var back_button: BaseButton
 @export var early_exam_dialog: ConfirmDialog
 
 var _pending_battle_info: GameConfig.BattleInfo = null
