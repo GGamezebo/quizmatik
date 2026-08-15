@@ -1,3 +1,4 @@
+@tool
 class_name HoverScaleButton
 extends TextureButton
 
@@ -18,8 +19,6 @@ func _ready() -> void:
 
 
 func setup_hover_scale() -> void:
-	if has_meta(META_BOUND):
-		return
 	set_meta(META_BOUND, true)
 	_base_scale = scale
 	_update_hover_pivot()

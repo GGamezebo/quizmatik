@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dwpjaw6r6sldu" path="res://src/game/scenes/menu/levels/level_container.gd" id="1_voi0a"]
 [ext_resource type="Texture2D" uid="uid://dt41y5hehb65t" path="res://src/game/scenes/menu/levels/ui/panel_card_round.png" id="2_card"]
-[ext_resource type="Texture2D" uid="uid://l1t3vjwornqv" path="res://concepts/notebook_pencil/bg_gameplay_sky.png" id="4_5sx0r"]
+[ext_resource type="Texture2D" uid="uid://l1t3vjwornqv" path="res://assets/backgrounds/bg_gameplay_sky.png" id="4_5sx0r"]
 [ext_resource type="Texture2D" uid="uid://d05hfcyk6v0p1" path="res://src/game/scenes/menu/levels/ui/btn_lock.png" id="5_lock"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="6_shadow"]
 [ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="7_font"]
