@@ -9,9 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://ba8b57411c51b85f5cad1" path="res://src/game/scenes/menu/trophy_room_window/ui/title_dostizheniya.png" id="6_title"]
 [ext_resource type="Texture2D" uid="uid://b67efffc6ee90c5a4e831" path="res://src/game/scenes/menu/trophy_room_window/ui/trophy_sticker.png" id="7_trophy"]
 [ext_resource type="Texture2D" uid="uid://bfb95919c07a32d0dde02" path="res://src/game/scenes/menu/trophy_room_window/ui/pencil_achievements.png" id="8_pencil"]
-[ext_resource type="Texture2D" uid="uid://hghugnctmjyn" path="res://src/game/scenes/menu/levels/ui/btn_back.png" id="9_back"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="9_menu_back"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="10_shadow"]
-[ext_resource type="Script" uid="uid://f6odaxaw13hf" path="res://src/ui/buttons/hover_scale_button.gd" id="11_hover"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("10_shadow")
@@ -141,23 +140,5 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MenuWindowBack" parent="." instance=ExtResource("9_menu_back")]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -150.0
-offset_right = 150.0
-grow_vertical = 0
-theme_override_constants/margin_left = 60
-theme_override_constants/margin_bottom = 30
-
-[node name="Back" type="TextureButton" parent="MarginContainer"]
-material = SubResource("ShaderMaterial_sticker")
-custom_minimum_size = Vector2(120, 120)
-layout_mode = 2
-focus_mode = 0
-texture_normal = ExtResource("9_back")
-ignore_texture_size = true
-stretch_mode = 5
-script = ExtResource("11_hover")

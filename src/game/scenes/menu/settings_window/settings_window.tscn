@@ -1,0 +1,234 @@
+[gd_scene load_steps=16 format=3 uid="uid://bkoeytpeqxe1w"]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/settings_window/settings_window.gd" id="1_script"]
+[ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="2_settings"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="3_root_events"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/settings_window/ui/bg_settings.png" id="4_bg"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/settings_window/ui/plaque_settings.png" id="5_plaque"]
+[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="6_font"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="8_shadow"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/settings_window/setting_toggle_row.tscn" id="10_toggle_row"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/settings_window/setting_slider_row.tscn" id="11_slider_row"]
+[ext_resource type="PackedScene" uid="uid://c8qm5n2k7xwfd" path="res://src/ui/confirm_dialog/confirm_dialog.tscn" id="12_confirm"]
+[ext_resource type="Script" path="res://src/ui/buttons/hover_scale_binder.gd" id="13_binder"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="14_menu_back"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
+shader = ExtResource("8_shadow")
+shader_parameter/shadow_offset = Vector2(-4, 8)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("6_font")
+font_size = 42
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reset_normal"]
+content_margin_left = 18.0
+content_margin_top = 14.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
+bg_color = Color(0.82, 0.22, 0.2, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.45, 0.1, 0.08, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reset_hover"]
+content_margin_left = 18.0
+content_margin_top = 14.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
+bg_color = Color(0.9, 0.28, 0.24, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.35, 0.08, 0.06, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_reset_pressed"]
+content_margin_left = 18.0
+content_margin_top = 16.0
+content_margin_right = 18.0
+content_margin_bottom = 12.0
+bg_color = Color(0.68, 0.16, 0.14, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.35, 0.08, 0.06, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[node name="SettingsWindow" type="Control" node_paths=PackedStringArray("music_toggle", "music_volume_slider", "music_volume_label", "sfx_volume_slider", "sfx_volume_label", "vibration_toggle", "vibration_intensity_slider", "vibration_intensity_label", "reset_progress_button", "reset_confirm_dialog")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("theme_ui")
+script = ExtResource("1_script")
+user_settings = ExtResource("2_settings")
+root_events = ExtResource("3_root_events")
+music_toggle = NodePath("CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowMusicToggle/Toggle")
+music_volume_slider = NodePath("CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowMusicVolume/Slider")
+music_volume_label = NodePath("CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowMusicVolume/Value")
+sfx_volume_slider = NodePath("CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowSfxVolume/Slider")
+sfx_volume_label = NodePath("CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowSfxVolume/Value")
+vibration_toggle = NodePath("CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowVibrationToggle/Toggle")
+vibration_intensity_slider = NodePath("CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowVibrationIntensity/Slider")
+vibration_intensity_label = NodePath("CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowVibrationIntensity/Value")
+reset_progress_button = NodePath("CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/ResetProgressButton")
+reset_confirm_dialog = NodePath("ResetConfirmDialog")
+
+[node name="HoverScaleBinder" type="Node" parent="."]
+script = ExtResource("13_binder")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Content" type="Control" parent="CenterContainer"]
+custom_minimum_size = Vector2(720, 500)
+layout_mode = 2
+
+[node name="Plaque" type="TextureRect" parent="CenterContainer/Content"]
+material = SubResource("ShaderMaterial_sticker")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_plaque")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TitleBanner" type="Label" parent="CenterContainer/Content"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_top = -18.0
+offset_right = 180.0
+offset_bottom = 42.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 42
+text = "НАСТРОЙКИ"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SettingsMargin" type="MarginContainer" parent="CenterContainer/Content"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 72
+theme_override_constants/margin_top = 72
+theme_override_constants/margin_right = 72
+theme_override_constants/margin_bottom = 40
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/Content/SettingsMargin"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="SettingsList" type="VBoxContainer" parent="CenterContainer/Content/SettingsMargin/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="RowMusicToggle" parent="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList" instance=ExtResource("10_toggle_row")]
+layout_mode = 2
+
+[node name="Title" parent="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowMusicToggle" index="0"]
+text = "Музыка в меню"
+
+[node name="RowMusicVolume" parent="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList" instance=ExtResource("11_slider_row")]
+layout_mode = 2
+
+[node name="Title" parent="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowMusicVolume" index="0"]
+text = "Громкость музыки"
+
+[node name="RowSfxVolume" parent="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList" instance=ExtResource("11_slider_row")]
+layout_mode = 2
+
+[node name="Title" parent="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowSfxVolume" index="0"]
+text = "Громкость звуков"
+
+[node name="RowVibrationToggle" parent="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList" instance=ExtResource("10_toggle_row")]
+layout_mode = 2
+
+[node name="Title" parent="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowVibrationToggle" index="0"]
+text = "Вибрация"
+
+[node name="RowVibrationIntensity" parent="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList" instance=ExtResource("11_slider_row")]
+layout_mode = 2
+
+[node name="Title" parent="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowVibrationIntensity" index="0"]
+text = "Мощность вибрации"
+
+[node name="ResetSpacer" type="Control" parent="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="ResetProgressButton" type="Button" parent="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.96, 0.92, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.92, 0.88, 0.84, 1)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxFlat_reset_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_reset_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_reset_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_reset_hover")
+text = "Сбросить прогресс"
+
+[node name="MenuWindowBack" parent="." instance=ExtResource("14_menu_back")]
+layout_mode = 1
+
+[node name="ResetConfirmDialog" parent="." instance=ExtResource("12_confirm")]
+
+[editable path="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowMusicToggle"]
+[editable path="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowMusicVolume"]
+[editable path="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowSfxVolume"]
+[editable path="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowVibrationToggle"]
+[editable path="CenterContainer/Content/SettingsMargin/ScrollContainer/SettingsList/RowVibrationIntensity"]

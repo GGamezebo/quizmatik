@@ -1,0 +1,46 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://src/game/scenes/menu/settings_window/settings_slider_theme.tres" id="1_theme"]
+[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("2_font")
+font_size = 26
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_value"]
+font = ExtResource("2_font")
+font_size = 24
+font_color = Color(0.86, 0.52, 0.14, 1)
+
+[node name="SettingSliderRow" type="HBoxContainer"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="."]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+text = "Громкость"
+label_settings = SubResource("LabelSettings_title")
+vertical_alignment = 1
+
+[node name="Slider" type="HSlider" parent="."]
+custom_minimum_size = Vector2(180, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = ExtResource("1_theme")
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="Value" type="Label" parent="."]
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+text = "100%"
+label_settings = SubResource("LabelSettings_value")
+horizontal_alignment = 2
+vertical_alignment = 1

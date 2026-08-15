@@ -7,6 +7,7 @@ extends Node
 @export var game_events: GameEvents
 @export var root_events: RootEvents
 @export var enabled: bool = true
+@export var user_settings: UserSettings
 
 @export_group("UI")
 @export var ui_duration_ms: int = 45
@@ -77,6 +78,10 @@ func _exit_tree() -> void:
 func vibrate(duration_ms: int, amplitude: float = 0.5) -> void:
 	if not enabled or duration_ms <= 0:
 		return
+	if user_settings != null:
+		if not user_settings.is_vibration_enabled:
+			return
+		amplitude *= user_settings.vibration_intensity
 	# Many Android motors ignore very short / weak pulses.
 	var ms: int = duration_ms
 	var amp: float = clampf(amplitude, 0.0, 1.0)
