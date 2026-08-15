@@ -38,6 +38,7 @@ Avoid as primary look: cyan neon HUD, purple-on-white AI gradients, flat Materia
 ## Materials & edges
 
 - Cream paper fills with graphite outlines (theme `core/theme/style.tres`)
+- Runtime textures live under `assets/` or `src/` — never keep playable assets only in `concepts/`
 - Soft drop shadows like sticker depth on notebook
 - Stickers, pins OK as decoration — sparingly
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://l1t3vjwornqv"
-path="res://.godot/imported/bg_gameplay_sky.png-f60eb1d2890f73b7951c5721168412b0.ctex"
+path="res://.godot/imported/bg_gameplay_sky.png-c67b4287155a9b8d9ea228fc60f60453.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://concepts/notebook_pencil/bg_gameplay_sky.png"
-dest_files=["res://.godot/imported/bg_gameplay_sky.png-f60eb1d2890f73b7951c5721168412b0.ctex"]
+source_file="res://assets/backgrounds/bg_gameplay_sky.png"
+dest_files=["res://.godot/imported/bg_gameplay_sky.png-c67b4287155a9b8d9ea228fc60f60453.ctex"]
 
 [params]
 

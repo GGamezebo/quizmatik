@@ -16,6 +16,7 @@
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="13_dwe1a"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="14_cjfjs"]
 [ext_resource type="PackedScene" uid="uid://bvsvg4k1oa70y" path="res://src/game/scenes/menu/levels/levels_selection.tscn" id="15_foifc"]
+[ext_resource type="Texture2D" uid="uid://osrgpai3oxa8" path="res://src/game/scenes/menu/ui/icon_settings.png" id="15_op54q"]
 [ext_resource type="Texture2D" uid="uid://cp81lnqrc7f5l" path="res://src/ui/hud/btn_sound_on.png" id="17_owodb"]
 [ext_resource type="Texture2D" uid="uid://bseq47l6tpmaq" path="res://src/ui/hud/btn_sound_off.png" id="18_xf4oj"]
 [ext_resource type="PackedScene" uid="uid://bkoeytpeqxe1w" path="res://src/game/scenes/menu/settings_window/settings_window.tscn" id="20_r0b7e"]
@@ -25,7 +26,7 @@
 [ext_resource type="PackedScene" uid="uid://vgu8fi0hkbls" path="res://src/ui/backgrounds/levels_pack/levels_pack_background.tscn" id="24_packbg"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="25_menu_back"]
 [ext_resource type="Theme" uid="uid://cvyfycr06mko1" path="res://src/game/scenes/menu/levels/levels_pack_scroll_theme.tres" id="29_scroll_theme"]
-[ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_circle_button.tscn" id="30_circle_btn"]
+[ext_resource type="PackedScene" uid="uid://bkifyl0m7qp2" path="res://src/game/scenes/menu/ui/menu_circle_button.tscn" id="30_circle_btn"]
 [ext_resource type="Texture2D" uid="uid://cyg5jcu3u4kvb" path="res://src/game/scenes/menu/ui/icon_achievements.png" id="32_icon_achievements"]
 [ext_resource type="Texture2D" uid="uid://ct821hopq4mrv" path="res://src/game/scenes/menu/ui/icon_exit.png" id="33_icon_exit"]
 [ext_resource type="PackedScene" uid="uid://daurosqrmggl0" path="res://src/game/scenes/menu/ui/menu_cta_button.tscn" id="34_cta_btn"]
@@ -60,7 +61,7 @@ levels_choice_window = NodePath("UI/LevelsWindow")
 training_room_config = ExtResource("6_vp6ju")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start")
 training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/StartBattle")
-exit_button = NodePath("UI/MainMenuWindow/RightSideButtons/Exit/Hit")
+exit_button = NodePath("UI/MainMenuWindow/RightSideButtons/Exit")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2419366]
 
@@ -91,7 +92,7 @@ button = NodePath("../../TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxCo
 
 [node name="SettingsWindowOpen" type="Node" parent="UI/StackWindowController" unique_id=226461501 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/RightSideButtons/Settings/Hit")
+button = NodePath("../../MainMenuWindow/RightSideButtons/Settings")
 target_window = NodePath("../../SettingsWindow")
 
 [node name="SettingsWindowBack" type="Node" parent="UI/StackWindowController" unique_id=226461502 node_paths=PackedStringArray("button")]
@@ -100,7 +101,7 @@ button = NodePath("../../SettingsWindow/MenuWindowBack/Back")
 
 [node name="TrophyRoomOpen" type="Node" parent="UI/StackWindowController" unique_id=551433926 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/RightSideButtons/Achievements/Hit")
+button = NodePath("../../MainMenuWindow/RightSideButtons/Achievements")
 target_window = NodePath("../../TrophyRoomWindow")
 
 [node name="TrophyRoomBack" type="Node" parent="UI/StackWindowController" unique_id=1133530387 node_paths=PackedStringArray("button")]
@@ -210,16 +211,18 @@ alignment = 1
 
 [node name="Settings" parent="UI/MainMenuWindow/RightSideButtons" unique_id=319530349 instance=ExtResource("30_circle_btn")]
 layout_mode = 2
+image = ExtResource("15_op54q")
+metadata/hover_scale_bound = true
 
 [node name="Achievements" parent="UI/MainMenuWindow/RightSideButtons" unique_id=42729555 instance=ExtResource("30_circle_btn")]
 layout_mode = 2
-icon_texture = ExtResource("32_icon_achievements")
-caption_text = "ДОСТИЖЕНИЯ"
+image = ExtResource("32_icon_achievements")
+metadata/hover_scale_bound = true
 
 [node name="Exit" parent="UI/MainMenuWindow/RightSideButtons" unique_id=592785053 instance=ExtResource("30_circle_btn")]
 layout_mode = 2
-icon_texture = ExtResource("33_icon_exit")
-caption_text = "ВЫХОД"
+image = ExtResource("33_icon_exit")
+metadata/hover_scale_bound = true
 
 [node name="MusicMuteButton" type="TextureButton" parent="UI/MainMenuWindow" unique_id=1355379251]
 material = SubResource("ShaderMaterial_owodb")
@@ -228,12 +231,14 @@ layout_mode = 1
 offset_right = 185.0
 offset_bottom = 190.0
 scale = Vector2(0.7, 0.7)
+pivot_offset = Vector2(92.5, 95)
 offset_transform_enabled = true
 toggle_mode = true
 texture_normal = ExtResource("17_owodb")
 texture_pressed = ExtResource("18_xf4oj")
 script = ExtResource("8_82bx7")
 user_settings = ExtResource("9_3qhmn")
+metadata/hover_scale_bound = true
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("packs_list_container", "packs_scroll", "progress", "windows_stack_manager", "level_selection_window")]
 visible = false

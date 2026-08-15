@@ -1,11 +1,8 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bkifyl0m7qp2"]
 
-[ext_resource type="Script" path="res://src/game/scenes/menu/ui/menu_circle_button.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://src/game/scenes/menu/ui/btn_blank.png" id="2_blank"]
-[ext_resource type="Texture2D" path="res://src/game/scenes/menu/ui/icon_settings.png" id="3_icon"]
-[ext_resource type="Script" uid="uid://f6odaxaw13hf" path="res://src/ui/buttons/hover_scale_button.gd" id="4_hover"]
+[ext_resource type="Texture2D" uid="uid://skttc2y454tl" path="res://src/game/scenes/menu/ui/btn_blank.png" id="2_blank"]
+[ext_resource type="Script" uid="uid://dkxssjwqcojr5" path="res://src/game/scenes/menu/ui/rounded_button.gd" id="3_noma0"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="5_shadow"]
-[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="6_font"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_shadow"]
 shader = ExtResource("5_shadow")
@@ -13,34 +10,19 @@ shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.45)
 shader_parameter/shadow_blur = 2.0
 
-[sub_resource type="LabelSettings" id="LabelSettings_caption"]
-font = ExtResource("6_font")
-font_size = 18
-font_color = Color(0.165, 0.2, 0.251, 1)
-
-[node name="MenuCircleButton" type="VBoxContainer" node_paths=PackedStringArray("button", "icon", "caption")]
-custom_minimum_size = Vector2(128, 0)
-theme_override_constants/separation = 6
-alignment = 1
-script = ExtResource("1_script")
-button = NodePath("Hit")
-icon = NodePath("Hit/Icon")
-caption = NodePath("Caption")
-icon_texture = ExtResource("3_icon")
-caption_text = "НАСТРОЙКИ"
-
-[node name="Hit" type="TextureButton" parent="."]
+[node name="Hit" type="TextureButton" unique_id=1355537752]
 material = SubResource("ShaderMaterial_shadow")
 custom_minimum_size = Vector2(112, 112)
-layout_mode = 2
+offset_right = 112.0
+offset_bottom = 112.0
 size_flags_horizontal = 4
 focus_mode = 0
 texture_normal = ExtResource("2_blank")
 ignore_texture_size = true
 stretch_mode = 5
-script = ExtResource("4_hover")
+script = ExtResource("3_noma0")
 
-[node name="Icon" type="TextureRect" parent="Hit"]
+[node name="Icon" type="TextureRect" parent="." unique_id=805781067]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -54,12 +36,5 @@ offset_bottom = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("3_icon")
 expand_mode = 1
 stretch_mode = 5
-
-[node name="Caption" type="Label" parent="."]
-layout_mode = 2
-text = "НАСТРОЙКИ"
-label_settings = SubResource("LabelSettings_caption")
-horizontal_alignment = 1
