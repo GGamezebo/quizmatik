@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2jnhlljief14"
-path="res://.godot/imported/movement_direct.svg-413e9a42f115fb5befd2d0373c7aec93.ctex"
+uid="uid://c8c6ld7mnpu8l"
+path="res://.godot/imported/star.svg-df44f1e339328f24d2ca0d00ec77270c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/movement_direct.svg"
-dest_files=["res://.godot/imported/movement_direct.svg-413e9a42f115fb5befd2d0373c7aec93.ctex"]
+source_file="res://assets/ui/icons/star.svg"
+dest_files=["res://.godot/imported/star.svg-df44f1e339328f24d2ca0d00ec77270c.ctex"]
 
 [params]
 

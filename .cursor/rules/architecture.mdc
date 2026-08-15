@@ -51,9 +51,20 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 | `src/levels/{container}/` | Campaign `level_N.tres` (canonical) |
 | `core/` | Project-agnostic code only (no Quizmatik types/scenes) |
 | `tools/` | Offline generators (e.g. levels) |
-| `assets/` | Runtime shared art (backgrounds, icons, audio) — not concept refs |
+| `assets/` | Runtime shared art — see layout below |
 | `concepts/` | Reference-only art direction + concept frames — never referenced by runtime scenes |
 | `src/dev/` | Non-runtime utilities — not the game entry |
+
+### `assets/` layout
+
+| Path | Contents |
+|------|----------|
+| `assets/backgrounds/` | Shared paper/sky/menu backgrounds |
+| `assets/audio/music/` | Looping BGM streams |
+| `assets/effects/` | FX sprites (e.g. starlight) |
+| `assets/ui/icons/` | Shared UI icons (stars, legacy SVG) |
+| `assets/fonts/` | Bundled fonts (optional / legacy) |
+| `assets/backup/` | Non-runtime art backups — do not wire into scenes |
 
 Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level_*.tres` (root).
 

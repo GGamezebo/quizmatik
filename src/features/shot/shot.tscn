@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://5831aq1tr7kg" path="res://src/features/shot/shot.gd" id="1_asq14"]
 [ext_resource type="Texture2D" uid="uid://bm1tc308cj6wb" path="res://src/features/shot/sprites/exhaust02_spritesheet.png" id="1_f1rbr"]
-[ext_resource type="Texture2D" uid="uid://rux51tr7d7c5" path="res://assets/light effect starlight shining.png" id="2_4rxj0"]
+[ext_resource type="Texture2D" uid="uid://rux51tr7d7c5" path="res://assets/effects/starlight_shining.png" id="2_4rxj0"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f1rbr"]
 radius = 7.0

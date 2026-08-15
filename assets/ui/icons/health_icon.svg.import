@@ -2,17 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ccjtahowlfjpj"
-path="res://.godot/imported/sound-off.svg-d615da0521e67391a5a48ee82517a077.ctex"
+uid="uid://h04abdnecrv1"
+path="res://.godot/imported/health_icon.svg-f3dc6190c4787b62166cb9a687f3ae1b.ctex"
 metadata={
-"has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sound-off.svg"
-dest_files=["res://.godot/imported/sound-off.svg-d615da0521e67391a5a48ee82517a077.ctex"]
+source_file="res://assets/ui/icons/health_icon.svg"
+dest_files=["res://.godot/imported/health_icon.svg-f3dc6190c4787b62166cb9a687f3ae1b.ctex"]
 
 [params]
 
@@ -39,6 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=0.1
-editor/scale_with_editor_scale=true
-editor/convert_colors_with_editor_theme=true
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

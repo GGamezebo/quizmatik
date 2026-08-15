@@ -6,7 +6,7 @@
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="5_4c57u"]
 [ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="5_nvg4k"]
 [ext_resource type="Script" uid="uid://duk1qvgjw80jk" path="res://src/game/account/save_data.gd" id="6_nvg4k"]
-[ext_resource type="AudioStream" uid="uid://bchaw1l2muu4w" path="res://assets/background_music.mp3" id="7_5vw27"]
+[ext_resource type="AudioStream" uid="uid://bchaw1l2muu4w" path="res://assets/audio/music/background_music.mp3" id="7_5vw27"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="8_4c57u"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="8_dg77c"]
 [ext_resource type="Script" uid="uid://i8jlaigwuspl" path="res://src/game/account/settings.gd" id="8_nvg4k"]

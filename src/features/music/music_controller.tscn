@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/features/music/music_controller.gd" id="1_music"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="2_root"]
-[ext_resource type="AudioStream" uid="uid://bchaw1l2muu4w" path="res://assets/background_music.mp3" id="3_bg"]
+[ext_resource type="AudioStream" uid="uid://bchaw1l2muu4w" path="res://assets/audio/music/background_music.mp3" id="3_bg"]
 [ext_resource type="AudioStream" path="res://src/features/music/win_music.wav" id="4_win"]
 [ext_resource type="AudioStream" path="res://src/features/music/lose_music.wav" id="5_lose"]
 

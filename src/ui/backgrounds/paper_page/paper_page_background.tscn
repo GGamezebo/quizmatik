@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://emeoar3syi38"]
 
-[ext_resource type="Texture2D" uid="uid://npxh2fld8752" path="res://assets/background_menu.png" id="1_xa35l"]
+[ext_resource type="Texture2D" uid="uid://npxh2fld8752" path="res://assets/backgrounds/background_menu.png" id="1_xa35l"]
 
 [node name="PaperPageBackground" type="Control" unique_id=979853620]
 layout_mode = 3
