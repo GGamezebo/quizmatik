@@ -1,16 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://caclv7nru701m"]
+[gd_scene format=3 uid="uid://caclv7nru701m"]
 
 [ext_resource type="Script" uid="uid://bpwkfegfo0dm0" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.gd" id="1_script"]
 [ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="2_pdata"]
-[ext_resource type="PackedScene" uid="uid://trophyroomstatrow01" path="res://src/game/scenes/menu/trophy_room_window/stat_row.tscn" id="3_row"]
-[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
-[ext_resource type="Texture2D" uid="uid://ba6e2c5d6bca986302e75" path="res://src/game/scenes/menu/trophy_room_window/ui/bg_achievements.png" id="4_bg"]
-[ext_resource type="Texture2D" uid="uid://b808eefd639f3cc7e0a52" path="res://src/game/scenes/menu/trophy_room_window/ui/plaque_achievements.png" id="5_plaque"]
-[ext_resource type="Texture2D" uid="uid://ba8b57411c51b85f5cad1" path="res://src/game/scenes/menu/trophy_room_window/ui/title_dostizheniya.png" id="6_title"]
-[ext_resource type="Texture2D" uid="uid://b67efffc6ee90c5a4e831" path="res://src/game/scenes/menu/trophy_room_window/ui/trophy_sticker.png" id="7_trophy"]
-[ext_resource type="Texture2D" uid="uid://bfb95919c07a32d0dde02" path="res://src/game/scenes/menu/trophy_room_window/ui/pencil_achievements.png" id="8_pencil"]
+[ext_resource type="PackedScene" uid="uid://cmn320r2pc2p1" path="res://src/game/scenes/menu/trophy_room_window/stat_row.tscn" id="3_row"]
+[ext_resource type="Texture2D" uid="uid://dqqsl8qru82v" path="res://src/game/scenes/menu/trophy_room_window/ui/plaque_achievements.png" id="5_plaque"]
+[ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="5_vcas3"]
+[ext_resource type="Texture2D" uid="uid://cp30jlxasi5o3" path="res://src/game/scenes/menu/trophy_room_window/ui/title_dostizheniya.png" id="6_title"]
+[ext_resource type="Texture2D" uid="uid://bm6xoi0jxptuk" path="res://src/game/scenes/menu/trophy_room_window/ui/trophy_sticker.png" id="7_trophy"]
+[ext_resource type="Texture2D" uid="uid://py8noo2mn6qb" path="res://src/game/scenes/menu/trophy_room_window/ui/pencil_achievements.png" id="8_pencil"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="9_menu_back"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="10_shadow"]
+[ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="11_daily"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("10_shadow")
@@ -18,7 +19,7 @@ shader_parameter/shadow_offset = Vector2(-4, 8)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
 shader_parameter/shadow_blur = 2.0
 
-[node name="TrophyRoomWindow" type="Control" node_paths=PackedStringArray("stats_list")]
+[node name="TrophyRoomWindow" type="Control" unique_id=563581353 node_paths=PackedStringArray("stats_list")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,19 +32,15 @@ pdata = ExtResource("2_pdata")
 stats_list = NodePath("CenterContainer/Content/StatsMargin/ScrollContainer/StatsList")
 stat_row_scene = ExtResource("3_row")
 
-[node name="Background" type="TextureRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("4_bg")
-expand_mode = 1
-stretch_mode = 6
+[node name="DailyChallengesController" parent="." unique_id=79809212 instance=ExtResource("11_daily")]
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="Background" parent="." unique_id=1301843701 node_paths=PackedStringArray("daily_controller") instance=ExtResource("5_vcas3")]
+sky_scroll_speed = 0.015
+paint_from_daily = true
+daily_controller = NodePath("../DailyChallengesController")
+idle_color_amount = 0.08
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=808468689]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,11 +48,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Content" type="Control" parent="CenterContainer"]
+[node name="Content" type="Control" parent="CenterContainer" unique_id=429137907]
 custom_minimum_size = Vector2(720, 500)
 layout_mode = 2
 
-[node name="Plaque" type="TextureRect" parent="CenterContainer/Content"]
+[node name="Plaque" type="TextureRect" parent="CenterContainer/Content" unique_id=223797398]
 material = SubResource("ShaderMaterial_sticker")
 layout_mode = 1
 anchors_preset = 15
@@ -68,7 +65,7 @@ texture = ExtResource("5_plaque")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="TitleBanner" type="TextureRect" parent="CenterContainer/Content"]
+[node name="TitleBanner" type="TextureRect" parent="CenterContainer/Content" unique_id=1818420705]
 material = SubResource("ShaderMaterial_sticker")
 layout_mode = 1
 anchors_preset = 5
@@ -84,7 +81,7 @@ texture = ExtResource("6_title")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Trophy" type="TextureRect" parent="CenterContainer/Content"]
+[node name="Trophy" type="TextureRect" parent="CenterContainer/Content" unique_id=1960913168]
 material = SubResource("ShaderMaterial_sticker")
 layout_mode = 1
 anchors_preset = 1
@@ -100,7 +97,7 @@ texture = ExtResource("7_trophy")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Pencil" type="TextureRect" parent="CenterContainer/Content"]
+[node name="Pencil" type="TextureRect" parent="CenterContainer/Content" unique_id=1602930473]
 material = SubResource("ShaderMaterial_sticker")
 layout_mode = 1
 anchors_preset = 2
@@ -118,7 +115,7 @@ texture = ExtResource("8_pencil")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="StatsMargin" type="MarginContainer" parent="CenterContainer/Content"]
+[node name="StatsMargin" type="MarginContainer" parent="CenterContainer/Content" unique_id=1925643956]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -130,15 +127,14 @@ theme_override_constants/margin_top = 96
 theme_override_constants/margin_right = 72
 theme_override_constants/margin_bottom = 48
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/Content/StatsMargin"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/Content/StatsMargin" unique_id=354933086]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="StatsList" type="VBoxContainer" parent="CenterContainer/Content/StatsMargin/ScrollContainer"]
+[node name="StatsList" type="VBoxContainer" parent="CenterContainer/Content/StatsMargin/ScrollContainer" unique_id=1266669240]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="MenuWindowBack" parent="." instance=ExtResource("9_menu_back")]
-layout_mode = 1
+[node name="MenuWindowBack" parent="." unique_id=1414956001 instance=ExtResource("9_menu_back")]

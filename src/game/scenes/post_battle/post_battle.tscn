@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://s3c4ma3ls5th" path="res://src/game/scenes/post_battle/ui/stamp_flower.png" id="7_flower"]
 [ext_resource type="Texture2D" uid="uid://bkqyjg62fx26v" path="res://src/game/scenes/post_battle/ui/stamp_cat.png" id="8_cat"]
 [ext_resource type="Texture2D" uid="uid://cj7pj2rkfp7gx" path="res://src/game/scenes/post_battle/ui/stamp_empty.png" id="9_empty"]
-[ext_resource type="Texture2D" uid="uid://c15dt2ao0kw4b" path="res://assets/hud/btn_restart.png" id="11_restart"]
+[ext_resource type="Texture2D" uid="uid://c15dt2ao0kw4b" path="res://assets/ui/icons/btn_restart.png" id="11_restart"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="11_ypp4h"]
 [ext_resource type="Texture2D" uid="uid://ctvia6ru0muda" path="res://src/game/scenes/post_battle/ui/btn_next.png" id="12_next"]
 [ext_resource type="Script" uid="uid://f6odaxaw13hf" path="res://src/ui/buttons/hover_scale_button.gd" id="13_hover"]

@@ -44,7 +44,7 @@ func _try_restore_settings_from_bak(resource: Resource) -> void:
 func _apply_audio_settings(settings: UserSettings) -> void:
 	var master_idx: int = AudioServer.get_bus_index("Master")
 	if master_idx != -1:
-		AudioServer.set_bus_mute(master_idx, settings.is_sound_mute)
+		AudioServer.set_bus_mute(master_idx, false)
 
 	var music_idx: int = AudioServer.get_bus_index("Music")
 	if music_idx != -1:

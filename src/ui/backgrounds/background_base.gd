@@ -117,7 +117,9 @@ func _bind_paint_score() -> void:
 
 func _bind_paint_daily() -> void:
 	if daily_controller == null:
-		push_warning("BackgroundBase: paint_from_daily on, but DailyChallengesController not set")
+		daily_controller = _find_daily_controller()
+	if daily_controller == null:
+		# Isolated overlay windows keep idle paint; parent menu/app supplies the controller.
 		return
 	if not daily_controller.ev_daily_changed.is_connected(_on_daily_changed):
 		daily_controller.ev_daily_changed.connect(_on_daily_changed)
@@ -131,6 +133,13 @@ func _find_player() -> Player:
 	if root == null:
 		return null
 	return root.find_child("Player", true, false) as Player
+
+
+func _find_daily_controller() -> DailyChallengesController:
+	var tree := get_tree()
+	if tree == null:
+		return null
+	return tree.root.find_child("DailyChallengesController", true, false) as DailyChallengesController
 
 
 func _process(delta: float) -> void:
