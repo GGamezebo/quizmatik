@@ -23,12 +23,23 @@ func _ready() -> void:
 	var is_muted: bool = _is_muted()
 	AudioServer.set_bus_mute(_bus_index, is_muted)
 	set_pressed_no_signal(is_muted)
+	if user_settings and not Engine.is_editor_hint():
+		if not user_settings.ev_changed.is_connected(_sync_from_settings):
+			user_settings.ev_changed.connect(_sync_from_settings)
 
 
 func _on_toggled(toggled_on: bool) -> void:
 	AudioServer.set_bus_mute(_bus_index, toggled_on)
 	_set_muted(toggled_on)
 	user_settings.save()
+
+
+func _sync_from_settings() -> void:
+	if _bus_index == -1:
+		return
+	var is_muted: bool = _is_muted()
+	AudioServer.set_bus_mute(_bus_index, is_muted)
+	set_pressed_no_signal(is_muted)
 
 
 func _get_bus_name() -> String:

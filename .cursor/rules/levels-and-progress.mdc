@@ -36,7 +36,7 @@ alwaysApply: false
 - Int level keys restored in `PData.ContainerProgress.from_dict` (JSON string keys → `int`)
 - Schema migrations: `SaveData.migrate_save_data` / `CURRENT_SAVE_VERSION` (addon), not a separate migrator class
 - Unlock helpers: `LevelsContainerConditions` in `conditions.gd`
-- Settings: `UserSettings` → `user://settings.json` (JSON via `ResourceUtils`)
+- Settings: `UserSettings` → `user://settings.json` (JSON via `ResourceUtils`); `save()` emits `ev_changed` so mute UI / buses can resync without scene NodePaths
 
 ## Must
 

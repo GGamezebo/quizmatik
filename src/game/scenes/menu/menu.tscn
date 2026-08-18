@@ -17,17 +17,16 @@
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="14_cjfjs"]
 [ext_resource type="PackedScene" uid="uid://bvsvg4k1oa70y" path="res://src/game/scenes/menu/levels/levels_selection.tscn" id="15_foifc"]
 [ext_resource type="Texture2D" uid="uid://osrgpai3oxa8" path="res://src/game/scenes/menu/ui/icon_settings.png" id="15_op54q"]
-[ext_resource type="Texture2D" uid="uid://cp81lnqrc7f5l" path="res://assets/hud/btn_sound_on.png" id="17_owodb"]
-[ext_resource type="Texture2D" uid="uid://bseq47l6tpmaq" path="res://assets/hud/btn_sound_off.png" id="18_xf4oj"]
+[ext_resource type="Texture2D" uid="uid://cyg5jcu3u4kvb" path="res://src/game/scenes/menu/ui/icon_achievements.png" id="32_icon_achievements"]
+[ext_resource type="Texture2D" uid="uid://cp81lnqrc7f5l" path="res://assets/ui/icons/btn_sound_on.png" id="17_owodb"]
+[ext_resource type="Texture2D" uid="uid://bseq47l6tpmaq" path="res://assets/ui/icons/btn_sound_off.png" id="18_xf4oj"]
 [ext_resource type="PackedScene" uid="uid://bkoeytpeqxe1w" path="res://src/game/scenes/menu/settings_window/settings_window.tscn" id="20_r0b7e"]
 [ext_resource type="PackedScene" uid="uid://caclv7nru701m" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.tscn" id="21_trophy"]
 [ext_resource type="PackedScene" uid="uid://b00ddsqtwrab5" path="res://src/game/scenes/menu/daily/daily_challenges_panel.tscn" id="23_daily"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="24_6evpd"]
-[ext_resource type="PackedScene" uid="uid://vgu8fi0hkbls" path="res://src/ui/backgrounds/levels_pack/levels_pack_background.tscn" id="24_packbg"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="25_menu_back"]
 [ext_resource type="Theme" uid="uid://cvyfycr06mko1" path="res://src/game/scenes/menu/levels/levels_pack_scroll_theme.tres" id="29_scroll_theme"]
 [ext_resource type="PackedScene" uid="uid://bkifyl0m7qp2" path="res://src/game/scenes/menu/ui/menu_circle_button.tscn" id="30_circle_btn"]
-[ext_resource type="Texture2D" uid="uid://cyg5jcu3u4kvb" path="res://src/game/scenes/menu/ui/icon_achievements.png" id="32_icon_achievements"]
 [ext_resource type="Texture2D" uid="uid://ct821hopq4mrv" path="res://src/game/scenes/menu/ui/icon_exit.png" id="33_icon_exit"]
 [ext_resource type="PackedScene" uid="uid://daurosqrmggl0" path="res://src/game/scenes/menu/ui/menu_cta_button.tscn" id="34_cta_btn"]
 [ext_resource type="Texture2D" uid="uid://c7covqaft52xn" path="res://src/game/scenes/menu/ui/icon_pencil.png" id="36_icon_pencil"]
@@ -265,7 +264,6 @@ image = ExtResource("33_icon_exit")
 metadata/hover_scale_bound = true
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("packs_list_container", "packs_scroll", "progress", "windows_stack_manager", "level_selection_window")]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -285,8 +283,11 @@ level_selection_window = NodePath("LevelsSelection")
 
 [node name="ProgressController" parent="UI/LevelsWindow" unique_id=2109216065 instance=ExtResource("14_cjfjs")]
 
-[node name="Background" parent="UI/LevelsWindow" unique_id=788752661 instance=ExtResource("24_packbg")]
-layout_mode = 1
+[node name="Background" parent="UI/LevelsWindow" unique_id=1301843701 node_paths=PackedStringArray("daily_controller") instance=ExtResource("6_kcyx7")]
+sky_scroll_speed = 0.015
+paint_from_daily = true
+daily_controller = NodePath("../../MainMenuWindow/DailyLeftColumn/DailyChallengesPanel/DailyChallengesController")
+idle_color_amount = 0.08
 
 [node name="CenterContainer" type="CenterContainer" parent="UI/LevelsWindow" unique_id=2124016150]
 layout_mode = 1
@@ -398,7 +399,6 @@ text = "Выход"
 
 [node name="SettingsWindow" parent="UI" unique_id=2314529 instance=ExtResource("20_r0b7e")]
 visible = false
-music_mute_button = NodePath("../MainMenuWindow/MusicMute/MusicMuteButton")
 
 [node name="TrophyRoomWindow" parent="UI" unique_id=965242045 instance=ExtResource("21_trophy")]
 visible = false

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dwpjaw6r6sldu" path="res://src/game/scenes/menu/levels/level_container.gd" id="1_voi0a"]
 [ext_resource type="Texture2D" uid="uid://dt41y5hehb65t" path="res://src/game/scenes/menu/levels/ui/panel_card_round.png" id="2_card"]
-[ext_resource type="Texture2D" uid="uid://l1t3vjwornqv" path="res://assets/backgrounds/bg_gameplay_sky.png" id="4_5sx0r"]
+[ext_resource type="Texture2D" uid="uid://l1t3vjwornqv" path="res://assets/ui/backgrounds/bg_gameplay_sky.png" id="4_5sx0r"]
 [ext_resource type="Texture2D" uid="uid://d05hfcyk6v0p1" path="res://src/game/scenes/menu/levels/ui/btn_lock.png" id="5_lock"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="6_shadow"]
 [ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="7_font"]
@@ -26,7 +26,7 @@ font_color = Color(0.22, 0.25, 0.3, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
 
-[node name="LevelContainer" type="Control" unique_id=1077235570 node_paths=PackedStringArray("card_root", "card_bg", "art_rect", "stamp_rect", "title_label", "progress_label", "lock_overlay", "hit_button")]
+[node name="LevelContainer" type="Control" unique_id=1077235570 node_paths=PackedStringArray("card_root", "art_rect", "stamp_rect", "title_label", "progress_label", "lock_overlay", "hit_button")]
 custom_minimum_size = Vector2(300, 440)
 layout_mode = 3
 anchors_preset = 0
@@ -35,7 +35,6 @@ offset_bottom = 440.0
 theme = ExtResource("theme_ui")
 script = ExtResource("1_voi0a")
 card_root = NodePath("Card")
-card_bg = NodePath("")
 art_rect = NodePath("Card/Art")
 stamp_rect = NodePath("Card/Stamp")
 title_label = NodePath("Card/Title")

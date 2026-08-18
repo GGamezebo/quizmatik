@@ -6,10 +6,10 @@
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="3_c7uxm"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="5_wsbu4"]
 [ext_resource type="PackedScene" uid="uid://c8qm5n2k7xwfd" path="res://src/ui/confirm_dialog/confirm_dialog.tscn" id="6_confirm"]
-[ext_resource type="PackedScene" path="res://src/ui/backgrounds/paper_page/paper_page_background.tscn" id="7_paper"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="8_menu_back"]
+[ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="9_dsain"]
+[ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="10_daily"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
-
 
 [node name="LevelsSelection" type="Control" unique_id=519807597 node_paths=PackedStringArray("grid_container", "progress", "back_button", "early_exam_dialog")]
 layout_mode = 3
@@ -29,18 +29,17 @@ progress = NodePath("ProgressController")
 back_button = NodePath("MenuWindowBack/Back")
 early_exam_dialog = NodePath("EarlyExamDialog")
 
-[node name="EarlyExamDialog" parent="." instance=ExtResource("6_confirm")]
+[node name="EarlyExamDialog" parent="." unique_id=412838649 instance=ExtResource("6_confirm")]
 
 [node name="ProgressController" parent="." unique_id=2109216065 instance=ExtResource("5_wsbu4")]
 
-[node name="Background" parent="." instance=ExtResource("7_paper")]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
+[node name="DailyChallengesController" parent="." unique_id=79809213 instance=ExtResource("10_daily")]
+
+[node name="Background2" parent="." unique_id=1301843701 node_paths=PackedStringArray("daily_controller") instance=ExtResource("9_dsain")]
+sky_scroll_speed = 0.015
+paint_from_daily = true
+daily_controller = NodePath("../DailyChallengesController")
+idle_color_amount = 0.08
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=1882960893]
 layout_mode = 1
@@ -64,5 +63,4 @@ theme_override_constants/h_separation = 40
 theme_override_constants/v_separation = 60
 columns = 5
 
-[node name="MenuWindowBack" parent="." instance=ExtResource("8_menu_back")]
-layout_mode = 1
+[node name="MenuWindowBack" parent="." unique_id=631529508 instance=ExtResource("8_menu_back")]
