@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bi01q18nt1ttg"
-path="res://.godot/imported/lane_dash_strip.png-2baeb7eb0b7f28a64b24386bff04560c.ctex"
+uid="uid://cbfnkdxni0efh"
+path="res://.godot/imported/btn_movement_discrete.png-fec30f7385eeb84a66c9171e5ea3310b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/hud/lane_dash_strip.png"
-dest_files=["res://.godot/imported/lane_dash_strip.png-2baeb7eb0b7f28a64b24386bff04560c.ctex"]
+source_file="res://assets/hud/btn_movement_discrete.png"
+dest_files=["res://.godot/imported/btn_movement_discrete.png-fec30f7385eeb84a66c9171e5ea3310b.ctex"]
 
 [params]
 

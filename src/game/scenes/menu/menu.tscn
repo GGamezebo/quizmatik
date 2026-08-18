@@ -17,8 +17,8 @@
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="14_cjfjs"]
 [ext_resource type="PackedScene" uid="uid://bvsvg4k1oa70y" path="res://src/game/scenes/menu/levels/levels_selection.tscn" id="15_foifc"]
 [ext_resource type="Texture2D" uid="uid://osrgpai3oxa8" path="res://src/game/scenes/menu/ui/icon_settings.png" id="15_op54q"]
-[ext_resource type="Texture2D" uid="uid://cp81lnqrc7f5l" path="res://src/ui/hud/btn_sound_on.png" id="17_owodb"]
-[ext_resource type="Texture2D" uid="uid://bseq47l6tpmaq" path="res://src/ui/hud/btn_sound_off.png" id="18_xf4oj"]
+[ext_resource type="Texture2D" uid="uid://cp81lnqrc7f5l" path="res://assets/hud/btn_sound_on.png" id="17_owodb"]
+[ext_resource type="Texture2D" uid="uid://bseq47l6tpmaq" path="res://assets/hud/btn_sound_off.png" id="18_xf4oj"]
 [ext_resource type="PackedScene" uid="uid://bkoeytpeqxe1w" path="res://src/game/scenes/menu/settings_window/settings_window.tscn" id="20_r0b7e"]
 [ext_resource type="PackedScene" uid="uid://caclv7nru701m" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.tscn" id="21_trophy"]
 [ext_resource type="PackedScene" uid="uid://b00ddsqtwrab5" path="res://src/game/scenes/menu/daily/daily_challenges_panel.tscn" id="23_daily"]
@@ -142,13 +142,13 @@ texture = SubResource("GradientTexture2D_ux2mn")
 layout_mode = 1
 offset_right = 185.0
 offset_bottom = 190.0
-theme_override_constants/margin_left = 70
-theme_override_constants/margin_top = 70
+scale = Vector2(0.65, 0.65)
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
 
 [node name="MusicMuteButton" type="TextureButton" parent="UI/MainMenuWindow/MusicMute" unique_id=1355379251]
 material = SubResource("ShaderMaterial_owodb")
 layout_mode = 2
-offset_transform_enabled = true
 toggle_mode = true
 texture_normal = ExtResource("17_owodb")
 texture_pressed = ExtResource("18_xf4oj")
@@ -183,12 +183,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -16.0
-offset_top = 9.0
-offset_right = -16.0
-offset_bottom = 9.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenuWindow/CenterContainer" unique_id=92845443]
 layout_mode = 2
@@ -227,19 +224,18 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -182.0
-offset_bottom = 336.0
+offset_left = -112.0
+offset_bottom = 224.0
 grow_horizontal = 0
-theme_override_constants/margin_right = 70
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
 
 [node name="RightSideButtons" type="VBoxContainer" parent="UI/MainMenuWindow/MarginContainer" unique_id=384891345]
 layout_mode = 2
-offset_transform_enabled = true
 theme_override_constants/separation = 0
 alignment = 1
 
 [node name="Settings" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" unique_id=319530349 instance=ExtResource("30_circle_btn")]
-custom_minimum_size = Vector2(200, 112)
 layout_mode = 2
 image = ExtResource("15_op54q")
 metadata/hover_scale_bound = true
@@ -260,8 +256,8 @@ offset_left = -112.0
 offset_top = -122.0
 grow_horizontal = 0
 grow_vertical = 0
-theme_override_constants/margin_right = 70
-theme_override_constants/margin_bottom = 70
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
 
 [node name="Exit" parent="UI/MainMenuWindow/ExitMargin" unique_id=592785053 instance=ExtResource("30_circle_btn")]
 layout_mode = 2

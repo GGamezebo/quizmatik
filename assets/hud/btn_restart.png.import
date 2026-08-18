@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlmh6skib8sk"
-path="res://.godot/imported/lane_dash_tile.png-b675f9f4d6010272ac36a3490e0045d3.ctex"
+uid="uid://c15dt2ao0kw4b"
+path="res://.godot/imported/btn_restart.png-4ca56772196b538b5da00e697791f960.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/hud/lane_dash_tile.png"
-dest_files=["res://.godot/imported/lane_dash_tile.png-b675f9f4d6010272ac36a3490e0045d3.ctex"]
+source_file="res://assets/hud/btn_restart.png"
+dest_files=["res://.godot/imported/btn_restart.png-4ca56772196b538b5da00e697791f960.ctex"]
 
 [params]
 

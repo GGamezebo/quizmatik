@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cb6trv7krchyp"
-path="res://.godot/imported/btn_movement_direct.png-0bbce0cd3b5d89e54e42cdba9c77829f.ctex"
+uid="uid://dlmh6skib8sk"
+path="res://.godot/imported/lane_dash_tile.png-bdf047877b6e7deb30210d6e4e764cde.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/hud/btn_movement_direct.png"
-dest_files=["res://.godot/imported/btn_movement_direct.png-0bbce0cd3b5d89e54e42cdba9c77829f.ctex"]
+source_file="res://assets/hud/lane_dash_tile.png"
+dest_files=["res://.godot/imported/lane_dash_tile.png-bdf047877b6e7deb30210d6e4e764cde.ctex"]
 
 [params]
 
