@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbfnkdxni0efh"
-path="res://.godot/imported/btn_movement_discrete.png-54e4dfe077d4135b37af19d959769070.ctex"
+uid="uid://cb3h6dwi6e0vd"
+path="res://.godot/imported/score_frame.png-4cb4c1d5364bb41170411dc8d29d754c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/ui/hud/btn_movement_discrete.png"
-dest_files=["res://.godot/imported/btn_movement_discrete.png-54e4dfe077d4135b37af19d959769070.ctex"]
+source_file="res://assets/hud/score_frame.png"
+dest_files=["res://.godot/imported/score_frame.png-4cb4c1d5364bb41170411dc8d29d754c.ctex"]
 
 [params]
 
