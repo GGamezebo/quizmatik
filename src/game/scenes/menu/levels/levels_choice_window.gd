@@ -45,12 +45,17 @@ func _update_window() -> void:
 		var container: Dictionary = levelsConfig.find_container_in_config(container_id)
 		var completed_count := _count_completed_levels(container_id)
 		var total_count := _total_levels(container)
+		var exam_level_id := 17
+		var exam_stars := 0
+		if levelsConfig.is_level_exam(container_id, exam_level_id):
+			exam_stars = progress.get_level_stars(container_id, exam_level_id)
 		container_instance.initialize(
 			container_id,
 			container["name"],
 			is_unlocked,
 			completed_count,
 			total_count,
+			exam_stars,
 		)
 		if is_unlocked:
 			progress.mark_container_seen(container_id)

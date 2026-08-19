@@ -26,6 +26,7 @@ func initialize(
 	is_unlocked: bool,
 	completed_count: int,
 	total_count: int,
+	exam_stars: int = 0,
 ) -> void:
 	_container_id = container_id
 
@@ -33,10 +34,15 @@ func initialize(
 	if art != null and art_rect != null:
 		art_rect.texture = art
 
-	var stamp := LevelPackArt.get_stamp(container_id)
-	if stamp != null and stamp_rect != null:
-		stamp_rect.texture = stamp
-		stamp_rect.visible = is_unlocked
+	var clamped_exam_stars := clampi(exam_stars, 0, 3)
+	var stamp := LevelPackArt.get_exam_stamp(clamped_exam_stars)
+	if stamp_rect != null:
+		if clamped_exam_stars >= 1 and stamp != null:
+			stamp_rect.texture = stamp
+			stamp_rect.visible = true
+		else:
+			stamp_rect.texture = null
+			stamp_rect.visible = false
 
 	if title_label != null:
 		title_label.text = title
