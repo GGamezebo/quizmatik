@@ -4,6 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://bnbookbg01quiz" path="res://src/ui/backgrounds/notebook/notebook_background.tscn" id="2_notebook"]
 [ext_resource type="PackedScene" uid="uid://bclassky01quiz" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="3_classic"]
 [ext_resource type="PackedScene" uid="uid://bnskybg01quiz" path="res://src/ui/backgrounds/notebook_sky/notebook_sky_background.tscn" id="4_notebook_sky"]
+[ext_resource type="PackedScene" uid="uid://valley_add_bg01" path="res://src/ui/backgrounds/valley_addition/valley_addition_background.tscn" id="5_valley_addition"]
+[ext_resource type="PackedScene" uid="uid://valley_add_bg02" path="res://src/ui/backgrounds/valley_subtraction/valley_subtraction_background.tscn" id="6_valley_subtraction"]
+[ext_resource type="PackedScene" uid="uid://valley_add_bg03" path="res://src/ui/backgrounds/valley_multiplication/valley_multiplication_background.tscn" id="7_valley_multiplication"]
+[ext_resource type="PackedScene" uid="uid://valley_add_bg04" path="res://src/ui/backgrounds/valley_division/valley_division_background.tscn" id="8_valley_division"]
+[ext_resource type="PackedScene" uid="uid://valley_add_bg05" path="res://src/ui/backgrounds/valley_mix/valley_mix_background.tscn" id="9_valley_mix"]
 
 [node name="BackgroundHost" type="Node2D"]
 script = ExtResource("1_host")
