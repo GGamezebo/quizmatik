@@ -6,6 +6,15 @@ extends Control
 @export var progress: ProgressController
 @export var windows_stack_manager: WindowStackManager
 @export var level_selection_window: Control
+@export var background_host: BackgroundHost
+
+const VALLEY_BACKGROUNDS: Dictionary = {
+	"addition": preload("res://src/ui/backgrounds/valley_addition/valley_addition_background.tscn"),
+	"subtraction": preload("res://src/ui/backgrounds/valley_subtraction/valley_subtraction_background.tscn"),
+	"multiplication": preload("res://src/ui/backgrounds/valley_multiplication/valley_multiplication_background.tscn"),
+	"division": preload("res://src/ui/backgrounds/valley_division/valley_division_background.tscn"),
+	"mix": preload("res://src/ui/backgrounds/valley_mix/valley_mix_background.tscn"),
+}
 
 var _container_ids: Array[String] = []
 
@@ -14,6 +23,7 @@ func _ready() -> void:
 	visibility_changed.connect(_on_visibility_changed)
 	if carousel != null:
 		carousel.ev_pack_activated.connect(_on_pack_activated)
+		carousel.ev_selection_changed.connect(_on_selection_changed)
 	_update_window()
 
 
@@ -68,6 +78,7 @@ func _update_window() -> void:
 		if found >= 0:
 			start_index = found
 	carousel.finalize(start_index)
+	_update_background_for_index(start_index)
 
 
 func _selected_index_valid() -> bool:
@@ -124,3 +135,16 @@ func open_level_select(container_id: String) -> void:
 func _on_visibility_changed() -> void:
 	if is_visible_in_tree():
 		_update_window()
+
+
+func _on_selection_changed(index: int) -> void:
+	_update_background_for_index(index)
+
+
+func _update_background_for_index(index: int) -> void:
+	if background_host == null:
+		return
+	if index < 0 or index >= _container_ids.size():
+		return
+	var packed: PackedScene = VALLEY_BACKGROUNDS.get(_container_ids[index]) as PackedScene
+	background_host.force_variant(packed)

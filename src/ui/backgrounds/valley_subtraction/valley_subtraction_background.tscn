@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://valley_add_subtractionbg02"]
+
+[ext_resource type="Script" uid="uid://bih4q7fqq6kw3" path="res://src/ui/backgrounds/background_base.gd" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://jl5tjjusnin3" path="res://src/ui/backgrounds/classic_sky/Sky2.png" id="2_sky2"]
+[ext_resource type="Texture2D" uid="uid://cjds8r57pey1g" path="res://src/ui/backgrounds/classic_sky/Sky1.png" id="3_sky1"]
+[ext_resource type="Texture2D" uid="uid://valley_add_tex02" path="res://src/game/scenes/menu/levels/ui/valleys/valley_subtraction.png" id="4_bg"]
+[ext_resource type="Texture2D" uid="uid://5xved5dnk0eo" path="res://src/ui/backgrounds/classic_sky/Sky3.png" id="5_sky3"]
+[ext_resource type="Shader" uid="uid://dbory75vd2otg" path="res://src/ui/backgrounds/sky_scroll.gdshader" id="6_shader"]
+[ext_resource type="PackedScene" path="res://src/features/ink_blot/ink_blot.tscn" id="7_ink"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skyscroll"]
+resource_local_to_scene = true
+shader = ExtResource("6_shader")
+shader_parameter/scroll_offset = 0.0
+shader_parameter/color_amount = 0.0
+shader_parameter/subdue = 0.82
+shader_parameter/paper_tint = Vector3(0.953, 0.902, 0.784)
+shader_parameter/mirror_seamless = true
+
+[sub_resource type="Gradient" id="Gradient_cloud_alpha"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(1, 1, 1, 0.28, 1, 1, 1, 0.5, 1, 1, 1, 0.78)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_cloud_alpha"]
+gradient = SubResource("Gradient_cloud_alpha")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_slowest"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 25.0
+initial_velocity_max = 75.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.55
+scale_max = 2.0
+color_initial_ramp = SubResource("GradientTexture1D_cloud_alpha")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_slow"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 100.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.8
+scale_max = 1.3
+color_initial_ramp = SubResource("GradientTexture1D_cloud_alpha")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fast"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 360, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 40.0
+initial_velocity_max = 420.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.3
+scale_max = 1.1
+color_initial_ramp = SubResource("GradientTexture1D_cloud_alpha")
+
+[node name="ValleySubtractionBackground" type="Node2D" unique_id=1301843701]
+script = ExtResource("1_base")
+mirror_seamless = true
+ink_blot_scene = ExtResource("7_ink")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1672587190]
+material = SubResource("ShaderMaterial_skyscroll")
+offset_right = 1280.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_bg")
+expand_mode = 1
+
+[node name="InkLayer" type="Node2D" parent="." unique_id=1127801432]
+
+[node name="SlowestClouds" type="GPUParticles2D" parent="." unique_id=1032081965]
+modulate = Color(1, 1, 1, 0.78)
+position = Vector2(1800, 360)
+amount = 6
+texture = ExtResource("2_sky2")
+lifetime = 126.04
+preprocess = 120.0
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+process_material = SubResource("ParticleProcessMaterial_slowest")
+
+[node name="SlowClouds" type="GPUParticles2D" parent="." unique_id=611300972]
+modulate = Color(1, 1, 1, 0.72)
+position = Vector2(1800, 360)
+amount = 5
+texture = ExtResource("3_sky1")
+lifetime = 46.06
+preprocess = 40.0
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+process_material = SubResource("ParticleProcessMaterial_slow")
+
+[node name="FastClouds" type="GPUParticles2D" parent="." unique_id=1395472284]
+modulate = Color(1, 1, 1, 0.65)
+position = Vector2(1800, 360)
+amount = 16
+texture = ExtResource("5_sky3")
+lifetime = 68.0
+preprocess = 55.0
+visibility_rect = Rect2(-2000, -2000, 4000, 4000)
+process_material = SubResource("ParticleProcessMaterial_fast")
+
