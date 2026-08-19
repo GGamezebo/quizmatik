@@ -12,6 +12,7 @@
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [node name="LevelsSelection" type="Control" unique_id=519807597 node_paths=PackedStringArray("grid_container", "progress", "back_button", "early_exam_dialog")]
+z_index = 100
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
