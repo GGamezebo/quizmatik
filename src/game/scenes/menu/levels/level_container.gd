@@ -65,5 +65,20 @@ func initialize(
 		hit_button.disabled = not is_unlocked
 
 
+func get_container_id() -> String:
+	return _container_id
+
+
+func ignore_pointer_input() -> void:
+	_ignore_pointer_recursive(self)
+
+
+func _ignore_pointer_recursive(node: Control) -> void:
+	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for child in node.get_children():
+		if child is Control:
+			_ignore_pointer_recursive(child)
+
+
 func _on_hit_pressed() -> void:
 	ev_pressed.emit()

@@ -30,7 +30,7 @@ alwaysApply: false
 
 ## Placement
 
-- Level select → `menu/levels/`
+- Level select → `menu/levels/` (pack carousel: centered looping valley + page dots; not a scrollbar)
 - Training → `menu/training_room_window/`
 - Trophy room / stats → `menu/trophy_room_window/`
 - Settings → `menu/settings_window/`
