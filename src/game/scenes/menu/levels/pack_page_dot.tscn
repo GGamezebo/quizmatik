@@ -1,12 +1,11 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://cnegahp1oscak"]
 
-[ext_resource type="Script" path="res://src/game/scenes/menu/levels/pack_page_dot.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bvgsw0lx7wa74" path="res://src/game/scenes/menu/levels/pack_page_dot.gd" id="1_script"]
 
-[node name="PackPageDot" type="Panel"]
+[node name="PackPageDot" type="Panel" unique_id=566281993]
 custom_minimum_size = Vector2(14, 14)
 offset_right = 14.0
 offset_bottom = 14.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-mouse_filter = 0
 script = ExtResource("1_script")

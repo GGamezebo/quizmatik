@@ -31,7 +31,7 @@
 [ext_resource type="Texture2D" uid="uid://c7covqaft52xn" path="res://src/game/scenes/menu/ui/icon_pencil.png" id="36_icon_pencil"]
 [ext_resource type="Script" uid="uid://dfc4lkuw1o6wl" path="res://src/ui/buttons/hover_scale_binder.gd" id="37_hover_binder"]
 [ext_resource type="Script" uid="uid://ck4e2cg1qd712" path="res://src/game/scenes/menu/levels/levels_pack_carousel.gd" id="38_carousel"]
-[ext_resource type="PackedScene" path="res://src/game/scenes/menu/levels/pack_page_dot.tscn" id="39_dot"]
+[ext_resource type="PackedScene" uid="uid://cnegahp1oscak" path="res://src/game/scenes/menu/levels/pack_page_dot.tscn" id="39_dot"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
@@ -265,7 +265,6 @@ image = ExtResource("33_icon_exit")
 metadata/hover_scale_bound = true
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("carousel", "progress", "windows_stack_manager", "level_selection_window")]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
