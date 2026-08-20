@@ -85,8 +85,10 @@ func _connect_stepper(
 	stepper.max_value = max_value
 	stepper.decimals = decimals
 	stepper.value_changed.connect(func(value: float):
-		var stored: Variant = int(value) if decimals == 0 else float(value)
-		config.set(prop_name, stored)
+		if decimals == 0:
+			config.set(prop_name, int(value))
+		else:
+			config.set(prop_name, value)
 		_save_config_to_disk()
 	)
 
