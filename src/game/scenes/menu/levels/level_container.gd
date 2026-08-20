@@ -46,13 +46,12 @@ func initialize(
 
 	if title_label != null:
 		title_label.text = title
+		# Rubik Doodle Shadow already has baked shadow contours — never add outline.
+		title_label.add_theme_constant_override("outline_size", 0)
 		if is_unlocked:
 			title_label.add_theme_color_override("font_color", Color(0.165, 0.2, 0.251, 1))
-			title_label.add_theme_constant_override("outline_size", 0)
 		else:
-			title_label.add_theme_color_override("font_color", Color(0.953, 0.902, 0.784, 1))
-			title_label.add_theme_constant_override("outline_size", 6)
-			title_label.add_theme_color_override("font_outline_color", Color(0.165, 0.2, 0.251, 1))
+			title_label.add_theme_color_override("font_color", Color(0.55, 0.58, 0.62, 1))
 
 	if progress_label != null:
 		progress_label.text = "%d / %d" % [completed_count, total_count]
