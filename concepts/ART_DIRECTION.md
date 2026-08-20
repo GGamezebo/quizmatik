@@ -25,7 +25,7 @@ Handmade kids’ notebook adventure: graphite pencil on grid paper, cream parchm
 
 Battle sprites (plane + balloons): thick cream/white **sticker outline** (die-cut look), matching `battle_notebook_modern_v1.png`.
 
-Font: theme `core/theme/game_font.tres` = `SystemFont` (rounded-first fallbacks: Arial Rounded MT Bold → SF Pro Rounded → Segoe UI / Roboto / Noto Sans) — no bundled TTF required for Mobile / Steam / HTML.
+Font: body/UI `core/theme/game_font.tres` = `SystemFont` (rounded-first fallbacks). Titles: `core/theme/title_font.tres` = **Rubik Doodle Shadow** (`assets/fonts/RubikDoodleShadow-Regular.ttf`, MSDF **off**) with `game_font` fallback. Do **not** apply `outline_size` / font outline to title labels — the face already has baked shadow contours; outline + MSDF cause blotch/hairline artifacts.
 | Paper hover | `#FAF0DB` | Button hover fill |
 | Paper pressed | `#E0D1B3` | Button pressed fill |
 | Accent warm | `#F0C94A` | Stars / highlights |
