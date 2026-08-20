@@ -5,16 +5,16 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font = ExtResource("2_font")
-font_size = 26
+font_size = 22
 font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_value"]
 font = ExtResource("2_font")
-font_size = 24
+font_size = 20
 font_color = Color(0.86, 0.52, 0.14, 1)
 
 [node name="SettingSliderRow" type="HBoxContainer"]
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 16

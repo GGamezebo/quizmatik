@@ -5,4 +5,6 @@ extends HoverScaleButton
 
 func _ready() -> void:
 	super._ready()
-	$Icon.texture = image
+	if has_node("Icon"):
+		$Icon.texture = image
+		$Icon.visible = image != null
