@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://bpwkfegfo0dm0" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.gd" id="1_script"]
 [ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="2_pdata"]
 [ext_resource type="PackedScene" uid="uid://cmn320r2pc2p1" path="res://src/game/scenes/menu/trophy_room_window/stat_row.tscn" id="3_row"]
-[ext_resource type="Texture2D" uid="uid://dqqsl8qru82v" path="res://src/game/scenes/menu/trophy_room_window/ui/plaque_achievements.png" id="5_plaque"]
+[ext_resource type="Texture2D" uid="uid://bmrw6xiwwmbba" path="res://src/game/scenes/menu/ui/btn_cta_wide.png" id="5_frame"]
 [ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="5_vcas3"]
-[ext_resource type="Texture2D" uid="uid://cp30jlxasi5o3" path="res://src/game/scenes/menu/trophy_room_window/ui/title_dostizheniya.png" id="6_title"]
+[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="6_font"]
 [ext_resource type="Texture2D" uid="uid://bm6xoi0jxptuk" path="res://src/game/scenes/menu/trophy_room_window/ui/trophy_sticker.png" id="7_trophy"]
 [ext_resource type="Texture2D" uid="uid://py8noo2mn6qb" path="res://src/game/scenes/menu/trophy_room_window/ui/pencil_achievements.png" id="8_pencil"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="9_menu_back"]
@@ -19,6 +19,11 @@ shader_parameter/shadow_offset = Vector2(-4, 8)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
 shader_parameter/shadow_blur = 2.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("6_font")
+font_size = 34
+font_color = Color(0.165, 0.2, 0.251, 1)
+
 [node name="TrophyRoomWindow" type="Control" unique_id=563581353 node_paths=PackedStringArray("stats_list")]
 layout_mode = 3
 anchors_preset = 15
@@ -29,7 +34,7 @@ grow_vertical = 2
 theme = ExtResource("theme_ui")
 script = ExtResource("1_script")
 pdata = ExtResource("2_pdata")
-stats_list = NodePath("CenterContainer/Content/StatsMargin/ScrollContainer/StatsList")
+stats_list = NodePath("CenterContainer/Content/StatsMargin/StatsList")
 stat_row_scene = ExtResource("3_row")
 
 [node name="DailyChallengesController" parent="." unique_id=79809212 instance=ExtResource("11_daily")]
@@ -49,10 +54,11 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Content" type="Control" parent="CenterContainer" unique_id=429137907]
-custom_minimum_size = Vector2(720, 500)
+clip_contents = false
+custom_minimum_size = Vector2(680, 460)
 layout_mode = 2
 
-[node name="Plaque" type="TextureRect" parent="CenterContainer/Content" unique_id=223797398]
+[node name="Frame" type="NinePatchRect" parent="CenterContainer/Content" unique_id=223797398]
 material = SubResource("ShaderMaterial_sticker")
 layout_mode = 1
 anchors_preset = 15
@@ -61,27 +67,53 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("5_plaque")
-expand_mode = 1
-stretch_mode = 5
+texture = ExtResource("5_frame")
+patch_margin_left = 70
+patch_margin_top = 60
+patch_margin_right = 70
+patch_margin_bottom = 60
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
-[node name="TitleBanner" type="TextureRect" parent="CenterContainer/Content" unique_id=1818420705]
-material = SubResource("ShaderMaterial_sticker")
+[node name="TitleBanner" type="Label" parent="CenterContainer/Content" unique_id=1818420705]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -230.0
-offset_top = -28.0
-offset_right = 170.0
-offset_bottom = 72.0
+offset_left = -200.0
+offset_top = 18.0
+offset_right = 200.0
+offset_bottom = 62.0
 grow_horizontal = 2
 mouse_filter = 2
-texture = ExtResource("6_title")
-expand_mode = 1
-stretch_mode = 5
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 34
+text = "ДОСТИЖЕНИЯ"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatsMargin" type="MarginContainer" parent="CenterContainer/Content" unique_id=1925643956]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 96
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 24
+
+[node name="StatsList" type="VBoxContainer" parent="CenterContainer/Content/StatsMargin" unique_id=1266669240]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 6
 
 [node name="Trophy" type="TextureRect" parent="CenterContainer/Content" unique_id=1960913168]
+z_index = 12
 material = SubResource("ShaderMaterial_sticker")
 layout_mode = 1
 anchors_preset = 1
@@ -98,6 +130,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="Pencil" type="TextureRect" parent="CenterContainer/Content" unique_id=1602930473]
+z_index = 12
 material = SubResource("ShaderMaterial_sticker")
 layout_mode = 1
 anchors_preset = 2
@@ -114,27 +147,5 @@ mouse_filter = 2
 texture = ExtResource("8_pencil")
 expand_mode = 1
 stretch_mode = 5
-
-[node name="StatsMargin" type="MarginContainer" parent="CenterContainer/Content" unique_id=1925643956]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 72
-theme_override_constants/margin_top = 96
-theme_override_constants/margin_right = 72
-theme_override_constants/margin_bottom = 48
-
-[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/Content/StatsMargin" unique_id=354933086]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="StatsList" type="VBoxContainer" parent="CenterContainer/Content/StatsMargin/ScrollContainer" unique_id=1266669240]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 8
 
 [node name="MenuWindowBack" parent="." unique_id=1414956001 instance=ExtResource("9_menu_back")]

@@ -49,11 +49,10 @@ Match `menu_notebook_modern_v3.png` (alt `menu_notebook_modern_v2.png`). Same st
 1. Background = scrolling **classic sky** (`classic_sky/`). Color clarity follows completed dailies (`paint_from_daily`): 0 = soft graphite wash, 5/5 = **full color**. UI stickers/CTAs stay notebook-pencil on top.  
 2. Title **Улётная математика** — green sticker letters or parchment banner (not a 5-button stack)  
 3. Center: mascot (“Нулик”) sticker + speech bubble («Полетели!»)  
-4. Left: music HUD circle + **Дейлики** scrap + 5 rubber-ink stamps (sun / flower / cat / star / check — same as post-battle)  
-5. **Bottom:** two wide cream sticker CTAs  
-   - Left: Приключение → уровни  
-   - Right: Практика → тренировка  
-6. **Right column:** three circular HUD stickers (same as `src/ui/hud/` / `ui_pack` buttons) — Настройки, Достижения (Зал трофеев), Выход  
+4. Left: music HUD circle  
+5. **Center stack:** two wide cream CTAs (Приключение / Практика) plus a matching parchment **Ежедневная серия** card below them (stars, not a left-side scrap)  
+6. **Right column:** circular HUD stickers — Настройки, Достижения (Зал трофеев)  
+7. **Bottom-left:** circular HUD quit — cream disc, gray X. Cancel overlays use `btn_back.png`; confirm overlays use `btn_check.png`.  
 
 No single vertical stack of equal menu buttons (old Играть / Тренировка / Трофеи / Настройки / Выход list is retired).
 
@@ -71,10 +70,9 @@ Keep the live carousel: horizontal pack cards, selected center, next peeking rig
 
 Restyle stats window to notebook — `concepts/achievements_notebook_concept_v1.png`. Same graph-paper page + margin doodles as pack / post-battle. Not cyan neon gradient.
 
-- Assets (separate): `src/game/scenes/menu/trophy_room_window/ui/` — `bg_achievements`, `plaque_achievements`, `pencil_achievements`, `trophy_sticker`, `title_dostizheniya`
-- Center cream parchment plaque + title scrap + winged trophy sticker + pencil doodle
-- Two-column stats: muted graphite labels / warm amber values — same rows as `ProgressStatistics.DISPLAY_ROWS`
-- Soft pencil row dividers — no digital table chrome
+- Panel frame: cream CTA `btn_cta_wide.png` (`NinePatchRect`, same patch margins as main-menu CTAs) — **680×460**; title = Label «ДОСТИЖЕНИЯ»
+- Stickers (separate): `trophy_sticker`, `pencil_achievements` — winged trophy + pencil doodle on panel corners
+- Two-column stats: muted graphite labels / warm amber values — same rows as `ProgressStatistics.DISPLAY_ROWS`; no scroll when all rows fit
 - Back: round cream HUD circle bottom-left (`levels/ui/btn_back.png`, same as pack)
 
 ## Battle layout (required)

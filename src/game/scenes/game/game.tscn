@@ -31,7 +31,7 @@
 [ext_resource type="Texture2D" uid="uid://cb6trv7krchyp" path="res://assets/ui/icons/btn_movement_direct.png" id="22_direct"]
 [ext_resource type="Texture2D" uid="uid://cbfnkdxni0efh" path="res://assets/ui/icons/btn_movement_discrete.png" id="23_discrete"]
 [ext_resource type="Texture2D" uid="uid://c15dt2ao0kw4b" path="res://assets/ui/icons/btn_restart.png" id="24_restart"]
-[ext_resource type="Texture2D" uid="uid://dej6fdsmtsrkr" path="res://assets/ui/icons/btn_exit.png" id="25_exit"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/ui/btn_exit.png" id="25_exit"]
 [ext_resource type="Texture2D" uid="uid://cp81lnqrc7f5l" path="res://assets/ui/icons/btn_sound_on.png" id="26_sound_on"]
 [ext_resource type="Texture2D" uid="uid://bseq47l6tpmaq" path="res://assets/ui/icons/btn_sound_off.png" id="27_sound_off"]
 [ext_resource type="Script" uid="uid://dxdf03het6j0r" path="res://src/game/scenes/game/ui/sound_mute_button.gd" id="28_mute"]

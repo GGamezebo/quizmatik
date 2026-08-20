@@ -11,27 +11,32 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.165, 0.2, 0.251, 0.9)
-corner_radius_top_left = 10
-corner_radius_top_right = 6
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 6
-shadow_color = Color(0.15, 0.12, 0.08, 0.2)
-shadow_size = 4
+border_color = Color(0.165, 0.2, 0.251, 0.75)
+corner_radius_top_left = 35
+corner_radius_top_right = 35
+corner_radius_bottom_right = 35
+corner_radius_bottom_left = 35
+shadow_color = Color(0.15, 0.12, 0.08, 0.18)
+shadow_size = 3
 
 [node name="DailySlot" type="PanelContainer" node_paths=PackedStringArray("mark")]
-custom_minimum_size = Vector2(32, 28)
+custom_minimum_size = Vector2(68, 68)
 size_flags_horizontal = 4
+clip_contents = true
 mouse_filter = 2
 theme = ExtResource("theme_ui")
 theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
 script = ExtResource("1_slot")
-mark = NodePath("Mark")
+mark = NodePath("Center/Mark")
 star_empty = ExtResource("2_star_empty")
 star_filled = ExtResource("3_star_filled")
 
-[node name="Mark" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(24, 16)
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Mark" type="TextureRect" parent="Center"]
+custom_minimum_size = Vector2(46, 46)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("2_star_empty")

@@ -6,7 +6,7 @@
 [ext_resource type="Resource" uid="uid://ceumjd7gvwho" path="res://src/game/scenes/menu/menu_events.tres" id="3_k2ump"]
 [ext_resource type="Script" uid="uid://dg8bdljs16a6h" path="res://core/lib/window_stack_manager/button_window_back.gd" id="4_back"]
 [ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://core/lib/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
-[ext_resource type="Script" uid="uid://dwus2ghsyt5xv" path="res://src/game/scenes/menu/training_room_window/training_room_window.gd" id="5_n67ar"]
+[ext_resource type="PackedScene" uid="uid://uv20ca6fbxsu" path="res://src/game/scenes/menu/training_room_window/training_room_window.tscn" id="5_training_room"]
 [ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="6_kcyx7"]
 [ext_resource type="PackedScene" uid="uid://d3sdqmf0acdft" path="res://src/ui/backgrounds/background_host.tscn" id="6_levels_bg_host"]
 [ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/game/scenes/menu/training_room_window/training_room_game_config.tres" id="6_vp6ju"]
@@ -47,12 +47,6 @@ shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
 
-[sub_resource type="LabelSettings" id="LabelSettings_35kkh"]
-font_size = 64
-font_color = Color(0.165, 0.2, 0.251, 1)
-outline_size = 8
-outline_color = Color(0.98, 0.95, 0.9, 0.95)
-
 [node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "levels_choice_window", "start_button", "training_room_start_button", "exit_button")]
 script = ExtResource("1_5oxuo")
 root_events = ExtResource("2_35kkh")
@@ -61,7 +55,7 @@ windows_stack_manager = NodePath("UI/StackWindowController")
 levels_choice_window = NodePath("UI/LevelsWindow")
 training_room_config = ExtResource("6_vp6ju")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start")
-training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/StartBattle")
+training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/StartPractice")
 exit_button = NodePath("UI/MainMenuWindow/ExitMargin/Exit")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2419366]
@@ -89,7 +83,7 @@ target_window = NodePath("../../TrainingRoomWindow")
 
 [node name="TrainingRoomBack" type="Node" parent="UI/StackWindowController" unique_id=545675404 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
-button = NodePath("../../TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer/ButtonExit")
+button = NodePath("../../TrainingRoomWindow/MenuWindowBack/Back")
 
 [node name="SettingsWindowOpen" type="Node" parent="UI/StackWindowController" unique_id=226461501 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
@@ -126,7 +120,7 @@ theme = ExtResource("theme_ui")
 [node name="Background" parent="UI/MainMenuWindow" unique_id=1217069396 node_paths=PackedStringArray("daily_controller") instance=ExtResource("6_kcyx7")]
 sky_scroll_speed = 0.015
 paint_from_daily = true
-daily_controller = NodePath("../DailyLeftColumn/DailyChallengesPanel/DailyChallengesController")
+daily_controller = NodePath("../CenterContainer/VBoxContainer/DailyChallengesPanel/DailyChallengesController")
 idle_color_amount = 0.08
 
 [node name="TextureRect" type="TextureRect" parent="UI/MainMenuWindow" unique_id=855634049]
@@ -159,26 +153,6 @@ image_inacitve = ExtResource("18_xf4oj")
 user_settings = ExtResource("9_3qhmn")
 metadata/hover_scale_bound = true
 
-[node name="DailyLeftColumn" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=1900100000]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -103.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 2
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 16
-
-[node name="DailyChallengesPanel" parent="UI/MainMenuWindow/DailyLeftColumn" unique_id=1900100001 instance=ExtResource("23_daily")]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
 [node name="CenterContainer" type="CenterContainer" parent="UI/MainMenuWindow" unique_id=487516089]
 layout_mode = 1
 anchors_preset = 15
@@ -190,7 +164,7 @@ mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenuWindow/CenterContainer" unique_id=92845443]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 18
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=877131779]
 custom_minimum_size = Vector2(0, 40)
@@ -214,11 +188,19 @@ alignment = 1
 [node name="Start" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow" unique_id=1455999940 instance=ExtResource("34_cta_btn")]
 layout_mode = 2
 
+[node name="Icon" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start/Margin/HBox" parent_id_path=PackedInt32Array(1455999940, 1291563265) index="0" unique_id=953828957]
+custom_minimum_size = Vector2(80, 70)
+
 [node name="TrainigRoom" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow" unique_id=517690015 instance=ExtResource("34_cta_btn")]
 layout_mode = 2
 icon_texture = ExtResource("36_icon_pencil")
 caption_text = "ПРАКТИКА"
+subtitle_text = "Решай примеры и улучшай навыки"
 caption_color = Color(0.329, 0.486, 0.29, 1)
+
+[node name="DailyChallengesPanel" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=1900100001 instance=ExtResource("23_daily")]
+layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=1046765864]
 layout_mode = 1
@@ -247,18 +229,16 @@ image = ExtResource("32_icon_achievements")
 metadata/hover_scale_bound = true
 
 [node name="ExitMargin" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=1074935488]
+z_index = 30
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -112.0
-offset_top = -122.0
-grow_horizontal = 0
+offset_top = -150.0
+offset_right = 150.0
 grow_vertical = 0
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 30
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_bottom = 16
 
 [node name="Exit" parent="UI/MainMenuWindow/ExitMargin" unique_id=592785053 instance=ExtResource("30_circle_btn")]
 layout_mode = 2
@@ -288,7 +268,7 @@ background_host = NodePath("Background")
 [node name="Background" parent="UI/LevelsWindow" unique_id=1301843701 node_paths=PackedStringArray("daily_controller") instance=ExtResource("6_levels_bg_host")]
 sky_scroll_speed = 0.015
 paint_from_daily = true
-daily_controller = NodePath("../../MainMenuWindow/DailyLeftColumn/DailyChallengesPanel/DailyChallengesController")
+daily_controller = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/DailyChallengesPanel/DailyChallengesController")
 idle_color_amount = 0.08
 
 [node name="PackCarousel" type="Control" parent="UI/LevelsWindow" unique_id=2124016150 node_paths=PackedStringArray("dots_container", "blocked_by")]
@@ -336,80 +316,7 @@ visible = false
 layout_mode = 1
 container_id = "addition"
 
-[node name="TrainingRoomWindow" type="Control" parent="UI" unique_id=326554877 node_paths=PackedStringArray("params_container")]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("theme_ui")
-script = ExtResource("5_n67ar")
-config = ExtResource("6_vp6ju")
-params_container = NodePath("CenterContainer/VBoxContainer/TrainingRoomConfig/TrainingRoomParamsContainer")
-
-[node name="TextureRect" type="TextureRect" parent="UI/TrainingRoomWindow" unique_id=485422946]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("GradientTexture2D_ux2mn")
-
-[node name="CenterContainer" type="CenterContainer" parent="UI/TrainingRoomWindow" unique_id=1702014201]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer" unique_id=1983983751]
-layout_mode = 2
-
-[node name="TitleContainer" type="HBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer" unique_id=1065138038]
-layout_mode = 2
-alignment = 1
-
-[node name="Label" type="Label" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer" unique_id=840643840]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Тренеровочкая комната"
-label_settings = SubResource("LabelSettings_35kkh")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ResetSetting" type="Button" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer" unique_id=859378919]
-layout_mode = 2
-size_flags_horizontal = 4
-text = " Reset "
-icon_alignment = 1
-
-[node name="TrainingRoomConfig" type="ScrollContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer" unique_id=204686701]
-custom_minimum_size = Vector2(800, 500)
-layout_mode = 2
-
-[node name="TrainingRoomParamsContainer" type="VBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TrainingRoomConfig" unique_id=1621749446]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer" unique_id=325016311]
-layout_mode = 2
-alignment = 1
-
-[node name="StartBattle" type="Button" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer" unique_id=658686200]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Начать Игру
-"
-
-[node name="ButtonExit" type="Button" parent="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/HBoxContainer" unique_id=2107233293]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Выход"
+[node name="TrainingRoomWindow" parent="UI" unique_id=326554877 instance=ExtResource("5_training_room")]
 
 [node name="SettingsWindow" parent="UI" unique_id=2314529 instance=ExtResource("20_r0b7e")]
 visible = false
@@ -417,4 +324,4 @@ visible = false
 [node name="TrophyRoomWindow" parent="UI" unique_id=965242045 instance=ExtResource("21_trophy")]
 visible = false
 
-[connection signal="pressed" from="UI/TrainingRoomWindow/CenterContainer/VBoxContainer/TitleContainer/ResetSetting" to="UI/TrainingRoomWindow" method="_on_reset_setting_pressed"]
+[editable path="UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start"]
