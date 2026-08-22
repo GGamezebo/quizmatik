@@ -1,8 +1,8 @@
-[gd_resource type="FontVariation" format=3 uid="uid://ctitlefontrubik01"]
+[gd_resource type="FontVariation" format=3 uid="uid://dyt157qapui8s"]
 
 [ext_resource type="FontFile" uid="uid://bcug14p3griwc" path="res://assets/fonts/RubikDoodleShadow-Regular.ttf" id="1_rubik"]
 [ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_fallback"]
 
 [resource]
-base_font = ExtResource("1_rubik")
 fallbacks = Array[Font]([ExtResource("2_fallback")])
+base_font = ExtResource("1_rubik")
