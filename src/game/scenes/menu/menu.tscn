@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://d3sdqmf0acdft" path="res://src/ui/backgrounds/background_host.tscn" id="6_levels_bg_host"]
 [ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/game/scenes/menu/training_room_window/training_room_game_config.tres" id="6_vp6ju"]
 [ext_resource type="Script" uid="uid://7sd3kio5id34" path="res://src/game/scenes/menu/music_mute_button.gd" id="8_82bx7"]
+[ext_resource type="Script" uid="uid://dxdf03het6j0r" path="res://src/game/scenes/game/ui/sound_mute_button.gd" id="8_sfxmute"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="9_3qhmn"]
 [ext_resource type="Script" uid="uid://duom6pk08ldyp" path="res://src/game/scenes/menu/levels/levels_choice_window.gd" id="11_3k6yn"]
 [ext_resource type="PackedScene" uid="uid://dpecfsso1dokv" path="res://src/game/scenes/menu/levels/level_container.tscn" id="13_a4m0n"]
@@ -20,6 +21,8 @@
 [ext_resource type="Texture2D" uid="uid://osrgpai3oxa8" path="res://src/game/scenes/menu/ui/icon_settings.png" id="15_op54q"]
 [ext_resource type="Texture2D" uid="uid://cp81lnqrc7f5l" path="res://assets/ui/icons/btn_sound_on.png" id="17_owodb"]
 [ext_resource type="Texture2D" uid="uid://bseq47l6tpmaq" path="res://assets/ui/icons/btn_sound_off.png" id="18_xf4oj"]
+[ext_resource type="Texture2D" uid="uid://dpqp180ugjac3" path="res://assets/ui/icons/btn_sfx_off.png" id="19_sfx_off"]
+[ext_resource type="Texture2D" uid="uid://btx11pyx4se77" path="res://assets/ui/icons/btn_sfx_on.png" id="19_sfx_on"]
 [ext_resource type="PackedScene" uid="uid://bkoeytpeqxe1w" path="res://src/game/scenes/menu/settings_window/settings_window.tscn" id="20_r0b7e"]
 [ext_resource type="PackedScene" uid="uid://caclv7nru701m" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.tscn" id="21_trophy"]
 [ext_resource type="PackedScene" uid="uid://b00ddsqtwrab5" path="res://src/game/scenes/menu/daily/daily_challenges_panel.tscn" id="23_daily"]
@@ -33,7 +36,7 @@
 [ext_resource type="Script" uid="uid://dfc4lkuw1o6wl" path="res://src/ui/buttons/hover_scale_binder.gd" id="37_hover_binder"]
 [ext_resource type="Script" uid="uid://ck4e2cg1qd712" path="res://src/game/scenes/menu/levels/levels_pack_carousel.gd" id="38_carousel"]
 [ext_resource type="PackedScene" uid="uid://cnegahp1oscak" path="res://src/game/scenes/menu/levels/pack_page_dot.tscn" id="39_dot"]
-[ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="40_title_font"]
+[ext_resource type="FontVariation" uid="uid://dyt157qapui8s" path="res://core/theme/title_font.tres" id="40_title_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
@@ -136,13 +139,17 @@ texture = SubResource("GradientTexture2D_ux2mn")
 
 [node name="MusicMute" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=755619621]
 layout_mode = 1
-offset_right = 185.0
+offset_right = 416.0
 offset_bottom = 190.0
 scale = Vector2(0.65, 0.65)
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 30
 
-[node name="MusicMuteButton" type="TextureButton" parent="UI/MainMenuWindow/MusicMute" unique_id=1355379251]
+[node name="HBox" type="HBoxContainer" parent="UI/MainMenuWindow/MusicMute" unique_id=755619622]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MusicMuteButton" type="TextureButton" parent="UI/MainMenuWindow/MusicMute/HBox" unique_id=1355379251]
 material = SubResource("ShaderMaterial_owodb")
 layout_mode = 2
 toggle_mode = true
@@ -151,6 +158,18 @@ texture_pressed = ExtResource("18_xf4oj")
 script = ExtResource("8_82bx7")
 image_active = ExtResource("17_owodb")
 image_inacitve = ExtResource("18_xf4oj")
+user_settings = ExtResource("9_3qhmn")
+metadata/hover_scale_bound = true
+
+[node name="SoundMuteButton" type="TextureButton" parent="UI/MainMenuWindow/MusicMute/HBox" unique_id=1355379252]
+material = SubResource("ShaderMaterial_owodb")
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("19_sfx_on")
+texture_pressed = ExtResource("19_sfx_off")
+script = ExtResource("8_sfxmute")
+image_active = ExtResource("19_sfx_on")
+image_inacitve = ExtResource("19_sfx_off")
 user_settings = ExtResource("9_3qhmn")
 metadata/hover_scale_bound = true
 
@@ -177,11 +196,11 @@ theme_override_constants/margin_bottom = 30
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_stretch_ratio = 1.3
-theme_override_fonts/font = ExtResource("40_title_font")
-theme_override_font_sizes/font_size = 58
-theme_override_constants/outline_size = 0
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("40_title_font")
+theme_override_font_sizes/font_size = 58
 text = "Улётная математика"
 horizontal_alignment = 1
 
@@ -236,14 +255,17 @@ metadata/hover_scale_bound = true
 [node name="ExitMargin" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=1074935488]
 z_index = 30
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -150.0
 offset_top = -150.0
-offset_right = 150.0
+grow_horizontal = 0
 grow_vertical = 0
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
 
 [node name="Exit" parent="UI/MainMenuWindow/ExitMargin" unique_id=592785053 instance=ExtResource("30_circle_btn")]
 layout_mode = 2
@@ -251,6 +273,7 @@ image = ExtResource("33_icon_exit")
 metadata/hover_scale_bound = true
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("carousel", "progress", "windows_stack_manager", "level_selection_window", "background_host")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -322,6 +345,7 @@ layout_mode = 1
 container_id = "addition"
 
 [node name="TrainingRoomWindow" parent="UI" unique_id=326554877 instance=ExtResource("5_training_room")]
+visible = false
 
 [node name="SettingsWindow" parent="UI" unique_id=2314529 instance=ExtResource("20_r0b7e")]
 visible = false

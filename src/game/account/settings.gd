@@ -54,7 +54,9 @@ func _apply_audio_settings(settings: UserSettings) -> void:
 
 	var sfx_idx: int = AudioServer.get_bus_index("SFX")
 	if sfx_idx != -1:
-		AudioServer.set_bus_volume_db(sfx_idx, _volume_to_db(settings.sfx_volume))
+		AudioServer.set_bus_mute(sfx_idx, settings.is_sound_mute)
+		if not settings.is_sound_mute:
+			AudioServer.set_bus_volume_db(sfx_idx, _volume_to_db(settings.sfx_volume))
 
 
 func _apply_vibration_settings(settings: UserSettings) -> void:

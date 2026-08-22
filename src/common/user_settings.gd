@@ -7,7 +7,6 @@ const SAVE_PATH: String = "user://settings.json"
 
 @export_category("Audio")
 @export var is_music_mute = false
-## Unused leftover flag (do not mute Master from this).
 @export var is_sound_mute = false
 @export_range(0.0, 1.0) var music_volume: float = 1.0
 @export_range(0.0, 1.0) var sfx_volume: float = 1.0

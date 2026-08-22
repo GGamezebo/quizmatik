@@ -30,7 +30,7 @@ font_color = Color(0.165, 0.2, 0.251, 1)
 outline_size = 0
 shadow_size = 0
 
-[node name="SettingsWindow" type="Control" unique_id=1126064 node_paths=PackedStringArray("music_toggle", "music_volume_slider", "music_volume_label", "sfx_volume_slider", "sfx_volume_label", "vibration_toggle", "vibration_intensity_slider", "vibration_intensity_label", "reset_progress_button", "reset_confirm_dialog")]
+[node name="SettingsWindow" type="Control" unique_id=1126064 node_paths=PackedStringArray("music_toggle", "music_volume_slider", "music_volume_label", "sfx_toggle", "sfx_volume_slider", "sfx_volume_label", "vibration_toggle", "vibration_intensity_slider", "vibration_intensity_label", "reset_progress_button", "reset_confirm_dialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -44,6 +44,7 @@ root_events = ExtResource("3_root_events")
 music_toggle = NodePath("CenterContainer/Content/SettingsMargin/SettingsList/RowMusicToggle/Toggle")
 music_volume_slider = NodePath("CenterContainer/Content/SettingsMargin/SettingsList/RowMusicVolume/Slider")
 music_volume_label = NodePath("CenterContainer/Content/SettingsMargin/SettingsList/RowMusicVolume/Value")
+sfx_toggle = NodePath("CenterContainer/Content/SettingsMargin/SettingsList/RowSfxToggle/Toggle")
 sfx_volume_slider = NodePath("CenterContainer/Content/SettingsMargin/SettingsList/RowSfxVolume/Slider")
 sfx_volume_label = NodePath("CenterContainer/Content/SettingsMargin/SettingsList/RowSfxVolume/Value")
 vibration_toggle = NodePath("CenterContainer/Content/SettingsMargin/SettingsList/RowVibrationToggle/Toggle")
@@ -72,7 +73,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Content" type="Control" parent="CenterContainer" unique_id=1291099702]
-custom_minimum_size = Vector2(680, 500)
+custom_minimum_size = Vector2(680, 540)
 layout_mode = 2
 
 [node name="Frame" type="NinePatchRect" parent="CenterContainer/Content" unique_id=52498828]
@@ -140,6 +141,11 @@ text = "Музыка в меню"
 [node name="Title" parent="CenterContainer/Content/SettingsMargin/SettingsList/RowMusicVolume" index="0"]
 text = "Громкость музыки"
 
+[node name="RowSfxToggle" parent="CenterContainer/Content/SettingsMargin/SettingsList" unique_id=1835405321 instance=ExtResource("10_toggle_row")]
+
+[node name="Title" parent="CenterContainer/Content/SettingsMargin/SettingsList/RowSfxToggle" index="0"]
+text = "Звуки в игре"
+
 [node name="RowSfxVolume" parent="CenterContainer/Content/SettingsMargin/SettingsList" unique_id=1835405320 instance=ExtResource("11_slider_row")]
 
 [node name="Title" parent="CenterContainer/Content/SettingsMargin/SettingsList/RowSfxVolume" index="0"]
@@ -180,6 +186,7 @@ theme_override_font_sizes/font_size = 22
 
 [editable path="CenterContainer/Content/SettingsMargin/SettingsList/RowMusicToggle"]
 [editable path="CenterContainer/Content/SettingsMargin/SettingsList/RowMusicVolume"]
+[editable path="CenterContainer/Content/SettingsMargin/SettingsList/RowSfxToggle"]
 [editable path="CenterContainer/Content/SettingsMargin/SettingsList/RowSfxVolume"]
 [editable path="CenterContainer/Content/SettingsMargin/SettingsList/RowVibrationToggle"]
 [editable path="CenterContainer/Content/SettingsMargin/SettingsList/RowVibrationIntensity"]
