@@ -154,34 +154,42 @@ texture = SubResource("GradientTexture2D_ux2mn")
 
 [node name="MusicMute" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=755619621]
 layout_mode = 1
-offset_right = 416.0
-offset_bottom = 190.0
-scale = Vector2(0.65, 0.65)
+offset_right = 142.0
+offset_bottom = 254.0
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 30
 
-[node name="HBox" type="HBoxContainer" parent="UI/MainMenuWindow/MusicMute" unique_id=755619622]
+[node name="VBox" type="VBoxContainer" parent="UI/MainMenuWindow/MusicMute" unique_id=755619622]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 0
+alignment = 1
 
-[node name="MusicMuteButton" type="TextureButton" parent="UI/MainMenuWindow/MusicMute/HBox" unique_id=1355379251]
+[node name="MusicMuteButton" type="TextureButton" parent="UI/MainMenuWindow/MusicMute/VBox" unique_id=1355379251]
 material = SubResource("ShaderMaterial_owodb")
+custom_minimum_size = Vector2(112, 112)
 layout_mode = 2
+size_flags_horizontal = 4
 toggle_mode = true
 texture_normal = ExtResource("17_owodb")
 texture_pressed = ExtResource("18_xf4oj")
+ignore_texture_size = true
+stretch_mode = 5
 script = ExtResource("8_82bx7")
 image_active = ExtResource("17_owodb")
 image_inacitve = ExtResource("18_xf4oj")
 user_settings = ExtResource("9_3qhmn")
 metadata/hover_scale_bound = true
 
-[node name="SoundMuteButton" type="TextureButton" parent="UI/MainMenuWindow/MusicMute/HBox" unique_id=1355379252]
+[node name="SoundMuteButton" type="TextureButton" parent="UI/MainMenuWindow/MusicMute/VBox" unique_id=1355379252]
 material = SubResource("ShaderMaterial_owodb")
+custom_minimum_size = Vector2(112, 112)
 layout_mode = 2
+size_flags_horizontal = 4
 toggle_mode = true
 texture_normal = ExtResource("19_sfx_on")
 texture_pressed = ExtResource("19_sfx_off")
+ignore_texture_size = true
+stretch_mode = 5
 script = ExtResource("8_sfxmute")
 image_active = ExtResource("19_sfx_on")
 image_inacitve = ExtResource("19_sfx_off")
