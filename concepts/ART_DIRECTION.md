@@ -71,7 +71,8 @@ Keep the live carousel: horizontal pack cards, selected center, next peeking rig
 - Square cream tiles, equal corner radius (~18), soft sticker shadow
 - Locked regular: lock glyph top-right (`levels/ui/icon_lock.png`); number stays readable; empty stars shown
 - Next playable regular (unlocked, 0 stars): sage-green outline + «СЛЕДУЮЩИЙ»; no lock
-- Stars on every tile (empty until earned), including exam
+- Completed (stars ≥ 1): ink stamp by tier (`LevelPackArt` sun/flower/cat); stars hidden
+- Incomplete tiles: empty stars; exam uses the same square cell with purple outline + stamp when passed
 - Exam in the same square grid cell: purple outline, cap top-left + «Экзамен»
 - Side info card: purple «i» badge — exam always available; difficulty depends on progress; recommended difficulty bars
 

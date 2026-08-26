@@ -8,6 +8,8 @@ extends Control
 @export var slot_scene: PackedScene
 @export var title_label: Label
 @export var progress_label: Label
+## Filled ink stamps assigned by slot index (cycles if fewer than slot count).
+@export var stamp_filled_variants: Array[Texture2D] = []
 @export var slot_size_max: float = 96.0
 @export var slot_size_min: float = 88.0
 
@@ -43,8 +45,10 @@ func _build_slots() -> void:
 		slots_row.remove_child(child)
 		child.free()
 	_slots.clear()
-	for _index in range(PData.DAILY_SLOT_COUNT):
+	for index in range(PData.DAILY_SLOT_COUNT):
 		var slot: DailySlot = slot_scene.instantiate() as DailySlot
+		if not stamp_filled_variants.is_empty():
+			slot.stamp_filled = stamp_filled_variants[index % stamp_filled_variants.size()]
 		slots_row.add_child(slot)
 		_slots.append(slot)
 
