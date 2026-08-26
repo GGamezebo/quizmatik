@@ -10,7 +10,7 @@ Canonical art direction. Match this folder before restyling UI or battle.
 | **Look & feel** | Graphite / colored pencil on cream grid paper — sticker HUD, ink stamps (`post_battle_notebook_concept_v3.png`, `battle_notebook_modern_v1.png`) |
 | **Battle answers** | Paper **balloons** with big numbers (`ref_answer_balloon.png`) |
 
-Menu frames: `menu_notebook_modern_v3.png` (canonical), `menu_notebook_modern_v2.png` (alt: school doodles + parchment title). Achievements / trophy room: `achievements_notebook_concept_v1.png`. Battle: `battle_notebook_modern_v1.png`. HUD kit: `concepts/notebook_pencil/ui_pack/`.
+Menu frames: `menu_notebook_modern_v3.png` (canonical), `menu_notebook_modern_v2.png` (alt: school doodles + parchment title). Achievements / trophy room: `achievements_notebook_concept_v1.png`. Practice ops+difficulty sketch: `training_room_ops_difficulty_sketch.png`. Battle: `battle_notebook_modern_v1.png`. HUD kit: `concepts/notebook_pencil/ui_pack/`.
 
 ## Mood
 
@@ -25,7 +25,7 @@ Handmade kids’ notebook adventure: graphite pencil on grid paper, cream parchm
 
 Battle sprites (plane + balloons): thick cream/white **sticker outline** (die-cut look), matching `battle_notebook_modern_v1.png`.
 
-Font: body/UI `core/theme/game_font.tres` = `SystemFont` (rounded-first fallbacks). Titles: `core/theme/title_font.tres` = **Rubik Doodle Shadow** (`assets/fonts/RubikDoodleShadow-Regular.ttf`, MSDF **off**) with `game_font` fallback. Do **not** apply `outline_size` / font outline to title labels — the face already has baked shadow contours; outline + MSDF cause blotch/hairline artifacts.
+Font: body/UI `core/theme/game_font.tres` = **Nunito Bold** (`assets/fonts/Nunito-Bold.ttf`). Titles: `core/theme/title_font.tres` = **Rubik Doodle Shadow** (`assets/fonts/RubikDoodleShadow-Regular.ttf`, MSDF **off**) with `game_font` fallback. Do **not** apply `outline_size` / font outline to title labels — the face already has baked shadow contours; outline + MSDF cause blotch/hairline artifacts.
 | Paper hover | `#FAF0DB` | Button hover fill |
 | Paper pressed | `#E0D1B3` | Button pressed fill |
 | Accent warm | `#F0C94A` | Stars / highlights |
@@ -47,7 +47,7 @@ Avoid as primary look: cyan neon HUD, purple-on-white AI gradients, flat Materia
 Match `menu_notebook_modern_v3.png` (alt `menu_notebook_modern_v2.png`). Same sticker/stamp language as battle HUD + post-battle.
 
 1. Background = scrolling **classic sky** (`classic_sky/`). Color clarity follows completed dailies (`paint_from_daily`): 0 = soft graphite wash, 5/5 = **full color**. UI stickers/CTAs stay notebook-pencil on top.  
-2. Title **Улётная математика** — green sticker letters or parchment banner (not a 5-button stack)  
+2. Title **Улётная математика** — green sticker letters or parchment banner (not a 5-button stack); runtime uses `src/ui/animated_title/` (letters fall + bounce, then soft idle wave)  
 3. Center: mascot (“Нулик”) sticker + speech bubble («Полетели!»)  
 4. Left: music HUD circle  
 5. **Center stack:** two wide cream CTAs (Приключение / Практика) plus a matching parchment **Ежедневная серия** card below them (stars, not a left-side scrap)  
@@ -66,6 +66,15 @@ Keep the live carousel: horizontal pack cards, selected center, next peeking rig
 - Back: round cream HUD button (same as post-battle)
 - Scroll: graphite / paper strip, not a dark digital bar
 
+### Level grid (inside a pack) — `concepts/levels_grid_adventure_ref.png`
+
+- Square cream tiles, equal corner radius (~18), soft sticker shadow
+- Locked regular: lock glyph top-right (`levels/ui/icon_lock.png`); number stays readable; empty stars shown
+- Next playable regular (unlocked, 0 stars): sage-green outline + «СЛЕДУЮЩИЙ»; no lock
+- Stars on every tile (empty until earned), including exam
+- Exam in the same square grid cell: purple outline, cap top-left + «Экзамен»
+- Side info card: purple «i» badge — exam always available; difficulty depends on progress; recommended difficulty bars
+
 ## Achievements / trophy room (required)
 
 Restyle stats window to notebook — `concepts/achievements_notebook_concept_v1.png`. Same graph-paper page + margin doodles as pack / post-battle. Not cyan neon gradient.
@@ -74,6 +83,15 @@ Restyle stats window to notebook — `concepts/achievements_notebook_concept_v1.
 - Stickers (separate): `trophy_sticker`, `pencil_achievements` — winged trophy + pencil doodle on panel corners
 - Two-column stats: muted graphite labels / warm amber values — same rows as `ProgressStatistics.DISPLAY_ROWS`; no scroll when all rows fit
 - Back: round cream HUD circle bottom-left (`levels/ui/btn_back.png`, same as pack)
+
+## Practice room (required)
+
+Player practice — match `concepts/training_room_ops_difficulty_sketch.png` (layout). Cream card UI, soft green selected pills.
+
+- Four op columns (Сложение / Вычитание / Умножение / Деление) with exclusive range pills + «Выключено»; mul/div include «Выбери сам» (shows custom min/max steppers)
+- Difficulty: Легко / Нормально / Сложно → health / questions / answer_speed presets into `GameConfig`
+- Footer: round icon buttons — reset (`btn_restart`) / start (`btn_check`); round Back via `MenuWindowBack`
+- Full stepper lab remains in `src/dev/training_room_lab/` (editor-only)
 
 ## Battle layout (required)
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/settings_window/ui/toggle_off.png" id="1_off"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/settings_window/ui/toggle_on.png" id="2_on"]
-[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="3_font"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="3_font"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font = ExtResource("3_font")

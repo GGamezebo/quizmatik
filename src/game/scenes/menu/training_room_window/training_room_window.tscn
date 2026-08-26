@@ -1,24 +1,21 @@
 [gd_scene format=3 uid="uid://uv20ca6fbxsu"]
 
-[ext_resource type="Script" uid="uid://dwus2ghsyt5xv" path="res://src/game/scenes/menu/training_room_window/training_room_window.gd" id="1_script"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/training_room_window/training_room_window.gd" id="1_script"]
 [ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/game/scenes/menu/training_room_window/training_room_game_config.tres" id="2_config"]
 [ext_resource type="Texture2D" uid="uid://bmrw6xiwwmbba" path="res://src/game/scenes/menu/ui/btn_cta_wide.png" id="3_frame"]
-[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="4_font"]
-[ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="4_title_font"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="4_font"]
+[ext_resource type="FontVariation" uid="uid://dyt157qapui8s" path="res://core/theme/title_font.tres" id="4_title_font"]
 [ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="5_bg"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="6_shadow"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="7_menu_back"]
 [ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="8_daily"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="9_theme"]
-[ext_resource type="PackedScene" uid="uid://clanc5hb5o15m" path="res://src/game/scenes/menu/training_room_window/ui/training_stepper.tscn" id="10_stepper"]
-[ext_resource type="PackedScene" uid="uid://byheurp3njg3q" path="res://src/game/scenes/menu/training_room_window/ui/training_action_button.tscn" id="11_action"]
-[ext_resource type="Texture2D" uid="uid://cluf5vj4yth8e" path="res://src/game/scenes/menu/training_room_window/ui/icon_health.png" id="12_icon_health"]
-[ext_resource type="Texture2D" uid="uid://fsgi6bywpvyh" path="res://src/game/scenes/menu/training_room_window/ui/icon_questions.png" id="13_icon_questions"]
-[ext_resource type="Texture2D" uid="uid://ch0tnbrmxxal" path="res://src/game/scenes/menu/training_room_window/ui/icon_range.png" id="14_icon_range"]
-[ext_resource type="Texture2D" uid="uid://b3081fwvfst8e" path="res://src/game/scenes/menu/training_room_window/ui/icon_speed.png" id="15_icon_speed"]
-[ext_resource type="Texture2D" uid="uid://b7t0iiijw6icr" path="res://src/game/scenes/menu/training_room_window/ui/icon_exam.png" id="16_icon_exam"]
-[ext_resource type="Texture2D" uid="uid://heyte07h81jn" path="res://src/game/scenes/menu/training_room_window/ui/icon_play.png" id="17_icon_play"]
-[ext_resource type="Texture2D" uid="uid://dnb4x6dyrbrg2" path="res://src/game/scenes/menu/training_room_window/ui/icon_shuffle.png" id="18_icon_shuffle"]
+[ext_resource type="PackedScene" uid="uid://dfuy8tacmwqma" path="res://src/game/scenes/menu/training_room_window/ui/training_op_column.tscn" id="10_col"]
+[ext_resource type="PackedScene" uid="uid://dfu0abvkawqma" path="res://src/game/scenes/menu/training_room_window/ui/training_option_button.tscn" id="11_opt"]
+[ext_resource type="PackedScene" uid="uid://clanc5hb5o15m" path="res://src/game/scenes/menu/training_room_window/ui/training_stepper.tscn" id="12_stepper"]
+[ext_resource type="Texture2D" uid="uid://c15dt2ao0kw4b" path="res://assets/ui/icons/btn_restart.png" id="13_reset"]
+[ext_resource type="Texture2D" uid="uid://baq6fntk2payd" path="res://src/game/scenes/menu/ui/btn_check.png" id="14_start"]
+[ext_resource type="Script" uid="uid://f6odaxaw13hf" path="res://src/ui/buttons/hover_scale_button.gd" id="15_hover"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("6_shadow")
@@ -26,57 +23,29 @@ shader_parameter/shadow_offset = Vector2(-4, 8)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
 shader_parameter/shadow_blur = 2.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-content_margin_left = 14.0
-content_margin_top = 12.0
-content_margin_right = 14.0
-content_margin_bottom = 12.0
-bg_color = Color(0.98, 0.96, 0.92, 0.94)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.165, 0.2, 0.251, 0.12)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-shadow_color = Color(0, 0, 0, 0.08)
-shadow_size = 4
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_action"]
+shader = ExtResource("6_shadow")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.45)
+shader_parameter/shadow_blur = 2.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_add_btn"]
-content_margin_left = 12.0
-content_margin_top = 8.0
-content_margin_right = 12.0
-content_margin_bottom = 8.0
-bg_color = Color(0.96, 0.93, 0.87, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.165, 0.2, 0.251, 0.14)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_side"]
-content_margin_left = 12.0
-content_margin_top = 10.0
-content_margin_right = 12.0
-content_margin_bottom = 10.0
-bg_color = Color(0.99, 0.97, 0.94, 0.92)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+content_margin_left = 16.0
+content_margin_top = 14.0
+content_margin_right = 16.0
+content_margin_bottom = 14.0
+bg_color = Color(0.97, 0.94, 0.88, 0.92)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.165, 0.2, 0.251, 0.1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
 
-[node name="TrainingRoomWindow" type="Control" unique_id=2136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button")]
+[node name="TrainingRoomWindow" type="Control" node_paths=PackedStringArray("col_addition", "col_subtraction", "col_multiplication", "col_division", "difficulty_hint", "difficulty_easy", "difficulty_normal", "difficulty_hard", "custom_range_row", "custom_min_stepper", "custom_max_stepper", "reset_button", "start_battle_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -86,33 +55,29 @@ grow_vertical = 2
 theme = ExtResource("9_theme")
 script = ExtResource("1_script")
 config = ExtResource("2_config")
-health_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowHealth/HealthStepper")
-questions_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowQuestions/QuestionsStepper")
-min_number_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange/RangeRows/RowMin/MinStepper")
-max_number_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange/RangeRows/RowMax/MaxStepper")
-answer_speed_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed/SpeedRow/SpeedStepper")
-early_exam_questions_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowQuestionsMult/QuestionsMultStepper")
-early_exam_speed_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowSpeedMult/SpeedMultStepper")
-stepper_template = ExtResource("10_stepper")
-op_addition = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid/OpAddition")
-op_subtraction = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid/OpSubtraction")
-op_multiplication = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid/OpMultiplication")
-op_division = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid/OpDivision")
-round_coeffs_box = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed/RoundCoeffsBox")
-add_round_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed/AddRoundButton")
-reset_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/ResetButton")
-start_battle_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/StartPractice")
-random_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/RandomButton")
+col_addition = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColAddition")
+col_subtraction = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColSubtraction")
+col_multiplication = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColMultiplication")
+col_division = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColDivision")
+difficulty_hint = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffHint")
+difficulty_easy = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/Easy")
+difficulty_normal = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/Normal")
+difficulty_hard = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/Hard")
+custom_range_row = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow")
+custom_min_stepper = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow/MinStepper")
+custom_max_stepper = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow/MaxStepper")
+reset_button = NodePath("CenterContainer/Stack/ActionsRow/ResetButton")
+start_battle_button = NodePath("CenterContainer/Stack/ActionsRow/StartPractice")
 
-[node name="DailyChallengesController" parent="." unique_id=341384884 instance=ExtResource("8_daily")]
+[node name="DailyChallengesController" parent="." instance=ExtResource("8_daily")]
 
-[node name="Background" parent="." unique_id=1715993747 node_paths=PackedStringArray("daily_controller") instance=ExtResource("5_bg")]
+[node name="Background" parent="." node_paths=PackedStringArray("daily_controller") instance=ExtResource("5_bg")]
 sky_scroll_speed = 0.015
 paint_from_daily = true
 daily_controller = NodePath("../DailyChallengesController")
 idle_color_amount = 0.08
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2110775841]
+[node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -120,11 +85,67 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Content" type="Control" parent="CenterContainer" unique_id=78787148]
-custom_minimum_size = Vector2(980, 620)
+[node name="Stack" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="TitleVBox" type="VBoxContainer" parent="CenterContainer/Stack"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TitleStack" type="Control" parent="CenterContainer/Stack/TitleVBox"]
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 
-[node name="Frame" type="NinePatchRect" parent="CenterContainer/Content" unique_id=1027896633]
+[node name="TitleFill" type="Label" parent="CenterContainer/Stack/TitleVBox/TitleStack"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.953, 0.902, 0.784, 1)
+theme_override_colors/font_outline_color = Color(0.953, 0.902, 0.784, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("4_title_font")
+theme_override_font_sizes/font_size = 40
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+text = "ПРАКТИКА"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TitleBanner" type="Label" parent="CenterContainer/Stack/TitleVBox/TitleStack"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_fonts/font = ExtResource("4_title_font")
+theme_override_font_sizes/font_size = 40
+theme_override_constants/outline_size = 0
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+text = "ПРАКТИКА"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="CenterContainer/Stack/TitleVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38, 0.42, 0.48, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+text = "Настрой практику под себя и улучшай навыки"
+horizontal_alignment = 1
+
+[node name="Panel" type="Control" parent="CenterContainer/Stack"]
+custom_minimum_size = Vector2(980, 520)
+layout_mode = 2
+
+[node name="Frame" type="NinePatchRect" parent="CenterContainer/Stack/Panel"]
 material = SubResource("ShaderMaterial_sticker")
 layout_mode = 1
 anchors_preset = 15
@@ -138,526 +159,161 @@ patch_margin_top = 60
 patch_margin_right = 70
 patch_margin_bottom = 60
 
-[node name="TitleVBox" type="VBoxContainer" parent="CenterContainer/Content" unique_id=196468637]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -320.0
-offset_top = 16.0
-offset_right = 320.0
-offset_bottom = 78.0
-grow_horizontal = 2
-theme_override_constants/separation = 2
-
-[node name="TitleBanner" type="Label" parent="CenterContainer/Content/TitleVBox" unique_id=2131687944]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
-theme_override_fonts/font = ExtResource("4_title_font")
-theme_override_font_sizes/font_size = 34
-theme_override_constants/outline_size = 0
-theme_override_constants/shadow_offset_x = 0
-theme_override_constants/shadow_offset_y = 0
-text = "ПРАКТИКА"
-horizontal_alignment = 1
-
-[node name="Subtitle" type="Label" parent="CenterContainer/Content/TitleVBox" unique_id=1694528574]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38, 0.42, 0.48, 1)
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "Настрой практику под себя и улучшай навыки"
-horizontal_alignment = 1
-
-[node name="BodyMargin" type="MarginContainer" parent="CenterContainer/Content" unique_id=1514253768]
+[node name="BodyMargin" type="MarginContainer" parent="CenterContainer/Stack/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 36
-theme_override_constants/margin_top = 88
-theme_override_constants/margin_right = 36
-theme_override_constants/margin_bottom = 20
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 28
 
-[node name="MainVBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin" unique_id=862160216]
+[node name="MainVBox" type="VBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="ContentHBox" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox" unique_id=1630097187]
+[node name="OpsCard" type="PanelContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 14
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
-[node name="LeftPanel" type="PanelContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox" unique_id=2066350550]
+[node name="OpsVBox" type="VBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 1.6
-theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
-
-[node name="Scroll" type="ScrollContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel" unique_id=1921734503]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="SettingsVBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll" unique_id=840229063]
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 0
 theme_override_constants/separation = 10
 
-[node name="RowHealth" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox" unique_id=1494755073]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Icon" type="TextureRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowHealth" unique_id=717200470]
-custom_minimum_size = Vector2(44, 44)
-layout_mode = 2
-texture = ExtResource("12_icon_health")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="RowSpacer" type="Control" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowHealth" unique_id=1175404696]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Texts" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowHealth" unique_id=2037771871]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="Title" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowHealth/Texts" unique_id=1185773684]
+[node name="OpsTitle" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 17
-text = "Здоровье (жизни)"
+theme_override_font_sizes/font_size = 16
+text = "✦  МАТЕМАТИЧЕСКИЕ ДЕЙСТВИЯ  ✦"
+horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowHealth/Texts" unique_id=21180660]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.45, 0.48, 0.52, 1)
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 13
-text = "Сколько ошибок допускается"
-
-[node name="HealthStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowHealth" unique_id=360709799 instance=ExtResource("10_stepper")]
-
-[node name="RowQuestions" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox" unique_id=1373483243]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Icon" type="TextureRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowQuestions" unique_id=1389358266]
-custom_minimum_size = Vector2(44, 44)
-layout_mode = 2
-texture = ExtResource("13_icon_questions")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="RowSpacer" type="Control" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowQuestions" unique_id=766639584]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Texts" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowQuestions" unique_id=839406767]
-layout_mode = 2
-
-[node name="Title" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowQuestions/Texts" unique_id=56818018]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 17
-text = "Количество примеров"
-
-[node name="Subtitle" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowQuestions/Texts" unique_id=1840243522]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.45, 0.48, 0.52, 1)
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 13
-text = "Сколько примеров в сессии"
-
-[node name="QuestionsStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/RowQuestions" unique_id=582569585 instance=ExtResource("10_stepper")]
-
-[node name="Sep1" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox" unique_id=1402245047]
-custom_minimum_size = Vector2(0, 1)
-layout_mode = 2
-color = Color(0.165, 0.2, 0.251, 0.1)
-
-[node name="BlockOperations" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox" unique_id=748795816]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Title" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations" unique_id=2068265045]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 17
-text = "Разрешённые операции"
-
-[node name="OpsGrid" type="GridContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations" unique_id=1283072560]
-layout_mode = 2
-theme_override_constants/h_separation = 24
-theme_override_constants/v_separation = 4
-columns = 2
-
-[node name="OpAddition" type="CheckBox" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid" unique_id=1559823702]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "Сложение (+)"
-
-[node name="OpSubtraction" type="CheckBox" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid" unique_id=1062576815]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "Вычитание (−)"
-
-[node name="OpMultiplication" type="CheckBox" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid" unique_id=47295559]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "Умножение (×)"
-
-[node name="OpDivision" type="CheckBox" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid" unique_id=341252119]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "Деление (÷)"
-
-[node name="Sep2" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox" unique_id=1030471399]
-custom_minimum_size = Vector2(0, 1)
-layout_mode = 2
-color = Color(0.165, 0.2, 0.251, 0.1)
-
-[node name="BlockRange" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox" unique_id=1635326347]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Header" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange" unique_id=1772166109]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Icon" type="TextureRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange/Header" unique_id=1692719638]
-custom_minimum_size = Vector2(44, 44)
-layout_mode = 2
-texture = ExtResource("14_icon_range")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Title" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange/Header" unique_id=967794740]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 17
-text = "Диапазон чисел"
-vertical_alignment = 1
-
-[node name="RangeRows" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange" unique_id=1538229364]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="RowMin" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange/RangeRows" unique_id=1736176101]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="RowSpacer" type="Control" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange/RangeRows/RowMin" unique_id=737080535]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange/RangeRows/RowMin" unique_id=67914078]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "Минимум"
-
-[node name="MinStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange/RangeRows/RowMin" unique_id=453063141 instance=ExtResource("10_stepper")]
-
-[node name="RowMax" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange/RangeRows" unique_id=501439193]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="RowSpacer" type="Control" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange/RangeRows/RowMax" unique_id=1561485105]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange/RangeRows/RowMax" unique_id=810848810]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "Максимум"
-
-[node name="MaxStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockRange/RangeRows/RowMax" unique_id=422649790 instance=ExtResource("10_stepper")]
-
-[node name="Sep3" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox" unique_id=1543666128]
-custom_minimum_size = Vector2(0, 1)
-layout_mode = 2
-color = Color(0.165, 0.2, 0.251, 0.1)
-
-[node name="BlockSpeed" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox" unique_id=1609633447]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Header" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed" unique_id=212112213]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Icon" type="TextureRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed/Header" unique_id=360285761]
-custom_minimum_size = Vector2(44, 44)
-layout_mode = 2
-texture = ExtResource("15_icon_speed")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Title" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed/Header" unique_id=675801565]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 17
-text = "Скорость ответа"
-vertical_alignment = 1
-
-[node name="SpeedRow" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed" unique_id=1129158441]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="RowSpacer" type="Control" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed/SpeedRow" unique_id=202588097]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed/SpeedRow" unique_id=152650132]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "Время на ответ"
-
-[node name="SpeedStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed/SpeedRow" unique_id=481108367 instance=ExtResource("10_stepper")]
-
-[node name="SecLabel" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed/SpeedRow" unique_id=1449920433]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "сек."
-
-[node name="RoundCoeffsBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed" unique_id=2025585325]
-layout_mode = 2
-theme_override_constants/separation = 4
-
-[node name="AddRoundButton" type="Button" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed" unique_id=302177405]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-theme_override_styles/normal = SubResource("StyleBoxFlat_add_btn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_add_btn")
-theme_override_styles/hover = SubResource("StyleBoxFlat_add_btn")
-theme_override_styles/focus = SubResource("StyleBoxFlat_add_btn")
-text = "+ Добавить округление"
-
-[node name="Sep4" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox" unique_id=1720787778]
-custom_minimum_size = Vector2(0, 1)
-layout_mode = 2
-color = Color(0.165, 0.2, 0.251, 0.1)
-
-[node name="BlockEarlyExam" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox" unique_id=1715447818]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="Header" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam" unique_id=1804023797]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Icon" type="TextureRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/Header" unique_id=1735219722]
-custom_minimum_size = Vector2(44, 44)
-layout_mode = 2
-texture = ExtResource("16_icon_exam")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Texts" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/Header" unique_id=950403715]
-layout_mode = 2
-
-[node name="Title" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/Header/Texts" unique_id=894077748]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 17
-text = "Ранний экзамен"
-
-[node name="Subtitle" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/Header/Texts" unique_id=51937030]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.45, 0.48, 0.52, 1)
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 13
-text = "Множитель вопросов и скорости при досрочном экзамене"
-
-[node name="ExamRows" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam" unique_id=115954237]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="RowQuestionsMult" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows" unique_id=445814481]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="RowSpacer" type="Control" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowQuestionsMult" unique_id=502746449]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowQuestionsMult" unique_id=139190453]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "Множитель вопросов"
-
-[node name="QuestionsMultStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowQuestionsMult" unique_id=1943322506 instance=ExtResource("10_stepper")]
-
-[node name="RowSpeedMult" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows" unique_id=125093973]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="RowSpacer" type="Control" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowSpeedMult" unique_id=429151840]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowSpeedMult" unique_id=1020484032]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "Множитель скорости"
-
-[node name="SpeedMultStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowSpeedMult" unique_id=1445422818 instance=ExtResource("10_stepper")]
-
-[node name="RightVBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox" unique_id=2045079884]
-custom_minimum_size = Vector2(250, 0)
+[node name="OpsRow" type="HBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 12
 
-[node name="ExamPanel" type="PanelContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" unique_id=560322716]
+[node name="ColAddition" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
 layout_mode = 2
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxFlat_side")
 
-[node name="ExamVBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel" unique_id=1664430281]
+[node name="ColSubtraction" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
+layout_mode = 2
+
+[node name="ColMultiplication" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
+layout_mode = 2
+
+[node name="ColDivision" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
+layout_mode = 2
+
+[node name="DiffCard" type="PanelContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="DiffVBox" type="VBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="ExamTitle" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox" unique_id=310391948]
+[node name="DiffTitle" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.45, 0.32, 0.58, 1)
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 20
-text = "ЭКЗАМЕН"
+theme_override_font_sizes/font_size = 16
+text = "✦  СЛОЖНОСТЬ  ✦"
+horizontal_alignment = 1
 
-[node name="ExamText" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox" unique_id=2141031750]
+[node name="DiffHint" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.38, 0.42, 0.48, 1)
 theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 13
-text = "Экзамен проверяет навыки на повышенной сложности. Настрой параметры слева и начни практику."
-autowrap_mode = 3
+theme_override_font_sizes/font_size = 14
+text = "Средний темп, стандартное время на пример"
+horizontal_alignment = 1
 
-[node name="DifficultyLabel" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox" unique_id=1681496590]
+[node name="DiffRow" type="HBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Easy" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
+custom_minimum_size = Vector2(160, 44)
+layout_mode = 2
+caption = "ЛЕГКО"
+option_id = &"easy"
+
+[node name="Normal" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
+custom_minimum_size = Vector2(160, 44)
+layout_mode = 2
+caption = "НОРМАЛЬНО"
+option_id = &"normal"
+
+[node name="Hard" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
+custom_minimum_size = Vector2(160, 44)
+layout_mode = 2
+caption = "СЛОЖНО"
+option_id = &"hard"
+
+[node name="CustomRangeRow" type="HBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="CustomLabel" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 14
+text = "Свой диапазон:"
+
+[node name="MinCaption" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_font")
 theme_override_font_sizes/font_size = 14
-text = "Рекомендуемая сложность:"
+text = "мин"
 
-[node name="DifficultyBars" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox" unique_id=1717932562]
+[node name="MinStepper" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow" instance=ExtResource("12_stepper")]
 layout_mode = 2
-theme_override_constants/separation = 6
+
+[node name="MaxCaption" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 14
+text = "макс"
+
+[node name="MaxStepper" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow" instance=ExtResource("12_stepper")]
+layout_mode = 2
+
+[node name="ActionsRow" type="HBoxContainer" parent="CenterContainer/Stack"]
+layout_mode = 2
+theme_override_constants/separation = 28
 alignment = 1
 
-[node name="Bar1" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox/DifficultyBars" unique_id=1198857207]
-custom_minimum_size = Vector2(12, 18)
+[node name="ResetButton" type="TextureButton" parent="CenterContainer/Stack/ActionsRow"]
+material = SubResource("ShaderMaterial_action")
+custom_minimum_size = Vector2(112, 112)
 layout_mode = 2
-color = Color(0.55, 0.42, 0.72, 1)
+size_flags_horizontal = 4
+focus_mode = 0
+texture_normal = ExtResource("13_reset")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("15_hover")
 
-[node name="Bar2" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox/DifficultyBars" unique_id=853005968]
-custom_minimum_size = Vector2(12, 26)
+[node name="StartPractice" type="TextureButton" parent="CenterContainer/Stack/ActionsRow"]
+material = SubResource("ShaderMaterial_action")
+custom_minimum_size = Vector2(112, 112)
 layout_mode = 2
-color = Color(0.55, 0.42, 0.72, 1)
+size_flags_horizontal = 4
+focus_mode = 0
+texture_normal = ExtResource("14_start")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("15_hover")
 
-[node name="Bar3" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox/DifficultyBars" unique_id=360928557]
-custom_minimum_size = Vector2(12, 34)
-layout_mode = 2
-color = Color(0.55, 0.42, 0.72, 1)
-
-[node name="Bar4" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox/DifficultyBars" unique_id=473728909]
-custom_minimum_size = Vector2(12, 42)
-layout_mode = 2
-color = Color(0.55, 0.42, 0.72, 1)
-
-[node name="Bar5" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox/DifficultyBars" unique_id=1809909127]
-custom_minimum_size = Vector2(12, 50)
-layout_mode = 2
-color = Color(0.82, 0.78, 0.86, 1)
-
-[node name="DifficultyValue" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox" unique_id=1359082851]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.45, 0.32, 0.58, 1)
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "Высокая"
-horizontal_alignment = 1
-
-[node name="HelpPanel" type="PanelContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" unique_id=893993601]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_side")
-
-[node name="HelpVBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HelpPanel" unique_id=403606074]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="HelpTitle" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HelpPanel/HelpVBox" unique_id=400533812]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 16
-text = "Как это работает?"
-
-[node name="HelpText" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HelpPanel/HelpVBox" unique_id=1407240183]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38, 0.42, 0.48, 1)
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 13
-text = "• Больше здоровья — больше шансов на ошибку
-• Меньше времени — выше темп
-• Диапазон чисел задаёт сложность примеров
-• Округление ускоряет ответы после серии верных"
-autowrap_mode = 3
-
-[node name="ActionsRow" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox" unique_id=77448343]
-layout_mode = 2
-theme_override_constants/separation = 24
-alignment = 1
-
-[node name="LeftPad" type="Control" parent="CenterContainer/Content/BodyMargin/MainVBox/ActionsRow" unique_id=2110506915]
-custom_minimum_size = Vector2(23, 0)
-layout_mode = 2
-
-[node name="ResetButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ActionsRow" unique_id=1151271911 instance=ExtResource("11_action")]
-custom_minimum_size = Vector2(0, 44)
-caption_text = "СБРОСИТЬ"
-
-[node name="Icon" parent="CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/ResetButton/HBox" index="0"]
-visible = true
-
-[node name="StartPractice" parent="CenterContainer/Content/BodyMargin/MainVBox/ActionsRow" unique_id=1003187448 instance=ExtResource("11_action")]
-custom_minimum_size = Vector2(0, 44)
-is_primary = true
-icon_texture = ExtResource("17_icon_play")
-caption_text = "НАЧАТЬ ПРАКТИКУ"
-
-[node name="Icon" parent="CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/StartPractice/HBox" index="0"]
-visible = true
-
-[node name="RandomButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ActionsRow" unique_id=277548616 instance=ExtResource("11_action")]
-custom_minimum_size = Vector2(0, 44)
-icon_texture = ExtResource("18_icon_shuffle")
-caption_text = "СЛУЧАЙНЫЕ НАСТРОЙКИ"
-
-[node name="RightPad" type="Control" parent="CenterContainer/Content/BodyMargin/MainVBox/ActionsRow" unique_id=1481566040]
-custom_minimum_size = Vector2(23, 0)
-layout_mode = 2
-
-[node name="MenuWindowBack" parent="." unique_id=320332099 instance=ExtResource("7_menu_back")]
-
-[editable path="CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/ResetButton"]
-[editable path="CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/StartPractice"]
-[editable path="CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/RandomButton"]
+[node name="MenuWindowBack" parent="." instance=ExtResource("7_menu_back")]

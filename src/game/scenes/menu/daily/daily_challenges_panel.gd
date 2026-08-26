@@ -30,7 +30,7 @@ func refresh() -> void:
 		_slots[index].set_filled(is_filled)
 	var completed: int = daily_controller.get_completed_count()
 	if progress_label:
-		progress_label.text = "День %d из %d" % [completed, PData.DAILY_SLOT_COUNT]
+		progress_label.text = "%d / %d пройдено" % [completed, PData.DAILY_SLOT_COUNT]
 	_fit_slot_sizes()
 
 

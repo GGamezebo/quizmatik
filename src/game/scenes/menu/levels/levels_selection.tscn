@@ -9,9 +9,10 @@
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="8_menu_back"]
 [ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="9_dsain"]
 [ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="10_daily"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="11_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
-[node name="LevelsSelection" type="Control" unique_id=519807597 node_paths=PackedStringArray("grid_container", "progress", "back_button", "early_exam_dialog")]
+[node name="LevelsSelection" type="Control" node_paths=PackedStringArray("grid_container", "progress", "back_button", "early_exam_dialog", "exam_info_panel", "difficulty_label", "difficulty_bars")]
 z_index = 100
 layout_mode = 3
 anchors_preset = 15
@@ -22,27 +23,30 @@ grow_vertical = 2
 theme = ExtResource("theme_ui")
 script = ExtResource("1_k33vu")
 root_events = ExtResource("2_e017k")
-grid_container = NodePath("CenterContainer/MarginContainer/GridContainer")
+grid_container = NodePath("CenterContainer/MarginContainer/Column/GridContainer")
 level_button = ExtResource("1_dluyd")
 levels = ExtResource("3_c7uxm")
 container_id = "container_1_addition"
 progress = NodePath("ProgressController")
 back_button = NodePath("MenuWindowBack/Back")
 early_exam_dialog = NodePath("EarlyExamDialog")
+exam_info_panel = NodePath("CenterContainer/MarginContainer/Column/ExamInfoPanel")
+difficulty_label = NodePath("CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock/DifficultyValue")
+difficulty_bars = [NodePath("CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock/Bars/Bar1"), NodePath("CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock/Bars/Bar2"), NodePath("CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock/Bars/Bar3"), NodePath("CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock/Bars/Bar4"), NodePath("CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock/Bars/Bar5")]
 
-[node name="EarlyExamDialog" parent="." unique_id=412838649 instance=ExtResource("6_confirm")]
+[node name="EarlyExamDialog" parent="." instance=ExtResource("6_confirm")]
 
-[node name="ProgressController" parent="." unique_id=2109216065 instance=ExtResource("5_wsbu4")]
+[node name="ProgressController" parent="." instance=ExtResource("5_wsbu4")]
 
-[node name="DailyChallengesController" parent="." unique_id=79809213 instance=ExtResource("10_daily")]
+[node name="DailyChallengesController" parent="." instance=ExtResource("10_daily")]
 
-[node name="Background2" parent="." unique_id=1301843701 node_paths=PackedStringArray("daily_controller") instance=ExtResource("9_dsain")]
+[node name="Background2" parent="." node_paths=PackedStringArray("daily_controller") instance=ExtResource("9_dsain")]
 sky_scroll_speed = 0.015
 paint_from_daily = true
 daily_controller = NodePath("../DailyChallengesController")
 idle_color_amount = 0.08
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1882960893]
+[node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -50,18 +54,156 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer" unique_id=1973629566]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="GridContainer" type="GridContainer" parent="CenterContainer/MarginContainer" unique_id=294495911]
-custom_minimum_size = Vector2(600, 600)
+[node name="Column" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
 layout_mode = 2
-theme_override_constants/h_separation = 40
-theme_override_constants/v_separation = 60
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/MarginContainer/Column"]
+custom_minimum_size = Vector2(560, 440)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 24
 columns = 5
 
-[node name="MenuWindowBack" parent="." unique_id=631529508 instance=ExtResource("8_menu_back")]
+[node name="ExamInfoPanel" type="PanelContainer" parent="CenterContainer/MarginContainer/Column"]
+custom_minimum_size = Vector2(340, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="Body" type="HBoxContainer" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="InfoBadge" type="Panel" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="InfoLetter" type="Label" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/InfoBadge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 16
+text = "i"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextCol" type="VBoxContainer" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 1
+
+[node name="Title" type="Label" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/TextCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.24, 0.28, 1)
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 14
+text = "Экзамен доступен всегда!"
+autowrap_mode = 3
+
+[node name="Subtitle" type="Label" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/TextCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.4, 0.38, 1)
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 10
+text = "Сложность зависит от прогресса:"
+autowrap_mode = 3
+
+[node name="Bullet1" type="Label" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/TextCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.34, 0.32, 1)
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 10
+text = "• Все уровни пройдены — базовая"
+autowrap_mode = 3
+
+[node name="Bullet2" type="Label" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/TextCol"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.34, 0.32, 1)
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 10
+text = "• Есть пропущенные — выше"
+autowrap_mode = 3
+
+[node name="DifficultyBlock" type="VBoxContainer" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body"]
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="DifficultyCaption" type="Label" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.4, 0.38, 1)
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 9
+text = "Сложность:"
+horizontal_alignment = 1
+
+[node name="Bars" type="HBoxContainer" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock"]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="Bar1" type="ColorRect" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock/Bars"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 8
+color = Color(0.55, 0.42, 0.72, 1)
+
+[node name="Bar2" type="ColorRect" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock/Bars"]
+custom_minimum_size = Vector2(10, 14)
+layout_mode = 2
+size_flags_vertical = 8
+color = Color(0.55, 0.42, 0.72, 1)
+
+[node name="Bar3" type="ColorRect" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock/Bars"]
+custom_minimum_size = Vector2(10, 18)
+layout_mode = 2
+size_flags_vertical = 8
+color = Color(0.78, 0.74, 0.7, 1)
+
+[node name="Bar4" type="ColorRect" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock/Bars"]
+custom_minimum_size = Vector2(10, 22)
+layout_mode = 2
+size_flags_vertical = 8
+color = Color(0.78, 0.74, 0.7, 1)
+
+[node name="Bar5" type="ColorRect" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock/Bars"]
+custom_minimum_size = Vector2(10, 28)
+layout_mode = 2
+size_flags_vertical = 8
+color = Color(0.78, 0.74, 0.7, 1)
+
+[node name="DifficultyValue" type="Label" parent="CenterContainer/MarginContainer/Column/ExamInfoPanel/Margin/Body/DifficultyBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.32, 0.58, 1)
+theme_override_fonts/font = ExtResource("11_font")
+theme_override_font_sizes/font_size = 12
+text = "Высокая"
+horizontal_alignment = 1
+
+[node name="MenuWindowBack" parent="." instance=ExtResource("8_menu_back")]

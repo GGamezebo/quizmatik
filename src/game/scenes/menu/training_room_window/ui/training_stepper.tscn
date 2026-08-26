@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c8trainingstepper01"]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/training_room_window/ui/training_stepper.gd" id="1_script"]
-[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_step_btn"]
 bg_color = Color(0.96, 0.93, 0.87, 1)

@@ -1,8 +1,6 @@
-[gd_resource type="SystemFont" format=3 uid="uid://diy6rnlbukphg"]
+[gd_resource type="FontVariation" format=3 uid="uid://diy6rnlbukphg"]
+
+[ext_resource type="FontFile" path="res://assets/fonts/Nunito-Bold.ttf" id="1_nunito"]
 
 [resource]
-font_names = PackedStringArray("Arial Rounded MT Bold", "SF Pro Rounded", "Nunito", "Varela Round", "Segoe UI", "Helvetica Neue", "Roboto", "Noto Sans", "sans-serif")
-font_weight = 700
-antialiasing = 1
-hinting = 1
-subpixel_positioning = 1
+base_font = ExtResource("1_nunito")

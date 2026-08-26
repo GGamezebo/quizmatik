@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dk5mrcm7eq40o" path="res://src/game/scenes/menu/ui/menu_cta_button.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dt8i6prsb1087" path="res://src/game/scenes/menu/ui/icon_map.png" id="2_icon"]
-[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="3_font"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="3_font"]
 [ext_resource type="Texture2D" uid="uid://bmrw6xiwwmbba" path="res://src/game/scenes/menu/ui/btn_cta_wide.png" id="4_frame"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="5_shadow"]
 

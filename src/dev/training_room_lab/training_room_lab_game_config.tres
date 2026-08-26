@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="GameConfig" format=3 uid="uid://c8trainlabcfg0001"]
+
+[ext_resource type="Script" uid="uid://cjyn2dgnipjnn" path="res://src/common/game_config_default.gd" id="1_ngchb"]
+
+[resource]
+script = ExtResource("1_ngchb")
