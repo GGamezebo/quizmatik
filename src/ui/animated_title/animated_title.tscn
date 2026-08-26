@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/ui/animated_title/animated_title.gd" id="1_script"]
+[ext_resource type="FontVariation" uid="uid://dyt157qapui8s" path="res://core/theme/title_font.tres" id="2_title_font"]
+
+[node name="AnimatedTitle" type="Control"]
+custom_minimum_size = Vector2(640, 72)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+script = ExtResource("1_script")
+title_text = "Улётная математика"
+title_font = ExtResource("2_title_font")
+font_size = 58

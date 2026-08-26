@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://cu637lmffdld0" path="res://src/features/answer/answer.gd" id="1_uxhp0"]
 [ext_resource type="Texture2D" uid="uid://dpyvhpkltxbd7" path="res://src/features/answer/balloons_atlas.png" id="2_0rjkt"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="3_4ksk8"]
-[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="3_font"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="3_font"]
 [ext_resource type="PackedScene" path="res://src/features/answer/balloon_pop.tscn" id="4_pop"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8vrlf"]

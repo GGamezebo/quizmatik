@@ -7,10 +7,13 @@
 [ext_resource type="Script" uid="uid://dg8bdljs16a6h" path="res://core/lib/window_stack_manager/button_window_back.gd" id="4_back"]
 [ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://core/lib/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
 [ext_resource type="PackedScene" uid="uid://uv20ca6fbxsu" path="res://src/game/scenes/menu/training_room_window/training_room_window.tscn" id="5_training_room"]
+[ext_resource type="PackedScene" uid="uid://c8trainlabwindow01" path="res://src/dev/training_room_lab/training_room_lab_window.tscn" id="5_training_lab"]
 [ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="6_kcyx7"]
 [ext_resource type="PackedScene" uid="uid://d3sdqmf0acdft" path="res://src/ui/backgrounds/background_host.tscn" id="6_levels_bg_host"]
 [ext_resource type="Resource" uid="uid://b117f7np5nlps" path="res://src/game/scenes/menu/training_room_window/training_room_game_config.tres" id="6_vp6ju"]
+[ext_resource type="Resource" uid="uid://c8trainlabcfg0001" path="res://src/dev/training_room_lab/training_room_lab_game_config.tres" id="6_lab_cfg"]
 [ext_resource type="Script" uid="uid://7sd3kio5id34" path="res://src/game/scenes/menu/music_mute_button.gd" id="8_82bx7"]
+[ext_resource type="Script" path="res://src/dev/training_room_lab/editor_only_host.gd" id="8_editor_only"]
 [ext_resource type="Script" uid="uid://dxdf03het6j0r" path="res://src/game/scenes/game/ui/sound_mute_button.gd" id="8_sfxmute"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="9_3qhmn"]
 [ext_resource type="Script" uid="uid://duom6pk08ldyp" path="res://src/game/scenes/menu/levels/levels_choice_window.gd" id="11_3k6yn"]
@@ -37,6 +40,7 @@
 [ext_resource type="Script" uid="uid://ck4e2cg1qd712" path="res://src/game/scenes/menu/levels/levels_pack_carousel.gd" id="38_carousel"]
 [ext_resource type="PackedScene" uid="uid://cnegahp1oscak" path="res://src/game/scenes/menu/levels/pack_page_dot.tscn" id="39_dot"]
 [ext_resource type="FontVariation" uid="uid://dyt157qapui8s" path="res://core/theme/title_font.tres" id="40_title_font"]
+[ext_resource type="PackedScene" path="res://src/ui/animated_title/animated_title.tscn" id="41_animated_title"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
@@ -51,15 +55,17 @@ shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
 
-[node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "levels_choice_window", "start_button", "training_room_start_button", "exit_button")]
+[node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "levels_choice_window", "start_button", "training_room_start_button", "training_lab_start_button", "exit_button")]
 script = ExtResource("1_5oxuo")
 root_events = ExtResource("2_35kkh")
 menu_events = ExtResource("3_k2ump")
 windows_stack_manager = NodePath("UI/StackWindowController")
 levels_choice_window = NodePath("UI/LevelsWindow")
 training_room_config = ExtResource("6_vp6ju")
+training_lab_config = ExtResource("6_lab_cfg")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start")
-training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/StartPractice")
+training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/Stack/ActionsRow/StartPractice")
+training_lab_start_button = NodePath("UI/TrainingRoomLabWindow/CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/StartPractice")
 exit_button = NodePath("UI/MainMenuWindow/ExitMargin/Exit")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2419366]
@@ -88,6 +94,15 @@ target_window = NodePath("../../TrainingRoomWindow")
 [node name="TrainingRoomBack" type="Node" parent="UI/StackWindowController" unique_id=545675404 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
 button = NodePath("../../TrainingRoomWindow/MenuWindowBack/Back")
+
+[node name="TrainingRoomLabOpen" type="Node" parent="UI/StackWindowController" unique_id=1342848865 node_paths=PackedStringArray("button", "target_window")]
+script = ExtResource("4_haj1v")
+button = NodePath("../../MainMenuWindow/TrainingLabMargin/TrainingLab")
+target_window = NodePath("../../TrainingRoomLabWindow")
+
+[node name="TrainingRoomLabBack" type="Node" parent="UI/StackWindowController" unique_id=545675405 node_paths=PackedStringArray("button")]
+script = ExtResource("4_back")
+button = NodePath("../../TrainingRoomLabWindow/MenuWindowBack/Back")
 
 [node name="SettingsWindowOpen" type="Node" parent="UI/StackWindowController" unique_id=226461501 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
@@ -187,22 +202,19 @@ layout_mode = 2
 theme_override_constants/separation = 18
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=877131779]
-custom_minimum_size = Vector2(0, 40)
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/margin_top = 24
 theme_override_constants/margin_bottom = 30
 
-[node name="Label" type="Label" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer/MarginContainer" unique_id=1617486808]
+[node name="AnimatedTitle" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer/MarginContainer" unique_id=1617486808 instance=ExtResource("41_animated_title")]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_stretch_ratio = 1.3
-theme_override_constants/shadow_offset_x = 0
-theme_override_constants/shadow_offset_y = 0
-theme_override_constants/outline_size = 0
-theme_override_fonts/font = ExtResource("40_title_font")
-theme_override_font_sizes/font_size = 58
-text = "Улётная математика"
-horizontal_alignment = 1
+title_font = ExtResource("40_title_font")
+font_size = 58
+fall_distance = 160.0
+idle_wave = true
 
 [node name="CtaRow" type="HBoxContainer" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=1589160987]
 layout_mode = 2
@@ -270,6 +282,25 @@ theme_override_constants/margin_bottom = 30
 [node name="Exit" parent="UI/MainMenuWindow/ExitMargin" unique_id=592785053 instance=ExtResource("30_circle_btn")]
 layout_mode = 2
 image = ExtResource("33_icon_exit")
+metadata/hover_scale_bound = true
+
+[node name="TrainingLabMargin" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=1074935489]
+visible = false
+z_index = 30
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -150.0
+offset_right = 150.0
+grow_vertical = 0
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_bottom = 30
+script = ExtResource("8_editor_only")
+
+[node name="TrainingLab" parent="UI/MainMenuWindow/TrainingLabMargin" unique_id=592785054 instance=ExtResource("30_circle_btn")]
+layout_mode = 2
+image = ExtResource("15_op54q")
 metadata/hover_scale_bound = true
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("carousel", "progress", "windows_stack_manager", "level_selection_window", "background_host")]
@@ -345,6 +376,9 @@ layout_mode = 1
 container_id = "addition"
 
 [node name="TrainingRoomWindow" parent="UI" unique_id=326554877 instance=ExtResource("5_training_room")]
+visible = false
+
+[node name="TrainingRoomLabWindow" parent="UI" unique_id=326554878 instance=ExtResource("5_training_lab")]
 visible = false
 
 [node name="SettingsWindow" parent="UI" unique_id=2314529 instance=ExtResource("20_r0b7e")]

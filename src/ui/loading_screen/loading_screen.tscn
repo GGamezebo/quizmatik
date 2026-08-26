@@ -13,47 +13,55 @@ font_color = Color(0.165, 0.2, 0.251, 1)
 outline_size = 8
 outline_color = Color(0.98, 0.95, 0.9, 0.95)
 
-[node name="LoadingScreen" type="CanvasLayer" unique_id=1540173069 node_paths=PackedStringArray("progress_bar", "background")]
+[node name="LoadingScreen" type="CanvasLayer" node_paths=PackedStringArray("progress_bar", "background")]
 script = ExtResource("1_8cml4")
 progress_bar = NodePath("CanvasGroup/VBoxContainer/ProgressBar")
 background = NodePath("CanvasGroup")
 
-[node name="CanvasGroup" type="CanvasGroup" parent="." unique_id=173957903]
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
 
-[node name="ColorRect" type="ColorRect" parent="CanvasGroup" unique_id=1837273481]
+[node name="ColorRect" type="ColorRect" parent="CanvasGroup"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 1280.0
-offset_bottom = 720.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.22, 0.22, 0.22, 1)
 
-[node name="TextureRect" type="TextureRect" parent="CanvasGroup" unique_id=1858456992]
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup"]
 material = SubResource("ShaderMaterial_gray")
-offset_right = 1722.6667
-offset_bottom = 1024.0
-scale = Vector2(0.75, 0.75)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("2_hdbts")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup" unique_id=544803380]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasGroup"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 491.5
-offset_top = 300.5
-offset_right = 788.5
-offset_bottom = 419.5
+offset_left = -148.5
+offset_top = -60.0
+offset_right = 148.5
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 12
+alignment = 1
 
-[node name="Label" type="Label" parent="CanvasGroup/VBoxContainer" unique_id=1779033421]
+[node name="Label" type="Label" parent="CanvasGroup/VBoxContainer"]
 layout_mode = 2
 text = "Loading..."
 label_settings = SubResource("LabelSettings_a8kcw")
+horizontal_alignment = 1
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasGroup/VBoxContainer" unique_id=409825753]
+[node name="ProgressBar" type="ProgressBar" parent="CanvasGroup/VBoxContainer"]
+custom_minimum_size = Vector2(280, 24)
 layout_mode = 2

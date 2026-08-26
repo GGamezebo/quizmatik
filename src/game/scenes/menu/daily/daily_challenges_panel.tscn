@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bmrw6xiwwmbba" path="res://src/game/scenes/menu/ui/btn_cta_wide.png" id="4_frame"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="5_shadow"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/ui/icon_calendar.png" id="6_cal"]
-[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="7_font"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="7_font"]
 [ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="8_title_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
@@ -100,7 +100,7 @@ vertical_alignment = 1
 
 [node name="Progress" type="Label" parent="Margin/VBox/Header"]
 layout_mode = 2
-text = "День 0 из 5"
+text = "0 / 5 пройдено"
 label_settings = SubResource("LabelSettings_progress")
 horizontal_alignment = 2
 vertical_alignment = 1

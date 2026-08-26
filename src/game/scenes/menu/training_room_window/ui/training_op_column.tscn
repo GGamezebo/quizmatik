@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dfuy8tacmwqma"]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/training_room_window/ui/training_op_column.gd" id="1_script"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
+[ext_resource type="PackedScene" uid="uid://dfu0abvkawqma" path="res://src/game/scenes/menu/training_room_window/ui/training_option_button.tscn" id="3_opt"]
+
+[node name="TrainingOpColumn" type="VBoxContainer" node_paths=PackedStringArray("title_label", "options_box")]
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+script = ExtResource("1_script")
+title_label = NodePath("Title")
+options_box = NodePath("Options")
+option_button_scene = ExtResource("3_opt")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 15
+text = "ОПЕРАЦИЯ"
+horizontal_alignment = 1
+
+[node name="Options" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6

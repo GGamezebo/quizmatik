@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://c8trainingactionbtn1"]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/training_room_window/ui/training_action_button.gd" id="1_script"]
-[ext_resource type="SystemFont" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
 
 [node name="TrainingActionButton" type="Button" node_paths=PackedStringArray("icon_rect", "caption")]
-custom_minimum_size = Vector2(180, 44)
+custom_minimum_size = Vector2(280, 52)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 0
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 16
 theme_override_styles/normal = SubResource("StyleBoxEmpty_hit")

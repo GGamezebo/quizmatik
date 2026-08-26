@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dfu0abvkawqma"]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/training_room_window/ui/training_option_button.gd" id="1_script"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
+
+[node name="TrainingOptionButton" type="Button"]
+custom_minimum_size = Vector2(0, 40)
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 15
+script = ExtResource("1_script")
