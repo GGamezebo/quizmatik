@@ -1,44 +1,33 @@
 [gd_scene format=3 uid="uid://dailyslot00001"]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/daily/daily_slot.gd" id="1_slot"]
-[ext_resource type="Texture2D" uid="uid://dj5bxtw0dw0ke" path="res://assets/ui/icons/star_empty.png" id="2_star_empty"]
-[ext_resource type="Texture2D" uid="uid://clq8x5grir3ri" path="res://assets/ui/icons/star_filled.png" id="3_star_filled"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/daily/ui/stamp_empty.png" id="2_empty"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/daily/ui/stamp_sun.png" id="3_filled"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot"]
-bg_color = Color(0.953, 0.902, 0.784, 0.95)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.165, 0.2, 0.251, 0.75)
-corner_radius_top_left = 35
-corner_radius_top_right = 35
-corner_radius_bottom_right = 35
-corner_radius_bottom_left = 35
-shadow_color = Color(0.15, 0.12, 0.08, 0.18)
-shadow_size = 3
-
-[node name="DailySlot" type="PanelContainer" node_paths=PackedStringArray("mark")]
-custom_minimum_size = Vector2(68, 68)
+[node name="DailySlot" type="Control" node_paths=PackedStringArray("mark")]
+custom_minimum_size = Vector2(96, 96)
 size_flags_horizontal = 4
-clip_contents = true
 mouse_filter = 2
 theme = ExtResource("theme_ui")
-theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
 script = ExtResource("1_slot")
 mark = NodePath("Center/Mark")
-star_empty = ExtResource("2_star_empty")
-star_filled = ExtResource("3_star_filled")
+stamp_empty = ExtResource("2_empty")
+stamp_filled = ExtResource("3_filled")
 
 [node name="Center" type="CenterContainer" parent="."]
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
 [node name="Mark" type="TextureRect" parent="Center"]
-custom_minimum_size = Vector2(46, 46)
+custom_minimum_size = Vector2(90, 90)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("2_star_empty")
+texture = ExtResource("2_empty")
 expand_mode = 1
 stretch_mode = 5

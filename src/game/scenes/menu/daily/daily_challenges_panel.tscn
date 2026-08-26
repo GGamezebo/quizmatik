@@ -3,17 +3,17 @@
 [ext_resource type="Script" uid="uid://dmjp0ugdseco5" path="res://src/game/scenes/menu/daily/daily_challenges_panel.gd" id="1_panel"]
 [ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="2_ctrl"]
 [ext_resource type="PackedScene" uid="uid://b00dg4sbcrab5" path="res://src/game/scenes/menu/daily/daily_slot.tscn" id="3_slot"]
-[ext_resource type="Texture2D" uid="uid://bmrw6xiwwmbba" path="res://src/game/scenes/menu/ui/btn_cta_wide.png" id="4_frame"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/daily/ui/daily_scroll.png" id="4_scroll"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="5_shadow"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/ui/icon_calendar.png" id="6_cal"]
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="7_font"]
-[ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="8_title_font"]
+[ext_resource type="FontVariation" uid="uid://dyt157qapui8s" path="res://core/theme/title_font.tres" id="8_title_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_shadow"]
 shader = ExtResource("5_shadow")
-shader_parameter/shadow_offset = Vector2(-4, 8)
-shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
+shader_parameter/shadow_offset = Vector2(-3, 6)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.28)
 shader_parameter/shadow_blur = 2.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
@@ -28,20 +28,20 @@ font = ExtResource("7_font")
 font_size = 18
 font_color = Color(0.32, 0.36, 0.4, 1)
 
-[node name="DailyChallengesPanel" type="Control" unique_id=891062476 node_paths=PackedStringArray("daily_controller", "slots_row", "title_label", "progress_label")]
-custom_minimum_size = Vector2(660, 168)
+[node name="DailyChallengesPanel" type="Control" node_paths=PackedStringArray("daily_controller", "slots_row", "title_label", "progress_label")]
+custom_minimum_size = Vector2(660, 265)
 mouse_filter = 2
 theme = ExtResource("theme_ui")
 script = ExtResource("1_panel")
 daily_controller = NodePath("DailyChallengesController")
 slots_row = NodePath("Margin/VBox/SlotsRow")
 slot_scene = ExtResource("3_slot")
-title_label = NodePath("Margin/VBox/Header/Title")
-progress_label = NodePath("Margin/VBox/Header/Progress")
+title_label = NodePath("Margin/VBox/HeaderWrap/Header/Title")
+progress_label = NodePath("Margin/VBox/HeaderWrap/Header/Progress")
 
-[node name="DailyChallengesController" parent="." unique_id=79809210 instance=ExtResource("2_ctrl")]
+[node name="DailyChallengesController" parent="." instance=ExtResource("2_ctrl")]
 
-[node name="Frame" type="NinePatchRect" parent="."]
+[node name="Scroll" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_shadow")
 layout_mode = 1
 anchors_preset = 15
@@ -50,15 +50,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("4_frame")
-patch_margin_left = 70
-patch_margin_top = 60
-patch_margin_right = 70
-patch_margin_bottom = 60
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
+texture = ExtResource("4_scroll")
+expand_mode = 1
+stretch_mode = 4
 
 [node name="Margin" type="MarginContainer" parent="."]
+z_index = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -66,23 +63,29 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 14
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_left = 46
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 46
+theme_override_constants/margin_bottom = 20
 
 [node name="VBox" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 6
-alignment = 1
+theme_override_constants/separation = 25
+alignment = 0
 
-[node name="Header" type="HBoxContainer" parent="Margin/VBox"]
+[node name="HeaderWrap" type="MarginContainer" parent="Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 56
+theme_override_constants/margin_right = 56
+
+[node name="Header" type="HBoxContainer" parent="Margin/VBox/HeaderWrap"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 10
 
-[node name="Icon" type="TextureRect" parent="Margin/VBox/Header"]
+[node name="Icon" type="TextureRect" parent="Margin/VBox/HeaderWrap/Header"]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 size_flags_vertical = 4
@@ -91,19 +94,22 @@ texture = ExtResource("6_cal")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Title" type="Label" parent="Margin/VBox/Header"]
+[node name="Title" type="Label" parent="Margin/VBox/HeaderWrap/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Ежедневная серия"
 label_settings = SubResource("LabelSettings_title")
 vertical_alignment = 1
+clip_text = true
 
-[node name="Progress" type="Label" parent="Margin/VBox/Header"]
+[node name="Progress" type="Label" parent="Margin/VBox/HeaderWrap/Header"]
 layout_mode = 2
+size_flags_horizontal = 0
 text = "0 / 5 пройдено"
 label_settings = SubResource("LabelSettings_progress")
 horizontal_alignment = 2
 vertical_alignment = 1
+clip_text = true
 
 [node name="SlotsRow" type="HBoxContainer" parent="Margin/VBox"]
 layout_mode = 2
