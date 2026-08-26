@@ -8,8 +8,8 @@ extends Control
 @export var slot_scene: PackedScene
 @export var title_label: Label
 @export var progress_label: Label
-@export var slot_size_max: float = 70.0
-@export var slot_size_min: float = 66.0
+@export var slot_size_max: float = 96.0
+@export var slot_size_min: float = 88.0
 
 var _slots: Array[DailySlot] = []
 var _event_listener = EventListener.new()
@@ -59,5 +59,7 @@ func _fit_slot_sizes() -> void:
 	var slot_size := Vector2(side, side)
 	for slot in _slots:
 		slot.custom_minimum_size = slot_size
-		if slot.has_method("_fit_star"):
+		if slot.has_method("_fit_mark"):
+			slot.call_deferred("_fit_mark")
+		elif slot.has_method("_fit_star"):
 			slot.call_deferred("_fit_star")
