@@ -1,42 +1,39 @@
-[gd_resource type="Resource" script_class="GameConfig" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="GameConfig" format=3 uid="uid://b524bqhrxhs5s"]
 
-[ext_resource type="Script" path="res://src/common/game_config_default.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://cjyn2dgnipjnn" path="res://src/common/game_config_default.gd" id="1_script"]
 
 [resource]
 script = ExtResource("1_script")
+questions_count = 1
 allowed_operations = 1
 min_generate_number = 5
 max_generate_number = 25
-answer_lines_count = 4
-health = 3
-questions_count = 18
 answer_speed = 95.0
 answer_speed_round_coeffs = {
 6: 1.15,
 12: 1.3,
 15: 1.45,
-18: 1.55,
+18: 1.55
 }
 generate_number_round_ranges = {
 6: {
-"min_generate_number": 10,
 "max_generate_number": 40,
+"min_generate_number": 10
 },
 12: {
-"min_generate_number": 15,
 "max_generate_number": 60,
+"min_generate_number": 15
 },
 15: {
-"min_generate_number": 20,
 "max_generate_number": 80,
+"min_generate_number": 20
 },
 18: {
-"min_generate_number": 25,
 "max_generate_number": 99,
-},
+"min_generate_number": 25
 }
-player_acceleration_min = 0.65
-player_acceleration_max = 1.65
-player_acceleration_speed = 1.0
+}
 early_exam_questions_multiplier = 1.5
 early_exam_answer_speed_multiplier = 1.25
+player_acceleration_min = 0.65
+player_acceleration_max = 1.65

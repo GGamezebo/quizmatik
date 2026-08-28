@@ -1,6 +1,6 @@
 extends Button
 
-## Square cream level tile. Next = green; exam = purple + cap (same size as regular).
+## Square cream level tile. Next = green; exam = purple + graduation-cap overlay.
 
 const CREAM := Color(0.992, 0.984, 0.957, 1.0)
 const CREAM_LOCKED := Color(0.94, 0.92, 0.88, 1.0)
@@ -20,6 +20,7 @@ const TILE_SIZE := Vector2(100, 100)
 @export var star_filled: Texture2D
 @export var stamp_rect: TextureRect
 @export var exam_icon: TextureRect
+@export var exam_cap: TextureRect
 @export var exam_title: Label
 @export var exam_hint: Label
 @export var exam_header: Control
@@ -35,6 +36,7 @@ var _stars_count: int = 0
 
 ## Slight ink-stamp tilt so completed tiles don't look identical.
 const STAMP_ROTATION_DEG := 8.0
+const STAMP_PIVOT := Vector2(24, 24)
 
 const INNER_BORDER := 2
 const INNER_CORNER := 12
@@ -91,14 +93,12 @@ func set_as_next(is_next: bool) -> void:
 func _set_params(is_unlocked: bool, stars_count: int) -> void:
 	_unlocked = is_unlocked
 	_stars_count = clampi(stars_count, 0, 3)
-	var completed := _stars_count >= 1
 	for i in range(stars.size()):
-		stars[i].visible = not completed
-		if not completed:
-			stars[i].modulate = Color(1, 1, 1, 1.0 if (_unlocked or is_exam) else 0.7)
-			stars[i].texture = star_filled if i < _stars_count else star_empty
+		stars[i].visible = true
+		stars[i].modulate = Color(1, 1, 1, 1.0 if (_unlocked or is_exam) else 0.7)
+		stars[i].texture = star_filled if i < _stars_count else star_empty
 
-	_refresh_stamp(completed)
+	_refresh_stamp(_stars_count >= 1)
 	disabled = not is_exam and not is_unlocked
 	_refresh_chrome()
 
@@ -112,20 +112,23 @@ func _refresh_stamp(completed: bool) -> void:
 		return
 	stamp_rect.texture = LevelPackArt.get_exam_stamp(_stars_count)
 	stamp_rect.visible = stamp_rect.texture != null
-	stamp_rect.pivot_offset = stamp_rect.size * 0.5 if stamp_rect.size.x > 1.0 else Vector2(28, 28)
+	stamp_rect.pivot_offset = stamp_rect.size * 0.5 if stamp_rect.size.x > 1.0 else STAMP_PIVOT
 	stamp_rect.rotation_degrees = STAMP_ROTATION_DEG
 
 
 func _apply_exam_layout() -> void:
 	custom_minimum_size = TILE_SIZE
+	# Cap silhouette replaces the tiny corner icon.
+	if exam_cap:
+		exam_cap.visible = is_exam
 	if exam_icon:
-		exam_icon.visible = is_exam
+		exam_icon.visible = false
 	if exam_header:
 		exam_header.visible = is_exam
 	if exam_title:
 		exam_title.visible = is_exam
 	if exam_hint:
-		exam_hint.visible = is_exam
+		exam_hint.visible = false
 	if text_lable:
 		text_lable.visible = not is_exam
 	if next_badge and is_exam:
@@ -161,12 +164,13 @@ func _refresh_chrome() -> void:
 
 	if text_lable:
 		text_lable.add_theme_color_override("font_color", GRAPHITE)
-		# Keep number readable; lock sits in the corner and no longer covers it.
 		text_lable.modulate.a = 1.0 if _unlocked else 0.85
 	if exam_title:
 		exam_title.add_theme_color_override("font_color", PURPLE_TEXT)
+		exam_title.modulate.a = 1.0
 	if exam_hint:
 		exam_hint.add_theme_color_override("font_color", GRAPHITE)
+		exam_hint.modulate.a = 1.0
 
 
 func _refresh_inner_frame(outer_border: Color) -> void:

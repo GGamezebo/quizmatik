@@ -5,10 +5,11 @@
 [ext_resource type="Texture2D" uid="uid://clq8x5grir3ri" path="res://assets/ui/icons/star_filled.png" id="3_star_filled"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/icon_exam.png" id="4_exam"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/icon_lock.png" id="5_lock"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/exam_cap_overlay.png" id="6_cap"]
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="6_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 
-[node name="Level" type="Button" node_paths=PackedStringArray("text_lable", "stars", "stamp_rect", "exam_icon", "exam_title", "exam_hint", "exam_header", "next_badge", "lock_icon", "inner_frame")]
+[node name="Level" type="Button" node_paths=PackedStringArray("text_lable", "stars", "stamp_rect", "exam_icon", "exam_cap", "exam_title", "exam_hint", "exam_header", "next_badge", "lock_icon", "inner_frame")]
 custom_minimum_size = Vector2(100, 100)
 offset_right = 100.0
 offset_bottom = 100.0
@@ -23,6 +24,7 @@ star_empty = ExtResource("2_star_empty")
 star_filled = ExtResource("3_star_filled")
 stamp_rect = NodePath("Stamp")
 exam_icon = NodePath("ExamIcon")
+exam_cap = NodePath("ExamCap")
 exam_title = NodePath("Main/ExamCol/ExamTitle")
 exam_hint = NodePath("Main/ExamCol/ExamHint")
 exam_header = NodePath("Main/ExamCol")
@@ -86,6 +88,23 @@ texture = ExtResource("4_exam")
 expand_mode = 1
 stretch_mode = 5
 
+[node name="ExamCap" type="TextureRect" parent="."]
+visible = false
+z_index = 3
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_top = -21.0
+offset_right = 50.0
+offset_bottom = 37.0
+grow_horizontal = 2
+mouse_filter = 2
+texture = ExtResource("6_cap")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="LockIcon" type="TextureRect" parent="."]
 visible = false
 z_index = 2
@@ -107,17 +126,14 @@ stretch_mode = 5
 visible = false
 z_index = 2
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -28.0
-offset_top = 8.0
-offset_right = 28.0
-offset_bottom = 64.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -50.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = 50.0
+grow_horizontal = 0
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
@@ -158,9 +174,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -44.0
-offset_top = -22.0
+offset_top = -23.0
 offset_right = 44.0
-offset_bottom = 22.0
+offset_bottom = 9.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0

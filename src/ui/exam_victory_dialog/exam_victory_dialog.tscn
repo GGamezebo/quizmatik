@@ -1,0 +1,171 @@
+[gd_scene format=3 uid="uid://b7examvictorydlg"]
+
+[ext_resource type="Script" path="res://src/ui/exam_victory_dialog/exam_victory_dialog.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Script" path="res://src/ui/buttons/hover_scale_binder.gd" id="2_hover_binder"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/ui/btn_check.png" id="3_check"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="4_shadow"]
+[ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="5_title_font"]
+[ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="6_levels"]
+
+[sub_resource type="Gradient" id="Gradient_kcyx7"]
+colors = PackedColorArray(0.165, 0.2, 0.251, 0.55, 0.953, 0.902, 0.784, 0.08)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_r4ora"]
+gradient = SubResource("Gradient_kcyx7")
+
+[sub_resource type="Gradient" id="Gradient_overlay"]
+colors = PackedColorArray(0.12, 0.1, 0.08, 0.45, 0.953, 0.902, 0.784, 0.12)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_overlay"]
+gradient = SubResource("Gradient_overlay")
+width = 1280
+height = 720
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 40.0
+content_margin_top = 36.0
+content_margin_right = 40.0
+content_margin_bottom = 36.0
+bg_color = Color(0.953, 0.902, 0.784, 0.96)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+shadow_color = Color(0.15, 0.12, 0.08, 0.28)
+shadow_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("5_title_font")
+font_size = 48
+font_color = Color(0.22, 0.44, 0.28, 1)
+outline_size = 0
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_message"]
+font_size = 26
+font_color = Color(0.28, 0.32, 0.38, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_confirm"]
+shader = ExtResource("4_shadow")
+shader_parameter/shadow_offset = Vector2(-4, 8)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_trophy"]
+shader = ExtResource("4_shadow")
+shader_parameter/shadow_offset = Vector2(-4, 8)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
+shader_parameter/shadow_blur = 2.0
+
+[node name="ExamVictoryDialog" type="CanvasLayer" node_paths=PackedStringArray("screen", "title_label", "message_label", "trophy_rect", "confirm_button")]
+layer = 10
+visible = false
+script = ExtResource("1_script")
+screen = NodePath("Screen")
+title_label = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Title")
+message_label = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Message")
+trophy_rect = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Trophy")
+confirm_button = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Confirm")
+levels_config = ExtResource("6_levels")
+
+[node name="Screen" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("theme_ui")
+
+[node name="HoverScaleBinder" type="Node" parent="Screen"]
+script = ExtResource("2_hover_binder")
+
+[node name="TextureRect" type="TextureRect" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_r4ora")
+
+[node name="Overlay" type="TextureRect" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_overlay")
+
+[node name="CenterContainer" type="CenterContainer" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Screen/CenterContainer"]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="MarginContainer" type="MarginContainer" parent="Screen/CenterContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Trophy" type="TextureRect" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+material = SubResource("ShaderMaterial_trophy")
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+text = "ПОЗДРАВЛЯЕМ!"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Message" type="Label" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+text = "Текст сообщения"
+label_settings = SubResource("LabelSettings_message")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 36
+alignment = 1
+
+[node name="Confirm" type="TextureButton" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons"]
+material = SubResource("ShaderMaterial_confirm")
+custom_minimum_size = Vector2(112, 112)
+layout_mode = 2
+focus_mode = 0
+texture_normal = ExtResource("3_check")
+ignore_texture_size = true
+stretch_mode = 5

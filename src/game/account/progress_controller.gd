@@ -13,12 +13,12 @@ signal ev_level_seen(container_id: String, level_id: int)
 func save() -> void:
 	root_events.ev_save_progress.emit()
 
-func post_battle(battle_info: GameConfig.BattleInfo, stars: int) -> void:
+func post_battle(battle_info: GameConfig.BattleInfo, stars: int) -> Dictionary:
 	if battle_info.is_exam:
-		pass_exam(battle_info.container_id, stars)
-	else:
-		pass_level(battle_info.container_id, battle_info.level_id, stars)
+		return pass_exam(battle_info.container_id, stars)
+	pass_level(battle_info.container_id, battle_info.level_id, stars)
 	save()
+	return {}
 
 func is_container_unlocked(container_id: String) -> bool:
 	var container_config = levels_config.find_container_in_config(container_id)
@@ -112,8 +112,43 @@ func pass_level(container_id: String, level_id: int, stars: int) -> void:
 	var entry := pdata.levels.ensure_container(container_id).ensure_level(level_id)
 	entry.stars = max(entry.stars, stars)
 
-func pass_exam(container_id: String, stars: int) -> void:
+const EXAM_LEVEL_ID: int = 17
+
+
+func is_valley_exam_completed(container_id: String) -> bool:
+	if container_id.is_empty():
+		return false
+	var container: PData.ContainerProgress = pdata.levels.containers.get(container_id)
+	if container != null and container.exam_passed:
+		return true
+	return get_level_stars(container_id, EXAM_LEVEL_ID) >= 1
+
+
+func is_trophy_unlocked(container_id: String) -> bool:
+	if is_valley_exam_completed(container_id):
+		pdata.trophies.unlock(container_id)
+	return pdata.trophies.is_unlocked(container_id)
+
+
+func sync_all_trophies_from_exams() -> void:
+	var changed := false
+	var container_ids: Array[String] = []
+	if levels_config != null and levels_config.levels.has("containers"):
+		for container_data in levels_config.levels["containers"]:
+			container_ids.append(str(container_data.get("container_id", "")))
+	else:
+		for container_id in pdata.levels.containers:
+			container_ids.append(container_id)
+	for container_id in container_ids:
+		if is_valley_exam_completed(container_id) and pdata.trophies.unlock(container_id):
+			changed = true
+	if changed:
+		save()
+
+
+func pass_exam(container_id: String, stars: int) -> Dictionary:
 	var container := pdata.levels.ensure_container(container_id)
+	var was_first_pass := not container.exam_passed
 	container.exam_passed = true
 
 	var config_levels = levels_config.find_container_in_config(container_id).get("levels", [])
@@ -121,3 +156,17 @@ func pass_exam(container_id: String, stars: int) -> void:
 		var level_id: int = config_level["level_id"]
 		var entry := container.ensure_level(level_id)
 		entry.stars = max(entry.stars, stars)
+
+	if was_first_pass:
+		pdata.trophies.unlock(container_id)
+
+	save()
+
+	if not was_first_pass:
+		return {}
+
+	return {
+		"first_exam_pass": true,
+		"container_id": container_id,
+		"next_container_id": levels_config.get_next_container_id(container_id),
+	}

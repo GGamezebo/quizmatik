@@ -2,32 +2,41 @@
 
 [ext_resource type="Script" uid="uid://bpwkfegfo0dm0" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.gd" id="1_script"]
 [ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="2_pdata"]
+[ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="2_levels"]
 [ext_resource type="PackedScene" uid="uid://cmn320r2pc2p1" path="res://src/game/scenes/menu/trophy_room_window/stat_row.tscn" id="3_row"]
-[ext_resource type="Texture2D" uid="uid://bmrw6xiwwmbba" path="res://src/game/scenes/menu/ui/btn_cta_wide.png" id="5_frame"]
-[ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="5_vcas3"]
-[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="6_font"]
-[ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="6_title_font"]
-[ext_resource type="Texture2D" uid="uid://bm6xoi0jxptuk" path="res://src/game/scenes/menu/trophy_room_window/ui/trophy_sticker.png" id="7_trophy"]
-[ext_resource type="Texture2D" uid="uid://py8noo2mn6qb" path="res://src/game/scenes/menu/trophy_room_window/ui/pencil_achievements.png" id="8_pencil"]
-[ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="9_menu_back"]
+[ext_resource type="PackedScene" uid="uid://ceejpk6t84ab5" path="res://src/game/scenes/menu/trophy_room_window/trophy_slot.tscn" id="3_trophy_slot"]
+[ext_resource type="PackedScene" uid="uid://bq2do4x5kxad1" path="res://src/game/scenes/menu/trophy_room_window/extra_achievement_slot.tscn" id="3_extra_slot"]
+[ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="4_progress"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/bg_hangar_achievements.png" id="5_bg"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud.png" id="6_cloud"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard.png" id="7_clipboard"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/shelf_platform.png" id="8_shelf"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/daily/ui/daily_scroll.png" id="9_scroll"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="10_shadow"]
-[ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="11_daily"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="9_menu_back"]
+[ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="6_title_font"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="6_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
-shader = ExtResource("10_shadow")
-shader_parameter/shadow_offset = Vector2(-4, 8)
-shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
-shader_parameter/shadow_blur = 2.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font = ExtResource("6_title_font")
-font_size = 34
+font_size = 58
 font_color = Color(0.165, 0.2, 0.251, 1)
 outline_size = 0
 shadow_size = 0
 
-[node name="TrophyRoomWindow" type="Control" unique_id=563581353 node_paths=PackedStringArray("stats_list")]
+[sub_resource type="LabelSettings" id="LabelSettings_section"]
+font = ExtResource("6_font")
+font_size = 18
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_scroll"]
+shader = ExtResource("10_shadow")
+shader_parameter/shadow_offset = Vector2(-3, 6)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.28)
+shader_parameter/shadow_blur = 2.0
+
+[node name="TrophyRoomWindow" type="Control" node_paths=PackedStringArray("stats_list", "trophies_list", "extra_list")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -37,32 +46,18 @@ grow_vertical = 2
 theme = ExtResource("theme_ui")
 script = ExtResource("1_script")
 pdata = ExtResource("2_pdata")
-stats_list = NodePath("CenterContainer/Content/StatsMargin/StatsList")
+progress = NodePath("ProgressController")
+levels_config = ExtResource("2_levels")
+stats_list = NodePath("Layout/LeftPanel/StatsMargin/StatsVBox/StatsList")
+trophies_list = NodePath("Layout/RightPanel/ShelfBlock/TrophiesRow")
+extra_list = NodePath("Layout/RightPanel/ExtraSection/ScrollMargin/ExtraVBox/ExtraList")
 stat_row_scene = ExtResource("3_row")
+trophy_slot_scene = ExtResource("3_trophy_slot")
+extra_slot_scene = ExtResource("3_extra_slot")
 
-[node name="DailyChallengesController" parent="." unique_id=79809212 instance=ExtResource("11_daily")]
+[node name="ProgressController" parent="." instance=ExtResource("4_progress")]
 
-[node name="Background" parent="." unique_id=1301843701 node_paths=PackedStringArray("daily_controller") instance=ExtResource("5_vcas3")]
-sky_scroll_speed = 0.015
-paint_from_daily = true
-daily_controller = NodePath("../DailyChallengesController")
-idle_color_amount = 0.08
-
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=808468689]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Content" type="Control" parent="CenterContainer" unique_id=429137907]
-clip_contents = false
-custom_minimum_size = Vector2(680, 460)
-layout_mode = 2
-
-[node name="Frame" type="NinePatchRect" parent="CenterContainer/Content" unique_id=223797398]
-material = SubResource("ShaderMaterial_sticker")
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -70,36 +65,64 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("5_frame")
-patch_margin_left = 70
-patch_margin_top = 60
-patch_margin_right = 70
-patch_margin_bottom = 60
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
+texture = ExtResource("5_bg")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="TitleBanner" type="Label" parent="CenterContainer/Content" unique_id=1818420705]
+[node name="Layout" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 12.0
+offset_right = -20.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleCloud" type="TextureRect" parent="Layout"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -200.0
-offset_top = 18.0
-offset_right = 200.0
-offset_bottom = 62.0
+offset_left = -360.0
+offset_top = 4.0
+offset_right = 360.0
+offset_bottom = 130.0
 grow_horizontal = 2
 mouse_filter = 2
-theme_override_fonts/font = ExtResource("6_title_font")
-theme_override_font_sizes/font_size = 34
+texture = ExtResource("6_cloud")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Layout/TitleCloud"]
+visible = false
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 4.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/outline_size = 0
-theme_override_constants/shadow_offset_x = 0
-theme_override_constants/shadow_offset_y = 0
 text = "ДОСТИЖЕНИЯ"
 label_settings = SubResource("LabelSettings_title")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="StatsMargin" type="MarginContainer" parent="CenterContainer/Content" unique_id=1925643956]
+[node name="LeftPanel" type="Control" parent="Layout"]
+clip_contents = true
+layout_mode = 1
+anchor_bottom = 1.0
+offset_left = 158.0
+offset_top = 72.0
+offset_right = 518.0
+offset_bottom = -8.0
+grow_vertical = 2
+
+[node name="ClipboardBg" type="TextureRect" parent="Layout/LeftPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -107,51 +130,161 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 96
-theme_override_constants/margin_right = 40
+texture = ExtResource("7_clipboard")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StatsMargin" type="MarginContainer" parent="Layout/LeftPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 42
+theme_override_constants/margin_top = 232
+theme_override_constants/margin_right = 38
 theme_override_constants/margin_bottom = 24
 
-[node name="StatsList" type="VBoxContainer" parent="CenterContainer/Content/StatsMargin" unique_id=1266669240]
+[node name="StatsVBox" type="VBoxContainer" parent="Layout/LeftPanel/StatsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="StatsHeading" type="Label" parent="Layout/LeftPanel/StatsMargin/StatsVBox"]
+visible = false
+layout_mode = 2
+text = "СТАТИСТИКА"
+label_settings = SubResource("LabelSettings_section")
+horizontal_alignment = 1
+
+[node name="StatsList" type="VBoxContainer" parent="Layout/LeftPanel/StatsMargin/StatsVBox"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 3
+
+[node name="RightPanel" type="Control" parent="Layout"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.32
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 72.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ShelfBlock" type="Control" parent="Layout/RightPanel"]
+custom_minimum_size = Vector2(0, 168)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 36.0
+offset_bottom = 204.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ShelfPlatform" type="TextureRect" parent="Layout/RightPanel/ShelfBlock"]
+z_index = 0
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -280.0
+offset_top = -43.0
+offset_right = 280.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("8_shelf")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="TrophiesRow" type="HBoxContainer" parent="Layout/RightPanel/ShelfBlock"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -154.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ExtraSection" type="Control" parent="Layout/RightPanel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -250.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ScrollBg" type="TextureRect" parent="Layout/RightPanel/ExtraSection"]
+material = SubResource("ShaderMaterial_scroll")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -105.0
+offset_right = 280.0
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("9_scroll")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="ScrollMargin" type="MarginContainer" parent="Layout/RightPanel/ExtraSection"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -105.0
+offset_right = 280.0
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 39
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 10
+
+[node name="ExtraVBox" type="VBoxContainer" parent="Layout/RightPanel/ExtraSection/ScrollMargin"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ExtraTitle" type="Label" parent="Layout/RightPanel/ExtraSection/ScrollMargin/ExtraVBox"]
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
-mouse_filter = 2
-theme_override_constants/separation = 6
+theme_override_font_sizes/font_size = 15
+text = "ДОПОЛНИТЕЛЬНЫЕ ДОСТИЖЕНИЯ"
+label_settings = SubResource("LabelSettings_section")
+horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="Trophy" type="TextureRect" parent="CenterContainer/Content" unique_id=1960913168]
-z_index = 12
-material = SubResource("ShaderMaterial_sticker")
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -150.0
-offset_top = -48.0
-offset_right = 10.0
-offset_bottom = 112.0
-grow_horizontal = 0
-mouse_filter = 2
-texture = ExtResource("7_trophy")
-expand_mode = 1
-stretch_mode = 5
+[node name="ExtraList" type="HBoxContainer" parent="Layout/RightPanel/ExtraSection/ScrollMargin/ExtraVBox"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+alignment = 1
 
-[node name="Pencil" type="TextureRect" parent="CenterContainer/Content" unique_id=1602930473]
-z_index = 12
-material = SubResource("ShaderMaterial_sticker")
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = -70.0
-offset_top = -40.0
-offset_right = 90.0
-offset_bottom = 120.0
-grow_vertical = 0
-rotation = -0.65
-pivot_offset = Vector2(80, 80)
-mouse_filter = 2
-texture = ExtResource("8_pencil")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="MenuWindowBack" parent="." unique_id=1414956001 instance=ExtResource("9_menu_back")]
+[node name="MenuWindowBack" parent="." instance=ExtResource("9_menu_back")]

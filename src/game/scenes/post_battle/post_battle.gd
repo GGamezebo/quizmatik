@@ -13,9 +13,11 @@ extends IScene
 @export var next_level_button: BaseButton
 @export var menu_button: BaseButton
 @export var repeat_button: BaseButton
+@export var exam_victory_dialog: ExamVictoryDialog
 @export var _game_config: GameConfig
 
 var _next_battle_info: GameConfig.BattleInfo = null
+var _pending_auto_container: String = ""
 var _listener: EventListener = EventListener.new()
 
 
@@ -49,15 +51,21 @@ func initialize(data: Dictionary) -> void:
 	_listener.add(repeat_button.pressed, _on_repeat)
 	_listener.add(next_level_button.pressed, _on_next_level)
 
-	var auto_container_id: String = _resolve_auto_level_select_container(is_win)
-	if not auto_container_id.is_empty():
-		call_deferred("_return_to_level_select", auto_container_id)
+	var celebration: Dictionary = data.get("exam_celebration", {})
+	if is_win and not celebration.is_empty() and celebration.get("first_exam_pass", false):
+		_pending_auto_container = _resolve_auto_level_select_container(is_win)
+		call_deferred("_show_exam_victory", celebration)
+	else:
+		var auto_container_id: String = _resolve_auto_level_select_container(is_win)
+		if not auto_container_id.is_empty():
+			call_deferred("_return_to_level_select", auto_container_id)
 
 
 func deinit() -> void:
 	_listener.deinit()
 	_game_config = null
 	_next_battle_info = null
+	_pending_auto_container = ""
 
 
 func _update_results(is_win: bool, score: int, max_score: int, stars_count: int) -> void:
@@ -153,6 +161,23 @@ func _resolve_auto_level_select_container(is_win: bool) -> String:
 
 func _return_to_level_select(container_id: String) -> void:
 	root_events.ev_return_to_menu.emit({"open_level_select": container_id})
+
+
+func _show_exam_victory(celebration: Dictionary) -> void:
+	if exam_victory_dialog == null:
+		if not _pending_auto_container.is_empty():
+			_return_to_level_select(_pending_auto_container)
+		_pending_auto_container = ""
+		return
+	exam_victory_dialog.open(celebration)
+	exam_victory_dialog.ev_confirmed.connect(_on_exam_victory_confirmed, CONNECT_ONE_SHOT)
+
+
+func _on_exam_victory_confirmed() -> void:
+	var container_id := _pending_auto_container
+	_pending_auto_container = ""
+	if not container_id.is_empty():
+		_return_to_level_select(container_id)
 
 
 func _on_menu() -> void:

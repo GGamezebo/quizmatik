@@ -42,7 +42,9 @@ func _apply_battle_result(data: Dictionary) -> void:
 	if is_win:
 		daily_challenges_controller.register_win()
 		if battle_info:
-			progress_controller.post_battle(
+			var celebration: Dictionary = progress_controller.post_battle(
 				battle_info,
 				stars
 			)
+			if not celebration.is_empty():
+				data["exam_celebration"] = celebration
