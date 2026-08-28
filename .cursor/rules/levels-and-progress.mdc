@@ -24,6 +24,7 @@ alwaysApply: false
 ## Progress
 
 - Schema: `PData` (`src/game/account/persistent_data.gd`) — typed nested classes; live defaults in `persistent_data.tres`
+- `PData.trophies.unlocked` — valley exam trophies; UI kit `tools/generate_achievements_ui.py`
 - Disk: `SaveManager` + GodotSavesAddon (`SaveData`) profile `save` under `user://save/` (not plain `progress.json`)
 - Campaign mutations: `ProgressController` only
 - Daily challenges (UTC day, 5 win-slots): `DailyChallengesController` — any battle win fills one slot

@@ -7,6 +7,7 @@ var levels: LevelsProgress = LevelsProgress.new()
 var state: StateData = StateData.new()
 var statistics: StatisticsData = StatisticsData.new()
 var daily: DailyData = DailyData.new()
+var trophies: TrophiesData = TrophiesData.new()
 
 
 func to_dict() -> Dictionary:
@@ -15,6 +16,7 @@ func to_dict() -> Dictionary:
 		"state": state.to_dict(),
 		"statistics": statistics.to_dict(),
 		"daily": daily.to_dict(),
+		"trophies": trophies.to_dict(),
 	}
 
 ## Mutates this resource in place so every `@export var pdata: PData` sharing the
@@ -24,6 +26,7 @@ func apply_dict(data: Dictionary) -> void:
 	state = StateData.from_dict(data.get("state", {}))
 	statistics = StatisticsData.from_dict(data.get("statistics", {}))
 	daily = DailyData.from_dict(data.get("daily", {}))
+	trophies = TrophiesData.from_dict(data.get("trophies", {}))
 
 func reset_to_defaults() -> void:
 	apply_dict({})
@@ -120,6 +123,33 @@ class LevelsProgress:
 		if not containers.has(container_id):
 			containers[container_id] = ContainerProgress.new()
 		return containers[container_id]
+
+
+class TrophiesData:
+	var unlocked: Dictionary[String, bool] = {}
+
+	func to_dict() -> Dictionary:
+		var result: Dictionary = {}
+		for container_id in unlocked:
+			result[container_id] = unlocked[container_id]
+		return {"unlocked": result}
+
+	static func from_dict(d: Dictionary) -> TrophiesData:
+		var trophies := TrophiesData.new()
+		var raw: Variant = d.get("unlocked", {})
+		if raw is Dictionary:
+			for container_id in raw as Dictionary:
+				trophies.unlocked[String(container_id)] = bool(raw[container_id])
+		return trophies
+
+	func unlock(container_id: String) -> bool:
+		if is_unlocked(container_id):
+			return false
+		unlocked[container_id] = true
+		return true
+
+	func is_unlocked(container_id: String) -> bool:
+		return unlocked.get(container_id, false)
 
 
 class StateData:

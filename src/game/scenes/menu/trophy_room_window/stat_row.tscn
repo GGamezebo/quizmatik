@@ -1,25 +1,47 @@
 [gd_scene format=3 uid="uid://cmn320r2pc2p1"]
 
+[ext_resource type="Script" path="res://src/game/scenes/menu/trophy_room_window/stat_row.gd" id="1_script"]
+
 [sub_resource type="LabelSettings" id="LabelSettings_row_title"]
-font_size = 28
+font_size = 16
 font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_row_value"]
-font_size = 28
+font_size = 16
 font_color = Color(0.86, 0.52, 0.14, 1)
 
-[node name="StatRow" type="HBoxContainer"]
+[node name="StatRow" type="HBoxContainer" node_paths=PackedStringArray("icon_rect", "title_label", "value_label")]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 4
+script = ExtResource("1_script")
+icon_rect = NodePath("Icon")
+title_label = NodePath("Title")
+value_label = NodePath("Value")
+
+[node name="Icon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Title" type="Label" parent="."]
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.2
 text = "Title"
 label_settings = SubResource("LabelSettings_row_title")
+text_overrun_behavior = 3
 
 [node name="Value" type="Label" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
+size_flags_horizontal = 8
 text = "0"
 label_settings = SubResource("LabelSettings_row_value")
 horizontal_alignment = 2
+text_overrun_behavior = 3

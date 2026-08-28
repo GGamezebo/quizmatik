@@ -71,19 +71,19 @@ Keep the live carousel: horizontal pack cards, selected center, next peeking rig
 - Square cream tiles, equal corner radius (~18), soft sticker shadow
 - Locked regular: lock glyph top-right (`levels/ui/icon_lock.png`); number stays readable; empty stars shown
 - Next playable regular (unlocked, 0 stars): sage-green outline + «СЛЕДУЮЩИЙ»; no lock
-- Completed (stars ≥ 1): ink stamp by tier (`LevelPackArt` sun/flower/cat); stars hidden
+- Completed (stars ≥ 1): ink stamp by tier (`LevelPackArt` sun/flower/cat) top-right (same corner as lock); stars stay
 - Incomplete tiles: empty stars; exam uses the same square cell with purple outline + stamp when passed
-- Exam in the same square grid cell: purple outline, cap top-left + «Экзамен»
-- Side info card: purple «i» badge — exam always available; difficulty depends on progress; recommended difficulty bars
+- Exam in the same square grid cell: purple outline + graduation-cap overlay (`exam_cap_overlay.png`); title «Экзамен»
 
 ## Achievements / trophy room (required)
 
-Restyle stats window to notebook — `concepts/achievements_notebook_concept_v1.png`. Same graph-paper page + margin doodles as pack / post-battle. Not cyan neon gradient.
+Restyle stats window to notebook hangar layout — reference `concepts/achievements_notebook_concept_v1.png` + generated `trophy_room_window/ui/bg_hangar_achievements.png`. Full-screen hangar watercolor background; no CTA frame card.
 
-- Panel frame: cream CTA `btn_cta_wide.png` (`NinePatchRect`, same patch margins as main-menu CTAs) — **680×460**; title = Label «ДОСТИЖЕНИЯ»
-- Stickers (separate): `trophy_sticker`, `pencil_achievements` — winged trophy + pencil doodle on panel corners
-- Two-column stats: muted graphite labels / warm amber values — same rows as `ProgressStatistics.DISPLAY_ROWS`; no scroll when all rows fit
-- Back: round cream HUD circle bottom-left (`levels/ui/btn_back.png`, same as pack)
+- **Background:** `ui/bg_hangar_achievements.png` (full-screen)
+- **Chrome:** PIL-generated opaque panels — `title_cloud`, `panel_clipboard`, `banner_section`, `shelf_platform`, `pedestal`, `panel_scroll` (`tools/generate_achievements_panels.py`)
+- **Valleys:** banner + stone **shelf row** + trophy on individual **pedestal** per slot
+- Asset kit: `tools/generate_achievements_ui.py`
+- Back: round cream HUD circle bottom-left (`menu_window_back.tscn`)
 
 ## Practice room (required)
 
