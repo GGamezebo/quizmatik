@@ -33,7 +33,7 @@ alwaysApply: false
 - Level select → `menu/levels/` (pack carousel: centered looping valley + page dots; not a scrollbar)
 - Training → `menu/training_room_window/` — CTA frame `btn_cta_wide.png` (**980×620**), title «ПРАКТИКА» + subtitle; left cream settings panel (icon rows + steppers + ops grid), right exam/help side panels; bottom **СБРОСИТЬ** / green **НАЧАТЬ ПРАКТИКУ** / **СЛУЧАЙНЫЕ НАСТРОЙКИ** (`training_action_button.tscn`); block icons in `training_room_window/ui/`; back via `menu_window_back`
 - Settings → `menu/settings_window/` — cream CTA frame `btn_cta_wide.png` (**680×540**), Label title «НАСТРОЙКИ»
-- Trophy room / stats → `menu/trophy_room_window/` — full-screen hangar achievements layout (see `concepts/ART_DIRECTION.md`)
+- Trophy room / stats → `menu/trophy_room_window/` — full-screen hangar achievements layout (AI look-match: `concepts/ART_DIRECTION.md`; never load files from `concepts/`)
 - Shared window back overlay → `menu/ui/menu_window_back.tscn` (bottom-left; same as pack select)
 - Main-menu quit → cream circle, black X, red ring (`menu/ui/btn_exit.png`); never a red X glyph
 - Confirm overlays: cancel = `levels/ui/btn_back.png`, confirm = `menu/ui/btn_check.png`

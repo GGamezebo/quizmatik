@@ -52,7 +52,7 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 | `core/` | Project-agnostic code only (no Quizmatik types/scenes) |
 | `tools/` | Offline generators (e.g. levels) |
 | `assets/` | Runtime shared art — see layout below |
-| `concepts/` | Reference-only art direction + concept frames — never referenced by runtime scenes |
+| `concepts/` | AI style reference only (`ART_DIRECTION.md` + frames) — game and tools never use it; see `concepts.mdc` |
 | `src/dev/` | Editor/dev utilities — not the game entry. `training_room_lab/` = frozen snapshot of full practice UI (editor-only menu button) |
 
 ### `assets/` layout
@@ -68,6 +68,7 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 | `assets/backup/` | Non-runtime art backups — do not wire into scenes |
 
 Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level_*.tres` (root).
+Export never packs: `concepts/`, `bin/`, `.cursor/`, `.vscode/`, `.godot/`, `.git/` — see `export_presets.cfg` `exclude_filter` and `concepts/.gdignore`.
 
 ## Layer contracts
 
