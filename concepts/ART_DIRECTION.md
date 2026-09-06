@@ -127,7 +127,7 @@ See `battle_concept.png`, notebook modern ref `concepts/notebook_pencil/battle_m
 | Plane / shot / ink trail | `src/features/plane/`, `shot/`, `ink_blot/` |
 
 | Theme | `core/theme/` — cream paper + graphite ink (`style.tres`) |
-| Backgrounds | `src/ui/backgrounds/` — battle `BackgroundHost` + variants; main menu: scrolling `classic_sky/` + daily paint; pack / level-select: `paper_page/` / `levels_pack/` |
+| Backgrounds | `src/ui/backgrounds/` — battle `BackgroundHost` + variants; main menu: scrolling `classic_sky/` + daily paint; pack / level-select: `levels_pack/` |
 
 ## Rules for agents
 
