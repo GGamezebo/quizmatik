@@ -5,75 +5,75 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2cqfq"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(0, 0, 234, 256)
+region = Rect2(0, 0, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yaehf"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(234, 0, 234, 256)
+region = Rect2(64, 0, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_074og"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(468, 0, 234, 256)
+region = Rect2(128, 0, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cegan"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(702, 0, 234, 256)
+region = Rect2(192, 0, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_82xsv"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(936, 0, 234, 256)
+region = Rect2(256, 0, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_getpj"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(1170, 0, 234, 256)
+region = Rect2(320, 0, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ryguw"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(0, 256, 234, 256)
+region = Rect2(0, 70, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d13ii"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(234, 256, 234, 256)
+region = Rect2(64, 70, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1u8w0"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(468, 256, 234, 256)
+region = Rect2(128, 70, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0odxb"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(702, 256, 234, 256)
+region = Rect2(192, 70, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lswn8"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(936, 256, 234, 256)
+region = Rect2(256, 70, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a6jrf"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(1170, 256, 234, 256)
+region = Rect2(320, 70, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xuqvo"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(0, 512, 234, 256)
+region = Rect2(0, 140, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qsp4k"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(234, 512, 234, 256)
+region = Rect2(64, 140, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kq58d"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(468, 512, 234, 256)
+region = Rect2(128, 140, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_seu75"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(702, 512, 234, 256)
+region = Rect2(192, 140, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_htxhm"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(936, 512, 234, 256)
+region = Rect2(256, 140, 64, 70)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jq2sk"]
 atlas = ExtResource("1_plwnx")
-region = Rect2(1170, 512, 234, 256)
+region = Rect2(320, 140, 64, 70)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4k2k6"]
 animations = [{
@@ -138,7 +138,7 @@ animations = [{
 }]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" unique_id=197881885]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(1.828, 1.828)
 sprite_frames = SubResource("SpriteFrames_4k2k6")
 autoplay = "default"
 frame = 17

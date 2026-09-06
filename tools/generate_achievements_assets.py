@@ -47,7 +47,7 @@ def _shadow(base: Image.Image, offset: tuple[int, int] = (6, 10), blur: int = 8)
 
 
 def title_cloud() -> None:
-    w, h = 480, 132
+    w, h = 360, 100
     img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     for cx, cy, rx, ry in [(90, 62, 58, 44), (180, 52, 64, 48), (270, 56, 62, 46), (350, 62, 54, 42)]:

@@ -136,7 +136,7 @@ frame_progress = 0.563382
 [node name="Sprite2D" type="Sprite2D" parent="AnimatedSprite2D/FlameAnimation" unique_id=578953194]
 modulate = Color(1, 1, 1, 0.40392157)
 position = Vector2(-10.999996, -1.1920929e-07)
-scale = Vector2(0.15, 0.061)
+scale = Vector2(1.40625, 0.571875)
 texture = ExtResource("9_i07py")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=130746522]

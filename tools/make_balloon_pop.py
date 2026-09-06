@@ -15,6 +15,7 @@ PREVIEW = os.path.normpath(
 
 FRAMES = 24
 CELL = 384
+SHIP_CELL = 64
 MARGIN = 48
 # Hard cap so burst never approaches cell border.
 MAX_RADIUS = (CELL // 2) - MARGIN - 8  # ~136
@@ -406,6 +407,12 @@ def main() -> None:
         r = content_radius(fr)
         atlas.paste(fr, (fi * CELL, 0), fr)
         print(f"frame {fi:02d}/{FRAMES - 1}: content_r={r:.1f} limit={MAX_RADIUS} ok={r <= MAX_RADIUS + 4}")
+
+    ship = Image.new("RGBA", (FRAMES * SHIP_CELL, SHIP_CELL), (0, 0, 0, 0))
+    for fi in range(FRAMES):
+        cell = atlas.crop((fi * CELL, 0, (fi + 1) * CELL, CELL))
+        ship.paste(cell.resize((SHIP_CELL, SHIP_CELL), Image.Resampling.LANCZOS), (fi * SHIP_CELL, 0))
+    atlas = ship
 
     atlas.save(OUT, "PNG")
     print(f"saved {OUT} {atlas.size} {os.path.getsize(OUT)} bytes")

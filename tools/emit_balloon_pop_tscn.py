@@ -4,9 +4,9 @@ from __future__ import annotations
 import os
 
 FRAMES = 24
-CELL = 384
+CELL = 64
 SPEED = 20.0
-SCALE = 0.62
+SCALE = 3.72
 
 OUT = os.path.normpath(
     os.path.join(os.path.dirname(__file__), "..", "src", "features", "answer", "balloon_pop.tscn")
