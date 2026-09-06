@@ -59,13 +59,12 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 
 | Path | Contents |
 |------|----------|
-| `assets/backgrounds/` | Shared paper/sky/menu backgrounds |
-| `assets/backgrounds/valleys/` | Campaign valley landscapes (`valley_addition` … `valley_mix`) |
 | `assets/audio/music/` | Looping BGM streams |
 | `assets/effects/` | FX sprites (e.g. starlight) |
-| `assets/ui/icons/` | Shared UI icons (stars, legacy SVG) |
-| `assets/fonts/` | Bundled fonts (optional / legacy) |
-| `assets/backup/` | Non-runtime art backups — do not wire into scenes |
+| `assets/ui/icons/` | Shared UI icons (stars, mute, movement) |
+| `assets/ui/hud/` | Battle HUD frames (score, question banner) |
+| `assets/ui/backgrounds/` | Shared menu/paper/sky textures used by scenes |
+| `assets/fonts/` | Runtime fonts only: Nunito Bold + Rubik Doodle Shadow |
 
 Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level_*.tres` (root).
 Export never packs: `concepts/`, `bin/`, `.cursor/`, `.vscode/`, `.godot/`, `.git/` — see `export_presets.cfg` `exclude_filter` and `concepts/.gdignore`.
