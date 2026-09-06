@@ -3,19 +3,21 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dhvwsxwwa7kfr"
-path="res://.godot/imported/02_paper_airplane.jpg-0708e151749758df9b57407c2803569d.ctex"
+path.s3tc="res://.godot/imported/02_paper_airplane.jpg-0708e151749758df9b57407c2803569d.s3tc.ctex"
+path.etc2="res://.godot/imported/02_paper_airplane.jpg-0708e151749758df9b57407c2803569d.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://src/ui/backgrounds/notebook/sketches/02_paper_airplane.jpg"
-dest_files=["res://.godot/imported/02_paper_airplane.jpg-0708e151749758df9b57407c2803569d.ctex"]
+dest_files=["res://.godot/imported/02_paper_airplane.jpg-0708e151749758df9b57407c2803569d.s3tc.ctex", "res://.godot/imported/02_paper_airplane.jpg-0708e151749758df9b57407c2803569d.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -37,4 +39,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0
