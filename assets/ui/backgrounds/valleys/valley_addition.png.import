@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://0mnf2chaqvjc"
-path="res://.godot/imported/stamp_star.png-597b56dc0b537149fd4726a0c46cbe3a.ctex"
+uid="uid://cvd31mcc2tdem"
+path="res://.godot/imported/valley_addition.png-d42affcbcafab0d6cedb17ed0f6288ed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/game/scenes/menu/daily/ui/stamp_star.png"
-dest_files=["res://.godot/imported/stamp_star.png-597b56dc0b537149fd4726a0c46cbe3a.ctex"]
+source_file="res://assets/ui/backgrounds/valleys/valley_addition.png"
+dest_files=["res://.godot/imported/valley_addition.png-d42affcbcafab0d6cedb17ed0f6288ed.ctex"]
 
 [params]
 

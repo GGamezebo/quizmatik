@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6gqcn01lktpt"
-path="res://.godot/imported/stamp_empty.png-27120fec5ecd79a92260a3b52df4aaa5.ctex"
+uid="uid://b62kwj1wrreax"
+path="res://.godot/imported/stamp_sun.png-84ea81bdfc4550d1f280b9d662e78e57.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/game/scenes/menu/daily/ui/stamp_empty.png"
-dest_files=["res://.godot/imported/stamp_empty.png-27120fec5ecd79a92260a3b52df4aaa5.ctex"]
+source_file="res://assets/ui/stamps/stamp_sun.png"
+dest_files=["res://.godot/imported/stamp_sun.png-84ea81bdfc4550d1f280b9d662e78e57.ctex"]
 
 [params]
 

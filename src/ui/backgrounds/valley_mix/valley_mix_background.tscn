@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bih4q7fqq6kw3" path="res://src/ui/backgrounds/background_base.gd" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://jl5tjjusnin3" path="res://src/ui/backgrounds/classic_sky/Sky2.png" id="2_sky2"]
 [ext_resource type="Texture2D" uid="uid://cjds8r57pey1g" path="res://src/ui/backgrounds/classic_sky/Sky1.png" id="3_sky1"]
-[ext_resource type="Texture2D" uid="uid://cskqqd6ksrqbg" path="res://src/game/scenes/menu/levels/ui/valleys/valley_mix.png" id="4_bg"]
+[ext_resource type="Texture2D" uid="uid://cskqqd6ksrqbg" path="res://assets/ui/backgrounds/valleys/valley_mix.png" id="4_bg"]
 [ext_resource type="Texture2D" uid="uid://5xved5dnk0eo" path="res://src/ui/backgrounds/classic_sky/Sky3.png" id="5_sky3"]
 [ext_resource type="Shader" uid="uid://dbory75vd2otg" path="res://src/ui/backgrounds/sky_scroll.gdshader" id="6_shader"]
 [ext_resource type="PackedScene" path="res://src/features/ink_blot/ink_blot.tscn" id="7_ink"]

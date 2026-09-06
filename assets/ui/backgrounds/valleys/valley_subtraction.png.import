@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bungdm4mwacpu"
-path="res://.godot/imported/valley_multiplication.png-1cf28b57745eba702781fdd43c8f9ad5.ctex"
+uid="uid://wt56n7tv1y5w"
+path="res://.godot/imported/valley_subtraction.png-37d850d8228514c56e698b0720fafe4d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/game/scenes/menu/levels/ui/valleys/valley_multiplication.png"
-dest_files=["res://.godot/imported/valley_multiplication.png-1cf28b57745eba702781fdd43c8f9ad5.ctex"]
+source_file="res://assets/ui/backgrounds/valleys/valley_subtraction.png"
+dest_files=["res://.godot/imported/valley_subtraction.png-37d850d8228514c56e698b0720fafe4d.ctex"]
 
 [params]
 
