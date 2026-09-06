@@ -9,13 +9,14 @@ When a change alters structure, contracts, or placement conventions, update `.cu
 
 ## Update when
 
-- New/renamed folder under `src/`, `core/`, `tools/`, `concepts/`
-- Visual art direction / UI look conventions (`concepts/ART_DIRECTION.md`)
+- New/renamed folder under `src/`, `core/`, `tools/`
+- Visual art direction / UI look conventions (`concepts/ART_DIRECTION.md`; folder itself stays AI-only — `concepts.mdc`)
 - New context, feature, event bus, or FSM state
 - Feature isolation or `core/` project-agnostic boundary changes
 - Scene-isolation / Resource-default / parent-override-via-events contract changes
 - Editor-first UI policy changes (scene nodes vs programmatic UI)
 - Target platforms (Mobile / Steam / HTML) or cross-platform playability rules change
+- Export ignore folders (`.gdignore` / `export_presets.cfg` `exclude_filter`)
 - HFSM library semantics or JSON config conventions change (`core/lib/hfsm`, `hfsm-*.mdc`)
 - Battle start payload / `IScene` / progress schema changes
 - Level layout or `LevelsConfig` container IDs change
