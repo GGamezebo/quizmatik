@@ -59,7 +59,7 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 
 | Path | Contents |
 |------|----------|
-| `assets/audio/music/` | Looping BGM streams |
+| `assets/audio/music/` | Looping BGM streams (OGG/MP3, not WAV) |
 | `assets/effects/` | FX sprites (e.g. starlight) |
 | `assets/ui/icons/` | Shared UI icons (stars, mute, movement) |
 | `assets/ui/stamps/` | Ink stamps for daily / post-battle / level grid (`stamp_empty`, `stamp_sun`, …) |
