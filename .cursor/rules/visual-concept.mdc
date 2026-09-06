@@ -12,8 +12,8 @@ Must match:
 
 - **Style:** graphite pencil on notebook paper — not cyan neon
 - **Theme:** `core/theme/style.tres` — cream parchment buttons/panels, ink `#2A3340` text; body font `game_font.tres` (**Nunito Bold**), titles `title_font.tres` (Rubik Doodle Shadow, MSDF off, never outline)
-- **Backgrounds:** `src/ui/backgrounds/` — shared `BackgroundBase` + per-variant folders (`notebook` sketches, `classic_sky`, `notebook_sky`); battle `BackgroundHost` picks random from `variants[]`; main menu = scrolling `classic_sky/` with `paint_from_daily`; pack / level-select use `paper_page/` / `levels_pack/`; shared paper/sky files may also live in `assets/backgrounds/`
-- Shared runtime files: `assets/backgrounds/`, `assets/audio/music/`, `assets/effects/`, `assets/ui/icons/`
+- **Backgrounds:** `src/ui/backgrounds/` — shared `BackgroundBase` + per-variant folders (`notebook` sketches, `classic_sky`, `notebook_sky`); battle `BackgroundHost` picks random from `variants[]`; main menu = scrolling `classic_sky/` with `paint_from_daily`; pack / level-select use `paper_page/` / `levels_pack/`; some shared paper/sky files live in `assets/ui/backgrounds/`
+- Shared runtime files: `assets/audio/music/`, `assets/effects/`, `assets/ui/icons/`, `assets/ui/hud/`, `assets/ui/backgrounds/`
 - **Daily series card:** parchment scroll `daily/ui/daily_scroll.png` (no CTA frame); progress marks = ink stamps (`stamp_empty` + filled variants `stamp_sun` / `stamp_flower` / `stamp_cat` / `stamp_star` / `stamp_heart` by slot index), not stars
 - **Achievements window:** `trophy_room_window/` — full-screen hangar bg `ui/bg_hangar_achievements.png`; clipboard stats left, valley trophies on pedestals right, extra-achievements scroll bottom-right; kit `tools/generate_achievements_ui.py`
 - **Battle:** horizontal flight (plane left → right), 4 lanes, round balloons, paper HUD language

@@ -1,1 +1,0 @@
-Original game art backup (from git HEAD + _orig_planes).\nplane/          — Plane*.png + flame.png as committed before notebook restyle\nanswer/         — balloons_atlas.png from git HEAD\nplane_orig_planes/ — concepts/notebook_pencil/_orig_planes copies\n
