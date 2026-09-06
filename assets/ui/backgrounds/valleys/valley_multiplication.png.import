@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://s3c4ma3ls5th"
-path="res://.godot/imported/stamp_flower.png-b0d05377881314d2eacfefbc29ae2b8b.ctex"
+uid="uid://bungdm4mwacpu"
+path="res://.godot/imported/valley_multiplication.png-e44d37512772a4e3ac6d5d6be799471a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/game/scenes/post_battle/ui/stamp_flower.png"
-dest_files=["res://.godot/imported/stamp_flower.png-b0d05377881314d2eacfefbc29ae2b8b.ctex"]
+source_file="res://assets/ui/backgrounds/valleys/valley_multiplication.png"
+dest_files=["res://.godot/imported/valley_multiplication.png-e44d37512772a4e3ac6d5d6be799471a.ctex"]
 
 [params]
 

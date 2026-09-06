@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b47o74bs6trrp"
-path="res://.godot/imported/stamp_sun.png-ac80997aac1fb6ac48052c875c8a7184.ctex"
+uid="uid://b01vhundbl6ib"
+path="res://.godot/imported/stamp_cat.png-251a3e70f4c603736fc8dcc1a5c350fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/game/scenes/post_battle/ui/stamp_sun.png"
-dest_files=["res://.godot/imported/stamp_sun.png-ac80997aac1fb6ac48052c875c8a7184.ctex"]
+source_file="res://assets/ui/stamps/stamp_cat.png"
+dest_files=["res://.godot/imported/stamp_cat.png-251a3e70f4c603736fc8dcc1a5c350fa.ctex"]
 
 [params]
 

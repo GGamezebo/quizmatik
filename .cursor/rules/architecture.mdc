@@ -62,8 +62,10 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 | `assets/audio/music/` | Looping BGM streams |
 | `assets/effects/` | FX sprites (e.g. starlight) |
 | `assets/ui/icons/` | Shared UI icons (stars, mute, movement) |
+| `assets/ui/stamps/` | Ink stamps for daily / post-battle / level grid (`stamp_empty`, `stamp_sun`, …) |
 | `assets/ui/hud/` | Battle HUD frames (score, question banner) |
 | `assets/ui/backgrounds/` | Shared menu/paper/sky textures used by scenes |
+| `assets/ui/backgrounds/valleys/` | Campaign valley landscapes (one set: `valley_addition` … `valley_mix`) |
 | `assets/fonts/` | Runtime fonts only: Nunito Bold + Rubik Doodle Shadow |
 
 Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level_*.tres` (root).

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cskqqd6ksrqbg"
-path="res://.godot/imported/valley_mix.png-6255a375b85045b465e13648ef3778db.ctex"
+uid="uid://cre1estirxrxe"
+path="res://.godot/imported/valley_division.png-e65c592d2e2af19aaf2ac15820fc0ffd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/game/scenes/menu/levels/ui/valleys/valley_mix.png"
-dest_files=["res://.godot/imported/valley_mix.png-6255a375b85045b465e13648ef3778db.ctex"]
+source_file="res://assets/ui/backgrounds/valleys/valley_division.png"
+dest_files=["res://.godot/imported/valley_division.png-e65c592d2e2af19aaf2ac15820fc0ffd.ctex"]
 
 [params]
 
