@@ -15,6 +15,7 @@ var _hover_tween: Tween
 
 
 func _ready() -> void:
+	texture_filter = TEXTURE_FILTER_NEAREST
 	setup_hover_scale()
 
 

@@ -27,6 +27,7 @@ custom_minimum_size = Vector2(72, 40)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
+texture_filter = 1
 toggle_mode = true
 texture_normal = ExtResource("1_off")
 texture_pressed = ExtResource("2_on")

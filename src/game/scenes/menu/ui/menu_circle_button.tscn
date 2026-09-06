@@ -17,6 +17,7 @@ offset_right = 112.0
 offset_bottom = 112.0
 size_flags_horizontal = 4
 focus_mode = 0
+texture_filter = 1
 texture_normal = ExtResource("2_blank")
 ignore_texture_size = true
 stretch_mode = 5
