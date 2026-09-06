@@ -2,13 +2,17 @@
 
 Background profile (~100 BPM, punchy mid/bass, dense rhythm). Win/lose themes
 keep the same arcade bounce; win = bright major, lose = minor but still peppy.
+Writes OGG (needs ffmpeg on PATH or imageio-ffmpeg).
 """
 from __future__ import annotations
 
 import math
 import os
 import random
+import shutil
 import struct
+import subprocess
+import tempfile
 import wave
 
 SR = 44100
@@ -24,6 +28,18 @@ DURATION = BAR * LOOP_BARS
 
 def _clamp(x: float, lo: float = -1.0, hi: float = 1.0) -> float:
 	return lo if x < lo else hi if x > hi else x
+
+
+def _ffmpeg_exe() -> str | None:
+	found = shutil.which("ffmpeg")
+	if found:
+		return found
+	try:
+		import imageio_ffmpeg
+
+		return imageio_ffmpeg.get_ffmpeg_exe()
+	except Exception:
+		return None
 
 
 def write_wav(path: str, samples: list[float]) -> None:
@@ -46,6 +62,37 @@ def write_wav(path: str, samples: list[float]) -> None:
 		)
 		wav.writeframes(frames)
 	print(f"wrote {os.path.relpath(path, ROOT)} ({len(samples) / SR:.3f}s)")
+
+
+def write_ogg(path: str, samples: list[float]) -> None:
+	ffmpeg = _ffmpeg_exe()
+	if not ffmpeg:
+		raise RuntimeError("ffmpeg not found (PATH or imageio-ffmpeg); cannot write OGG")
+	fd, wav_tmp = tempfile.mkstemp(suffix=".wav")
+	os.close(fd)
+	try:
+		write_wav(wav_tmp, samples)
+		subprocess.run(
+			[
+				ffmpeg,
+				"-y",
+				"-hide_banner",
+				"-loglevel",
+				"error",
+				"-i",
+				wav_tmp,
+				"-c:a",
+				"libvorbis",
+				"-q:a",
+				"3",
+				path,
+			],
+			check=True,
+		)
+	finally:
+		if os.path.isfile(wav_tmp):
+			os.remove(wav_tmp)
+	print(f"wrote {os.path.relpath(path, ROOT)} ({os.path.getsize(path)} bytes)")
 
 
 def lerp(a: float, b: float, t: float) -> float:
@@ -430,8 +477,8 @@ def lose_theme() -> list[float]:
 
 
 def main() -> None:
-	write_wav(os.path.join(MUSIC_DIR, "win_music.wav"), win_theme())
-	write_wav(os.path.join(MUSIC_DIR, "lose_music.wav"), lose_theme())
+	write_ogg(os.path.join(MUSIC_DIR, "win_music.ogg"), win_theme())
+	write_ogg(os.path.join(MUSIC_DIR, "lose_music.ogg"), lose_theme())
 
 
 if __name__ == "__main__":
