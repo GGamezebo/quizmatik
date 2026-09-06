@@ -69,7 +69,7 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 | `assets/fonts/` | Runtime fonts only: Nunito Bold + Rubik Doodle Shadow |
 
 Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level_*.tres` (root).
-Export never packs: `concepts/`, `bin/`, `.cursor/`, `.vscode/`, `.godot/`, `.git/` — see `export_presets.cfg` `exclude_filter` and `concepts/.gdignore`.
+Export never packs: `concepts/`, `tools/`, `bin/`, `.cursor/`, `.vscode/`, `.godot/`, `.git/` — see `export_presets.cfg` `exclude_filter`, `concepts/.gdignore`, `tools/.gdignore`.
 
 ## Layer contracts
 

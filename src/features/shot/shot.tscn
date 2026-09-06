@@ -88,7 +88,7 @@ ray_cast = NodePath("RayCast2D")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=211650346]
 self_modulate = Color(1, 1, 1, 0.33333334)
 position = Vector2(38.999996, 0)
-scale = Vector2(0.3, 0.182)
+scale = Vector2(2.8125, 1.70625)
 texture = ExtResource("2_4rxj0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=467212049]

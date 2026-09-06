@@ -26,7 +26,7 @@ def _save(name: str, img: Image.Image) -> None:
 
 
 def title_cloud() -> None:
-    w, h = 440, 120
+    w, h = 360, 100
     img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     blobs = [(70, 58, 55), (150, 48, 62), (230, 52, 58), (310, 56, 52), (370, 62, 44)]
