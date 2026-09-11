@@ -8,18 +8,48 @@ extends Control
 @export var progress: ProgressController
 @export var back_button: BaseButton
 @export var early_exam_dialog: ConfirmDialog
+@export var background_host: BackgroundHost
 
 var _pending_battle_info: GameConfig.BattleInfo = null
 
 
 func initialize(_container_id: String) -> void:
 	container_id = _container_id
+	_sync_local_background()
 	_populate_levels_grid()
 
 
 func _ready() -> void:
 	early_exam_dialog.ev_confirmed.connect(_on_early_exam_confirmed)
 	early_exam_dialog.ev_canceled.connect(_on_early_exam_canceled)
+	_sync_local_background()
+
+
+func _sync_local_background() -> void:
+	if background_host == null:
+		return
+	var shared := _shared_parent_background()
+	var nested := shared != null
+	background_host.visible = not nested
+	background_host.process_mode = (
+		Node.PROCESS_MODE_DISABLED if nested else Node.PROCESS_MODE_INHERIT
+	)
+	if nested:
+		return
+	var packed: PackedScene = ValleyBackgroundArt.get_scene(container_id)
+	if packed == null:
+		packed = ValleyBackgroundArt.pick_random_scene()
+	background_host.force_variant(packed)
+
+
+func _shared_parent_background() -> BackgroundHost:
+	var parent := get_parent()
+	if parent == null:
+		return null
+	for child in parent.get_children():
+		if child is BackgroundHost and child != background_host:
+			return child as BackgroundHost
+	return null
 
 
 func _populate_levels_grid() -> void:
