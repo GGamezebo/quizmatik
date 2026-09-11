@@ -8,14 +8,6 @@ extends Control
 @export var level_selection_window: Control
 @export var background_host: BackgroundHost
 
-const VALLEY_BACKGROUNDS: Dictionary = {
-	"addition": preload("res://src/ui/backgrounds/valley_addition/valley_addition_background.tscn"),
-	"subtraction": preload("res://src/ui/backgrounds/valley_subtraction/valley_subtraction_background.tscn"),
-	"multiplication": preload("res://src/ui/backgrounds/valley_multiplication/valley_multiplication_background.tscn"),
-	"division": preload("res://src/ui/backgrounds/valley_division/valley_division_background.tscn"),
-	"mix": preload("res://src/ui/backgrounds/valley_mix/valley_mix_background.tscn"),
-}
-
 var _container_ids: Array[String] = []
 
 
@@ -146,5 +138,5 @@ func _update_background_for_index(index: int) -> void:
 		return
 	if index < 0 or index >= _container_ids.size():
 		return
-	var packed: PackedScene = VALLEY_BACKGROUNDS.get(_container_ids[index]) as PackedScene
+	var packed: PackedScene = ValleyBackgroundArt.get_scene(_container_ids[index])
 	background_host.force_variant(packed)

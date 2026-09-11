@@ -14,6 +14,7 @@ extends IScene
 @export var menu_button: BaseButton
 @export var repeat_button: BaseButton
 @export var exam_victory_dialog: ExamVictoryDialog
+@export var background_host: BackgroundHost
 @export var _game_config: GameConfig
 
 var _next_battle_info: GameConfig.BattleInfo = null
@@ -39,6 +40,7 @@ static func build_result_data(
 func initialize(data: Dictionary) -> void:
 	if data.has("game_config"):
 		_game_config = data["game_config"]
+	_apply_valley_background()
 
 	var is_win: bool = data.get("is_win", false)
 	var score: int = data.get("score", 0)
@@ -66,6 +68,17 @@ func deinit() -> void:
 	_game_config = null
 	_next_battle_info = null
 	_pending_auto_container = ""
+
+
+func _apply_valley_background() -> void:
+	if background_host == null:
+		return
+	var packed: PackedScene = null
+	if _game_config != null and _game_config.battle_info != null:
+		packed = ValleyBackgroundArt.get_scene(_game_config.battle_info.container_id)
+	else:
+		packed = ValleyBackgroundArt.pick_random_scene()
+	background_host.force_variant(packed)
 
 
 func _update_results(is_win: bool, score: int, max_score: int, stars_count: int) -> void:

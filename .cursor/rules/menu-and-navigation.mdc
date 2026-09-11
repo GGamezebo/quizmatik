@@ -38,7 +38,7 @@ alwaysApply: false
 - Main-menu quit → cream circle, black X, red ring (`menu/ui/btn_exit.png`); never a red X glyph
 - Confirm overlays: cancel = `levels/ui/btn_back.png`, confirm = `menu/ui/btn_check.png`
 - Daily slots (display-only) → `menu/daily/` under main-menu CTAs (`Ежедневная серия`); sky color from completed dailies via `BackgroundBase.paint_from_daily`
-- Results → `post_battle/`
+- Results → `post_battle/` — campaign valley (or random valley from training); color from dailies via `paint_from_daily`
 - Stack helpers → `core/lib/window_stack_manager/`
 - Account/progress/daily → `src/game/account/` (wired in `app_root/root.tscn`)
 
