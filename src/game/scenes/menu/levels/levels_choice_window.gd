@@ -20,6 +20,7 @@ func _ready() -> void:
 
 
 func on_window_enter() -> void:
+	_set_pack_chrome_visible(true)
 	_update_window()
 
 
@@ -115,6 +116,8 @@ func _on_pack_activated(index: int) -> void:
 
 
 func _on_pack_enter_requested(container_id: String) -> void:
+	_update_background_for_container(container_id)
+	_set_pack_chrome_visible(false)
 	level_selection_window.initialize(container_id)
 	windows_stack_manager.open_stacked_window(level_selection_window)
 
@@ -134,9 +137,20 @@ func _on_selection_changed(index: int) -> void:
 
 
 func _update_background_for_index(index: int) -> void:
-	if background_host == null:
-		return
 	if index < 0 or index >= _container_ids.size():
 		return
-	var packed: PackedScene = ValleyBackgroundArt.get_scene(_container_ids[index])
-	background_host.force_variant(packed)
+	_update_background_for_container(_container_ids[index])
+
+
+func _update_background_for_container(container_id: String) -> void:
+	if background_host == null:
+		return
+	background_host.force_variant(ValleyBackgroundArt.get_scene(container_id))
+
+
+func _set_pack_chrome_visible(show_chrome: bool) -> void:
+	for child in get_children():
+		if child == background_host or child == level_selection_window:
+			continue
+		if child is CanvasItem:
+			(child as CanvasItem).visible = show_chrome

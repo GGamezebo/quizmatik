@@ -24,6 +24,7 @@ extends Node2D
 @export_range(8, 300, 1) var max_ink_blots: int = 140
 
 var _active: BackgroundBase = null
+var _active_packed: PackedScene = null
 var _transition_tween: Tween = null
 
 
@@ -34,6 +35,8 @@ func _ready() -> void:
 ## Forces a specific background variant and remounts it immediately.
 func force_variant(packed: PackedScene) -> void:
 	if packed == null:
+		return
+	if _active_packed == packed and is_instance_valid(_active):
 		return
 	if _active == null or is_zero_approx(crossfade_seconds):
 		if _active != null:
@@ -49,6 +52,7 @@ func force_variant(packed: PackedScene) -> void:
 	if next == null:
 		return
 	_active = next
+	_active_packed = packed
 	next.modulate.a = 0.0
 	add_child(next)
 
@@ -89,6 +93,7 @@ func _mount_variant(packed: PackedScene) -> void:
 	if next == null:
 		return
 	_active = next
+	_active_packed = packed
 	add_child(_active)
 
 

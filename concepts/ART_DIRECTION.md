@@ -68,6 +68,8 @@ Keep the live carousel: horizontal pack cards, selected center, next peeking rig
 
 ### Level grid (inside a pack) — `concepts/levels_grid_adventure_ref.png`
 
+- Background = the selected valley (`ValleyBackgroundArt` + `paint_from_daily`), same live `BackgroundHost` as the pack carousel (no remount)
+
 - Square cream tiles, equal corner radius (~18), soft sticker shadow
 - Locked regular: lock glyph top-right (`levels/ui/icon_lock.png`); number stays readable; empty stars shown
 - Next playable regular (unlocked, 0 stars): sage-green outline + «СЛЕДУЮЩИЙ»; no lock
@@ -120,7 +122,8 @@ See `battle_concept.png`, notebook modern ref `concepts/notebook_pencil/battle_m
 | Concept | Code home |
 |---------|-----------|
 | Menu layout / windows | `src/game/scenes/menu/` |
-| Level pack carousel | `src/ui/backgrounds/levels_pack/` + `src/game/scenes/menu/levels/` |
+| Level pack carousel | `src/game/scenes/menu/levels/` — valley via `ValleyBackgroundArt` |
+| Level grid | `src/game/scenes/menu/levels/levels_selection.tscn` — shares pack `BackgroundHost`; fallback valley only when isolated |
 | Battle HUD / world | `src/game/scenes/game/` |
 | Post-battle results | `src/game/scenes/post_battle/` — valley via `ValleyBackgroundArt` + `paint_from_daily` |
 | Answer look → balloons | `src/features/answer/` (+ art) |
@@ -128,7 +131,7 @@ See `battle_concept.png`, notebook modern ref `concepts/notebook_pencil/battle_m
 | Plane / shot / ink trail | `src/features/plane/`, `shot/`, `ink_blot/` |
 
 | Theme | `core/theme/` — cream paper + graphite ink (`style.tres`) |
-| Backgrounds | `src/ui/backgrounds/` — `ValleyBackgroundArt` by `container_id`; battle/post-battle `BackgroundHost`; main menu: scrolling `classic_sky/` + daily paint; pack select: valley + daily paint |
+| Backgrounds | `src/ui/backgrounds/` — `ValleyBackgroundArt` by `container_id`; battle/post-battle `BackgroundHost`; main menu: scrolling `classic_sky/` + daily paint; pack carousel + level grid share one valley host |
 
 ## Rules for agents
 
