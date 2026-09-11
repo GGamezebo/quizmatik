@@ -137,6 +137,7 @@ Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swap
 - Project-shared Resource/type → `src/common/`
 - Shared UI widget (button base, dialog, loading, animated title) → `src/ui/` (`animated_title/` = per-letter fall/hop intro)
 - New battle/menu sky variant → `src/ui/backgrounds/{name}/` + add PackedScene to `BackgroundHost.variants`
+- Valley landscape scenes → `src/ui/backgrounds/valley_{container}/`; map `container_id` via `ValleyBackgroundArt`
 - Generic reusable utility (no project deps) → `core/lib/`
 - Level data → `src/levels/{container}/`; metadata → `levels_config.gd` / `tools/generate_levels.py`
 - Progress mutations → `ProgressController` / `DailyChallengesController` / `StatisticsController`; disk write only via `RootEvents.ev_save_progress` → `SaveManager.save()` (debounced; suppressed during battle; force-flush at battle end / app close)

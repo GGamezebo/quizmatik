@@ -2,9 +2,15 @@
 
 [ext_resource type="Script" uid="uid://15oswvc8w8gn" path="res://src/game/scenes/post_battle/post_battle.gd" id="1_uxaqq"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="2_jg6wr"]
-[ext_resource type="PackedScene" uid="uid://wr8hmf0acdft" path="res://src/ui/backgrounds/notebook/notebook_background.tscn" id="3_bg"]
+[ext_resource type="PackedScene" uid="uid://d3sdqmf0acdft" path="res://src/ui/backgrounds/background_host.tscn" id="3_bg"]
 [ext_resource type="Resource" uid="uid://dsqbcw3nqv3lc" path="res://src/common/game_config_default.tres" id="3_isyvk"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="4_progress"]
+[ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="4_daily"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/valley_addition/valley_addition_background.tscn" id="4_valley_add"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/valley_subtraction/valley_subtraction_background.tscn" id="4_valley_sub"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/valley_multiplication/valley_multiplication_background.tscn" id="4_valley_mul"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/valley_division/valley_division_background.tscn" id="4_valley_div"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/valley_mix/valley_mix_background.tscn" id="4_valley_mix"]
 [ext_resource type="Texture2D" uid="uid://dt41y5hehb65t" path="res://src/game/scenes/menu/levels/ui/panel_card_round.png" id="5_card"]
 [ext_resource type="Texture2D" uid="uid://b62kwj1wrreax" path="res://assets/ui/stamps/stamp_sun.png" id="6_sun"]
 [ext_resource type="Texture2D" uid="uid://da6b1sia8j0fb" path="res://assets/ui/stamps/stamp_flower.png" id="7_flower"]
@@ -66,7 +72,7 @@ shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
 
-[node name="PostBattleScene" type="Node" unique_id=1710544667 node_paths=PackedStringArray("progress", "title_label", "score_label", "stamps", "next_level_button", "menu_button", "repeat_button", "exam_victory_dialog")]
+[node name="PostBattleScene" type="Node" unique_id=1710544667 node_paths=PackedStringArray("progress", "title_label", "score_label", "stamps", "next_level_button", "menu_button", "repeat_button", "exam_victory_dialog", "background_host")]
 script = ExtResource("1_uxaqq")
 root_events = ExtResource("2_jg6wr")
 progress = NodePath("ProgressController")
@@ -79,11 +85,14 @@ next_level_button = NodePath("UI/Screen/CenterContainer/ResultCard/Buttons/NextL
 menu_button = NodePath("UI/Screen/CenterContainer/ResultCard/Buttons/Menu")
 repeat_button = NodePath("UI/Screen/CenterContainer/ResultCard/Buttons/Repeat")
 exam_victory_dialog = NodePath("ExamVictoryDialog")
+background_host = NodePath("UI/Screen/Background")
 _game_config = ExtResource("3_isyvk")
 
 [node name="ExamVictoryDialog" parent="." instance=ExtResource("15_exam_victory")]
 
 [node name="ProgressController" parent="." unique_id=478405376 instance=ExtResource("4_progress")]
+
+[node name="DailyChallengesController" parent="." unique_id=2009000201 instance=ExtResource("4_daily")]
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1755344619]
 
@@ -96,8 +105,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("theme_ui")
 
-[node name="Background" parent="UI/Screen" unique_id=1769336873 instance=ExtResource("3_bg")]
-idle_color_amount = 1.0
+[node name="Background" parent="UI/Screen" unique_id=1769336873 node_paths=PackedStringArray("daily_controller") instance=ExtResource("3_bg")]
+variants = Array[PackedScene]([ExtResource("4_valley_add"), ExtResource("4_valley_sub"), ExtResource("4_valley_mul"), ExtResource("4_valley_div"), ExtResource("4_valley_mix")])
+paint_from_daily = true
+daily_controller = NodePath("../../../DailyChallengesController")
+idle_color_amount = 0.08
+crossfade_seconds = 0.0
 
 [node name="Overlay" type="TextureRect" parent="UI/Screen" unique_id=843163409]
 layout_mode = 1
