@@ -46,7 +46,7 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 | `main.tscn` → `src/game/main.gd` | HFSM bootstrap host |
 | `src/game/scenes/` | Screens / orchestration: `app_root`, `menu`, `game`, `post_battle` |
 | `src/features/` | Isolated gameplay features (own almost all deps) |
-| `src/common/` | Project-shared Resources (`GameConfig`, `LevelsConfig`, settings) |
+| `src/common/` | Project-shared Resources (`GameConfig`, `BattleDifficulty`, `LevelsConfig`, settings) |
 | `src/ui/` | Shared UI widgets (dialogs, buttons, loading, backgrounds) |
 | `src/levels/{container}/` | Campaign `level_N.tres` (canonical) |
 | `core/` | Project-agnostic code only (no Quizmatik types/scenes) |
@@ -145,7 +145,7 @@ Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swap
 - App-root vibration → `src/features/vibration/` (`VibrationController` instanced in `app_root/root.tscn`)
 - App-root music → `src/features/music/` (`MusicController` + win/lose themes; drives AppRoot `MusicPlayer`)
 - Editor-only practice lab (frozen full training UI) → `src/dev/training_room_lab/` — do not merge into player-facing `training_room_window/`; menu bottom-left button uses `OS.has_feature("editor")`
-- Player practice UI → `training_room_window/`: ops columns + difficulty presets write into `GameConfig` (full steppers live only in lab)
+- Player practice UI → `training_room_window/`: ops columns + `BattleDifficulty` coefficients into `GameConfig` (full steppers live only in lab)
 
 ## Cheap-change heuristics
 

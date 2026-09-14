@@ -4,3 +4,9 @@
 
 [resource]
 script = ExtResource("1_ngchb")
+health = 3
+questions_count = 8
+answer_speed = 80.0
+answer_speed_round_coeffs = {
+5: 1.2,
+}

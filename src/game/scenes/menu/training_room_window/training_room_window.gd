@@ -55,9 +55,12 @@ var _difficulty: StringName = &"normal"
 var _custom_min: int = 1
 var _custom_max: int = 15
 var _syncing: bool = false
+var _difficulty_base: GameConfig
 
 
 func _ready() -> void:
+	if config != null:
+		_difficulty_base = config.duplicate(true)
 	_setup_columns()
 	_bind_difficulty()
 	_bind_custom_range()
@@ -260,27 +263,15 @@ func _apply_to_config() -> void:
 	config.allowed_operations = flags
 	config.min_generate_number = mini(min_n, max_n)
 	config.max_generate_number = maxi(min_n, max_n)
+	config.health = 3
 	_apply_difficulty_to_config()
 	_save_config_to_disk()
 
 
 func _apply_difficulty_to_config() -> void:
-	match _difficulty:
-		&"easy":
-			config.health = 5
-			config.questions_count = 5
-			config.answer_speed = 45.0
-			config.answer_speed_round_coeffs = {}
-		&"hard":
-			config.health = 2
-			config.questions_count = 12
-			config.answer_speed = 120.0
-			config.answer_speed_round_coeffs = {4: 1.25, 8: 1.5}
-		_:
-			config.health = 3
-			config.questions_count = 8
-			config.answer_speed = 80.0
-			config.answer_speed_round_coeffs = {5: 1.2}
+	if _difficulty_base == null and config != null:
+		_difficulty_base = config.duplicate(true)
+	BattleDifficulty.apply(config, _difficulty, _difficulty_base)
 	config.early_exam_questions_multiplier = 1.0
 	config.early_exam_answer_speed_multiplier = 1.0
 
