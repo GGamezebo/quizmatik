@@ -5,6 +5,7 @@ extends RefCounted
 
 const STARTER_ID := "starter"
 const ORDER: Array[String] = ["starter", "fast", "green", "red", "gold"]
+const IDLE_REGION := Rect2(0, 0, 288, 108)
 
 const DEFS: Dictionary = {
 	"starter": {
@@ -82,3 +83,17 @@ static func plane_id_for_exam(container_id: String) -> String:
 
 static func atlas_texture() -> Texture2D:
 	return preload("res://src/features/plane/planes_atlas_spaced.png")
+
+
+static func idle_texture() -> AtlasTexture:
+	var tex := AtlasTexture.new()
+	tex.atlas = atlas_texture()
+	tex.region = IDLE_REGION
+	return tex
+
+
+static func apply_preview(rect: TextureRect, plane_id: String) -> void:
+	if rect == null:
+		return
+	rect.texture = idle_texture()
+	rect.modulate = get_def(plane_id).get("tint", Color.WHITE) as Color

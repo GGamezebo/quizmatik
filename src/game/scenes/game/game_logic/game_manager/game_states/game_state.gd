@@ -21,10 +21,14 @@ var _hint_on_miss: bool = false
 
 
 func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
-	var plane_def: Dictionary = PlaneCatalog.get_def(PlaneCatalog.STARTER_ID)
-	var profiles := ProfileController.find_in_tree(get_tree())
-	if profiles != null:
-		plane_def = PlaneCatalog.get_def(profiles.equipped_plane_id())
+	var plane_id := game_config.equipped_plane_id if game_config != null else PlaneCatalog.STARTER_ID
+	if plane_id.is_empty():
+		var profiles := ProfileController.find_in_tree(game_manager.get_tree() if game_manager else get_tree())
+		if profiles != null:
+			plane_id = profiles.equipped_plane_id()
+		else:
+			plane_id = PlaneCatalog.STARTER_ID
+	var plane_def: Dictionary = PlaneCatalog.get_def(plane_id)
 	_blast_lanes = int(plane_def.get("blast_lanes", 0))
 	_hint_on_miss = bool(plane_def.get("hint_on_miss", false))
 	var plane_speed: float = game_config.player_air_plane_speed * float(plane_def.get("speed_mult", 1.0))

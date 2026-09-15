@@ -9,9 +9,11 @@ uniform vec2 shadow_offset = vec2(-5.0, 10.0);
 uniform vec4 shadow_color : source_color = vec4(0.0, 0.0, 0.0, 0.5);
 /// Fake blur radius in pixels (4-corner sample).
 uniform float shadow_blur : hint_range(0.0, 20.0) = 2.0;
+/// Plane tint only. Leave white so TextureButtons keep the PNG (theme COLOR is dark navy).
+uniform vec4 sprite_tint : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 
 void fragment() {
-	vec4 original_color = texture(TEXTURE, UV);
+	vec4 original_color = texture(TEXTURE, UV) * sprite_tint;
 
 	vec2 text_size = vec2(textureSize(TEXTURE, 0));
 	vec2 uv_offset = shadow_offset / text_size;

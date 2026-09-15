@@ -58,8 +58,10 @@ func apply_dict(data: Dictionary) -> void:
 				unlocked_planes.append(id)
 	if unlocked_planes.is_empty():
 		unlocked_planes.append("starter")
-	if not unlocked_planes.has(equipped_plane_id):
+	if equipped_plane_id.is_empty():
 		equipped_plane_id = unlocked_planes[0]
+	elif not unlocked_planes.has(equipped_plane_id):
+		unlocked_planes.append(equipped_plane_id)
 
 func reset_to_defaults() -> void:
 	apply_dict({})
