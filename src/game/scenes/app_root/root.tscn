@@ -16,6 +16,9 @@
 [ext_resource type="PackedScene" uid="uid://c8n3sfxctrlk1" path="res://src/features/sfx/sfx_controller.tscn" id="12_sfx"]
 [ext_resource type="PackedScene" uid="uid://c8n3musictrl01" path="res://src/features/music/music_controller.tscn" id="13_music"]
 [ext_resource type="PackedScene" uid="uid://c8n3vibctrl01" path="res://src/features/vibration/vibration_controller.tscn" id="14_vib"]
+[ext_resource type="PackedScene" uid="uid://c8profilectrl01" path="res://src/game/account/profile_controller.tscn" id="15_profile"]
+[ext_resource type="PackedScene" uid="uid://b7celebrationsplash" path="res://src/ui/celebration_splash/celebration_splash.tscn" id="16_splash"]
+[ext_resource type="PackedScene" uid="uid://c8profilecreateov" path="res://src/ui/profile_create_overlay/profile_create_overlay.tscn" id="17_first"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -27,12 +30,14 @@ glow_blend_mode = 0
 
 [sub_resource type="Compositor" id="Compositor_1bvp3"]
 
-[node name="AppRoot" type="Node" unique_id=74498543 node_paths=PackedStringArray("progress_controller", "daily_challenges_controller", "music_player")]
+[node name="AppRoot" type="Node" unique_id=74498543 node_paths=PackedStringArray("progress_controller", "daily_challenges_controller", "profile_controller", "music_player", "first_run_overlay")]
 script = ExtResource("1_main")
 root_events = ExtResource("8_dg77c")
 progress_controller = NodePath("Account/ProgressController")
 daily_challenges_controller = NodePath("Account/DailyChallengesController")
+profile_controller = NodePath("Account/ProfileController")
 music_player = NodePath("MusicPlayer")
+first_run_overlay = NodePath("UI/FirstRunProfileOverlay")
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="." unique_id=1055067511]
 resources = [PackedStringArray("levels"), [ExtResource("2_kek77")]]
@@ -57,6 +62,8 @@ vibration_controller = NodePath("../../../VibrationController")
 [node name="ProgressController" parent="Account" unique_id=907297279 instance=ExtResource("8_4c57u")]
 
 [node name="DailyChallengesController" parent="Account" unique_id=228399011 instance=ExtResource("11_daily")]
+
+[node name="ProfileController" parent="Account" instance=ExtResource("15_profile")]
 
 [node name="StatisticsController" type="Node" parent="Account" unique_id=1674268049]
 script = ExtResource("9_stats")
@@ -84,3 +91,7 @@ camera_attributes = SubResource("CameraAttributesPractical_h2yge")
 compositor = SubResource("Compositor_1bvp3")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1376372513]
+
+[node name="CelebrationSplash" parent="UI" instance=ExtResource("16_splash")]
+
+[node name="FirstRunProfileOverlay" parent="UI" instance=ExtResource("17_first")]

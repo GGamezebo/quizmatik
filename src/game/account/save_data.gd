@@ -3,10 +3,11 @@ class_name SaveData
 extends Save
 
 static func  CURRENT_SAVE_VERSION() -> int:
-	return 2
+	return 3
 	
 static var _migrations: Dictionary = {
 	1: _migrate_1_to_2,
+	2: _migrate_2_to_3,
 }
 
 func migrate_save_data(data: Dictionary, from_version: int) -> Dictionary:
@@ -38,3 +39,30 @@ static func _migrate_1_to_2(data: Dictionary) -> void:
 			var container: Variant = levels[container_id]
 			if container is Dictionary and bool(container.get("exam_passed", false)):
 				unlocked[String(container_id)] = true
+
+
+static func _migrate_2_to_3(data: Dictionary) -> void:
+	if data.has("profiles"):
+		return
+	var has_levels := data.has("levels")
+	var payload: Dictionary = data.duplicate(true)
+	data.clear()
+	if not has_levels:
+		data["active_profile_id"] = ""
+		data["profiles"] = {}
+		return
+	var profile_id := "profile_1"
+	payload["profile_id"] = profile_id
+	payload["name"] = String(payload.get("name", "Пилот"))
+	if String(payload.get("name", "")).is_empty():
+		payload["name"] = "Пилот"
+	payload["gender"] = String(payload.get("gender", "boy"))
+	if payload["gender"] != "girl":
+		payload["gender"] = "boy"
+	payload["age"] = int(payload.get("age", 8))
+	payload["gold"] = int(payload.get("gold", 0))
+	payload["equipped_plane_id"] = String(payload.get("equipped_plane_id", "starter"))
+	if not payload.has("unlocked_planes"):
+		payload["unlocked_planes"] = ["starter"]
+	data["active_profile_id"] = profile_id
+	data["profiles"] = {profile_id: payload}

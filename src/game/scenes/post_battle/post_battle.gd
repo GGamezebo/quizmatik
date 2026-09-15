@@ -58,12 +58,16 @@ func initialize(data: Dictionary) -> void:
 		_pending_auto_container = _resolve_auto_level_select_container(is_win)
 		call_deferred("_show_exam_victory", celebration)
 	else:
+		if root_events != null:
+			root_events.ev_celebration_unhold.emit()
 		var auto_container_id: String = _resolve_auto_level_select_container(is_win)
 		if not auto_container_id.is_empty():
 			call_deferred("_return_to_level_select", auto_container_id)
 
 
 func deinit() -> void:
+	if root_events != null:
+		root_events.ev_celebration_unhold.emit()
 	_listener.deinit()
 	_game_config = null
 	_next_battle_info = null
@@ -178,6 +182,8 @@ func _return_to_level_select(container_id: String) -> void:
 
 func _show_exam_victory(celebration: Dictionary) -> void:
 	if exam_victory_dialog == null:
+		if root_events != null:
+			root_events.ev_celebration_unhold.emit()
 		if not _pending_auto_container.is_empty():
 			_return_to_level_select(_pending_auto_container)
 		_pending_auto_container = ""
@@ -187,6 +193,8 @@ func _show_exam_victory(celebration: Dictionary) -> void:
 
 
 func _on_exam_victory_confirmed() -> void:
+	if root_events != null:
+		root_events.ev_celebration_unhold.emit()
 	var container_id := _pending_auto_container
 	_pending_auto_container = ""
 	if not container_id.is_empty():

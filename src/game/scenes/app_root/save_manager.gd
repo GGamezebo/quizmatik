@@ -1,13 +1,17 @@
+class_name SaveManager
 extends Node
 
 const SAVE_DEBOUNCE_SEC := 6.0
 const PROFILE: String = "save"
 
-## Shared live progress resource (same `.tres` assigned on Progress / Daily / Stats).
+## Shared live progress resource (same `.tres` assigned on Progress / Daily / Stats / Profile).
 @export var _pdata: PData
 @export var _root_events: RootEvents
 
 @onready var _save = $Save
+
+var active_profile_id: String = ""
+var profiles: Dictionary = {}
 
 var _dirty: bool = false
 var _in_battle: bool = false
@@ -23,18 +27,45 @@ func _ready() -> void:
 	add_child(_debounce_timer)
 
 	load_pdata()
-	_root_events.ev_reset_account_progress.connect(_on_reset_account_progress)
 	_root_events.ev_save_progress.connect(save)
 	_root_events.ev_battle_started.connect(_on_battle_started)
 	_root_events.ev_battle_finished.connect(_on_battle_finished)
 	print("Data system initialized successfully.")
 
 func save_pdata() -> void:
-	_save.save_data(_pdata.to_dict(), PROFILE)
+	_stash_live()
+	_save.save_data({
+		"active_profile_id": active_profile_id,
+		"profiles": profiles,
+	}, PROFILE)
 
 func load_pdata() -> void:
 	var dict: Dictionary = _save.edit_data(PROFILE)
-	_pdata.apply_dict(dict)
+	profiles = {}
+	active_profile_id = ""
+	var raw_profiles: Variant = dict.get("profiles", {})
+	if raw_profiles is Dictionary:
+		profiles = (raw_profiles as Dictionary).duplicate(true)
+	active_profile_id = String(dict.get("active_profile_id", ""))
+	if active_profile_id.is_empty() or not profiles.has(active_profile_id):
+		if not profiles.is_empty():
+			active_profile_id = String(profiles.keys()[0])
+		else:
+			active_profile_id = ""
+			_pdata.reset_to_defaults()
+			return
+	_pdata.apply_dict(profiles[active_profile_id])
+
+
+func _stash_live() -> void:
+	if active_profile_id.is_empty():
+		return
+	profiles[active_profile_id] = _pdata.to_dict()
+
+
+func has_profiles() -> bool:
+	return not profiles.is_empty()
+
 
 ## Debounced save entry point (wired to RootEvents.ev_save_progress).
 ## Never writes during a battle; other requests coalesce onto a single timed write.
@@ -77,7 +108,3 @@ func _notification(what: int) -> void:
 		# Backgrounded but may resume (mobile/web): flush pending, stay debounced.
 		NOTIFICATION_APPLICATION_PAUSED, NOTIFICATION_APPLICATION_FOCUS_OUT:
 			_flush()
-
-func _on_reset_account_progress() -> void:
-	_pdata.reset_to_defaults()
-	_write_to_disk()

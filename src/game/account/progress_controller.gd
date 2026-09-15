@@ -160,13 +160,24 @@ func pass_exam(container_id: String, stars: int) -> Dictionary:
 	if was_first_pass:
 		pdata.trophies.unlock(container_id)
 
+	var unlocked_plane_id := ""
+	if was_first_pass:
+		var plane_id := PlaneCatalog.plane_id_for_exam(container_id)
+		if not plane_id.is_empty():
+			var profiles := ProfileController.find_in_tree(get_tree())
+			if profiles != null and profiles.unlock_plane(plane_id):
+				unlocked_plane_id = plane_id
+
 	save()
 
 	if not was_first_pass:
 		return {}
 
-	return {
+	var result := {
 		"first_exam_pass": true,
 		"container_id": container_id,
 		"next_container_id": levels_config.get_next_container_id(container_id),
 	}
+	if not unlocked_plane_id.is_empty():
+		result["unlocked_plane_id"] = unlocked_plane_id
+	return result

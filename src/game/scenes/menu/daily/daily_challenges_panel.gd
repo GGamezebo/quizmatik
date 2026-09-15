@@ -21,6 +21,8 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_event_listener.add(resized, _fit_slot_sizes)
 	_build_slots()
+	if daily_controller != null:
+		_event_listener.add(daily_controller.ev_daily_changed, refresh)
 	refresh()
 	call_deferred("_fit_slot_sizes")
 

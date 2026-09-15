@@ -1,7 +1,6 @@
 extends Control
 
 @export var user_settings: UserSettings
-@export var root_events: RootEvents
 @export var music_mute_button: MuteButton
 @export var sound_mute_button: MuteButton
 @export var music_toggle: TextureButton
@@ -13,11 +12,8 @@ extends Control
 @export var vibration_toggle: TextureButton
 @export var vibration_intensity_slider: HSlider
 @export var vibration_intensity_label: Label
-@export var reset_progress_button: Button
-@export var reset_confirm_dialog: ConfirmDialog
 
 var _syncing_ui: bool = false
-var _reset_step: int = 0
 
 
 func _ready() -> void:
@@ -27,9 +23,6 @@ func _ready() -> void:
 	sfx_volume_slider.value_changed.connect(_on_sfx_volume_changed)
 	vibration_toggle.toggled.connect(_on_vibration_toggle_toggled)
 	vibration_intensity_slider.value_changed.connect(_on_vibration_intensity_changed)
-	reset_progress_button.pressed.connect(_on_reset_progress_pressed)
-	reset_confirm_dialog.ev_confirmed.connect(_on_reset_dialog_confirmed)
-	reset_confirm_dialog.ev_canceled.connect(_on_reset_dialog_canceled)
 
 
 func on_window_enter() -> void:
@@ -137,32 +130,3 @@ func _apply_settings_fallback() -> void:
 		AudioServer.set_bus_mute(sfx_idx, user_settings.is_sound_mute)
 		if not user_settings.is_sound_mute:
 			AudioServer.set_bus_volume_db(sfx_idx, lerpf(-40.0, 0.0, user_settings.sfx_volume))
-
-
-func _on_reset_progress_pressed() -> void:
-	_reset_step = 1
-	reset_confirm_dialog.open(
-		"Сброс прогресса",
-		"Вы точно уверены, что готовы начать игру с нуля?",
-		"Да, продолжить",
-		"Отмена",
-	)
-
-
-func _on_reset_dialog_confirmed() -> void:
-	if _reset_step == 1:
-		_reset_step = 2
-		reset_confirm_dialog.open(
-			"Последнее предупреждение",
-			"Это последнее предупреждение: вы потеряете весь свой прогресс.",
-			"Сбросить всё",
-			"Отмена",
-		)
-		return
-	if _reset_step == 2 and root_events != null:
-		root_events.ev_reset_account_progress.emit()
-	_reset_step = 0
-
-
-func _on_reset_dialog_canceled() -> void:
-	_reset_step = 0

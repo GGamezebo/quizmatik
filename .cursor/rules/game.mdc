@@ -27,6 +27,7 @@ alwaysApply: false
 | SFX | AppRoot `SfxController` via `GameEvents` (`ev_shoot`, `ev_explosion`, `ev_correct_answer`, `ev_mistake`, `ev_win`, `ev_lose`, state change); plane thrust/crash/whoosh stay on the plane |
 | Vibration | AppRoot `VibrationController` via same `GameEvents` + `RootEvents` + UI presses; plane crash = long multi-pulse on `ev_lose` |
 | Touch plane | `AirPlane`: left half drag = move, right half tap = shoot (`mobile` / web+touchscreen); keyboard/mouse unchanged on desktop |
+| Equipped plane | `PlaneCatalog` + `ProfileController`: speed, tint, blast lanes, hint-on-miss (isolated F6 → starter) |
 
 ## Constraints
 
