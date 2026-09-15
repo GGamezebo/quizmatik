@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://c8profilerow0001"]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/profile_window/profile_row.gd" id="1_script"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_row"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.97, 0.94, 0.88, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.28)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_row_on"]
+content_margin_left = 14.0
+content_margin_top = 10.0
+content_margin_right = 14.0
+content_margin_bottom = 10.0
+bg_color = Color(0.94, 0.82, 0.42, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="ProfileRow" type="Button"]
+custom_minimum_size = Vector2(0, 48)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_row")
+theme_override_styles/hover = SubResource("StyleBoxFlat_row")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_row_on")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_row_on")
+text = "Пилот · 8"
+script = ExtResource("1_script")

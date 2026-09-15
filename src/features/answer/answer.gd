@@ -57,6 +57,7 @@ var value: int = 0:
 			_update_label_font_size()
 
 var speed: float = 50.0
+var lane_index: int = 0
 var _acceleration: float = GameConfig.PLAYER_ACCELERATION_DEFAULT
 var _collision_radius: float = 64.0
 var _saved_collision_layer: int = 0
@@ -300,3 +301,10 @@ func right() -> void:
 
 func fail() -> void:
 	label.label_settings.font_color = wrong_color
+
+
+func show_hint() -> void:
+	if _sprite:
+		_sprite.modulate = Color(1.35, 1.2, 0.45)
+	if label and label.label_settings:
+		label.label_settings.font_color = Color(0.55, 0.38, 0.05)

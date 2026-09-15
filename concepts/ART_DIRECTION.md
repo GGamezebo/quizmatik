@@ -128,7 +128,8 @@ See `battle_concept.png`, notebook modern ref `concepts/notebook_pencil/battle_m
 | Post-battle results | `src/game/scenes/post_battle/` — valley via `ValleyBackgroundArt` + `paint_from_daily` |
 | Answer look → balloons | `src/features/answer/` (+ art) |
 | Balloon pop VFX | `src/features/answer/balloon_pop.tscn` |
-| Plane / shot / ink trail | `src/features/plane/`, `shot/`, `ink_blot/` |
+| Plane / shot / ink trail | `src/features/plane/` (`PlaneCatalog`), `shot/`, `ink_blot/` |
+| Profile / hangar | `src/game/scenes/menu/profile_window/`, `plane_hangar_window/` |
 
 | Theme | `core/theme/` — cream paper + graphite ink (`style.tres`) |
 | Backgrounds | `src/ui/backgrounds/` — `ValleyBackgroundArt` by `container_id`; battle/post-battle `BackgroundHost`; main menu: scrolling `classic_sky/` + daily paint; pack carousel + level grid share one valley host |

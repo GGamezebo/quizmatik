@@ -140,7 +140,9 @@ Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swap
 - Valley landscape scenes → `src/ui/backgrounds/valley_{container}/`; map `container_id` via `ValleyBackgroundArt`
 - Generic reusable utility (no project deps) → `core/lib/`
 - Level data → `src/levels/{container}/`; metadata → `levels_config.gd` / `tools/generate_levels.py`
-- Progress mutations → `ProgressController` / `DailyChallengesController` / `StatisticsController`; disk write only via `RootEvents.ev_save_progress` → `SaveManager.save()` (debounced; suppressed during battle; force-flush at battle end / app close)
+- Progress mutations → `ProgressController` / `DailyChallengesController` / `StatisticsController` / `ProfileController`; disk write only via `RootEvents.ev_save_progress` → `SaveManager.save()` (debounced; suppressed during battle; force-flush at battle end / app close)
+- Profiles (max 4; profile = progress) → `src/game/account/` + `menu/profile_window/`; hangar → `menu/plane_hangar_window/`; catalog → `src/features/plane/plane_catalog.gd`
+- Celebration overlays (valley / plane / daily gold) → `src/ui/celebration_splash/` (not window stack); first-run create overlay same rule
 - App-root SFX → `src/features/sfx/` (`SfxController` instanced in `app_root/root.tscn`); plane-local audio stays on `plane.tscn`
 - App-root vibration → `src/features/vibration/` (`VibrationController` instanced in `app_root/root.tscn`)
 - App-root music → `src/features/music/` (`MusicController` + win/lose themes; drives AppRoot `MusicPlayer`)

@@ -1,0 +1,280 @@
+[gd_scene format=3 uid="uid://c8profilewindow01"]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/profile_window/profile_window.gd" id="1_script"]
+[ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="2_pdata"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="3_root"]
+[ext_resource type="Texture2D" uid="uid://bmrw6xiwwmbba" path="res://src/game/scenes/menu/ui/btn_cta_wide.png" id="4_frame"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="5_font"]
+[ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="6_title_font"]
+[ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="7_sky"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="8_shadow"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="9_back"]
+[ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="10_daily"]
+[ext_resource type="PackedScene" uid="uid://daurosqrmggl0" path="res://src/game/scenes/menu/ui/menu_cta_button.tscn" id="11_cta"]
+[ext_resource type="PackedScene" uid="uid://c8qm5n2k7xwfd" path="res://src/ui/confirm_dialog/confirm_dialog.tscn" id="12_confirm"]
+[ext_resource type="PackedScene" uid="uid://c8profilecreateov" path="res://src/ui/profile_create_overlay/profile_create_overlay.tscn" id="13_overlay"]
+[ext_resource type="PackedScene" uid="uid://c8profilerow0001" path="res://src/game/scenes/menu/profile_window/profile_row.tscn" id="14_row"]
+[ext_resource type="Texture2D" uid="uid://cyg5jcu3u4kvb" path="res://src/game/scenes/menu/ui/icon_achievements.png" id="15_cup"]
+[ext_resource type="Texture2D" path="res://src/features/plane/planes_atlas_spaced.png" id="16_plane"]
+[ext_resource type="Texture2D" path="res://assets/ui/stamps/stamp_sun.png" id="17_gold"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Script" uid="uid://dfc4lkuw1o6wl" path="res://src/ui/buttons/hover_scale_binder.gd" id="18_binder"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
+shader = ExtResource("8_shadow")
+shader_parameter/shadow_offset = Vector2(-4, 8)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("6_title_font")
+font_size = 34
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_name"]
+font = ExtResource("6_title_font")
+font_size = 28
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_body"]
+font = ExtResource("5_font")
+font_size = 20
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hit"]
+bg_color = Color(0.97, 0.94, 0.88, 0.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.2)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="ProfileWindow" type="Control" node_paths=PackedStringArray("name_label", "age_label", "gold_label", "plane_preview", "plane_name_label", "plane_button", "trophy_button", "profiles_list", "create_button", "edit_button", "delete_button", "create_overlay", "delete_dialog")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("theme_ui")
+script = ExtResource("1_script")
+pdata = ExtResource("2_pdata")
+name_label = NodePath("Center/Content/Body/Left/Name")
+age_label = NodePath("Center/Content/Body/Left/Age")
+gold_label = NodePath("Center/Content/Body/Left/GoldRow/Gold")
+plane_preview = NodePath("Center/Content/Body/Left/PlaneButton/PlanePreview")
+plane_name_label = NodePath("Center/Content/Body/Left/PlaneButton/PlaneName")
+plane_button = NodePath("Center/Content/Body/Left/PlaneButton")
+trophy_button = NodePath("Center/Content/Body/Left/TrophyButton")
+profiles_list = NodePath("Center/Content/Body/Right/List")
+create_button = NodePath("Center/Content/Body/Right/Actions/Create")
+edit_button = NodePath("Center/Content/Body/Right/Actions/Edit")
+delete_button = NodePath("Center/Content/Body/Right/Actions/Delete")
+create_overlay = NodePath("CreateOverlay")
+delete_dialog = NodePath("DeleteDialog")
+profile_row_scene = ExtResource("14_row")
+root_events = ExtResource("3_root")
+
+[node name="HoverScaleBinder" type="Node" parent="."]
+script = ExtResource("18_binder")
+
+[node name="DailyChallengesController" parent="." instance=ExtResource("10_daily")]
+
+[node name="Background" parent="." node_paths=PackedStringArray("daily_controller") instance=ExtResource("7_sky")]
+sky_scroll_speed = 0.015
+paint_from_daily = true
+daily_controller = NodePath("../DailyChallengesController")
+idle_color_amount = 0.08
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Content" type="Control" parent="Center"]
+custom_minimum_size = Vector2(980, 620)
+layout_mode = 2
+
+[node name="Frame" type="NinePatchRect" parent="Center/Content"]
+material = SubResource("ShaderMaterial_sticker")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_frame")
+patch_margin_left = 70
+patch_margin_top = 60
+patch_margin_right = 70
+patch_margin_bottom = 60
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Title" type="Label" parent="Center/Content"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -160.0
+offset_top = 18.0
+offset_right = 160.0
+offset_bottom = 62.0
+grow_horizontal = 2
+text = "ПРОФИЛЬ"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Body" type="HBoxContainer" parent="Center/Content"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 84.0
+offset_right = -48.0
+offset_bottom = -36.0
+theme_override_constants/separation = 28
+
+[node name="Left" type="VBoxContainer" parent="Center/Content/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="Name" type="Label" parent="Center/Content/Body/Left"]
+layout_mode = 2
+text = "Пилот"
+label_settings = SubResource("LabelSettings_name")
+horizontal_alignment = 1
+
+[node name="Age" type="Label" parent="Center/Content/Body/Left"]
+layout_mode = 2
+text = "Возраст: 8"
+label_settings = SubResource("LabelSettings_body")
+horizontal_alignment = 1
+
+[node name="GoldRow" type="HBoxContainer" parent="Center/Content/Body/Left"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 8
+
+[node name="GoldIcon" type="TextureRect" parent="Center/Content/Body/Left/GoldRow"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("17_gold")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Gold" type="Label" parent="Center/Content/Body/Left/GoldRow"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_body")
+
+[node name="PlaneButton" type="Button" parent="Center/Content/Body/Left"]
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_hit")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hit")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hit")
+theme_override_styles/focus = SubResource("StyleBoxFlat_hit")
+
+[node name="PlanePreview" type="TextureRect" parent="Center/Content/Body/Left/PlaneButton"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -40.0
+offset_right = 160.0
+offset_bottom = 40.0
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("16_plane")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlaneName" type="Label" parent="Center/Content/Body/Left/PlaneButton"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -20.0
+offset_right = -16.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+text = "Самолёт"
+label_settings = SubResource("LabelSettings_body")
+horizontal_alignment = 2
+
+[node name="TrophyButton" type="Button" parent="Center/Content/Body/Left"]
+custom_minimum_size = Vector2(0, 88)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_hit")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hit")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hit")
+icon = ExtResource("15_cup")
+text = "Кубки"
+expand_icon = true
+
+[node name="Right" type="VBoxContainer" parent="Center/Content/Body"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ListTitle" type="Label" parent="Center/Content/Body/Right"]
+layout_mode = 2
+text = "Пилоты"
+label_settings = SubResource("LabelSettings_body")
+
+[node name="List" type="VBoxContainer" parent="Center/Content/Body/Right"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="Actions" type="VBoxContainer" parent="Center/Content/Body/Right"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Create" parent="Center/Content/Body/Right/Actions" instance=ExtResource("11_cta")]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+icon_texture = null
+caption_text = "СОЗДАТЬ"
+subtitle_text = ""
+
+[node name="Edit" parent="Center/Content/Body/Right/Actions" instance=ExtResource("11_cta")]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+icon_texture = null
+caption_text = "ИЗМЕНИТЬ"
+subtitle_text = ""
+
+[node name="Delete" parent="Center/Content/Body/Right/Actions" instance=ExtResource("11_cta")]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+icon_texture = null
+caption_text = "УДАЛИТЬ"
+subtitle_text = ""
+
+[node name="MenuWindowBack" parent="." instance=ExtResource("9_back")]
+
+[node name="CreateOverlay" parent="." instance=ExtResource("13_overlay")]
+
+[node name="DeleteDialog" parent="." instance=ExtResource("12_confirm")]

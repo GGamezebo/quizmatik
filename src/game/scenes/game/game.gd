@@ -16,6 +16,9 @@ func initialize(_data: Dictionary) -> void:
 			scenario = scenario.duplicate(true)
 			if battle_info.is_early_exam:
 				scenario.apply_early_exam_modifiers()
+			var profiles := ProfileController.find_in_tree(get_tree())
+			if profiles != null:
+				BattleDifficulty.apply(scenario, profiles.valley_difficulty())
 		
 	if scenario:
 		_load_game_scenario(scenario)

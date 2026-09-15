@@ -8,6 +8,13 @@ var state: StateData = StateData.new()
 var statistics: StatisticsData = StatisticsData.new()
 var daily: DailyData = DailyData.new()
 var trophies: TrophiesData = TrophiesData.new()
+var profile_id: String = ""
+var display_name: String = ""
+var gender: String = "boy"
+var age: int = 8
+var gold: int = 0
+var equipped_plane_id: String = "starter"
+var unlocked_planes: Array[String] = ["starter"]
 
 
 func to_dict() -> Dictionary:
@@ -17,6 +24,13 @@ func to_dict() -> Dictionary:
 		"statistics": statistics.to_dict(),
 		"daily": daily.to_dict(),
 		"trophies": trophies.to_dict(),
+		"profile_id": profile_id,
+		"name": display_name,
+		"gender": gender,
+		"age": age,
+		"gold": gold,
+		"equipped_plane_id": equipped_plane_id,
+		"unlocked_planes": unlocked_planes.duplicate(),
 	}
 
 ## Mutates this resource in place so every `@export var pdata: PData` sharing the
@@ -27,6 +41,25 @@ func apply_dict(data: Dictionary) -> void:
 	statistics = StatisticsData.from_dict(data.get("statistics", {}))
 	daily = DailyData.from_dict(data.get("daily", {}))
 	trophies = TrophiesData.from_dict(data.get("trophies", {}))
+	profile_id = String(data.get("profile_id", ""))
+	display_name = String(data.get("name", ""))
+	gender = String(data.get("gender", "boy"))
+	if gender != "girl":
+		gender = "boy"
+	age = clampi(int(data.get("age", 8)), 4, 18)
+	gold = maxi(0, int(data.get("gold", 0)))
+	equipped_plane_id = String(data.get("equipped_plane_id", "starter"))
+	unlocked_planes.clear()
+	var planes_raw: Variant = data.get("unlocked_planes", ["starter"])
+	if planes_raw is Array:
+		for plane_id in planes_raw:
+			var id := String(plane_id)
+			if not id.is_empty() and not unlocked_planes.has(id):
+				unlocked_planes.append(id)
+	if unlocked_planes.is_empty():
+		unlocked_planes.append("starter")
+	if not unlocked_planes.has(equipped_plane_id):
+		equipped_plane_id = unlocked_planes[0]
 
 func reset_to_defaults() -> void:
 	apply_dict({})
@@ -210,16 +243,19 @@ class StatisticsData:
 class DailyData:
 	var utc_day: String = ""
 	var slots: Array[bool] = empty_slots()
+	var reward_claimed: bool = false
 
 	func to_dict() -> Dictionary:
 		return {
 			"utc_day": utc_day,
 			"slots": slots.duplicate(),
+			"reward_claimed": reward_claimed,
 		}
 
 	static func from_dict(d: Dictionary) -> DailyData:
 		var daily := DailyData.new()
 		daily.utc_day = String(d.get("utc_day", ""))
+		daily.reward_claimed = bool(d.get("reward_claimed", false))
 		var raw: Variant = d.get("slots", [])
 		if raw is Array:
 			var source: Array = raw

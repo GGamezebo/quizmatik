@@ -28,12 +28,15 @@
 [ext_resource type="Texture2D" uid="uid://btx11pyx4se77" path="res://assets/ui/icons/btn_sfx_on.png" id="19_sfx_on"]
 [ext_resource type="PackedScene" uid="uid://bkoeytpeqxe1w" path="res://src/game/scenes/menu/settings_window/settings_window.tscn" id="20_r0b7e"]
 [ext_resource type="PackedScene" uid="uid://caclv7nru701m" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.tscn" id="21_trophy"]
+[ext_resource type="PackedScene" uid="uid://c8profilewindow01" path="res://src/game/scenes/menu/profile_window/profile_window.tscn" id="21_profile"]
+[ext_resource type="PackedScene" uid="uid://c8planehangarwin" path="res://src/game/scenes/menu/plane_hangar_window/plane_hangar_window.tscn" id="21_hangar"]
 [ext_resource type="PackedScene" uid="uid://b00ddsqtwrab5" path="res://src/game/scenes/menu/daily/daily_challenges_panel.tscn" id="23_daily"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="24_6evpd"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="25_menu_back"]
 [ext_resource type="PackedScene" uid="uid://bkifyl0m7qp2" path="res://src/game/scenes/menu/ui/menu_circle_button.tscn" id="30_circle_btn"]
 [ext_resource type="Texture2D" uid="uid://cyg5jcu3u4kvb" path="res://src/game/scenes/menu/ui/icon_achievements.png" id="32_icon_achievements"]
 [ext_resource type="Texture2D" uid="uid://ct821hopq4mrv" path="res://src/game/scenes/menu/ui/icon_exit.png" id="33_icon_exit"]
+[ext_resource type="Texture2D" uid="uid://bhvth81jmerbb" path="res://src/features/plane/planes_atlas_spaced.png" id="32_icon_profile"]
 [ext_resource type="PackedScene" uid="uid://daurosqrmggl0" path="res://src/game/scenes/menu/ui/menu_cta_button.tscn" id="34_cta_btn"]
 [ext_resource type="Texture2D" uid="uid://c7covqaft52xn" path="res://src/game/scenes/menu/ui/icon_pencil.png" id="36_icon_pencil"]
 [ext_resource type="Script" uid="uid://dfc4lkuw1o6wl" path="res://src/ui/buttons/hover_scale_binder.gd" id="37_hover_binder"]
@@ -121,6 +124,29 @@ target_window = NodePath("../../TrophyRoomWindow")
 [node name="TrophyRoomBack" type="Node" parent="UI/StackWindowController" unique_id=1133530387 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
 button = NodePath("../../TrophyRoomWindow/MenuWindowBack/Back")
+
+[node name="ProfileWindowOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
+script = ExtResource("4_haj1v")
+button = NodePath("../../MainMenuWindow/MarginContainer/RightSideButtons/Profile")
+target_window = NodePath("../../ProfileWindow")
+
+[node name="ProfileWindowBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button")]
+script = ExtResource("4_back")
+button = NodePath("../../ProfileWindow/MenuWindowBack/Back")
+
+[node name="HangarOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
+script = ExtResource("4_haj1v")
+button = NodePath("../../ProfileWindow/Center/Content/Body/Left/PlaneButton")
+target_window = NodePath("../../PlaneHangarWindow")
+
+[node name="HangarBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button")]
+script = ExtResource("4_back")
+button = NodePath("../../PlaneHangarWindow/MenuWindowBack/Back")
+
+[node name="ProfileTrophyOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
+script = ExtResource("4_haj1v")
+button = NodePath("../../ProfileWindow/Center/Content/Body/Left/TrophyButton")
+target_window = NodePath("../../TrophyRoomWindow")
 
 [node name="LevelsSelectionBack" type="Node" parent="UI/StackWindowController" unique_id=785798506 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
@@ -252,7 +278,7 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -112.0
-offset_bottom = 224.0
+offset_bottom = 336.0
 grow_horizontal = 0
 theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
@@ -261,6 +287,11 @@ theme_override_constants/margin_right = 30
 layout_mode = 2
 theme_override_constants/separation = 0
 alignment = 1
+
+[node name="Profile" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" instance=ExtResource("30_circle_btn")]
+layout_mode = 2
+image = ExtResource("32_icon_profile")
+metadata/hover_scale_bound = true
 
 [node name="Settings" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" unique_id=319530349 instance=ExtResource("30_circle_btn")]
 layout_mode = 2
@@ -393,6 +424,12 @@ visible = false
 visible = false
 
 [node name="TrophyRoomWindow" parent="UI" unique_id=965242045 instance=ExtResource("21_trophy")]
+visible = false
+
+[node name="ProfileWindow" parent="UI" instance=ExtResource("21_profile")]
+visible = false
+
+[node name="PlaneHangarWindow" parent="UI" instance=ExtResource("21_hangar")]
 visible = false
 
 [editable path="UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start"]

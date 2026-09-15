@@ -34,15 +34,13 @@ func open(celebration: Dictionary) -> void:
 			"Ты сдал экзамен в «%s»!\n\n"
 			% valley_name
 			+ "Поздравляем — все долины покорены!\n\n"
-			+ "Кубок сохранён в «Достижения» на главном экране."
+			+ "Кубок сохранён в профиле."
 		)
 	else:
-		var next_name := _container_name(next_container_id)
 		message_label.text = (
 			"Ты сдал экзамен в «%s»!\n\n"
 			% valley_name
-			+ "Открыта новая долина: «%s».\n\n" % next_name
-			+ "Кубок сохранён в «Достижения» на главном экране."
+			+ "Кубок сохранён в профиле."
 		)
 
 	screen.modulate.a = 0.0
