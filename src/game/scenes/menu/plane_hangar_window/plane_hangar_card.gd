@@ -22,8 +22,7 @@ func setup(id: String, unlocked: bool, equipped: bool, gold: int, exam_passed: b
 	plane_id = id
 	var def: Dictionary = PlaneCatalog.get_def(id)
 	if preview:
-		preview.texture = PlaneCatalog.atlas_texture()
-		preview.modulate = def.get("tint", Color.WHITE)
+		PlaneCatalog.apply_preview(preview, id)
 	if name_label:
 		name_label.text = String(def.get("name", id))
 	var badge := String(def.get("badge", ""))

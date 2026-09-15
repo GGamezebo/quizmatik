@@ -58,6 +58,10 @@ shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_profile_plane"]
+atlas = ExtResource("32_icon_profile")
+region = Rect2(0, 0, 288, 108)
+
 [node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "levels_choice_window", "start_button", "training_room_start_button", "training_lab_start_button", "exit_button")]
 script = ExtResource("1_5oxuo")
 root_events = ExtResource("2_35kkh")
@@ -290,7 +294,7 @@ alignment = 1
 
 [node name="Profile" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" instance=ExtResource("30_circle_btn")]
 layout_mode = 2
-image = ExtResource("32_icon_profile")
+image = SubResource("AtlasTexture_profile_plane")
 metadata/hover_scale_bound = true
 
 [node name="Settings" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" unique_id=319530349 instance=ExtResource("30_circle_btn")]

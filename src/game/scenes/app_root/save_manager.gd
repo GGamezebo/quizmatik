@@ -70,6 +70,7 @@ func has_profiles() -> bool:
 ## Debounced save entry point (wired to RootEvents.ev_save_progress).
 ## Never writes during a battle; other requests coalesce onto a single timed write.
 func save() -> void:
+	_stash_live()
 	_dirty = true
 	if _shutting_down:
 		_flush()

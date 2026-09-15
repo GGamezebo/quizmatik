@@ -47,7 +47,12 @@ func initialize(_speed: float, _movement_mode=MovementMode.DIRECT) -> void:
 
 
 func apply_tint(color: Color) -> void:
-	if animated_sprite:
+	if animated_sprite == null:
+		return
+	var mat := animated_sprite.material as ShaderMaterial
+	if mat != null:
+		mat.set_shader_parameter("sprite_tint", color)
+	else:
 		animated_sprite.modulate = color
 
 func _ready() -> void:

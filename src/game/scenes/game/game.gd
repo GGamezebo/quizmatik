@@ -24,6 +24,7 @@ func initialize(_data: Dictionary) -> void:
 		_load_game_scenario(scenario)
 		
 	game_config.battle_info = battle_info
+	_apply_equipped_plane()
 
 	# Campaign: tie battle background to selected valley.
 	if battle_info != null:
@@ -42,3 +43,14 @@ func deinit() -> void:
 
 func _load_game_scenario(scenario: GameConfig):
 	ResourceUtils.update_resource(game_config, scenario)
+
+
+func _apply_equipped_plane() -> void:
+	var plane_id := "starter"
+	var profiles := ProfileController.find_in_tree(get_tree())
+	if profiles != null:
+		plane_id = profiles.equipped_plane_id()
+	game_config.equipped_plane_id = plane_id
+	var plane := get_node_or_null("Player/AirPlane") as AirPlane
+	if plane != null:
+		plane.apply_tint(PlaneCatalog.get_def(plane_id).get("tint", Color.WHITE) as Color)

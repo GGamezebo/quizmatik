@@ -93,8 +93,7 @@ func _present_plane(plane_id: String) -> void:
 	var def: Dictionary = PlaneCatalog.get_def(plane_id)
 	title_label.text = "У тебя новый самолёт!"
 	message_label.text = String(def.get("name", ""))
-	art_rect.texture = PlaneCatalog.atlas_texture()
-	art_rect.modulate = def.get("tint", Color.WHITE)
+	PlaneCatalog.apply_preview(art_rect, plane_id)
 
 
 func _present_daily_gold() -> void:

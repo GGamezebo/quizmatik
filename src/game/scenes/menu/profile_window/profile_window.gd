@@ -79,10 +79,12 @@ func _refresh() -> void:
 	if gold_label:
 		gold_label.text = str(live.gold)
 	var plane_id := live.equipped_plane_id
+	var profiles_live := _profiles()
+	if profiles_live != null:
+		plane_id = profiles_live.equipped_plane_id()
 	var def: Dictionary = PlaneCatalog.get_def(plane_id)
 	if plane_preview:
-		plane_preview.texture = PlaneCatalog.atlas_texture()
-		plane_preview.modulate = def.get("tint", Color.WHITE)
+		PlaneCatalog.apply_preview(plane_preview, plane_id)
 	if plane_name_label:
 		plane_name_label.text = String(def.get("name", ""))
 	_rebuild_list()
