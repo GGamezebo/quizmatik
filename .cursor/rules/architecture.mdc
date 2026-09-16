@@ -146,7 +146,7 @@ Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swap
 - App-root SFX → `src/features/sfx/` (`SfxController` instanced in `app_root/root.tscn`); plane-local audio stays on `plane.tscn`
 - App-root vibration → `src/features/vibration/` (`VibrationController` instanced in `app_root/root.tscn`)
 - App-root music → `src/features/music/` (`MusicController` + win/lose themes; drives AppRoot `MusicPlayer`)
-- Editor-only practice lab (frozen full training UI) → `src/dev/training_room_lab/` — do not merge into player-facing `training_room_window/`; menu bottom-left button uses `OS.has_feature("editor")`
+- Editor-only practice lab (frozen full training UI) → `src/dev/training_room_lab/` — do not merge into player-facing `training_room_window/`; menu bottom-left button uses `OS.has_feature("editor")`; **+1 ЗОЛОТАЯ** / **СБРОСИТЬ ПРОГРЕСС** (wipe closes lab → first-run overlay)
 - Player practice UI → `training_room_window/`: ops columns + `BattleDifficulty` coefficients into `GameConfig` (full steppers live only in lab)
 
 ## Cheap-change heuristics

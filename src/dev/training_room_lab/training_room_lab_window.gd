@@ -4,6 +4,7 @@ extends Control
 ## Independent from `src/game/scenes/menu/training_room_window/` — safe to keep while redesigning practice.
 
 const SAVE_PATH := "user://training_lab_settings.json"
+const GRANT_GOLD := 1
 
 @export var config: GameConfig
 @export_group("Steppers")
@@ -27,6 +28,9 @@ const SAVE_PATH := "user://training_lab_settings.json"
 @export var reset_button: BaseButton
 @export var start_battle_button: BaseButton
 @export var random_button: BaseButton
+@export var wipe_progress_button: BaseButton
+@export var wipe_dialog: ConfirmDialog
+@export var grant_gold_button: BaseButton
 
 
 func _ready() -> void:
@@ -71,6 +75,12 @@ func _bind_controls() -> void:
 		reset_button.pressed.connect(_on_reset_setting_pressed)
 	if random_button != null:
 		random_button.pressed.connect(_on_random_settings_pressed)
+	if wipe_progress_button != null:
+		wipe_progress_button.pressed.connect(_on_wipe_progress_pressed)
+	if wipe_dialog != null:
+		wipe_dialog.ev_confirmed.connect(_on_wipe_progress_confirmed)
+	if grant_gold_button != null:
+		grant_gold_button.pressed.connect(_on_grant_gold_pressed)
 
 
 func _connect_stepper(
@@ -229,6 +239,42 @@ func _sync_round_coeffs_from_ui() -> void:
 func _save_config_to_disk() -> void:
 	if config != null:
 		ResourceUtils.save_json(SAVE_PATH, ResourceUtils.resource_to_dict(config))
+
+
+func _on_grant_gold_pressed() -> void:
+	var profiles := ProfileController.find_in_tree(get_tree())
+	if profiles == null or not profiles.has_profiles():
+		return
+	profiles.add_gold(GRANT_GOLD)
+
+
+func _on_wipe_progress_pressed() -> void:
+	if wipe_dialog == null:
+		_on_wipe_progress_confirmed()
+		return
+	wipe_dialog.open(
+		"Сбросить всё?",
+		"Все профили и прогресс будут удалены. Игра начнётся как в первый раз.",
+		"Сбросить",
+		"Отмена",
+	)
+
+
+func _on_wipe_progress_confirmed() -> void:
+	_close_lab_window()
+	var profiles := ProfileController.find_in_tree(get_tree())
+	if profiles != null:
+		profiles.wipe_all_profiles()
+
+
+func _close_lab_window() -> void:
+	var host := get_parent()
+	if host == null:
+		return
+	for child in host.get_children():
+		if child is WindowStackManager:
+			(child as WindowStackManager).close_stacked_window()
+			return
 
 
 func _on_reset_setting_pressed() -> void:

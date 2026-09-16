@@ -115,6 +115,17 @@ func switch_profile(profile_id: String) -> bool:
 	return true
 
 
+func wipe_all_profiles() -> void:
+	var sm := _save_manager()
+	if sm != null:
+		sm.wipe_all_profiles()
+	elif pdata != null:
+		pdata.reset_to_defaults()
+	if root_events != null:
+		root_events.ev_profiles_changed.emit.call_deferred()
+	ev_profiles_changed.emit.call_deferred()
+
+
 func delete_profile(profile_id: String) -> bool:
 	if not can_delete():
 		return false
