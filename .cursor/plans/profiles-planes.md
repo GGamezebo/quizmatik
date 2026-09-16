@@ -17,7 +17,7 @@ Migrate v2→v3: if save has `levels` and no `profiles`, wrap as one profile (na
 
 Max **4** profiles. Cannot delete the last one (delete = wipe that slot’s progress).
 
-Settings «Сбросить прогресс» is removed.
+Settings «Сбросить прогресс» is removed. Editor lab **СБРОСИТЬ ПРОГРЕСС** wipes every profile (empty envelope) and reopens the first-run overlay.
 
 ## First launch
 

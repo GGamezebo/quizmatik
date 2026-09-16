@@ -67,6 +67,15 @@ func has_profiles() -> bool:
 	return not profiles.is_empty()
 
 
+## Dev wipe: empty envelope on disk now (not debounced). Live PData becomes a blank slot.
+func wipe_all_profiles() -> void:
+	active_profile_id = ""
+	profiles.clear()
+	_pdata.reset_to_defaults()
+	_dirty = true
+	_flush()
+
+
 ## Debounced save entry point (wired to RootEvents.ev_save_progress).
 ## Never writes during a battle; other requests coalesce onto a single timed write.
 func save() -> void:

@@ -16,6 +16,7 @@ func initialize(_data: Dictionary) -> void:
 	_listener.add(root_events.ev_start_game, _on_ev_start_game)
 	_listener.add(root_events.ev_exit_game, _on_ev_exit_game)
 	_listener.add(root_events.ev_return_to_menu, _on_ev_return_to_menu)
+	_listener.add(root_events.ev_profiles_changed, _on_profiles_changed)
 	
 	if OS.has_feature("web"):
 		add_event("ev.open_web", {"music_player": music_player})
@@ -36,6 +37,10 @@ func _on_ev_exit_game(data: Dictionary = {}) -> void:
 
 func _on_ev_return_to_menu(data: Dictionary = {}) -> void:
 	add_event("ev.open_menu", data)
+
+func _on_profiles_changed() -> void:
+	_maybe_open_first_profile()
+
 
 func _maybe_open_first_profile() -> void:
 	if profile_controller == null or first_run_overlay == null:

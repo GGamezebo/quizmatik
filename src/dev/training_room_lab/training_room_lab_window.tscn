@@ -12,6 +12,7 @@
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="9_theme"]
 [ext_resource type="PackedScene" uid="uid://c8trainlabstep001" path="res://src/dev/training_room_lab/ui/training_lab_stepper.tscn" id="10_stepper"]
 [ext_resource type="PackedScene" uid="uid://c8trainlabactn001" path="res://src/dev/training_room_lab/ui/training_lab_action_button.tscn" id="11_action"]
+[ext_resource type="PackedScene" uid="uid://c8qm5n2k7xwfd" path="res://src/ui/confirm_dialog/confirm_dialog.tscn" id="19_confirm"]
 [ext_resource type="Texture2D" uid="uid://cluf5vj4yth8e" path="res://src/game/scenes/menu/training_room_window/ui/icon_health.png" id="12_icon_health"]
 [ext_resource type="Texture2D" uid="uid://fsgi6bywpvyh" path="res://src/game/scenes/menu/training_room_window/ui/icon_questions.png" id="13_icon_questions"]
 [ext_resource type="Texture2D" uid="uid://ch0tnbrmxxal" path="res://src/game/scenes/menu/training_room_window/ui/icon_range.png" id="14_icon_range"]
@@ -19,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://b7t0iiijw6icr" path="res://src/game/scenes/menu/training_room_window/ui/icon_exam.png" id="16_icon_exam"]
 [ext_resource type="Texture2D" uid="uid://heyte07h81jn" path="res://src/game/scenes/menu/training_room_window/ui/icon_play.png" id="17_icon_play"]
 [ext_resource type="Texture2D" uid="uid://dnb4x6dyrbrg2" path="res://src/game/scenes/menu/training_room_window/ui/icon_shuffle.png" id="18_icon_shuffle"]
+[ext_resource type="Texture2D" path="res://assets/ui/stamps/stamp_sun.png" id="20_gold"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("6_shadow")
@@ -76,7 +78,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button")]
+[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -103,6 +105,9 @@ add_round_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/Content
 reset_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/ResetButton")
 start_battle_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/StartPractice")
 random_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/RandomButton")
+wipe_progress_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/WipeProgressButton")
+wipe_dialog = NodePath("WipeDialog")
+grant_gold_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GrantGoldButton")
 
 [node name="DailyChallengesController" parent="." unique_id=341384884 instance=ExtResource("8_daily")]
 
@@ -622,6 +627,17 @@ text = "• Больше здоровья — больше шансов на о�
 • Округление ускоряет ответы после серии верных"
 autowrap_mode = 3
 
+[node name="GrantGoldButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+icon_texture = ExtResource("20_gold")
+caption_text = "+1 ЗОЛОТАЯ"
+
+[node name="WipeProgressButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+caption_text = "СБРОСИТЬ ПРОГРЕСС"
+
 [node name="ActionsRow" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox" unique_id=77448343]
 layout_mode = 2
 theme_override_constants/separation = 24
@@ -657,6 +673,8 @@ custom_minimum_size = Vector2(23, 0)
 layout_mode = 2
 
 [node name="MenuWindowBack" parent="." unique_id=320332099 instance=ExtResource("7_menu_back")]
+
+[node name="WipeDialog" parent="." instance=ExtResource("19_confirm")]
 
 [editable path="CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/ResetButton"]
 [editable path="CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/StartPractice"]
