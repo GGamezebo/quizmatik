@@ -36,7 +36,7 @@
 [ext_resource type="PackedScene" uid="uid://bkifyl0m7qp2" path="res://src/game/scenes/menu/ui/menu_circle_button.tscn" id="30_circle_btn"]
 [ext_resource type="Texture2D" uid="uid://cyg5jcu3u4kvb" path="res://src/game/scenes/menu/ui/icon_achievements.png" id="32_icon_achievements"]
 [ext_resource type="Texture2D" uid="uid://ct821hopq4mrv" path="res://src/game/scenes/menu/ui/icon_exit.png" id="33_icon_exit"]
-[ext_resource type="Texture2D" uid="uid://bhvth81jmerbb" path="res://src/features/plane/planes_atlas_spaced.png" id="32_icon_profile"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/ui/icon_profile.png" id="32_icon_profile"]
 [ext_resource type="PackedScene" uid="uid://daurosqrmggl0" path="res://src/game/scenes/menu/ui/menu_cta_button.tscn" id="34_cta_btn"]
 [ext_resource type="Texture2D" uid="uid://c7covqaft52xn" path="res://src/game/scenes/menu/ui/icon_pencil.png" id="36_icon_pencil"]
 [ext_resource type="Script" uid="uid://dfc4lkuw1o6wl" path="res://src/ui/buttons/hover_scale_binder.gd" id="37_hover_binder"]
@@ -57,10 +57,6 @@ shader = ExtResource("24_6evpd")
 shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_profile_plane"]
-atlas = ExtResource("32_icon_profile")
-region = Rect2(0, 0, 288, 108)
 
 [node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "levels_choice_window", "start_button", "training_room_start_button", "training_lab_start_button", "exit_button")]
 script = ExtResource("1_5oxuo")
@@ -140,7 +136,7 @@ button = NodePath("../../ProfileWindow/MenuWindowBack/Back")
 
 [node name="HangarOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../ProfileWindow/Center/Content/Body/Left/PlaneButton")
+button = NodePath("../../ProfileWindow/Center/Content/Body/Left/PlaneSlot/PlaneButton")
 target_window = NodePath("../../PlaneHangarWindow")
 
 [node name="HangarBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button")]
@@ -149,7 +145,7 @@ button = NodePath("../../PlaneHangarWindow/MenuWindowBack/Back")
 
 [node name="ProfileTrophyOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../ProfileWindow/Center/Content/Body/Left/TrophyButton")
+button = NodePath("../../ProfileWindow/Center/Content/Body/Left/TrophySlot/TrophyButton")
 target_window = NodePath("../../TrophyRoomWindow")
 
 [node name="LevelsSelectionBack" type="Node" parent="UI/StackWindowController" unique_id=785798506 node_paths=PackedStringArray("button")]
@@ -294,7 +290,7 @@ alignment = 1
 
 [node name="Profile" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" instance=ExtResource("30_circle_btn")]
 layout_mode = 2
-image = SubResource("AtlasTexture_profile_plane")
+image = ExtResource("32_icon_profile")
 metadata/hover_scale_bound = true
 
 [node name="Settings" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" unique_id=319530349 instance=ExtResource("30_circle_btn")]
