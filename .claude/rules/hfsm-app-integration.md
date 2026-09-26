@@ -1,0 +1,47 @@
+---
+description: App-level HFSM integration (main.gd bootstrap)
+paths:
+  - "src/game/main.gd"
+  - "src/game/hfsm/**/*"
+  - "src/game/contexts/**/*"
+  - "src/game/scenes/app_root/**/*"
+---
+
+# App HFSM integration
+
+## Wiring
+
+- Entry: `main.tscn` → `src/game/main.gd` boots HFSM (host for `HfsmSceneRegistry`)
+- Config: `@export_file hfsm_config_path` → `src/game/hfsm/app_hfsm.json`
+- Paths: `HfsmScenePaths` (`class_name`); entity bindings registered in `main.gd`
+- Start HFSM after 2 idle frames
+
+## Scenes (owned by HFSM)
+
+- Root `App` mounts `app_root` → `app_root/root.tscn` (account/progress/music + RootEvents bridge)
+- `scene.on_event`: `ev.open_menu` (Menu)
+- Phase scenes: `menu` / `game` / `post_battle`
+- Bridge: `RootEvents.ev_*` → `hfsm.add_event(...)` lives on **app_root** scene — not on `main.gd`
+- No `AppRootEntity.host` — app root is a normal `IScene`
+
+## Platform BoundEntity contexts
+
+- `AppRoot.initialize()` emits `ev.open_web` only when `OS.has_feature("web")`
+- Event payload includes `music_player`; `AppRoot` also calls `music_player.play()`
+- Nested `WEB` state enters on `ev.open_web` and binds `"context": "WEBContext"`
+- `WEBContext` emits `ev.open_yandex` when `OS.has_feature("yandex_games")` (export preset custom feature)
+- Nested `WEB/Yandex` binds `"context": "YandexContext"`; receives the same payload
+- Register slot in `main.gd`: `{ "context": { "WEBContext": WEBContext, "YandexContext": YandexContext } }`
+- Contexts live under `src/game/contexts/` (next to `scenes/`)
+- Generic HTML5 hooks in `WEBContext`; Yandex SDK / ads in `YandexContext`
+- BoundEntity can `add_event` (HFSM injects via `sync_hfsm` on enter)
+- Heavy UI stays in scenes; BoundEntity contexts must not mount scenes
+
+## Menu UI
+
+- Full-screen menu windows: `WindowStackManager` inside MenuScene — not HFSM bindings
+
+## Must
+
+- Keep `GameManager` battle FSM separate
+- New app phase → JSON `scene` + `HfsmScenePaths.PATHS` entry

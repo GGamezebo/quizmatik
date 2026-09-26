@@ -1,0 +1,29 @@
+---
+description: Follow concepts/ notebook-pencil art direction for UI and battle
+paths:
+  - "src/game/scenes/**/*"
+  - "src/ui/**/*"
+  - "core/theme/**/*"
+  - "src/features/**/*"
+---
+
+# Visual concept
+
+Before changing menu/battle look, **read** `concepts/ART_DIRECTION.md` (AI look-match only). Never wire or ship from `concepts/` — see `concepts.md`. Playable art lives under `assets/` or feature/UI folders in `src/`.
+
+Must match:
+
+- **Style:** graphite pencil on notebook paper — not cyan neon
+- **Theme:** `core/theme/style.tres` — cream parchment buttons/panels, ink `#2A3340` text; body font `game_font.tres` (**Nunito Bold**), titles `title_font.tres` (Rubik Doodle Shadow, MSDF off, never outline)
+- **Backgrounds:** `src/ui/backgrounds/` — shared `BackgroundBase` + per-variant folders; campaign valley via `ValleyBackgroundArt` (`container_id`); battle/post-battle `BackgroundHost` (training = random valley); main menu = scrolling `classic_sky/` with `paint_from_daily`; pack carousel + level grid share one valley host (grid fallback only when isolated)
+- Shared runtime files: `assets/audio/music/`, `assets/effects/`, `assets/ui/icons/`, `assets/ui/stamps/`, `assets/ui/hud/`, `assets/ui/backgrounds/` (valleys: `assets/ui/backgrounds/valleys/` — one set)
+- Runtime texture size: backgrounds/valleys fit **1280×720**; icons / stamps / trophies max **256px** on the long side; battle FX (`starlight`, `balloon_pop`, `explosion`) keep tiny atlases (pop cell **64px**, starlight **128px**); `title_cloud` ~**360px** wide; one parchment `panel_card_round.png` for level cards and post-battle
+- Texture import: VRAM Compressed (`compress/mode=2`), **no mipmaps** on 2D/UI. Small `btn_*` (not `btn_cta_wide`) `process/size_limit=256` + CanvasItem **Nearest**. Skies/valleys stay project Linear. Web preset: both `vram_texture_compression/for_desktop` and `for_mobile` (HTML5 phones / VRAM — can grow PCK, not a size lever)
+- **Daily series card:** parchment scroll `daily/ui/daily_scroll.png` (no CTA frame); progress marks = ink stamps from `assets/ui/stamps/` (`stamp_empty` + filled `stamp_sun` / `stamp_flower` / `stamp_cat` / `stamp_star` / `stamp_heart` by slot index), not stars. Same stamp files for daily, post-battle, and level grid.
+- **Achievements window:** `trophy_room_window/` — full-screen hangar bg `ui/bg_hangar_achievements.png`; clipboard stats left, valley trophies on pedestals right, extra-achievements scroll bottom-right; kit `tools/generate_achievements_ui.py`
+- **Battle:** horizontal flight (plane left → right), 4 lanes, round balloons, paper HUD language
+
+AI look-match frames: `concepts/menu_notebook_modern_v3.png`, `concepts/battle_notebook_modern_v1.png`, `concepts/post_battle_notebook_concept_v3.png`, `concepts/levels_pack_notebook_concept_v1.png`, `concepts/levels_grid_adventure_ref.png`, `concepts/achievements_notebook_concept_v1.png`.  
+Pencil pack (look-match only, not a game kit): `concepts/notebook_pencil/` (`ui_pack/`).
+
+- **Level grid:** square cream tiles; lock glyph top-right; exam tile = purple + graduation-cap overlay; completed tiles get ink stamp top-right
