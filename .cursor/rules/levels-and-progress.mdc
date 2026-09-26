@@ -1,6 +1,6 @@
 ---
 description: Levels, GameConfig, and progress persistence rules
-globs: "{src/common/**/*,src/levels/**/*,src/game/scenes/app_root/account/**/*,tools/**/*}"
+globs: "{src/common/**/*,src/levels/**/*,src/game/account/**/*,tools/**/*}"
 alwaysApply: false
 ---
 

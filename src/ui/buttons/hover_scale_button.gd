@@ -8,6 +8,7 @@ const HOVER_SCALE_FACTOR: float = 1.12
 const HOVER_TWEEN_DURATION: float = 0.12
 const META_BOUND := &"hover_scale_bound"
 const META_BASE_SCALE := &"hover_scale_base"
+const META_SCALE_FACTOR := &"hover_scale_factor"
 const META_TWEEN := &"hover_scale_tween"
 
 var _base_scale: Vector2 = Vector2.ONE
@@ -21,6 +22,7 @@ func _ready() -> void:
 
 func setup_hover_scale() -> void:
 	set_meta(META_BOUND, true)
+	set_meta(META_SCALE_FACTOR, HOVER_SCALE_FACTOR)
 	_base_scale = scale
 	_update_hover_pivot()
 	resized.connect(_update_hover_pivot)
@@ -28,21 +30,21 @@ func setup_hover_scale() -> void:
 	mouse_exited.connect(_on_hover_exited)
 
 
-static func bind_tree(root: Node) -> void:
+static func bind_tree(root: Node, scale_factor: float = HOVER_SCALE_FACTOR) -> void:
 	if root == null:
 		return
 	if root is BaseButton:
-		bind(root)
+		bind(root, scale_factor)
 	for child in root.get_children():
-		bind_tree(child)
+		bind_tree(child, scale_factor)
 
 
-static func bind(button: BaseButton) -> void:
+static func bind(button: BaseButton, scale_factor: float = HOVER_SCALE_FACTOR) -> void:
 	if button.has_meta(META_BOUND):
 		return
 	if _script_inherits_hover_scale(button.get_script()):
 		return
-	_install(button)
+	_install(button, scale_factor)
 
 
 static func _script_inherits_hover_scale(script: Script) -> bool:
@@ -54,9 +56,10 @@ static func _script_inherits_hover_scale(script: Script) -> bool:
 	return false
 
 
-static func _install(button: BaseButton) -> void:
+static func _install(button: BaseButton, scale_factor: float) -> void:
 	button.set_meta(META_BOUND, true)
 	button.set_meta(META_BASE_SCALE, button.scale)
+	button.set_meta(META_SCALE_FACTOR, scale_factor)
 	_update_pivot(button)
 	button.resized.connect(_on_bound_resized.bind(button))
 	button.mouse_entered.connect(_on_bound_entered.bind(button))
@@ -69,7 +72,8 @@ static func _on_bound_resized(button: BaseButton) -> void:
 
 static func _on_bound_entered(button: BaseButton) -> void:
 	var base_scale: Vector2 = button.get_meta(META_BASE_SCALE)
-	_animate_button(button, base_scale * HOVER_SCALE_FACTOR)
+	var factor: float = float(button.get_meta(META_SCALE_FACTOR, HOVER_SCALE_FACTOR))
+	_animate_button(button, base_scale * factor)
 
 
 static func _on_bound_exited(button: BaseButton) -> void:
@@ -91,7 +95,8 @@ static func _update_pivot(button: BaseButton) -> void:
 
 
 func _on_hover_entered() -> void:
-	_animate_hover_scale(_base_scale * HOVER_SCALE_FACTOR)
+	var factor: float = float(get_meta(META_SCALE_FACTOR, HOVER_SCALE_FACTOR))
+	_animate_hover_scale(_base_scale * factor)
 
 
 func _on_hover_exited() -> void:

@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Maintain architecture rules
 
-When a change alters structure, contracts, or placement conventions, update `.cursor/rules/` in the **same** task. Stale rules waste tokens and cause wrong edits.
+When a change alters structure, contracts, or placement conventions, update `.cursor/rules/` (and mirror in `.claude/rules/`) in the **same** task. Stale rules waste tokens and cause wrong edits.
 
 ## Update when
 

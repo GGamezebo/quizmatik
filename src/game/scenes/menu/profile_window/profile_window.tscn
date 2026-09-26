@@ -66,14 +66,14 @@ pdata = ExtResource("2_pdata")
 name_label = NodePath("Center/Content/Body/Left/Name")
 age_label = NodePath("Center/Content/Body/Left/Age")
 gold_label = NodePath("Center/Content/Body/Left/GoldRow/Gold")
-plane_preview = NodePath("Center/Content/Body/Left/PlaneButton/PlanePreview")
-plane_name_label = NodePath("Center/Content/Body/Left/PlaneButton/PlaneName")
-plane_button = NodePath("Center/Content/Body/Left/PlaneButton")
-trophy_button = NodePath("Center/Content/Body/Left/TrophyButton")
+plane_preview = NodePath("Center/Content/Body/Left/PlaneSlot/PlaneButton/PlanePreview")
+plane_name_label = NodePath("Center/Content/Body/Left/PlaneSlot/PlaneButton/PlaneName")
+plane_button = NodePath("Center/Content/Body/Left/PlaneSlot/PlaneButton")
+trophy_button = NodePath("Center/Content/Body/Left/TrophySlot/TrophyButton")
 profiles_list = NodePath("Center/Content/Body/Right/List")
-create_button = NodePath("Center/Content/Body/Right/Actions/Create")
-edit_button = NodePath("Center/Content/Body/Right/Actions/Edit")
-delete_button = NodePath("Center/Content/Body/Right/Actions/Delete")
+create_button = NodePath("Center/Content/Body/Right/Actions/CreateSlot/Create")
+edit_button = NodePath("Center/Content/Body/Right/Actions/EditSlot/Edit")
+delete_button = NodePath("Center/Content/Body/Right/Actions/DeleteSlot/Delete")
 create_overlay = NodePath("CreateOverlay")
 delete_dialog = NodePath("DeleteDialog")
 profile_row_scene = ExtResource("14_row")
@@ -81,6 +81,7 @@ root_events = ExtResource("3_root")
 
 [node name="HoverScaleBinder" type="Node" parent="."]
 script = ExtResource("18_binder")
+scale_factor = 1.05
 
 [node name="DailyChallengesController" parent="." instance=ExtResource("10_daily")]
 
@@ -101,6 +102,7 @@ grow_vertical = 2
 [node name="Content" type="Control" parent="Center"]
 custom_minimum_size = Vector2(980, 620)
 layout_mode = 2
+clip_contents = true
 
 [node name="Frame" type="NinePatchRect" parent="Center/Content"]
 material = SubResource("ShaderMaterial_sticker")
@@ -139,16 +141,16 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 48.0
-offset_top = 84.0
-offset_right = -48.0
-offset_bottom = -36.0
-theme_override_constants/separation = 28
+offset_left = 64.0
+offset_top = 88.0
+offset_right = -64.0
+offset_bottom = -44.0
+theme_override_constants/separation = 48
 
 [node name="Left" type="VBoxContainer" parent="Center/Content/Body"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 12
+theme_override_constants/separation = 18
 
 [node name="Name" type="Label" parent="Center/Content/Body/Left"]
 layout_mode = 2
@@ -179,15 +181,22 @@ layout_mode = 2
 text = "0"
 label_settings = SubResource("LabelSettings_body")
 
-[node name="PlaneButton" type="Button" parent="Center/Content/Body/Left"]
-custom_minimum_size = Vector2(0, 120)
+[node name="PlaneSlot" type="MarginContainer" parent="Center/Content/Body/Left"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="PlaneButton" type="Button" parent="Center/Content/Body/Left/PlaneSlot"]
+custom_minimum_size = Vector2(0, 112)
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_hit")
 theme_override_styles/hover = SubResource("StyleBoxFlat_hit")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_hit")
 theme_override_styles/focus = SubResource("StyleBoxFlat_hit")
 
-[node name="PlanePreview" type="TextureRect" parent="Center/Content/Body/Left/PlaneButton"]
+[node name="PlanePreview" type="TextureRect" parent="Center/Content/Body/Left/PlaneSlot/PlaneButton"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -202,7 +211,7 @@ texture = ExtResource("16_plane")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PlaneName" type="Label" parent="Center/Content/Body/Left/PlaneButton"]
+[node name="PlaneName" type="Label" parent="Center/Content/Body/Left/PlaneSlot/PlaneButton"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -220,8 +229,15 @@ text = "Самолёт"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 2
 
-[node name="TrophyButton" type="Button" parent="Center/Content/Body/Left"]
-custom_minimum_size = Vector2(0, 88)
+[node name="TrophySlot" type="MarginContainer" parent="Center/Content/Body/Left"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+
+[node name="TrophyButton" type="Button" parent="Center/Content/Body/Left/TrophySlot"]
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_font")
 theme_override_font_sizes/font_size = 22
@@ -234,9 +250,9 @@ text = "Кубки"
 expand_icon = true
 
 [node name="Right" type="VBoxContainer" parent="Center/Content/Body"]
-custom_minimum_size = Vector2(320, 0)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 12
 
 [node name="ListTitle" type="Label" parent="Center/Content/Body/Right"]
 layout_mode = 2
@@ -246,28 +262,49 @@ label_settings = SubResource("LabelSettings_body")
 [node name="List" type="VBoxContainer" parent="Center/Content/Body/Right"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 8
+theme_override_constants/separation = 12
 
 [node name="Actions" type="VBoxContainer" parent="Center/Content/Body/Right"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 22
 
-[node name="Create" parent="Center/Content/Body/Right/Actions" instance=ExtResource("11_cta")]
-custom_minimum_size = Vector2(0, 64)
+[node name="CreateSlot" type="MarginContainer" parent="Center/Content/Body/Right/Actions"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 10
+
+[node name="Create" parent="Center/Content/Body/Right/Actions/CreateSlot" instance=ExtResource("11_cta")]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 icon_texture = null
 caption_text = "СОЗДАТЬ"
 subtitle_text = ""
 
-[node name="Edit" parent="Center/Content/Body/Right/Actions" instance=ExtResource("11_cta")]
-custom_minimum_size = Vector2(0, 64)
+[node name="EditSlot" type="MarginContainer" parent="Center/Content/Body/Right/Actions"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 10
+
+[node name="Edit" parent="Center/Content/Body/Right/Actions/EditSlot" instance=ExtResource("11_cta")]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 icon_texture = null
 caption_text = "ИЗМЕНИТЬ"
 subtitle_text = ""
 
-[node name="Delete" parent="Center/Content/Body/Right/Actions" instance=ExtResource("11_cta")]
-custom_minimum_size = Vector2(0, 64)
+[node name="DeleteSlot" type="MarginContainer" parent="Center/Content/Body/Right/Actions"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 10
+
+[node name="Delete" parent="Center/Content/Body/Right/Actions/DeleteSlot" instance=ExtResource("11_cta")]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 icon_texture = null
 caption_text = "УДАЛИТЬ"
