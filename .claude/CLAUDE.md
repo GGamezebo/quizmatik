@@ -1,0 +1,22 @@
+# Quizmatik
+
+Math-quiz arcade shooter on **Godot 4.7** (typed GDScript, Mobile renderer, 1280×720 landscape).
+Targets: Mobile (Android/iOS), Steam, HTML5 (incl. Yandex Games).
+
+Rules live in `.claude/rules/` (mirrored from `.cursor/rules/`):
+- always loaded: `architecture.md`, `concepts.md`, `maintain-architecture-rules.md`
+- path-scoped (`paths:` frontmatter): battle, GDScript conventions, HFSM, levels/progress, menu, visuals
+
+Feature plan (source of truth for profiles/planes/gold): `.cursor/plans/profiles-planes.md`.
+
+## Not covered by the rules (verified 2026-09-26)
+
+- **Localization:** none. UI text is Russian, hardcoded in `.tscn` `text = "..."` and some scripts; no `tr()`, no `TranslationServer`, no `.csv`/`.po`. Keep new UI text in Russian in the scene; do not add a translation system unless asked.
+- **Tutorial:** not implemented. Only `PData.StateData.tutorial_completed` (saved, never read). Do not assume a tutorial flow exists.
+
+## Working here
+
+- Smallest change that fits existing patterns; no parallel systems.
+- Every scene must run isolated (F6) — defaults in `.tres`, parents override via events.
+- Don't edit `addons/`, binary assets, or anything in `concepts/` (look reference only).
+- When structure/contracts change, update `.claude/rules/` **and** `.cursor/rules/` in the same task.

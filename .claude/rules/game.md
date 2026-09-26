@@ -1,0 +1,38 @@
+---
+description: Battle loop, combat, and GameScene change rules
+paths:
+  - "src/game/scenes/game/**/*"
+---
+
+# Game scene / battle
+
+## Ownership
+
+- Orchestration: `game.gd` resolves scenario → `ResourceUtils.update_resource` into live `GameConfig`
+- Live `game_config.tres` on the scene = **standalone defaults** (scene must run alone); parent overrides via `ev_start_game` → `initialize(data)`
+- States: `GameManager` FSM only (`CountDown` / `Game` / `EndGame`)
+- Round: `round/round_controller.gd`, `answer_spawner.gd`, `combat_resolver.gd`
+- Questions: `question_generator.gd` (`QuizQuestion`)
+- Features: spawn/compose from `src/features/` — keep feature logic inside the feature; scene only wires and reacts to `ev_*`
+
+## Change guide
+
+| Goal | Touch |
+|------|--------|
+| Win/lose / transitions | FSM states + `FSMGameEvents` |
+| Scoring / health | `Player` + `CombatResolver` |
+| Spawn layout / lanes | `GameArea` + `AnswerSpawner` |
+| Question math | `QuizQuestion` + `GameConfig` fields |
+| HUD only | `ui/` — listen to `GameEvents`, don't own combat |
+| SFX | AppRoot `SfxController` via `GameEvents` (`ev_shoot`, `ev_explosion`, `ev_correct_answer`, `ev_mistake`, `ev_win`, `ev_lose`, state change); plane thrust/crash/whoosh stay on the plane |
+| Vibration | AppRoot `VibrationController` via same `GameEvents` + `RootEvents` + UI presses; plane crash = long multi-pulse on `ev_lose` |
+| Touch plane | `AirPlane`: left half drag = move, right half tap = shoot (`mobile` / web+touchscreen); keyboard/mouse unchanged on desktop |
+| Equipped plane | `PlaneCatalog` + `ProfileController`: speed, tint, blast lanes, hint-on-miss (isolated F6 → starter) |
+
+## Constraints
+
+- Exit battle via `root_events.ev_exit_game` with post-battle payload
+- Answers: respect `is_hittable()` during entry tween
+- Speed ramp / health / question count come from `GameConfig`, not hardcode
+- Prefer small `RefCounted` helpers over growing `GameState` further
+- Combat controls/HUD must work on Mobile (touch), Steam (KBM), and HTML — no platform-locked input
