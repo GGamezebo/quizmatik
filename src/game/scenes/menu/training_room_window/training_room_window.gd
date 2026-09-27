@@ -232,6 +232,7 @@ func _apply_to_config() -> void:
 	var min_n: int = 9999
 	var max_n: int = 1
 	var any_on: bool = false
+	var ranges: Dictionary = {}
 
 	var pairs: Array = [
 		[&"addition", GameConfig.Operations.ADDITION],
@@ -246,6 +247,7 @@ func _apply_to_config() -> void:
 		if rng.x <= 0 or rng.y <= 0 or _op_ids[key] == &"off":
 			continue
 		flags |= op_flag
+		ranges[op_flag] = rng
 		any_on = true
 		min_n = mini(min_n, rng.x)
 		max_n = maxi(max_n, rng.y)
@@ -254,6 +256,7 @@ func _apply_to_config() -> void:
 		flags = GameConfig.Operations.ADDITION
 		min_n = 1
 		max_n = 10
+		ranges[GameConfig.Operations.ADDITION] = Vector2i(1, 10)
 		_op_ids[&"addition"] = &"r10"
 		if col_addition != null and not _syncing:
 			_syncing = true
@@ -263,6 +266,7 @@ func _apply_to_config() -> void:
 	config.allowed_operations = flags
 	config.min_generate_number = mini(min_n, max_n)
 	config.max_generate_number = maxi(min_n, max_n)
+	config.operation_ranges = ranges
 	config.health = 3
 	_apply_difficulty_to_config()
 	_save_config_to_disk()

@@ -41,6 +41,9 @@ enum Operations {
 ## Operand ranges after score N, e.g. {6: {"min_generate_number": 10, "max_generate_number": 40}}
 ## Empty → keep min/max_generate_number for the whole battle.
 @export var generate_number_round_ranges: Dictionary = {}
+## Per-operation operand range, e.g. {Operations.MULTIPLICATION: Vector2i(1, 10)}.
+## Operations missing here use min/max_generate_number.
+@export var operation_ranges: Dictionary = {}
 
 @export_category("Early Exam")
 ## Applied when the player starts the exam before completing all regular levels in the block.
@@ -62,6 +65,13 @@ func apply_early_exam_modifiers() -> void:
 		questions_count = ceili(float(questions_count) * early_exam_questions_multiplier)
 	if early_exam_answer_speed_multiplier > 1.0:
 		answer_speed *= early_exam_answer_speed_multiplier
+
+
+func get_operation_range(operation: int) -> Vector2i:
+	var entry: Variant = operation_ranges.get(operation)
+	if entry is Vector2i:
+		return Vector2i(mini(entry.x, entry.y), maxi(entry.x, entry.y))
+	return Vector2i(min_generate_number, max_generate_number)
 
 
 func apply_answer_speed_after_round(completed_rounds: int, base_speed: float) -> void:
