@@ -27,8 +27,9 @@ static func generate_question(gameConfig: GameConfig) -> Question:
 	var chosen_operation = active_operations.pick_random()
 	
 	# Generate base operands
-	var a = randi_range(gameConfig.min_generate_number, gameConfig.max_generate_number)
-	var b = randi_range(gameConfig.min_generate_number, gameConfig.max_generate_number)
+	var operand_range: Vector2i = gameConfig.get_operation_range(chosen_operation)
+	var a = randi_range(operand_range.x, operand_range.y)
+	var b = randi_range(operand_range.x, operand_range.y)
 	
 	# Build question text and correct answer for the chosen operation
 	match chosen_operation:
