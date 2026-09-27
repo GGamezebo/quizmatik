@@ -37,7 +37,12 @@ func setup_options(options: Array) -> void:
 		btn.option_selected.connect(_on_option_selected)
 		options_box.add_child(btn)
 		_buttons[btn.option_id] = btn
-	call_deferred("set_selected", _selected_id)
+	# Read _selected_id when the deferred call runs: set_selected() may restore it before then.
+	_refresh_selection.call_deferred()
+
+
+func _refresh_selection() -> void:
+	set_selected(_selected_id)
 
 
 func set_selected(option_id: StringName) -> void:
