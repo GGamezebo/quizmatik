@@ -54,6 +54,18 @@ LEVEL_CURVE = {
 }
 
 
+# Share of `? + 3 = 7` questions (GameConfig.missing_operand_chance): off in act 1-2 start,
+# then mid-valley introduction, exam = mix.
+def missing_operand_chance(level_id: int) -> float:
+    if level_id == EXAM_LEVEL:
+        return 0.4
+    if level_id >= 10:
+        return 0.5
+    if level_id >= 6:
+        return 0.3
+    return 0.0
+
+
 # Addition: both operands grow with level so late stages yield e.g. 22+87.
 # min rises too so hard levels are not diluted by tiny sums.
 ADDITION_NUMBER_RANGE = {
@@ -174,6 +186,9 @@ def make_tres(block: dict, level_id: int) -> str:
         *format_round_coeffs_tres(round_coeffs),
         *format_number_round_ranges_tres(number_round_ranges),
     ]
+    missing = missing_operand_chance(level_id)
+    if missing > 0.0:
+        lines.append(f"missing_operand_chance = {missing}")
     if "acc_min" in params:
         lines.append(f'player_acceleration_min = {params["acc_min"]}')
         lines.append(f'player_acceleration_max = {params["acc_max"]}')

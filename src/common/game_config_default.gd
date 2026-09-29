@@ -44,6 +44,8 @@ enum Operations {
 ## Per-operation operand range, e.g. {Operations.MULTIPLICATION: Vector2i(1, 10)}.
 ## Operations missing here use min/max_generate_number.
 @export var operation_ranges: Dictionary = {}
+## Share of questions with a hidden operand instead of the result: `? + 3 = 7`, `8 - ? = 5`.
+@export_range(0.0, 1.0, 0.05) var missing_operand_chance: float = 0.0
 
 @export_category("Streak")
 ## Correct answers in a row before the HUD shows «СЕРИЯ ×N».

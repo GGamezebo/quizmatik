@@ -19,3 +19,4 @@ answer_speed_round_coeffs = {
 player_acceleration_min = 0.75
 player_acceleration_max = 1.4
 player_acceleration_speed = 1.0
+missing_operand_chance = 0.5

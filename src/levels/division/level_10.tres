@@ -16,3 +16,4 @@ answer_speed_round_coeffs = {
 7: 1.3,
 10: 1.45,
 }
+missing_operand_chance = 0.5
