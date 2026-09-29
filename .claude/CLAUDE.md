@@ -4,7 +4,7 @@ Math-quiz arcade shooter on **Godot 4.7** (typed GDScript, Mobile renderer, 1280
 Targets: Mobile (Android/iOS), Steam, HTML5 (incl. Yandex Games).
 
 Rules live in `.claude/rules/` (AI-only, terse). Human docs: `.claude/doc/`.
-- always loaded: `architecture.md`, `concepts.md`, `maintain-architecture-rules.md`
+- always loaded: `godot-paradigm.md` (core approach), `architecture.md`, `concepts.md`, `maintain-architecture-rules.md`
 - path-scoped (`paths:` frontmatter): battle, GDScript conventions, HFSM, levels/progress, menu, visuals
 
 Feature plan (source of truth for profiles/planes/gold): `.cursor/plans/profiles-planes.md`.
@@ -17,7 +17,7 @@ Feature plan (source of truth for profiles/planes/gold): `.cursor/plans/profiles
 ## Working here
 
 - Smallest change that fits existing patterns; no parallel systems.
-- Every scene must run isolated (F6) — defaults in `.tres`, parents override via events.
+- Follow `rules/godot-paradigm.md`: isolated context scenes, `.tres` defaults overridden via HFSM `initialize`, events in Resources, platform code only in HFSM platform contexts, editor UI, components signal up / parent calls down, SOLID.
 - Don't edit `addons/`, binary assets, or anything in `concepts/` (look reference only).
 - When structure/contracts change, update `.claude/rules/` in the same task. Edit only `.claude/` — never `.cursor/` (user syncs it).
 - `rules/` = AI format: only facts that change edits; paths + must/never, no prose/rationale. Explanations, plans, reviews for the user → `.claude/doc/*.md` (Russian, readable).

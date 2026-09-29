@@ -23,13 +23,11 @@ paths:
 ## Patterns
 
 - Wire dependencies with `@export` / `@export_category` (editor-first)
-- **UI in the editor**: add/move/style nodes in `.tscn`; code only updates state on existing/`@export` nodes
-- Dynamic lists: instantiate an editor-made item `.tscn` — do not assemble UI trees with `*.new()` in scripts
-- Pure logic → `RefCounted`; Nodes stay thin
+- UI / components / isolation: `godot-paradigm.md`
 - Signal subscriptions → `EventListener`; `deinit()` in `_exit_tree` / `deinit`
 - Apply config copies with `ResourceUtils.update_resource()` (same script required)
 - Spawn: `PackedScene.instantiate()`; answers often `call_deferred("add_child", ...)`
-- Extensible entities: component arrays + nested classes (see `AirPlane`, `Player`)
+- Extensible entities: component arrays + nested classes (see `AirPlane`, `Player`); components signal up, parent calls down
 
 ## Must
 
@@ -45,20 +43,12 @@ paths:
 - `core/` code must not reference `src/` or Quizmatik types
 - Contexts orchestrate; they don't absorb feature implementation
 
-## Scene isolation
-
-- Every `.tscn` must run isolated (editor F6 / play scene) without crashes
-- Required data lives in exported `.tres` defaults on the scene
-- Parents override those Resources at runtime via events → `initialize` → `ResourceUtils.update_resource`
-- Do not hard-require parent context, autoloads, or sibling scenes to boot
-
 ## Avoid
 
 - Autoloads for new game flow (use `RootEvents` / `GameEvents` Resources)
 - Direct references across contexts
 - Feature A importing Feature B internals (compose in context instead)
 - Putting project-specific types into `core/`
-- Building menus/HUD/forms programmatically (`Label.new()`, nested `HBoxContainer.new()`, etc.)
 - Desktop-only or touch-only features that break other target platforms
 - New parallel FSM unless existing `core/lib/fsm` cannot fit
 - Drive-by renames of typo filenames without explicit request
