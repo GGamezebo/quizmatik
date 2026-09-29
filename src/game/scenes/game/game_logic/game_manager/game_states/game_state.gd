@@ -81,7 +81,10 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 		CombatResolver.HitAction.CORRECT:
 			game_events.ev_correct_answer.emit()
 			answer.right()
-			if _round_controller.on_correct_answer(answer):
+			var health_before: int = player.health
+			var is_win: bool = _round_controller.on_correct_answer(answer)
+			_emit_streak_events(health_before)
+			if is_win:
 				_end_game()
 		CombatResolver.HitAction.WRONG_SHOT:
 			game_events.ev_mistake.emit()
@@ -98,6 +101,12 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 				_round_controller.kill_all_answers(answer)
 				if CombatResolver.apply_damage(player):
 					_end_game()
+
+func _emit_streak_events(health_before: int) -> void:
+	if player.streak >= game_config.streak_feedback_min:
+		game_events.ev_streak.emit(player.streak)
+	if player.health > health_before:
+		game_events.ev_health_restored.emit()
 
 func _end_game() -> void:
 	_round_controller.stop()

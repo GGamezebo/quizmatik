@@ -26,6 +26,12 @@ extends Node
 @export_range(0.0, 1.0) var countdown_amplitude: float = 0.5
 @export var go_duration_ms: int = 60
 @export_range(0.0, 1.0) var go_amplitude: float = 0.65
+## Streak: double tick after the correct-answer pulse.
+@export var streak_tick_ms: int = 40
+@export_range(0.0, 1.0) var streak_amplitude: float = 0.5
+## Heart restored: three rising pulses.
+@export var heal_pulse_ms: int = 60
+@export_range(0.0, 1.0) var heal_amplitude: float = 0.8
 @export var win_duration_ms: int = 320
 @export_range(0.0, 1.0) var win_amplitude: float = 0.75
 
@@ -57,6 +63,8 @@ func _ready() -> void:
 		_listener.add(game_events.ev_explosion, _on_explosion)
 		_listener.add(game_events.ev_correct_answer, _on_correct_answer)
 		_listener.add(game_events.ev_mistake, _on_mistake)
+		_listener.add(game_events.ev_streak, _on_streak)
+		_listener.add(game_events.ev_health_restored, _on_health_restored)
 		_listener.add(game_events.ev_win, _on_win)
 		_listener.add(game_events.ev_lose, _on_lose)
 		_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
@@ -126,6 +134,24 @@ func _on_correct_answer() -> void:
 func _on_mistake() -> void:
 	vibrate(mistake_duration_ms, mistake_amplitude)
 	_pulse_pop_if_idle()
+
+
+func _on_streak(_streak: int) -> void:
+	_play_pattern([0.12, 0.08], streak_tick_ms, [streak_amplitude, streak_amplitude])
+
+
+func _on_health_restored() -> void:
+	_play_pattern([0.3, 0.1, 0.1], heal_pulse_ms, [heal_amplitude * 0.5, heal_amplitude * 0.75, heal_amplitude])
+
+
+## Pulses after the given delays (sec, cumulative). Cancelled by win/crash patterns.
+func _play_pattern(delays: Array, duration_ms: int, amplitudes: Array) -> void:
+	var token: int = _crash_token
+	for i in delays.size():
+		await get_tree().create_timer(delays[i]).timeout
+		if token != _crash_token or not is_inside_tree():
+			return
+		vibrate(duration_ms, amplitudes[i])
 
 
 func _pulse_pop() -> void:

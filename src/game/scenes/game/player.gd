@@ -3,6 +3,7 @@ extends Node
 
 signal ev_health_changed(new_health: int)
 signal ev_score_changed(new_score: int)
+signal ev_streak_changed(new_streak: int)
 signal ev_acceleration_changed(acceleration: float)
 
 const ACCELERATION_DEFAULT: float = GameConfig.PLAYER_ACCELERATION_DEFAULT
@@ -20,6 +21,13 @@ var health: int = 1:
 		if score != new_value:
 			score = new_value
 			ev_score_changed.emit(score)
+
+## Correct answers in a row; reset by any mistake.
+var streak: int = 0:
+	set(new_value):
+		if streak != new_value:
+			streak = new_value
+			ev_streak_changed.emit(streak)
 
 @onready var acceleration: float = ACCELERATION_DEFAULT:
 	set(new_value):

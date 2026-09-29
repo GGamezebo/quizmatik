@@ -44,6 +44,26 @@
 [ext_resource type="Script" uid="uid://dfc4lkuw1o6wl" path="res://src/ui/buttons/hover_scale_binder.gd" id="31_hover_binder"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="36_fb8ob"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Script" path="res://src/game/scenes/game/ui/streak_chip.gd" id="40_streak"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_streak"]
+content_margin_left = 18.0
+content_margin_top = 4.0
+content_margin_right = 18.0
+content_margin_bottom = 6.0
+bg_color = Color(0.851, 0.51, 0.169, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+shadow_color = Color(0.165, 0.2, 0.251, 0.25)
+shadow_size = 4
+shadow_offset = Vector2(0, 3)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2qtwj"]
 shader = ExtResource("36_fb8ob")
@@ -288,6 +308,31 @@ air_plane = NodePath("../../../../Player/AirPlane")
 direct_texture = ExtResource("22_direct")
 discrete_texture = ExtResource("23_discrete")
 metadata/hover_scale_bound = true
+
+[node name="StreakChip" type="PanelContainer" parent="HUD" unique_id=1873402215 node_paths=PackedStringArray("player", "label")]
+visible = false
+offset_left = 28.0
+offset_top = 104.0
+offset_right = 208.0
+offset_bottom = 148.0
+rotation = -0.07
+mouse_filter = 2
+theme = ExtResource("theme_ui")
+theme_override_styles/panel = SubResource("StyleBoxFlat_streak")
+script = ExtResource("40_streak")
+player = NodePath("../../Player")
+game_config = ExtResource("2_j4hd0")
+label = NodePath("Label")
+
+[node name="Label" type="Label" parent="HUD/StreakChip" unique_id=1873402216]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 24
+text = "СЕРИЯ ×3"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Lines" type="Node2D" parent="HUD" unique_id=693063014 node_paths=PackedStringArray("gameArea", "lineSelector")]
 visible = false
