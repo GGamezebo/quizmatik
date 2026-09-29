@@ -12,7 +12,7 @@ When a change alters structure, contracts, or placement conventions, update `.cl
 - Visual art direction / UI look conventions (`concepts/ART_DIRECTION.md`; folder itself stays AI-only — `concepts.md`)
 - New context, feature, event bus, or FSM state
 - Feature isolation or `core/` project-agnostic boundary changes
-- Scene-isolation / Resource-default / parent-override-via-events contract changes
+- Scene-isolation / Resource-default / parent-override-via-events / component contract changes (`godot-paradigm.md`)
 - Editor-first UI policy changes (scene nodes vs programmatic UI)
 - Target platforms (Mobile / Steam / HTML) or cross-platform playability rules change
 - Export ignore folders (`.gdignore` / `export_presets.cfg` `exclude_filter`)

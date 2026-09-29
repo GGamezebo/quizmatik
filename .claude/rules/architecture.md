@@ -24,19 +24,12 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 - Prefer InputMap actions (`shoot`, `ui_*`) over hard-coded keys; add touch controls (on-screen buttons / gestures) without breaking desktop/web.
 - UI: readable at phone landscape, safe areas, hit targets large enough for fingers; still clean on 16:9 desktop and browser.
 - Performance: mobile renderer / mid-range phones and browsers matter — avoid heavy one-platform-only effects unless gated.
-- Platform-specific code: isolate behind small helpers/`OS.has_feature(...)` — do not fork gameplay into three codepaths.
+- Platform-specific code: only in HFSM platform contexts/scenes — `godot-paradigm.md` → Platform code. Never fork gameplay per platform.
 - Before merging a feature, ask: *playable with touch, with keyboard/mouse, and in browser?*
 
 ## #1 Scene isolation (critical)
 
-**Every scene must open and run alone in the editor without crashes**, with no parent context required.
-
-- Bake safe defaults into **Resource files** (`.tres`) and `@export` them on the scene — enough to boot, play, and not null-ref.
-- Parent contexts do **not** inject required nodes at edit-time. They **override** those resource defaults at runtime via events / `initialize(data)`.
-- Typical override path: parent emits event → child `initialize` → `ResourceUtils.update_resource(live_resource, incoming)` (see `GameScene` + `game_config.tres`).
-- Standalone defaults are valid fallbacks; full-app data always wins when the parent provides it.
-- Never assume “only runs under `AppRoot` / `main.gd`”: no required autoloads, no required sibling scenes, no crash if event payload is empty (keep resource defaults).
-- When adding a dependency, ask: *can this scene still F6/run isolated?* If not, put a default Resource on the scene.
+See `godot-paradigm.md` (context scene, resource defaults, HFSM override, resource events).
 
 ## Entry & folders
 
@@ -91,12 +84,7 @@ Export never packs: `concepts/`, `tools/`, `bin/`, `.cursor/`, `.claude/`, `.vsc
 
 ## UI — editor-first (critical)
 
-- Prefer building UI **graphically in the Godot editor** (nodes in `.tscn`). Build controls in GDScript only in rare places that need runtime dynamism.
-- Scripts normally only: bind `@export` node refs, update texts/visibility/state, connect signals.
-- Need a repeated item (level button, row)? Create a **template `.tscn` in the editor**, then `instantiate()` — do not `Control.new()` + build the tree in code.
-- Prefer editing the scene file / asking for editor steps over large programmatic UI diffs.
-- OK programmatic exceptions: lists/grids filled from data, tiny debug overlays, one-off runtime labels — still prefer a scene template when practical.
-- **Theme in editor:** Project Settings `gui/theme/custom` applies at runtime, but isolated scene preview often shows the default theme. Assign `core/theme/style.tres` to the root `Control` of each UI window (`theme = ...`) so the editor matches the game.
+See `godot-paradigm.md` → UI. Theme: root `Control` of each window gets `theme = core/theme/style.tres` (isolated preview otherwise shows default theme).
 
 ## Context flow
 
