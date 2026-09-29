@@ -3,11 +3,12 @@ class_name SaveData
 extends Save
 
 static func  CURRENT_SAVE_VERSION() -> int:
-	return 3
+	return 4
 	
 static var _migrations: Dictionary = {
 	1: _migrate_1_to_2,
 	2: _migrate_2_to_3,
+	3: _migrate_3_to_4,
 }
 
 func migrate_save_data(data: Dictionary, from_version: int) -> Dictionary:
@@ -66,3 +67,21 @@ static func _migrate_2_to_3(data: Dictionary) -> void:
 		payload["unlocked_planes"] = ["starter"]
 	data["active_profile_id"] = profile_id
 	data["profiles"] = {profile_id: payload}
+
+
+## v4: tutorial chapters. Profiles that already won a battle skip the whole tutorial.
+static func _migrate_3_to_4(data: Dictionary) -> void:
+	var profiles: Variant = data.get("profiles", {})
+	if not (profiles is Dictionary):
+		return
+	for profile_id in profiles as Dictionary:
+		var profile: Variant = profiles[profile_id]
+		if not (profile is Dictionary):
+			continue
+		var state: Dictionary = profile.get("state", {}) if profile.get("state", {}) is Dictionary else {}
+		var stats: Variant = profile.get("statistics", {})
+		if stats is Dictionary and int(stats.get("total_wins", 0)) > 0:
+			state["tutorial_completed"] = true
+		if not state.has("tutorial_steps"):
+			state["tutorial_steps"] = {}
+		profile["state"] = state

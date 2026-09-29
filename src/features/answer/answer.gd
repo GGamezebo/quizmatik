@@ -57,6 +57,8 @@ var value: int = 0:
 			_update_label_font_size()
 
 var speed: float = 50.0
+## Stops flying left (wind bob keeps playing). Set by the battle (e.g. tutorial pause).
+var frozen: bool = false
 var lane_index: int = 0
 var _acceleration: float = GameConfig.PLAYER_ACCELERATION_DEFAULT
 var _collision_radius: float = 64.0
@@ -103,7 +105,7 @@ func _exit_tree() -> void:
 func _process(delta: float) -> void:
 	_update_wind(delta)
 
-	if _is_entering:
+	if _is_entering or frozen:
 		return
 
 	position.x -= speed * _acceleration * delta

@@ -18,6 +18,7 @@ var _round_controller: RoundController
 var __components: Array[Variant] = []
 var _blast_lanes: int = 0
 var _hint_on_miss: bool = false
+var _answers_paused: bool = false
 
 
 func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
@@ -43,6 +44,8 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 		_round_controller,
 	])
 	
+	_round_controller.ev_answers_spawned.connect(_on_answers_spawned)
+	event_listener.add(game_events.ev_pause_answers, _on_pause_answers)
 	event_listener.add(game_events.ev_explosion, _on_explosion)
 	event_listener.add(air_plane.ev_air_plane_colladed, _on_air_plane_collided)
 	
@@ -61,6 +64,23 @@ func leave(_event_data: Dictionary) -> void:
 func _process(_delta: float) -> void:
 	if _round_controller:
 		_round_controller.update_answer_acceleration(player.acceleration)
+
+func _on_answers_spawned(options: Array[Answer]) -> void:
+	_apply_answers_paused(options)
+	game_events.ev_answers_spawned.emit(options.duplicate(), _round_controller.question.correct_answer, area.getLines().duplicate())
+
+
+func _on_pause_answers(paused: bool) -> void:
+	_answers_paused = paused
+	if _round_controller:
+		_apply_answers_paused(_round_controller.options)
+
+
+func _apply_answers_paused(options: Array[Answer]) -> void:
+	for answer in options:
+		if is_instance_valid(answer):
+			answer.frozen = _answers_paused
+
 
 func _on_explosion(answer: Answer, _hit_point: Vector2) -> void:
 	var action: CombatResolver.HitAction = CombatResolver.resolve(answer, _round_controller.question, false)

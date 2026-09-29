@@ -1,15 +1,27 @@
 class_name AnchorPointer
 extends Node
 
-## Drives one `TutorialHint` to the first step (in order) whose anchor is visible right now.
-## Order = priority: put deeper screens first so the hint follows navigation automatically.
+## Drives one `TutorialHint` (+ optional `SpotlightDim`) to the first step (in order) whose anchor
+## is visible right now. Order = priority: deeper screens first so the hint follows navigation.
+
+signal ev_step_changed(step: AnchorPointerStep)
+## Hint confirm button pressed for `step` (steps with `button_text`).
+signal ev_step_confirmed(step: AnchorPointerStep)
 
 @export var registry: UiAnchorRegistry
 @export var hint: TutorialHint
+## Optional: dims everything except the current anchor (steps with `dim`).
+@export var dim: SpotlightDim
 @export var steps: Array[AnchorPointerStep] = []
 
 var _enabled: bool = false
 var _current: AnchorPointerStep
+var _current_control: Control
+
+
+func _ready() -> void:
+	set_process(_enabled)
+	hint.ev_button_pressed.connect(_on_hint_button)
 
 
 func set_enabled(value: bool) -> void:
@@ -19,8 +31,13 @@ func set_enabled(value: bool) -> void:
 		_show(null, null)
 
 
-func _ready() -> void:
-	set_process(_enabled)
+func set_steps(new_steps: Array[AnchorPointerStep]) -> void:
+	steps = new_steps
+	_show(null, null)
+
+
+func current_step() -> AnchorPointerStep:
+	return _current
 
 
 func _process(_delta: float) -> void:
@@ -33,12 +50,25 @@ func _process(_delta: float) -> void:
 
 
 func _show(step: AnchorPointerStep, control: Control) -> void:
-	if step == _current and (step == null or hint.target == control):
+	if step == _current and control == _current_control:
 		return
 	_current = step
-	if step == null:
-		hint.set_active(false)
-		return
+	_current_control = control
 	hint.set_active(false)
-	hint.point_at(control, step.anchor_point, step.points_up, step.text)
+	if step == null:
+		if dim != null:
+			dim.set_active(false)
+		ev_step_changed.emit(null)
+		return
+	hint.point_at(control, step.anchor_point, step.points_up, step.text, step.button_text)
 	hint.set_active(true)
+	if dim != null:
+		if step.dim:
+			dim.follow(control, step.hole_rect, step.hole_margin)
+		dim.set_active(step.dim)
+	ev_step_changed.emit(step)
+
+
+func _on_hint_button() -> void:
+	if _current != null:
+		ev_step_confirmed.emit(_current)

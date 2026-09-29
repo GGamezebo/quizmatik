@@ -149,6 +149,7 @@ air_plane = NodePath("../../Player/AirPlane")
 script = ExtResource("15_h2w07")
 air_plane = NodePath("../Player/AirPlane")
 area = NodePath("../GameArea")
+game_events = ExtResource("7_7ifmk")
 
 [node name="Controllers" type="Node" parent="." unique_id=1335740013]
 

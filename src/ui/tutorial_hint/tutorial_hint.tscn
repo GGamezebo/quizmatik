@@ -13,7 +13,7 @@ content_margin_bottom = 26.0
 resource_local_to_scene = true
 shader = ExtResource("3_cloud")
 
-[node name="TutorialHint" type="Control" node_paths=PackedStringArray("body", "arrow", "bubble", "cloud", "arrow_outline", "label")]
+[node name="TutorialHint" type="Control" node_paths=PackedStringArray("body", "arrow", "bubble", "cloud", "arrow_outline", "label", "button")]
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
@@ -23,7 +23,8 @@ arrow = NodePath("Body/Arrow")
 bubble = NodePath("Body/Bubble")
 cloud = NodePath("Body/Cloud")
 arrow_outline = NodePath("Body/Arrow/Outline")
-label = NodePath("Body/Bubble/Label")
+label = NodePath("Body/Bubble/VBox/Label")
+button = NodePath("Body/Bubble/VBox/Button")
 
 [node name="Body" type="Control" parent="."]
 anchors_preset = 0
@@ -47,12 +48,25 @@ offset_bottom = -30.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_bubble")
 
-[node name="Label" type="Label" parent="Body/Bubble"]
+[node name="VBox" type="VBoxContainer" parent="Body/Bubble"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Body/Bubble/VBox"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
+
+[node name="Button" type="Button" parent="Body/Bubble/VBox"]
+visible = false
+custom_minimum_size = Vector2(160, 52)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+text = "OK"
 
 [node name="Arrow" type="Polygon2D" parent="Body"]
 polygon = PackedVector2Array(0, 0, -24, -36, -9, -36, -9, -48, 9, -48, 9, -36, 24, -36)

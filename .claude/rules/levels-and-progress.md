@@ -29,11 +29,11 @@ paths:
 ## Progress
 
 - Schema: `PData` (`src/game/account/persistent_data.gd`) — typed nested classes; live defaults in `persistent_data.tres` = **active profile**
-- Save envelope v3: `{ active_profile_id, profiles }` (`SaveData.CURRENT_SAVE_VERSION`); switch stashes live PData into the slot
+- Save envelope v4 (v4 = tutorial chapters): `{ active_profile_id, profiles }` (`SaveData.CURRENT_SAVE_VERSION`); switch stashes live PData into the slot
 - `ProfileController` — create/switch/delete (never last), gold, equipped plane; age → `BattleDifficulty` for valleys only; lab-only `wipe_all_profiles()` empties the envelope immediately (then first-run overlay)
 - `PData.trophies.unlocked` — valley exam trophies; UI kit `tools/generate_achievements_ui.py`
 - Disk: `SaveManager` + GodotSavesAddon (`SaveData`) profile `save` under `user://save/` (not plain `progress.json`)
-- Campaign mutations: `ProgressController` only (incl. `PData.state.tutorial_completed` via `complete_tutorial()`)
+- Campaign mutations: `ProgressController` only (incl. tutorial: `complete_tutorial()` / `complete_tutorial_step(id)` → `PData.state.tutorial_completed` / `tutorial_steps`; save v4 migration marks profiles with wins as completed)
 - Daily challenges (UTC day, 5 win-slots): `DailyChallengesController` — any battle win fills one slot; 5/5 first time that day → +1 gold
 - Disk write: only `SaveManager` (controllers emit `RootEvents.ev_save_progress` → `save()`)
 - `save()` is **debounced** (`SAVE_DEBOUNCE_SEC`, restarts on each request): no synchronous write per mutation

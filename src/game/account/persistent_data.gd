@@ -188,16 +188,27 @@ class TrophiesData:
 
 
 class StateData:
+	## Whole tutorial finished (all chapters) — AppRoot stops opening `App/Tutorial`.
 	var tutorial_completed: bool = false
+	## Finished tutorial chapters by id (ids owned by the tutorial context).
+	var tutorial_steps: Dictionary[String, bool] = {}
 
 	func to_dict() -> Dictionary:
+		var steps: Dictionary = {}
+		for step_id in tutorial_steps:
+			steps[step_id] = tutorial_steps[step_id]
 		return {
 			"tutorial_completed": tutorial_completed,
+			"tutorial_steps": steps,
 		}
 
 	static func from_dict(d: Dictionary) -> StateData:
 		var state := StateData.new()
 		state.tutorial_completed = bool(d.get("tutorial_completed", false))
+		var raw: Variant = d.get("tutorial_steps", {})
+		if raw is Dictionary:
+			for step_id in raw as Dictionary:
+				state.tutorial_steps[String(step_id)] = bool(raw[step_id])
 		return state
 
 

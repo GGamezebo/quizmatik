@@ -8,3 +8,12 @@ extends Resource
 ## Point on the anchor rect (0..1) the arrow tip touches.
 @export var anchor_point: Vector2 = Vector2(0.5, 0.0)
 @export var points_up: bool = false
+## Non-empty → hint shows a confirm button; `AnchorPointer.ev_step_confirmed` fires on press.
+@export var button_text: String = ""
+
+@export_group("Spotlight")
+## Dim the screen around the anchor (only the hole stays clickable).
+@export var dim: bool = true
+## Hole = this sub-rect (0..1) of the anchor rect, grown by `hole_margin`.
+@export var hole_rect: Rect2 = Rect2(0, 0, 1, 1)
+@export var hole_margin: float = 12.0

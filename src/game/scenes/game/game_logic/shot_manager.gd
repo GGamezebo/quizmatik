@@ -7,10 +7,22 @@ extends Node
 ## Battle Background (HUD) — receives fountain-pen ink drips from shots.
 @export var background: Node
 
+var _locked: bool = false
+
 func _ready() -> void:
 	air_plane.ev_shoot.connect(_on_air_plane_ev_shoot)
+	game_events.ev_lock_shoot.connect(_on_lock_shoot)
+
+func _exit_tree() -> void:
+	if game_events.ev_lock_shoot.is_connected(_on_lock_shoot):
+		game_events.ev_lock_shoot.disconnect(_on_lock_shoot)
+
+func _on_lock_shoot(locked: bool) -> void:
+	_locked = locked
 
 func _on_air_plane_ev_shoot(position: Vector2) -> void:
+	if _locked:
+		return
 	game_events.ev_shoot.emit()
 	if shot_scene:
 		var shot = shot_scene.instantiate()

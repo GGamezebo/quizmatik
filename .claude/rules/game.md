@@ -28,7 +28,7 @@ paths:
 | SFX | AppRoot `SfxController` via `GameEvents` (`ev_shoot`, `ev_explosion`, `ev_correct_answer`, `ev_mistake`, `ev_win`, `ev_lose`, state change); plane thrust/crash/whoosh stay on the plane |
 | Vibration | AppRoot `VibrationController` via same `GameEvents` (+ `ev_streak` double tick, `ev_health_restored` 3 rising pulses) + `RootEvents` + UI presses; plane crash = long multi-pulse on `ev_lose` |
 | Touch plane | `AirPlane`: left half drag = move, right half tap = shoot (`mobile` / web+touchscreen); keyboard/mouse unchanged on desktop |
-| Tutorial | Not in this scene — `scenes/tutorial/` context (`BattleCoach` listens to `game_events.tres`). Battle only exposes `HUD/QuestionAnchor` (`UiAnchor` `battle.question`). Touch scheme: `AirPlane.is_touch_scheme()` (static) |
+| Tutorial | Not in this scene — `scenes/tutorial/` `BattleCoach` talks via `GameEvents` only. Battle exposes: info `ev_answers_spawned(answers, correct, lanes)`, `ev_plane_lane_changed(lane, centered)` (`LineSelector`); commands `ev_pause_answers` (`GameState` → `Answer.frozen`), `ev_lock_shoot` (`ShotManager`); `HUD/QuestionAnchor` (`battle.question`). Touch scheme: `AirPlane.is_touch_scheme()` (static) |
 | Equipped plane | `PlaneCatalog` + `ProfileController`: speed, tint, blast lanes, hint-on-miss (isolated F6 → starter) |
 
 ## Constraints

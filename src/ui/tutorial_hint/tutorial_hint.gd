@@ -1,6 +1,9 @@
 class_name TutorialHint
 extends Control
 
+## Optional confirm button pressed (only when `button_text` is set).
+signal ev_button_pressed
+
 ## Tutorial pointer: ink arrow + semi-transparent cloud bubble, bobbing toward a point.
 ## Root position = arrow tip. With `target`, tip follows `target` rect at `anchor_point`.
 ## Never blocks input (all mouse_filter = IGNORE). Parent decides when to `set_active`.
@@ -9,6 +12,8 @@ extends Control
 const ARROW_HEIGHT := 48.0
 const BOB_DISTANCE := 10.0
 const BOB_SECONDS := 0.55
+## Min gap between the bubble and the screen edge (arrow tip never moves).
+const SCREEN_MARGIN := 8.0
 
 ## Runtime-assignable (e.g. a spawned level tile). Set → hint positions itself globally.
 @export var target: Control:
@@ -27,6 +32,13 @@ const BOB_SECONDS := 0.55
 		if label:
 			label.text = value
 @export var bubble_width: float = 300.0
+## Non-empty → shows a confirm button under the text (the only clickable part of the hint).
+@export var button_text: String = "":
+	set(value):
+		button_text = value
+		if button:
+			button.text = value
+			button.visible = not value.is_empty()
 @export var style: TutorialHintStyle
 @export var active_on_ready: bool = false
 
@@ -38,6 +50,7 @@ const BOB_SECONDS := 0.55
 @export var cloud: Control
 @export var arrow_outline: Line2D
 @export var label: Label
+@export var button: Button
 
 var _active: bool = false
 var _bob_tween: Tween
@@ -47,6 +60,9 @@ var _pop_tween: Tween
 func _ready() -> void:
 	label.text = text
 	label.custom_minimum_size.x = bubble_width
+	button.text = button_text
+	button.visible = not button_text.is_empty()
+	button.pressed.connect(ev_button_pressed.emit)
 	arrow.visible = show_arrow
 	_apply_style()
 	## Autowrapped label settles its height after the first sort — re-fit (shrink too) every time.
@@ -68,11 +84,12 @@ func is_active() -> bool:
 
 
 ## Re-aim at runtime (null target → stays at its own position). Re-pops if active.
-func point_at(new_target: Control, new_anchor_point: Vector2, new_points_up: bool, new_text: String) -> void:
+func point_at(new_target: Control, new_anchor_point: Vector2, new_points_up: bool, new_text: String, new_button_text: String = "") -> void:
 	target = new_target
 	anchor_point = new_anchor_point
 	points_up = new_points_up
 	text = new_text
+	button_text = new_button_text
 	_layout()
 	if _active:
 		_apply_active()
@@ -118,6 +135,7 @@ func _follow_target() -> void:
 		return
 	var rect := target.get_global_rect()
 	global_position = rect.position + rect.size * anchor_point
+	_keep_bubble_on_screen()
 
 
 func _layout() -> void:
@@ -132,11 +150,25 @@ func _layout() -> void:
 	else:
 		arrow.scale = Vector2.ONE
 		bubble.position = Vector2(x, -ARROW_HEIGHT + 4.0 - bubble_size.y)
-	cloud.position = bubble.position
 	cloud.size = bubble_size
 	var mat := cloud.material as ShaderMaterial
 	if mat != null:
 		mat.set_shader_parameter("rect_size", bubble_size)
+	_keep_bubble_on_screen()
+
+
+## Slide the bubble horizontally inside the viewport; the arrow stays on the target.
+func _keep_bubble_on_screen() -> void:
+	var width := bubble.size.x
+	var left := global_position.x - width / 2.0
+	var view_width := get_viewport_rect().size.x
+	var shift := 0.0
+	if left < SCREEN_MARGIN:
+		shift = SCREEN_MARGIN - left
+	elif left + width > view_width - SCREEN_MARGIN:
+		shift = view_width - SCREEN_MARGIN - (left + width)
+	bubble.position.x = -width / 2.0 + shift
+	cloud.position = bubble.position
 
 
 func _pop_in() -> void:
