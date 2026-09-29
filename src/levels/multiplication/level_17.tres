@@ -22,3 +22,4 @@ player_acceleration_max = 1.65
 player_acceleration_speed = 1.0
 early_exam_questions_multiplier = 1.5
 early_exam_answer_speed_multiplier = 1.25
+missing_operand_chance = 0.4
