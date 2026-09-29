@@ -45,6 +45,14 @@ enum Operations {
 ## Operations missing here use min/max_generate_number.
 @export var operation_ranges: Dictionary = {}
 
+@export_category("Streak")
+## Correct answers in a row before the HUD shows «СЕРИЯ ×N».
+@export var streak_feedback_min: int = 3
+## Every N correct answers in a row restore one heart (0 = off).
+@export var streak_heal_every: int = 5
+## Streak healing never raises health above this.
+@export var streak_heal_max_health: int = 3
+
 @export_category("Early Exam")
 ## Applied when the player starts the exam before completing all regular levels in the block.
 @export var early_exam_questions_multiplier: float = 1.0

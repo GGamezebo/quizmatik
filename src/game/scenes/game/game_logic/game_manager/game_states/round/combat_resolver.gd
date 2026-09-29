@@ -22,10 +22,19 @@ static func apply_correct(
 	base_max_generate: int,
 ) -> bool:
 	player.score += 1
+	apply_streak(player, game_config)
 	game_config.apply_answer_speed_after_round(player.score, base_speed)
 	game_config.apply_generate_number_after_round(player.score, base_min_generate, base_max_generate)
 	return player.score >= game_config.questions_count
 
+## +1 streak; every `streak_heal_every` in a row restores a heart up to `streak_heal_max_health`.
+static func apply_streak(player: Player, game_config: GameConfig) -> void:
+	player.streak += 1
+	var every: int = game_config.streak_heal_every
+	if every > 0 and player.streak % every == 0 and player.health < game_config.streak_heal_max_health:
+		player.health += 1
+
 static func apply_damage(player: Player) -> bool:
+	player.streak = 0
 	player.health -= 1
 	return player.health == 0
