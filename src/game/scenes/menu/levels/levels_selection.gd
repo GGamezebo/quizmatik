@@ -9,6 +9,8 @@ extends Control
 @export var back_button: BaseButton
 @export var early_exam_dialog: ConfirmDialog
 @export var background_host: BackgroundHost
+## Marks the next level tile for overlays (tutorial) — target set on each populate.
+@export var next_level_anchor: UiAnchor
 
 var _pending_battle_info: GameConfig.BattleInfo = null
 
@@ -58,6 +60,7 @@ func _populate_levels_grid() -> void:
 
 	var container = levels.find_container_in_config(container_id)
 	var next_id := _find_next_level_id(container)
+	var next_button: Control = null
 
 	for level in container["levels"]:
 		var lvl_id: int = level["level_id"]
@@ -71,11 +74,16 @@ func _populate_levels_grid() -> void:
 		btn.set_params(is_unlocked, stars)
 		if btn.has_method("set_as_next"):
 			btn.set_as_next(lvl_id == next_id and not is_exam)
+		if lvl_id == next_id:
+			next_button = btn
 		if is_unlocked or is_exam:
 			if is_unlocked:
 				progress.mark_level_seen(container_id, lvl_id)
 			var battle_info = GameConfig.BattleInfo.new(container_id, lvl_id, is_exam)
 			btn.pressed.connect(_on_level_selected.bind(battle_info))
+
+	if next_level_anchor != null:
+		next_level_anchor.set_target(next_button)
 
 
 func _find_next_level_id(container: Dictionary) -> int:

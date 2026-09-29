@@ -91,10 +91,15 @@ func _handle_screen_drag(event: InputEventScreenDrag) -> void:
 		_left_touch_global_y_by_index[event.index] = _screen_to_global_y(event.position)
 
 
-func _uses_touch_controls() -> bool:
+## Touch scheme (left half drag = move, right half tap = shoot) vs keyboard/mouse.
+static func is_touch_scheme() -> bool:
 	return OS.has_feature("mobile") or (
 		OS.has_feature("web") and DisplayServer.is_touchscreen_available()
 	)
+
+
+func _uses_touch_controls() -> bool:
+	return is_touch_scheme()
 
 
 func _is_left_screen_half(screen_position: Vector2) -> bool:

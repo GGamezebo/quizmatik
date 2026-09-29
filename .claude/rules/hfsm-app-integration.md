@@ -37,6 +37,12 @@ paths:
 - BoundEntity can `add_event` (HFSM injects via `sync_hfsm` on enter)
 - Heavy UI stays in scenes; BoundEntity contexts must not mount scenes
 
+## Tutorial (parallel state)
+
+- `App/Tutorial` scene `tutorial` (`scenes/tutorial/tutorial.tscn`, sync load), parallel to Menu/Battle
+- AppRoot `_sync_tutorial()` on initialize + `ev_profiles_changed`: profile exists and `!ProgressController.is_tutorial_completed()` → `ev.open_tutorial`, else `ev.close_tutorial`
+- Tutorial scene reacts to `ev.start_game` / `ev.exit_game` / `ev.open_menu` via `on_event`; on finish → `complete_tutorial()` + `ev.close_tutorial`
+
 ## Menu UI
 
 - Full-screen menu windows: `WindowStackManager` inside MenuScene — not HFSM bindings

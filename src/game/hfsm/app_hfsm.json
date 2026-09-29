@@ -7,6 +7,11 @@
 				"enter": ["ev.open_menu"],
 				"leave": ["ev.start_game"],
 			},
+			"Tutorial": {
+				"scene": { "id": "tutorial", "async_loading": false },
+				"enter": ["ev.open_tutorial"],
+				"leave": ["ev.close_tutorial"]
+			},
 			"WEB": {
 				"context": "WEBContext",
 				"enter": ["ev.open_web"],

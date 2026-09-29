@@ -12,7 +12,7 @@ Feature plan (source of truth for profiles/planes/gold): `.cursor/plans/profiles
 ## Not covered by the rules (verified 2026-09-26)
 
 - **Localization:** none. UI text is Russian, hardcoded in `.tscn` `text = "..."` and some scripts; no `tr()`, no `TranslationServer`, no `.csv`/`.po`. Keep new UI text in Russian in the scene; do not add a translation system unless asked.
-- **Tutorial:** not implemented. Only `PData.StateData.tutorial_completed` (saved, never read). Do not assume a tutorial flow exists.
+- **Tutorial:** HFSM context `App/Tutorial` (`src/game/scenes/tutorial/`) — see `rules/hfsm-app-integration.md` + `rules/architecture.md`.
 
 ## Working here
 

@@ -1,0 +1,134 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/tutorial/tutorial.gd" id="1_tutorial"]
+[ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="2_progress"]
+[ext_resource type="PackedScene" path="res://src/ui/tutorial_hint/tutorial_hint.tscn" id="3_hint"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="4_theme"]
+[ext_resource type="Script" path="res://src/ui/tutorial_hint/anchor_pointer.gd" id="5_pointer"]
+[ext_resource type="Script" path="res://src/ui/tutorial_hint/anchor_pointer_step.gd" id="6_step"]
+[ext_resource type="Resource" path="res://src/game/scenes/tutorial/tutorial_anchors.tres" id="7_anchors"]
+[ext_resource type="Script" path="res://src/game/scenes/tutorial/battle_coach.gd" id="8_coach"]
+[ext_resource type="Resource" uid="uid://bg11w4vfrn34r" path="res://src/game/scenes/game/game_events.tres" id="9_game_events"]
+[ext_resource type="Resource" path="res://src/game/scenes/tutorial/tutorial_hint_style.tres" id="10_hint_style"]
+
+[sub_resource type="Resource" id="Step_level"]
+script = ExtResource("6_step")
+anchor_id = "levels.next"
+text = "Нажми на первый уровень!"
+anchor_point = Vector2(0.5, 0.95)
+points_up = true
+
+[sub_resource type="Resource" id="Step_pack"]
+script = ExtResource("6_step")
+anchor_id = "menu.pack"
+text = "Выбери долину и нажми на неё!"
+anchor_point = Vector2(0.5, 0.08)
+
+[sub_resource type="Resource" id="Step_start"]
+script = ExtResource("6_step")
+anchor_id = "menu.start"
+text = "Нажми, чтобы начать приключение!"
+anchor_point = Vector2(0.5, 0.92)
+points_up = true
+
+[node name="Tutorial" type="Node" node_paths=PackedStringArray("progress", "menu_pointer", "battle_coach")]
+script = ExtResource("1_tutorial")
+progress = NodePath("ProgressController")
+menu_pointer = NodePath("MenuPointer")
+battle_coach = NodePath("BattleCoach")
+
+[node name="ProgressController" parent="." instance=ExtResource("2_progress")]
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Root" type="Control" parent="Overlay"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("4_theme")
+
+[node name="TouchDivider" type="ColorRect" parent="Overlay/Root"]
+visible = false
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = 130.0
+offset_right = 2.0
+offset_bottom = -12.0
+mouse_filter = 2
+color = Color(0.165, 0.2, 0.251, 0.25)
+
+[node name="PointerHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
+layout_mode = 0
+bubble_width = 440.0
+style = ExtResource("10_hint_style")
+
+[node name="GoalHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 40.0
+offset_top = 108.0
+offset_right = 40.0
+offset_bottom = 108.0
+points_up = true
+bubble_width = 400.0
+style = ExtResource("10_hint_style")
+
+[node name="MoveHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
+layout_mode = 1
+anchor_left = 0.25
+anchor_top = 1.0
+anchor_right = 0.25
+anchor_bottom = 1.0
+offset_top = -46.0
+offset_bottom = -46.0
+show_arrow = false
+bubble_width = 360.0
+style = ExtResource("10_hint_style")
+
+[node name="ShootHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
+layout_mode = 1
+anchor_left = 0.75
+anchor_top = 1.0
+anchor_right = 0.75
+anchor_bottom = 1.0
+offset_top = -46.0
+offset_bottom = -46.0
+show_arrow = false
+bubble_width = 300.0
+style = ExtResource("10_hint_style")
+
+[node name="FeedbackHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+show_arrow = false
+bubble_width = 380.0
+style = ExtResource("10_hint_style")
+
+[node name="MenuPointer" type="Node" parent="." node_paths=PackedStringArray("hint")]
+script = ExtResource("5_pointer")
+registry = ExtResource("7_anchors")
+hint = NodePath("../Overlay/Root/PointerHint")
+steps = Array[ExtResource("6_step")]([SubResource("Step_level"), SubResource("Step_pack"), SubResource("Step_start")])
+
+[node name="BattleCoach" type="Node" parent="." node_paths=PackedStringArray("goal_hint", "move_hint", "shoot_hint", "feedback_hint", "touch_divider")]
+script = ExtResource("8_coach")
+game_events = ExtResource("9_game_events")
+anchors = ExtResource("7_anchors")
+goal_hint = NodePath("../Overlay/Root/GoalHint")
+move_hint = NodePath("../Overlay/Root/MoveHint")
+shoot_hint = NodePath("../Overlay/Root/ShootHint")
+feedback_hint = NodePath("../Overlay/Root/FeedbackHint")
+touch_divider = NodePath("../Overlay/Root/TouchDivider")

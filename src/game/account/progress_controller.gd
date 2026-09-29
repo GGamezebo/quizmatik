@@ -13,6 +13,16 @@ signal ev_level_seen(container_id: String, level_id: int)
 func save() -> void:
 	root_events.ev_save_progress.emit()
 
+## First-run tutorial: done by flag, or implied for profiles that already won a battle (pre-tutorial saves).
+func is_tutorial_completed() -> bool:
+	return pdata.state.tutorial_completed or pdata.statistics.total_wins > 0
+
+func complete_tutorial() -> void:
+	if pdata.state.tutorial_completed:
+		return
+	pdata.state.tutorial_completed = true
+	save()
+
 func post_battle(battle_info: GameConfig.BattleInfo, stars: int) -> Dictionary:
 	if battle_info.is_exam:
 		return pass_exam(battle_info.container_id, stars)

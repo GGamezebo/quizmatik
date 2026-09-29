@@ -45,6 +45,8 @@
 [ext_resource type="FontVariation" uid="uid://dyt157qapui8s" path="res://core/theme/title_font.tres" id="40_title_font"]
 [ext_resource type="PackedScene" path="res://src/ui/animated_title/animated_title.tscn" id="41_animated_title"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Script" path="res://src/ui/ui_anchor/ui_anchor.gd" id="60_ui_anchor"]
+[ext_resource type="Resource" path="res://src/game/scenes/tutorial/tutorial_anchors.tres" id="61_tutorial_anchors"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
 colors = PackedColorArray(0.165, 0.2, 0.251, 0.5, 0.953, 0.902, 0.784, 0.06)
@@ -342,6 +344,12 @@ layout_mode = 2
 image = ExtResource("15_op54q")
 metadata/hover_scale_bound = true
 
+[node name="StartAnchor" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("target")]
+script = ExtResource("60_ui_anchor")
+registry = ExtResource("61_tutorial_anchors")
+anchor_id = "menu.start"
+target = NodePath("../CenterContainer/VBoxContainer/CtaRow/Start")
+
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("carousel", "progress", "windows_stack_manager", "level_selection_window", "background_host")]
 visible = false
 layout_mode = 3
@@ -408,6 +416,12 @@ theme_override_constants/separation = 16
 alignment = 1
 
 [node name="MenuWindowBack" parent="UI/LevelsWindow" unique_id=693043290 instance=ExtResource("25_menu_back")]
+
+[node name="PackAnchor" type="Node" parent="UI/LevelsWindow" node_paths=PackedStringArray("target")]
+script = ExtResource("60_ui_anchor")
+registry = ExtResource("61_tutorial_anchors")
+anchor_id = "menu.pack"
+target = NodePath("../PackCarousel")
 
 [node name="LevelsSelection" parent="UI/LevelsWindow" unique_id=519807597 instance=ExtResource("15_foifc")]
 visible = false
