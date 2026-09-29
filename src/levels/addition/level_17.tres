@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_script")
-questions_count = 1
+questions_count = 18
 allowed_operations = 1
 min_generate_number = 5
 max_generate_number = 25
