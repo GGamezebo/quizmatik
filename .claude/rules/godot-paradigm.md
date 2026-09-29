@@ -29,6 +29,18 @@ description: Core Godot paradigm — context scenes, resource defaults + HFSM ov
 - Static UI = nodes in `.tscn` built in editor. Script only: `@export` node refs, set text/visibility/state, connect signals.
 - Repeated items: editor-made template `.tscn` + `instantiate()`. Never `Control.new()` trees. Exceptions: data-filled lists (still via template), tiny debug overlays.
 
+## Core-first placement
+- Writing a feature/object/module: if it does not depend on the game (no `src/` types, contexts, events, configs, Quizmatik scenes/assets) → put it in `core/` (`core/lib/{name}/`), not `src/`.
+- Game-specific parts stay in `src/` and use the core piece via `class_name` / instancing / composition.
+- Mixed code: split — generic part → `core/`, game wiring → `src/`. Don't add `src/` deps to make it fit.
+- `core/` = only small, easily reusable tools (logic/infrastructure: FSM, events, utils). No textures, no heavy resources, no styled widgets/shaders/scenes, no look/content (palette, fonts, texts, tuned z/layers), no cross-deps between core modules unless unavoidable.
+- In doubt (UI kits, styled widgets, several interlinked modules) → `src/ui/` or `src/features/`, not `core/`. Ref: tutorial hint/anchor kit lives in `src/ui/`.
+
+## Separate logic → own context
+- Self-contained flow spanning screens (tutorial, onboarding, promos, …) = own HFSM state + scene/context; encapsulate all its rules, texts, state there.
+- Host scenes expose only passive hooks (`UiAnchor`, Resource `ev_*`); never embed the flow's logic/UI in them.
+- Ref: `scenes/tutorial/` (`App/Tutorial`).
+
 ## SOLID
 - S: one reason to change per script; growing class → extract component/helper.
 - O: extend via new component / Resource / state, not `if kind ==` branches in existing code.

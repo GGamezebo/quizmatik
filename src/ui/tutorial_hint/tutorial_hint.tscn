@@ -1,0 +1,65 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/tutorial_hint/tutorial_hint.gd" id="1_hint"]
+[ext_resource type="Shader" path="res://src/ui/tutorial_hint/cloud_bubble.gdshader" id="3_cloud"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bubble"]
+content_margin_left = 36.0
+content_margin_top = 26.0
+content_margin_right = 36.0
+content_margin_bottom = 26.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cloud"]
+resource_local_to_scene = true
+shader = ExtResource("3_cloud")
+
+[node name="TutorialHint" type="Control" node_paths=PackedStringArray("body", "arrow", "bubble", "cloud", "arrow_outline", "label")]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1_hint")
+body = NodePath("Body")
+arrow = NodePath("Body/Arrow")
+bubble = NodePath("Body/Bubble")
+cloud = NodePath("Body/Cloud")
+arrow_outline = NodePath("Body/Arrow/Outline")
+label = NodePath("Body/Bubble/Label")
+
+[node name="Body" type="Control" parent="."]
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="Cloud" type="ColorRect" parent="Body"]
+material = SubResource("ShaderMaterial_cloud")
+layout_mode = 0
+offset_left = -150.0
+offset_top = -90.0
+offset_right = 150.0
+offset_bottom = -30.0
+mouse_filter = 2
+
+[node name="Bubble" type="PanelContainer" parent="Body"]
+layout_mode = 0
+offset_left = -150.0
+offset_top = -90.0
+offset_right = 150.0
+offset_bottom = -30.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_bubble")
+
+[node name="Label" type="Label" parent="Body/Bubble"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Arrow" type="Polygon2D" parent="Body"]
+polygon = PackedVector2Array(0, 0, -24, -36, -9, -36, -9, -48, 9, -48, 9, -36, 24, -36)
+
+[node name="Outline" type="Line2D" parent="Body/Arrow"]
+points = PackedVector2Array(0, 0, -24, -36, -9, -36, -9, -48, 9, -48, 9, -36, 24, -36)
+closed = true
+width = 3.0
+default_color = Color(0, 0, 0, 1)
+joint_mode = 2

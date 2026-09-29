@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="TutorialHintStyle" format=3]
+
+[ext_resource type="Script" path="res://src/ui/tutorial_hint/tutorial_hint_style.gd" id="1_style"]
+
+[resource]
+script = ExtResource("1_style")
+fill_color = Color(1, 0.99, 0.96, 1)
+outline_color = Color(0.165, 0.2, 0.251, 0.7)
+arrow_color = Color(0.941, 0.788, 0.29, 1)
+arrow_outline_color = Color(0.165, 0.2, 0.251, 1)
+font_color = Color(0.165, 0.2, 0.251, 1)
+font_size = 24
+line_spacing = -6

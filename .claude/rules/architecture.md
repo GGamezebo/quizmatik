@@ -93,6 +93,7 @@ Menu --ev.start_game--> Battle --ev.exit_game--> PostBattle
 PostBattle --ev.return_to_menu--> Menu
 PostBattle --ev.start_game--> Battle (retry)
 Battle --ev.start_game--> Battle (in-battle restart remount)
+App/Tutorial (parallel) --ev.open_tutorial / ev.close_tutorial
 ```
 
 App phases are driven by HFSM (`src/game/hfsm/app_hfsm.json`) via `src/game/main.gd`:
@@ -129,6 +130,8 @@ Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swap
 - Level data → `src/levels/{container}/`; metadata → `levels_config.gd` / `tools/generate_levels.py`
 - Progress mutations → `ProgressController` / `DailyChallengesController` / `StatisticsController` / `ProfileController`; disk write only via `RootEvents.ev_save_progress` → `SaveManager.save()` (debounced; suppressed during battle; force-flush at battle end / app close)
 - Profiles (max 4; profile = progress) → `src/game/account/` + `menu/profile_window/`; hangar → `menu/plane_hangar_window/`; catalog → `src/features/plane/plane_catalog.gd`
+- First-run tutorial → context `src/game/scenes/tutorial/` (HFSM `App/Tutorial`, see `hfsm-app-integration.md`). All tutorial logic/texts live there (`tutorial.gd` orchestrator, `BattleCoach`, `MenuPointer` steps). Other scenes only mark UI: `UiAnchor` → `tutorial/tutorial_anchors.tres` (`menu.start`, `menu.pack`, `levels.next`, `battle.question`). Never add tutorial code/hints to menu/battle scenes
+- Hint/anchor UI kit (shared UI, not core): `src/ui/tutorial_hint/` (`TutorialHint` arrow + cloud shader; look via `TutorialHintStyle` — palette `tutorial/tutorial_hint_style.tres`; `AnchorPointer` + `AnchorPointerStep`), `src/ui/ui_anchor/` (`UiAnchor`, `UiAnchorRegistry`)
 - Celebration overlays (valley / plane / daily gold) → `src/ui/celebration_splash/` (not window stack); first-run create overlay same rule
 - App-root SFX → `src/features/sfx/` (`SfxController` instanced in `app_root/root.tscn`); plane-local audio stays on `plane.tscn`
 - App-root vibration → `src/features/vibration/` (`VibrationController` instanced in `app_root/root.tscn`)

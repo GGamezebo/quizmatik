@@ -23,6 +23,7 @@ func initialize(_data: Dictionary) -> void:
 		
 	music_player.play()
 	_maybe_open_first_profile()
+	_sync_tutorial()
 
 func deinit() -> void:
 	_listener.deinit()
@@ -40,6 +41,16 @@ func _on_ev_return_to_menu(data: Dictionary = {}) -> void:
 
 func _on_profiles_changed() -> void:
 	_maybe_open_first_profile()
+	_sync_tutorial()
+
+
+## Tutorial is a parallel HFSM state: open for a profile that hasn't finished it, close otherwise.
+func _sync_tutorial() -> void:
+	var needs_tutorial: bool = (
+		profile_controller != null and profile_controller.has_profiles()
+		and not progress_controller.is_tutorial_completed()
+	)
+	add_event("ev.open_tutorial" if needs_tutorial else "ev.close_tutorial")
 
 
 func _maybe_open_first_profile() -> void:
