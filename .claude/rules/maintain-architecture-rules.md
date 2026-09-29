@@ -4,7 +4,7 @@ description: Keep architecture rules accurate when the project structure changes
 
 # Maintain architecture rules
 
-When a change alters structure, contracts, or placement conventions, update `.claude/rules/` (and mirror in `.cursor/rules/`) in the **same** task. Stale rules waste tokens and cause wrong edits.
+When a change alters structure, contracts, or placement conventions, update `.claude/rules/` in the **same** task. Never touch `.cursor/`. Human-facing docs go to `.claude/doc/`, not rules. Stale rules waste tokens and cause wrong edits.
 
 ## Update when
 
