@@ -1,6 +1,8 @@
 class_name RoundController
 extends RefCounted
 
+signal ev_answers_spawned(options: Array[Answer])
+
 var options: Array[Answer] = []
 var question: QuizQuestion.Question
 
@@ -83,6 +85,7 @@ func _spawn_answers() -> void:
 	options = _spawner.spawn(question, _game_config.answer_speed)
 	for answer in options:
 		answer.ev_killed.connect(_on_answer_killed)
+	ev_answers_spawned.emit(options)
 
 func _clear_answers() -> void:
 	for option in options:

@@ -10,6 +10,8 @@
 [ext_resource type="Script" path="res://src/game/scenes/tutorial/battle_coach.gd" id="8_coach"]
 [ext_resource type="Resource" uid="uid://bg11w4vfrn34r" path="res://src/game/scenes/game/game_events.tres" id="9_game_events"]
 [ext_resource type="Resource" path="res://src/game/scenes/tutorial/tutorial_hint_style.tres" id="10_hint_style"]
+[ext_resource type="PackedScene" path="res://src/ui/spotlight_dim/spotlight_dim.tscn" id="11_dim"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="12_root_events"]
 
 [sub_resource type="Resource" id="Step_level"]
 script = ExtResource("6_step")
@@ -23,6 +25,7 @@ script = ExtResource("6_step")
 anchor_id = "menu.pack"
 text = "Выбери долину и нажми на неё!"
 anchor_point = Vector2(0.5, 0.08)
+hole_rect = Rect2(0.375, 0.06, 0.25, 0.88)
 
 [sub_resource type="Resource" id="Step_start"]
 script = ExtResource("6_step")
@@ -31,11 +34,48 @@ text = "Нажми, чтобы начать приключение!"
 anchor_point = Vector2(0.5, 0.92)
 points_up = true
 
+[sub_resource type="Resource" id="Step_daily"]
+script = ExtResource("6_step")
+anchor_id = "menu.daily"
+text = "Ура, твоя первая печать!
+Выиграй 5 боёв за день — получишь
+золотую монетку. За монетки можно
+купить новый самолёт!"
+anchor_point = Vector2(0.5, 0.12)
+button_text = "Понятно!"
+
+[sub_resource type="Resource" id="Step_buy"]
+script = ExtResource("6_step")
+anchor_id = "hangar.buy"
+text = "Купи новый самолёт!"
+anchor_point = Vector2(0.5, 0.95)
+points_up = true
+
+[sub_resource type="Resource" id="Step_profile_plane"]
+script = ExtResource("6_step")
+anchor_id = "profile.plane"
+text = "Нажми на самолёт —
+откроется ангар"
+anchor_point = Vector2(0.5, 0.95)
+points_up = true
+
+[sub_resource type="Resource" id="Step_profile"]
+script = ExtResource("6_step")
+anchor_id = "menu.profile"
+text = "Хватает монеток на новый самолёт!
+Открой профиль пилота"
+anchor_point = Vector2(0.5, 0.95)
+points_up = true
+
 [node name="Tutorial" type="Node" node_paths=PackedStringArray("progress", "menu_pointer", "battle_coach")]
 script = ExtResource("1_tutorial")
+root_events = ExtResource("12_root_events")
 progress = NodePath("ProgressController")
 menu_pointer = NodePath("MenuPointer")
 battle_coach = NodePath("BattleCoach")
+first_flight_steps = Array[ExtResource("6_step")]([SubResource("Step_level"), SubResource("Step_pack"), SubResource("Step_start")])
+daily_stamp_steps = Array[ExtResource("6_step")]([SubResource("Step_daily")])
+plane_shop_steps = Array[ExtResource("6_step")]([SubResource("Step_buy"), SubResource("Step_profile_plane"), SubResource("Step_profile")])
 
 [node name="ProgressController" parent="." instance=ExtResource("2_progress")]
 
@@ -52,61 +92,41 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("4_theme")
 
-[node name="TouchDivider" type="ColorRect" parent="Overlay/Root"]
-visible = false
+[node name="MenuDim" parent="Overlay/Root" instance=ExtResource("11_dim")]
 layout_mode = 1
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -2.0
-offset_top = 130.0
-offset_right = 2.0
-offset_bottom = -12.0
-mouse_filter = 2
-color = Color(0.165, 0.2, 0.251, 0.25)
+
+[node name="BattleDim" parent="Overlay/Root" instance=ExtResource("11_dim")]
+layout_mode = 1
+block_ui_keys = false
 
 [node name="PointerHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
+z_index = 10
 layout_mode = 0
 bubble_width = 440.0
 style = ExtResource("10_hint_style")
 
 [node name="GoalHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
+z_index = 10
+layout_mode = 0
+points_up = true
+bubble_width = 380.0
+style = ExtResource("10_hint_style")
+
+[node name="CoachHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
+z_index = 10
 layout_mode = 1
 anchor_left = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-offset_left = 40.0
-offset_top = 108.0
-offset_right = 40.0
-offset_bottom = 108.0
-points_up = true
-bubble_width = 400.0
-style = ExtResource("10_hint_style")
-
-[node name="MoveHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
-layout_mode = 1
-anchor_left = 0.25
-anchor_top = 1.0
-anchor_right = 0.25
 anchor_bottom = 1.0
-offset_top = -46.0
-offset_bottom = -46.0
+offset_top = -64.0
+offset_bottom = -64.0
 show_arrow = false
-bubble_width = 360.0
-style = ExtResource("10_hint_style")
-
-[node name="ShootHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
-layout_mode = 1
-anchor_left = 0.75
-anchor_top = 1.0
-anchor_right = 0.75
-anchor_bottom = 1.0
-offset_top = -46.0
-offset_bottom = -46.0
-show_arrow = false
-bubble_width = 300.0
+bubble_width = 560.0
 style = ExtResource("10_hint_style")
 
 [node name="FeedbackHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
+z_index = 10
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -117,18 +137,17 @@ show_arrow = false
 bubble_width = 380.0
 style = ExtResource("10_hint_style")
 
-[node name="MenuPointer" type="Node" parent="." node_paths=PackedStringArray("hint")]
+[node name="MenuPointer" type="Node" parent="." node_paths=PackedStringArray("hint", "dim")]
 script = ExtResource("5_pointer")
 registry = ExtResource("7_anchors")
 hint = NodePath("../Overlay/Root/PointerHint")
-steps = Array[ExtResource("6_step")]([SubResource("Step_level"), SubResource("Step_pack"), SubResource("Step_start")])
+dim = NodePath("../Overlay/Root/MenuDim")
 
-[node name="BattleCoach" type="Node" parent="." node_paths=PackedStringArray("goal_hint", "move_hint", "shoot_hint", "feedback_hint", "touch_divider")]
+[node name="BattleCoach" type="Node" parent="." node_paths=PackedStringArray("dim", "goal_hint", "coach_hint", "feedback_hint")]
 script = ExtResource("8_coach")
 game_events = ExtResource("9_game_events")
 anchors = ExtResource("7_anchors")
+dim = NodePath("../Overlay/Root/BattleDim")
 goal_hint = NodePath("../Overlay/Root/GoalHint")
-move_hint = NodePath("../Overlay/Root/MoveHint")
-shoot_hint = NodePath("../Overlay/Root/ShootHint")
+coach_hint = NodePath("../Overlay/Root/CoachHint")
 feedback_hint = NodePath("../Overlay/Root/FeedbackHint")
-touch_divider = NodePath("../Overlay/Root/TouchDivider")

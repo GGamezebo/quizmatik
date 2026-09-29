@@ -41,7 +41,7 @@ paths:
 
 - `App/Tutorial` scene `tutorial` (`scenes/tutorial/tutorial.tscn`, sync load), parallel to Menu/Battle
 - AppRoot `_sync_tutorial()` on initialize + `ev_profiles_changed`: profile exists and `!ProgressController.is_tutorial_completed()` → `ev.open_tutorial`, else `ev.close_tutorial`
-- Tutorial scene reacts to `ev.start_game` / `ev.exit_game` / `ev.open_menu` via `on_event`; on finish → `complete_tutorial()` + `ev.close_tutorial`
+- Tutorial scene reacts to `ev.start_game` / `ev.exit_game` / `ev.open_menu` via `on_event` (re-evaluates chapter); all chapters done → `complete_tutorial()` + `ev.close_tutorial` (guarded: its own close event must not re-enter `_refresh`)
 
 ## Menu UI
 

@@ -5,6 +5,8 @@ extends Control
 @export var card_scene: PackedScene
 @export var root_events: RootEvents
 @export var progress: ProgressController
+## Marks the first affordable "buy" button for overlays (tutorial).
+@export var buy_anchor: UiAnchor
 
 var _listener: EventListener = EventListener.new()
 
@@ -39,6 +41,7 @@ func _rebuild() -> void:
 		return
 	_ensure_cards()
 	var index := 0
+	var buy_button: Control = null
 	for plane_id in PlaneCatalog.ORDER:
 		var card: Control = cards_row.get_child(index)
 		var unlocked := plane_id == PlaneCatalog.STARTER_ID
@@ -49,7 +52,11 @@ func _rebuild() -> void:
 		if progress != null and not exam_id.is_empty():
 			exam_passed = progress.is_valley_exam_completed(exam_id)
 		card.setup(plane_id, unlocked, plane_id == equipped, gold, exam_passed)
+		if buy_button == null and not unlocked and not card.action_button.disabled:
+			buy_button = card.action_button
 		index += 1
+	if buy_anchor != null:
+		buy_anchor.set_target(buy_button)
 
 
 func _ensure_cards() -> void:

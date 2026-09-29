@@ -344,6 +344,18 @@ layout_mode = 2
 image = ExtResource("15_op54q")
 metadata/hover_scale_bound = true
 
+[node name="DailyAnchor" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("target")]
+script = ExtResource("60_ui_anchor")
+registry = ExtResource("61_tutorial_anchors")
+anchor_id = "menu.daily"
+target = NodePath("../CenterContainer/VBoxContainer/DailyChallengesPanel")
+
+[node name="ProfileAnchor" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("target")]
+script = ExtResource("60_ui_anchor")
+registry = ExtResource("61_tutorial_anchors")
+anchor_id = "menu.profile"
+target = NodePath("../MarginContainer/RightSideButtons/Profile")
+
 [node name="StartAnchor" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("target")]
 script = ExtResource("60_ui_anchor")
 registry = ExtResource("61_tutorial_anchors")
