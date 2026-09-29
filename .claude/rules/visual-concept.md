@@ -24,6 +24,7 @@ Must match:
 - **Battle:** horizontal flight (plane left → right), 4 lanes, round balloons, paper HUD language
 
 AI look-match frames: `concepts/menu_notebook_modern_v3.png`, `concepts/battle_notebook_modern_v1.png`, `concepts/post_battle_notebook_concept_v3.png`, `concepts/levels_pack_notebook_concept_v1.png`, `concepts/levels_grid_adventure_ref.png`, `concepts/achievements_notebook_concept_v1.png`.  
+Proposal frames (NOT canon; use only if user asks for redesign): `concepts/redesign_v1/*.png`, gen `_build_concepts.py`; rationale `.claude/doc/redesign_v1.md`.  
 Pencil pack (look-match only, not a game kit): `concepts/notebook_pencil/` (`ui_pack/`).
 
 - **Level grid:** square cream tiles; lock glyph top-right; exam tile = purple + graduation-cap overlay; completed tiles get ink stamp top-right
