@@ -8,7 +8,8 @@ class Question:
 	var correct_answer: int
 
 
-static func generate_question(gameConfig: GameConfig) -> Question:
+## `score` = correct answers so far (gates `missing_operand_start_progress`).
+static func generate_question(gameConfig: GameConfig, score: int = 0) -> Question:
 	var q = QuizQuestion.Question.new()
 	
 	var active_operations: Array[int] = []
@@ -70,7 +71,7 @@ static func generate_question(gameConfig: GameConfig) -> Question:
 		fake_b = b
 	
 	q.text = "%d %s %d = ?" % [a, sign, b]
-	if randf() < gameConfig.missing_operand_chance and _hide_operand(q, chosen_operation, a, b, sign):
+	if randf() < gameConfig.missing_operand_chance_at(score) and _hide_operand(q, chosen_operation, a, b, sign):
 		_fill_close_options(q, chosen_operation, a, b, gameConfig.answer_lines_count)
 		return q
 	

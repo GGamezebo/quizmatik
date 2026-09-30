@@ -46,6 +46,8 @@ enum Operations {
 @export var operation_ranges: Dictionary = {}
 ## Share of questions with a hidden operand instead of the result: `? + 3 = 7`, `8 - ? = 5`.
 @export_range(0.0, 1.0, 0.05) var missing_operand_chance: float = 0.0
+## Hidden-operand questions start once this share of `questions_count` is answered (0 = from the start).
+@export_range(0.0, 1.0, 0.05) var missing_operand_start_progress: float = 0.0
 
 @export_category("Streak")
 ## Correct answers in a row before the HUD shows «СЕРИЯ ×N».
@@ -109,3 +111,10 @@ func apply_generate_number_after_round(completed_rounds: int, base_min: int, bas
 				max_n = int(entry.get("max_generate_number", max_n))
 	min_generate_number = mini(min_n, max_n)
 	max_generate_number = maxi(min_n, max_n)
+
+
+## Hidden-operand share for the next question at the current `score`.
+func missing_operand_chance_at(score: int) -> float:
+	if score < ceili(questions_count * missing_operand_start_progress):
+		return 0.0
+	return missing_operand_chance
