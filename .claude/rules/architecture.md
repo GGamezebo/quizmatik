@@ -137,7 +137,7 @@ Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swap
 - App-root vibration → `src/features/vibration/` (`VibrationController` instanced in `app_root/root.tscn`)
 - App-root music → `src/features/music/` (`MusicController` + win/lose themes; drives AppRoot `MusicPlayer`)
 - Editor-only practice lab (frozen full training UI) → `src/dev/training_room_lab/` — do not merge into player-facing `training_room_window/`; menu bottom-left button uses `OS.has_feature("editor")`; **+1 ЗОЛОТАЯ** / **СБРОСИТЬ ПРОГРЕСС** (wipe closes lab → first-run overlay)
-- Player practice UI → `training_room_window/`: ops columns + `BattleDifficulty` coefficients into `GameConfig` (full steppers live only in lab)
+- Player practice UI → `training_room_window/`: ops columns + `BattleDifficulty` coefficients into `GameConfig` (full steppers live only in lab); `? + 3 = 7` = `missing_operand_chance_by_difficulty` (normal .3, hard .4) + `missing_operand_start_by_difficulty` (normal .5 = second half) exports there, not in `BattleDifficulty` (that also drives campaign by age)
 
 ## Cheap-change heuristics
 

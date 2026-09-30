@@ -22,8 +22,8 @@ const MUL_DIV_OPTIONS: Array = [
 
 const DIFFICULTY_COPY: Dictionary = {
 	&"easy": "Спокойный темп, больше времени на пример",
-	&"normal": "Средний темп, стандартное время на пример",
-	&"hard": "Быстрый темп, меньше времени на пример",
+	&"normal": "Средний темп; со второй половины — примеры с пропуском",
+	&"hard": "Быстрый темп и примеры с пропуском: ? + 3 = 7",
 }
 
 @export var config: GameConfig
@@ -41,6 +41,11 @@ const DIFFICULTY_COPY: Dictionary = {
 @export var custom_range_row: Control
 @export var custom_min_stepper: TrainingStepper
 @export var custom_max_stepper: TrainingStepper
+@export_group("Question types")
+## Share of `? + 3 = 7` questions per practice difficulty (practice only; campaign uses level `.tres`).
+@export var missing_operand_chance_by_difficulty: Dictionary = {"easy": 0.0, "normal": 0.3, "hard": 0.4}
+## Share of `questions_count` answered before they start (normal: second half only).
+@export var missing_operand_start_by_difficulty: Dictionary = {"easy": 0.0, "normal": 0.5, "hard": 0.0}
 @export_group("Actions")
 @export var reset_button: BaseButton
 @export var start_battle_button: BaseButton
@@ -276,6 +281,8 @@ func _apply_difficulty_to_config() -> void:
 	if _difficulty_base == null and config != null:
 		_difficulty_base = config.duplicate(true)
 	BattleDifficulty.apply(config, _difficulty, _difficulty_base)
+	config.missing_operand_chance = float(missing_operand_chance_by_difficulty.get(String(_difficulty), 0.0))
+	config.missing_operand_start_progress = float(missing_operand_start_by_difficulty.get(String(_difficulty), 0.0))
 	config.early_exam_questions_multiplier = 1.0
 	config.early_exam_answer_speed_multiplier = 1.0
 
