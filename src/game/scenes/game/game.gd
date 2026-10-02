@@ -24,6 +24,8 @@ func initialize(_data: Dictionary) -> void:
 		_load_game_scenario(scenario)
 		
 	game_config.battle_info = battle_info
+	var review_facts: Variant = _data.get("review_facts", {})
+	game_config.review_facts = review_facts if review_facts is Dictionary else {}
 	_apply_equipped_plane()
 
 	# Campaign: tie battle background to selected valley.

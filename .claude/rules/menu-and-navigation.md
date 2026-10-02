@@ -38,7 +38,7 @@ paths:
 - Settings → `menu/settings_window/` — cream CTA frame `btn_cta_wide.png` (**680×540**), Label title «НАСТРОЙКИ» (no reset-progress; wipe = delete profile; full wipe = editor lab)
 - Profile → `menu/profile_window/` — gold, plane → hangar, cup → trophy room, CRUD (max 4)
 - Plane hangar → `menu/plane_hangar_window/`
-- Trophy room / stats → `menu/trophy_room_window/` — full-screen hangar achievements layout (AI look-match: `concepts/ART_DIRECTION.md`; never load files from `concepts/`)
+- Trophy room / stats → `menu/trophy_room_window/` — full-screen hangar achievements layout; `HardFacts` panel between shelf and extra scroll = top 3 weak examples (`PData.mistakes.top_keys`); tap (`HardFactsButton`) → `HardFactsOverlay` (overlay, not stack; rows = `hard_fact_row.tscn` template, `MathFact.display_with_answer` + misses) (AI look-match: `concepts/ART_DIRECTION.md`; never load files from `concepts/`)
 - Shared window back overlay → `menu/ui/menu_window_back.tscn` (bottom-left; same as pack select)
 - Main-menu quit → cream circle, black X, red ring (`menu/ui/btn_exit.png`); never a red X glyph
 - Confirm overlays: cancel = `levels/ui/btn_back.png`, confirm = `menu/ui/btn_check.png`

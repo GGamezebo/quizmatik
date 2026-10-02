@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/trophy_room_window/hard_fact_row.gd" id="1_script"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rank"]
+font = ExtResource("2_font")
+font_size = 22
+font_color = Color(0.28, 0.32, 0.38, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_example"]
+font = ExtResource("2_font")
+font_size = 28
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_misses"]
+font = ExtResource("2_font")
+font_size = 20
+font_color = Color(0.86, 0.52, 0.14, 1)
+
+[node name="HardFactRow" type="HBoxContainer" node_paths=PackedStringArray("rank_label", "example_label", "misses_label")]
+custom_minimum_size = Vector2(0, 44)
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+script = ExtResource("1_script")
+rank_label = NodePath("Rank")
+example_label = NodePath("Example")
+misses_label = NodePath("Misses")
+misses_format = "ошибок: %d"
+
+[node name="Rank" type="Label" parent="."]
+custom_minimum_size = Vector2(44, 0)
+layout_mode = 2
+text = "1."
+label_settings = SubResource("LabelSettings_rank")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Example" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "7 × 8 = 56"
+label_settings = SubResource("LabelSettings_example")
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Misses" type="Label" parent="."]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+text = "ошибок: 5"
+label_settings = SubResource("LabelSettings_misses")
+horizontal_alignment = 2
+vertical_alignment = 1

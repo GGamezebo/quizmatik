@@ -8,6 +8,7 @@ var state: StateData = StateData.new()
 var statistics: StatisticsData = StatisticsData.new()
 var daily: DailyData = DailyData.new()
 var trophies: TrophiesData = TrophiesData.new()
+var mistakes: MistakesData = MistakesData.new()
 var profile_id: String = ""
 var display_name: String = ""
 var gender: String = "boy"
@@ -24,6 +25,7 @@ func to_dict() -> Dictionary:
 		"statistics": statistics.to_dict(),
 		"daily": daily.to_dict(),
 		"trophies": trophies.to_dict(),
+		"mistakes": mistakes.to_dict(),
 		"profile_id": profile_id,
 		"name": display_name,
 		"gender": gender,
@@ -41,6 +43,7 @@ func apply_dict(data: Dictionary) -> void:
 	statistics = StatisticsData.from_dict(data.get("statistics", {}))
 	daily = DailyData.from_dict(data.get("daily", {}))
 	trophies = TrophiesData.from_dict(data.get("trophies", {}))
+	mistakes = MistakesData.from_dict(data.get("mistakes", {}))
 	profile_id = String(data.get("profile_id", ""))
 	display_name = String(data.get("name", ""))
 	gender = String(data.get("gender", "boy"))
@@ -185,6 +188,55 @@ class TrophiesData:
 
 	func is_unlocked(container_id: String) -> bool:
 		return unlocked.get(container_id, false)
+
+
+## Weak examples by `MathFact` key (mutated only by `MistakesController`).
+## `weights` = review pressure (0 → entry gone); `misses` = total wrong answers while the entry lives.
+class MistakesData:
+	var weights: Dictionary[String, int] = {}
+	var misses: Dictionary[String, int] = {}
+
+	func to_dict() -> Dictionary:
+		var weights_out: Dictionary = {}
+		var misses_out: Dictionary = {}
+		for fact_key in weights:
+			weights_out[fact_key] = weights[fact_key]
+			misses_out[fact_key] = misses.get(fact_key, 1)
+		return {"weights": weights_out, "misses": misses_out}
+
+	static func from_dict(d: Dictionary) -> MistakesData:
+		var mistakes := MistakesData.new()
+		var raw: Variant = d.get("weights", {})
+		var raw_misses: Variant = d.get("misses", {})
+		if not (raw_misses is Dictionary):
+			raw_misses = {}
+		if raw is Dictionary:
+			for fact_key in raw as Dictionary:
+				var key := String(fact_key)
+				var weight: int = int(raw[fact_key])
+				if weight > 0 and not MathFact.parse(key).is_empty():
+					mistakes.weights[key] = weight
+					mistakes.misses[key] = maxi(1, int(raw_misses.get(key, 1)))
+		return mistakes
+
+	func erase(fact_key: String) -> void:
+		weights.erase(fact_key)
+		misses.erase(fact_key)
+
+	## Most missed first, then heaviest, then by key; at most `limit`.
+	func top_keys(limit: int) -> Array[String]:
+		var keys: Array[String] = []
+		keys.assign(weights.keys())
+		keys.sort_custom(func(left: String, right: String) -> bool:
+			var left_misses: int = misses.get(left, 1)
+			var right_misses: int = misses.get(right, 1)
+			if left_misses != right_misses:
+				return left_misses > right_misses
+			if weights[left] != weights[right]:
+				return weights[left] > weights[right]
+			return left < right
+		)
+		return keys.slice(0, limit)
 
 
 class StateData:

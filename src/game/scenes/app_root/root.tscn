@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://c8profilectrl01" path="res://src/game/account/profile_controller.tscn" id="15_profile"]
 [ext_resource type="PackedScene" uid="uid://b7celebrationsplash" path="res://src/ui/celebration_splash/celebration_splash.tscn" id="16_splash"]
 [ext_resource type="PackedScene" uid="uid://c8profilecreateov" path="res://src/ui/profile_create_overlay/profile_create_overlay.tscn" id="17_first"]
+[ext_resource type="Script" path="res://src/game/account/mistakes_controller.gd" id="18_mistakes"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -30,12 +31,13 @@ glow_blend_mode = 0
 
 [sub_resource type="Compositor" id="Compositor_1bvp3"]
 
-[node name="AppRoot" type="Node" unique_id=74498543 node_paths=PackedStringArray("progress_controller", "daily_challenges_controller", "profile_controller", "music_player", "first_run_overlay")]
+[node name="AppRoot" type="Node" unique_id=74498543 node_paths=PackedStringArray("progress_controller", "daily_challenges_controller", "profile_controller", "mistakes_controller", "music_player", "first_run_overlay")]
 script = ExtResource("1_main")
 root_events = ExtResource("8_dg77c")
 progress_controller = NodePath("Account/ProgressController")
 daily_challenges_controller = NodePath("Account/DailyChallengesController")
 profile_controller = NodePath("Account/ProfileController")
+mistakes_controller = NodePath("Account/MistakesController")
 music_player = NodePath("MusicPlayer")
 first_run_overlay = NodePath("UI/FirstRunProfileOverlay")
 
@@ -69,6 +71,11 @@ vibration_controller = NodePath("../../../VibrationController")
 script = ExtResource("9_stats")
 pdata = ExtResource("5_nvg4k")
 root_events = ExtResource("8_dg77c")
+game_events = ExtResource("10_game_events")
+
+[node name="MistakesController" type="Node" parent="Account"]
+script = ExtResource("18_mistakes")
+pdata = ExtResource("5_nvg4k")
 game_events = ExtResource("10_game_events")
 
 [node name="SfxController" parent="." unique_id=205950015 instance=ExtResource("12_sfx")]

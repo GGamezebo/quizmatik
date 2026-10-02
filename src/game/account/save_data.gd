@@ -3,12 +3,13 @@ class_name SaveData
 extends Save
 
 static func  CURRENT_SAVE_VERSION() -> int:
-	return 4
-	
+	return 5
+
 static var _migrations: Dictionary = {
 	1: _migrate_1_to_2,
 	2: _migrate_2_to_3,
 	3: _migrate_3_to_4,
+	4: _migrate_4_to_5,
 }
 
 func migrate_save_data(data: Dictionary, from_version: int) -> Dictionary:
@@ -85,3 +86,14 @@ static func _migrate_3_to_4(data: Dictionary) -> void:
 		if not state.has("tutorial_steps"):
 			state["tutorial_steps"] = {}
 		profile["state"] = state
+
+
+## v5: per-profile weak examples (`mistakes.weights` / `misses`) start empty.
+static func _migrate_4_to_5(data: Dictionary) -> void:
+	var profiles: Variant = data.get("profiles", {})
+	if not (profiles is Dictionary):
+		return
+	for profile_id in profiles as Dictionary:
+		var profile: Variant = profiles[profile_id]
+		if profile is Dictionary and not (profile.get("mistakes", null) is Dictionary):
+			profile["mistakes"] = {"weights": {}, "misses": {}}

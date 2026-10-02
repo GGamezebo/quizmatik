@@ -17,6 +17,8 @@ static func get_state() -> String:
 var _round_controller: RoundController
 var __components: Array[Variant] = []
 var _answers_paused: bool = false
+## Question already reported as a mistake — a later correct hit (after the hint) isn't "known".
+var _missed_question: QuizQuestion.Question = null
 
 
 func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
@@ -57,6 +59,7 @@ func leave(_event_data: Dictionary) -> void:
 	__components.clear()
 	
 	_round_controller = null
+	_missed_question = null
 
 func _process(_delta: float) -> void:
 	if _round_controller:
@@ -93,6 +96,7 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 	match action:
 		CombatResolver.HitAction.CORRECT:
 			game_events.ev_correct_answer.emit()
+			_report_fact(true)
 			answer.right()
 			var health_before: int = player.health
 			var is_win: bool = _round_controller.on_correct_answer(answer)
@@ -101,6 +105,7 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 				_end_game()
 		CombatResolver.HitAction.WRONG_SHOT:
 			game_events.ev_mistake.emit()
+			_report_fact(false)
 			_round_controller.remove_answer(answer)
 			answer.fail()
 			answer.take_damage()
@@ -120,6 +125,15 @@ func _emit_streak_events(health_before: int) -> void:
 		game_events.ev_streak.emit(player.streak)
 	if player.health > health_before:
 		game_events.ev_health_restored.emit()
+
+## One `ev_fact_answered` per question: first wrong shot, or a clean correct hit.
+func _report_fact(is_correct: bool) -> void:
+	var question: QuizQuestion.Question = _round_controller.question
+	if question == null or question.fact_key.is_empty() or question == _missed_question:
+		return
+	if not is_correct:
+		_missed_question = question
+	game_events.ev_fact_answered.emit(question.fact_key, is_correct)
 
 func _end_game() -> void:
 	_round_controller.stop()
