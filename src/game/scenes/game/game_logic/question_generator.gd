@@ -264,6 +264,7 @@ static func _generate_plausible_fake(a: int, b: int, correct: int, operation: in
 		candidates.append(a)
 
 	# Multiplication: drop options that give themselves away by size (`9 x 9` → 18, `6 x 3` → 28).
+	@warning_ignore("integer_division")
 	var max_distance: int = maxi(3, correct / 2) if operation == GameConfig.Operations.MULTIPLICATION else 1 << 30
 	var valid: Array[int] = []
 	for candidate in candidates:
