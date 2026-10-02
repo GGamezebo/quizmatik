@@ -32,6 +32,8 @@ enum MovementMode {
 
 var direction_y: int = 0
 var speed: float = SPEED_DEFAULTS
+## Projectile speed multiplier of this plane; read by the battle shot spawner.
+var shot_speed_mult: float = 1.0
 var movement: IMovementComponent = null
 var discrete_positions: Array[float] = []
 

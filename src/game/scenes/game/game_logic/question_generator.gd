@@ -33,13 +33,13 @@ static func generate_question(gameConfig: GameConfig, score: int = 0) -> Questio
 	var b = randi_range(operand_range.x, operand_range.y)
 	
 	# Build question text and correct answer for the chosen operation
-	var sign: String = ""
+	var op_sign: String = ""
 	# Operands the classic wrong-answer generators expect (division: divisor, quotient).
 	var fake_a: int
 	var fake_b: int
 	match chosen_operation:
 		GameConfig.Operations.ADDITION:
-			sign = "+"
+			op_sign = "+"
 			q.correct_answer = a + b
 			
 		GameConfig.Operations.SUBTRACTION:
@@ -48,11 +48,11 @@ static func generate_question(gameConfig: GameConfig, score: int = 0) -> Questio
 				var temp = a
 				a = b
 				b = temp
-			sign = "-"
+			op_sign = "-"
 			q.correct_answer = a - b
 			
 		GameConfig.Operations.MULTIPLICATION:
-			sign = "x"
+			op_sign = "x"
 			q.correct_answer = a * b
 			
 		GameConfig.Operations.DIVISION:
@@ -63,15 +63,15 @@ static func generate_question(gameConfig: GameConfig, score: int = 0) -> Questio
 			q.correct_answer = quotient
 			a = divisor * quotient
 			b = divisor
-			sign = "/"
+			op_sign = "/"
 			fake_a = divisor
 			fake_b = quotient
 	if chosen_operation != GameConfig.Operations.DIVISION:
 		fake_a = a
 		fake_b = b
 	
-	q.text = "%d %s %d = ?" % [a, sign, b]
-	if randf() < gameConfig.missing_operand_chance_at(score) and _hide_operand(q, chosen_operation, a, b, sign):
+	q.text = "%d %s %d = ?" % [a, op_sign, b]
+	if randf() < gameConfig.missing_operand_chance_at(score) and _hide_operand(q, chosen_operation, a, b, op_sign):
 		_fill_close_options(q, chosen_operation, a, b, gameConfig.answer_lines_count)
 		return q
 	
@@ -97,7 +97,7 @@ static func generate_question(gameConfig: GameConfig, score: int = 0) -> Questio
 	return q
 
 ## Turns `a op b = r` into `? op b = r` or `a op ? = r`. False when the hidden value would be ambiguous.
-static func _hide_operand(q: Question, operation: int, a: int, b: int, sign: String) -> bool:
+static func _hide_operand(q: Question, operation: int, a: int, b: int, op_sign: String) -> bool:
 	var result: int = q.correct_answer
 	var hide_left: bool = randi() % 2 == 0
 	match operation:
@@ -113,10 +113,10 @@ static func _hide_operand(q: Question, operation: int, a: int, b: int, sign: Str
 				return false
 	if hide_left:
 		q.correct_answer = a
-		q.text = "? %s %d = %d" % [sign, b, result]
+		q.text = "? %s %d = %d" % [op_sign, b, result]
 	else:
 		q.correct_answer = b
-		q.text = "%d %s ? = %d" % [a, sign, result]
+		q.text = "%d %s ? = %d" % [a, op_sign, result]
 	return true
 
 

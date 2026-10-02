@@ -2,6 +2,7 @@ class_name PlaneCatalog
 extends RefCounted
 
 ## Data for the five player planes. UI and combat read this — do not hardcode stats in windows.
+## Planes differ only by `speed_mult` (flight) and `shot_speed_mult` (projectile); no other perks.
 
 const STARTER_ID := "starter"
 const ORDER: Array[String] = ["starter", "fast", "green", "red", "gold"]
@@ -13,8 +14,7 @@ const DEFS: Dictionary = {
 		"name": "Фиолетовый",
 		"tint": Color(0.72, 0.48, 0.98),
 		"speed_mult": 0.65,
-		"blast_lanes": 0,
-		"hint_on_miss": false,
+		"shot_speed_mult": 1.0,
 		"gold_cost": 0,
 		"exam_container_id": "",
 		"badge": "",
@@ -24,8 +24,7 @@ const DEFS: Dictionary = {
 		"name": "Быстрый",
 		"tint": Color(1.0, 1.0, 1.0),
 		"speed_mult": 1.0,
-		"blast_lanes": 0,
-		"hint_on_miss": false,
+		"shot_speed_mult": 1.1,
 		"gold_cost": 1,
 		"exam_container_id": "addition",
 		"badge": "быстрый",
@@ -34,34 +33,31 @@ const DEFS: Dictionary = {
 		"id": "green",
 		"name": "Зелёный",
 		"tint": Color(0.52, 0.88, 0.58),
-		"speed_mult": 1.15,
-		"blast_lanes": 1,
-		"hint_on_miss": false,
+		"speed_mult": 1.1,
+		"shot_speed_mult": 1.2,
 		"gold_cost": 5,
 		"exam_container_id": "subtraction",
-		"badge": "бласт 1",
+		"badge": "быстрее",
 	},
 	"red": {
 		"id": "red",
 		"name": "Красный",
 		"tint": Color(0.96, 0.46, 0.42),
-		"speed_mult": 1.15,
-		"blast_lanes": 1,
-		"hint_on_miss": true,
+		"speed_mult": 1.2,
+		"shot_speed_mult": 1.35,
 		"gold_cost": 10,
 		"exam_container_id": "multiplication",
-		"badge": "подсказка",
+		"badge": "ещё быстрее",
 	},
 	"gold": {
 		"id": "gold",
 		"name": "Золотой",
 		"tint": Color(1.0, 0.84, 0.32),
 		"speed_mult": 1.3,
-		"blast_lanes": 2,
-		"hint_on_miss": true,
+		"shot_speed_mult": 1.5,
 		"gold_cost": 20,
 		"exam_container_id": "division",
-		"badge": "бласт 2",
+		"badge": "самый быстрый",
 	},
 }
 
