@@ -36,8 +36,10 @@ func complete_tutorial_step(step_id: String) -> void:
 func post_battle(battle_info: GameConfig.BattleInfo, stars: int) -> Dictionary:
 	if battle_info.is_exam:
 		return pass_exam(battle_info.container_id, stars)
-	pass_level(battle_info.container_id, battle_info.level_id, stars)
+	var level_gold := pass_level(battle_info.container_id, battle_info.level_id, stars)
 	save()
+	if level_gold > 0:
+		return {"level_gold": level_gold}
 	return {}
 
 func is_container_unlocked(container_id: String) -> bool:
@@ -128,9 +130,14 @@ func get_level_stars(container_id: String, level_id: int) -> int:
 		return 0
 	return completed[level_id].stars
 
-func pass_level(container_id: String, level_id: int, stars: int) -> void:
+const LEVEL_GOLD_FOR_THREE_STARS: int = 1
+
+## Returns gold earned: first time a regular level reaches 3 stars. Caller grants it.
+func pass_level(container_id: String, level_id: int, stars: int) -> int:
 	var entry := pdata.levels.ensure_container(container_id).ensure_level(level_id)
+	var first_three_stars: bool = entry.stars < 3 and stars >= 3
 	entry.stars = max(entry.stars, stars)
+	return LEVEL_GOLD_FOR_THREE_STARS if first_three_stars else 0
 
 const EXAM_LEVEL_ID: int = 17
 

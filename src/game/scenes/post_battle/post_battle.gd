@@ -6,6 +6,7 @@ extends IScene
 @export var progress: ProgressController
 @export var title_label: Label
 @export var score_label: Label
+@export var gold_label: Label
 @export var stamps: Array[TextureRect] = []
 @export var stamp_textures: Array[Texture2D] = []
 @export var stamp_empty: Texture2D
@@ -47,6 +48,7 @@ func initialize(data: Dictionary) -> void:
 	var stars_count: int = data.get("stars", 0)
 	var max_score: int = data.get("max_score", _game_config.questions_count if _game_config else 0)
 	_update_results(is_win, score, max_score, stars_count)
+	_show_level_gold(int(data.get("level_gold", 0)))
 	_setup_next_level_button(is_win)
 
 	_listener.add(menu_button.pressed, _on_menu)
@@ -114,6 +116,14 @@ func _show_stamps(count: int) -> void:
 			stamp.texture = stamp_textures[index]
 		else:
 			stamp.texture = stamp_empty
+
+
+func _show_level_gold(amount: int) -> void:
+	if gold_label == null:
+		return
+	gold_label.visible = amount > 0
+	if amount > 0:
+		gold_label.text = "+%d золотая за 3 штампа" % amount
 
 
 func _setup_next_level_button(is_win: bool) -> void:

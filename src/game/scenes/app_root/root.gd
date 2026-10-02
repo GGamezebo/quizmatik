@@ -83,6 +83,11 @@ func _apply_battle_result(data: Dictionary) -> void:
 	var celebration: Dictionary = {}
 	if battle_info:
 		celebration = progress_controller.post_battle(battle_info, stars)
+		var level_gold: int = int(celebration.get("level_gold", 0))
+		celebration.erase("level_gold")
+		if level_gold > 0:
+			profile_controller.add_gold(level_gold)
+			data["level_gold"] = level_gold
 		if not celebration.is_empty():
 			data["exam_celebration"] = celebration
 			if bool(celebration.get("first_exam_pass", false)):
