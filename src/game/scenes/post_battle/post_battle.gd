@@ -8,7 +8,10 @@ extends IScene
 @export var score_label: Label
 ## Holds the gold lines; hidden when none shows so the card keeps its spacing.
 @export var gold_lines: Control
+## Gold lines = `CoinIcon` + label rows.
+@export var level_gold_row: Control
 @export var gold_label: Label
+@export var bonus_gold_row: Control
 @export var bonus_gold_label: Label
 @export var stamps: Array[TextureRect] = []
 @export var stamp_textures: Array[Texture2D] = []
@@ -55,7 +58,7 @@ func initialize(data: Dictionary) -> void:
 	_show_level_gold(int(data.get("level_gold", 0)))
 	_show_bonus_gold(int(data.get("bonus_gold", 0)))
 	if gold_lines:
-		gold_lines.visible = (gold_label and gold_label.visible) or (bonus_gold_label and bonus_gold_label.visible)
+		gold_lines.visible = int(data.get("level_gold", 0)) > 0 or int(data.get("bonus_gold", 0)) > 0
 	_setup_next_level_button(is_win)
 
 	_listener.add(menu_button.pressed, _on_menu)
@@ -128,17 +131,19 @@ func _show_stamps(count: int) -> void:
 func _show_level_gold(amount: int) -> void:
 	if gold_label == null:
 		return
-	gold_label.visible = amount > 0
+	if level_gold_row:
+		level_gold_row.visible = amount > 0
 	if amount > 0:
-		gold_label.text = "+%d золотая за 3 штампа" % amount
+		gold_label.text = "+%d за 3 штампа" % amount
 
 
 func _show_bonus_gold(amount: int) -> void:
 	if bonus_gold_label == null:
 		return
-	bonus_gold_label.visible = amount > 0
+	if bonus_gold_row:
+		bonus_gold_row.visible = amount > 0
 	if amount > 0:
-		bonus_gold_label.text = "+%d золотая из бонусного шарика" % amount
+		bonus_gold_label.text = "+%d из бонусного шарика" % amount
 
 
 func _setup_next_level_button(is_win: bool) -> void:

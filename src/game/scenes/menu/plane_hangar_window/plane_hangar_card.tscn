@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://src/game/scenes/menu/plane_hangar_window/plane_hangar_card.gd" id="1_script"]
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
 [ext_resource type="Texture2D" path="res://src/features/plane/planes_atlas_spaced.png" id="3_plane"]
+[ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="4_coin"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
 content_margin_left = 12.0
@@ -30,7 +31,12 @@ font = ExtResource("2_font")
 font_size = 15
 font_color = Color(0.32, 0.36, 0.4, 1)
 
-[node name="PlaneHangarCard" type="PanelContainer" node_paths=PackedStringArray("preview", "name_label", "badge_label", "status_label", "action_button", "abilities_label")]
+[sub_resource type="LabelSettings" id="LabelSettings_cost"]
+font = ExtResource("2_font")
+font_size = 18
+font_color = Color(0.72, 0.52, 0.12, 1)
+
+[node name="PlaneHangarCard" type="PanelContainer" node_paths=PackedStringArray("preview", "name_label", "badge_label", "status_label", "action_button", "abilities_label", "cost_row", "cost_label")]
 custom_minimum_size = Vector2(210, 320)
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 script = ExtResource("1_script")
@@ -40,6 +46,8 @@ badge_label = NodePath("VBox/Badge")
 status_label = NodePath("VBox/Status")
 action_button = NodePath("VBox/Action")
 abilities_label = NodePath("VBox/Abilities")
+cost_row = NodePath("VBox/CostRow")
+cost_label = NodePath("VBox/CostRow/Cost")
 
 [node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -71,6 +79,25 @@ text = ""
 label_settings = SubResource("LabelSettings_small")
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="CostRow" type="HBoxContainer" parent="VBox"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="CoinIcon" type="TextureRect" parent="VBox/CostRow"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+texture = ExtResource("4_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Cost" type="Label" parent="VBox/CostRow"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_cost")
+vertical_alignment = 1
 
 [node name="Status" type="Label" parent="VBox"]
 layout_mode = 2

@@ -16,6 +16,8 @@ const FADE_DURATION: float = 0.22
 @export var art_rect: TextureRect
 @export var confirm_button: BaseButton
 @export var levels_config: LevelsConfig
+## Gold coin art for the daily-gold celebration.
+@export var gold_art: Texture2D
 
 var _queue: Array[Dictionary] = []
 var _busy: bool = false
@@ -99,7 +101,7 @@ func _present_plane(plane_id: String) -> void:
 func _present_daily_gold() -> void:
 	title_label.text = "Молодец! +1 золотая"
 	message_label.text = "Награда за ежедневную серию 5/5"
-	art_rect.texture = preload("res://assets/ui/stamps/stamp_sun.png")
+	art_rect.texture = gold_art
 	art_rect.modulate = Color.WHITE
 
 

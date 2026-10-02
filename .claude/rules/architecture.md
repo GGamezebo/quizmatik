@@ -53,7 +53,7 @@ See `godot-paradigm.md` (context scene, resource defaults, HFSM override, resour
 |------|----------|
 | `assets/audio/music/` | Looping BGM streams (OGG/MP3, not WAV) |
 | `assets/effects/` | FX sprites (e.g. starlight) |
-| `assets/ui/icons/` | Shared UI icons (stars, mute, movement) |
+| `assets/ui/icons/` | Shared UI icons (stars, mute, movement, gold coin `coin_gold.svg`) |
 | `assets/ui/stamps/` | Ink stamps for daily / post-battle / level grid (`stamp_empty`, `stamp_sun`, …) |
 | `assets/ui/hud/` | Battle HUD frames (score, question banner) |
 | `assets/ui/backgrounds/` | Shared menu/paper/sky textures used by scenes |
@@ -136,7 +136,7 @@ Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swap
 - App-root SFX → `src/features/sfx/` (`SfxController` instanced in `app_root/root.tscn`); plane-local audio stays on `plane.tscn`
 - App-root vibration → `src/features/vibration/` (`VibrationController` instanced in `app_root/root.tscn`)
 - App-root music → `src/features/music/` (`MusicController` + win/lose themes; drives AppRoot `MusicPlayer`)
-- Editor-only practice lab (frozen full training UI) → `src/dev/training_room_lab/` — do not merge into player-facing `training_room_window/`; menu bottom-left button uses `OS.has_feature("editor")`; **+1 ЗОЛОТАЯ** / **СБРОСИТЬ ПРОГРЕСС** (wipe closes lab → first-run overlay)
+- Editor-only practice lab (frozen full training UI) → `src/dev/training_room_lab/` — do not merge into player-facing `training_room_window/`; menu bottom-left button uses `OS.has_feature("editor")`; **+1 ЗОЛОТАЯ** / **СБРОСИТЬ ПРОГРЕСС** (wipe closes lab → first-run overlay); block «Бонусный шарик» = `bonus_gold_chance` stepper (0 by default, so lab battles have no bonus unless set)
 - Player practice UI → `training_room_window/`: ops columns + `BattleDifficulty` coefficients into `GameConfig` (full steppers live only in lab); `? + 3 = 7` = `missing_operand_chance_by_difficulty` (normal .3, hard .4) + `missing_operand_start_by_difficulty` (normal .5 = second half) exports there, not in `BattleDifficulty` (that also drives campaign by age)
 
 ## Cheap-change heuristics

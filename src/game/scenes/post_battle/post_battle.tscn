@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://src/ui/backgrounds/valley_mix/valley_mix_background.tscn" id="4_valley_mix"]
 [ext_resource type="Texture2D" uid="uid://dt41y5hehb65t" path="res://src/game/scenes/menu/levels/ui/panel_card_round.png" id="5_card"]
 [ext_resource type="Texture2D" uid="uid://b62kwj1wrreax" path="res://assets/ui/stamps/stamp_sun.png" id="6_sun"]
+[ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="16_coin"]
 [ext_resource type="Texture2D" uid="uid://da6b1sia8j0fb" path="res://assets/ui/stamps/stamp_flower.png" id="7_flower"]
 [ext_resource type="Texture2D" uid="uid://b01vhundbl6ib" path="res://assets/ui/stamps/stamp_cat.png" id="8_cat"]
 [ext_resource type="Texture2D" uid="uid://b6gqcn01lktpt" path="res://assets/ui/stamps/stamp_empty.png" id="9_empty"]
@@ -77,15 +78,17 @@ shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
 
-[node name="PostBattleScene" type="Node" unique_id=1710544667 node_paths=PackedStringArray("progress", "title_label", "score_label", "gold_lines", "gold_label", "bonus_gold_label", "stamps", "next_level_button", "menu_button", "repeat_button", "exam_victory_dialog", "background_host")]
+[node name="PostBattleScene" type="Node" unique_id=1710544667 node_paths=PackedStringArray("progress", "title_label", "score_label", "gold_lines", "level_gold_row", "gold_label", "bonus_gold_row", "bonus_gold_label", "stamps", "next_level_button", "menu_button", "repeat_button", "exam_victory_dialog", "background_host")]
 script = ExtResource("1_uxaqq")
 root_events = ExtResource("2_jg6wr")
 progress = NodePath("ProgressController")
 title_label = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/Title")
 score_label = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/Score")
 gold_lines = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines")
-gold_label = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines/LevelGold")
-bonus_gold_label = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines/BonusGold")
+level_gold_row = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines/LevelGoldRow")
+gold_label = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines/LevelGoldRow/LevelGold")
+bonus_gold_row = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines/BonusGoldRow")
+bonus_gold_label = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines/BonusGoldRow/BonusGold")
 stamps = [NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/StampsRow/Stamp1"), NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/StampsRow/Stamp2"), NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/StampsRow/Stamp3")]
 stamp_textures = Array[Texture2D]([ExtResource("6_sun"), ExtResource("7_flower"), ExtResource("8_cat")])
 stamp_empty = ExtResource("9_empty")
@@ -227,19 +230,43 @@ visible = false
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="LevelGold" type="Label" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines" unique_id=1388204517]
+[node name="LevelGoldRow" type="HBoxContainer" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines" unique_id=1388204520]
 visible = false
 layout_mode = 2
-text = "+1 золотая"
-label_settings = SubResource("LabelSettings_gold")
-horizontal_alignment = 1
+theme_override_constants/separation = 8
+alignment = 1
 
-[node name="BonusGold" type="Label" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines" unique_id=1388204518]
+[node name="CoinIcon" type="TextureRect" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines/LevelGoldRow" unique_id=1388204521]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+texture = ExtResource("16_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LevelGold" type="Label" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines/LevelGoldRow" unique_id=1388204517]
+layout_mode = 2
+text = "+1 за 3 штампа"
+label_settings = SubResource("LabelSettings_gold")
+vertical_alignment = 1
+
+[node name="BonusGoldRow" type="HBoxContainer" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines" unique_id=1388204522]
 visible = false
 layout_mode = 2
-text = "+1 золотая из бонусного шарика"
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="CoinIcon" type="TextureRect" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines/BonusGoldRow" unique_id=1388204523]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+texture = ExtResource("16_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BonusGold" type="Label" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/GoldLines/BonusGoldRow" unique_id=1388204518]
+layout_mode = 2
+text = "+1 из бонусного шарика"
 label_settings = SubResource("LabelSettings_gold")
-horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Buttons" type="HBoxContainer" parent="UI/Screen/CenterContainer/ResultCard" unique_id=51419622]
 layout_mode = 1
