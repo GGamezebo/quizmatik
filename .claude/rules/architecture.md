@@ -115,7 +115,7 @@ Round logic: `RoundController` + `AnswerSpawner` + `CombatResolver` + `QuizQuest
 Do not drive win/lose with ad-hoc flags outside the FSM.
 SFX: `SfxController` (`src/features/sfx/`, instanced in `app_root/root.tscn`) listens to `GameEvents` + UI `BaseButton.pressed`. Plane thrust / crash / victory whoosh stay on `plane.tscn`.
 Vibration: `VibrationController` (`src/features/vibration/`, instanced in `app_root/root.tscn`) listens to `GameEvents` + `RootEvents` + UI `BaseButton.pressed` (`Input.vibrate_handheld` + joy rumble). Android export must keep `permissions/vibrate=true`.
-Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swaps — background by default; on `RootEvents.ev_exit_game` plays win/lose theme; restores background on `ev_return_to_menu` / `ev_start_game`. Menu + battle HUD mute icons toggle Music (`is_music_mute`) and SFX (`is_sound_mute`) buses; never mute Master.
+Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swaps — background by default; on `RootEvents.ev_exit_game` plays win/lose theme; background on `ev_return_to_menu`; `ev_start_game` plays `exam_music` (battle_info.is_exam) / `battle_music`, empty slot → background. Menu + battle HUD mute icons toggle Music (`is_music_mute`) and SFX (`is_sound_mute`) buses; never mute Master.
 
 ## Placement rules
 

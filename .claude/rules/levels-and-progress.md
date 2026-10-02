@@ -36,6 +36,7 @@ paths:
 - Campaign mutations: `ProgressController` only (incl. tutorial: `complete_tutorial()` / `complete_tutorial_step(id)` → `PData.state.tutorial_completed` / `tutorial_steps`; save v4 migration marks profiles with wins as completed)
 - Weak examples: `PData.mistakes` (`MathFact` key → `weights` + `misses`) mutated only by `MistakesController` (AppRoot `Account/`) on `GameEvents.ev_fact_answered`: miss weight +2 (cap 6) and misses +1, clean correct weight −1; weight 0 → `erase()` from both dicts; max 50 facts (trim drops tail of `top_keys`). `top_keys` order = misses desc → weight desc → key. AppRoot `_on_ev_start_game` adds payload `review_facts` (top 10 keys → weights) to **every** battle start
 - Daily challenges (UTC day, 5 win-slots): `DailyChallengesController` — any battle win fills one slot; 5/5 first time that day → +1 gold
+- Level gold: regular level first reaching 3★ → +1 gold (`ProgressController.pass_level` returns amount, `post_battle` → `{level_gold}`; AppRoot grants via `ProfileController.add_gold`, passes `level_gold` to PostBattle label). Exam gives no level gold
 - Disk write: only `SaveManager` (controllers emit `RootEvents.ev_save_progress` → `save()`)
 - `save()` is **debounced** (`SAVE_DEBOUNCE_SEC`, restarts on each request): no synchronous write per mutation
 - **Never writes during battle** (`ev_battle_started`→`ev_battle_finished`); force-flush at battle end
