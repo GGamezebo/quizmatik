@@ -13,8 +13,10 @@ static func get_state() -> String:
 @export var area: GameArea
 @export var answerScene: PackedScene
 @export var explosion_scene: PackedScene
+@export var bonus_scene: PackedScene
 
 var _round_controller: RoundController
+var _bonus: BonusController
 var __components: Array[Variant] = []
 var _answers_paused: bool = false
 ## Question already reported as a mistake — a later correct hit (after the hint) isn't "known".
@@ -37,13 +39,17 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 
 	var answer_spawner: AnswerSpawner = AnswerSpawner.new(area, answerScene, game_manager.owner)
 	_round_controller = RoundController.new(game_config, player, answer_spawner, game_manager.get_tree(), ev_question_changed)
+	_bonus = BonusController.new(game_config, area, bonus_scene, game_manager.owner)
 		
 	__components.append_array([
 		answer_spawner,
 		_round_controller,
+		_bonus,
 	])
 	
 	_round_controller.ev_answers_spawned.connect(_on_answers_spawned)
+	_round_controller.ev_round_started.connect(_bonus.on_round_started)
+	_bonus.ev_collected.connect(_on_bonus_collected)
 	event_listener.add(game_events.ev_pause_answers, _on_pause_answers)
 	event_listener.add(game_events.ev_explosion, _on_explosion)
 	event_listener.add(air_plane.ev_air_plane_colladed, _on_air_plane_collided)
@@ -59,11 +65,13 @@ func leave(_event_data: Dictionary) -> void:
 	__components.clear()
 	
 	_round_controller = null
+	_bonus = null
 	_missed_question = null
 
 func _process(_delta: float) -> void:
 	if _round_controller:
 		_round_controller.update_answer_acceleration(player.acceleration)
+		_bonus.update_acceleration(player.acceleration)
 
 func _on_answers_spawned(options: Array[Answer]) -> void:
 	_apply_answers_paused(options)
@@ -74,6 +82,8 @@ func _on_pause_answers(paused: bool) -> void:
 	_answers_paused = paused
 	if _round_controller:
 		_apply_answers_paused(_round_controller.options)
+	if _bonus:
+		_bonus.set_paused(paused)
 
 
 func _apply_answers_paused(options: Array[Answer]) -> void:
@@ -83,10 +93,14 @@ func _apply_answers_paused(options: Array[Answer]) -> void:
 
 
 func _on_explosion(answer: Answer, _hit_point: Vector2) -> void:
+	if _bonus.try_collect(answer):
+		return
 	var action: CombatResolver.HitAction = CombatResolver.resolve(answer, _round_controller.question, false)
 	_apply_combat(action, answer)
 
 func _on_air_plane_collided(collided_plane: AirPlane, answer: Answer) -> void:
+	if _bonus.try_collect(answer):
+		return
 	var action: CombatResolver.HitAction = CombatResolver.resolve(answer, _round_controller.question, true)
 	if action == CombatResolver.HitAction.WRONG_COLLISION:
 		Explosion.spawn_attached(explosion_scene, answer, collided_plane.get_contact_point_with(answer))
@@ -119,6 +133,10 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 				_round_controller.kill_all_answers(answer)
 				if CombatResolver.apply_damage(player):
 					_end_game()
+
+func _on_bonus_collected(amount: int) -> void:
+	player.bonus_gold += amount
+	game_events.ev_bonus_collected.emit(amount)
 
 func _emit_streak_events(health_before: int) -> void:
 	if player.streak >= game_config.streak_feedback_min:

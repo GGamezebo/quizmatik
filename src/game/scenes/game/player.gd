@@ -29,6 +29,9 @@ var streak: int = 0:
 			streak = new_value
 			ev_streak_changed.emit(streak)
 
+## Gold from bonus balloons this battle (granted by AppRoot after the battle, win or lose).
+var bonus_gold: int = 0
+
 @onready var acceleration: float = ACCELERATION_DEFAULT:
 	set(new_value):
 		if acceleration != new_value:
@@ -37,6 +40,7 @@ var streak: int = 0:
 
 func initialize(game_config: GameConfig) -> void:
 	self.health = game_config.health
+	bonus_gold = 0
 	
 	var componentClasses = [
 		AccelerationComponent

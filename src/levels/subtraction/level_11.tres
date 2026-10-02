@@ -17,3 +17,4 @@ answer_speed_round_coeffs = {
 11: 1.45,
 }
 missing_operand_chance = 0.5
+bonus_gold_chance = 0.35

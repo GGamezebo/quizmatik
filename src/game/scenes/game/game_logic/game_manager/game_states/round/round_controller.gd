@@ -2,6 +2,8 @@ class_name RoundController
 extends RefCounted
 
 signal ev_answers_spawned(options: Array[Answer])
+## New round: question set, answers spawn after a short delay.
+signal ev_round_started(score: int, answer_speed: float)
 
 var options: Array[Answer] = []
 var question: QuizQuestion.Question
@@ -75,6 +77,7 @@ func kill_all_answers(hit_answer: Answer = null) -> void:
 
 func _start_round() -> void:
 	_set_question(QuizQuestion.generate_question(_game_config, _player.score))
+	ev_round_started.emit(_player.score, _game_config.answer_speed)
 	await _tree.create_timer(1.0).timeout
 	if not _is_active:
 		return

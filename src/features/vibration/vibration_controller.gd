@@ -32,6 +32,9 @@ extends Node
 ## Heart restored: three rising pulses.
 @export var heal_pulse_ms: int = 60
 @export_range(0.0, 1.0) var heal_amplitude: float = 0.8
+## Bonus balloon: two quick ticks.
+@export var bonus_tick_ms: int = 45
+@export_range(0.0, 1.0) var bonus_amplitude: float = 0.6
 @export var win_duration_ms: int = 320
 @export_range(0.0, 1.0) var win_amplitude: float = 0.75
 
@@ -64,6 +67,7 @@ func _ready() -> void:
 		_listener.add(game_events.ev_correct_answer, _on_correct_answer)
 		_listener.add(game_events.ev_mistake, _on_mistake)
 		_listener.add(game_events.ev_streak, _on_streak)
+		_listener.add(game_events.ev_bonus_collected, _on_bonus_collected)
 		_listener.add(game_events.ev_health_restored, _on_health_restored)
 		_listener.add(game_events.ev_win, _on_win)
 		_listener.add(game_events.ev_lose, _on_lose)
@@ -138,6 +142,11 @@ func _on_mistake() -> void:
 
 func _on_streak(_streak: int) -> void:
 	_play_pattern([0.12, 0.08], streak_tick_ms, [streak_amplitude, streak_amplitude])
+
+
+func _on_bonus_collected(_amount: int) -> void:
+	_pulse_pop_if_idle()
+	_play_pattern([0.1, 0.08], bonus_tick_ms, [bonus_amplitude, bonus_amplitude])
 
 
 func _on_health_restored() -> void:

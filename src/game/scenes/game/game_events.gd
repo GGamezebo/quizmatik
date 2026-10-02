@@ -13,6 +13,8 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_streak(streak: int)
 ## Heart restored by streak.
 @warning_ignore("unused_signal") signal ev_health_restored
+## Golden bonus balloon popped (shot or ram) — `amount` gold granted after the battle.
+@warning_ignore("unused_signal") signal ev_bonus_collected(amount: int)
 @warning_ignore("unused_signal") signal ev_win
 @warning_ignore("unused_signal") signal ev_lose
 

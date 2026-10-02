@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://cafp7vy16q1kc" path="res://src/features/answer/answer.tscn" id="1_answer"]
+[ext_resource type="Script" path="res://src/features/answer/bonus_balloon.gd" id="2_bonus"]
+
+[node name="BonusBalloon" instance=ExtResource("1_answer") groups=["bonus"]]
+script = ExtResource("2_bonus")
