@@ -6,6 +6,7 @@ extends IScene
 @export var progress_controller: ProgressController
 @export var daily_challenges_controller: DailyChallengesController
 @export var profile_controller: ProfileController
+@export var mistakes_controller: MistakesController
 @export var music_player: AudioStreamPlayer
 @export var first_run_overlay: ProfileCreateOverlay
 
@@ -29,8 +30,12 @@ func deinit() -> void:
 	_listener.deinit()
 	super.deinit()
 
+## Every battle start (menu, retry, next level) gets the active profile's weak examples.
 func _on_ev_start_game(data: Dictionary) -> void:
-	add_event("ev.start_game", data)
+	var payload: Dictionary = data.duplicate()
+	if mistakes_controller != null:
+		payload["review_facts"] = mistakes_controller.review_facts()
+	add_event("ev.start_game", payload)
 
 func _on_ev_exit_game(data: Dictionary = {}) -> void:
 	_apply_battle_result(data)

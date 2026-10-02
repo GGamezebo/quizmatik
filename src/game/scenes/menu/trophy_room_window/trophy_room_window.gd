@@ -9,6 +9,19 @@ extends Control
 @export var stat_row_scene: PackedScene
 @export var trophy_slot_scene: PackedScene
 @export var extra_slot_scene: PackedScene
+@export var hard_facts_label: Label
+@export var hard_facts_empty_text: String = ""
+@export var hard_facts_button: BaseButton
+@export var hard_facts_overlay: HardFactsOverlay
+
+const HARD_FACTS_SHOWN: int = 3
+
+
+func _ready() -> void:
+	if hard_facts_button != null:
+		hard_facts_button.pressed.connect(_on_hard_facts_pressed)
+	if hard_facts_overlay != null:
+		hard_facts_overlay.ev_closed.connect(_on_hard_facts_closed)
 
 
 func on_window_enter() -> void:
@@ -17,6 +30,7 @@ func on_window_enter() -> void:
 	_rebuild_trophies()
 	_rebuild_stats()
 	_rebuild_extra()
+	_rebuild_hard_facts()
 
 
 func _live_pdata() -> PData:
@@ -101,6 +115,36 @@ func _rebuild_extra() -> void:
 		var slot: Control = extra_slot_scene.instantiate()
 		slot.initialize(key, title, subtitle_fmt % value_text)
 		extra_list.add_child(slot)
+
+
+func _rebuild_hard_facts() -> void:
+	var live := _live_pdata()
+	if live == null or hard_facts_label == null:
+		return
+	var parts: PackedStringArray = []
+	for fact_key in live.mistakes.top_keys(HARD_FACTS_SHOWN):
+		parts.append(MathFact.display(fact_key))
+	hard_facts_label.text = "    ".join(parts) if not parts.is_empty() else hard_facts_empty_text
+	if hard_facts_button != null:
+		hard_facts_button.disabled = parts.is_empty()
+
+
+func _on_hard_facts_pressed() -> void:
+	var live := _live_pdata()
+	if live == null or hard_facts_overlay == null:
+		return
+	var rows: Array = []
+	for fact_key in live.mistakes.top_keys(MistakesController.MAX_FACTS):
+		rows.append({
+			"text": MathFact.display_with_answer(fact_key),
+			"misses": live.mistakes.misses.get(fact_key, 1),
+		})
+	hard_facts_overlay.open(rows)
+
+
+func _on_hard_facts_closed() -> void:
+	if hard_facts_button != null and is_visible_in_tree():
+		hard_facts_button.grab_focus()
 
 
 func _count_completed_levels(container_id: String) -> int:

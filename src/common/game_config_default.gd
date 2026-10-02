@@ -48,6 +48,10 @@ enum Operations {
 @export_range(0.0, 1.0, 0.05) var missing_operand_chance: float = 0.0
 ## Hidden-operand questions start once this share of `questions_count` is answered (0 = from the start).
 @export_range(0.0, 1.0, 0.05) var missing_operand_start_progress: float = 0.0
+## Share of questions re-asking a past mistake from `review_facts` (only facts that fit allowed ops + ranges).
+@export_range(0.0, 1.0, 0.05) var review_chance: float = 0.25
+## Runtime: `MathFact` key → weight from the active profile (payload `review_facts`); not authored on `.tres`.
+var review_facts: Dictionary = {}
 
 @export_category("Streak")
 ## Correct answers in a row before the HUD shows «СЕРИЯ ×N».

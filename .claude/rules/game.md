@@ -24,6 +24,7 @@ paths:
 | Streak | `Player.streak` (+1 in `apply_correct`, 0 in `apply_damage`); heal every `GameConfig.streak_heal_every` ≤ `streak_heal_max_health`; HUD `ui/streak_chip.gd` from `streak_feedback_min`; `GameState` emits `ev_streak(n)` / `ev_health_restored` |
 | Spawn layout / lanes | `GameArea` + `AnswerSpawner` |
 | Question math | `QuizQuestion` + `GameConfig` fields; hidden operand `? + 3 = 7` via `missing_operand_chance` gated by `missing_operand_start_progress` (`missing_operand_chance_at(score)`; `RoundController` passes `player.score`) (`_hide_operand` / `_fill_close_options`) |
+| Weak-example review | Every `Question` has `fact_key` (`MathFact`: `add:x:y` covers +/−, `mul:x:y` covers ×/÷). `GameConfig.review_facts` (runtime, from payload `review_facts` set in `game.gd`) + `review_chance`: `_pick_review` re-asks a weighted fact only via allowed ops inside `get_operation_range`. `GameState._report_fact` emits `ev_fact_answered(key, ok)` once per question: wrong **shot** = false, clean correct = true; collisions never count |
 | HUD only | `ui/` — listen to `GameEvents`, don't own combat |
 | SFX | AppRoot `SfxController` via `GameEvents` (`ev_shoot`, `ev_explosion`, `ev_correct_answer`, `ev_mistake`, `ev_win`, `ev_lose`, state change); plane thrust/crash/whoosh stay on the plane |
 | Vibration | AppRoot `VibrationController` via same `GameEvents` (+ `ev_streak` double tick, `ev_health_restored` 3 rising pulses) + `RootEvents` + UI presses; plane crash = long multi-pulse on `ev_lose` |

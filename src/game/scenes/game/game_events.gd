@@ -6,6 +6,9 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_shoot
 @warning_ignore("unused_signal") signal ev_correct_answer
 @warning_ignore("unused_signal") signal ev_mistake
+## Info: verdict on the current question's `MathFact` key — once per question (wrong shot = false,
+## correct without a prior wrong shot = true; plane collisions don't count).
+@warning_ignore("unused_signal") signal ev_fact_answered(fact_key: String, is_correct: bool)
 ## Correct answer while streak >= GameConfig.streak_feedback_min.
 @warning_ignore("unused_signal") signal ev_streak(streak: int)
 ## Heart restored by streak.

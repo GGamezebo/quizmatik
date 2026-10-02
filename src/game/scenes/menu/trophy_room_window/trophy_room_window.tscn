@@ -17,6 +17,25 @@
 [ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="6_title_font"]
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="6_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/trophy_room_window/hard_facts_overlay.tscn" id="11_hard_overlay"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hit_focus"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.86, 0.52, 0.14, 1)
+corner_radius_top_left = 40
+corner_radius_top_right = 14
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 14
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font = ExtResource("6_title_font")
@@ -30,13 +49,18 @@ font = ExtResource("6_font")
 font_size = 18
 font_color = Color(0.165, 0.2, 0.251, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_hard_facts"]
+font = ExtResource("6_font")
+font_size = 28
+font_color = Color(0.86, 0.52, 0.14, 1)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_scroll"]
 shader = ExtResource("10_shadow")
 shader_parameter/shadow_offset = Vector2(-3, 6)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.28)
 shader_parameter/shadow_blur = 2.0
 
-[node name="TrophyRoomWindow" type="Control" node_paths=PackedStringArray("stats_list", "trophies_list", "extra_list")]
+[node name="TrophyRoomWindow" type="Control" node_paths=PackedStringArray("stats_list", "trophies_list", "extra_list", "hard_facts_label", "hard_facts_button", "hard_facts_overlay")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -51,6 +75,10 @@ levels_config = ExtResource("2_levels")
 stats_list = NodePath("Layout/LeftPanel/StatsMargin/StatsVBox/StatsList")
 trophies_list = NodePath("Layout/RightPanel/ShelfBlock/TrophiesRow")
 extra_list = NodePath("Layout/RightPanel/ExtraSection/ScrollMargin/ExtraVBox/ExtraList")
+hard_facts_label = NodePath("Layout/RightPanel/HardFacts/HardFactsMargin/HardFactsVBox/HardFactsList")
+hard_facts_button = NodePath("Layout/RightPanel/HardFacts/HardFactsButton")
+hard_facts_overlay = NodePath("HardFactsOverlay")
+hard_facts_empty_text = "Ошибок пока нет — так держать!"
 stat_row_scene = ExtResource("3_row")
 trophy_slot_scene = ExtResource("3_trophy_slot")
 extra_slot_scene = ExtResource("3_extra_slot")
@@ -217,6 +245,57 @@ grow_vertical = 0
 theme_override_constants/separation = 0
 alignment = 1
 
+[node name="HardFacts" type="PanelContainer" parent="Layout/RightPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -270.0
+offset_top = 236.0
+offset_right = 270.0
+offset_bottom = 326.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="HardFactsMargin" type="MarginContainer" parent="Layout/RightPanel/HardFacts"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 2
+
+[node name="HardFactsVBox" type="VBoxContainer" parent="Layout/RightPanel/HardFacts/HardFactsMargin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="HardFactsTitle" type="Label" parent="Layout/RightPanel/HardFacts/HardFactsMargin/HardFactsVBox"]
+layout_mode = 2
+text = "ТРУДНЫЕ ПРИМЕРЫ — НАЖМИ ДЛЯ СПИСКА"
+label_settings = SubResource("LabelSettings_section")
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="HardFactsList" type="Label" parent="Layout/RightPanel/HardFacts/HardFactsMargin/HardFactsVBox"]
+clip_contents = true
+layout_mode = 2
+text = "7 × 8    6 × 9    13 + 8"
+label_settings = SubResource("LabelSettings_hard_facts")
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="HardFactsButton" type="Button" parent="Layout/RightPanel/HardFacts"]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/focus = SubResource("StyleBoxFlat_hit_focus")
+flat = true
+
 [node name="ExtraSection" type="Control" parent="Layout/RightPanel"]
 clip_contents = true
 layout_mode = 1
@@ -288,3 +367,5 @@ theme_override_constants/separation = 4
 alignment = 1
 
 [node name="MenuWindowBack" parent="." instance=ExtResource("9_menu_back")]
+
+[node name="HardFactsOverlay" parent="." instance=ExtResource("11_hard_overlay")]
