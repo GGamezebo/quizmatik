@@ -2,6 +2,23 @@
 
 [ext_resource type="PackedScene" uid="uid://cafp7vy16q1kc" path="res://src/features/answer/answer.tscn" id="1_answer"]
 [ext_resource type="Script" path="res://src/features/answer/bonus_balloon.gd" id="2_bonus"]
+[ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="3_coin"]
+[ext_resource type="Shader" path="res://src/features/answer/silhouette.gdshader" id="4_silhouette"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_outline"]
+shader = ExtResource("4_silhouette")
+shader_parameter/color = Color(1, 1, 1, 1)
 
 [node name="BonusBalloon" instance=ExtResource("1_answer") groups=["bonus"]]
 script = ExtResource("2_bonus")
+
+[node name="CoinOutline" type="Sprite2D" parent="Visual" index="2"]
+material = SubResource("ShaderMaterial_outline")
+position = Vector2(0, 6)
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("3_coin")
+
+[node name="Coin" type="Sprite2D" parent="Visual" index="3"]
+position = Vector2(0, 6)
+scale = Vector2(0.19, 0.19)
+texture = ExtResource("3_coin")

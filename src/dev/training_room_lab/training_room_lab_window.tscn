@@ -20,7 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://b7t0iiijw6icr" path="res://src/game/scenes/menu/training_room_window/ui/icon_exam.png" id="16_icon_exam"]
 [ext_resource type="Texture2D" uid="uid://heyte07h81jn" path="res://src/game/scenes/menu/training_room_window/ui/icon_play.png" id="17_icon_play"]
 [ext_resource type="Texture2D" uid="uid://dnb4x6dyrbrg2" path="res://src/game/scenes/menu/training_room_window/ui/icon_shuffle.png" id="18_icon_shuffle"]
-[ext_resource type="Texture2D" path="res://assets/ui/stamps/stamp_sun.png" id="20_gold"]
+[ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="20_gold"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("6_shadow")
@@ -78,7 +78,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button")]
+[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -95,6 +95,7 @@ max_number_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/Conte
 answer_speed_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockSpeed/SpeedRow/SpeedStepper")
 early_exam_questions_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowQuestionsMult/QuestionsMultStepper")
 early_exam_speed_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowSpeedMult/SpeedMultStepper")
+bonus_gold_chance_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowChance/ChanceStepper")
 stepper_template = ExtResource("10_stepper")
 op_addition = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid/OpAddition")
 op_subtraction = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid/OpSubtraction")
@@ -527,6 +528,62 @@ theme_override_font_sizes/font_size = 15
 text = "Множитель скорости"
 
 [node name="SpeedMultStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowSpeedMult" unique_id=1445422818 instance=ExtResource("10_stepper")]
+
+[node name="Sep5" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox" unique_id=1720787779]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.165, 0.2, 0.251, 0.1)
+
+[node name="BlockBonus" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox" unique_id=1715447900]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus" unique_id=1715447901]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/Header" unique_id=1715447902]
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+texture = ExtResource("20_gold")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texts" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/Header" unique_id=1715447903]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/Header/Texts" unique_id=1715447904]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 17
+text = "Бонусный шарик"
+
+[node name="Subtitle" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/Header/Texts" unique_id=1715447905]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.48, 0.52, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 13
+text = "Шанс золотого шарика с монеткой за бой (0 — нет)"
+
+[node name="BonusRows" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus" unique_id=1715447906]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="RowChance" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows" unique_id=1715447907]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RowSpacer" type="Control" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowChance" unique_id=1715447908]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowChance" unique_id=1715447909]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+text = "Шанс за бой"
+
+[node name="ChanceStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowChance" unique_id=1715447910 instance=ExtResource("10_stepper")]
 
 [node name="RightVBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox" unique_id=2045079884]
 custom_minimum_size = Vector2(250, 0)

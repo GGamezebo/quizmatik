@@ -27,4 +27,5 @@ AI look-match frames: `concepts/menu_notebook_modern_v3.png`, `concepts/battle_n
 Proposal frames (NOT canon; use only if user asks for redesign): `concepts/redesign_v1/*.png`, gen `_build_concepts.py`; rationale `.claude/doc/redesign_v1.md`.  
 Pencil pack (look-match only, not a game kit): `concepts/notebook_pencil/` (`ui_pack/`).
 
+- **Gold:** the only gold glyph = `assets/ui/icons/coin_gold.svg` (hangar/profile counters, hangar price row, post-battle gold rows, daily-gold splash `gold_art`, lab grant, bonus balloon coin with white `silhouette.gdshader` outline). Never `stamp_sun` / text-only for gold
 - **Level grid:** square cream tiles; lock glyph top-right; exam tile = purple + graduation-cap overlay; completed tiles get ink stamp top-right

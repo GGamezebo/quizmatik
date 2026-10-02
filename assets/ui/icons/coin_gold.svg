@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!-- Gold coin: colored-pencil fill + graphite ink edge (notebook look). -->
+  <!-- Rim (coin edge thickness, shifted down) -->
+  <circle cx="128" cy="136" r="112" fill="#C98A1E" stroke="#2A3340" stroke-width="9"/>
+  <!-- Face -->
+  <circle cx="128" cy="124" r="108" fill="#F0C94A" stroke="#2A3340" stroke-width="9"/>
+  <!-- Inner engraved ring -->
+  <circle cx="128" cy="124" r="82" fill="#F5D66A" stroke="#C98A1E" stroke-width="7"/>
+  <!-- Pencil hatching on the lower-right shade -->
+  <g stroke="#D9A12B" stroke-width="5" stroke-linecap="round" opacity="0.75">
+    <path d="M160 196 L196 160"/>
+    <path d="M140 204 L204 140"/>
+    <path d="M124 206 L206 124"/>
+  </g>
+  <!-- Embossed star -->
+  <path d="M128 66 L144.5 100.5 L182 105 L154.5 131 L161.5 168.5 L128 150.5 L94.5 168.5 L101.5 131 L74 105 L111.5 100.5 Z"
+        fill="#E0A82E" stroke="#2A3340" stroke-width="7" stroke-linejoin="round"/>
+  <!-- Highlight on the star and the face -->
+  <path d="M120 88 L112 104" stroke="#FFF3C4" stroke-width="7" stroke-linecap="round"/>
+  <path d="M62 96 A70 70 0 0 1 104 52" fill="none" stroke="#FFF3C4" stroke-width="10" stroke-linecap="round"/>
+</svg>

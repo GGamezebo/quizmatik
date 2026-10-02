@@ -9,6 +9,9 @@ signal ev_equip(plane_id: String)
 @export var status_label: Label
 @export var action_button: Button
 @export var abilities_label: Label
+## Price row: gold coin icon + amount (locked planes with a gold cost).
+@export var cost_row: Control
+@export var cost_label: Label
 
 var plane_id: String = PlaneCatalog.STARTER_ID
 
@@ -32,6 +35,11 @@ func setup(id: String, unlocked: bool, equipped: bool, gold: int, exam_passed: b
 	if abilities_label:
 		abilities_label.text = _abilities_text(def)
 	var cost: int = int(def.get("gold_cost", 0))
+	var show_cost: bool = not unlocked and not equipped and cost > 0
+	if cost_row:
+		cost_row.visible = show_cost
+	if cost_label:
+		cost_label.text = str(cost)
 	if equipped:
 		status_label.text = "Выбран"
 		action_button.text = "В полёте"
@@ -42,8 +50,6 @@ func setup(id: String, unlocked: bool, equipped: bool, gold: int, exam_passed: b
 		action_button.disabled = false
 	else:
 		var bits: PackedStringArray = []
-		if cost > 0:
-			bits.append("%d зол." % cost)
 		if exam_passed:
 			bits.append("экзамен сдан")
 		elif not String(def.get("exam_container_id", "")).is_empty():
