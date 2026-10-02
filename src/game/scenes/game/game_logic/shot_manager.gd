@@ -27,6 +27,7 @@ func _on_air_plane_ev_shoot(position: Vector2) -> void:
 	if shot_scene:
 		var shot = shot_scene.instantiate()
 		shot.init(position)
+		shot.speed *= air_plane.shot_speed_mult
 		shot.ev_explosion.connect(_on_explosion)
 		shot.ev_ink_drip.connect(_on_ink_drip)
 		owner.add_child(shot)

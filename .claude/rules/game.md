@@ -29,7 +29,8 @@ paths:
 | Vibration | AppRoot `VibrationController` via same `GameEvents` (+ `ev_streak` double tick, `ev_health_restored` 3 rising pulses) + `RootEvents` + UI presses; plane crash = long multi-pulse on `ev_lose` |
 | Touch plane | `AirPlane`: left half drag = move, right half tap = shoot (`mobile` / web+touchscreen); keyboard/mouse unchanged on desktop |
 | Tutorial | Not in this scene — `scenes/tutorial/` `BattleCoach` talks via `GameEvents` only. Battle exposes: info `ev_answers_spawned(answers, correct, lanes)`, `ev_plane_lane_changed(lane, centered)` (`LineSelector`); commands `ev_pause_answers` (`GameState` → `Answer.frozen`), `ev_lock_shoot` (`ShotManager`); `HUD/QuestionAnchor` (`battle.question`). Touch scheme: `AirPlane.is_touch_scheme()` (static) |
-| Equipped plane | `PlaneCatalog` + `ProfileController`: speed, tint, blast lanes, hint-on-miss (isolated F6 → starter) |
+| Equipped plane | `PlaneCatalog` + `ProfileController`: planes differ **only** by `speed_mult` (`AirPlane`) and `shot_speed_mult` (`GameState` → `AirPlane.shot_speed_mult` → `ShotManager` scales each shot), + tint; never add perks (blast, shield, hint) (isolated F6 → starter) |
+| Miss hint | Wrong shot → correct balloon `show_hint()` for **every** plane (learning aid; never a plane perk) |
 
 ## Constraints
 
