@@ -14,3 +14,4 @@ answer_speed = 70.0
 answer_speed_round_coeffs = {
 4: 1.15,
 }
+bonus_gold_chance = 0.35

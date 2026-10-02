@@ -77,6 +77,10 @@ func _apply_battle_result(data: Dictionary) -> void:
 	var stars: int = data['stars']
 	var game_config: GameConfig = data['game_config']
 	var battle_info = game_config.battle_info
+	# Bonus balloon gold is kept win or lose.
+	var bonus_gold: int = int(data.get("bonus_gold", 0))
+	if bonus_gold > 0:
+		profile_controller.add_gold(bonus_gold)
 	if not is_win:
 		return
 	var daily_result: Dictionary = daily_challenges_controller.register_win()

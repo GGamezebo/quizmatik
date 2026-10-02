@@ -61,6 +61,12 @@ var review_facts: Dictionary = {}
 ## Streak healing never raises health above this.
 @export var streak_heal_max_health: int = 3
 
+@export_category("Bonus")
+## Chance that one golden bonus balloon flies by during the battle (0 = never; practice / exams keep 0).
+@export_range(0.0, 1.0, 0.05) var bonus_gold_chance: float = 0.0
+## Bonus balloon speed relative to the answers (> 1 keeps it ahead of the round's balloons).
+@export var bonus_gold_speed_mult: float = 1.25
+
 @export_category("Early Exam")
 ## Applied when the player starts the exam before completing all regular levels in the block.
 @export var early_exam_questions_multiplier: float = 1.0

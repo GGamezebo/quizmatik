@@ -6,7 +6,10 @@ extends IScene
 @export var progress: ProgressController
 @export var title_label: Label
 @export var score_label: Label
+## Holds the gold lines; hidden when none shows so the card keeps its spacing.
+@export var gold_lines: Control
 @export var gold_label: Label
+@export var bonus_gold_label: Label
 @export var stamps: Array[TextureRect] = []
 @export var stamp_textures: Array[Texture2D] = []
 @export var stamp_empty: Texture2D
@@ -35,6 +38,7 @@ static func build_result_data(
 		"max_score": game_config.questions_count,
 		"is_win": is_win,
 		"stars": stars_count,
+		"bonus_gold": player.bonus_gold,
 	}
 
 
@@ -49,6 +53,9 @@ func initialize(data: Dictionary) -> void:
 	var max_score: int = data.get("max_score", _game_config.questions_count if _game_config else 0)
 	_update_results(is_win, score, max_score, stars_count)
 	_show_level_gold(int(data.get("level_gold", 0)))
+	_show_bonus_gold(int(data.get("bonus_gold", 0)))
+	if gold_lines:
+		gold_lines.visible = (gold_label and gold_label.visible) or (bonus_gold_label and bonus_gold_label.visible)
 	_setup_next_level_button(is_win)
 
 	_listener.add(menu_button.pressed, _on_menu)
@@ -124,6 +131,14 @@ func _show_level_gold(amount: int) -> void:
 	gold_label.visible = amount > 0
 	if amount > 0:
 		gold_label.text = "+%d золотая за 3 штампа" % amount
+
+
+func _show_bonus_gold(amount: int) -> void:
+	if bonus_gold_label == null:
+		return
+	bonus_gold_label.visible = amount > 0
+	if amount > 0:
+		bonus_gold_label.text = "+%d золотая из бонусного шарика" % amount
 
 
 func _setup_next_level_button(is_win: bool) -> void:

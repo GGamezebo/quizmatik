@@ -19,6 +19,8 @@ extends Node
 @export var go: AudioStream
 @export var win: AudioStream
 @export var lose: AudioStream
+## Golden bonus balloon; empty = `correct` pitched up.
+@export var bonus: AudioStream
 
 const _BUTTON_META := "quizmatik_sfx_hooked"
 const _POP_DEBOUNCE_MSEC := 80
@@ -36,6 +38,7 @@ func _ready() -> void:
 		_listener.add(game_events.ev_explosion, _on_explosion)
 		_listener.add(game_events.ev_correct_answer, _on_correct_answer)
 		_listener.add(game_events.ev_mistake, _on_mistake)
+		_listener.add(game_events.ev_bonus_collected, _on_bonus_collected)
 		_listener.add(game_events.ev_win, _on_win)
 		_listener.add(game_events.ev_lose, _on_lose)
 		_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
@@ -66,16 +69,16 @@ func _resolve_bus() -> StringName:
 	return &"Master"
 
 
-func play(stream: AudioStream, volume_db: float = 0.0, pitch_jitter: float = 0.0) -> void:
+func play(stream: AudioStream, volume_db: float = 0.0, pitch_jitter: float = 0.0, pitch: float = 1.0) -> void:
 	if stream == null or _players.is_empty():
 		return
 	var player := _acquire_player()
 	player.stream = stream
 	player.volume_db = volume_db
 	if pitch_jitter > 0.0:
-		player.pitch_scale = randf_range(1.0 - pitch_jitter, 1.0 + pitch_jitter)
+		player.pitch_scale = pitch * randf_range(1.0 - pitch_jitter, 1.0 + pitch_jitter)
 	else:
-		player.pitch_scale = 1.0
+		player.pitch_scale = pitch
 	player.play()
 
 
@@ -103,6 +106,14 @@ func _on_correct_answer() -> void:
 
 func _on_mistake() -> void:
 	play(mistake, -2.0, 0.04)
+	_play_pop_if_idle()
+
+
+func _on_bonus_collected(_amount: int) -> void:
+	if bonus != null:
+		play(bonus, -2.0)
+	else:
+		play(correct, -2.0, 0.0, 1.35)
 	_play_pop_if_idle()
 
 

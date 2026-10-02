@@ -66,6 +66,13 @@ def missing_operand_chance(level_id: int) -> float:
     return 0.0
 
 
+# Golden bonus balloon (GameConfig.bonus_gold_chance): off on tutorial levels 1-2 and the exam.
+def bonus_gold_chance(level_id: int) -> float:
+    if level_id == EXAM_LEVEL or level_id < 3:
+        return 0.0
+    return 0.35
+
+
 # Addition: both operands grow with level so late stages yield e.g. 22+87.
 # min rises too so hard levels are not diluted by tiny sums.
 ADDITION_NUMBER_RANGE = {
@@ -196,6 +203,9 @@ def make_tres(block: dict, level_id: int) -> str:
     if "early_exam_questions_multiplier" in params:
         lines.append(f'early_exam_questions_multiplier = {params["early_exam_questions_multiplier"]}')
         lines.append(f'early_exam_answer_speed_multiplier = {params["early_exam_answer_speed_multiplier"]}')
+    bonus = bonus_gold_chance(level_id)
+    if bonus > 0.0:
+        lines.append(f"bonus_gold_chance = {bonus}")
     return "\n".join(lines) + "\n"
 
 

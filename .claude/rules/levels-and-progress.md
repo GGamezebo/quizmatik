@@ -13,7 +13,7 @@ paths:
 
 - Canonical files: `src/levels/{addition|subtraction|multiplication|division|mix}/level_N.tres`
 - Container metadata + unlocks: `src/common/levels/levels_config.gd`
-- Bulk generation: `tools/generate_levels.py` holds the curve (incl. `missing_operand_chance`: L1–5 0, L6–9 .3, L10–16 .5, exam .4)
+- Bulk generation: `tools/generate_levels.py` holds the curve (incl. `missing_operand_chance`: L1–5 0, L6–9 .3, L10–16 .5, exam .4; `bonus_gold_chance`: L3–16 .35, else 0)
 - ⚠ Do NOT run its `main()`: `make_levels_config()` is stale vs `levels_config.gd` and would drop code. Patch `.tres` surgically + mirror in the generator.
 - Ignore legacy `src/levels/level_*.tres` at root
 - Missing level file → assert at `LevelsConfig` init — always add file + config entry together
@@ -37,6 +37,7 @@ paths:
 - Weak examples: `PData.mistakes` (`MathFact` key → `weights` + `misses`) mutated only by `MistakesController` (AppRoot `Account/`) on `GameEvents.ev_fact_answered`: miss weight +2 (cap 6) and misses +1, clean correct weight −1; weight 0 → `erase()` from both dicts; max 50 facts (trim drops tail of `top_keys`). `top_keys` order = misses desc → weight desc → key. AppRoot `_on_ev_start_game` adds payload `review_facts` (top 10 keys → weights) to **every** battle start
 - Daily challenges (UTC day, 5 win-slots): `DailyChallengesController` — any battle win fills one slot; 5/5 first time that day → +1 gold
 - Level gold: regular level first reaching 3★ → +1 gold (`ProgressController.pass_level` returns amount, `post_battle` → `{level_gold}`; AppRoot grants via `ProfileController.add_gold`, passes `level_gold` to PostBattle label). Exam gives no level gold
+- Bonus gold: `GameConfig.bonus_gold_chance` (default 0 = practice / exam / L1–2) → ≤1 golden balloon per battle; payload `bonus_gold` granted by AppRoot `_apply_battle_result` **before** the win check (kept on lose / HUD exit; lost on in-battle restart); PostBattle `BonusGold` label
 - Disk write: only `SaveManager` (controllers emit `RootEvents.ev_save_progress` → `save()`)
 - `save()` is **debounced** (`SAVE_DEBOUNCE_SEC`, restarts on each request): no synchronous write per mutation
 - **Never writes during battle** (`ev_battle_started`→`ev_battle_finished`); force-flush at battle end
