@@ -263,9 +263,13 @@ static func _generate_plausible_fake(a: int, b: int, correct: int, operation: in
 			candidates.append(correct + offset)
 		candidates.append(a)
 
+	# Multiplication: drop options that give themselves away by size (`9 x 9` → 18, `6 x 3` → 28).
+	var max_distance: int = maxi(3, correct / 2) if operation == GameConfig.Operations.MULTIPLICATION else 1 << 30
 	var valid: Array[int] = []
 	for candidate in candidates:
 		if candidate < 0 or candidate == correct or candidate in existing or candidate in valid:
+			continue
+		if absi(candidate - correct) > max_distance:
 			continue
 		valid.append(candidate)
 
