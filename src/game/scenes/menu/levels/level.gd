@@ -1,6 +1,7 @@
 extends Button
 
-## Square cream level tile. Next = green; exam = purple + graduation-cap overlay.
+## Square cream level tile. Next = green; exam = purple + graduation-cap overlay;
+## timed level = small clock in the free top-left corner (stamp/lock sit top-right).
 
 const CREAM := Color(0.992, 0.984, 0.957, 1.0)
 const CREAM_LOCKED := Color(0.94, 0.92, 0.88, 1.0)
@@ -27,6 +28,7 @@ const TILE_SIZE := Vector2(100, 100)
 @export var next_badge: Label
 @export var lock_icon: TextureRect
 @export var inner_frame: Panel
+@export var timed_icon: TextureRect
 
 var is_exam: bool = false
 var level_id: int = 0
@@ -83,6 +85,11 @@ func initialize(_level_id: int, is_unlocked: bool, stars_count: int, _is_exam: b
 
 func set_params(is_unlocked: bool, stars_count: int) -> void:
 	_set_params(is_unlocked, stars_count)
+
+
+func set_timed(is_timed: bool) -> void:
+	if timed_icon:
+		timed_icon.visible = is_timed and not is_exam
 
 
 func set_as_next(is_next: bool) -> void:

@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://c15dt2ao0kw4b" path="res://assets/ui/icons/btn_restart.png" id="13_reset"]
 [ext_resource type="Texture2D" uid="uid://baq6fntk2payd" path="res://src/game/scenes/menu/ui/btn_check.png" id="14_start"]
 [ext_resource type="Script" uid="uid://f6odaxaw13hf" path="res://src/ui/buttons/hover_scale_button.gd" id="15_hover"]
+[ext_resource type="Texture2D" uid="uid://ca0dm5vhpchjx" path="res://assets/ui/icons/clock.svg" id="20_clock"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("6_shadow")
@@ -45,7 +46,7 @@ corner_radius_top_right = 18
 corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
 
-[node name="TrainingRoomWindow" type="Control" node_paths=PackedStringArray("col_addition", "col_subtraction", "col_multiplication", "col_division", "difficulty_hint", "difficulty_easy", "difficulty_normal", "difficulty_hard", "custom_range_row", "custom_min_stepper", "custom_max_stepper", "reset_button", "start_battle_button")]
+[node name="TrainingRoomWindow" type="Control" node_paths=PackedStringArray("col_addition", "col_subtraction", "col_multiplication", "col_division", "difficulty_hint", "difficulty_easy", "difficulty_normal", "difficulty_hard", "timed_toggle", "custom_range_row", "custom_min_stepper", "custom_max_stepper", "reset_button", "start_battle_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -63,6 +64,7 @@ difficulty_hint = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/Diff
 difficulty_easy = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/Easy")
 difficulty_normal = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/Normal")
 difficulty_hard = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/Hard")
+timed_toggle = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/TimedToggle")
 custom_range_row = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow")
 custom_min_stepper = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow/MinStepper")
 custom_max_stepper = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow/MaxStepper")
@@ -257,6 +259,15 @@ custom_minimum_size = Vector2(160, 44)
 layout_mode = 2
 caption = "СЛОЖНО"
 option_id = &"hard"
+
+[node name="TimedToggle" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
+custom_minimum_size = Vector2(170, 44)
+layout_mode = 2
+theme_override_constants/icon_max_width = 26
+icon = ExtResource("20_clock")
+caption = "НА ВРЕМЯ"
+option_id = &"timed"
+is_switch = true
 
 [node name="CustomRangeRow" type="HBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox"]
 visible = false

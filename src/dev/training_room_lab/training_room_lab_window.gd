@@ -16,6 +16,7 @@ const GRANT_GOLD := 1
 @export var early_exam_questions_stepper: TrainingLabStepper
 @export var early_exam_speed_stepper: TrainingLabStepper
 @export var bonus_gold_chance_stepper: TrainingLabStepper
+@export var time_limit_stepper: TrainingLabStepper
 @export var stepper_template: PackedScene
 @export_group("Operations")
 @export var op_addition: CheckBox
@@ -32,6 +33,7 @@ const GRANT_GOLD := 1
 @export var wipe_progress_button: BaseButton
 @export var wipe_dialog: ConfirmDialog
 @export var grant_gold_button: BaseButton
+@export var unlock_valleys_button: BaseButton
 
 
 func _ready() -> void:
@@ -65,6 +67,7 @@ func _bind_controls() -> void:
 	_connect_stepper(early_exam_questions_stepper, "early_exam_questions_multiplier", 0.1, 1.0, 5.0, 1)
 	_connect_stepper(early_exam_speed_stepper, "early_exam_answer_speed_multiplier", 0.1, 1.0, 5.0, 1)
 	_connect_stepper(bonus_gold_chance_stepper, "bonus_gold_chance", 0.05, 0.0, 1.0, 2)
+	_connect_stepper(time_limit_stepper, "time_limit_sec", 15.0, 0.0, 300.0, 0)
 
 	_bind_operation_checkbox(op_addition, GameConfig.Operations.ADDITION)
 	_bind_operation_checkbox(op_subtraction, GameConfig.Operations.SUBTRACTION)
@@ -81,6 +84,8 @@ func _bind_controls() -> void:
 		wipe_progress_button.pressed.connect(_on_wipe_progress_pressed)
 	if wipe_dialog != null:
 		wipe_dialog.ev_confirmed.connect(_on_wipe_progress_confirmed)
+	if unlock_valleys_button != null:
+		unlock_valleys_button.pressed.connect(_on_unlock_valleys_pressed)
 	if grant_gold_button != null:
 		grant_gold_button.pressed.connect(_on_grant_gold_pressed)
 
@@ -133,6 +138,7 @@ func _sync_ui_from_config() -> void:
 	_set_stepper_value(early_exam_questions_stepper, config.early_exam_questions_multiplier)
 	_set_stepper_value(early_exam_speed_stepper, config.early_exam_answer_speed_multiplier)
 	_set_stepper_value(bonus_gold_chance_stepper, config.bonus_gold_chance)
+	_set_stepper_value(time_limit_stepper, config.time_limit_sec)
 
 	var flags: int = config.allowed_operations
 	if op_addition != null:
@@ -249,6 +255,13 @@ func _on_grant_gold_pressed() -> void:
 	if profiles == null or not profiles.has_profiles():
 		return
 	profiles.add_gold(GRANT_GOLD)
+
+
+func _on_unlock_valleys_pressed() -> void:
+	var progress := ProgressController.find_in_tree(get_tree())
+	if progress == null:
+		return
+	progress.unlock_all_containers()
 
 
 func _on_wipe_progress_pressed() -> void:

@@ -5,8 +5,12 @@ class_name TrainingOptionButton
 ## Cream pill option; selected = soft green fill (sketch practice UI).
 
 signal option_selected(option_id: StringName)
+## Only when `is_switch`: on/off flipped by the player.
+signal option_toggled(is_on: bool)
 
 @export var option_id: StringName = &""
+## Independent on/off switch instead of a radio option.
+@export var is_switch: bool = false
 @export var caption: String = "":
 	set(value):
 		caption = value
@@ -36,6 +40,11 @@ func is_option_selected() -> bool:
 
 
 func _on_toggled(pressed_on: bool) -> void:
+	if is_switch:
+		_selected = pressed_on
+		_refresh_style()
+		option_toggled.emit(pressed_on)
+		return
 	if pressed_on:
 		_selected = true
 		_refresh_style()

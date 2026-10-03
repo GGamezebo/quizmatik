@@ -72,6 +72,8 @@ func _populate_levels_grid() -> void:
 		var is_unlocked: bool = progress.is_level_unlocked(container_id, lvl_id)
 		var stars: int = progress.get_level_stars(container_id, lvl_id)
 		btn.set_params(is_unlocked, stars)
+		var level_config := level.get("config") as GameConfig
+		btn.set_timed(level_config != null and level_config.is_timed())
 		if btn.has_method("set_as_next"):
 			btn.set_as_next(lvl_id == next_id and not is_exam)
 		if lvl_id == next_id:

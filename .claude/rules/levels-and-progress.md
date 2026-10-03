@@ -13,7 +13,7 @@ paths:
 
 - Canonical files: `src/levels/{addition|subtraction|multiplication|division|mix}/level_N.tres`
 - Container metadata + unlocks: `src/common/levels/levels_config.gd`
-- Bulk generation: `tools/generate_levels.py` holds the curve (incl. `missing_operand_chance`: L1–5 0, L6–9 .3, L10–16 .5, exam .4; `bonus_gold_chance`: L3–16 .35, else 0)
+- Bulk generation: `tools/generate_levels.py` holds the curve (incl. `missing_operand_chance`: L1–5 0, L6–9 .3, L10–16 .5, exam .4; `bonus_gold_chance`: L3–16 .35, else 0; `time_limit_sec`: L5 + L12 = 60, else 0)
 - ⚠ Do NOT run its `main()`: `make_levels_config()` is stale vs `levels_config.gd` and would drop code. Patch `.tres` surgically + mirror in the generator.
 - Ignore legacy `src/levels/level_*.tres` at root
 - Missing level file → assert at `LevelsConfig` init — always add file + config entry together
@@ -29,7 +29,7 @@ paths:
 ## Progress
 
 - Schema: `PData` (`src/game/account/persistent_data.gd`) — typed nested classes; live defaults in `persistent_data.tres` = **active profile**
-- Save envelope v5 (v4 = tutorial chapters, v5 = `mistakes`): `{ active_profile_id, profiles }` (`SaveData.CURRENT_SAVE_VERSION`); switch stashes live PData into the slot
+- Save envelope v6 (v4 = tutorial chapters, v5 = `mistakes`, v6 = `ContainerProgress.unlocked`): `{ active_profile_id, profiles }` (`SaveData.CURRENT_SAVE_VERSION`); switch stashes live PData into the slot
 - `ProfileController` — create/switch/delete (never last), gold, equipped plane; age → `BattleDifficulty` for valleys only; lab-only `wipe_all_profiles()` empties the envelope immediately (then first-run overlay)
 - `PData.trophies.unlocked` — valley exam trophies; UI kit `tools/generate_achievements_ui.py`
 - Disk: `SaveManager` + GodotSavesAddon (`SaveData`) profile `save` under `user://save/` (not plain `progress.json`)
@@ -45,7 +45,7 @@ paths:
 - Shared live resource: all controllers / trophy room `@export` the same `persistent_data.tres`; `SaveManager.load_pdata()` mutates the **active** profile via `PData.apply_dict`
 - Int level keys restored in `PData.ContainerProgress.from_dict` (JSON string keys → `int`)
 - Schema migrations: `SaveData.migrate_save_data` / `CURRENT_SAVE_VERSION` (addon), not a separate migrator class
-- Unlock helpers: `LevelsContainerConditions` in `conditions.gd`
+- Unlock helpers: `LevelsContainerConditions` in `conditions.gd`; `ContainerProgress.unlocked` (dev lab «open all valleys», `ProgressController.unlock_all_containers()`) opens a valley regardless of its condition, levels inside stay sequential
 - Settings: `UserSettings` → `user://settings.json` (JSON via `ResourceUtils`); `save()` emits `ev_changed` so mute UI / buses can resync without scene NodePaths
 
 ## Must

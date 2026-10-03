@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!-- Alarm clock for timed levels: colored-pencil fill + graphite ink edge (notebook look). -->
+  <!-- Legs -->
+  <path d="M70 206 L50 236" stroke="#2A3340" stroke-width="12" stroke-linecap="round"/>
+  <path d="M186 206 L206 236" stroke="#2A3340" stroke-width="12" stroke-linecap="round"/>
+  <!-- Bells -->
+  <path d="M30 78 A44 44 0 0 1 92 30 Z" fill="#E8774A" stroke="#2A3340" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M226 78 A44 44 0 0 0 164 30 Z" fill="#E8774A" stroke="#2A3340" stroke-width="8" stroke-linejoin="round"/>
+  <!-- Body -->
+  <circle cx="128" cy="140" r="100" fill="#E8774A" stroke="#2A3340" stroke-width="9"/>
+  <!-- Face -->
+  <circle cx="128" cy="140" r="76" fill="#F3E6C8" stroke="#2A3340" stroke-width="6"/>
+  <!-- Pencil hatching on the body shade -->
+  <g stroke="#C95A33" stroke-width="5" stroke-linecap="round" opacity="0.8">
+    <path d="M196 196 L214 176"/>
+    <path d="M180 212 L222 160"/>
+  </g>
+  <!-- Hour ticks -->
+  <g stroke="#2A3340" stroke-width="7" stroke-linecap="round">
+    <path d="M128 76 L128 90"/>
+    <path d="M128 190 L128 204"/>
+    <path d="M64 140 L78 140"/>
+    <path d="M178 140 L192 140"/>
+  </g>
+  <!-- Hands -->
+  <path d="M128 140 L128 96" stroke="#2A3340" stroke-width="9" stroke-linecap="round"/>
+  <path d="M128 140 L162 160" stroke="#2A3340" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="128" cy="140" r="9" fill="#2A3340"/>
+  <!-- Highlight -->
+  <path d="M52 112 A84 84 0 0 1 92 58" fill="none" stroke="#FFD9C4" stroke-width="9" stroke-linecap="round"/>
+</svg>
