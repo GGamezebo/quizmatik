@@ -229,7 +229,7 @@ func die_animation() -> void:
 	tween.tween_property(self, "scale", Vector2(0.1, 0.1), dead_animation_time).set_ease(Tween.EASE_IN) # Shrink
 
 	for i in range(4):
-		await get_tree().create_timer(0.15).timeout # Pause between explosions
+		await get_tree().create_timer(0.15, false).timeout # Pause between explosions
 		_spawn_explosion_at_random_pos()
 
 	_spawn_explosion_at_random_pos(Vector2.ZERO, 1.5) # Large center explosion
