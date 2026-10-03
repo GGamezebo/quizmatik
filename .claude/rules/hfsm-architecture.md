@@ -25,18 +25,22 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep transition semantics in s
 
 - `HFSM.new(tree, entities, scene_config={})`
   - `entities`: `{ slot: { name: Script } }` — names match JSON binding values
-  - `scene_config`: `{ host: Node, paths: {id: path}, loading_screen?, min_load_time? }`
+  - `scene_config`: `{ host: Node, paths: {id: path}, loading_screen?, min_load_time? }`; `loading_screen` = ready PackedScene from host (`main.tscn` export), held for the session — never a path / lazy load
+  - Cache/preload policy lives only in JSON `scene` (`keep_loaded`, `preload`) — never host params
 - `add_event`, `get_active_path()`, `get_active_scene()`, `get_mounted_scene(state)`, `get_binding`, `reset()`, `clear()`
 
 ## Scene lifecycle (automatic)
 
 - Mounted nodes should extend `IScene` (`initialize` / `deinit` / `on_event`)
-- State `scene: { id, loading_screen, async_loading, on_event }` → on enter: load/instantiate under nearest ancestor scene (else host), `initialize(data)`, then optional `hfsm.add_event(on_event, data)`
+- State `scene: { id, loading_screen, async_loading, on_event, keep_loaded, preload }` → on enter: load/instantiate under nearest ancestor scene (else host), `initialize(data)`, then optional `hfsm.add_event(on_event, data)`
 - Mounted node tree mirrors HFSM hierarchy; sibling order follows JSON `states` key order
 - on leave: `deinit()` + `queue_free`
 - on event (non-`sys.enter`): scene method `on_event(name, data)` on mounted node
 - `paths[id]` resolves `.tscn`; unknown id → error
 - `loading_screen: true` → optional loading overlay on `_mount_async`; `async_loading` default `true`, `false` → `_mount` sync one-frame load
+- Overlay is drawn 2 frames before the load starts (Web has no worker threads → `load_threaded_request` blocks the frame)
+- PackedScene cache by scene id: `keep_loaded` → kept for the session; `preload` ids → loaded under the state's loading screen (before fade), else 2 frames after mount; kept while the state is active (prune deferred so a state entered in the same transition still gets it). Cache hit = instantiate only
+- Cached scenes' live `.tres` persist between mounts → `initialize` must fully overwrite runtime state
 - Cancel via per-state mount token when leave/re-enter races
 
 ## Transition semantics (do not change casually)
