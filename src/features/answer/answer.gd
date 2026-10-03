@@ -9,6 +9,7 @@ signal ev_escaped(answer: Answer)
 const ENTRY_MIN_DURATION: float = 0.28
 const ENTRY_MAX_DURATION: float = 0.45
 const ENTRY_SPEED: float = 650.0
+const LAUNCH_DURATION: float = 0.9
 
 ## Average fill colors of balloons_atlas frames (row-major), for pop tint.
 const BALLOON_TINTS: Array[Color] = [
@@ -73,6 +74,9 @@ var _is_dying: bool = false
 var _base_sprite_scale: Vector2 = Vector2.ONE
 var _base_sprite_offset: Vector2 = Vector2.ZERO
 var _forced_balloon_frame: int = -1
+var _has_launch: bool = false
+var _launch_origin: Vector2 = Vector2.ZERO
+var _launch_target_x: float = 0.0
 var _wind_pos: PositionShaker
 var _wind_rot: RotationShaker
 var _wind_scale: ScaleShacker
@@ -131,6 +135,14 @@ func initialize(
 	_spawn_x = x
 	_gameplay_area = gameplay_area
 	_lane_height = lane_height
+
+
+## Entry flies out of `origin` (global, e.g. boss gondola) to `target_x` on its lane
+## instead of sliding in from the right edge. Call before the balloon enters the tree.
+func launch_from(origin: Vector2, target_x: float) -> void:
+	_has_launch = true
+	_launch_origin = origin
+	_launch_target_x = target_x
 
 
 func set_acceleration(acceleration: float) -> void:
@@ -217,6 +229,9 @@ func _update_label_font_size() -> void:
 
 func _begin_entry() -> void:
 	_entry_pending = false
+	if _has_launch:
+		_begin_launch()
+		return
 	if _is_fully_inside_viewport():
 		return
 
@@ -233,6 +248,22 @@ func _begin_entry() -> void:
 		.set_ease(Tween.EASE_OUT)\
 		.set_trans(Tween.TRANS_CUBIC)
 	tween.tween_callback(_finish_entry)
+
+
+func _begin_launch() -> void:
+	_is_entering = true
+	collision_layer = 0
+	monitorable = false
+	var target := Vector2(_launch_target_x, position.y)
+	var final_scale: Vector2 = scale
+	global_position = _launch_origin
+	scale = final_scale * 0.3
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(self, "position", target, LAUNCH_DURATION)\
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "scale", final_scale, LAUNCH_DURATION * 0.7)\
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.chain().tween_callback(_finish_entry)
 
 
 func _entry_target_x() -> float:
