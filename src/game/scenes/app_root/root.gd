@@ -20,7 +20,7 @@ func initialize(_data: Dictionary) -> void:
 	_listener.add(root_events.ev_profiles_changed, _on_profiles_changed)
 	
 	if OS.has_feature("web"):
-		add_event("ev.open_web", {"music_player": music_player})
+		add_event("ev.open_web", {"music_player": music_player, "root_events": root_events})
 		
 	music_player.play()
 	_maybe_open_first_profile()

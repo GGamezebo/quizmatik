@@ -27,7 +27,8 @@ paths:
 ## Platform BoundEntity contexts
 
 - `AppRoot.initialize()` emits `ev.open_web` only when `OS.has_feature("web")`
-- Event payload includes `music_player`; `AppRoot` also calls `music_player.play()`
+- Event payload includes `music_player` + `root_events`; `AppRoot` also calls `music_player.play()`
+- `WEBContext` listens to `document.visibilitychange` (JavaScriptBridge; callback kept in a member, removed in `deinit`) → `root_events.ev_app_visibility_changed`
 - Nested `WEB` state enters on `ev.open_web` and binds `"context": "WEBContext"`
 - `WEBContext` emits `ev.open_yandex` when `OS.has_feature("yandex_games")` (export preset custom feature)
 - Nested `WEB/Yandex` binds `"context": "YandexContext"`; receives the same payload

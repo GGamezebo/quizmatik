@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://c8n3apppause01"]
+
+[ext_resource type="Script" path="res://src/features/app_pause/app_pause_controller.gd" id="1_pause"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="2_root"]
+
+[node name="AppPauseController" type="Node"]
+process_mode = 3
+script = ExtResource("1_pause")
+root_events = ExtResource("2_root")
