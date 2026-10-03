@@ -104,6 +104,8 @@ class LevelEntry:
 class ContainerProgress:
 	var seen: bool = false
 	var exam_passed: bool = false
+	## Valley opened without the previous exam (dev lab «open all valleys»).
+	var unlocked: bool = false
 	var completed_levels: Dictionary[int, LevelEntry] = {}
 
 	func to_dict() -> Dictionary:
@@ -114,12 +116,14 @@ class ContainerProgress:
 			"seen": seen,
 			"completed_levels": entries,
 			"exam_passed": exam_passed,
+			"unlocked": unlocked,
 		}
 
 	static func from_dict(d: Dictionary) -> ContainerProgress:
 		var container := ContainerProgress.new()
 		container.seen = bool(d.get("seen", false))
 		container.exam_passed = bool(d.get("exam_passed", false))
+		container.unlocked = bool(d.get("unlocked", false))
 		var entries: Variant = d.get("completed_levels", {})
 		if entries is Dictionary:
 			# JSON forces string keys, the schema keys levels by int level_id.

@@ -8,8 +8,9 @@
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/exam_cap_overlay.png" id="6_cap"]
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="6_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Texture2D" uid="uid://ca0dm5vhpchjx" path="res://assets/ui/icons/clock.svg" id="7_clock"]
 
-[node name="Level" type="Button" node_paths=PackedStringArray("text_lable", "stars", "stamp_rect", "exam_icon", "exam_cap", "exam_title", "exam_hint", "exam_header", "next_badge", "lock_icon", "inner_frame")]
+[node name="Level" type="Button" node_paths=PackedStringArray("text_lable", "stars", "stamp_rect", "exam_icon", "exam_cap", "exam_title", "exam_hint", "exam_header", "next_badge", "lock_icon", "inner_frame", "timed_icon")]
 custom_minimum_size = Vector2(100, 100)
 offset_right = 100.0
 offset_bottom = 100.0
@@ -31,6 +32,7 @@ exam_header = NodePath("Main/ExamCol")
 next_badge = NodePath("NextBadge")
 lock_icon = NodePath("LockIcon")
 inner_frame = NodePath("InnerFrame")
+timed_icon = NodePath("TimedIcon")
 
 [node name="InnerFrame" type="Panel" parent="."]
 z_index = 0
@@ -85,6 +87,21 @@ offset_right = 28.0
 offset_bottom = 28.0
 mouse_filter = 2
 texture = ExtResource("4_exam")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TimedIcon" type="TextureRect" parent="."]
+visible = false
+z_index = 2
+layout_mode = 1
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 31.0
+offset_bottom = 31.0
+rotation = -0.12
+pivot_offset = Vector2(12, 12)
+mouse_filter = 2
+texture = ExtResource("7_clock")
 expand_mode = 1
 stretch_mode = 5
 

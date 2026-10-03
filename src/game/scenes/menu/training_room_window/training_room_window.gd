@@ -37,6 +37,10 @@ const DIFFICULTY_COPY: Dictionary = {
 @export var difficulty_easy: TrainingOptionButton
 @export var difficulty_normal: TrainingOptionButton
 @export var difficulty_hard: TrainingOptionButton
+@export_group("Timed")
+## «НА ВРЕМЯ» switch: survive `timed_practice_sec` instead of answering N questions.
+@export var timed_toggle: TrainingOptionButton
+@export var timed_practice_sec: float = 60.0
 @export_group("Custom range")
 @export var custom_range_row: Control
 @export var custom_min_stepper: TrainingStepper
@@ -57,6 +61,7 @@ var _op_ids: Dictionary = {
 	&"division": &"off",
 }
 var _difficulty: StringName = &"normal"
+var _timed: bool = false
 var _custom_min: int = 1
 var _custom_max: int = 15
 var _syncing: bool = false
@@ -69,6 +74,8 @@ func _ready() -> void:
 	_setup_columns()
 	_bind_difficulty()
 	_bind_custom_range()
+	if timed_toggle != null:
+		timed_toggle.option_toggled.connect(_on_timed_toggled)
 	if reset_button != null:
 		reset_button.pressed.connect(_on_reset_setting_pressed)
 	_load_all()
@@ -132,6 +139,13 @@ func _wire_difficulty_btn(btn: TrainingOptionButton, id: StringName) -> void:
 	)
 
 
+func _on_timed_toggled(is_on: bool) -> void:
+	if _syncing:
+		return
+	_timed = is_on
+	_on_ui_changed()
+
+
 func _bind_custom_range() -> void:
 	if custom_min_stepper != null:
 		custom_min_stepper.step = 1.0
@@ -184,6 +198,8 @@ func _sync_ui() -> void:
 	if col_division != null:
 		col_division.set_selected(_op_ids[&"division"])
 	_set_difficulty_buttons(_difficulty)
+	if timed_toggle != null:
+		timed_toggle.set_selected(_timed)
 	if custom_min_stepper != null:
 		custom_min_stepper.set_value(_custom_min)
 	if custom_max_stepper != null:
@@ -204,7 +220,10 @@ func _set_difficulty_buttons(id: StringName) -> void:
 
 func _refresh_difficulty_hint() -> void:
 	if difficulty_hint != null:
-		difficulty_hint.text = str(DIFFICULTY_COPY.get(_difficulty, DIFFICULTY_COPY[&"normal"]))
+		var hint := str(DIFFICULTY_COPY.get(_difficulty, DIFFICULTY_COPY[&"normal"]))
+		if _timed:
+			hint += " · на время: продержись %d сек" % int(timed_practice_sec)
+		difficulty_hint.text = hint
 
 
 func _refresh_custom_range_visibility() -> void:
@@ -285,6 +304,7 @@ func _apply_difficulty_to_config() -> void:
 	config.missing_operand_start_progress = float(missing_operand_start_by_difficulty.get(String(_difficulty), 0.0))
 	config.early_exam_questions_multiplier = 1.0
 	config.early_exam_answer_speed_multiplier = 1.0
+	config.time_limit_sec = timed_practice_sec if _timed else 0.0
 
 
 func _on_reset_setting_pressed() -> void:
@@ -295,6 +315,7 @@ func _on_reset_setting_pressed() -> void:
 		&"division": &"off",
 	}
 	_difficulty = &"normal"
+	_timed = false
 	_custom_min = 1
 	_custom_max = 15
 	_sync_ui()
@@ -336,6 +357,7 @@ func _load_ui_presets() -> void:
 	_op_ids[&"multiplication"] = StringName(str(data.get("multiplication", "off")))
 	_op_ids[&"division"] = StringName(str(data.get("division", "off")))
 	_difficulty = StringName(str(data.get("difficulty", "normal")))
+	_timed = bool(data.get("timed", false))
 	_custom_min = int(data.get("custom_min", 1))
 	_custom_max = int(data.get("custom_max", 15))
 
@@ -348,6 +370,7 @@ func _save_all() -> void:
 		"multiplication": String(_op_ids[&"multiplication"]),
 		"division": String(_op_ids[&"division"]),
 		"difficulty": String(_difficulty),
+		"timed": _timed,
 		"custom_min": _custom_min,
 		"custom_max": _custom_max,
 	})

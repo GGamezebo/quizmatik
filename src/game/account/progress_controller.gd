@@ -10,6 +10,12 @@ signal ev_level_seen(container_id: String, level_id: int)
 @export var root_events: RootEvents
 
 
+static func find_in_tree(tree: SceneTree) -> ProgressController:
+	if tree == null:
+		return null
+	return tree.root.find_child("ProgressController", true, false) as ProgressController
+
+
 func save() -> void:
 	root_events.ev_save_progress.emit()
 
@@ -43,6 +49,9 @@ func post_battle(battle_info: GameConfig.BattleInfo, stars: int) -> Dictionary:
 	return {}
 
 func is_container_unlocked(container_id: String) -> bool:
+	var progress := pdata.levels.containers.get(container_id) as PData.ContainerProgress
+	if progress != null and progress.unlocked:
+		return true
 	var container_config = levels_config.find_container_in_config(container_id)
 	if container_config:
 		var unlock_condition = container_config["unlock_condition"]
@@ -50,6 +59,12 @@ func is_container_unlocked(container_id: String) -> bool:
 		var condition_args = unlock_condition["args"]
 		return conditions.call(condition_func_name, pdata, condition_args)
 	return false
+
+## Dev lab: open every valley without its unlock exam; levels inside stay sequential.
+func unlock_all_containers() -> void:
+	for container_data in levels_config.levels.get("containers", []):
+		pdata.levels.ensure_container(str(container_data.get("container_id", ""))).unlocked = true
+	save()
 
 func is_container_seen(container_id: String) -> bool:
 	if not pdata.levels.containers.has(container_id):

@@ -9,7 +9,8 @@ static func get_state() -> String:
 @export var air_plane: AirPlane
 	
 func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
-	if player.score == game_config.questions_count:
+	# Battle ends on the last answer (regular), time out (timed) or 0 hearts — alive = win.
+	if player.health > 0:
 		game_manager.game_events.ev_win.emit()
 		air_plane.ev_win_animation_finished.connect(_on_animation_finished.bind(true))
 		air_plane.win_animation()

@@ -73,6 +73,14 @@ def bonus_gold_chance(level_id: int) -> float:
     return 0.35
 
 
+# Timed levels (GameConfig.time_limit_sec): survive N seconds instead of answering N questions.
+TIMED_LEVELS = {5: 60.0, 12: 60.0}
+
+
+def time_limit_sec(level_id: int) -> float:
+    return TIMED_LEVELS.get(level_id, 0.0)
+
+
 # Addition: both operands grow with level so late stages yield e.g. 22+87.
 # min rises too so hard levels are not diluted by tiny sums.
 ADDITION_NUMBER_RANGE = {
@@ -206,6 +214,9 @@ def make_tres(block: dict, level_id: int) -> str:
     bonus = bonus_gold_chance(level_id)
     if bonus > 0.0:
         lines.append(f"bonus_gold_chance = {bonus}")
+    limit = time_limit_sec(level_id)
+    if limit > 0.0:
+        lines.append(f"time_limit_sec = {limit}")
     return "\n".join(lines) + "\n"
 
 

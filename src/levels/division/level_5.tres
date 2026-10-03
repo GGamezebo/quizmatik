@@ -16,3 +16,4 @@ answer_speed_round_coeffs = {
 6: 1.2,
 }
 bonus_gold_chance = 0.35
+time_limit_sec = 60.0

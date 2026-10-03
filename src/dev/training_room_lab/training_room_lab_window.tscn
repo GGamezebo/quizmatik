@@ -78,7 +78,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button")]
+[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "unlock_valleys_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -96,6 +96,7 @@ answer_speed_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/Con
 early_exam_questions_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowQuestionsMult/QuestionsMultStepper")
 early_exam_speed_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEarlyExam/ExamRows/RowSpeedMult/SpeedMultStepper")
 bonus_gold_chance_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowChance/ChanceStepper")
+time_limit_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowTime/TimeStepper")
 stepper_template = ExtResource("10_stepper")
 op_addition = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid/OpAddition")
 op_subtraction = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid/OpSubtraction")
@@ -109,6 +110,7 @@ random_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ActionsRow
 wipe_progress_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/WipeProgressButton")
 wipe_dialog = NodePath("WipeDialog")
 grant_gold_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GrantGoldButton")
+unlock_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/UnlockValleysButton")
 
 [node name="DailyChallengesController" parent="." unique_id=341384884 instance=ExtResource("8_daily")]
 
@@ -556,14 +558,14 @@ layout_mode = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_font")
 theme_override_font_sizes/font_size = 17
-text = "Бонусный шарик"
+text = "Бонусный шарик и время"
 
 [node name="Subtitle" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/Header/Texts" unique_id=1715447905]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.45, 0.48, 0.52, 1)
 theme_override_fonts/font = ExtResource("4_font")
 theme_override_font_sizes/font_size = 13
-text = "Шанс золотого шарика с монеткой за бой (0 — нет)"
+text = "Шанс золотого шарика за бой; уровень на время (продержись N сек)"
 
 [node name="BonusRows" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus" unique_id=1715447906]
 layout_mode = 2
@@ -585,11 +587,27 @@ text = "Шанс за бой"
 
 [node name="ChanceStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowChance" unique_id=1715447910 instance=ExtResource("10_stepper")]
 
+[node name="RowTime" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows" unique_id=1715447911]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RowSpacer" type="Control" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowTime" unique_id=1715447912]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowTime" unique_id=1715447913]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+text = "На время, сек (0 — нет)"
+
+[node name="TimeStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowTime" unique_id=1715447914 instance=ExtResource("10_stepper")]
+
 [node name="RightVBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox" unique_id=2045079884]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 6
 
 [node name="ExamPanel" type="PanelContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" unique_id=560322716]
 layout_mode = 2
@@ -598,7 +616,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_side")
 
 [node name="ExamVBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel" unique_id=1664430281]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 5
 
 [node name="ExamTitle" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox" unique_id=310391948]
 layout_mode = 2
@@ -627,27 +645,27 @@ theme_override_constants/separation = 6
 alignment = 1
 
 [node name="Bar1" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox/DifficultyBars" unique_id=1198857207]
-custom_minimum_size = Vector2(12, 18)
+custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 color = Color(0.55, 0.42, 0.72, 1)
 
 [node name="Bar2" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox/DifficultyBars" unique_id=853005968]
-custom_minimum_size = Vector2(12, 26)
+custom_minimum_size = Vector2(12, 18)
 layout_mode = 2
 color = Color(0.55, 0.42, 0.72, 1)
 
 [node name="Bar3" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox/DifficultyBars" unique_id=360928557]
-custom_minimum_size = Vector2(12, 34)
+custom_minimum_size = Vector2(12, 24)
 layout_mode = 2
 color = Color(0.55, 0.42, 0.72, 1)
 
 [node name="Bar4" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox/DifficultyBars" unique_id=473728909]
-custom_minimum_size = Vector2(12, 42)
+custom_minimum_size = Vector2(12, 30)
 layout_mode = 2
 color = Color(0.55, 0.42, 0.72, 1)
 
 [node name="Bar5" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamPanel/ExamVBox/DifficultyBars" unique_id=1809909127]
-custom_minimum_size = Vector2(12, 50)
+custom_minimum_size = Vector2(12, 36)
 layout_mode = 2
 color = Color(0.82, 0.78, 0.86, 1)
 
@@ -685,13 +703,18 @@ text = "• Больше здоровья — больше шансов на о�
 autowrap_mode = 3
 
 [node name="GrantGoldButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
-custom_minimum_size = Vector2(0, 44)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 icon_texture = ExtResource("20_gold")
 caption_text = "+1 ЗОЛОТАЯ"
 
+[node name="UnlockValleysButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+caption_text = "ОТКРЫТЬ ВСЕ ДОЛИНЫ"
+
 [node name="WipeProgressButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
-custom_minimum_size = Vector2(0, 44)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 caption_text = "СБРОСИТЬ ПРОГРЕСС"
 

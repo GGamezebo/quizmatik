@@ -28,4 +28,4 @@ Proposal frames (NOT canon; use only if user asks for redesign): `concepts/redes
 Pencil pack (look-match only, not a game kit): `concepts/notebook_pencil/` (`ui_pack/`).
 
 - **Gold:** the only gold glyph = `assets/ui/icons/coin_gold.svg` (hangar/profile counters, hangar price row, post-battle gold rows, daily-gold splash `gold_art`, lab grant, bonus balloon coin with white `silhouette.gdshader` outline). Never `stamp_sun` / text-only for gold
-- **Level grid:** square cream tiles; lock glyph top-right; exam tile = purple + graduation-cap overlay; completed tiles get ink stamp top-right
+- **Level grid:** square cream tiles; lock glyph top-right; timed level = small `assets/ui/icons/clock.svg` top-left (`Level.set_timed`, never over number/stars/stamp); exam tile = purple + graduation-cap overlay; completed tiles get ink stamp top-right

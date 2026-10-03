@@ -3,6 +3,8 @@ extends Area2D
 class_name Answer
 
 signal ev_killed(answer:Answer)
+## Flew off the left edge without being hit (emitted right before `queue_free`).
+signal ev_escaped(answer: Answer)
 
 const ENTRY_MIN_DURATION: float = 0.28
 const ENTRY_MAX_DURATION: float = 0.45
@@ -111,6 +113,7 @@ func _process(delta: float) -> void:
 	position.x -= speed * _acceleration * delta
 
 	if position.x < -100:
+		ev_escaped.emit(self)
 		queue_free()
 
 

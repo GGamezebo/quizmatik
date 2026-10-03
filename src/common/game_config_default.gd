@@ -61,6 +61,11 @@ var review_facts: Dictionary = {}
 ## Streak healing never raises health above this.
 @export var streak_heal_max_health: int = 3
 
+@export_category("Timed")
+## > 0 = timed level: survive this many seconds (endless questions, `questions_count` ignored);
+## a correct balloon flying off-screen costs a heart. 0 = regular «answer N questions».
+@export var time_limit_sec: float = 0.0
+
 @export_category("Bonus")
 ## Chance that one golden bonus balloon flies by during the battle (0 = never; practice / exams keep 0).
 @export_range(0.0, 1.0, 0.05) var bonus_gold_chance: float = 0.0
@@ -80,6 +85,10 @@ const PLAYER_ACCELERATION_DEFAULT: float = 1.0  # default acceleration coefficie
 @export var player_acceleration_min: float = 0.5  # min acceleration coefficient
 @export var player_acceleration_max: float = 2.0  # max acceleration coefficient
 @export var player_acceleration_speed: float = 1.0  # acceleration coefficient per second
+
+
+func is_timed() -> bool:
+	return time_limit_sec > 0.0
 
 
 func apply_early_exam_modifiers() -> void:

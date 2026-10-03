@@ -3,13 +3,14 @@ class_name SaveData
 extends Save
 
 static func  CURRENT_SAVE_VERSION() -> int:
-	return 5
+	return 6
 
 static var _migrations: Dictionary = {
 	1: _migrate_1_to_2,
 	2: _migrate_2_to_3,
 	3: _migrate_3_to_4,
 	4: _migrate_4_to_5,
+	5: _migrate_5_to_6,
 }
 
 func migrate_save_data(data: Dictionary, from_version: int) -> Dictionary:
@@ -97,3 +98,19 @@ static func _migrate_4_to_5(data: Dictionary) -> void:
 		var profile: Variant = profiles[profile_id]
 		if profile is Dictionary and not (profile.get("mistakes", null) is Dictionary):
 			profile["mistakes"] = {"weights": {}, "misses": {}}
+
+
+## v6: per-valley `unlocked` override (dev lab «open all valleys»); existing valleys stay closed.
+static func _migrate_5_to_6(data: Dictionary) -> void:
+	var profiles: Variant = data.get("profiles", {})
+	if not (profiles is Dictionary):
+		return
+	for profile_id in profiles as Dictionary:
+		var profile: Variant = profiles[profile_id]
+		if not (profile is Dictionary) or not (profile.get("levels", null) is Dictionary):
+			continue
+		var levels: Dictionary = profile["levels"]
+		for container_id in levels:
+			var container: Variant = levels[container_id]
+			if container is Dictionary and not container.has("unlocked"):
+				container["unlocked"] = false

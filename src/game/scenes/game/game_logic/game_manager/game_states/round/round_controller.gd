@@ -4,6 +4,8 @@ extends RefCounted
 signal ev_answers_spawned(options: Array[Answer])
 ## New round: question set, answers spawn after a short delay.
 signal ev_round_started(score: int, answer_speed: float)
+## The round's correct balloon flew off-screen unanswered.
+signal ev_correct_missed
 
 var options: Array[Answer] = []
 var question: QuizQuestion.Question
@@ -88,6 +90,7 @@ func _spawn_answers() -> void:
 	options = _spawner.spawn(question, _game_config.answer_speed)
 	for answer in options:
 		answer.ev_killed.connect(_on_answer_killed)
+		answer.ev_escaped.connect(_on_answer_escaped)
 	ev_answers_spawned.emit(options)
 
 func _clear_answers() -> void:
@@ -96,6 +99,10 @@ func _clear_answers() -> void:
 			option.ev_killed.disconnect(_on_answer_killed)
 		option.queue_free()
 	options.clear()
+
+func _on_answer_escaped(answer: Answer) -> void:
+	if _is_active and question != null and answer.value == question.correct_answer:
+		ev_correct_missed.emit()
 
 func _on_answer_killed(answer: Answer) -> void:
 	options.erase(answer)

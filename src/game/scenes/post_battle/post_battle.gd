@@ -38,7 +38,7 @@ static func build_result_data(
 	return {
 		"game_config": game_config,
 		"score": player.score,
-		"max_score": game_config.questions_count,
+		"max_score": 0 if game_config.is_timed() else game_config.questions_count,
 		"is_win": is_win,
 		"stars": stars_count,
 		"bonus_gold": player.bonus_gold,

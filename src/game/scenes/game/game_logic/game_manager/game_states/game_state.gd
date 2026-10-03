@@ -17,6 +17,7 @@ static func get_state() -> String:
 
 var _round_controller: RoundController
 var _bonus: BonusController
+var _time_limit: BattleTimeLimit
 var __components: Array[Variant] = []
 var _answers_paused: bool = false
 ## Question already reported as a mistake — a later correct hit (after the hint) isn't "known".
@@ -40,16 +41,21 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	var answer_spawner: AnswerSpawner = AnswerSpawner.new(area, answerScene, game_manager.owner)
 	_round_controller = RoundController.new(game_config, player, answer_spawner, game_manager.get_tree(), ev_question_changed)
 	_bonus = BonusController.new(game_config, area, bonus_scene, game_manager.owner)
+	_time_limit = BattleTimeLimit.new(game_config.time_limit_sec)
 		
 	__components.append_array([
 		answer_spawner,
 		_round_controller,
 		_bonus,
+		_time_limit,
 	])
 	
 	_round_controller.ev_answers_spawned.connect(_on_answers_spawned)
 	_round_controller.ev_round_started.connect(_bonus.on_round_started)
 	_bonus.ev_collected.connect(_on_bonus_collected)
+	_round_controller.ev_correct_missed.connect(_on_correct_missed)
+	_time_limit.ev_tick.connect(game_events.ev_time_left.emit)
+	_time_limit.ev_expired.connect(_end_game)
 	event_listener.add(game_events.ev_pause_answers, _on_pause_answers)
 	event_listener.add(game_events.ev_explosion, _on_explosion)
 	event_listener.add(air_plane.ev_air_plane_colladed, _on_air_plane_collided)
@@ -66,9 +72,12 @@ func leave(_event_data: Dictionary) -> void:
 	
 	_round_controller = null
 	_bonus = null
+	_time_limit = null
 	_missed_question = null
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	if _time_limit:
+		_time_limit.update(delta)
 	if _round_controller:
 		_round_controller.update_answer_acceleration(player.acceleration)
 		_bonus.update_acceleration(player.acceleration)
@@ -84,6 +93,8 @@ func _on_pause_answers(paused: bool) -> void:
 		_apply_answers_paused(_round_controller.options)
 	if _bonus:
 		_bonus.set_paused(paused)
+	if _time_limit:
+		_time_limit.set_paused(paused)
 
 
 func _apply_answers_paused(options: Array[Answer]) -> void:
@@ -133,6 +144,15 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 				_round_controller.kill_all_answers(answer)
 				if CombatResolver.apply_damage(player):
 					_end_game()
+
+## Timed levels: letting the correct balloon fly away costs a heart (else waiting would win).
+func _on_correct_missed() -> void:
+	if not game_config.is_timed():
+		return
+	game_events.ev_mistake.emit()
+	_round_controller.kill_all_answers()
+	if CombatResolver.apply_damage(player):
+		_end_game()
 
 func _on_bonus_collected(amount: int) -> void:
 	player.bonus_gold += amount
