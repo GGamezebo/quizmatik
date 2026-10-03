@@ -5,10 +5,18 @@
 [ext_resource type="AudioStream" uid="uid://bchaw1l2muu4w" path="res://assets/audio/music/background_music.mp3" id="3_bg"]
 [ext_resource type="AudioStream" path="res://src/features/music/win_music.ogg" id="4_win"]
 [ext_resource type="AudioStream" path="res://src/features/music/lose_music.ogg" id="5_lose"]
+[ext_resource type="Resource" uid="uid://bg11w4vfrn34r" path="res://src/game/scenes/game/game_events.tres" id="6_game"]
+[ext_resource type="AudioStream" path="res://src/features/music/battle_music.ogg" id="7_battle"]
+[ext_resource type="AudioStream" path="res://src/features/music/exam_music.ogg" id="8_exam"]
+[ext_resource type="AudioStream" path="res://src/features/music/boss_music.ogg" id="9_boss"]
 
 [node name="MusicController" type="Node" unique_id=1847293701]
 script = ExtResource("1_music")
 root_events = ExtResource("2_root")
+game_events = ExtResource("6_game")
 background_music = ExtResource("3_bg")
+battle_music = ExtResource("7_battle")
+exam_music = ExtResource("8_exam")
+boss_music = ExtResource("9_boss")
 win_music = ExtResource("4_win")
 lose_music = ExtResource("5_lose")
