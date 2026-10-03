@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cxln14046h23n" path="res://src/features/plane/plane.gd" id="1_c4h5g"]
 [ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://src/features/explosion/explosion.tscn" id="2_502ij"]
-[ext_resource type="Texture2D" uid="uid://bhvth81jmerbb" path="res://src/features/plane/planes_atlas_spaced.png" id="3_6bhuu"]
+[ext_resource type="SpriteFrames" path="res://src/features/plane/plane_frames.tres" id="3_frames"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="3_6smis"]
 [ext_resource type="AudioStream" uid="uid://d022f3yjwbamj" path="res://src/features/plane/thrust.mp3" id="3_incis"]
 [ext_resource type="AudioStream" uid="uid://dmecv67tctmxl" path="res://src/features/plane/crash.wav" id="11_crash"]
@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://wokwb6w0qo1j" path="res://src/features/plane/animated_sprite_2d.gd" id="6_7tfl1"]
 [ext_resource type="Script" uid="uid://c26vc5jhui0yf" path="res://src/features/plane/audio_stream_player.gd" id="8_jxtnq"]
 [ext_resource type="Texture2D" uid="uid://rux51tr7d7c5" path="res://assets/effects/starlight_shining.png" id="9_i07py"]
-[ext_resource type="Texture2D" uid="uid://bgrnq02qv15pk" path="res://src/features/plane/flame.png" id="10_ijmsw"]
+[ext_resource type="SpriteFrames" path="res://src/features/plane/flame_frames.tres" id="10_flame"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_272bh"]
 radius = 21.72
@@ -22,86 +22,11 @@ shader_parameter/shadow_offset = Vector2(-2, 2)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6bhuu"]
-atlas = ExtResource("3_6bhuu")
-region = Rect2(0, 108, 288, 108)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6smis"]
-atlas = ExtResource("3_6bhuu")
-region = Rect2(0, 0, 288, 108)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0n5re"]
-atlas = ExtResource("3_6bhuu")
-region = Rect2(0, 216, 288, 108)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_1bvp3"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6bhuu")
-}],
-"loop": 0,
-"name": &"down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6smis")
-}],
-"loop": 1,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0n5re")
-}],
-"loop": 1,
-"name": &"up",
-"speed": 5.0
-}]
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8vrlf"]
 shader = ExtResource("3_6smis")
 shader_parameter/shadow_offset = Vector2(-2.5, 5)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 0.734000034865
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ijmsw"]
-atlas = ExtResource("10_ijmsw")
-region = Rect2(100, 0, 100, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_i07py"]
-atlas = ExtResource("10_ijmsw")
-region = Rect2(100, 40, 100, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6lgrm"]
-atlas = ExtResource("10_ijmsw")
-region = Rect2(100, 80, 100, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7dyig"]
-atlas = ExtResource("10_ijmsw")
-region = Rect2(100, 120, 100, 40)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_yjdog"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ijmsw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i07py")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6lgrm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7dyig")
-}],
-"loop": 1,
-"name": &"default",
-"speed": 8.0
-}]
 
 [node name="Plane" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("components", "directionComponents", "animated_sprite", "sfx_player")]
 collision_mask = 4
@@ -121,7 +46,7 @@ shape = SubResource("CapsuleShape2D_272bh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1524436245 node_paths=PackedStringArray("flame_animation")]
 material = SubResource("ShaderMaterial_1vivr")
-sprite_frames = SubResource("SpriteFrames_1bvp3")
+sprite_frames = ExtResource("3_frames")
 animation = &"up"
 script = ExtResource("6_7tfl1")
 flame_animation = NodePath("FlameAnimation")
@@ -129,7 +54,7 @@ flame_animation = NodePath("FlameAnimation")
 [node name="FlameAnimation" type="AnimatedSprite2D" parent="AnimatedSprite2D" unique_id=348875614]
 material = SubResource("ShaderMaterial_8vrlf")
 position = Vector2(-148, 8)
-sprite_frames = SubResource("SpriteFrames_yjdog")
+sprite_frames = ExtResource("10_flame")
 autoplay = "default"
 frame_progress = 0.563382
 

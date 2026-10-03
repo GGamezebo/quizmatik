@@ -8,6 +8,7 @@
 script = ExtResource("1_main")
 _scene_paths = NodePath("ScenePaths")
 loading_screen_scene = ExtResource("2_load")
+min_load_time = 0.7
 
 [node name="ScenePaths" type="Node" parent="." unique_id=647894587]
 script = ExtResource("3_h2yge")

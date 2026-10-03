@@ -1,53 +1,99 @@
 extends CanvasLayer
 
-@export var progress_bar: ProgressBar
-@export var background: CanvasGroup
+## HFSM loading overlay (`HfsmSceneRegistry`): `update_progress(0..1)` while loading, `fade_out()` when mounted.
+## Equipped plane hovers on notebook sky; on fade it flies off right, then the sheet slides up.
 
-const duration: float = 1.0
+const SKY_SCROLL_PARAM := &"scroll_offset"
+const GRID_SIZE_PARAM := &"rect_size"
+
+## Shared live profile (same cached `.tres` as AppRoot) → `equipped_plane_id`. Isolated run → starter.
+@export var pdata: PData
+@export var sheet: Control
+@export var sky: TextureRect
+@export var grid: ColorRect
+@export var flyer: PlaneFlyer
+@export var progress_bar: ProgressBar
+@export var status_label: Label
+@export var fact_label: Label
+## Shown by progress thirds (last one near the end).
+@export var status_lines: Array[String] = ["Заводим мотор…", "Проверяем крылья…", "Взлетаем!"]
+@export var fact_prefix: String = "А ты знаешь?  "
+@export_range(0.0, 0.2, 0.001) var sky_scroll_speed: float = 0.015
+## Fraction of the bar per second the shown value chases the real one (no jumps on web).
+@export var progress_follow_speed: float = 1.8
+@export var fly_in_sec: float = 0.5
+@export var fly_away_sec: float = 0.55
+@export var slide_sec: float = 0.45
+
+var _target_progress: float = 0.0
+var _shown_progress: float = 0.0
+var _sky_offset: float = 0.0
+var _sky_material: ShaderMaterial
+var _grid_material: ShaderMaterial
+var _leaving: bool = false
 
 
 func _ready() -> void:
-	# Controls under CanvasGroup use the viewport; re-apply full-rect after first layout
-	# so mobile safe areas / unusual aspects still cover the screen.
-	get_viewport().size_changed.connect(_fit_to_viewport)
-	call_deferred("_fit_to_viewport")
+	_sky_material = sky.material as ShaderMaterial
+	_grid_material = grid.material as ShaderMaterial
+	grid.resized.connect(_on_grid_resized)
+	_on_grid_resized()
+	var plane_id := pdata.equipped_plane_id if pdata != null else PlaneCatalog.STARTER_ID
+	flyer.apply_plane(plane_id)
+	fact_label.text = fact_prefix + _random_fact()
+	_apply_progress()
+	_fly_in()
 
 
 func update_progress(value: float) -> void:
-	progress_bar.value = value * 100.0
+	_target_progress = clampf(value, 0.0, 1.0)
 
 
 func fade_out() -> void:
+	if _leaving:
+		return
+	_leaving = true
+	_target_progress = 1.0
+	sheet.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var vp := sheet.get_viewport_rect().size
 	var tween := create_tween()
-	tween.set_parallel(true)
-	var slide := -get_viewport().get_visible_rect().size.y
-	tween.tween_property(self, "offset:y", slide, duration).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
-	tween.tween_property(background, "modulate:a", 0.0, duration).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
-
-	var random_rotation := randf_range(-45.0, 45.0)
-	var target_rotation := background.rotation_degrees + random_rotation
-	tween.tween_property(background, "rotation_degrees", target_rotation, duration) \
+	tween.tween_property(flyer, "position:x", vp.x * 0.5 + 420.0, fly_away_sec) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tween.tween_property(self, "offset:y", -vp.y, slide_sec) \
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-
-	tween.tween_property(background, "scale", Vector2(0.6, 0.6), duration) \
+	tween.parallel().tween_property(sheet, "modulate:a", 0.0, slide_sec) \
 		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-
 	tween.finished.connect(queue_free)
 
 
-func _fit_to_viewport() -> void:
-	var vp := get_viewport().get_visible_rect().size
-	for child in background.get_children():
-		if child is ColorRect or child is TextureRect:
-			var rect := child as Control
-			rect.set_anchors_preset(Control.PRESET_FULL_RECT)
-			rect.offset_left = 0.0
-			rect.offset_top = 0.0
-			rect.offset_right = 0.0
-			rect.offset_bottom = 0.0
-			rect.size = vp
-		elif child is VBoxContainer:
-			var box := child as VBoxContainer
-			box.set_anchors_preset(Control.PRESET_CENTER)
-			box.reset_size()
-			box.position = (vp - box.size) * 0.5
+func _process(delta: float) -> void:
+	_shown_progress = move_toward(_shown_progress, _target_progress, progress_follow_speed * delta)
+	_apply_progress()
+	if _sky_material != null:
+		_sky_offset = fmod(_sky_offset + sky_scroll_speed * delta, 2.0)
+		_sky_material.set_shader_parameter(SKY_SCROLL_PARAM, _sky_offset)
+
+
+func _apply_progress() -> void:
+	progress_bar.value = _shown_progress * 100.0
+	if status_lines.is_empty():
+		return
+	var index := mini(int(_shown_progress * status_lines.size()), status_lines.size() - 1)
+	status_label.text = status_lines[index]
+
+
+func _fly_in() -> void:
+	var home_x := flyer.position.x
+	flyer.position.x = -sheet.get_viewport_rect().size.x * 0.5 - 260.0
+	create_tween().tween_property(flyer, "position:x", home_x, fly_in_sec) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+func _on_grid_resized() -> void:
+	if _grid_material != null:
+		_grid_material.set_shader_parameter(GRID_SIZE_PARAM, grid.size)
+
+
+func _random_fact() -> String:
+	var family := MathFact.FAMILY_MUL if randf() < 0.5 else MathFact.FAMILY_ADD
+	return MathFact.display_with_answer(MathFact.make_key(family, randi_range(2, 9), randi_range(2, 9)))

@@ -1,0 +1,42 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3]
+
+[ext_resource type="Texture2D" uid="uid://bhvth81jmerbb" path="res://src/features/plane/planes_atlas_spaced.png" id="1_atlas"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_down"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 108, 288, 108)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 0, 288, 108)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_up"]
+atlas = ExtResource("1_atlas")
+region = Rect2(0, 216, 288, 108)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_down")
+}],
+"loop": false,
+"name": &"down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_up")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]

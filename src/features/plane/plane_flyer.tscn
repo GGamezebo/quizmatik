@@ -1,0 +1,55 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://src/features/plane/plane_flyer.gd" id="1_flyer"]
+[ext_resource type="Script" path="res://src/features/plane/plane_flyer_trail.gd" id="2_trail"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="3_shader"]
+[ext_resource type="SpriteFrames" path="res://src/features/plane/plane_frames.tres" id="4_frames"]
+[ext_resource type="SpriteFrames" path="res://src/features/plane/flame_frames.tres" id="5_flame"]
+[ext_resource type="Texture2D" uid="uid://rux51tr7d7c5" path="res://assets/effects/starlight_shining.png" id="6_glow"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_body"]
+resource_local_to_scene = true
+shader = ExtResource("3_shader")
+shader_parameter/shadow_offset = Vector2(-3, 6)
+shader_parameter/shadow_color = Color(0.28, 0.22, 0.16, 0.45)
+shader_parameter/shadow_blur = 2.0
+shader_parameter/sprite_tint = Color(1, 1, 1, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_flame"]
+shader = ExtResource("3_shader")
+shader_parameter/shadow_offset = Vector2(-2.5, 5)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
+shader_parameter/shadow_blur = 0.734
+shader_parameter/sprite_tint = Color(1, 1, 1, 1)
+
+[node name="PlaneFlyer" type="Node2D" node_paths=PackedStringArray("body", "sprite", "trail", "nozzle")]
+script = ExtResource("1_flyer")
+body = NodePath("Body")
+sprite = NodePath("Body/Sprite")
+trail = NodePath("Trail")
+nozzle = NodePath("Body/Nozzle")
+
+[node name="Trail" type="Node2D" parent="."]
+script = ExtResource("2_trail")
+
+[node name="Body" type="Node2D" parent="."]
+
+[node name="Flame" type="AnimatedSprite2D" parent="Body"]
+material = SubResource("ShaderMaterial_flame")
+position = Vector2(-148, 8)
+sprite_frames = ExtResource("5_flame")
+autoplay = "default"
+
+[node name="Glow" type="Sprite2D" parent="Body/Flame"]
+modulate = Color(1, 1, 1, 0.4)
+position = Vector2(-11, 0)
+scale = Vector2(1.40625, 0.571875)
+texture = ExtResource("6_glow")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Body"]
+material = SubResource("ShaderMaterial_body")
+sprite_frames = ExtResource("4_frames")
+animation = &"idle"
+
+[node name="Nozzle" type="Marker2D" parent="Body"]
+position = Vector2(-200, 8)
