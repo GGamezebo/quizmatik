@@ -293,5 +293,5 @@ func _fit_to_viewport() -> void:
 	_sky.size = viewport_size
 
 	for child in get_children():
-		if child is GPUParticles2D:
+		if child is CPUParticles2D:
 			child.position = Vector2(viewport_size.x + 520.0, viewport_size.y * 0.5)

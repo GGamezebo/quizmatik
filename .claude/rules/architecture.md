@@ -24,6 +24,7 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 - Prefer InputMap actions (`shoot`, `ui_*`) over hard-coded keys; add touch controls (on-screen buttons / gestures) without breaking desktop/web.
 - UI: readable at phone landscape, safe areas, hit targets large enough for fingers; still clean on 16:9 desktop and browser.
 - Performance: mobile renderer / mid-range phones and browsers matter — avoid heavy one-platform-only effects unless gated.
+- Particles: `CPUParticles2D` only, never `GPUParticles2D` — GPU `preprocess` re-simulates on every new instance (WebGL/ANGLE: 0.3–2.7 s frozen frame + audio stall on each scene mount).
 - Platform-specific code: only in HFSM platform contexts/scenes — `godot-paradigm.md` → Platform code. Never fork gameplay per platform.
 - Before merging a feature, ask: *playable with touch, with keyboard/mouse, and in browser?*
 
