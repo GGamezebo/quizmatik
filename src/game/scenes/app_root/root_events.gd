@@ -12,3 +12,5 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_show_celebration(kind: String, payload: Dictionary)
 @warning_ignore("unused_signal") signal ev_celebration_hold
 @warning_ignore("unused_signal") signal ev_celebration_unhold
+## Platform context reports app visibility (e.g. web tab hidden/minimized) → AppPauseController.
+@warning_ignore("unused_signal") signal ev_app_visibility_changed(is_visible: bool)
