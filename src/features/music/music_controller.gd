@@ -1,21 +1,36 @@
 class_name MusicController
 extends Node
 
-## Swaps AppRoot MusicPlayer: menu background, battle / exam themes, post-battle win/lose.
-## Empty battle/exam slots fall back to background_music.
+## Swaps AppRoot MusicPlayer: menu background, battle / exam themes, boss fight, post-battle win/lose.
+## Empty battle/exam slots fall back to background_music; empty boss slot keeps the battle theme.
+## In battle (GameEvents): boss fly-in crossfades to boss_music; timed level's last seconds speed the
+## music up; win / lose fades it out so the stingers are heard before the result theme.
 
 @export var root_events: RootEvents
+@export var game_events: GameEvents
 @export var music_player: AudioStreamPlayer
 @export var background_music: AudioStream
 @export var battle_music: AudioStream
 @export var exam_music: AudioStream
+@export var boss_music: AudioStream
 @export var win_music: AudioStream
 @export var lose_music: AudioStream
 @export var background_volume_db: float = -7.69
 @export var result_volume_db: float = -5.0
 
+@export_group("Battle")
+@export var boss_fade_sec: float = 0.5
+@export var end_fade_sec: float = 0.8
+## Timed level: at this many seconds left (and below) the music plays faster / higher.
+@export var hurry_seconds: int = 10
+@export var hurry_pitch: float = 1.12
+
+const _SILENT_DB := -40.0
+
 var _listener: EventListener = EventListener.new()
 var _playing_result: bool = false
+var _faded: bool = false
+var _tween: Tween = null
 
 
 func _ready() -> void:
@@ -23,6 +38,11 @@ func _ready() -> void:
 		_listener.add(root_events.ev_exit_game, _on_exit_game)
 		_listener.add(root_events.ev_return_to_menu, _on_return_to_menu)
 		_listener.add(root_events.ev_start_game, _on_start_game)
+	if game_events:
+		_listener.add(game_events.ev_boss_appeared, _on_boss_appeared)
+		_listener.add(game_events.ev_time_left, _on_time_left)
+		_listener.add(game_events.ev_win, _fade_out)
+		_listener.add(game_events.ev_lose, _fade_out)
 	_prepare_loops()
 
 
@@ -31,11 +51,8 @@ func _exit_tree() -> void:
 
 
 func _prepare_loops() -> void:
-	_enable_loop(win_music)
-	_enable_loop(lose_music)
-	_enable_loop(background_music)
-	_enable_loop(battle_music)
-	_enable_loop(exam_music)
+	for stream in [win_music, lose_music, background_music, battle_music, exam_music, boss_music]:
+		_enable_loop(stream)
 
 
 func _enable_loop(stream: AudioStream) -> void:
@@ -67,12 +84,38 @@ func _on_start_game(data: Dictionary = {}) -> void:
 		_play_loop(background_music)
 
 
+func _on_boss_appeared(_armor: int) -> void:
+	if music_player == null or boss_music == null or music_player.stream == boss_music:
+		return
+	_kill_tween()
+	_tween = create_tween()
+	_tween.tween_property(music_player, "volume_db", _SILENT_DB, boss_fade_sec)
+	_tween.tween_callback(_play_loop.bind(boss_music))
+
+
+func _on_time_left(seconds: int) -> void:
+	if music_player and seconds > 0 and seconds <= hurry_seconds:
+		music_player.pitch_scale = hurry_pitch
+
+
+func _fade_out() -> void:
+	if music_player == null or _playing_result:
+		return
+	_kill_tween()
+	_faded = true
+	_tween = create_tween()
+	_tween.tween_property(music_player, "volume_db", _SILENT_DB, end_fade_sec)
+
+
 func _play_result(stream: AudioStream) -> void:
 	if music_player == null or stream == null:
 		return
+	_kill_tween()
 	_playing_result = true
+	_faded = false
 	music_player.stop()
 	music_player.stream = stream
+	music_player.pitch_scale = 1.0
 	music_player.volume_db = result_volume_db
 	music_player.play()
 
@@ -80,13 +123,24 @@ func _play_result(stream: AudioStream) -> void:
 func _play_loop(stream: AudioStream) -> void:
 	if music_player == null:
 		return
+	_kill_tween()
 	if stream == null:
 		stream = music_player.stream
-	if not _playing_result and music_player.stream == stream:
+	if not _playing_result and not _faded and music_player.stream == stream:
+		music_player.pitch_scale = 1.0
+		music_player.volume_db = background_volume_db
 		return
 	_playing_result = false
+	_faded = false
 	music_player.stop()
 	if stream:
 		music_player.stream = stream
+	music_player.pitch_scale = 1.0
 	music_player.volume_db = background_volume_db
 	music_player.play()
+
+
+func _kill_tween() -> void:
+	if _tween and _tween.is_valid():
+		_tween.kill()
+	_tween = null
