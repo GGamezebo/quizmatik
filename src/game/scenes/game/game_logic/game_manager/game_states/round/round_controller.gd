@@ -95,7 +95,7 @@ func kill_all_answers(hit_answer: Answer = null) -> void:
 func _start_round() -> void:
 	_set_question(QuizQuestion.generate_question(_game_config, _player.score))
 	ev_round_started.emit(_player.score, _game_config.answer_speed)
-	await _tree.create_timer(1.0).timeout
+	await _tree.create_timer(1.0, false).timeout
 	if not _is_active:
 		return
 	_spawn_answers()
