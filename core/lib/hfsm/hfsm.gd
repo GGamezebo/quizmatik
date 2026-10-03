@@ -13,7 +13,7 @@ var _pending: Array[HfsmEvent] = []
 ## scene_config (optional): {
 ##   host: Node,
 ##   paths: { id: "res://...tscn" },
-##   loading_screen: PackedScene,
+##   loading_screen: PackedScene,  # ready resource from the host (e.g. editor export), held for the session
 ##   min_load_time: float,
 ## }
 func _init(

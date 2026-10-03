@@ -15,13 +15,16 @@ paths:
 ## `scene`
 
 ```json
-"scene": { "id": "game", "loading_screen": true, "async_loading": true, "on_event": "ev.open_menu" }
+"scene": { "id": "game", "loading_screen": true, "async_loading": true, "on_event": "ev.open_menu", "keep_loaded": true, "preload": ["post_battle"] }
 ```
 
 - `id` → host path map (`HfsmScenePaths.PATHS`)
 - `loading_screen` optional (default `false`) — show loading overlay while mounting (async path)
 - `async_loading` optional (default `true`) — `_mount_async` (threaded); `false` → `_mount` sync `load()` in one frame
 - `on_event` optional — HFSM event fired right after scene `initialize(data)`
+- `keep_loaded` optional (default `false`) — PackedScene of this id stays cached for the session
+- `preload` optional — scene ids (from paths) to load ahead while this state is active: under its loading screen if any, else after mount (Web: each load blocks a frame → prefer states with `loading_screen`)
+- App: Menu `preload: ["game"]`; Battle `keep_loaded` + `preload: ["post_battle"]`; PostBattle `keep_loaded`
 - HFSM auto-mounts on enter / releases on leave; forwards events to scene `on_event`
 
 ## Events

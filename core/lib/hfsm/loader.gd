@@ -134,11 +134,35 @@ static func _parse_scene(raw: Variant, state_name: String) -> Dictionary:
 				"error": "State '%s' scene.on_event must be a string" % state_name
 			}
 		on_event = String(scene_data.on_event).strip_edges()
+	var keep_loaded := false
+	if scene_data.has("keep_loaded"):
+		if not scene_data.keep_loaded is bool:
+			return {
+				"error": "State '%s' scene.keep_loaded must be a bool" % state_name
+			}
+		keep_loaded = scene_data.keep_loaded
+	var preload_ids: Array[String] = []
+	if scene_data.has("preload"):
+		if not scene_data["preload"] is Array:
+			return {
+				"error": "State '%s' scene.preload must be a list of scene ids" % state_name
+			}
+		for item in scene_data["preload"]:
+			if not item is String or String(item).is_empty():
+				return {
+					"error": (
+						"State '%s' scene.preload must contain non-empty strings"
+						% state_name
+					)
+				}
+			preload_ids.append(item)
 	var scene_out := {
 		"id": scene_id,
 		"loading_screen": loading_screen,
 		"async_loading": async_loading,
 		"on_event": on_event,
+		"keep_loaded": keep_loaded,
+		"preload": preload_ids,
 	}
 	return {"scene": scene_out, "error": ""}
 
