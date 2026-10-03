@@ -67,10 +67,10 @@ func _maybe_open_first_profile() -> void:
 		first_run_overlay.ev_submitted.connect(_on_first_profile_submitted)
 	first_run_overlay.open(false, "Кто будет пилотом?")
 
-func _on_first_profile_submitted(display_name: String, gender: String, age: int) -> void:
+func _on_first_profile_submitted(display_name: String, difficulty: StringName) -> void:
 	if profile_controller == null:
 		return
-	profile_controller.create_profile(display_name, gender, age)
+	profile_controller.create_profile(display_name, difficulty)
 
 func _apply_battle_result(data: Dictionary) -> void:
 	var is_win: bool = data['is_win']

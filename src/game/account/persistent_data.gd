@@ -11,8 +11,8 @@ var trophies: TrophiesData = TrophiesData.new()
 var mistakes: MistakesData = MistakesData.new()
 var profile_id: String = ""
 var display_name: String = ""
-var gender: String = "boy"
-var age: int = 8
+## `BattleDifficulty` id for campaign valleys (`easy` / `normal` / `hard`).
+var difficulty: String = "normal"
 var gold: int = 0
 var equipped_plane_id: String = "starter"
 var unlocked_planes: Array[String] = ["starter"]
@@ -28,8 +28,7 @@ func to_dict() -> Dictionary:
 		"mistakes": mistakes.to_dict(),
 		"profile_id": profile_id,
 		"name": display_name,
-		"gender": gender,
-		"age": age,
+		"difficulty": difficulty,
 		"gold": gold,
 		"equipped_plane_id": equipped_plane_id,
 		"unlocked_planes": unlocked_planes.duplicate(),
@@ -46,10 +45,7 @@ func apply_dict(data: Dictionary) -> void:
 	mistakes = MistakesData.from_dict(data.get("mistakes", {}))
 	profile_id = String(data.get("profile_id", ""))
 	display_name = String(data.get("name", ""))
-	gender = String(data.get("gender", "boy"))
-	if gender != "girl":
-		gender = "boy"
-	age = clampi(int(data.get("age", 8)), 4, 18)
+	difficulty = String(BattleDifficulty.sanitize(StringName(data.get("difficulty", "normal"))))
 	gold = maxi(0, int(data.get("gold", 0)))
 	equipped_plane_id = String(data.get("equipped_plane_id", "starter"))
 	unlocked_planes.clear()

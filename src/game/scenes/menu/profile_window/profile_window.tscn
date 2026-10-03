@@ -3,59 +3,338 @@
 [ext_resource type="Script" path="res://src/game/scenes/menu/profile_window/profile_window.gd" id="1_script"]
 [ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="2_pdata"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="3_root"]
-[ext_resource type="Texture2D" uid="uid://bmrw6xiwwmbba" path="res://src/game/scenes/menu/ui/btn_cta_wide.png" id="4_frame"]
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="5_font"]
 [ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="6_title_font"]
 [ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="7_sky"]
-[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="8_shadow"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="9_back"]
 [ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="10_daily"]
-[ext_resource type="PackedScene" uid="uid://daurosqrmggl0" path="res://src/game/scenes/menu/ui/menu_cta_button.tscn" id="11_cta"]
+[ext_resource type="PackedScene" path="res://src/ui/difficulty_picker/difficulty_picker.tscn" id="11_picker"]
 [ext_resource type="PackedScene" uid="uid://c8qm5n2k7xwfd" path="res://src/ui/confirm_dialog/confirm_dialog.tscn" id="12_confirm"]
 [ext_resource type="PackedScene" uid="uid://c8profilecreateov" path="res://src/ui/profile_create_overlay/profile_create_overlay.tscn" id="13_overlay"]
-[ext_resource type="PackedScene" uid="uid://c8profilerow0001" path="res://src/game/scenes/menu/profile_window/profile_row.tscn" id="14_row"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/profile_window/profile_card.tscn" id="14_card"]
 [ext_resource type="Texture2D" uid="uid://cyg5jcu3u4kvb" path="res://src/game/scenes/menu/ui/icon_achievements.png" id="15_cup"]
 [ext_resource type="Texture2D" path="res://src/features/plane/planes_atlas_spaced.png" id="16_plane"]
 [ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="17_gold"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/ui/icon_pencil.png" id="19_pencil"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 [ext_resource type="Script" uid="uid://dfc4lkuw1o6wl" path="res://src/ui/buttons/hover_scale_binder.gd" id="18_binder"]
 [ext_resource type="Script" path="res://src/ui/ui_anchor/ui_anchor.gd" id="60_ui_anchor"]
 [ext_resource type="Resource" path="res://src/game/scenes/tutorial/tutorial_anchors.tres" id="61_tutorial_anchors"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
-shader = ExtResource("8_shadow")
-shader_parameter/shadow_offset = Vector2(-4, 8)
-shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
-shader_parameter/shadow_blur = 2.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_title_chip"]
+content_margin_left = 32.0
+content_margin_top = 4.0
+content_margin_right = 32.0
+content_margin_bottom = 4.0
+bg_color = Color(0.953, 0.902, 0.784, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 6
+shadow_offset = Vector2(-3, 6)
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font = ExtResource("6_title_font")
-font_size = 34
+font_size = 38
 font_color = Color(0.165, 0.2, 0.251, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_name"]
-font = ExtResource("6_title_font")
-font_size = 28
-font_color = Color(0.165, 0.2, 0.251, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_id_card"]
+bg_color = Color(0.975, 0.95, 0.89, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+shadow_color = Color(0, 0, 0, 0.28)
+shadow_size = 10
+shadow_offset = Vector2(-4, 8)
 
-[sub_resource type="LabelSettings" id="LabelSettings_body"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_id_header"]
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.33, 0.53, 0.75, 1)
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 19
+corner_radius_top_right = 19
+
+[sub_resource type="LabelSettings" id="LabelSettings_header"]
 font = ExtResource("5_font")
-font_size = 20
-font_color = Color(0.165, 0.2, 0.251, 1)
+font_size = 22
+font_color = Color(1, 0.99, 0.96, 1)
+shadow_size = 0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hit"]
-bg_color = Color(0.97, 0.94, 0.88, 0.0)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_polaroid"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 24.0
+bg_color = Color(1, 1, 0.99, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.165, 0.2, 0.251, 0.2)
+border_color = Color(0.165, 0.2, 0.251, 0.3)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 5
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_photo_bg"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.8, 0.88, 0.95, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="LabelSettings" id="LabelSettings_caption"]
+font = ExtResource("5_font")
+font_size = 16
+font_color = Color(0.32, 0.36, 0.4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_name"]
+font = ExtResource("5_font")
+font_size = 36
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_round"]
+bg_color = Color(0.985, 0.96, 0.905, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.55)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 4
+shadow_offset = Vector2(-2, 3)
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_round_hover"]
+bg_color = Color(1, 0.98, 0.93, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 4
+shadow_offset = Vector2(-2, 3)
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chip"]
+content_margin_left = 14.0
+content_margin_top = 6.0
+content_margin_right = 18.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 0.985, 0.95, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.35)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chip_hover"]
+content_margin_left = 14.0
+content_margin_top = 6.0
+content_margin_right = 18.0
+content_margin_bottom = 6.0
+bg_color = Color(1, 0.97, 0.88, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.8)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_chip"]
+font = ExtResource("5_font")
+font_size = 24
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_section"]
+font = ExtResource("5_font")
+font_size = 20
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hint"]
+font = ExtResource("5_font")
+font_size = 15
+font_color = Color(0.32, 0.36, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_plane"]
+bg_color = Color(0.88, 0.94, 0.85, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.22, 0.44, 0.3, 0.55)
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
-[node name="ProfileWindow" type="Control" node_paths=PackedStringArray("name_label", "age_label", "gold_label", "plane_preview", "plane_name_label", "plane_button", "trophy_button", "profiles_list", "create_button", "edit_button", "delete_button", "create_overlay", "delete_dialog")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_plane_hover"]
+bg_color = Color(0.91, 0.96, 0.88, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.22, 0.44, 0.3, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="LabelSettings" id="LabelSettings_plane_hint"]
+font = ExtResource("5_font")
+font_size = 17
+font_color = Color(0.22, 0.44, 0.3, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_list_title"]
+font = ExtResource("6_title_font")
+font_size = 30
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_list_chip"]
+content_margin_left = 18.0
+content_margin_top = 2.0
+content_margin_right = 18.0
+content_margin_bottom = 2.0
+bg_color = Color(0.953, 0.902, 0.784, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.8)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_new_card"]
+bg_color = Color(1, 0.99, 0.96, 0.45)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 0.35)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_new_card_hover"]
+bg_color = Color(1, 0.99, 0.96, 0.75)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 0.7)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_delete"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.85, 0.33, 0.3, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 5
+shadow_offset = Vector2(-3, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_delete_hover"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.91, 0.38, 0.34, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 5
+shadow_offset = Vector2(-3, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_delete_pressed"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.7, 0.28, 0.26, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="LabelSettings" id="LabelSettings_plus"]
+font = ExtResource("5_font")
+font_size = 64
+font_color = Color(0.165, 0.2, 0.251, 0.7)
+
+[sub_resource type="LabelSettings" id="LabelSettings_new"]
+font = ExtResource("5_font")
+font_size = 18
+font_color = Color(0.165, 0.2, 0.251, 0.8)
+
+[node name="ProfileWindow" type="Control" node_paths=PackedStringArray("name_label", "gold_label", "trophy_button", "photo", "plane_preview", "plane_name_label", "difficulty_picker", "edit_button", "delete_button", "profiles_grid", "profiles_count_label", "create_card", "create_overlay", "delete_dialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -65,25 +344,26 @@ grow_vertical = 2
 theme = ExtResource("theme_ui")
 script = ExtResource("1_script")
 pdata = ExtResource("2_pdata")
-name_label = NodePath("Center/Content/Body/Left/Name")
-age_label = NodePath("Center/Content/Body/Left/Age")
-gold_label = NodePath("Center/Content/Body/Left/GoldRow/Gold")
-plane_preview = NodePath("Center/Content/Body/Left/PlaneSlot/PlaneButton/PlanePreview")
-plane_name_label = NodePath("Center/Content/Body/Left/PlaneSlot/PlaneButton/PlaneName")
-plane_button = NodePath("Center/Content/Body/Left/PlaneSlot/PlaneButton")
-trophy_button = NodePath("Center/Content/Body/Left/TrophySlot/TrophyButton")
-profiles_list = NodePath("Center/Content/Body/Right/List")
-create_button = NodePath("Center/Content/Body/Right/Actions/CreateSlot/Create")
-edit_button = NodePath("Center/Content/Body/Right/Actions/EditSlot/Edit")
-delete_button = NodePath("Center/Content/Body/Right/Actions/DeleteSlot/Delete")
+name_label = NodePath("Body/IdCard/VBox/Margin/VBox/Top/Info/NameRow/NameBox/Name")
+gold_label = NodePath("Body/IdCard/VBox/Margin/VBox/Top/Info/Chips/GoldChip/HBox/Gold")
+trophy_button = NodePath("Body/IdCard/VBox/Margin/VBox/Top/Info/Chips/TrophyButton")
+photo = NodePath("Body/IdCard/VBox/Margin/VBox/Top/Polaroid/PhotoBg/Photo")
+plane_preview = NodePath("Body/IdCard/VBox/Margin/VBox/PlaneButton/HBox/PlanePreview")
+plane_name_label = NodePath("Body/IdCard/VBox/Margin/VBox/PlaneButton/HBox/Texts/PlaneName")
+difficulty_picker = NodePath("Body/IdCard/VBox/Margin/VBox/DifficultyPicker")
+edit_button = NodePath("Body/IdCard/VBox/Margin/VBox/Top/Info/NameRow/EditButton")
+delete_button = NodePath("Body/Pilots/DeleteButton")
+profiles_grid = NodePath("Body/Pilots/Grid")
+profiles_count_label = NodePath("Body/Pilots/Header/Count")
+create_card = NodePath("Body/Pilots/Grid/NewPilot")
 create_overlay = NodePath("CreateOverlay")
 delete_dialog = NodePath("DeleteDialog")
-profile_row_scene = ExtResource("14_row")
+profile_card_scene = ExtResource("14_card")
 root_events = ExtResource("3_root")
 
 [node name="HoverScaleBinder" type="Node" parent="."]
 script = ExtResource("18_binder")
-scale_factor = 1.05
+scale_factor = 1.04
 
 [node name="DailyChallengesController" parent="." instance=ExtResource("10_daily")]
 
@@ -93,230 +373,355 @@ paint_from_daily = true
 daily_controller = NodePath("../DailyChallengesController")
 idle_color_amount = 0.08
 
-[node name="Center" type="CenterContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Content" type="Control" parent="Center"]
-custom_minimum_size = Vector2(980, 620)
-layout_mode = 2
-clip_contents = true
-
-[node name="Frame" type="NinePatchRect" parent="Center/Content"]
-material = SubResource("ShaderMaterial_sticker")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = ExtResource("4_frame")
-patch_margin_left = 70
-patch_margin_top = 60
-patch_margin_right = 70
-patch_margin_bottom = 60
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
-[node name="Title" type="Label" parent="Center/Content"]
+[node name="TitleChip" type="PanelContainer" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -160.0
-offset_top = 18.0
-offset_right = 160.0
-offset_bottom = 62.0
+offset_left = -120.0
+offset_top = 14.0
+offset_right = 120.0
+offset_bottom = 70.0
 grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_title_chip")
+
+[node name="Title" type="Label" parent="TitleChip"]
+layout_mode = 2
 text = "ПРОФИЛЬ"
 label_settings = SubResource("LabelSettings_title")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Body" type="HBoxContainer" parent="Center/Content"]
+[node name="Body" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 64.0
-offset_top = 88.0
-offset_right = -64.0
-offset_bottom = -44.0
-theme_override_constants/separation = 48
+offset_left = 180.0
+offset_top = 92.0
+offset_right = -48.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 32
 
-[node name="Left" type="VBoxContainer" parent="Center/Content/Body"]
+[node name="IdCard" type="PanelContainer" parent="Body"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 18
+theme_override_styles/panel = SubResource("StyleBoxFlat_id_card")
 
-[node name="Name" type="Label" parent="Center/Content/Body/Left"]
+[node name="VBox" type="VBoxContainer" parent="Body/IdCard"]
 layout_mode = 2
-text = "Пилот"
-label_settings = SubResource("LabelSettings_name")
+theme_override_constants/separation = 0
+
+[node name="Header" type="PanelContainer" parent="Body/IdCard/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_id_header")
+
+[node name="Label" type="Label" parent="Body/IdCard/VBox/Header"]
+layout_mode = 2
+text = "УДОСТОВЕРЕНИЕ ПИЛОТА"
+label_settings = SubResource("LabelSettings_header")
 horizontal_alignment = 1
 
-[node name="Age" type="Label" parent="Center/Content/Body/Left"]
+[node name="Margin" type="MarginContainer" parent="Body/IdCard/VBox"]
 layout_mode = 2
-text = "Возраст: 8"
-label_settings = SubResource("LabelSettings_body")
-horizontal_alignment = 1
+size_flags_vertical = 3
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 22
 
-[node name="GoldRow" type="HBoxContainer" parent="Center/Content/Body/Left"]
+[node name="VBox" type="VBoxContainer" parent="Body/IdCard/VBox/Margin"]
 layout_mode = 2
-alignment = 1
-theme_override_constants/separation = 8
+theme_override_constants/separation = 14
 
-[node name="GoldIcon" type="TextureRect" parent="Center/Content/Body/Left/GoldRow"]
-custom_minimum_size = Vector2(40, 40)
+[node name="Top" type="HBoxContainer" parent="Body/IdCard/VBox/Margin/VBox"]
 layout_mode = 2
-texture = ExtResource("17_gold")
-expand_mode = 1
-stretch_mode = 5
+theme_override_constants/separation = 24
 
-[node name="Gold" type="Label" parent="Center/Content/Body/Left/GoldRow"]
+[node name="Polaroid" type="PanelContainer" parent="Body/IdCard/VBox/Margin/VBox/Top"]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-text = "0"
-label_settings = SubResource("LabelSettings_body")
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_polaroid")
 
-[node name="PlaneSlot" type="MarginContainer" parent="Center/Content/Body/Left"]
+[node name="PhotoBg" type="PanelContainer" parent="Body/IdCard/VBox/Margin/VBox/Top/Polaroid"]
+custom_minimum_size = Vector2(0, 116)
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 8
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_photo_bg")
 
-[node name="PlaneButton" type="Button" parent="Center/Content/Body/Left/PlaneSlot"]
-custom_minimum_size = Vector2(0, 112)
+[node name="Photo" type="TextureRect" parent="Body/IdCard/VBox/Margin/VBox/Top/Polaroid/PhotoBg"]
 layout_mode = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_hit")
-theme_override_styles/hover = SubResource("StyleBoxFlat_hit")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_hit")
-theme_override_styles/focus = SubResource("StyleBoxFlat_hit")
-
-[node name="PlanePreview" type="TextureRect" parent="Center/Content/Body/Left/PlaneSlot/PlaneButton"]
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 16.0
-offset_top = -40.0
-offset_right = 160.0
-offset_bottom = 40.0
-grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("16_plane")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PlaneName" type="Label" parent="Center/Content/Body/Left/PlaneSlot/PlaneButton"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -240.0
-offset_top = -20.0
-offset_right = -16.0
-offset_bottom = 20.0
-grow_horizontal = 0
-grow_vertical = 2
-mouse_filter = 2
-text = "Самолёт"
-label_settings = SubResource("LabelSettings_body")
-horizontal_alignment = 2
-
-[node name="TrophySlot" type="MarginContainer" parent="Center/Content/Body/Left"]
+[node name="Info" type="VBoxContainer" parent="Body/IdCard/VBox/Margin/VBox/Top"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 8
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+alignment = 1
 
-[node name="TrophyButton" type="Button" parent="Center/Content/Body/Left/TrophySlot"]
-custom_minimum_size = Vector2(0, 80)
+[node name="NameRow" type="HBoxContainer" parent="Body/IdCard/VBox/Margin/VBox/Top/Info"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("5_font")
-theme_override_font_sizes/font_size = 22
-theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
-theme_override_styles/normal = SubResource("StyleBoxFlat_hit")
-theme_override_styles/hover = SubResource("StyleBoxFlat_hit")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_hit")
-icon = ExtResource("15_cup")
-text = "Кубки"
+theme_override_constants/separation = 12
+
+[node name="NameBox" type="VBoxContainer" parent="Body/IdCard/VBox/Margin/VBox/Top/Info/NameRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = -4
+
+[node name="Caption" type="Label" parent="Body/IdCard/VBox/Margin/VBox/Top/Info/NameRow/NameBox"]
+layout_mode = 2
+text = "Имя"
+label_settings = SubResource("LabelSettings_caption")
+
+[node name="Name" type="Label" parent="Body/IdCard/VBox/Margin/VBox/Top/Info/NameRow/NameBox"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "Пилот"
+label_settings = SubResource("LabelSettings_name")
+text_overrun_behavior = 3
+
+[node name="EditButton" type="Button" parent="Body/IdCard/VBox/Margin/VBox/Top/Info/NameRow"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Изменить пилота"
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_round")
+theme_override_styles/hover = SubResource("StyleBoxFlat_round_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_round_hover")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+icon = ExtResource("19_pencil")
+icon_alignment = 1
 expand_icon = true
 
-[node name="Right" type="VBoxContainer" parent="Center/Content/Body"]
-custom_minimum_size = Vector2(300, 0)
+[node name="Chips" type="HBoxContainer" parent="Body/IdCard/VBox/Margin/VBox/Top/Info"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="ListTitle" type="Label" parent="Center/Content/Body/Right"]
+[node name="GoldChip" type="PanelContainer" parent="Body/IdCard/VBox/Margin/VBox/Top/Info/Chips"]
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
-text = "Пилоты"
-label_settings = SubResource("LabelSettings_body")
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip")
 
-[node name="List" type="VBoxContainer" parent="Center/Content/Body/Right"]
+[node name="HBox" type="HBoxContainer" parent="Body/IdCard/VBox/Margin/VBox/Top/Info/Chips/GoldChip"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="GoldIcon" type="TextureRect" parent="Body/IdCard/VBox/Margin/VBox/Top/Info/Chips/GoldChip/HBox"]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("17_gold")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Gold" type="Label" parent="Body/IdCard/VBox/Margin/VBox/Top/Info/Chips/GoldChip/HBox"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_chip")
+vertical_alignment = 1
+
+[node name="TrophyButton" type="Button" parent="Body/IdCard/VBox/Margin/VBox/Top/Info/Chips"]
+custom_minimum_size = Vector2(96, 52)
+layout_mode = 2
+tooltip_text = "Зал трофеев"
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_hover_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_pressed_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_constants/h_separation = 8
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_chip")
+theme_override_styles/hover = SubResource("StyleBoxFlat_chip_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_chip_hover")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+text = "0"
+icon = ExtResource("15_cup")
+expand_icon = true
+
+[node name="SpacerTop" type="Control" parent="Body/IdCard/VBox/Margin/VBox"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 12
+mouse_filter = 2
 
-[node name="Actions" type="VBoxContainer" parent="Center/Content/Body/Right"]
+[node name="DiffHeader" type="HBoxContainer" parent="Body/IdCard/VBox/Margin/VBox"]
 layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Caption" type="Label" parent="Body/IdCard/VBox/Margin/VBox/DiffHeader"]
+layout_mode = 2
+text = "Сложность"
+label_settings = SubResource("LabelSettings_section")
+
+[node name="Hint" type="Label" parent="Body/IdCard/VBox/Margin/VBox/DiffHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "меняй в любой момент"
+label_settings = SubResource("LabelSettings_hint")
+horizontal_alignment = 2
+
+[node name="DifficultyPicker" parent="Body/IdCard/VBox/Margin/VBox" instance=ExtResource("11_picker")]
+custom_minimum_size = Vector2(0, 112)
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="Body/IdCard/VBox/Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="PlaneButton" type="Button" parent="Body/IdCard/VBox/Margin/VBox"]
+custom_minimum_size = Vector2(0, 104)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_plane")
+theme_override_styles/hover = SubResource("StyleBoxFlat_plane_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_plane_hover")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+
+[node name="HBox" type="HBoxContainer" parent="Body/IdCard/VBox/Margin/VBox/PlaneButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 18.0
+offset_top = 10.0
+offset_right = -18.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/separation = 22
 
-[node name="CreateSlot" type="MarginContainer" parent="Center/Content/Body/Right/Actions"]
+[node name="PlanePreview" type="TextureRect" parent="Body/IdCard/VBox/Margin/VBox/PlaneButton/HBox"]
+custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 10
+mouse_filter = 2
+texture = ExtResource("16_plane")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="Create" parent="Center/Content/Body/Right/Actions/CreateSlot" instance=ExtResource("11_cta")]
-custom_minimum_size = Vector2(0, 56)
+[node name="Texts" type="VBoxContainer" parent="Body/IdCard/VBox/Margin/VBox/PlaneButton/HBox"]
 layout_mode = 2
-icon_texture = null
-caption_text = "СОЗДАТЬ"
-subtitle_text = ""
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
 
-[node name="EditSlot" type="MarginContainer" parent="Center/Content/Body/Right/Actions"]
+[node name="PlaneName" type="Label" parent="Body/IdCard/VBox/Margin/VBox/PlaneButton/HBox/Texts"]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 10
+text = "Самолёт"
+label_settings = SubResource("LabelSettings_chip")
 
-[node name="Edit" parent="Center/Content/Body/Right/Actions/EditSlot" instance=ExtResource("11_cta")]
-custom_minimum_size = Vector2(0, 56)
+[node name="PlaneHint" type="Label" parent="Body/IdCard/VBox/Margin/VBox/PlaneButton/HBox/Texts"]
 layout_mode = 2
-icon_texture = null
-caption_text = "ИЗМЕНИТЬ"
-subtitle_text = ""
+text = "Сменить в ангаре →"
+label_settings = SubResource("LabelSettings_plane_hint")
 
-[node name="DeleteSlot" type="MarginContainer" parent="Center/Content/Body/Right/Actions"]
+[node name="Pilots" type="VBoxContainer" parent="Body"]
+custom_minimum_size = Vector2(368, 0)
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 10
+theme_override_constants/separation = 16
 
-[node name="Delete" parent="Center/Content/Body/Right/Actions/DeleteSlot" instance=ExtResource("11_cta")]
-custom_minimum_size = Vector2(0, 56)
+[node name="Header" type="HBoxContainer" parent="Body/Pilots"]
 layout_mode = 2
-icon_texture = null
-caption_text = "УДАЛИТЬ"
-subtitle_text = ""
+theme_override_constants/separation = 12
+
+[node name="TitleChip" type="PanelContainer" parent="Body/Pilots/Header"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_list_chip")
+
+[node name="Title" type="Label" parent="Body/Pilots/Header/TitleChip"]
+layout_mode = 2
+text = "Пилоты"
+label_settings = SubResource("LabelSettings_list_title")
+
+[node name="Count" type="Label" parent="Body/Pilots/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1 / 4"
+label_settings = SubResource("LabelSettings_section")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Grid" type="GridContainer" parent="Body/Pilots"]
+layout_mode = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="NewPilot" type="Button" parent="Body/Pilots/Grid"]
+custom_minimum_size = Vector2(174, 196)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_new_card")
+theme_override_styles/hover = SubResource("StyleBoxFlat_new_card_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_new_card_hover")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+
+[node name="VBox" type="VBoxContainer" parent="Body/Pilots/Grid/NewPilot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Plus" type="Label" parent="Body/Pilots/Grid/NewPilot/VBox"]
+layout_mode = 2
+text = "+"
+label_settings = SubResource("LabelSettings_plus")
+horizontal_alignment = 1
+
+[node name="Caption" type="Label" parent="Body/Pilots/Grid/NewPilot/VBox"]
+layout_mode = 2
+text = "Новый пилот"
+label_settings = SubResource("LabelSettings_new")
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Body/Pilots"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="DeleteButton" type="Button" parent="Body/Pilots"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.98, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.95, 0.9, 1)
+theme_override_colors/font_focus_color = Color(1, 0.98, 0.95, 1)
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_delete")
+theme_override_styles/hover = SubResource("StyleBoxFlat_delete_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_delete_pressed")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+text = "УДАЛИТЬ ПИЛОТА"
 
 [node name="PlaneAnchor" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("60_ui_anchor")
 registry = ExtResource("61_tutorial_anchors")
 anchor_id = "profile.plane"
-target = NodePath("../Center/Content/Body/Left/PlaneSlot/PlaneButton")
+target = NodePath("../Body/IdCard/VBox/Margin/VBox/PlaneButton")
 
 [node name="MenuWindowBack" parent="." instance=ExtResource("9_back")]
 

@@ -5,9 +5,7 @@ signal ev_profiles_changed
 signal ev_plane_unlocked(plane_id: String)
 
 const MAX_PROFILES: int = 4
-const MIN_AGE: int = 4
-const MAX_AGE: int = 18
-const DEFAULT_AGE: int = 8
+const DEFAULT_NAME: String = "Пилот"
 
 @export var pdata: PData
 @export var root_events: RootEvents
@@ -80,18 +78,18 @@ func active_profile_id() -> String:
 	return pdata.profile_id
 
 
-func create_profile(display_name: String, gender: String, age: int) -> String:
+func create_profile(display_name: String, difficulty: StringName = BattleDifficulty.NORMAL) -> String:
 	if not can_create():
 		return ""
+	var unique := unique_name(display_name)
 	var sm := _save_manager()
 	if sm != null:
 		sm._stash_live()
 	var profile_id := _next_id()
 	pdata.reset_to_defaults()
 	pdata.profile_id = profile_id
-	pdata.display_name = display_name.strip_edges()
-	pdata.gender = "girl" if gender == "girl" else "boy"
-	pdata.age = clampi(age, MIN_AGE, MAX_AGE)
+	pdata.display_name = unique
+	pdata.difficulty = String(BattleDifficulty.sanitize(difficulty))
 	pdata.gold = 0
 	pdata.equipped_plane_id = PlaneCatalog.STARTER_ID
 	pdata.unlocked_planes = [PlaneCatalog.STARTER_ID]
@@ -142,20 +140,48 @@ func delete_profile(profile_id: String) -> bool:
 	return true
 
 
-func update_identity(display_name: String, gender: String, age: int) -> void:
-	pdata.display_name = display_name.strip_edges()
-	pdata.gender = "girl" if gender == "girl" else "boy"
-	pdata.age = clampi(age, MIN_AGE, MAX_AGE)
+func rename_profile(display_name: String) -> void:
+	pdata.display_name = display_name_or_default(display_name)
 	save()
 
 
+func set_difficulty(difficulty: StringName) -> void:
+	var id := String(BattleDifficulty.sanitize(difficulty))
+	if pdata == null or pdata.difficulty == id:
+		return
+	pdata.difficulty = id
+	save()
+
+
+## Campaign valleys only; practice picks its own difficulty.
 func valley_difficulty() -> StringName:
-	var age: int = pdata.age if pdata != null else DEFAULT_AGE
-	if age <= 7:
-		return BattleDifficulty.EASY
-	if age <= 10:
+	if pdata == null:
 		return BattleDifficulty.NORMAL
-	return BattleDifficulty.HARD
+	return BattleDifficulty.sanitize(StringName(pdata.difficulty))
+
+
+## Name not used by other pilots: «Пилот» → «Пилот 2», «Пилот 3», …
+func unique_name(display_name: String) -> String:
+	var base := display_name_or_default(display_name)
+	var taken: Dictionary = {}
+	for summary in list_summaries():
+		taken[String(summary.get("name", "")).to_lower()] = true
+	if not taken.has(base.to_lower()):
+		return base
+	var index := 2
+	# «Пилот 2» taken → continue the counter («Пилот 3»), not «Пилот 2 2».
+	var numbered := RegEx.create_from_string("^(.*\\S) (\\d+)$").search(base)
+	if numbered != null:
+		base = numbered.get_string(1)
+		index = maxi(2, numbered.get_string(2).to_int() + 1)
+	while taken.has(("%s %d" % [base, index]).to_lower()):
+		index += 1
+	return "%s %d" % [base, index]
+
+
+static func display_name_or_default(display_name: String) -> String:
+	var clean := display_name.strip_edges()
+	return DEFAULT_NAME if clean.is_empty() else clean
 
 
 func add_gold(amount: int) -> void:
@@ -227,9 +253,8 @@ func _next_id() -> String:
 func _summary_from_pdata(live: PData) -> Dictionary:
 	return {
 		"id": live.profile_id,
-		"name": live.display_name,
-		"gender": live.gender,
-		"age": live.age,
+		"name": display_name_or_default(live.display_name),
+		"difficulty": live.difficulty,
 		"gold": live.gold,
 		"equipped_plane_id": live.equipped_plane_id,
 	}
@@ -238,9 +263,8 @@ func _summary_from_pdata(live: PData) -> Dictionary:
 func _summary_from_dict(profile_id: String, data: Dictionary) -> Dictionary:
 	return {
 		"id": profile_id,
-		"name": String(data.get("name", "")),
-		"gender": String(data.get("gender", "boy")),
-		"age": int(data.get("age", DEFAULT_AGE)),
+		"name": display_name_or_default(String(data.get("name", ""))),
+		"difficulty": String(BattleDifficulty.sanitize(StringName(data.get("difficulty", "normal")))),
 		"gold": int(data.get("gold", 0)),
 		"equipped_plane_id": String(data.get("equipped_plane_id", PlaneCatalog.STARTER_ID)),
 	}

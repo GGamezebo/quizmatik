@@ -1,66 +1,59 @@
 class_name ProfileCreateOverlay
 extends CanvasLayer
 
-signal ev_submitted(display_name: String, gender: String, age: int)
+signal ev_submitted(display_name: String, difficulty: StringName)
 signal ev_canceled
 
 @export var screen: Control
 @export var title_label: Label
 @export var name_edit: LineEdit
-@export var boy_button: Button
-@export var girl_button: Button
-@export var age_label: Label
-@export var age_minus: Button
-@export var age_plus: Button
+@export var difficulty_header: Control
+@export var difficulty_picker: DifficultyPicker
 @export var confirm_button: BaseButton
 @export var cancel_button: BaseButton
 
 const FADE_DURATION: float = 0.22
 
-var _gender: String = "boy"
-var _age: int = ProfileController.DEFAULT_AGE
 var _allow_cancel: bool = true
 
 
 func _ready() -> void:
 	hide()
 	layer = 40
-	if boy_button:
-		boy_button.pressed.connect(_on_boy)
-	if girl_button:
-		girl_button.pressed.connect(_on_girl)
-	if age_minus:
-		age_minus.pressed.connect(_on_age_minus)
-	if age_plus:
-		age_plus.pressed.connect(_on_age_plus)
 	if confirm_button:
 		confirm_button.pressed.connect(_on_confirm)
 	if cancel_button:
 		cancel_button.pressed.connect(_on_cancel)
-	_refresh_identity()
+	if name_edit:
+		name_edit.text_submitted.connect(_on_name_submitted)
 
 
-func open(allow_cancel: bool = true, title: String = "Кто будет пилотом?") -> void:
+## `show_difficulty = false` for rename: difficulty is changed on the profile card itself.
+func open(allow_cancel: bool = true, title: String = "Кто будет пилотом?", show_difficulty: bool = true) -> void:
 	_allow_cancel = allow_cancel
 	if title_label:
 		title_label.text = title
 	if cancel_button:
 		cancel_button.visible = allow_cancel
-	configure("", "boy", ProfileController.DEFAULT_AGE)
+	if difficulty_header:
+		difficulty_header.visible = show_difficulty
+	if difficulty_picker:
+		difficulty_picker.visible = show_difficulty
+	configure(ProfileController.DEFAULT_NAME, BattleDifficulty.NORMAL)
 	screen.modulate.a = 0.0
 	show()
 	var tween := create_tween()
 	tween.tween_property(screen, "modulate:a", 1.0, FADE_DURATION).set_ease(Tween.EASE_OUT)
-	if name_edit:
+	# Touch: the name is prefilled, so don't pop the virtual keyboard over the form.
+	if name_edit and not DisplayServer.is_touchscreen_available():
 		name_edit.grab_focus()
 
 
-func configure(display_name: String, gender: String, age: int) -> void:
+func configure(display_name: String, difficulty: StringName) -> void:
 	if name_edit:
-		name_edit.text = display_name
-	_gender = "girl" if gender == "girl" else "boy"
-	_age = clampi(age, ProfileController.MIN_AGE, ProfileController.MAX_AGE)
-	_refresh_identity()
+		name_edit.text = ProfileController.display_name_or_default(display_name)
+	if difficulty_picker:
+		difficulty_picker.set_value(difficulty)
 
 
 func close() -> void:
@@ -76,41 +69,19 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-func _on_boy() -> void:
-	_gender = "boy"
-	_refresh_identity()
-
-
-func _on_girl() -> void:
-	_gender = "girl"
-	_refresh_identity()
-
-
-func _on_age_minus() -> void:
-	_age = maxi(ProfileController.MIN_AGE, _age - 1)
-	_refresh_identity()
-
-
-func _on_age_plus() -> void:
-	_age = mini(ProfileController.MAX_AGE, _age + 1)
-	_refresh_identity()
-
-
-func _refresh_identity() -> void:
-	if boy_button:
-		boy_button.button_pressed = _gender == "boy"
-	if girl_button:
-		girl_button.button_pressed = _gender == "girl"
-	if age_label:
-		age_label.text = str(_age)
+func _on_name_submitted(_text: String) -> void:
+	_on_confirm()
 
 
 func _on_confirm() -> void:
 	var display_name := ""
 	if name_edit:
 		display_name = name_edit.text.strip_edges()
+	var difficulty: StringName = BattleDifficulty.NORMAL
+	if difficulty_picker:
+		difficulty = difficulty_picker.value
 	close()
-	ev_submitted.emit(display_name, _gender, _age)
+	ev_submitted.emit(display_name, difficulty)
 
 
 func _on_cancel() -> void:
@@ -118,3 +89,4 @@ func _on_cancel() -> void:
 		return
 	close()
 	ev_canceled.emit()
+

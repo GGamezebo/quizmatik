@@ -3,7 +3,7 @@ class_name SaveData
 extends Save
 
 static func  CURRENT_SAVE_VERSION() -> int:
-	return 6
+	return 7
 
 static var _migrations: Dictionary = {
 	1: _migrate_1_to_2,
@@ -11,6 +11,7 @@ static var _migrations: Dictionary = {
 	3: _migrate_3_to_4,
 	4: _migrate_4_to_5,
 	5: _migrate_5_to_6,
+	6: _migrate_6_to_7,
 }
 
 func migrate_save_data(data: Dictionary, from_version: int) -> Dictionary:
@@ -114,3 +115,21 @@ static func _migrate_5_to_6(data: Dictionary) -> void:
 			var container: Variant = levels[container_id]
 			if container is Dictionary and not container.has("unlocked"):
 				container["unlocked"] = false
+
+
+## v7: profile = name + difficulty. Age maps to the old valley difficulty; gender / age dropped.
+static func _migrate_6_to_7(data: Dictionary) -> void:
+	var profiles: Variant = data.get("profiles", {})
+	if not (profiles is Dictionary):
+		return
+	for profile_id in profiles as Dictionary:
+		var profile: Variant = profiles[profile_id]
+		if not (profile is Dictionary):
+			continue
+		if not profile.has("difficulty"):
+			var age := int(profile.get("age", 8))
+			profile["difficulty"] = "easy" if age <= 7 else ("normal" if age <= 10 else "hard")
+		profile.erase("gender")
+		profile.erase("age")
+		if String(profile.get("name", "")).strip_edges().is_empty():
+			profile["name"] = "Пилот"

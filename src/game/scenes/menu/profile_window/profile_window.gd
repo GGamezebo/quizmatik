@@ -1,38 +1,53 @@
 extends Control
 
+## Pilot ID card (name, gold, cups, difficulty, plane) + pilot switcher cards (max 4).
+
 @export var pdata: PData
 @export var name_label: Label
-@export var age_label: Label
 @export var gold_label: Label
+@export var trophy_button: Button
+@export var photo: TextureRect
 @export var plane_preview: TextureRect
 @export var plane_name_label: Label
-@export var plane_button: BaseButton
-@export var trophy_button: BaseButton
-@export var profiles_list: VBoxContainer
-@export var create_button: BaseButton
+@export var difficulty_picker: DifficultyPicker
 @export var edit_button: BaseButton
 @export var delete_button: BaseButton
+@export var profiles_grid: GridContainer
+@export var profiles_count_label: Label
+@export var create_card: BaseButton
 @export var create_overlay: ProfileCreateOverlay
 @export var delete_dialog: ConfirmDialog
-@export var profile_row_scene: PackedScene
+@export var profile_card_scene: PackedScene
 @export var root_events: RootEvents
 
+## Delete asks several times; each entry = [title, message with %s = pilot name].
+const DELETE_STEPS: Array = [
+	["Удалить пилота?", "Весь прогресс пилота «%s» будет потерян: звёзды, кубки, золото и самолёты."],
+	["Точно удалить?", "Это нельзя отменить. Прогресс пилота «%s» исчезнет навсегда."],
+	["Последний шанс!", "Нажми галочку, только если решение окончательное. Пилот «%s» будет удалён."],
+]
+
 var _pending_delete_id: String = ""
+var _delete_step: int = 0
 var _edit_mode: bool = false
+var _cards: Array[ProfileCard] = []
 var _listener: EventListener = EventListener.new()
 
 
 func _ready() -> void:
-	if create_button:
-		create_button.pressed.connect(_on_create_pressed)
+	if create_card:
+		create_card.pressed.connect(_on_create_pressed)
 	if edit_button:
 		edit_button.pressed.connect(_on_edit_pressed)
 	if delete_button:
 		delete_button.pressed.connect(_on_delete_pressed)
+	if difficulty_picker:
+		difficulty_picker.ev_changed.connect(_on_difficulty_changed)
 	if create_overlay:
 		create_overlay.ev_submitted.connect(_on_overlay_submitted)
 	if delete_dialog:
 		delete_dialog.ev_confirmed.connect(_on_delete_confirmed)
+		delete_dialog.ev_canceled.connect(_on_delete_canceled)
 	if root_events != null:
 		_listener.add(root_events.ev_profiles_changed, _refresh_deferred)
 
@@ -69,34 +84,27 @@ func _refresh() -> void:
 	var live := _live()
 	if live == null:
 		return
-	var display := live.display_name
-	if display.is_empty():
-		display = "Пилот"
 	if name_label:
-		name_label.text = display
-	if age_label:
-		age_label.text = "Возраст: %d" % live.age
+		name_label.text = ProfileController.display_name_or_default(live.display_name)
 	if gold_label:
 		gold_label.text = str(live.gold)
-	var plane_id := live.equipped_plane_id
-	var profiles_live := _profiles()
-	if profiles_live != null:
-		plane_id = profiles_live.equipped_plane_id()
-	var def: Dictionary = PlaneCatalog.get_def(plane_id)
-	if plane_preview:
-		PlaneCatalog.apply_preview(plane_preview, plane_id)
-	if plane_name_label:
-		plane_name_label.text = String(def.get("name", ""))
-	_rebuild_list()
+	if trophy_button:
+		trophy_button.text = str(live.trophies.unlocked.size())
+	if difficulty_picker:
+		difficulty_picker.set_value(StringName(live.difficulty))
 	var profiles := _profiles()
-	if create_button:
-		create_button.disabled = profiles == null or not profiles.can_create()
-	if delete_button:
-		delete_button.disabled = profiles == null or not profiles.can_delete()
+	var plane_id := live.equipped_plane_id
+	if profiles != null:
+		plane_id = profiles.equipped_plane_id()
+	PlaneCatalog.apply_preview(photo, plane_id)
+	PlaneCatalog.apply_preview(plane_preview, plane_id)
+	if plane_name_label:
+		plane_name_label.text = String(PlaneCatalog.get_def(plane_id).get("name", ""))
+	_rebuild_cards()
 
 
-func _rebuild_list() -> void:
-	if profiles_list == null or profile_row_scene == null:
+func _rebuild_cards() -> void:
+	if profiles_grid == null or profile_card_scene == null:
 		return
 	var profiles := _profiles()
 	var rows: Array[Dictionary] = []
@@ -108,61 +116,85 @@ func _rebuild_list() -> void:
 		rows.append({
 			"id": pdata.profile_id,
 			"name": pdata.display_name,
-			"age": pdata.age,
+			"difficulty": pdata.difficulty,
+			"equipped_plane_id": pdata.equipped_plane_id,
 		})
 		active_id = pdata.profile_id
-	_ensure_row_count(rows.size())
+	_ensure_card_count(rows.size())
 	for index in range(rows.size()):
-		var row: Button = profiles_list.get_child(index) as Button
-		var row_data: Dictionary = rows[index]
-		var row_id := String(row_data.get("id", ""))
-		row.setup(row_id, String(row_data.get("name", "")), int(row_data.get("age", 8)), row_id == active_id)
+		var row: Dictionary = rows[index]
+		var row_id := String(row.get("id", ""))
+		_cards[index].setup(
+			row_id,
+			String(row.get("name", "")),
+			String(row.get("difficulty", "normal")),
+			String(row.get("equipped_plane_id", PlaneCatalog.STARTER_ID)),
+			row_id == active_id,
+		)
+	if create_card:
+		create_card.visible = profiles == null or profiles.can_create()
+		profiles_grid.move_child(create_card, -1)
+	if delete_button:
+		delete_button.visible = profiles == null or profiles.can_delete()
+	if profiles_count_label:
+		profiles_count_label.text = "%d / %d" % [rows.size(), ProfileController.MAX_PROFILES]
 
 
-func _ensure_row_count(count: int) -> void:
-	while profiles_list.get_child_count() > count:
-		var extra: Node = profiles_list.get_child(profiles_list.get_child_count() - 1)
-		profiles_list.remove_child(extra)
+func _ensure_card_count(count: int) -> void:
+	while _cards.size() > count:
+		var extra: ProfileCard = _cards.pop_back()
+		profiles_grid.remove_child(extra)
 		extra.queue_free()
-	while profiles_list.get_child_count() < count:
-		var row: Button = profile_row_scene.instantiate() as Button
-		row.pressed.connect(_on_row_button_pressed.bind(row))
-		profiles_list.add_child(row)
+	while _cards.size() < count:
+		var card := profile_card_scene.instantiate() as ProfileCard
+		card.pressed.connect(_on_card_pressed.bind(card))
+		profiles_grid.add_child(card)
+		_cards.append(card)
 
 
-func _on_row_button_pressed(row: Button) -> void:
+func _on_card_pressed(card: ProfileCard) -> void:
 	var profiles := _profiles()
-	if profiles == null or row == null:
+	if profiles == null or card == null or card.profile_id.is_empty():
 		return
-	var profile_id := String(row.get("profile_id"))
-	if profile_id.is_empty():
-		return
-	profiles.switch_profile(profile_id)
+	profiles.switch_profile(card.profile_id)
+
+
+func _on_difficulty_changed(difficulty: StringName) -> void:
+	var profiles := _profiles()
+	if profiles != null:
+		profiles.set_difficulty(difficulty)
+	elif pdata != null:
+		pdata.difficulty = String(difficulty)
 
 
 func _on_create_pressed() -> void:
 	_edit_mode = false
-	if create_overlay:
-		create_overlay.open(true, "Новый пилот")
+	if create_overlay == null:
+		return
+	create_overlay.open(true, "Новый пилот")
+	var profiles := _profiles()
+	if profiles != null:
+		create_overlay.configure(profiles.unique_name(ProfileController.DEFAULT_NAME), BattleDifficulty.NORMAL)
 
 
 func _on_edit_pressed() -> void:
 	_edit_mode = true
-	if create_overlay:
-		create_overlay.open(true, "Изменить пилота")
-		var live := _live()
-		if live != null:
-			create_overlay.configure(live.display_name, live.gender, live.age)
+	if create_overlay == null:
+		return
+	create_overlay.open(true, "Изменить пилота", false)
+	var live := _live()
+	if live != null:
+		create_overlay.configure(live.display_name, StringName(live.difficulty))
 
 
-func _on_overlay_submitted(display_name: String, gender: String, age: int) -> void:
+func _on_overlay_submitted(display_name: String, difficulty: StringName) -> void:
 	var profiles := _profiles()
 	if profiles == null:
 		return
 	if _edit_mode:
-		profiles.update_identity(display_name, gender, age)
+		profiles.rename_profile(display_name)
 	else:
-		profiles.create_profile(display_name, gender, age)
+		profiles.create_profile(display_name, difficulty)
 	_edit_mode = false
 
 
@@ -171,18 +203,32 @@ func _on_delete_pressed() -> void:
 	if profiles == null or not profiles.can_delete():
 		return
 	_pending_delete_id = profiles.active_profile_id()
-	if delete_dialog:
-		delete_dialog.open(
-			"Удалить пилота?",
-			"Прогресс этого пилота будет потерян.",
-			"Удалить",
-			"Отмена",
-		)
+	_delete_step = 0
+	_open_delete_step()
+
+
+func _open_delete_step() -> void:
+	if delete_dialog == null:
+		return
+	var live := _live()
+	var display := ProfileController.display_name_or_default(live.display_name if live != null else "")
+	var step: Array = DELETE_STEPS[_delete_step]
+	delete_dialog.open(String(step[0]), String(step[1]) % display, "Удалить", "Отмена")
 
 
 func _on_delete_confirmed() -> void:
-	var profiles := _profiles()
-	if profiles == null or _pending_delete_id.is_empty():
+	if _pending_delete_id.is_empty():
 		return
-	profiles.delete_profile(_pending_delete_id)
+	_delete_step += 1
+	if _delete_step < DELETE_STEPS.size():
+		_open_delete_step()
+		return
+	var profiles := _profiles()
+	if profiles != null:
+		profiles.delete_profile(_pending_delete_id)
+	_on_delete_canceled()
+
+
+func _on_delete_canceled() -> void:
 	_pending_delete_id = ""
+	_delete_step = 0
