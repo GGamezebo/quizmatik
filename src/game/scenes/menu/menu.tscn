@@ -138,7 +138,7 @@ button = NodePath("../../ProfileWindow/MenuWindowBack/Back")
 
 [node name="HangarOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../ProfileWindow/Center/Content/Body/Left/PlaneSlot/PlaneButton")
+button = NodePath("../../ProfileWindow/Body/IdCard/VBox/Margin/VBox/PlaneButton")
 target_window = NodePath("../../PlaneHangarWindow")
 
 [node name="HangarBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button")]
@@ -147,7 +147,7 @@ button = NodePath("../../PlaneHangarWindow/MenuWindowBack/Back")
 
 [node name="ProfileTrophyOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../ProfileWindow/Center/Content/Body/Left/TrophySlot/TrophyButton")
+button = NodePath("../../ProfileWindow/Body/IdCard/VBox/Margin/VBox/Top/Info/Chips/TrophyButton")
 target_window = NodePath("../../TrophyRoomWindow")
 
 [node name="LevelsSelectionBack" type="Node" parent="UI/StackWindowController" unique_id=785798506 node_paths=PackedStringArray("button")]

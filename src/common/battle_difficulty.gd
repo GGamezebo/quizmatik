@@ -28,6 +28,11 @@ const PRESETS: Dictionary = {
 }
 
 
+## Unknown / empty id → NORMAL.
+static func sanitize(difficulty: StringName) -> StringName:
+	return difficulty if PRESETS.has(difficulty) else NORMAL
+
+
 static func apply(config: GameConfig, difficulty: StringName, base: GameConfig = null) -> void:
 	if config == null:
 		return

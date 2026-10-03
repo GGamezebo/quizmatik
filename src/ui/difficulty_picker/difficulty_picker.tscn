@@ -1,0 +1,272 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/difficulty_picker/difficulty_picker.gd" id="1_script"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/star_filled.png" id="3_star_on"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/star_empty.png" id="4_star_off"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_off"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.985, 0.96, 0.905, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.25)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.98, 0.94, 0.859, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.45)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_on"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.84, 0.92, 0.78, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.22, 0.44, 0.3, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0.22, 0.44, 0.3, 0.25)
+shadow_size = 4
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_caption"]
+font = ExtResource("2_font")
+font_size = 20
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hint"]
+font = ExtResource("2_font")
+font_size = 14
+font_color = Color(0.32, 0.36, 0.4, 1)
+
+[node name="DifficultyPicker" type="HBoxContainer" node_paths=PackedStringArray("easy_button", "normal_button", "hard_button")]
+custom_minimum_size = Vector2(0, 100)
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+script = ExtResource("1_script")
+easy_button = NodePath("Easy")
+normal_button = NodePath("Normal")
+hard_button = NodePath("Hard")
+
+[node name="Easy" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_off")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_on")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_on")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+toggle_mode = true
+
+[node name="Content" type="VBoxContainer" parent="Easy"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Stars" type="HBoxContainer" parent="Easy/Content"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Star1" type="TextureRect" parent="Easy/Content/Stars"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_star_on")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Star2" type="TextureRect" parent="Easy/Content/Stars"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_star_off")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Star3" type="TextureRect" parent="Easy/Content/Stars"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_star_off")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="Easy/Content"]
+layout_mode = 2
+text = "ЛЕГКО"
+label_settings = SubResource("LabelSettings_caption")
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Easy/Content"]
+layout_mode = 2
+text = "Спокойный темп"
+label_settings = SubResource("LabelSettings_hint")
+horizontal_alignment = 1
+
+[node name="Normal" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_off")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_on")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_on")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+toggle_mode = true
+
+[node name="Content" type="VBoxContainer" parent="Normal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Stars" type="HBoxContainer" parent="Normal/Content"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Star1" type="TextureRect" parent="Normal/Content/Stars"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_star_on")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Star2" type="TextureRect" parent="Normal/Content/Stars"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_star_on")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Star3" type="TextureRect" parent="Normal/Content/Stars"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_star_off")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="Normal/Content"]
+layout_mode = 2
+text = "НОРМАЛЬНО"
+label_settings = SubResource("LabelSettings_caption")
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Normal/Content"]
+layout_mode = 2
+text = "Обычный темп"
+label_settings = SubResource("LabelSettings_hint")
+horizontal_alignment = 1
+
+[node name="Hard" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_off")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_on")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_on")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+toggle_mode = true
+
+[node name="Content" type="VBoxContainer" parent="Hard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Stars" type="HBoxContainer" parent="Hard/Content"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Star1" type="TextureRect" parent="Hard/Content/Stars"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_star_on")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Star2" type="TextureRect" parent="Hard/Content/Stars"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_star_on")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Star3" type="TextureRect" parent="Hard/Content/Stars"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_star_on")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="Hard/Content"]
+layout_mode = 2
+text = "СЛОЖНО"
+label_settings = SubResource("LabelSettings_caption")
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Hard/Content"]
+layout_mode = 2
+text = "Быстрый темп"
+label_settings = SubResource("LabelSettings_hint")
+horizontal_alignment = 1
