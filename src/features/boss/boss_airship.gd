@@ -1,0 +1,196 @@
+class_name BossAirship
+extends Node2D
+
+## Boss airship: flies in from the right, hovers behind the balloons and loses one armor plate per
+## `hit()` (a star flies from the popped balloon into the plate). Last plate → it goes down in flames.
+## Plates = editor-placed slots; `initialize(armor)` shows an evenly spread subset.
+
+## Reached the hover point — the fight can start.
+signal ev_entered
+## A hit's star reached the boss and knocked a plate off (0 = last one, the fall starts).
+signal ev_hit_landed(armor_left: int)
+## Fell off-screen after the last plate.
+signal ev_destroyed
+
+@export var visual: Node2D
+@export var body: CanvasItem
+@export var propeller: Node2D
+## Armor plate slots; shown subset is spread evenly over this order.
+@export var plates: Array[Node2D] = []
+## Star flying from the popped balloon into the plate (`top_level`).
+@export var spark: Node2D
+@export var explosion_scene: PackedScene
+
+@export_group("Layout")
+## Hover point = this far left of the play area's right edge, vertically centered.
+@export var hover_inset_x: float = 230.0
+## Spawn this far right of the play area (fully off-screen).
+@export var spawn_offset_x: float = 420.0
+
+@export_group("Motion")
+@export var enter_duration: float = 2.2
+@export var spark_duration: float = 0.32
+@export var plate_fall_duration: float = 1.0
+@export var fall_duration: float = 2.4
+@export var fall_explosions: int = 6
+@export var bob_speed: float = 1.3
+@export var bob_strength: float = 9.0
+@export var sway_degrees: float = 1.6
+@export var propeller_speed: float = 22.0
+@export var shake_strength: float = 10.0
+@export var flash_color: Color = Color(1.7, 1.6, 1.5)
+
+var _armor_left: int = 0
+var _armor_plates: Array[Node2D] = []
+var _play_area: Rect2 = Rect2()
+var _time: float = 0.0
+var _shake: float = 0.0
+var _falling: bool = false
+var _spark_tween: Tween
+var _flash_tween: Tween
+
+
+func initialize(armor: int, play_area: Rect2) -> void:
+	_armor_left = maxi(armor, 1)
+	_play_area = play_area
+	_pick_plates()
+
+
+func _ready() -> void:
+	if spark:
+		spark.visible = false
+	if _armor_left <= 0:
+		# Isolated F6 run: full armor, stays where placed.
+		_armor_left = plates.size()
+		_pick_plates()
+	if _play_area.has_area():
+		_enter()
+
+
+func _process(delta: float) -> void:
+	_time += delta
+	if propeller:
+		propeller.scale.y = cos(_time * propeller_speed)
+	if visual == null or _falling:
+		return
+	_shake = move_toward(_shake, 0.0, delta * 3.0)
+	var jitter := Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * shake_strength * _shake
+	visual.position = Vector2(0.0, sin(_time * bob_speed) * bob_strength) + jitter
+	visual.rotation = deg_to_rad(sin(_time * bob_speed * 0.7) * sway_degrees)
+
+
+## Knocks one plate off (after the star lands); returns armor left. 0 → the boss goes down.
+func hit(from_global: Vector2) -> int:
+	if _armor_left <= 0:
+		return 0
+	_armor_left -= 1
+	var left: int = _armor_left
+	# More armor than plate slots: early hits only shake the hull, plates go once they match.
+	var plate: Node2D = _armor_plates.pop_back() if _armor_plates.size() > left else null
+	var target: Vector2 = plate.global_position if plate else global_position
+	if spark == null:
+		_land_hit(plate, left)
+		return left
+	if _spark_tween:
+		_spark_tween.kill()
+	spark.global_position = from_global
+	spark.scale = Vector2.ONE
+	spark.visible = true
+	_spark_tween = create_tween()
+	_spark_tween.tween_property(spark, "global_position", target, spark_duration)\
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_spark_tween.parallel().tween_property(spark, "rotation", spark.rotation + TAU, spark_duration)
+	_spark_tween.tween_callback(_land_hit.bind(plate, left))
+	return left
+
+
+func _pick_plates() -> void:
+	_armor_plates.clear()
+	var count: int = mini(_armor_left, plates.size())
+	for plate in plates:
+		plate.visible = false
+	for i in count:
+		var plate: Node2D = plates[floori(float(i) * plates.size() / count)]
+		plate.visible = true
+		_armor_plates.append(plate)
+	_armor_plates.shuffle()
+
+
+func _enter() -> void:
+	var hover := Vector2(_play_area.end.x - hover_inset_x, _play_area.get_center().y)
+	position = Vector2(_play_area.end.x + spawn_offset_x, hover.y)
+	var tween := create_tween()
+	tween.tween_property(self, "position", hover, enter_duration)\
+		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_callback(ev_entered.emit)
+
+
+func _land_hit(plate: Node2D, armor_left: int) -> void:
+	if spark:
+		spark.visible = false
+	var point: Vector2 = plate.global_position if plate else global_position
+	_spawn_explosion(point, 1.2)
+	_shake = 1.0
+	_flash()
+	if plate:
+		_drop_plate(plate)
+	ev_hit_landed.emit(armor_left)
+	if armor_left <= 0:
+		_fall()
+
+
+func _drop_plate(plate: Node2D) -> void:
+	var tween := plate.create_tween().set_parallel(true)
+	tween.tween_property(plate, "position", plate.position + Vector2(randf_range(-40.0, 40.0), 360.0), plate_fall_duration)\
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tween.tween_property(plate, "rotation", plate.rotation + randf_range(-2.4, 2.4), plate_fall_duration)
+	tween.tween_property(plate, "modulate:a", 0.0, plate_fall_duration * 0.5).set_delay(plate_fall_duration * 0.5)
+	tween.chain().tween_callback(plate.hide)
+
+
+func _flash() -> void:
+	if body == null:
+		return
+	if _flash_tween:
+		_flash_tween.kill()
+	body.modulate = flash_color
+	_flash_tween = create_tween()
+	_flash_tween.tween_property(body, "modulate", Color.WHITE, 0.3)
+
+
+func _fall() -> void:
+	_falling = true
+	var drop: float = _play_area.end.y - global_position.y + 360.0
+	var tween := create_tween().set_parallel(true)
+	tween.tween_property(self, "position", position + Vector2(-140.0, drop), fall_duration)\
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	if visual:
+		tween.tween_property(visual, "rotation", deg_to_rad(-24.0), fall_duration * 0.6)
+	tween.tween_property(self, "modulate:a", 0.0, fall_duration * 0.35).set_delay(fall_duration * 0.65)
+	var gap: float = fall_duration * 0.6 / float(maxi(fall_explosions, 1))
+	for i in fall_explosions:
+		tween.tween_callback(_spawn_hull_explosion).set_delay(gap * i)
+	tween.chain().tween_callback(_on_fallen)
+
+
+func _spawn_hull_explosion() -> void:
+	var offset := Vector2(randf_range(-190.0, 170.0), randf_range(-70.0, 60.0))
+	_spawn_explosion(visual.to_global(offset) if visual else global_position + offset, randf_range(1.2, 1.8))
+
+
+func _on_fallen() -> void:
+	ev_destroyed.emit()
+	queue_free()
+
+
+func _spawn_explosion(global_point: Vector2, size: float) -> void:
+	if explosion_scene == null:
+		return
+	var parent: Node2D = visual if visual else self
+	var fx: Node2D = explosion_scene.instantiate()
+	if fx.has_method("init"):
+		fx.init(parent.to_local(global_point))
+	else:
+		fx.position = parent.to_local(global_point)
+	fx.scale *= size
+	parent.add_child(fx)

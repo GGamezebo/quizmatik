@@ -35,6 +35,11 @@ extends Node
 ## Bonus balloon: two quick ticks.
 @export var bonus_tick_ms: int = 45
 @export_range(0.0, 1.0) var bonus_amplitude: float = 0.6
+## Boss airship: rumble on fly-in, thump per armor plate (last plate = crash-like burst).
+@export var boss_appear_pulse_ms: int = 90
+@export_range(0.0, 1.0) var boss_appear_amplitude: float = 0.55
+@export var boss_hit_duration_ms: int = 120
+@export_range(0.0, 1.0) var boss_hit_amplitude: float = 0.8
 @export var win_duration_ms: int = 320
 @export_range(0.0, 1.0) var win_amplitude: float = 0.75
 
@@ -69,6 +74,8 @@ func _ready() -> void:
 		_listener.add(game_events.ev_streak, _on_streak)
 		_listener.add(game_events.ev_bonus_collected, _on_bonus_collected)
 		_listener.add(game_events.ev_health_restored, _on_health_restored)
+		_listener.add(game_events.ev_boss_appeared, _on_boss_appeared)
+		_listener.add(game_events.ev_boss_hit, _on_boss_hit)
 		_listener.add(game_events.ev_win, _on_win)
 		_listener.add(game_events.ev_lose, _on_lose)
 		_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
@@ -151,6 +158,18 @@ func _on_bonus_collected(_amount: int) -> void:
 
 func _on_health_restored() -> void:
 	_play_pattern([0.3, 0.1, 0.1], heal_pulse_ms, [heal_amplitude * 0.5, heal_amplitude * 0.75, heal_amplitude])
+
+
+func _on_boss_appeared(_armor: int) -> void:
+	var amp: float = boss_appear_amplitude
+	_play_pattern([0.0, 0.3, 0.3, 0.3], boss_appear_pulse_ms, [amp * 0.5, amp * 0.7, amp * 0.85, amp])
+
+
+func _on_boss_hit(armor_left: int) -> void:
+	if armor_left > 0:
+		vibrate(boss_hit_duration_ms, boss_hit_amplitude)
+		return
+	_play_pattern([0.0, 0.15, 0.15, 0.15], crash_pulse_duration_ms, [1.0, 0.9, 0.8, 0.7])
 
 
 ## Pulses after the given delays (sec, cumulative). Cancelled by win/crash patterns.

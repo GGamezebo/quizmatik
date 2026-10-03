@@ -14,9 +14,11 @@ static func get_state() -> String:
 @export var answerScene: PackedScene
 @export var explosion_scene: PackedScene
 @export var bonus_scene: PackedScene
+@export var boss_scene: PackedScene
 
 var _round_controller: RoundController
 var _bonus: BonusController
+var _boss: BossController
 var _time_limit: BattleTimeLimit
 var __components: Array[Variant] = []
 var _answers_paused: bool = false
@@ -41,12 +43,14 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	var answer_spawner: AnswerSpawner = AnswerSpawner.new(area, answerScene, game_manager.owner)
 	_round_controller = RoundController.new(game_config, player, answer_spawner, game_manager.get_tree(), ev_question_changed)
 	_bonus = BonusController.new(game_config, area, bonus_scene, game_manager.owner)
+	_boss = BossController.new(game_config, area, boss_scene, game_manager.owner)
 	_time_limit = BattleTimeLimit.new(game_config.time_limit_sec)
 		
 	__components.append_array([
 		answer_spawner,
 		_round_controller,
 		_bonus,
+		_boss,
 		_time_limit,
 	])
 	
@@ -54,6 +58,10 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_round_controller.ev_round_started.connect(_bonus.on_round_started)
 	_bonus.ev_collected.connect(_on_bonus_collected)
 	_round_controller.ev_correct_missed.connect(_on_correct_missed)
+	_boss.ev_appeared.connect(game_events.ev_boss_appeared.emit)
+	_boss.ev_ready.connect(_round_controller.release_rounds)
+	_boss.ev_hit.connect(game_events.ev_boss_hit.emit)
+	_boss.ev_defeated.connect(_on_boss_defeated)
 	_time_limit.ev_tick.connect(game_events.ev_time_left.emit)
 	_time_limit.ev_expired.connect(_end_game)
 	event_listener.add(game_events.ev_pause_answers, _on_pause_answers)
@@ -72,6 +80,7 @@ func leave(_event_data: Dictionary) -> void:
 	
 	_round_controller = null
 	_bonus = null
+	_boss = null
 	_time_limit = null
 	_missed_question = null
 
@@ -123,11 +132,7 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 			game_events.ev_correct_answer.emit()
 			_report_fact(true)
 			answer.right()
-			var health_before: int = player.health
-			var is_win: bool = _round_controller.on_correct_answer(answer)
-			_emit_streak_events(health_before)
-			if is_win:
-				_end_game()
+			_on_correct(answer)
 		CombatResolver.HitAction.WRONG_SHOT:
 			game_events.ev_mistake.emit()
 			_report_fact(false)
@@ -144,6 +149,30 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 				_round_controller.kill_all_answers(answer)
 				if CombatResolver.apply_damage(player):
 					_end_game()
+
+## Last regular answer → boss fly-in (if rolled) instead of the win; during the fight a hit knocks off armor.
+func _on_correct(answer: Answer) -> void:
+	var health_before: int = player.health
+	if _boss.is_fighting():
+		var hit_from: Vector2 = answer.global_position
+		_round_controller.on_boss_hit(answer)
+		_emit_streak_events(health_before)
+		if _boss.hit(hit_from):
+			_round_controller.hold_rounds()
+		return
+	var is_win: bool = _round_controller.on_correct_answer(answer)
+	_emit_streak_events(health_before)
+	if not is_win:
+		return
+	if _boss.is_waiting():
+		_round_controller.hold_rounds()
+		_boss.start()
+	else:
+		_end_game()
+
+func _on_boss_defeated() -> void:
+	game_events.ev_boss_defeated.emit()
+	_end_game()
 
 ## Timed levels: letting the correct balloon fly away costs a heart (else waiting would win).
 func _on_correct_missed() -> void:

@@ -21,6 +21,12 @@ extends Node
 @export var lose: AudioStream
 ## Golden bonus balloon; empty = `correct` pitched up.
 @export var bonus: AudioStream
+## Boss airship fly-in; empty = `battle_start` pitched down.
+@export var boss_appear: AudioStream
+## Armor plate knocked off; empty = `pop` pitched down.
+@export var boss_hit: AudioStream
+## Last plate — the boss goes down; empty = `pop` pitched way down.
+@export var boss_down: AudioStream
 
 const _BUTTON_META := "quizmatik_sfx_hooked"
 const _POP_DEBOUNCE_MSEC := 80
@@ -39,6 +45,8 @@ func _ready() -> void:
 		_listener.add(game_events.ev_correct_answer, _on_correct_answer)
 		_listener.add(game_events.ev_mistake, _on_mistake)
 		_listener.add(game_events.ev_bonus_collected, _on_bonus_collected)
+		_listener.add(game_events.ev_boss_appeared, _on_boss_appeared)
+		_listener.add(game_events.ev_boss_hit, _on_boss_hit)
 		_listener.add(game_events.ev_win, _on_win)
 		_listener.add(game_events.ev_lose, _on_lose)
 		_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
@@ -115,6 +123,25 @@ func _on_bonus_collected(_amount: int) -> void:
 	else:
 		play(correct, -2.0, 0.0, 1.35)
 	_play_pop_if_idle()
+
+
+func _on_boss_appeared(_armor: int) -> void:
+	if boss_appear != null:
+		play(boss_appear, -2.0)
+	else:
+		play(battle_start, -2.0, 0.0, 0.7)
+
+
+func _on_boss_hit(armor_left: int) -> void:
+	if armor_left <= 0:
+		if boss_down != null:
+			play(boss_down, 0.0)
+		else:
+			play(pop, 0.0, 0.0, 0.4)
+	elif boss_hit != null:
+		play(boss_hit, -1.0, 0.05)
+	else:
+		play(pop, -1.0, 0.05, 0.6)
 
 
 func _play_pop() -> void:

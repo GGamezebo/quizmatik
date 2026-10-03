@@ -17,6 +17,12 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_time_left(seconds: int)
 ## Golden bonus balloon popped (shot or ram) — `amount` gold granted after the battle.
 @warning_ignore("unused_signal") signal ev_bonus_collected(amount: int)
+## Boss airship flies in after the last regular answer (`armor` plates to knock off).
+@warning_ignore("unused_signal") signal ev_boss_appeared(armor: int)
+## A correct answer knocked a plate off the boss (0 = last one, it goes down).
+@warning_ignore("unused_signal") signal ev_boss_hit(armor_left: int)
+## Boss fell off-screen — the battle is won right after.
+@warning_ignore("unused_signal") signal ev_boss_defeated
 @warning_ignore("unused_signal") signal ev_win
 @warning_ignore("unused_signal") signal ev_lose
 

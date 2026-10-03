@@ -112,6 +112,7 @@ App phases are driven by HFSM (`src/game/hfsm/app_hfsm.json`) via `src/game/main
 
 `GameManager` FSM: `CountDown` → `Game` → `EndGame` (via `FSMGameEvents`).
 Round logic: `RoundController` + `AnswerSpawner` + `CombatResolver` + `QuizQuestion`.
+Boss airship (exam always, regular levels by chance) = extra phase inside `GameState` after the last regular answer — see `game.md`; feature `src/features/boss/`.
 Do not drive win/lose with ad-hoc flags outside the FSM.
 SFX: `SfxController` (`src/features/sfx/`, instanced in `app_root/root.tscn`) listens to `GameEvents` + UI `BaseButton.pressed`. Plane thrust / crash / victory whoosh stay on `plane.tscn`.
 Vibration: `VibrationController` (`src/features/vibration/`, instanced in `app_root/root.tscn`) listens to `GameEvents` + `RootEvents` + UI `BaseButton.pressed` (`Input.vibrate_handheld` + joy rumble). Android export must keep `permissions/vibrate=true`.
@@ -136,7 +137,7 @@ Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swap
 - App-root SFX → `src/features/sfx/` (`SfxController` instanced in `app_root/root.tscn`); plane-local audio stays on `plane.tscn`
 - App-root vibration → `src/features/vibration/` (`VibrationController` instanced in `app_root/root.tscn`)
 - App-root music → `src/features/music/` (`MusicController` + win/lose themes; drives AppRoot `MusicPlayer`)
-- Editor-only practice lab (frozen full training UI) → `src/dev/training_room_lab/` — do not merge into player-facing `training_room_window/`; menu bottom-left button uses `OS.has_feature("editor")`; **+1 ЗОЛОТАЯ** / **СБРОСИТЬ ПРОГРЕСС** (wipe closes lab → first-run overlay); block «Бонусный шарик и время» = `bonus_gold_chance` + `time_limit_sec` steppers (0 by default); **ОТКРЫТЬ ВСЕ ДОЛИНЫ** → `ProgressController.unlock_all_containers()`
+- Editor-only practice lab (frozen full training UI) → `src/dev/training_room_lab/` — do not merge into player-facing `training_room_window/`; menu bottom-left button uses `OS.has_feature("editor")`; **+1 ЗОЛОТАЯ** / **СБРОСИТЬ ПРОГРЕСС** (wipe closes lab → first-run overlay); block «Бонус, время и босс» = `bonus_gold_chance` + `time_limit_sec` + `boss_chance` + `boss_armor` steppers (0 / 3 by default); **ОТКРЫТЬ ВСЕ ДОЛИНЫ** → `ProgressController.unlock_all_containers()`
 - Player practice UI → `training_room_window/`: ops columns + `BattleDifficulty` coefficients into `GameConfig` (full steppers live only in lab); «НА ВРЕМЯ» switch (`TrainingOptionButton.is_switch`, preset `timed`) → `time_limit_sec = timed_practice_sec` (60); `? + 3 = 7` = `missing_operand_chance_by_difficulty` (normal .3, hard .4) + `missing_operand_start_by_difficulty` (normal .5 = second half) exports there, not in `BattleDifficulty` (that also drives campaign by age)
 
 ## Cheap-change heuristics

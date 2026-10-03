@@ -81,6 +81,20 @@ def time_limit_sec(level_id: int) -> float:
     return TIMED_LEVELS.get(level_id, 0.0)
 
 
+# Boss airship after the last regular answer (GameConfig.boss_chance / boss_armor):
+# exam always (armor 6); regular L3-16 rarely with default armor 3; never on L1-2 or timed levels.
+def boss_chance(level_id: int) -> float:
+    if level_id == EXAM_LEVEL:
+        return 1.0
+    if level_id < 3 or level_id in TIMED_LEVELS:
+        return 0.0
+    return 0.15
+
+
+def boss_armor(level_id: int) -> int:
+    return 6 if level_id == EXAM_LEVEL else 3
+
+
 # Addition: both operands grow with level so late stages yield e.g. 22+87.
 # min rises too so hard levels are not diluted by tiny sums.
 ADDITION_NUMBER_RANGE = {
@@ -217,6 +231,11 @@ def make_tres(block: dict, level_id: int) -> str:
     limit = time_limit_sec(level_id)
     if limit > 0.0:
         lines.append(f"time_limit_sec = {limit}")
+    boss = boss_chance(level_id)
+    if boss > 0.0:
+        lines.append(f"boss_chance = {boss}")
+        if boss_armor(level_id) != 3:
+            lines.append(f"boss_armor = {boss_armor(level_id)}")
     return "\n".join(lines) + "\n"
 
 

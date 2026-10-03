@@ -1,0 +1,90 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/features/boss/boss_airship.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/airship_body.svg" id="2_body"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/armor_plate.svg" id="3_plate"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/propeller.svg" id="4_prop"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/hit_spark.svg" id="5_spark"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="6_shadow"]
+[ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://src/features/explosion/explosion.tscn" id="7_explosion"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_body"]
+shader = ExtResource("6_shadow")
+shader_parameter/shadow_offset = Vector2(-5, 10)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.45)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_part"]
+shader = ExtResource("6_shadow")
+shader_parameter/shadow_offset = Vector2(-3, 5)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
+shader_parameter/shadow_blur = 1.5
+
+[node name="BossAirship" type="Node2D" node_paths=PackedStringArray("visual", "body", "propeller", "plates", "spark")]
+z_index = -1
+script = ExtResource("1_script")
+visual = NodePath("Visual")
+body = NodePath("Visual/Body")
+propeller = NodePath("Visual/Propeller")
+plates = [NodePath("Visual/Plates/TopFront"), NodePath("Visual/Plates/TopMid"), NodePath("Visual/Plates/TopBack"), NodePath("Visual/Plates/LowFront"), NodePath("Visual/Plates/LowMid"), NodePath("Visual/Plates/LowBack")]
+spark = NodePath("Spark")
+explosion_scene = ExtResource("7_explosion")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Body" type="Sprite2D" parent="Visual"]
+material = SubResource("ShaderMaterial_body")
+texture = ExtResource("2_body")
+
+[node name="Propeller" type="Sprite2D" parent="Visual"]
+material = SubResource("ShaderMaterial_part")
+position = Vector2(78, 90)
+texture = ExtResource("4_prop")
+
+[node name="Plates" type="Node2D" parent="Visual"]
+
+[node name="TopFront" type="Sprite2D" parent="Visual/Plates"]
+material = SubResource("ShaderMaterial_part")
+position = Vector2(-60, -62)
+rotation = -0.0698
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("3_plate")
+
+[node name="TopMid" type="Sprite2D" parent="Visual/Plates"]
+material = SubResource("ShaderMaterial_part")
+position = Vector2(25, -64)
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("3_plate")
+
+[node name="TopBack" type="Sprite2D" parent="Visual/Plates"]
+material = SubResource("ShaderMaterial_part")
+position = Vector2(102, -58)
+rotation = 0.157
+scale = Vector2(0.76, 0.76)
+texture = ExtResource("3_plate")
+
+[node name="LowFront" type="Sprite2D" parent="Visual/Plates"]
+material = SubResource("ShaderMaterial_part")
+position = Vector2(-60, 4)
+rotation = 0.0698
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("3_plate")
+
+[node name="LowMid" type="Sprite2D" parent="Visual/Plates"]
+material = SubResource("ShaderMaterial_part")
+position = Vector2(25, 6)
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("3_plate")
+
+[node name="LowBack" type="Sprite2D" parent="Visual/Plates"]
+material = SubResource("ShaderMaterial_part")
+position = Vector2(102, 0)
+rotation = -0.157
+scale = Vector2(0.76, 0.76)
+texture = ExtResource("3_plate")
+
+[node name="Spark" type="Sprite2D" parent="."]
+visible = false
+top_level = true
+z_index = 2
+texture = ExtResource("5_spark")

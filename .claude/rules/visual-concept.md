@@ -22,6 +22,7 @@ Must match:
 - **Daily series card:** parchment scroll `daily/ui/daily_scroll.png` (no CTA frame); progress marks = ink stamps from `assets/ui/stamps/` (`stamp_empty` + filled `stamp_sun` / `stamp_flower` / `stamp_cat` / `stamp_star` / `stamp_heart` by slot index), not stars. Same stamp files for daily, post-battle, and level grid.
 - **Achievements window:** `trophy_room_window/` — full-screen hangar bg `ui/bg_hangar_achievements.png`; clipboard stats left, valley trophies on pedestals right, extra-achievements scroll bottom-right; kit `tools/generate_achievements_ui.py`
 - **Battle:** horizontal flight (plane left → right), 4 lanes, round balloons, paper HUD language
+- **Boss airship:** `src/features/boss/art/*.svg` — slate envelope with grumpy face (nose left), red fins, brass riveted plates, white sticker rim + `sticker_drop_shadow`; hovers right behind balloons (`z_index -1`); HUD chip under the question banner = cream panel + brass pips
 
 AI look-match frames: `concepts/menu_notebook_modern_v3.png`, `concepts/battle_notebook_modern_v1.png`, `concepts/post_battle_notebook_concept_v3.png`, `concepts/levels_pack_notebook_concept_v1.png`, `concepts/levels_grid_adventure_ref.png`, `concepts/achievements_notebook_concept_v1.png`.  
 Proposal frames (NOT canon; use only if user asks for redesign): `concepts/redesign_v1/*.png`, gen `_build_concepts.py`; rationale `.claude/doc/redesign_v1.md`.  

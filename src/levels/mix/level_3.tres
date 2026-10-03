@@ -15,3 +15,4 @@ answer_speed_round_coeffs = {
 4: 1.1,
 }
 bonus_gold_chance = 0.35
+boss_chance = 0.15
