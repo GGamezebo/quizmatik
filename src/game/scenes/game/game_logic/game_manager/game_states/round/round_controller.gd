@@ -18,6 +18,8 @@ var _base_answer_speed: float = 0.0
 var _base_min_generate: int = 0
 var _base_max_generate: int = 0
 var _is_active: bool = false
+## Boss fly-in / fall: answered rounds don't start a new one until `release_rounds`.
+var _held: bool = false
 var _ev_question_changed_callback: Signal
 
 func _init(
@@ -73,6 +75,19 @@ func on_correct_answer(hit_answer: Answer) -> bool:
 	kill_all_answers(hit_answer)
 	return is_win
 
+## Boss phase: the hit chips the boss armor instead of the score (streak still heals).
+func on_boss_hit(hit_answer: Answer) -> void:
+	CombatResolver.apply_streak(_player, _game_config)
+	kill_all_answers(hit_answer)
+
+func hold_rounds() -> void:
+	_held = true
+
+func release_rounds() -> void:
+	_held = false
+	if _is_active and options.is_empty():
+		_start_round()
+
 func kill_all_answers(hit_answer: Answer = null) -> void:
 	for option in options.duplicate():
 		option.take_damage(option == hit_answer)
@@ -106,7 +121,7 @@ func _on_answer_escaped(answer: Answer) -> void:
 
 func _on_answer_killed(answer: Answer) -> void:
 	options.erase(answer)
-	if options.is_empty() and _is_active:
+	if options.is_empty() and _is_active and not _held:
 		_start_round()
 
 func _set_question(new_question: QuizQuestion.Question) -> void:

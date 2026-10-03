@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="110" viewBox="0 0 40 110">
+  <!-- Two-blade wooden propeller; spun in code by squashing scale.y. Hub at the center. -->
+  <g fill="#FFFFFF" stroke="#FFFFFF" stroke-width="10">
+    <ellipse cx="20" cy="30" rx="9" ry="23"/>
+    <ellipse cx="20" cy="80" rx="9" ry="23"/>
+  </g>
+  <g fill="#D9C08E" stroke="#2A3340" stroke-width="4">
+    <ellipse cx="20" cy="30" rx="9" ry="23"/>
+    <ellipse cx="20" cy="80" rx="9" ry="23"/>
+  </g>
+  <path d="M17 14 L17 42 M17 68 L17 96" stroke="#F3E6C8" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="20" cy="55" r="8" fill="#6B7285" stroke="#2A3340" stroke-width="4"/>
+</svg>

@@ -13,7 +13,7 @@ paths:
 
 - Canonical files: `src/levels/{addition|subtraction|multiplication|division|mix}/level_N.tres`
 - Container metadata + unlocks: `src/common/levels/levels_config.gd`
-- Bulk generation: `tools/generate_levels.py` holds the curve (incl. `missing_operand_chance`: L1–5 0, L6–9 .3, L10–16 .5, exam .4; `bonus_gold_chance`: L3–16 .35, else 0; `time_limit_sec`: L5 + L12 = 60, else 0)
+- Bulk generation: `tools/generate_levels.py` holds the curve (incl. `missing_operand_chance`: L1–5 0, L6–9 .3, L10–16 .5, exam .4; `bonus_gold_chance`: L3–16 .35, else 0; `time_limit_sec`: L5 + L12 = 60, else 0; `boss_chance`: exam 1.0 + `boss_armor = 6`, L3–16 non-timed .15 (default armor 3), else 0)
 - ⚠ Do NOT run its `main()`: `make_levels_config()` is stale vs `levels_config.gd` and would drop code. Patch `.tres` surgically + mirror in the generator.
 - Ignore legacy `src/levels/level_*.tres` at root
 - Missing level file → assert at `LevelsConfig` init — always add file + config entry together

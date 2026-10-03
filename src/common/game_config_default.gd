@@ -72,6 +72,12 @@ var review_facts: Dictionary = {}
 ## Bonus balloon speed relative to the answers (> 1 keeps it ahead of the round's balloons).
 @export var bonus_gold_speed_mult: float = 1.25
 
+@export_category("Boss")
+## Chance of the boss airship after the last regular answer (exam = 1; 0 = never). Ignored on timed levels.
+@export_range(0.0, 1.0, 0.05) var boss_chance: float = 0.0
+## Correct answers needed to knock all armor plates off the boss.
+@export_range(1, 12) var boss_armor: int = 3
+
 @export_category("Early Exam")
 ## Applied when the player starts the exam before completing all regular levels in the block.
 @export var early_exam_questions_multiplier: float = 1.0

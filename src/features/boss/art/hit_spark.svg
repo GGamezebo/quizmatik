@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Ink star that flies from the popped correct balloon into the boss armor plate. -->
+  <path d="M32 4 L38 26 L60 32 L38 38 L32 60 L26 38 L4 32 L26 26 Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M32 4 L38 26 L60 32 L38 38 L32 60 L26 38 L4 32 L26 26 Z" fill="#F0C94A" stroke="#2A3340" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M30 18 L32 28" stroke="#FFF4CC" stroke-width="3" stroke-linecap="round"/>
+</svg>

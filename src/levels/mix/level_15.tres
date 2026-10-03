@@ -21,3 +21,4 @@ player_acceleration_max = 1.65
 player_acceleration_speed = 1.0
 missing_operand_chance = 0.5
 bonus_gold_chance = 0.35
+boss_chance = 0.15
