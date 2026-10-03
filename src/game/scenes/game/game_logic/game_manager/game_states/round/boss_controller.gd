@@ -75,6 +75,17 @@ func hit(from_global: Vector2) -> bool:
 	return true
 
 
+## Fight rounds: the new balloons fly out of the gondola on strings instead of sliding in from the right.
+func release_answers(answers: Array[Answer]) -> void:
+	if _phase != Phase.FIGHTING or not is_instance_valid(_boss):
+		return
+	var origin: Vector2 = _boss.get_launch_point()
+	var target_x: float = _boss.get_launch_x()
+	for answer in answers:
+		answer.launch_from(origin, target_x)
+		_boss.tether(answer)
+
+
 func _on_entered() -> void:
 	_phase = Phase.FIGHTING
 	ev_ready.emit()

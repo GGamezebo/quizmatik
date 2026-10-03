@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" path="res://src/features/boss/art/hit_spark.svg" id="5_spark"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="6_shadow"]
 [ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://src/features/explosion/explosion.tscn" id="7_explosion"]
+[ext_resource type="PackedScene" path="res://src/features/boss/boss_tether.tscn" id="8_tether"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_body"]
 shader = ExtResource("6_shadow")
@@ -20,7 +21,7 @@ shader_parameter/shadow_offset = Vector2(-3, 5)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
 shader_parameter/shadow_blur = 1.5
 
-[node name="BossAirship" type="Node2D" node_paths=PackedStringArray("visual", "body", "propeller", "plates", "spark")]
+[node name="BossAirship" type="Node2D" node_paths=PackedStringArray("visual", "body", "propeller", "plates", "spark", "hatch", "tethers")]
 z_index = -1
 script = ExtResource("1_script")
 visual = NodePath("Visual")
@@ -29,6 +30,9 @@ propeller = NodePath("Visual/Propeller")
 plates = [NodePath("Visual/Plates/TopFront"), NodePath("Visual/Plates/TopMid"), NodePath("Visual/Plates/TopBack"), NodePath("Visual/Plates/LowFront"), NodePath("Visual/Plates/LowMid"), NodePath("Visual/Plates/LowBack")]
 spark = NodePath("Spark")
 explosion_scene = ExtResource("7_explosion")
+hatch = NodePath("Visual/Hatch")
+tethers = NodePath("Visual/Tethers")
+tether_scene = ExtResource("8_tether")
 
 [node name="Visual" type="Node2D" parent="."]
 
@@ -40,6 +44,9 @@ texture = ExtResource("2_body")
 material = SubResource("ShaderMaterial_part")
 position = Vector2(78, 90)
 texture = ExtResource("4_prop")
+
+[node name="Hatch" type="Marker2D" parent="Visual"]
+position = Vector2(-30, 108)
 
 [node name="Plates" type="Node2D" parent="Visual"]
 
@@ -82,6 +89,8 @@ position = Vector2(102, 0)
 rotation = -0.157
 scale = Vector2(0.76, 0.76)
 texture = ExtResource("3_plate")
+
+[node name="Tethers" type="Node2D" parent="Visual"]
 
 [node name="Spark" type="Sprite2D" parent="."]
 visible = false

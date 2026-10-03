@@ -92,6 +92,7 @@ func _process(delta: float) -> void:
 		_bonus.update_acceleration(player.acceleration)
 
 func _on_answers_spawned(options: Array[Answer]) -> void:
+	_boss.release_answers(options)
 	_apply_answers_paused(options)
 	game_events.ev_answers_spawned.emit(options.duplicate(), _round_controller.question.correct_answer, area.getLines().duplicate())
 

@@ -21,6 +21,21 @@ signal ev_destroyed
 @export var spark: Node2D
 @export var explosion_scene: PackedScene
 
+@export_group("Released balloons")
+## Gondola point the balloons fly out of.
+@export var hatch: Node2D
+## Parent for tether strings (behind the hull).
+@export var tethers: Node2D
+## One string (editor template `boss_tether.tscn`).
+@export var tether_scene: PackedScene
+## Released balloons stop this far left of the hatch, then fly on as usual.
+@export var launch_inset_x: float = 60.0
+## String snaps once its balloon is this far from the hatch.
+@export var tether_snap_length: float = 320.0
+## String knot below the balloon center (balloon local px, scaled with it).
+@export var tether_knot_offset: float = 66.0
+@export var tether_sag: float = 26.0
+
 @export_group("Layout")
 ## Hover point = this far left of the play area's right edge, vertically centered.
 @export var hover_inset_x: float = 230.0
@@ -48,6 +63,8 @@ var _shake: float = 0.0
 var _falling: bool = false
 var _spark_tween: Tween
 var _flash_tween: Tween
+## Live strings: Line2D → balloon it holds.
+var _strings: Dictionary = {}
 
 
 func initialize(armor: int, play_area: Rect2) -> void:
@@ -71,6 +88,7 @@ func _process(delta: float) -> void:
 	_time += delta
 	if propeller:
 		propeller.scale.y = cos(_time * propeller_speed)
+	_update_strings()
 	if visual == null or _falling:
 		return
 	_shake = move_toward(_shake, 0.0, delta * 3.0)
@@ -102,6 +120,63 @@ func hit(from_global: Vector2) -> int:
 	_spark_tween.parallel().tween_property(spark, "rotation", spark.rotation + TAU, spark_duration)
 	_spark_tween.tween_callback(_land_hit.bind(plate, left))
 	return left
+
+
+## Global point released balloons fly out of.
+func get_launch_point() -> Vector2:
+	return hatch.global_position if hatch else global_position
+
+
+## Where released balloons stop before flying on (global x).
+func get_launch_x() -> float:
+	return get_launch_point().x - launch_inset_x
+
+
+## Ties a string from the gondola to `balloon`; it snaps when the balloon flies off or dies.
+func tether(balloon: Node2D) -> void:
+	if tether_scene == null or tethers == null:
+		return
+	var line: Line2D = tether_scene.instantiate()
+	line.visible = false
+	tethers.add_child(line)
+	_strings[line] = balloon
+
+
+func _update_strings() -> void:
+	if _strings.is_empty():
+		return
+	var start: Vector2 = tethers.to_local(get_launch_point())
+	for line: Line2D in _strings.keys():
+		var balloon: Node2D = _strings[line]
+		if not is_instance_valid(balloon) or _falling:
+			_snap(line)
+			continue
+		if not balloon.is_inside_tree():
+			continue
+		var knot: Vector2 = balloon.global_position + Vector2(0.0, tether_knot_offset * balloon.scale.y)
+		var end: Vector2 = tethers.to_local(knot)
+		# Popped balloons fade out — let go of them right away.
+		if start.distance_to(end) > tether_snap_length or balloon.modulate.a < 0.95:
+			_snap(line)
+			continue
+		var mid: Vector2 = (start + end) * 0.5 + Vector2(0.0, tether_sag)
+		line.points = PackedVector2Array([start, mid, end])
+		line.visible = true
+
+
+## String torn: the loose end curls up and fades.
+func _snap(line: Line2D) -> void:
+	_strings.erase(line)
+	if not line.visible:
+		line.queue_free()
+		return
+	var points: PackedVector2Array = line.points
+	if points.size() == 3:
+		points[2] = points[1] + (points[2] - points[1]) * 0.35 + Vector2(0.0, 18.0)
+		line.points = points
+	var tween := line.create_tween()
+	tween.tween_property(line, "modulate:a", 0.0, 0.35)
+	tween.tween_callback(line.queue_free)
 
 
 func _pick_plates() -> void:
