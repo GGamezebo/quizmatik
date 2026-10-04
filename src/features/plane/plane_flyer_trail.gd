@@ -16,6 +16,8 @@ extends Node2D
 ## e.g. the battle plane's victory fly-off). Null → owner calls `push_point`.
 @export var source: Node2D
 
+const MAX_FILL_DOTS: int = 24
+
 var _points: PackedVector2Array = []
 ## Running dot number → stable colors / crayon jitter while points drift.
 var _first_index: int = 0
@@ -38,11 +40,17 @@ func apply_style(item: TrailItem) -> void:
 	clear()
 
 
+## Fast moves (victory fly-off) fill the gap with evenly spaced dots instead of leaving holes.
 func push_point(global_point: Vector2) -> void:
 	if style == TrailItem.Style.NONE:
 		return
-	if _points.is_empty() or _points[_points.size() - 1].distance_to(global_point) >= dot_spacing:
+	if _points.is_empty():
 		_points.append(global_point)
+		return
+	var last := _points[_points.size() - 1]
+	var steps := mini(int(last.distance_to(global_point) / dot_spacing), MAX_FILL_DOTS)
+	for i in range(1, steps + 1):
+		_points.append(last.lerp(global_point, float(i) / float(steps)))
 
 
 func clear() -> void:
@@ -51,8 +59,10 @@ func clear() -> void:
 
 
 func _process(delta: float) -> void:
-	if source != null and is_instance_valid(source):
-		push_point(source.global_position)
+	if _has_source():
+		# Sampled in `_draw`: tweens move the owner after `_process`, sampling here lags a frame
+		# and leaves a gap behind a fast plane.
+		queue_redraw()
 	if _points.is_empty():
 		return
 	var shift := Vector2(drift_speed * delta, 0.0)
@@ -68,7 +78,13 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 
+func _has_source() -> bool:
+	return source != null and is_instance_valid(source)
+
+
 func _draw() -> void:
+	if _has_source():
+		push_point(source.global_position)
 	var count := _points.size()
 	if count == 0:
 		return
