@@ -51,6 +51,7 @@ shape = SubResource("CapsuleShape2D_272bh")
 
 [node name="Trail" type="Node2D" parent="."]
 script = ExtResource("14_trail")
+max_length = 900.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1524436245 node_paths=PackedStringArray("flame_animation")]
 material = SubResource("ShaderMaterial_1vivr")

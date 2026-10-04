@@ -260,38 +260,12 @@ func win_animation() -> void:
 	
 	var screen_size := get_viewport_rect().size
 	
-	# Randomize flight direction: 0 = Straight, 1 = Up-Right, 2 = Down-Right
-	var flight_case := randi() % 3
+	# Always straight forward at the current altitude, far beyond the right edge.
+	var target_position := Vector2(screen_size.x + 200.0, global_position.y)
+	animated_sprite.play("idle")
 	
-	# Calculate target X position (Always far beyond the right edge of the screen)
-	var target_position := Vector2.ZERO
-	target_position.x = screen_size.x + 200.0
-	
-	# Offset variables for the anticipation stage (Stat 1)
-	var ant_offset_x: float = -40.0
-	var ant_offset_y: float = 0.0
-	
-	# Set up flight trajectory and animations based on the randomized case
-	if flight_case == 0:
-		# Trajectory: STRAIGHT forward
-		target_position.y = global_position.y # Maintain current altitude
-		animated_sprite.play("idle")           # Keep default flight sprite
-		ant_offset_y = 0.0                     # Push straight back
-		
-	elif flight_case == 1:
-		# Trajectory: UP and RIGHT
-		target_position.y = -200.0             # Fly above the top boundary
-		animated_sprite.play("up")             # Tilt sprite upwards
-		ant_offset_y = 20.0                    # Dip slightly down during anticipation
-		
-	else:
-		# Trajectory: DOWN and RIGHT
-		target_position.y = screen_size.y + 200.0 # Fly below the bottom boundary
-		animated_sprite.play("down")           # Tilt sprite downwards
-		ant_offset_y = -20.0                   # Rise slightly up during anticipation
-		
 	# --- STAGE 1: Small backward recoil for inertia (Anticipation effect) ---
-	var anticipation_pos := global_position + Vector2(ant_offset_x, ant_offset_y)
+	var anticipation_pos := global_position + Vector2(-40.0, 0.0)
 	var anticipation_tween := create_tween()
 	anticipation_tween.tween_property(self, "global_position", anticipation_pos, win_anticipation_animation_time)\
 		.set_trans(Tween.TRANS_CUBIC)\
@@ -311,18 +285,12 @@ func win_animation() -> void:
 	# Simulate gaining altitude/depth via dynamic scaling
 	victory_tween.tween_property(self, "scale", Vector2(0.15, 0.15), win_fly_animation_time)
 	
-	# Handle aircraft rotation based on the flight path
-	var target_rotation: float = 0.0
-	if flight_case == 1:
-		target_rotation = deg_to_rad(-15.0) # Nose up
-	elif flight_case == 2:
-		target_rotation = deg_to_rad(15.0)  # Nose down
-	# For case 0 (Straight), target_rotation stays 0.0
+	# Level the nose (lane shake may have tilted it).
+	victory_tween.tween_property(self, "rotation", 0.0, win_fly_animation_time * 0.4)
 	
-	victory_tween.tween_property(self, "rotation", target_rotation, win_fly_animation_time * 0.4)
-	
-	# Smoothly fade out into the clouds/distance near the end of the flight
-	victory_tween.tween_property(self, "modulate:a", 0.0, win_fly_animation_time - 0.1).set_delay(0.1)
+	# Smoothly fade out into the clouds/distance near the end of the flight.
+	# Sprite only (flame is its child): the trail child must keep drawing the fly-off path.
+	victory_tween.tween_property(animated_sprite, "modulate:a", 0.0, win_fly_animation_time - 0.1).set_delay(0.1)
 	
 	await victory_tween.finished
 	
