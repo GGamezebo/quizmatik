@@ -1,0 +1,66 @@
+[gd_resource type="Resource" script_class="GameConfig" format=3]
+
+[ext_resource type="Script" path="res://src/common/game_config_default.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+allowed_operations = 4
+min_generate_number = 2
+max_generate_number = 5
+answer_lines_count = 4
+health = 3
+questions_count = 15
+answer_speed = 91.7
+answer_speed_round_coeffs = {
+4: 0.86,
+8: 0.86,
+12: 0.92
+}
+generate_number_round_ranges = {
+4: {
+"allowed_operations": 4,
+"operation_ranges": {
+4: Vector2i(6, 7)
+},
+"second_operand_ranges": {
+4: Vector2i(2, 10)
+},
+"result_ranges": {},
+"carry_mode": 0
+},
+8: {
+"allowed_operations": 4,
+"operation_ranges": {
+4: Vector2i(8, 9)
+},
+"second_operand_ranges": {
+4: Vector2i(2, 10)
+},
+"result_ranges": {},
+"carry_mode": 0
+},
+12: {
+"allowed_operations": 4,
+"operation_ranges": {
+4: Vector2i(2, 10)
+},
+"second_operand_ranges": {
+4: Vector2i(2, 10)
+},
+"result_ranges": {},
+"carry_mode": 0
+}
+}
+operation_ranges = {
+4: Vector2i(2, 5)
+}
+second_operand_ranges = {
+4: Vector2i(2, 10)
+}
+missing_operand_chance = 0.25
+missing_operand_start_progress = 0.25
+boss_chance = 1.0
+boss_armor = 5
+boss_rage_hits = 20
+early_exam_questions_multiplier = 1.3
+early_exam_answer_speed_multiplier = 1.15

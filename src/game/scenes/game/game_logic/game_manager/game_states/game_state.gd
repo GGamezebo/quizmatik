@@ -37,7 +37,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	var plane_def: Dictionary = PlaneCatalog.get_def(plane_id)
 	var plane_speed: float = game_config.player_air_plane_speed * float(plane_def.get("speed_mult", 1.0))
 	air_plane.initialize(plane_speed, user_settings.movement_mode)
-	air_plane.apply_tint(plane_def.get("tint", Color.WHITE) as Color)
+	air_plane.apply_plane(plane_id)
 	air_plane.shot_speed_mult = float(plane_def.get("shot_speed_mult", 1.0))
 
 	var answer_spawner: AnswerSpawner = AnswerSpawner.new(area, answerScene, game_manager.owner)
@@ -61,11 +61,14 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_boss.ev_appeared.connect(game_events.ev_boss_appeared.emit)
 	_boss.ev_ready.connect(_round_controller.release_rounds)
 	_boss.ev_hit.connect(game_events.ev_boss_hit.emit)
+	_boss.ev_enraged.connect(game_events.ev_boss_enraged.emit)
+	_boss.ev_shot.connect(game_events.ev_boss_shot.emit)
 	_boss.ev_defeated.connect(_on_boss_defeated)
 	_time_limit.ev_tick.connect(game_events.ev_time_left.emit)
 	_time_limit.ev_expired.connect(_end_game)
 	event_listener.add(game_events.ev_pause_answers, _on_pause_answers)
 	event_listener.add(game_events.ev_explosion, _on_explosion)
+	event_listener.add(game_events.ev_target_shot, _boss.shoot)
 	event_listener.add(air_plane.ev_air_plane_colladed, _on_air_plane_collided)
 	
 	_round_controller.start()

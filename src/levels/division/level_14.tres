@@ -1,24 +1,27 @@
-[gd_resource type="Resource" script_class="GameConfig" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="GameConfig" format=3]
 
 [ext_resource type="Script" path="res://src/common/game_config_default.gd" id="1_script"]
 
 [resource]
 script = ExtResource("1_script")
 allowed_operations = 8
-min_generate_number = 2
-max_generate_number = 10
+min_generate_number = 6
+max_generate_number = 9
 answer_lines_count = 4
 health = 3
-questions_count = 14
-answer_speed = 98.0
+questions_count = 9
+answer_speed = 64.7
 answer_speed_round_coeffs = {
-5: 1.2,
-9: 1.35,
-14: 1.5,
+5: 1.1,
+7: 1.2
 }
-player_acceleration_min = 0.75
-player_acceleration_max = 1.4
-player_acceleration_speed = 1.0
-missing_operand_chance = 0.5
+operation_ranges = {
+8: Vector2i(6, 9)
+}
+second_operand_ranges = {
+8: Vector2i(2, 9)
+}
+missing_operand_chance = 0.3
+missing_operand_start_progress = 0.3
 bonus_gold_chance = 0.35
 boss_chance = 0.15

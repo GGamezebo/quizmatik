@@ -9,6 +9,8 @@ extends Node2D
 @export var trail: PlaneFlyerTrail
 ## Trail spawn point (behind the flame), child of `body`.
 @export var nozzle: Marker2D
+## Exhaust flame; moved per plane by `PlaneCatalog.flame_position`.
+@export var flame: Node2D
 @export var hover_amplitude: float = 18.0
 @export var hover_period_sec: float = 1.6
 ## Pixels/sec of |dy| below which the idle frame is shown.
@@ -17,6 +19,7 @@ extends Node2D
 
 var _time: float = 0.0
 var _animation: StringName = &""
+var _flame_home := Vector2.INF
 
 
 func _ready() -> void:
@@ -24,6 +27,11 @@ func _ready() -> void:
 
 
 func apply_plane(plane_id: String) -> void:
+	sprite.sprite_frames = PlaneCatalog.sprite_frames(plane_id, sprite.sprite_frames)
+	if flame != null:
+		if _flame_home == Vector2.INF:
+			_flame_home = flame.position
+		flame.position = PlaneCatalog.flame_position(plane_id, _flame_home)
 	var tint := PlaneCatalog.get_def(plane_id).get("tint", Color.WHITE) as Color
 	var mat := sprite.material as ShaderMaterial
 	if mat != null:

@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" path="res://src/features/boss/boss_tether.tscn" id="8_tether"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_body"]
+resource_local_to_scene = true
 shader = ExtResource("6_shadow")
 shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.45)
@@ -21,7 +22,14 @@ shader_parameter/shadow_offset = Vector2(-3, 5)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
 shader_parameter/shadow_blur = 1.5
 
-[node name="BossAirship" type="Node2D" node_paths=PackedStringArray("visual", "body", "propeller", "plates", "spark", "hatch", "tethers")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hull"]
+radius = 84.0
+height = 410.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gondola"]
+size = Vector2(140, 52)
+
+[node name="BossAirship" type="Node2D" node_paths=PackedStringArray("visual", "body", "propeller", "plates", "spark", "hatch", "tethers", "hitbox")]
 z_index = -1
 script = ExtResource("1_script")
 visual = NodePath("Visual")
@@ -33,6 +41,7 @@ explosion_scene = ExtResource("7_explosion")
 hatch = NodePath("Visual/Hatch")
 tethers = NodePath("Visual/Tethers")
 tether_scene = ExtResource("8_tether")
+hitbox = NodePath("Visual/Hitbox")
 
 [node name="Visual" type="Node2D" parent="."]
 
@@ -91,6 +100,20 @@ scale = Vector2(0.76, 0.76)
 texture = ExtResource("3_plate")
 
 [node name="Tethers" type="Node2D" parent="Visual"]
+
+[node name="Hitbox" type="Area2D" parent="Visual" groups=["shot_targets"]]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+
+[node name="Hull" type="CollisionShape2D" parent="Visual/Hitbox"]
+position = Vector2(-14, -30)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_hull")
+
+[node name="Gondola" type="CollisionShape2D" parent="Visual/Hitbox"]
+position = Vector2(-24, 90)
+shape = SubResource("RectangleShape2D_gondola")
 
 [node name="Spark" type="Sprite2D" parent="."]
 visible = false

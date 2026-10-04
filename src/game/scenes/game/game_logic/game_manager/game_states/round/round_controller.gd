@@ -93,7 +93,8 @@ func kill_all_answers(hit_answer: Answer = null) -> void:
 		option.take_damage(option == hit_answer)
 
 func _start_round() -> void:
-	_set_question(QuizQuestion.generate_question(_game_config, _player.score))
+	var previous_fact: String = question.fact_key if question != null else ""
+	_set_question(QuizQuestion.generate_question(_game_config, _player.score, previous_fact))
 	ev_round_started.emit(_player.score, _game_config.answer_speed)
 	await _tree.create_timer(1.0, false).timeout
 	if not _is_active:

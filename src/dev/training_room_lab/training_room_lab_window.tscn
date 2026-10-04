@@ -78,7 +78,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "unlock_valleys_button")]
+[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "unlock_valleys_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -99,6 +99,7 @@ bonus_gold_chance_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBo
 time_limit_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowTime/TimeStepper")
 boss_chance_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowBossChance/BossChanceStepper")
 boss_armor_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowBossArmor/BossArmorStepper")
+boss_rage_stepper = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowBossRage/BossRageStepper")
 stepper_template = ExtResource("10_stepper")
 op_addition = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid/OpAddition")
 op_subtraction = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockOperations/OpsGrid/OpSubtraction")
@@ -637,6 +638,22 @@ theme_override_font_sizes/font_size = 15
 text = "Броня босса"
 
 [node name="BossArmorStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowBossArmor" instance=ExtResource("10_stepper")]
+
+[node name="RowBossRage" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="RowSpacer" type="Control" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowBossRage"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowBossRage"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+text = "Злой босс: попаданий"
+
+[node name="BossRageStepper" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockBonus/BonusRows/RowBossRage" instance=ExtResource("10_stepper")]
 
 [node name="RightVBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox" unique_id=2045079884]
 custom_minimum_size = Vector2(250, 0)

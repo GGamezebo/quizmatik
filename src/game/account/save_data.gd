@@ -3,7 +3,7 @@ class_name SaveData
 extends Save
 
 static func  CURRENT_SAVE_VERSION() -> int:
-	return 8
+	return 9
 
 static var _migrations: Dictionary = {
 	1: _migrate_1_to_2,
@@ -13,6 +13,7 @@ static var _migrations: Dictionary = {
 	5: _migrate_5_to_6,
 	6: _migrate_6_to_7,
 	7: _migrate_7_to_8,
+	8: _migrate_8_to_9,
 }
 
 func migrate_save_data(data: Dictionary, from_version: int) -> Dictionary:
@@ -145,3 +146,34 @@ static func _migrate_7_to_8(data: Dictionary) -> void:
 		var profile: Variant = profiles[profile_id]
 		if profile is Dictionary and not (profile.get("cosmetics", null) is Dictionary):
 			profile["cosmetics"] = {"owned": [], "equipped": {}}
+
+
+## v9: valleys grew 17 → 20 levels; the exam moved from level 17 to 20. Passed valleys get the
+## new levels 17-19 with the exam's stars (as `pass_exam` does), so they stay complete.
+static func _migrate_8_to_9(data: Dictionary) -> void:
+	const OLD_EXAM_ID := "17"
+	const NEW_EXAM_ID := "20"
+	var profiles: Variant = data.get("profiles", {})
+	if not (profiles is Dictionary):
+		return
+	for profile_id in profiles as Dictionary:
+		var profile: Variant = profiles[profile_id]
+		if not (profile is Dictionary) or not (profile.get("levels", null) is Dictionary):
+			continue
+		var levels: Dictionary = profile["levels"]
+		for container_id in levels:
+			var container: Variant = levels[container_id]
+			if not (container is Dictionary) or not (container.get("completed_levels", null) is Dictionary):
+				continue
+			var completed: Dictionary = container["completed_levels"]
+			var exam_entry: Variant = null
+			for level_key in completed.keys():
+				if str(level_key) == OLD_EXAM_ID:
+					exam_entry = completed[level_key]
+					completed.erase(level_key)
+			if exam_entry == null:
+				continue
+			completed[NEW_EXAM_ID] = exam_entry
+			if bool(container.get("exam_passed", false)) and exam_entry is Dictionary:
+				for level_id in ["17", "18", "19"]:
+					completed[level_id] = (exam_entry as Dictionary).duplicate(true)

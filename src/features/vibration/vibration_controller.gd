@@ -76,6 +76,8 @@ func _ready() -> void:
 		_listener.add(game_events.ev_health_restored, _on_health_restored)
 		_listener.add(game_events.ev_boss_appeared, _on_boss_appeared)
 		_listener.add(game_events.ev_boss_hit, _on_boss_hit)
+		_listener.add(game_events.ev_boss_enraged, _on_boss_enraged)
+		_listener.add(game_events.ev_boss_shot, _on_boss_shot)
 		_listener.add(game_events.ev_win, _on_win)
 		_listener.add(game_events.ev_lose, _on_lose)
 		_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
@@ -165,9 +167,19 @@ func _on_boss_appeared(_armor: int) -> void:
 	_play_pattern([0.0, 0.3, 0.3, 0.3], boss_appear_pulse_ms, [amp * 0.5, amp * 0.7, amp * 0.85, amp])
 
 
-func _on_boss_hit(armor_left: int) -> void:
-	if armor_left > 0:
-		vibrate(boss_hit_duration_ms, boss_hit_amplitude)
+func _on_boss_hit(_armor_left: int) -> void:
+	vibrate(boss_hit_duration_ms, boss_hit_amplitude)
+
+
+func _on_boss_enraged(_hits: int) -> void:
+	var amp: float = boss_appear_amplitude
+	_play_pattern([0.0, 0.2, 0.2], boss_appear_pulse_ms * 2, [amp, amp * 0.8, amp])
+
+
+## Rage shots: light tick each; the last one = crash-like burst (it goes down).
+func _on_boss_shot(hits_left: int) -> void:
+	if hits_left > 0:
+		vibrate(pop_duration_ms, pop_amplitude * 0.8)
 		return
 	_play_pattern([0.0, 0.15, 0.15, 0.15], crash_pulse_duration_ms, [1.0, 0.9, 0.8, 0.7])
 

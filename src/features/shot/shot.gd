@@ -2,6 +2,8 @@ extends Area2D
 
 signal ev_explosion(answer: Answer, hit_point: Vector2)
 signal ev_ink_drip(global_pos: Vector2)
+## Hit a non-answer area in group `shot_targets` (physics layer 5, e.g. the angry boss).
+signal ev_target_hit(target: Area2D, hit_point: Vector2)
 
 @export var speed: float = 600.0
 @export var ray_cast: RayCast2D
@@ -48,9 +50,19 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()
 
 
-func _on_area_entered(answer: Answer) -> void:
-	if answer.is_in_group("answers") and answer.is_hittable():
-		var collision_point = _get_collision_point()
-		var hit_point: Vector2 = answer.global_position if collision_point == null else collision_point
-		ev_explosion.emit(answer, hit_point)
+func _on_area_entered(area: Area2D) -> void:
+	if area is Answer:
+		var answer := area as Answer
+		if answer.is_in_group("answers") and answer.is_hittable():
+			ev_explosion.emit(answer, _hit_point_on(answer))
+			queue_free()
+	elif area.is_in_group("shot_targets"):
+		ev_target_hit.emit(area, _hit_point_on(area))
 		queue_free()
+
+
+func _hit_point_on(area: Area2D) -> Vector2:
+	var collision_point = _get_collision_point()
+	if collision_point != null:
+		return collision_point
+	return Vector2(area.global_position.x, global_position.y)

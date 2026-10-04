@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="GameConfig" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="GameConfig" format=3]
 
 [ext_resource type="Script" path="res://src/common/game_config_default.gd" id="1_script"]
 
@@ -9,10 +9,17 @@ min_generate_number = 1
 max_generate_number = 9
 answer_lines_count = 3
 health = 3
-questions_count = 6
-answer_speed = 65.0
-answer_speed_round_coeffs = {
-4: 1.1,
+questions_count = 7
+answer_speed = 73.3
+answer_speed_round_coeffs = {}
+operation_ranges = {
+1: Vector2i(1, 9)
+}
+second_operand_ranges = {
+1: Vector2i(1, 9)
+}
+result_ranges = {
+1: Vector2i(2, 10)
 }
 bonus_gold_chance = 0.35
 boss_chance = 0.15

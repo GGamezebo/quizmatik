@@ -19,8 +19,14 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_bonus_collected(amount: int)
 ## Boss airship flies in after the last regular answer (`armor` plates to knock off).
 @warning_ignore("unused_signal") signal ev_boss_appeared(armor: int)
-## A correct answer knocked a plate off the boss (0 = last one, it goes down).
+## A correct answer knocked a plate off the boss (0 = last one, it gets angry).
 @warning_ignore("unused_signal") signal ev_boss_hit(armor_left: int)
+## No armor left: the boss gets angry and creeps toward the plane — shoot it `hits` times.
+@warning_ignore("unused_signal") signal ev_boss_enraged(hits: int)
+## A shot hit the angry boss (0 = last one, it goes down).
+@warning_ignore("unused_signal") signal ev_boss_shot(hits_left: int)
+## Info: a shot hit a non-answer target (`shot_targets` group, e.g. the angry boss hull).
+@warning_ignore("unused_signal") signal ev_target_shot(target: Area2D, hit_point: Vector2)
 ## Boss fell off-screen — the battle is won right after.
 @warning_ignore("unused_signal") signal ev_boss_defeated
 @warning_ignore("unused_signal") signal ev_win

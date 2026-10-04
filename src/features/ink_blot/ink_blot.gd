@@ -23,9 +23,14 @@ func setup(local_pos: Vector2, style: ShotItem = null) -> void:
 			hframes = maxi(1, style.drip_frames.x)
 			vframes = maxi(1, style.drip_frames.y)
 	frame = randi() % (hframes * vframes)
-	rotation = randf_range(-PI, PI)
 	var s := randf_range(scale_min, scale_max)
-	scale = Vector2(s, s * randf_range(0.75, 1.25))
+	if style != null and style.drip_texture != null:
+		# Shaped drips (stars, hearts) stay readable: slight tilt, no squash.
+		rotation = randf_range(-0.35, 0.35)
+		scale = Vector2(s, s)
+	else:
+		rotation = randf_range(-PI, PI)
+		scale = Vector2(s, s * randf_range(0.75, 1.25))
 	modulate = style.pick_ink_color() if style != null else ShotItem.classic_ink()
 	z_index = 0
 	var tween := create_tween()

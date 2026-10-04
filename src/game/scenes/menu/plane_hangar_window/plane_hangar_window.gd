@@ -7,11 +7,15 @@ extends Control
 @export var progress: ProgressController
 ## Marks the first affordable "buy" button for overlays (tutorial).
 @export var buy_anchor: UiAnchor
-## «САМОЛЁТЫ» / «ПОКРАСКА» tabs; planes open by default (tutorial `hangar.buy`).
+## «САМОЛЁТЫ» / «ПОКРАСКА» tabs. Opens on paint (shop); `planes_entry_buttons` (profile plane strip,
+## tutorial `hangar.buy`) open it on planes instead.
 @export var planes_tab: BaseButton
 @export var paint_tab: BaseButton
 @export var planes_page: Control
 @export var paint_page: CosmeticsPage
+@export var planes_entry_buttons: Array[BaseButton] = []
+
+var _next_tab_paint: bool = true
 
 var _listener: EventListener = EventListener.new()
 
@@ -23,6 +27,9 @@ func _ready() -> void:
 		planes_tab.pressed.connect(_show_tab.bind(false))
 	if paint_tab:
 		paint_tab.pressed.connect(_show_tab.bind(true))
+	for button in planes_entry_buttons:
+		if button != null:
+			button.pressed.connect(_open_on_tab.bind(false))
 
 
 func _exit_tree() -> void:
@@ -30,7 +37,15 @@ func _exit_tree() -> void:
 
 
 func on_window_enter() -> void:
-	_show_tab(false)
+	_show_tab(_next_tab_paint)
+	_next_tab_paint = true
+
+
+## Entry buttons may fire before or after the stack opens the window.
+func _open_on_tab(paint: bool) -> void:
+	_next_tab_paint = paint
+	if is_visible_in_tree():
+		on_window_enter()
 
 
 func _show_tab(paint: bool) -> void:

@@ -11,10 +11,11 @@ paths:
 
 ## Levels
 
-- Canonical files: `src/levels/{addition|subtraction|multiplication|division|mix}/level_N.tres`
-- Container metadata + unlocks: `src/common/levels/levels_config.gd`
-- Bulk generation: `tools/generate_levels.py` holds the curve (incl. `missing_operand_chance`: L1–5 0, L6–9 .3, L10–16 .5, exam .4; `bonus_gold_chance`: L3–16 .35, else 0; `time_limit_sec`: L5 + L12 = 60, else 0; `boss_chance`: exam 1.0 + `boss_armor = 6`, L3–16 non-timed .15 (default armor 3), else 0)
-- ⚠ Do NOT run its `main()`: `make_levels_config()` is stale vs `levels_config.gd` and would drop code. Patch `.tres` surgically + mirror in the generator.
+- Canonical files: `src/levels/{addition|subtraction|multiplication|division|mix}/level_1..20.tres`; **20 = exam** (`is_exam` in config; read it via `LevelsConfig.get_exam_level_id()`, never hardcode)
+- Container metadata + unlocks: `src/common/levels/levels_config.gd` (hand-edited)
+- Bulk generation: `tools/generate_levels.py` = source of truth for the curriculum (kids 7-10, RU school order; per valley 4 acts + exam climbing through act skills via score stages 4/8/12). Edit the curve there and re-run (`python tools/generate_levels.py` rewrites only level `.tres`, keeps uids); never hand-patch level `.tres`
+- Pace authored as `t` = seconds per balloon flight on NORMAL (`answer_speed = 1100 / t`); new-skill (`intro`) levels: no `? + 3 = 7`, no speed ramp
+- Generator constants: timed L9 + L17 (60 s); `boss_chance` 1.0 on L10, L15, exam (`boss_armor` 5, `boss_rage_hits` 20), .15 on other L3–19 non-timed; `bonus_gold_chance` .35 on L3–19; lines 3 on L1–3 else 4; never narrow `player_acceleration_*`
 - Ignore legacy `src/levels/level_*.tres` at root
 - Missing level file → assert at `LevelsConfig` init — always add file + config entry together
 
@@ -22,14 +23,15 @@ paths:
 
 - Schema: `src/common/game_config_default.gd`
 - Level content = exported fields on level `.tres` (ops, ranges, speeds, health, questions)
-- Player difficulty: `BattleDifficulty.apply(config, id, base)` — coefficients on questions / `answer_speed` / round-speed extras; **never health** (always 3 in training)
-- Mid-battle ramps: `answer_speed_round_coeffs` and optional `generate_number_round_ranges` (score → min/max)
+- Example shape per op: `operation_ranges` (1st operand: addend / minuend / factor / divisor), `second_operand_ranges` (2nd: addend / subtrahend / factor / quotient), `result_ranges` (allowed answer), `carry_mode` (+/− through the ten: ANY / NONE / REQUIRED). Missing op entry → min/max_generate_number; missing 2nd → 1st
+- Player difficulty: `BattleDifficulty.apply(config, id, base)` — coefficients on questions / `answer_speed` / round-speed extras (only speed-ups scale; < 1 exam-stage slow-downs kept); **never health** (always 3 in training). Levels tuned for NORMAL ≈ 8 y.o.
+- Mid-battle ramps: `answer_speed_round_coeffs` and `generate_number_round_ranges` (score → stage: min/max fall back to base; `GameConfig.STAGE_KEYS` replace and persist). Thresholds rescale with `questions_count` (`scale_round_thresholds`: difficulty preset + early exam)
 - Do not permanently edit runtime `game/game_config.tres` (overwritten per battle)
 
 ## Progress
 
 - Schema: `PData` (`src/game/account/persistent_data.gd`) — typed nested classes; live defaults in `persistent_data.tres` = **active profile**
-- Save envelope v8 (v4 = tutorial chapters, v5 = `mistakes`, v6 = `ContainerProgress.unlocked`, v7 = `difficulty` replaces `gender`/`age`, v8 = `cosmetics`): `{ active_profile_id, profiles }` (`SaveData.CURRENT_SAVE_VERSION`); switch stashes live PData into the slot
+- Save envelope v9 (v4 = tutorial chapters, v5 = `mistakes`, v6 = `ContainerProgress.unlocked`, v7 = `difficulty` replaces `gender`/`age`, v8 = `cosmetics`, v9 = exam level 17 → 20, passed valleys get 17-19 with exam stars): `{ active_profile_id, profiles }` (`SaveData.CURRENT_SAVE_VERSION`); switch stashes live PData into the slot
 - Profile identity = `display_name` (empty → `ProfileController.DEFAULT_NAME` «Пилот»; `create_profile` + new-pilot prefill use `unique_name()` → «Пилот 2», «Пилот 3»…, case-insensitive) + `PData.difficulty` (`BattleDifficulty` id). Never collect gender/age/other personal data (store requirements)
 - `ProfileController` — create/switch/delete (never last), gold, equipped plane; `set_difficulty()` / `valley_difficulty()` → `BattleDifficulty` for valleys only; lab-only `wipe_all_profiles()` empties the envelope immediately (then first-run overlay)
 - `PData.trophies.unlocked` — valley exam trophies; UI kit `tools/generate_achievements_ui.py`

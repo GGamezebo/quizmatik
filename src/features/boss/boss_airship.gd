@@ -2,14 +2,18 @@ class_name BossAirship
 extends Node2D
 
 ## Boss airship: flies in from the right, hovers behind the balloons and loses one armor plate per
-## `hit()` (a star flies from the popped balloon into the plate). Last plate → it goes down in flames.
+## `hit()` (a star flies from the popped balloon into the plate). Last plate → it gets angry: turns red,
+## creeps toward the plane (never reaches it — freezes at `rage_stop_x`) and takes `rage_hits` shots
+## on its `hitbox` (`take_shot`) before going down in flames. The rage is pure shooting fun, no threat.
 ## Plates = editor-placed slots; `initialize(armor)` shows an evenly spread subset.
 
 ## Reached the hover point — the fight can start.
 signal ev_entered
-## A hit's star reached the boss and knocked a plate off (0 = last one, the fall starts).
+## A hit's star reached the boss and knocked a plate off (0 = last one, the rage starts).
 signal ev_hit_landed(armor_left: int)
-## Fell off-screen after the last plate.
+## No armor left: angry, shootable (`hits` shots to go).
+signal ev_enraged(hits: int)
+## Fell off-screen after the last rage shot.
 signal ev_destroyed
 
 @export var visual: Node2D
@@ -20,6 +24,26 @@ signal ev_destroyed
 ## Star flying from the popped balloon into the plate (`top_level`).
 @export var spark: Node2D
 @export var explosion_scene: PackedScene
+
+## Shootable hull while angry (group `shot_targets`; physics layer enabled only during the rage).
+@export var hitbox: Area2D
+
+@export_group("Rage")
+@export var rage_hits: int = 15
+## Physics layer bits the hitbox gets while angry (5 = shot targets; never the answers' layer 3).
+@export_flags_2d_physics var rage_hitbox_layer: int = 16
+## Freezes once its center is this far right of the play area's left edge (short of the plane).
+@export var rage_stop_x: float = 760.0
+## Creep speed toward the plane, px/s.
+@export var rage_speed: float = 28.0
+## Pause (growl + shake) before it starts creeping.
+@export var rage_growl_sec: float = 0.8
+## Hull tint while angry (body shader `sprite_tint`).
+@export var rage_tint: Color = Color(1.0, 0.6, 0.55)
+## Slow angry up/down sweep across the lanes.
+@export var rage_bob_strength: float = 70.0
+@export var rage_bob_speed: float = 0.9
+@export var rage_shot_shake: float = 0.45
 
 @export_group("Released balloons")
 ## Gondola point the balloons fly out of.
@@ -61,21 +85,28 @@ var _play_area: Rect2 = Rect2()
 var _time: float = 0.0
 var _shake: float = 0.0
 var _falling: bool = false
+var _raging: bool = false
+var _rage_left: int = 0
+var _rage_tween: Tween
 var _spark_tween: Tween
 var _flash_tween: Tween
 ## Live strings: Line2D → balloon it holds.
 var _strings: Dictionary = {}
 
 
-func initialize(armor: int, play_area: Rect2) -> void:
+func initialize(armor: int, play_area: Rect2, rage_shots: int) -> void:
 	_armor_left = maxi(armor, 1)
 	_play_area = play_area
+	rage_hits = maxi(rage_shots, 1)
 	_pick_plates()
 
 
 func _ready() -> void:
 	if spark:
 		spark.visible = false
+	if hitbox:
+		hitbox.collision_layer = 0
+		hitbox.collision_mask = 0
 	if _armor_left <= 0:
 		# Isolated F6 run: full armor, stays where placed.
 		_armor_left = plates.size()
@@ -87,14 +118,19 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_time += delta
 	if propeller:
-		propeller.scale.y = cos(_time * propeller_speed)
+		propeller.scale.y = cos(_time * propeller_speed * (2.0 if _raging else 1.0))
 	_update_strings()
 	if visual == null or _falling:
 		return
 	_shake = move_toward(_shake, 0.0, delta * 3.0)
 	var jitter := Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * shake_strength * _shake
-	visual.position = Vector2(0.0, sin(_time * bob_speed) * bob_strength) + jitter
-	visual.rotation = deg_to_rad(sin(_time * bob_speed * 0.7) * sway_degrees)
+	var bob: float = sin(_time * bob_speed) * bob_strength
+	var sway: float = sway_degrees
+	if _raging:
+		bob = sin(_time * rage_bob_speed) * rage_bob_strength
+		sway *= 2.5
+	visual.position = Vector2(0.0, bob) + jitter
+	visual.rotation = deg_to_rad(sin(_time * bob_speed * 0.7) * sway)
 
 
 ## Knocks one plate off (after the star lands); returns armor left. 0 → the boss goes down.
@@ -120,6 +156,27 @@ func hit(from_global: Vector2) -> int:
 	_spark_tween.parallel().tween_property(spark, "rotation", spark.rotation + TAU, spark_duration)
 	_spark_tween.tween_callback(_land_hit.bind(plate, left))
 	return left
+
+
+## Shot hit `hitbox` while angry; returns shots left (0 → it goes down), -1 = not shootable now.
+func take_shot(_hit_point: Vector2) -> int:
+	if not _raging:
+		return -1
+	_rage_left -= 1
+	_shake = maxf(_shake, rage_shot_shake)
+	_flash()
+	if _rage_left > 0:
+		return _rage_left
+	_raging = false
+	hitbox.collision_layer = 0
+	if _rage_tween:
+		_rage_tween.kill()
+	_fall()
+	return 0
+
+
+func is_hitbox(area: Area2D) -> bool:
+	return hitbox != null and area == hitbox
 
 
 ## Global point released balloons fly out of.
@@ -211,7 +268,26 @@ func _land_hit(plate: Node2D, armor_left: int) -> void:
 		_drop_plate(plate)
 	ev_hit_landed.emit(armor_left)
 	if armor_left <= 0:
-		_fall()
+		_enrage()
+
+
+func _enrage() -> void:
+	_raging = true
+	_rage_left = rage_hits
+	_shake = 1.0
+	if hitbox:
+		hitbox.collision_layer = rage_hitbox_layer
+	if body and body.material is ShaderMaterial:
+		var mat := body.material as ShaderMaterial
+		create_tween().tween_method(func(c: Color) -> void: mat.set_shader_parameter("sprite_tint", c), Color.WHITE, rage_tint, 0.4)
+	ev_enraged.emit(rage_hits)
+	var stop_x: float = _play_area.position.x + rage_stop_x
+	var distance: float = maxf(position.x - stop_x, 0.0)
+	_rage_tween = create_tween()
+	_rage_tween.tween_interval(rage_growl_sec)
+	_rage_tween.tween_property(self, "position:x", stop_x, distance / maxf(rage_speed, 1.0))		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	# Arrived: one more angry shudder, then it just hangs there.
+	_rage_tween.tween_property(self, "_shake", 0.8, 0.05)
 
 
 func _drop_plate(plate: Node2D) -> void:

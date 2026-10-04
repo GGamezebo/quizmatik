@@ -23,12 +23,13 @@ shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 0.734
 shader_parameter/sprite_tint = Color(1, 1, 1, 1)
 
-[node name="PlaneFlyer" type="Node2D" node_paths=PackedStringArray("body", "sprite", "trail", "nozzle")]
+[node name="PlaneFlyer" type="Node2D" node_paths=PackedStringArray("body", "sprite", "trail", "nozzle", "flame")]
 script = ExtResource("1_flyer")
 body = NodePath("Body")
 sprite = NodePath("Body/Sprite")
 trail = NodePath("Trail")
 nozzle = NodePath("Body/Nozzle")
+flame = NodePath("Body/Flame")
 
 [node name="Trail" type="Node2D" parent="."]
 script = ExtResource("2_trail")

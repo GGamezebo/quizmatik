@@ -154,16 +154,14 @@ func pass_level(container_id: String, level_id: int, stars: int) -> int:
 	entry.stars = max(entry.stars, stars)
 	return LEVEL_GOLD_FOR_THREE_STARS if first_three_stars else 0
 
-const EXAM_LEVEL_ID: int = 17
-
-
 func is_valley_exam_completed(container_id: String) -> bool:
 	if container_id.is_empty():
 		return false
 	var container: PData.ContainerProgress = pdata.levels.containers.get(container_id)
 	if container != null and container.exam_passed:
 		return true
-	return get_level_stars(container_id, EXAM_LEVEL_ID) >= 1
+	var exam_level_id: int = levels_config.get_exam_level_id(container_id)
+	return exam_level_id > 0 and get_level_stars(container_id, exam_level_id) >= 1
 
 
 func is_trophy_unlocked(container_id: String) -> bool:
