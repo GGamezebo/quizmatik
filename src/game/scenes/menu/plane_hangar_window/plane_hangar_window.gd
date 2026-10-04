@@ -7,6 +7,11 @@ extends Control
 @export var progress: ProgressController
 ## Marks the first affordable "buy" button for overlays (tutorial).
 @export var buy_anchor: UiAnchor
+## «САМОЛЁТЫ» / «ПОКРАСКА» tabs; planes open by default (tutorial `hangar.buy`).
+@export var planes_tab: BaseButton
+@export var paint_tab: BaseButton
+@export var planes_page: Control
+@export var paint_page: CosmeticsPage
 
 var _listener: EventListener = EventListener.new()
 
@@ -14,6 +19,10 @@ var _listener: EventListener = EventListener.new()
 func _ready() -> void:
 	if root_events != null:
 		_listener.add(root_events.ev_profiles_changed, _rebuild)
+	if planes_tab:
+		planes_tab.pressed.connect(_show_tab.bind(false))
+	if paint_tab:
+		paint_tab.pressed.connect(_show_tab.bind(true))
 
 
 func _exit_tree() -> void:
@@ -21,6 +30,18 @@ func _exit_tree() -> void:
 
 
 func on_window_enter() -> void:
+	_show_tab(false)
+
+
+func _show_tab(paint: bool) -> void:
+	if planes_tab:
+		planes_tab.set_pressed_no_signal(not paint)
+	if paint_tab:
+		paint_tab.set_pressed_no_signal(paint)
+	if planes_page:
+		planes_page.visible = not paint
+	if paint_page:
+		paint_page.visible = paint
 	_rebuild()
 
 
@@ -37,6 +58,8 @@ func _rebuild() -> void:
 		equipped = profiles.equipped_plane_id()
 	if gold_label:
 		gold_label.text = str(gold)
+	if paint_page != null and paint_page.visible:
+		paint_page.refresh()
 	if cards_row == null or card_scene == null:
 		return
 	_ensure_cards()

@@ -1,0 +1,483 @@
+[gd_resource type="Resource" script_class="CosmeticCatalog" format=3]
+
+[ext_resource type="Script" path="res://src/common/cosmetics/paint_item.gd" id="1_r"]
+[ext_resource type="Script" path="res://src/common/cosmetics/trail_item.gd" id="2_r"]
+[ext_resource type="Texture2D" uid="uid://0mnf2chaqvjc" path="res://assets/ui/stamps/stamp_star.png" id="3_r"]
+[ext_resource type="Script" path="res://src/common/cosmetics/shot_item.gd" id="4_r"]
+[ext_resource type="Script" path="res://src/common/cosmetics/sticker_item.gd" id="5_r"]
+[ext_resource type="Texture2D" uid="uid://b01vhundbl6ib" path="res://assets/ui/stamps/stamp_cat.png" id="6_r"]
+[ext_resource type="Texture2D" uid="uid://da6b1sia8j0fb" path="res://assets/ui/stamps/stamp_flower.png" id="7_r"]
+[ext_resource type="Texture2D" uid="uid://0mnfpvhakvjc" path="res://assets/ui/stamps/stamp_heart.png" id="8_r"]
+[ext_resource type="Texture2D" uid="uid://b62kwj1wrreax" path="res://assets/ui/stamps/stamp_sun.png" id="9_r"]
+[ext_resource type="Script" path="res://src/common/cosmetics/frame_item.gd" id="10_r"]
+[ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="11_r"]
+[ext_resource type="Texture2D" uid="uid://7ng0qxncvluj" path="res://src/ui/backgrounds/classic_sky/bg_gameplay_sky1.png" id="12_r"]
+[ext_resource type="Script" path="res://src/common/cosmetics/cover_item.gd" id="13_r"]
+[ext_resource type="PackedScene" uid="uid://bnbookbg01quiz" path="res://src/ui/backgrounds/notebook/notebook_background.tscn" id="14_r"]
+[ext_resource type="Texture2D" path="res://src/ui/backgrounds/notebook/sketches/02_paper_airplane.jpg" id="15_r"]
+[ext_resource type="PackedScene" uid="uid://bnskybg01quiz" path="res://src/ui/backgrounds/notebook_sky/notebook_sky_background.tscn" id="16_r"]
+[ext_resource type="Texture2D" uid="uid://cky4u4d1m2ian" path="res://src/ui/backgrounds/notebook_sky/bg_gameplay_sky.png" id="17_r"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/valley_addition/valley_addition_background.tscn" id="18_r"]
+[ext_resource type="Texture2D" uid="uid://cvd31mcc2tdem" path="res://assets/ui/backgrounds/valleys/valley_addition.png" id="19_r"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/valley_subtraction/valley_subtraction_background.tscn" id="20_r"]
+[ext_resource type="Texture2D" path="res://assets/ui/backgrounds/valleys/valley_subtraction.png" id="21_r"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/valley_multiplication/valley_multiplication_background.tscn" id="22_r"]
+[ext_resource type="Texture2D" path="res://assets/ui/backgrounds/valleys/valley_multiplication.png" id="23_r"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/valley_division/valley_division_background.tscn" id="24_r"]
+[ext_resource type="Texture2D" path="res://assets/ui/backgrounds/valleys/valley_division.png" id="25_r"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/valley_mix/valley_mix_background.tscn" id="26_r"]
+[ext_resource type="Texture2D" path="res://assets/ui/backgrounds/valleys/valley_mix.png" id="27_r"]
+[ext_resource type="Script" path="res://src/common/cosmetics/cosmetic_catalog.gd" id="28_r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_plain"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 24.0
+bg_color = Color(1, 1, 0.99, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.3)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 5
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("1_r")
+id = "paint_none"
+title = "Без узора"
+gold_cost = 0
+pattern = 0
+color_a = Color(1, 1, 1, 1)
+color_b = Color(1, 1, 1, 1)
+cell_px = 18
+strength = 0.75
+
+[sub_resource type="Resource" id="Resource_2"]
+script = ExtResource("1_r")
+id = "paint_stripes"
+title = "Полоски"
+gold_cost = 3
+pattern = 1
+color_a = Color(1, 1, 1, 0)
+color_b = Color(0.95, 0.35, 0.35, 1)
+cell_px = 14
+strength = 0.7
+
+[sub_resource type="Resource" id="Resource_3"]
+script = ExtResource("1_r")
+id = "paint_dots"
+title = "Горошек"
+gold_cost = 3
+pattern = 2
+color_a = Color(1, 1, 1, 0)
+color_b = Color(1, 0.95, 0.55, 1)
+cell_px = 16
+strength = 0.8
+
+[sub_resource type="Resource" id="Resource_4"]
+script = ExtResource("1_r")
+id = "paint_checker"
+title = "Клетка"
+gold_cost = 5
+pattern = 3
+color_a = Color(1, 1, 1, 0)
+color_b = Color(0.45, 0.65, 1, 1)
+cell_px = 14
+strength = 0.6
+
+[sub_resource type="Resource" id="Resource_5"]
+script = ExtResource("1_r")
+id = "paint_stars"
+title = "Звёзды"
+gold_cost = 6
+pattern = 4
+color_a = Color(1, 1, 1, 0)
+color_b = Color(1, 0.85, 0.25, 1)
+cell_px = 26
+strength = 0.9
+
+[sub_resource type="Resource" id="Resource_6"]
+script = ExtResource("1_r")
+id = "paint_zigzag"
+title = "Зигзаг"
+gold_cost = 6
+pattern = 5
+color_a = Color(1, 1, 1, 0)
+color_b = Color(0.45, 0.9, 0.5, 1)
+cell_px = 16
+strength = 0.75
+
+[sub_resource type="Resource" id="Resource_7"]
+script = ExtResource("1_r")
+id = "paint_watercolor"
+title = "Акварель"
+gold_cost = 10
+pattern = 6
+color_a = Color(0.55, 0.75, 1, 1)
+color_b = Color(1, 0.6, 0.8, 1)
+cell_px = 40
+strength = 0.9
+
+[sub_resource type="Resource" id="Resource_8"]
+script = ExtResource("1_r")
+id = "paint_rainbow"
+title = "Радуга"
+gold_cost = 15
+pattern = 7
+color_a = Color(1, 1, 1, 1)
+color_b = Color(1, 1, 1, 1)
+cell_px = 120
+strength = 0.75
+
+[sub_resource type="Resource" id="Resource_9"]
+script = ExtResource("2_r")
+id = "trail_pencil"
+title = "Карандаш"
+gold_cost = 0
+style = 1
+color = Color(0.165, 0.2, 0.251, 0.75)
+width = 4
+spacing = 22
+
+[sub_resource type="Resource" id="Resource_10"]
+script = ExtResource("2_r")
+id = "trail_none"
+title = "Без шлейфа"
+gold_cost = 0
+style = 0
+color = Color(0.165, 0.2, 0.251, 0.75)
+width = 4
+spacing = 22
+
+[sub_resource type="Resource" id="Resource_11"]
+script = ExtResource("2_r")
+id = "trail_dash"
+title = "Пунктир"
+gold_cost = 5
+style = 3
+color = Color(0.2, 0.3, 0.55, 0.8)
+width = 3.5
+spacing = 26
+
+[sub_resource type="Resource" id="Resource_12"]
+script = ExtResource("2_r")
+id = "trail_crayon"
+title = "Мелки"
+gold_cost = 5
+style = 2
+color = Color(0.95, 0.55, 0.25, 0.8)
+width = 8
+spacing = 16
+
+[sub_resource type="Resource" id="Resource_13"]
+script = ExtResource("2_r")
+id = "trail_colored"
+title = "Фломастеры"
+gold_cost = 8
+style = 1
+color = Color(0.9, 0.3, 0.3, 0.85)
+width = 5
+spacing = 18
+palette = PackedColorArray(0.9, 0.3, 0.3, 0.85, 0.3, 0.65, 0.95, 0.85, 0.35, 0.8, 0.4, 0.85, 0.95, 0.75, 0.2, 0.85)
+
+[sub_resource type="Resource" id="Resource_14"]
+script = ExtResource("2_r")
+id = "trail_rainbow"
+title = "Радуга"
+gold_cost = 12
+style = 4
+color = Color(1, 1, 1, 0.85)
+width = 6
+spacing = 14
+
+[sub_resource type="Resource" id="Resource_15"]
+script = ExtResource("4_r")
+id = "shot_ink"
+title = "Чернила"
+gold_cost = 0
+shot_tint = Color(1, 1, 1, 1)
+drip_scale_min = 0.12
+drip_scale_max = 0.38
+
+[sub_resource type="Resource" id="Resource_16"]
+script = ExtResource("4_r")
+id = "shot_red"
+title = "Красные"
+gold_cost = 3
+shot_tint = Color(1, 0.7, 0.7, 1)
+drip_scale_min = 0.12
+drip_scale_max = 0.38
+ink_colors = PackedColorArray(0.78, 0.12, 0.12, 0.85, 0.9, 0.2, 0.18, 0.8)
+
+[sub_resource type="Resource" id="Resource_17"]
+script = ExtResource("4_r")
+id = "shot_green"
+title = "Зелёные"
+gold_cost = 3
+shot_tint = Color(0.7, 1, 0.75, 1)
+drip_scale_min = 0.12
+drip_scale_max = 0.38
+ink_colors = PackedColorArray(0.1, 0.55, 0.2, 0.85, 0.2, 0.65, 0.25, 0.8)
+
+[sub_resource type="Resource" id="Resource_18"]
+script = ExtResource("4_r")
+id = "shot_eraser"
+title = "Ластик"
+gold_cost = 6
+shot_tint = Color(1, 0.85, 0.88, 1)
+drip_scale_min = 0.08
+drip_scale_max = 0.22
+ink_colors = PackedColorArray(0.85, 0.55, 0.6, 0.7, 0.95, 0.75, 0.78, 0.7)
+
+[sub_resource type="Resource" id="Resource_19"]
+script = ExtResource("4_r")
+id = "shot_stars"
+title = "Звёздочки"
+gold_cost = 8
+shot_tint = Color(1, 0.95, 0.6, 1)
+drip_scale_min = 0.05
+drip_scale_max = 0.11
+ink_colors = PackedColorArray(1, 0.8, 0.2, 0.95, 1, 0.65, 0.15, 0.9)
+drip_texture = ExtResource("3_r")
+
+[sub_resource type="Resource" id="Resource_20"]
+script = ExtResource("4_r")
+id = "shot_rainbow"
+title = "Радужные"
+gold_cost = 12
+shot_tint = Color(1, 1, 1, 1)
+drip_scale_min = 0.12
+drip_scale_max = 0.38
+ink_colors = PackedColorArray(0.9, 0.25, 0.25, 0.85, 0.95, 0.6, 0.15, 0.85, 0.95, 0.85, 0.2, 0.85, 0.3, 0.75, 0.35, 0.85, 0.25, 0.55, 0.95, 0.85, 0.6, 0.35, 0.85, 0.85)
+
+[sub_resource type="Resource" id="Resource_21"]
+script = ExtResource("5_r")
+id = "sticker_none"
+title = "Без наклейки"
+gold_cost = 0
+
+[sub_resource type="Resource" id="Resource_22"]
+script = ExtResource("5_r")
+id = "sticker_cat"
+title = "Кот"
+gold_cost = 3
+texture = ExtResource("6_r")
+icon = ExtResource("6_r")
+
+[sub_resource type="Resource" id="Resource_23"]
+script = ExtResource("5_r")
+id = "sticker_flower"
+title = "Цветок"
+gold_cost = 3
+texture = ExtResource("7_r")
+icon = ExtResource("7_r")
+
+[sub_resource type="Resource" id="Resource_24"]
+script = ExtResource("5_r")
+id = "sticker_heart"
+title = "Сердце"
+gold_cost = 3
+texture = ExtResource("8_r")
+icon = ExtResource("8_r")
+
+[sub_resource type="Resource" id="Resource_25"]
+script = ExtResource("5_r")
+id = "sticker_star"
+title = "Звезда"
+gold_cost = 4
+texture = ExtResource("3_r")
+icon = ExtResource("3_r")
+
+[sub_resource type="Resource" id="Resource_26"]
+script = ExtResource("5_r")
+id = "sticker_sun"
+title = "Солнце"
+gold_cost = 4
+texture = ExtResource("9_r")
+icon = ExtResource("9_r")
+
+[sub_resource type="Resource" id="Resource_27"]
+script = ExtResource("10_r")
+id = "frame_plain"
+title = "Обычная"
+gold_cost = 0
+style = SubResource("StyleBoxFlat_plain")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_28"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 24.0
+bg_color = Color(0.93, 0.96, 1, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.35, 0.55, 0.9, 0.85)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 5
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="Resource" id="Resource_29"]
+script = ExtResource("10_r")
+id = "frame_blue"
+title = "Синяя"
+gold_cost = 3
+style = SubResource("StyleBoxFlat_28")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_30"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 24.0
+bg_color = Color(1, 0.95, 0.97, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.92, 0.45, 0.65, 0.85)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 5
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="Resource" id="Resource_31"]
+script = ExtResource("10_r")
+id = "frame_pink"
+title = "Розовая"
+gold_cost = 3
+style = SubResource("StyleBoxFlat_30")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 24.0
+bg_color = Color(0.95, 1, 0.94, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.37, 0.62, 0.29, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 5
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="Resource" id="Resource_33"]
+script = ExtResource("10_r")
+id = "frame_green"
+title = "Зелёная"
+gold_cost = 3
+style = SubResource("StyleBoxFlat_32")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_34"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 24.0
+bg_color = Color(1, 0.98, 0.9, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.88, 0.68, 0.18, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 5
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="Resource" id="Resource_35"]
+script = ExtResource("10_r")
+id = "frame_gold"
+title = "Золотая"
+gold_cost = 8
+style = SubResource("StyleBoxFlat_34")
+
+[sub_resource type="Resource" id="Resource_36"]
+script = ExtResource("13_r")
+id = "cover_classic"
+title = "Классика"
+gold_cost = 0
+scene = ExtResource("11_r")
+icon = ExtResource("12_r")
+
+[sub_resource type="Resource" id="Resource_37"]
+script = ExtResource("13_r")
+id = "cover_notebook"
+title = "Тетрадь"
+gold_cost = 5
+scene = ExtResource("14_r")
+icon = ExtResource("15_r")
+
+[sub_resource type="Resource" id="Resource_38"]
+script = ExtResource("13_r")
+id = "cover_notebook_sky"
+title = "Тетрадное небо"
+gold_cost = 5
+scene = ExtResource("16_r")
+icon = ExtResource("17_r")
+
+[sub_resource type="Resource" id="Resource_39"]
+script = ExtResource("13_r")
+id = "cover_addition"
+title = "Сложение"
+gold_cost = 8
+scene = ExtResource("18_r")
+icon = ExtResource("19_r")
+
+[sub_resource type="Resource" id="Resource_40"]
+script = ExtResource("13_r")
+id = "cover_subtraction"
+title = "Вычитание"
+gold_cost = 8
+scene = ExtResource("20_r")
+icon = ExtResource("21_r")
+
+[sub_resource type="Resource" id="Resource_41"]
+script = ExtResource("13_r")
+id = "cover_multiplication"
+title = "Умножение"
+gold_cost = 8
+scene = ExtResource("22_r")
+icon = ExtResource("23_r")
+
+[sub_resource type="Resource" id="Resource_42"]
+script = ExtResource("13_r")
+id = "cover_division"
+title = "Деление"
+gold_cost = 8
+scene = ExtResource("24_r")
+icon = ExtResource("25_r")
+
+[sub_resource type="Resource" id="Resource_43"]
+script = ExtResource("13_r")
+id = "cover_mix"
+title = "Микс"
+gold_cost = 8
+scene = ExtResource("26_r")
+icon = ExtResource("27_r")
+
+[resource]
+script = ExtResource("28_r")
+items = Array[CosmeticItem]([SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_7"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_13"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_18"), SubResource("Resource_19"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_27"), SubResource("Resource_29"), SubResource("Resource_31"), SubResource("Resource_33"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43")])

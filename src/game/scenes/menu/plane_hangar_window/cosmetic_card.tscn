@@ -1,0 +1,253 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/plane_hangar_window/cosmetic_card.gd" id="1_script"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
+[ext_resource type="Texture2D" path="res://src/features/plane/planes_atlas_spaced.png" id="3_plane"]
+[ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="4_coin"]
+[ext_resource type="Shader" path="res://src/features/plane/plane_body.gdshader" id="5_body"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/plane_hangar_window/cosmetic_swatch.gd" id="6_swatch"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.97, 0.94, 0.88, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.28)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.99, 0.97, 0.92, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.5)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_selected"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.93, 0.97, 0.9, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.37, 0.62, 0.29, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_focus"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.35, 0.4, 0.48, 0.55)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+expand_margin_right = 3.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_paint"]
+resource_local_to_scene = true
+shader = ExtResource("5_body")
+shader_parameter/shadow_offset = Vector2(-2, 3)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.3)
+shader_parameter/shadow_blur = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_photo"]
+resource_local_to_scene = true
+shader = ExtResource("5_body")
+shader_parameter/shadow_offset = Vector2(0, 0)
+shader_parameter/shadow_color = Color(0, 0, 0, 0)
+shader_parameter/shadow_blur = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_frame"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 12.0
+bg_color = Color(1, 1, 0.99, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.3)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="LabelSettings" id="LabelSettings_name"]
+font = ExtResource("2_font")
+font_size = 17
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cost"]
+font = ExtResource("2_font")
+font_size = 18
+font_color = Color(0.72, 0.52, 0.12, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_status"]
+font = ExtResource("2_font")
+font_size = 15
+font_color = Color(0.3, 0.52, 0.24, 1)
+
+[node name="CosmeticCard" type="Button" node_paths=PackedStringArray("plane_preview", "swatch", "icon_rect", "frame_panel", "frame_photo", "name_label", "cost_row", "cost_label", "status_label")]
+custom_minimum_size = Vector2(152, 164)
+theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_selected")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_selected")
+theme_override_styles/focus = SubResource("StyleBoxFlat_focus")
+toggle_mode = true
+script = ExtResource("1_script")
+plane_preview = NodePath("VBox/Preview/Plane")
+swatch = NodePath("VBox/Preview/Swatch")
+icon_rect = NodePath("VBox/Preview/Icon")
+frame_panel = NodePath("VBox/Preview/FrameCenter/Frame")
+frame_photo = NodePath("VBox/Preview/FrameCenter/Frame/Photo")
+name_label = NodePath("VBox/Name")
+cost_row = NodePath("VBox/CostRow")
+cost_label = NodePath("VBox/CostRow/Cost")
+status_label = NodePath("VBox/Status")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Preview" type="Control" parent="VBox"]
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Plane" type="TextureRect" parent="VBox/Preview"]
+material = SubResource("ShaderMaterial_paint")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_plane")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Swatch" type="Control" parent="VBox/Preview"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_swatch")
+
+[node name="Icon" type="TextureRect" parent="VBox/Preview"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="FrameCenter" type="CenterContainer" parent="VBox/Preview"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="VBox/Preview/FrameCenter"]
+visible = false
+custom_minimum_size = Vector2(96, 70)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_frame")
+
+[node name="Photo" type="TextureRect" parent="VBox/Preview/FrameCenter/Frame"]
+material = SubResource("ShaderMaterial_photo")
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_plane")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="VBox"]
+layout_mode = 2
+text = "Предмет"
+label_settings = SubResource("LabelSettings_name")
+horizontal_alignment = 1
+text_overrun_behavior = 3
+
+[node name="CostRow" type="HBoxContainer" parent="VBox"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="CoinIcon" type="TextureRect" parent="VBox/CostRow"]
+custom_minimum_size = Vector2(22, 22)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Cost" type="Label" parent="VBox/CostRow"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_cost")
+vertical_alignment = 1
+
+[node name="Status" type="Label" parent="VBox"]
+visible = false
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+text = "есть"
+label_settings = SubResource("LabelSettings_status")
+horizontal_alignment = 1
+vertical_alignment = 1

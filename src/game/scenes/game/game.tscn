@@ -54,6 +54,8 @@
 [ext_resource type="PackedScene" path="res://src/game/scenes/game/ui/boss_armor_pip.tscn" id="46_boss_pip"]
 [ext_resource type="Script" path="res://src/ui/ui_anchor/ui_anchor.gd" id="60_ui_anchor"]
 [ext_resource type="Resource" path="res://src/game/scenes/tutorial/tutorial_anchors.tres" id="61_tutorial_anchors"]
+[ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="62_pdata"]
+[ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="63_cosmetics"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_streak"]
 content_margin_left = 18.0
@@ -154,6 +156,8 @@ game_config = ExtResource("2_j4hd0")
 levels_config = ExtResource("3_hmv8q")
 root_events = ExtResource("8_xkl2s")
 initable_components = [NodePath("GameArea"), NodePath("LineSelector"), NodePath("Player"), NodePath("GameManager"), NodePath("HUD"), NodePath("HUD/TimedIntro")]
+pdata = ExtResource("62_pdata")
+cosmetics = ExtResource("63_cosmetics")
 
 [node name="GameArea" type="Node2D" parent="." unique_id=1652487391]
 script = ExtResource("3_5eju7")

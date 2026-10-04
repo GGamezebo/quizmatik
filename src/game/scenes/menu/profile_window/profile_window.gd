@@ -19,6 +19,10 @@ extends Control
 @export var delete_dialog: ConfirmDialog
 @export var profile_card_scene: PackedScene
 @export var root_events: RootEvents
+## Equipped look on the ID photo: paint, frame (`polaroid` panel style), sticker.
+@export var cosmetics: CosmeticCatalog
+@export var polaroid: PanelContainer
+@export var sticker: TextureRect
 
 ## Delete asks several times; each entry = [title, message with %s = pilot name].
 const DELETE_STEPS: Array = [
@@ -96,11 +100,31 @@ func _refresh() -> void:
 	var plane_id := live.equipped_plane_id
 	if profiles != null:
 		plane_id = profiles.equipped_plane_id()
-	PlaneCatalog.apply_preview(photo, plane_id)
+	PlaneCatalog.apply_preview(photo, plane_id, _equipped(live, CosmeticItem.Slot.PAINT) as PaintItem)
 	PlaneCatalog.apply_preview(plane_preview, plane_id)
+	_apply_id_look(live)
 	if plane_name_label:
 		plane_name_label.text = String(PlaneCatalog.get_def(plane_id).get("name", ""))
 	_rebuild_cards()
+
+
+func _apply_id_look(live: PData) -> void:
+	if cosmetics == null:
+		return
+	var frame := _equipped(live, CosmeticItem.Slot.FRAME) as FrameItem
+	if polaroid != null and frame != null and frame.style != null:
+		polaroid.add_theme_stylebox_override("panel", frame.style)
+	var badge := _equipped(live, CosmeticItem.Slot.STICKER) as StickerItem
+	if sticker != null:
+		sticker.visible = badge != null and badge.texture != null
+		if sticker.visible:
+			sticker.texture = badge.texture
+
+
+func _equipped(live: PData, slot: CosmeticItem.Slot) -> CosmeticItem:
+	if cosmetics == null:
+		return null
+	return cosmetics.equipped_item(slot, live.cosmetics.equipped)
 
 
 func _rebuild_cards() -> void:

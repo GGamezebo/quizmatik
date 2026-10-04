@@ -32,6 +32,14 @@ func apply_plane(plane_id: String) -> void:
 		sprite.modulate = tint
 
 
+func apply_paint(item: PaintItem) -> void:
+	PlaneCatalog.apply_paint(sprite.material, item)
+
+
+func apply_trail(item: TrailItem) -> void:
+	trail.apply_style(item)
+
+
 func _process(delta: float) -> void:
 	_time += delta
 	var omega := TAU / maxf(hover_period_sec, 0.01)

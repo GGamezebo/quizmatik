@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene format=3]
 
 [ext_resource type="Script" path="res://src/features/plane/plane_flyer.gd" id="1_flyer"]
 [ext_resource type="Script" path="res://src/features/plane/plane_flyer_trail.gd" id="2_trail"]
@@ -6,10 +6,11 @@
 [ext_resource type="SpriteFrames" path="res://src/features/plane/plane_frames.tres" id="4_frames"]
 [ext_resource type="SpriteFrames" path="res://src/features/plane/flame_frames.tres" id="5_flame"]
 [ext_resource type="Texture2D" uid="uid://rux51tr7d7c5" path="res://assets/effects/starlight_shining.png" id="6_glow"]
+[ext_resource type="Shader" path="res://src/features/plane/plane_body.gdshader" id="7_body"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_body"]
 resource_local_to_scene = true
-shader = ExtResource("3_shader")
+shader = ExtResource("7_body")
 shader_parameter/shadow_offset = Vector2(-3, 6)
 shader_parameter/shadow_color = Color(0.28, 0.22, 0.16, 0.45)
 shader_parameter/shadow_blur = 2.0

@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://c8profilecreateov" path="res://src/ui/profile_create_overlay/profile_create_overlay.tscn" id="17_first"]
 [ext_resource type="Script" path="res://src/game/account/mistakes_controller.gd" id="18_mistakes"]
 [ext_resource type="PackedScene" uid="uid://c8n3apppause01" path="res://src/features/app_pause/app_pause_controller.tscn" id="19_pause"]
+[ext_resource type="PackedScene" path="res://src/game/account/cosmetics_controller.tscn" id="20_cosmetics"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -67,6 +68,8 @@ vibration_controller = NodePath("../../../VibrationController")
 [node name="DailyChallengesController" parent="Account" unique_id=228399011 instance=ExtResource("11_daily")]
 
 [node name="ProfileController" parent="Account" instance=ExtResource("15_profile")]
+
+[node name="CosmeticsController" parent="Account" instance=ExtResource("20_cosmetics")]
 
 [node name="StatisticsController" type="Node" parent="Account" unique_id=1674268049]
 script = ExtResource("9_stats")

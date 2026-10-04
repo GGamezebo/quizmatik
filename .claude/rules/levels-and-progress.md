@@ -29,7 +29,7 @@ paths:
 ## Progress
 
 - Schema: `PData` (`src/game/account/persistent_data.gd`) — typed nested classes; live defaults in `persistent_data.tres` = **active profile**
-- Save envelope v7 (v4 = tutorial chapters, v5 = `mistakes`, v6 = `ContainerProgress.unlocked`, v7 = `difficulty` replaces `gender`/`age`): `{ active_profile_id, profiles }` (`SaveData.CURRENT_SAVE_VERSION`); switch stashes live PData into the slot
+- Save envelope v8 (v4 = tutorial chapters, v5 = `mistakes`, v6 = `ContainerProgress.unlocked`, v7 = `difficulty` replaces `gender`/`age`, v8 = `cosmetics`): `{ active_profile_id, profiles }` (`SaveData.CURRENT_SAVE_VERSION`); switch stashes live PData into the slot
 - Profile identity = `display_name` (empty → `ProfileController.DEFAULT_NAME` «Пилот»; `create_profile` + new-pilot prefill use `unique_name()` → «Пилот 2», «Пилот 3»…, case-insensitive) + `PData.difficulty` (`BattleDifficulty` id). Never collect gender/age/other personal data (store requirements)
 - `ProfileController` — create/switch/delete (never last), gold, equipped plane; `set_difficulty()` / `valley_difficulty()` → `BattleDifficulty` for valleys only; lab-only `wipe_all_profiles()` empties the envelope immediately (then first-run overlay)
 - `PData.trophies.unlocked` — valley exam trophies; UI kit `tools/generate_achievements_ui.py`
@@ -39,6 +39,7 @@ paths:
 - Daily challenges (UTC day, 5 win-slots): `DailyChallengesController` — any battle win fills one slot; 5/5 first time that day → +1 gold
 - Level gold: regular level first reaching 3★ → +1 gold (`ProgressController.pass_level` returns amount, `post_battle` → `{level_gold}`; AppRoot grants via `ProfileController.add_gold`, passes `level_gold` to PostBattle label). Exam gives no level gold
 - Bonus gold: `GameConfig.bonus_gold_chance` (default 0 = practice / exam / L1–2) → ≤1 golden balloon per battle; payload `bonus_gold` granted by AppRoot `_apply_battle_result` **before** the win check (kept on lose / HUD exit; lost on in-battle restart); PostBattle `BonusGold` label
+- Cosmetics: `PData.cosmetics` (`owned` ids, `equipped` slot key → id; keys = `CosmeticItem.SLOT_KEYS`, never rename) mutated only by `CosmeticsController.try_buy` / `equip` (spends `pdata.gold`); free items never stored
 - Disk write: only `SaveManager` (controllers emit `RootEvents.ev_save_progress` → `save()`)
 - `save()` is **debounced** (`SAVE_DEBOUNCE_SEC`, restarts on each request): no synchronous write per mutation
 - **Never writes during battle** (`ev_battle_started`→`ev_battle_finished`); force-flush at battle end

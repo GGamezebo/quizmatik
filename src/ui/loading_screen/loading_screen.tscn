@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cvayb5jfghll4"]
+[gd_scene format=3 uid="uid://cvayb5jfghll4"]
 
 [ext_resource type="Script" uid="uid://besgghwghmqhr" path="res://src/ui/loading_screen/loading_screen.gd" id="1_8cml4"]
 [ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="2_pdata"]
@@ -8,6 +8,7 @@
 [ext_resource type="Shader" path="res://src/ui/loading_screen/notebook_grid.gdshader" id="6_grid_shader"]
 [ext_resource type="PackedScene" path="res://src/features/plane/plane_flyer.tscn" id="7_flyer"]
 [ext_resource type="FontVariation" uid="uid://dyt157qapui8s" path="res://core/theme/title_font.tres" id="8_title_font"]
+[ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="9_cosmetics"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
 resource_local_to_scene = true
@@ -67,6 +68,7 @@ corner_radius_bottom_left = 8
 [node name="LoadingScreen" type="CanvasLayer" node_paths=PackedStringArray("sheet", "sky", "grid", "flyer", "progress_bar", "status_label", "fact_label")]
 script = ExtResource("1_8cml4")
 pdata = ExtResource("2_pdata")
+cosmetics = ExtResource("9_cosmetics")
 sheet = NodePath("Sheet")
 sky = NodePath("Sheet/Sky")
 grid = NodePath("Sheet/Grid")

@@ -11,13 +11,16 @@
 [ext_resource type="Script" uid="uid://c26vc5jhui0yf" path="res://src/features/plane/audio_stream_player.gd" id="8_jxtnq"]
 [ext_resource type="Texture2D" uid="uid://rux51tr7d7c5" path="res://assets/effects/starlight_shining.png" id="9_i07py"]
 [ext_resource type="SpriteFrames" path="res://src/features/plane/flame_frames.tres" id="10_flame"]
+[ext_resource type="Shader" path="res://src/features/plane/plane_body.gdshader" id="13_body"]
+[ext_resource type="Script" path="res://src/features/plane/plane_flyer_trail.gd" id="14_trail"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_272bh"]
 radius = 21.72
 height = 234.85217
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1vivr"]
-shader = ExtResource("3_6smis")
+resource_local_to_scene = true
+shader = ExtResource("13_body")
 shader_parameter/shadow_offset = Vector2(-2, 2)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
@@ -28,7 +31,7 @@ shader_parameter/shadow_offset = Vector2(-2.5, 5)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 0.734000034865
 
-[node name="Plane" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("components", "directionComponents", "animated_sprite", "sfx_player")]
+[node name="Plane" type="Area2D" unique_id=216453935 node_paths=PackedStringArray("components", "directionComponents", "animated_sprite", "sfx_player", "trail", "nozzle")]
 collision_mask = 4
 script = ExtResource("1_c4h5g")
 components = [NodePath("AnimatedSprite2D"), NodePath("AudioStreamPlayer")]
@@ -39,10 +42,15 @@ movement_mode = 1
 sfx_player = NodePath("SfxPlayer")
 crash_sound = ExtResource("11_crash")
 victory_whoosh = ExtResource("12_whoosh")
+trail = NodePath("Trail")
+nozzle = NodePath("AnimatedSprite2D/Nozzle")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1479885553]
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_272bh")
+
+[node name="Trail" type="Node2D" parent="."]
+script = ExtResource("14_trail")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1524436245 node_paths=PackedStringArray("flame_animation")]
 material = SubResource("ShaderMaterial_1vivr")
@@ -63,6 +71,9 @@ modulate = Color(1, 1, 1, 0.40392157)
 position = Vector2(-10.999996, -1.1920929e-07)
 scale = Vector2(1.40625, 0.571875)
 texture = ExtResource("9_i07py")
+
+[node name="Nozzle" type="Marker2D" parent="AnimatedSprite2D"]
+position = Vector2(-200, 8)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=130746522]
 stream = ExtResource("3_incis")
