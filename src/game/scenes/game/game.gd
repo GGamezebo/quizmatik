@@ -7,6 +7,9 @@ extends IScene
 ## Active profile (shared live `.tres`) → equipped look items; isolated run → catalog defaults.
 @export var pdata: PData
 @export var cosmetics: CosmeticCatalog
+## Campaign battle: small chance to swap the valley art for one of these (school / forests).
+@export var rare_valley_backgrounds: Array[PackedScene] = []
+@export_range(0.0, 1.0, 0.01) var rare_valley_background_chance: float = 0.15
 
 func initialize(_data: Dictionary) -> void:
 	var scenario: GameConfig = _data.get('custom_battle')
@@ -32,11 +35,13 @@ func initialize(_data: Dictionary) -> void:
 	_apply_equipped_plane()
 	_apply_cosmetics()
 
-	# Campaign: tie battle background to selected valley.
+	# Campaign: tie battle background to selected valley (rarely a school / forest instead).
 	if battle_info != null:
 		var bg_host: BackgroundHost = get_node_or_null("HUD/Background") as BackgroundHost
 		if bg_host != null:
 			var packed: PackedScene = ValleyBackgroundArt.get_scene(battle_info.container_id)
+			if not rare_valley_backgrounds.is_empty() and randf() < rare_valley_background_chance:
+				packed = rare_valley_backgrounds.pick_random()
 			bg_host.force_variant(packed)
 	
 	for component in initable_components:
@@ -59,7 +64,7 @@ func _apply_equipped_plane() -> void:
 	game_config.equipped_plane_id = plane_id
 	var plane := get_node_or_null("Player/AirPlane") as AirPlane
 	if plane != null:
-		plane.apply_tint(PlaneCatalog.get_def(plane_id).get("tint", Color.WHITE) as Color)
+		plane.apply_plane(plane_id)
 
 
 ## Look only: paint / trail on the plane, shot ink. Never touches speed or combat.

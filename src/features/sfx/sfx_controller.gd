@@ -25,7 +25,7 @@ extends Node
 @export var boss_appear: AudioStream
 ## Armor plate knocked off; empty = `pop` pitched down.
 @export var boss_hit: AudioStream
-## Last plate — the boss goes down; empty = `pop` pitched way down.
+## Last rage shot — the boss goes down; empty = `pop` pitched way down.
 @export var boss_down: AudioStream
 
 const _BUTTON_META := "quizmatik_sfx_hooked"
@@ -47,6 +47,8 @@ func _ready() -> void:
 		_listener.add(game_events.ev_bonus_collected, _on_bonus_collected)
 		_listener.add(game_events.ev_boss_appeared, _on_boss_appeared)
 		_listener.add(game_events.ev_boss_hit, _on_boss_hit)
+		_listener.add(game_events.ev_boss_enraged, _on_boss_enraged)
+		_listener.add(game_events.ev_boss_shot, _on_boss_shot)
 		_listener.add(game_events.ev_win, _on_win)
 		_listener.add(game_events.ev_lose, _on_lose)
 		_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
@@ -132,16 +134,31 @@ func _on_boss_appeared(_armor: int) -> void:
 		play(battle_start, -2.0, 0.0, 0.7)
 
 
-func _on_boss_hit(armor_left: int) -> void:
-	if armor_left <= 0:
-		if boss_down != null:
-			play(boss_down, 0.0)
-		else:
-			play(pop, 0.0, 0.0, 0.4)
-	elif boss_hit != null:
+func _on_boss_hit(_armor_left: int) -> void:
+	if boss_hit != null:
 		play(boss_hit, -1.0, 0.05)
 	else:
 		play(pop, -1.0, 0.05, 0.6)
+
+
+## Angry growl: the fly-in sound pitched way down.
+func _on_boss_enraged(_hits: int) -> void:
+	if boss_appear != null:
+		play(boss_appear, 0.0, 0.0, 0.6)
+	else:
+		play(battle_start, 0.0, 0.0, 0.5)
+
+
+func _on_boss_shot(hits_left: int) -> void:
+	if hits_left > 0:
+		if boss_hit != null:
+			play(boss_hit, -4.0, 0.12)
+		else:
+			play(pop, -3.0, 0.12, 0.7)
+	elif boss_down != null:
+		play(boss_down, 0.0)
+	else:
+		play(pop, 0.0, 0.0, 0.4)
 
 
 func _play_pop() -> void:

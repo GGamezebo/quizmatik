@@ -1,364 +1,399 @@
+"""Campaign levels: src/levels/{valley}/level_1..20.tres (20 = exam).
+
+Curriculum for kids 7-10 (Russian primary school order): each valley = 19 regular levels in 4 acts
+(new skill → practice → mix) + exam that climbs through every act's skill (score stages).
+Pace is authored as `t` = seconds a balloon needs to reach the plane on NORMAL difficulty
+(BattleDifficulty: EASY ≈ +40% time, HARD ≈ −25%); speed = TRAVEL_PX / t.
+
+Run: python tools/generate_levels.py  (rewrites only level .tres; levels_config.gd is hand-edited).
+"""
 import os
+import re
 
 BASE = os.path.join(os.path.dirname(__file__), "..", "src", "levels")
 SCRIPT_PATH = "res://src/common/game_config_default.gd"
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "src", "common", "levels", "levels_config.gd")
 
-LEVEL_COUNT = 17
-EXAM_LEVEL = 17
-
+LEVEL_COUNT = 20
+EXAM_LEVEL = 20
 HEALTH = 3
+# Balloon spawn x (1380) → plane nose (~280) at 1280×720.
+TRAVEL_PX = 1100.0
 
-BLOCKS = [
-    {"id": "addition", "name": "Долина Сложения", "unlock_name": "is_unlocked_by_default", "unlock_args": [], "ops": 1},
-    {"id": "subtraction", "name": "Долина Вычитания", "unlock_name": "is_unlocked_by_exam", "unlock_args": ["addition"], "ops": 2},
-    {"id": "multiplication", "name": "Долина Умножения", "unlock_name": "is_unlocked_by_exam", "unlock_args": ["subtraction"], "ops": 4},
-    {"id": "division", "name": "Долина Деления", "unlock_name": "is_unlocked_by_exam", "unlock_args": ["multiplication"], "ops": 8},
-    {"id": "mix", "name": "Долина Смешения", "unlock_name": "is_unlocked_by_exam", "unlock_args": ["division"], "ops": 15},
-]
+ADD, SUB, MUL, DIV = 1, 2, 4, 8
+CARRY_ANY, CARRY_NONE, CARRY_REQUIRED = 0, 1, 2
 
-# 4 acts x 4 levels + exam. HP always 3, questions 5-18.
-# Base speed is moderate; answer_speed_round_coeffs ramps difficulty mid-battle.
-LEVEL_CURVE = {
-    # Act 1 — warmup, no or mild in-battle acceleration
-    1: {"q": 5, "spd": 58, "lines": 3, "round_coeffs": {}},
-    2: {"q": 5, "spd": 62, "lines": 3, "round_coeffs": {}},
-    3: {"q": 6, "spd": 65, "lines": 3, "round_coeffs": {4: 1.1}},
-    4: {"q": 6, "spd": 70, "lines": 3, "round_coeffs": {4: 1.15}},
-    # Act 2 — numbers grow, first real speed ramps
-    5: {"q": 7, "spd": 72, "lines": 3, "round_coeffs": {4: 1.1, 6: 1.2}},
-    6: {"q": 7, "spd": 78, "lines": 3, "round_coeffs": {4: 1.15, 7: 1.25}},
-    7: {"q": 8, "spd": 80, "lines": 4, "round_coeffs": {4: 1.15, 7: 1.25}},
-    8: {"q": 8, "spd": 85, "lines": 4, "round_coeffs": {4: 1.2, 8: 1.3}},
-    # Act 3 — endurance; speed ramps at ~40%, ~70%, and final round
-    9: {"q": 9, "spd": 88, "lines": 4, "round_coeffs": {4: 1.15, 7: 1.3, 9: 1.4}},
-    10: {"q": 10, "spd": 92, "lines": 4, "round_coeffs": {4: 1.2, 7: 1.3, 10: 1.45}},
-    11: {"q": 11, "spd": 96, "lines": 4, "round_coeffs": {4: 1.2, 8: 1.35, 11: 1.45}},
-    12: {"q": 12, "spd": 100, "lines": 4, "round_coeffs": {4: 1.2, 8: 1.35, 12: 1.5}},
-    # Act 4 — plane acceleration + stronger mid-battle ramps
-    13: {"q": 13, "spd": 95, "lines": 4, "round_coeffs": {5: 1.2, 9: 1.35, 13: 1.5}, "acc_min": 0.75, "acc_max": 1.4},
-    14: {"q": 14, "spd": 98, "lines": 4, "round_coeffs": {5: 1.2, 9: 1.35, 14: 1.5}, "acc_min": 0.75, "acc_max": 1.4},
-    15: {"q": 15, "spd": 100, "lines": 4, "round_coeffs": {5: 1.25, 10: 1.4, 15: 1.55}, "acc_min": 0.65, "acc_max": 1.65},
-    16: {"q": 16, "spd": 102, "lines": 4, "round_coeffs": {5: 1.25, 10: 1.45, 16: 1.6}, "acc_min": 0.65, "acc_max": 1.65},
-    # Exam — long fight with steady escalation
-    17: {
-        "q": 18,
-        "spd": 95,
-        "lines": 4,
-        "round_coeffs": {6: 1.15, 12: 1.3, 15: 1.45, 18: 1.55},
-        "acc_min": 0.65,
-        "acc_max": 1.65,
-        "early_exam_questions_multiplier": 1.5,
-        "early_exam_answer_speed_multiplier": 1.25,
-    },
+TIMED_LEVELS = {9: 60.0, 17: 60.0}
+# End of acts 2 and 3: guaranteed mini-boss (armor 3).
+BOSS_LEVELS = {10, 15}
+EXAM_BOSS_ARMOR = 5
+EXAM_BOSS_RAGE_HITS = 20
+EXAM_QUESTIONS = 15
+EXAM_STAGE_SCORES = (4, 8, 12)
+
+
+def op(a, b=None, res=None):
+    """First operand range, second operand range, allowed answer range (tuples)."""
+    return {"a": a, "b": b, "res": res}
+
+
+def lvl(t, q, ops, carry=CARRY_ANY, intro=False, **extra):
+    return {"t": t, "q": q, "ops": ops, "carry": carry, "intro": intro, **extra}
+
+
+def stage(t, ops, carry=CARRY_ANY):
+    return {"t": t, "ops": ops, "carry": carry}
+
+
+# --- Addition: within 10 → through ten (within 20) → within 100 -----------------------------
+A_10 = {ADD: op((1, 9), (1, 9), (2, 10))}
+A_20_CROSS = {ADD: op((2, 9), (2, 9), (11, 18))}
+A_2D_1D = {ADD: op((10, 89), (2, 9), (12, 99))}
+A_2D_2D_NO_CARRY = {ADD: op((10, 80), (10, 50), (20, 99))}
+A_2D_2D = {ADD: op((10, 79), (10, 49), (20, 100))}
+
+ADDITION = {
+    1: lvl(18, 6, {ADD: op((1, 5), (1, 2))}, intro=True),
+    2: lvl(16, 6, {ADD: op((1, 7), (1, 3), (2, 10))}),
+    3: lvl(15, 7, A_10),
+    4: lvl(14, 7, {ADD: op((1, 9), (1, 9), (7, 10))}),
+    5: lvl(12, 8, A_10),
+    6: lvl(15, 7, {ADD: op((10, 15), (1, 4), (11, 19))}, CARRY_NONE, intro=True),
+    7: lvl(16, 7, {ADD: op((2, 9), (8, 9), (11, 18))}, intro=True),
+    8: lvl(15, 8, A_20_CROSS),
+    9: lvl(13, 0, {ADD: op((1, 9), (1, 9), (2, 18))}),
+    10: lvl(13, 9, {ADD: op((2, 15), (2, 9), (5, 20))}),
+    11: lvl(15, 8, {ADD: op((10, 89), (1, 9), (11, 99))}, CARRY_NONE, intro=True),
+    12: lvl(17, 8, {ADD: op((11, 89), (2, 9), (20, 99))}, CARRY_REQUIRED, intro=True),
+    13: lvl(17, 8, A_2D_2D_NO_CARRY, CARRY_NONE, intro=True),
+    14: lvl(14, 9, A_2D_1D),
+    15: lvl(20, 8, {ADD: op((11, 69), (11, 39), (30, 100))}, CARRY_REQUIRED, intro=True),
+    16: lvl(18, 9, A_2D_2D),
+    17: lvl(14, 0, A_2D_1D),
+    18: lvl(16, 10, {ADD: op((10, 89), (2, 39), (12, 100))}),
+    19: lvl(17, 10, {ADD: op((15, 79), (15, 49), (30, 100))}),
+    20: [
+        stage(12, {ADD: op((2, 9), (2, 9), (5, 18))}),
+        stage(14, A_2D_1D),
+        stage(16, A_2D_2D_NO_CARRY, CARRY_NONE),
+        stage(17, A_2D_2D),
+    ],
+}
+
+# --- Subtraction: within 10 → through ten → within 100; act 4 mixes + and − -------------------
+S_2D_1D = {SUB: op((20, 99), (2, 9))}
+S_2D_2D = {SUB: op((30, 99), (10, 59), (5, 89))}
+
+SUBTRACTION = {
+    1: lvl(16, 6, {SUB: op((2, 10), (1, 2))}, intro=True),
+    2: lvl(15, 6, {SUB: op((3, 10), (1, 5), (1, 9))}),
+    3: lvl(14, 7, {SUB: op((2, 10), (1, 9), (1, 9))}),
+    4: lvl(13, 7, {SUB: op((10, 10), (1, 9))}),
+    5: lvl(12, 8, {SUB: op((2, 10), (1, 9))}),
+    6: lvl(14, 7, {SUB: op((11, 19), (1, 9), (10, 18))}, CARRY_NONE, intro=True),
+    7: lvl(16, 7, {SUB: op((11, 18), (2, 9), (2, 9))}, CARRY_REQUIRED, intro=True),
+    8: lvl(15, 8, {SUB: op((11, 18), (8, 9), (2, 9))}, CARRY_REQUIRED),
+    9: lvl(13, 0, {SUB: op((2, 18), (1, 9), (1, 17))}),
+    10: lvl(13, 9, {SUB: op((11, 20), (2, 9), (2, 18))}),
+    11: lvl(15, 8, {SUB: op((20, 99), (1, 9), (11, 98))}, CARRY_NONE, intro=True),
+    12: lvl(17, 8, S_2D_1D, CARRY_REQUIRED, intro=True),
+    13: lvl(17, 8, {SUB: op((30, 99), (10, 60), (10, 89))}, CARRY_NONE, intro=True),
+    14: lvl(14, 9, S_2D_1D),
+    15: lvl(21, 8, {SUB: op((30, 99), (11, 59), (5, 88))}, CARRY_REQUIRED, intro=True),
+    16: lvl(18, 9, S_2D_2D),
+    17: lvl(14, 0, S_2D_1D),
+    18: lvl(16, 10, {ADD: op((10, 79), (2, 29), (12, 100)), SUB: op((20, 99), (2, 29), (5, 97))}),
+    19: lvl(17, 10, {**A_2D_2D, **S_2D_2D}),
+    20: [
+        stage(12, {SUB: op((2, 10), (1, 9), (1, 9))}),
+        stage(14, {SUB: op((11, 18), (2, 9), (2, 9))}, CARRY_REQUIRED),
+        stage(15, S_2D_1D),
+        stage(17, {**A_2D_2D, **S_2D_2D}),
+    ],
 }
 
 
-# Share of `? + 3 = 7` questions (GameConfig.missing_operand_chance): off in act 1-2 start,
-# then mid-valley introduction, exam = mix.
-def missing_operand_chance(level_id: int) -> float:
+# --- Multiplication / division: one table at a time (2, 3, 4, 5 → 6, 7 → 8, 9) -----------------
+def table(operation, rows, cols=(2, 10)):
+    return {operation: op(rows, cols)}
+
+
+def table_valley(operation, slow):
+    """`slow` = extra seconds (division is the harder direction)."""
+    t = lambda base: base + slow
+    full = table(operation, (2, 9), (2, 9))
+    return {
+        1: lvl(t(15), 6, table(operation, (2, 2)), intro=True),
+        2: lvl(t(15), 6, table(operation, (3, 3)), intro=True),
+        3: lvl(t(13), 7, table(operation, (2, 3))),
+        4: lvl(t(15), 7, table(operation, (4, 4)), intro=True),
+        5: lvl(t(13), 7, table(operation, (5, 5)), intro=True),
+        6: lvl(t(13), 8, table(operation, (2, 5))),
+        7: lvl(t(16), 7, table(operation, (6, 6)), intro=True),
+        8: lvl(t(16), 7, table(operation, (7, 7)), intro=True),
+        9: lvl(t(12), 0, table(operation, (2, 5))),
+        10: lvl(t(15), 8, table(operation, (6, 7))),
+        11: lvl(t(16), 7, table(operation, (8, 8)), intro=True),
+        12: lvl(t(16), 7, table(operation, (9, 9)), intro=True),
+        13: lvl(t(15), 8, table(operation, (8, 9))),
+        14: lvl(t(15), 9, table(operation, (6, 9), (2, 9))),
+        15: lvl(t(14), 9, full),
+        16: (
+            lvl(t(15), 9, full, missing=0.5, missing_start=0.0)
+            if operation == MUL
+            else lvl(t(14), 9, {**table(MUL, (2, 9), (2, 9)), **full})
+        ),
+        17: lvl(t(13), 0, full),
+        18: lvl(t(14), 10, table(operation, (6, 9), (6, 9))),
+        19: (
+            lvl(t(13), 10, table(operation, (2, 10), (2, 10)))
+            if operation == MUL
+            else lvl(t(13), 10, {**table(MUL, (2, 10), (2, 10)), **table(DIV, (2, 10), (2, 10))}, missing=0.4)
+        ),
+        20: [
+            stage(t(12), table(operation, (2, 5))),
+            stage(t(14), table(operation, (6, 7))),
+            stage(t(14), table(operation, (8, 9))),
+            stage(t(13), table(operation, (2, 10), (2, 10))),
+        ],
+    }
+
+
+MULTIPLICATION = table_valley(MUL, 0)
+DIVISION = table_valley(DIV, 2)
+
+# --- Mix: all four operations, grade 3-4 (incl. 2-digit × 1-digit and 3-digit ± 1-digit) -------
+M_AS_20 = {ADD: op((2, 9), (2, 9), (5, 18)), SUB: op((11, 18), (2, 9), (2, 9))}
+M_AS_100 = {ADD: op((10, 89), (2, 9), (12, 99)), SUB: op((20, 99), (2, 9))}
+M_AS_2D = {**A_2D_2D, **S_2D_2D}
+M_MD_5 = {MUL: op((2, 5), (2, 10)), DIV: op((2, 5), (2, 10))}
+M_MD_9 = {MUL: op((2, 9), (2, 9)), DIV: op((2, 9), (2, 9))}
+M_MD_10 = {MUL: op((2, 10), (2, 10)), DIV: op((2, 10), (2, 10))}
+M_MD_BIG = {MUL: op((11, 19), (2, 5), (22, 95)), DIV: op((2, 5), (11, 19))}
+
+MIX = {
+    1: lvl(14, 8, M_AS_20),
+    2: lvl(14, 8, M_MD_5),
+    3: lvl(14, 8, {**M_AS_20, **M_MD_5}),
+    4: lvl(15, 8, M_AS_100),
+    5: lvl(15, 8, M_MD_9),
+    6: lvl(15, 9, {**M_AS_100, **M_MD_9}),
+    7: lvl(18, 8, M_AS_2D),
+    8: lvl(22, 7, M_MD_BIG, intro=True),
+    9: lvl(13, 0, {**M_AS_20, **M_MD_9}),
+    10: lvl(15, 10, {**M_AS_100, **M_MD_10}),
+    11: lvl(17, 9, {**M_AS_2D, MUL: op((2, 9), (2, 9))}),
+    12: lvl(22, 8, {MUL: op((11, 25), (2, 4), (22, 100)), DIV: op((2, 4), (11, 25))}),
+    13: lvl(17, 10, {**M_AS_2D, **M_MD_10}),
+    14: lvl(17, 9, {ADD: op((100, 990), (2, 9)), SUB: op((100, 999), (2, 9))}, intro=True),
+    15: lvl(22, 8, {MUL: op((11, 30), (2, 5), (22, 150)), DIV: op((2, 5), (11, 30))}),
+    16: lvl(17, 10, {**M_AS_100, **M_MD_9}, missing=0.5, missing_start=0.0),
+    17: lvl(14, 0, {**M_AS_100, **M_MD_9}),
+    18: lvl(16, 10, {**M_AS_2D, **M_MD_10}),
+    19: lvl(18, 10, {**M_AS_2D, MUL: op((11, 19), (2, 5), (22, 95)), DIV: op((2, 9), (2, 12))}),
+    20: [
+        stage(13, {**M_AS_20, **M_MD_5}),
+        stage(15, {**M_AS_100, **M_MD_9}),
+        stage(17, {**M_AS_2D, **M_MD_10}),
+        stage(19, {**M_AS_2D, **M_MD_BIG}),
+    ],
+}
+
+VALLEYS = {
+    "addition": ADDITION,
+    "subtraction": SUBTRACTION,
+    "multiplication": MULTIPLICATION,
+    "division": DIVISION,
+    "mix": MIX,
+}
+
+
+def speed(t: float) -> float:
+    return round(TRAVEL_PX / t, 1)
+
+
+def lines_count(level_id: int) -> int:
+    return 3 if level_id <= 3 else 4
+
+
+# `? + 3 = 7` share and the battle share before it starts (GameConfig.missing_operand_*).
+def missing_operand(level_id: int, params: dict) -> tuple[float, float]:
+    if "missing" in params:
+        return params["missing"], params.get("missing_start", 0.0)
     if level_id == EXAM_LEVEL:
-        return 0.4
-    if level_id >= 10:
-        return 0.5
-    if level_id >= 6:
-        return 0.3
-    return 0.0
+        return 0.25, 0.25
+    if level_id <= 5 or params.get("intro"):
+        return 0.0, 0.0
+    if level_id <= 10:
+        return 0.2, 0.5
+    return 0.3, 0.3
 
 
-# Golden bonus balloon (GameConfig.bonus_gold_chance): off on tutorial levels 1-2 and the exam.
+# Mid-battle speed-up for fluency (none while a skill is new).
+def round_coeffs(level_id: int, params: dict) -> dict:
+    if level_id in TIMED_LEVELS:
+        return {4: 1.1, 8: 1.2}
+    q = params["q"]
+    if params.get("intro") or level_id <= 4:
+        return {}
+    if level_id <= 10:
+        return {(q + 1) // 2: 1.1}
+    return {(q + 1) // 2: 1.1, round(q * 0.8): 1.2}
+
+
 def bonus_gold_chance(level_id: int) -> float:
-    if level_id == EXAM_LEVEL or level_id < 3:
-        return 0.0
-    return 0.35
+    return 0.0 if level_id == EXAM_LEVEL or level_id < 3 else 0.35
 
 
-# Timed levels (GameConfig.time_limit_sec): survive N seconds instead of answering N questions.
-TIMED_LEVELS = {5: 60.0, 12: 60.0}
-
-
-def time_limit_sec(level_id: int) -> float:
-    return TIMED_LEVELS.get(level_id, 0.0)
-
-
-# Boss airship after the last regular answer (GameConfig.boss_chance / boss_armor):
-# exam always (armor 6); regular L3-16 rarely with default armor 3; never on L1-2 or timed levels.
 def boss_chance(level_id: int) -> float:
-    if level_id == EXAM_LEVEL:
+    if level_id == EXAM_LEVEL or level_id in BOSS_LEVELS:
         return 1.0
     if level_id < 3 or level_id in TIMED_LEVELS:
         return 0.0
     return 0.15
 
 
-def boss_armor(level_id: int) -> int:
-    return 6 if level_id == EXAM_LEVEL else 3
+# --- Godot text serialization ------------------------------------------------------------------
+def gd(value) -> str:
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, int):
+        return str(value)
+    if isinstance(value, float):
+        return f"{value:.1f}" if value == int(value) else repr(round(value, 4))
+    if isinstance(value, str):
+        return f'"{value}"'
+    if isinstance(value, tuple):
+        return f"Vector2i({value[0]}, {value[1]})"
+    if isinstance(value, dict):
+        if not value:
+            return "{}"
+        return "{\n" + ",\n".join(f"{gd(k)}: {gd(v)}" for k, v in value.items()) + "\n}"
+    raise TypeError(value)
 
 
-# Addition: both operands grow with level so late stages yield e.g. 22+87.
-# min rises too so hard levels are not diluted by tiny sums.
-ADDITION_NUMBER_RANGE = {
-    # Act 1 — single digits / small tens
-    1: (1, 5),
-    2: (1, 7),
-    3: (1, 9),
-    4: (2, 12),
-    # Act 2 — teens → low twenties
-    5: (2, 16),
-    6: (3, 20),
-    7: (4, 25),
-    8: (5, 32),
-    # Act 3 — solid two-digit
-    9: (6, 40),
-    10: (8, 48),
-    11: (10, 58),
-    12: (12, 68),
-    # Act 4 — large two-digit
-    13: (15, 78),
-    14: (18, 85),
-    15: (20, 92),
-    16: (22, 97),
-    # Exam — start mid; generate_number_round_ranges ramps during battle
-    17: (5, 25),
-}
-
-# score → (min, max); same thresholds as exam answer_speed_round_coeffs
-ADDITION_EXAM_NUMBER_ROUND_RANGES = {
-    6: (10, 40),
-    12: (15, 60),
-    15: (20, 80),
-    18: (25, 99),
-}
+def ops_fields(ops: dict, carry: int) -> dict:
+    """GameConfig fields for one setup (`ops` = {op: op(...)})."""
+    flags = 0
+    first, second, result = {}, {}, {}
+    for operation in sorted(ops):
+        spec = ops[operation]
+        flags |= operation
+        first[operation] = spec["a"]
+        if spec["b"] is not None:
+            second[operation] = spec["b"]
+        if spec["res"] is not None:
+            result[operation] = spec["res"]
+    lows = [r[0] for r in first.values()]
+    highs = [r[1] for r in first.values()]
+    return {
+        "allowed_operations": flags,
+        "min_generate_number": min(lows),
+        "max_generate_number": max(highs),
+        "operation_ranges": first,
+        "second_operand_ranges": second,
+        "result_ranges": result,
+        "carry_mode": carry,
+    }
 
 
-def number_range(block_id: str, level_id: int) -> tuple[int, int]:
-    if block_id == "addition":
-        return ADDITION_NUMBER_RANGE[level_id]
-    if block_id == "subtraction":
-        if level_id <= 4:
-            return 1, 4
-        if level_id <= 8:
-            return 1, 7
-        if level_id <= 12:
-            return 1, 9
-        if level_id <= 16:
-            return 2, 12
-        return 1, 15
-    if block_id in ("multiplication", "division"):
-        if level_id <= 4:
-            return 2, 3
-        if level_id <= 8:
-            return 2, 6
-        if level_id <= 12:
-            return 2, 8
-        if level_id <= 16:
-            return 2, 10
-        return 2, 12
-    if level_id <= 4:
-        return 2, 4
-    if level_id <= 8:
-        return 2, 7
-    if level_id <= 12:
-        return 2, 9
-    return 2, 12
+def level_fields(valley: dict, level_id: int) -> dict:
+    """Ordered GameConfig fields for a level (defaults omitted)."""
+    params = valley[level_id]
+    is_exam = level_id == EXAM_LEVEL
+    fields = {}
+    if is_exam:
+        stages = params
+        base = stages[0]
+        params = {"t": base["t"], "q": EXAM_QUESTIONS, "ops": base["ops"], "carry": base["carry"]}
+    setup = ops_fields(params["ops"], params["carry"])
+    fields["allowed_operations"] = setup["allowed_operations"]
+    fields["min_generate_number"] = setup["min_generate_number"]
+    fields["max_generate_number"] = setup["max_generate_number"]
+    fields["answer_lines_count"] = lines_count(level_id)
+    fields["health"] = HEALTH
+    fields["questions_count"] = params["q"] if params["q"] > 0 else 10
+    fields["answer_speed"] = speed(params["t"])
+    if is_exam:
+        coeffs, ranges = {}, {}
+        for score, step in zip(EXAM_STAGE_SCORES, stages[1:]):
+            coeffs[score] = round(base["t"] / step["t"], 2)
+            step_setup = ops_fields(step["ops"], step["carry"])
+            step_setup.pop("min_generate_number")
+            step_setup.pop("max_generate_number")
+            ranges[score] = step_setup
+        fields["answer_speed_round_coeffs"] = coeffs
+        fields["generate_number_round_ranges"] = ranges
+    else:
+        fields["answer_speed_round_coeffs"] = {k: float(v) for k, v in round_coeffs(level_id, params).items()}
+    for key in ("operation_ranges", "second_operand_ranges", "result_ranges"):
+        if setup[key]:
+            fields[key] = setup[key]
+    if setup["carry_mode"] != CARRY_ANY:
+        fields["carry_mode"] = setup["carry_mode"]
+    chance, start = missing_operand(level_id, params)
+    if chance > 0.0:
+        fields["missing_operand_chance"] = chance
+        if start > 0.0:
+            fields["missing_operand_start_progress"] = start
+    if level_id in TIMED_LEVELS:
+        fields["time_limit_sec"] = TIMED_LEVELS[level_id]
+    bonus = bonus_gold_chance(level_id)
+    if bonus > 0.0:
+        fields["bonus_gold_chance"] = bonus
+    boss = boss_chance(level_id)
+    if boss > 0.0:
+        fields["boss_chance"] = boss
+        if is_exam:
+            fields["boss_armor"] = EXAM_BOSS_ARMOR
+            fields["boss_rage_hits"] = EXAM_BOSS_RAGE_HITS
+    if is_exam:
+        fields["early_exam_questions_multiplier"] = 1.3
+        fields["early_exam_answer_speed_multiplier"] = 1.15
+    return fields
 
 
-def format_round_coeffs_tres(round_coeffs: dict) -> list[str]:
-    if not round_coeffs:
-        return ["answer_speed_round_coeffs = {}"]
-    lines = ["answer_speed_round_coeffs = {"]
-    for round_num in sorted(round_coeffs.keys()):
-        coeff = round_coeffs[round_num]
-        if coeff == int(coeff):
-            lines.append(f"{round_num}: {int(coeff)}.0,")
-        else:
-            lines.append(f"{round_num}: {coeff},")
-    lines.append("}")
-    return lines
+def existing_uid(path: str) -> str:
+    if not os.path.exists(path):
+        return ""
+    with open(path, encoding="utf-8") as file:
+        match = re.search(r'^\[gd_resource[^\]]*uid="(uid://[a-z0-9]+)"', file.read(), re.M)
+    return match.group(1) if match else ""
 
 
-def format_number_round_ranges_tres(ranges: dict) -> list[str]:
-    if not ranges:
-        return []
-    lines = ["generate_number_round_ranges = {"]
-    for score in sorted(ranges.keys()):
-        min_n, max_n = ranges[score]
-        lines.append(f"{score}: {{")
-        lines.append(f'"min_generate_number": {min_n},')
-        lines.append(f'"max_generate_number": {max_n},')
-        lines.append("},")
-    lines.append("}")
-    return lines
-
-
-def make_tres(block: dict, level_id: int) -> str:
-    params = LEVEL_CURVE[level_id]
-    min_n, max_n = number_range(block["id"], level_id)
-    round_coeffs = params.get("round_coeffs", {})
-    number_round_ranges = {}
-    if block["id"] == "addition" and level_id == EXAM_LEVEL:
-        number_round_ranges = ADDITION_EXAM_NUMBER_ROUND_RANGES
+def make_tres(valley: dict, level_id: int, uid: str) -> str:
+    uid_attr = f' uid="{uid}"' if uid else ""
     lines = [
-        '[gd_resource type="Resource" script_class="GameConfig" load_steps=2 format=3]',
+        f'[gd_resource type="Resource" script_class="GameConfig" format=3{uid_attr}]',
         "",
         f'[ext_resource type="Script" path="{SCRIPT_PATH}" id="1_script"]',
         "",
         "[resource]",
         'script = ExtResource("1_script")',
-        f'allowed_operations = {block["ops"]}',
-        f"min_generate_number = {min_n}",
-        f"max_generate_number = {max_n}",
-        f'answer_lines_count = {params["lines"]}',
-        f"health = {HEALTH}",
-        f'questions_count = {params["q"]}',
-        f'answer_speed = {float(params["spd"])}',
-        *format_round_coeffs_tres(round_coeffs),
-        *format_number_round_ranges_tres(number_round_ranges),
     ]
-    missing = missing_operand_chance(level_id)
-    if missing > 0.0:
-        lines.append(f"missing_operand_chance = {missing}")
-    if "acc_min" in params:
-        lines.append(f'player_acceleration_min = {params["acc_min"]}')
-        lines.append(f'player_acceleration_max = {params["acc_max"]}')
-        lines.append("player_acceleration_speed = 1.0")
-    if "early_exam_questions_multiplier" in params:
-        lines.append(f'early_exam_questions_multiplier = {params["early_exam_questions_multiplier"]}')
-        lines.append(f'early_exam_answer_speed_multiplier = {params["early_exam_answer_speed_multiplier"]}')
-    bonus = bonus_gold_chance(level_id)
-    if bonus > 0.0:
-        lines.append(f"bonus_gold_chance = {bonus}")
-    limit = time_limit_sec(level_id)
-    if limit > 0.0:
-        lines.append(f"time_limit_sec = {limit}")
-    boss = boss_chance(level_id)
-    if boss > 0.0:
-        lines.append(f"boss_chance = {boss}")
-        if boss_armor(level_id) != 3:
-            lines.append(f"boss_armor = {boss_armor(level_id)}")
+    for key, value in level_fields(valley, level_id).items():
+        lines.append(f"{key} = {gd(value)}")
     return "\n".join(lines) + "\n"
 
 
-def format_unlock_args(args: list[str]) -> str:
-    if not args:
-        return "[]"
-    return "[" + ", ".join(f'"{a}"' for a in args) + "]"
-
-
-def make_levels_config() -> str:
-    containers = []
-    for block in BLOCKS:
-        level_entries = []
-        for level_id in range(1, LEVEL_COUNT + 1):
-            entry = f'\t\t\t\t{{ "level_id": {level_id}, "config": \'level_{level_id}\''
-            if level_id == EXAM_LEVEL:
-                entry += ", 'is_exam': true"
-            entry += " },"
-            level_entries.append(entry)
-        args = format_unlock_args(block["unlock_args"])
-        container = "\n".join([
-            "\t\t{",
-            f'\t\t\t"container_id": "{block["id"]}",',
-            f'\t\t\t"name": "{block["name"]}",',
-            '\t\t\t"unlock_condition": {',
-            f'\t\t\t\t"name": "{block["unlock_name"]}",',
-            f"\t\t\t\t\"args\": {args},",
-            "\t\t\t},",
-            '\t\t\t"levels": [',
-            *level_entries,
-            "\t\t\t]",
-            "\t\t}",
-        ])
-        containers.append(container)
-
-    return "\n".join([
-        "class_name LevelsConfig",
-        "extends Resource",
-        "",
-        '@export_dir var levels_dir = "res://src/levels"',
-        "",
-        "var levels = {",
-        '   "containers": [',
-        ",\n".join(containers),
-        "\t],",
-        "}",
-        "",
-        "func _init() -> void:",
-        '\tfor container in levels["containers"]:',
-        '\t\tvar container_id: String = container["container_id"]',
-        '\t\tfor level_data in container["levels"]:',
-        '\t\t\tvar config_name = level_data["config"]',
-        '\t\t\tvar file_name = config_name + ".tres"',
-        '\t\t\tvar full_path = levels_dir.path_join(container_id).path_join(file_name)',
-        "",
-        "\t\t\tif ResourceLoader.exists(full_path):",
-        '\t\t\t\tlevel_data["config"] = ResourceLoader.load(full_path)',
-        '\t\t\t\tprint("[Loader] Level config loaded successfully for level", level_data["level_id"], ": ", full_path)',
-        "\t\t\telse:",
-        '\t\t\t\tassert(false, "[Loader] Level config not found: " + full_path)',
-        "",
-        "func find_container_in_config(container_id: String) -> Dictionary:",
-        '\tif not levels.has("containers") or not (levels["containers"] is Array):',
-        '\t\tpush_error("[ProgressManager] Error: Invalid level configuration format.")',
-        "\t\treturn {}",
-        "",
-        '\tfor container in levels["containers"]:',
-        '\t\tif container.get("container_id") == container_id:',
-        "\t\t\treturn container",
-        "",
-        '\tpush_warning("[ProgressManager] Warning: Container \'" + container_id + "\' not found in configuration.")',
-        "\treturn {}",
-        "",
-        "func get_level_config(container_id: String, level_id: int) -> GameConfig:",
-        "\tvar container: Dictionary = find_container_in_config(container_id)",
-        "\tif container.is_empty():",
-        "\t\treturn null",
-        "",
-        '\tfor level in container["levels"]:',
-        '\t\tif level.get("level_id") == level_id:',
-        "\t\t\treturn level['config']",
-        "",
-        '\tpush_warning("[ProgressManager] Warning: Level \'" + str(level_id) + "\' not found in container \'" + container_id + "\'.")',
-        "\treturn null",
-        "",
-        "func is_level_exam(container_id: String, level_id: int) -> bool:",
-        "\tvar container: Dictionary = find_container_in_config(container_id)",
-        "\tif container.is_empty():",
-        "\t\treturn false",
-        "",
-        '\tfor level in container["levels"]:',
-        '\t\tif level.get("level_id") == level_id:',
-        "\t\t\treturn level.get('is_exam', false)",
-        "",
-        '\tpush_warning("[ProgressManager] Warning: Level \'" + str(level_id) + "\' not found in container \'" + container_id + "\'.")',
-        "\treturn false",
-        "",
-    ])
-
-
 def main() -> None:
-    tres_count = 0
-    removed_count = 0
-    for block in BLOCKS:
-        folder = os.path.join(BASE, block["id"])
+    written = removed = 0
+    for valley_id, valley in VALLEYS.items():
+        assert sorted(valley) == list(range(1, LEVEL_COUNT + 1)), valley_id
+        folder = os.path.join(BASE, valley_id)
         os.makedirs(folder, exist_ok=True)
         for level_id in range(1, LEVEL_COUNT + 1):
             path = os.path.join(folder, f"level_{level_id}.tres")
+            content = make_tres(valley, level_id, existing_uid(path))
             with open(path, "w", encoding="utf-8", newline="\n") as file:
-                file.write(make_tres(block, level_id))
-            tres_count += 1
-        for level_id in range(LEVEL_COUNT + 1, 25):
-            stale = os.path.join(folder, f"level_{level_id}.tres")
-            if os.path.exists(stale):
-                os.remove(stale)
-                removed_count += 1
-
-    with open(CONFIG_PATH, "w", encoding="utf-8", newline="\n") as file:
-        file.write(make_levels_config())
-
-    print(f"Created {tres_count} level .tres files")
-    print(f"Removed {removed_count} stale level files")
-    print(f"Updated {CONFIG_PATH}")
+                file.write(content)
+            written += 1
+        for level_id in range(LEVEL_COUNT + 1, 40):
+            for suffix in (".tres", ".tres.import"):
+                stale = os.path.join(folder, f"level_{level_id}{suffix}")
+                if os.path.exists(stale):
+                    os.remove(stale)
+                    removed += 1
+    print(f"Wrote {written} level .tres, removed {removed} stale files")
 
 
 if __name__ == "__main__":

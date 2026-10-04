@@ -3,19 +3,23 @@ extends RefCounted
 
 ## Boss airship (`features/boss`) after the last regular answer: rolled once from `GameConfig.boss_chance`
 ## (exam = 1, never on timed levels). Flies in (`ev_appeared`) → rounds resume (`ev_ready`); every correct
-## answer then knocks off one armor plate (`ev_hit`); armor 0 → it falls (`ev_defeated` → battle won).
+## answer then knocks off one armor plate (`ev_hit`); armor 0 → it gets angry (`ev_enraged`) and creeps
+## toward the plane; shots on its hull (`shoot`, `ev_shot`) bring it down (`ev_defeated` → battle won).
 
 signal ev_appeared(armor: int)
 signal ev_ready
 signal ev_hit(armor_left: int)
+signal ev_enraged(hits: int)
+signal ev_shot(hits_left: int)
 signal ev_defeated
 
-enum Phase { NONE, WAITING, ENTERING, FIGHTING, FALLING }
+enum Phase { NONE, WAITING, ENTERING, FIGHTING, RAGING, FALLING }
 
 var _area: GameArea
 var _scene: PackedScene
 var _spawn_parent: Node
 var _armor: int = 0
+var _rage_hits: int = 0
 var _phase: Phase = Phase.NONE
 var _boss: BossAirship = null
 
@@ -25,6 +29,7 @@ func _init(game_config: GameConfig, area: GameArea, scene: PackedScene, spawn_pa
 	_scene = scene
 	_spawn_parent = spawn_parent
 	_armor = game_config.boss_armor
+	_rage_hits = game_config.boss_rage_hits
 	if scene != null and _armor > 0 and not game_config.is_timed() and randf() < game_config.boss_chance:
 		_phase = Phase.WAITING
 
@@ -34,6 +39,7 @@ func deinit() -> void:
 	if is_instance_valid(_boss):
 		_boss.ev_entered.disconnect(_on_entered)
 		_boss.ev_hit_landed.disconnect(_on_hit_landed)
+		_boss.ev_enraged.disconnect(ev_enraged.emit)
 		_boss.ev_destroyed.disconnect(_on_destroyed)
 	_boss = null
 	_phase = Phase.NONE
@@ -57,22 +63,36 @@ func start() -> void:
 		return
 	_phase = Phase.ENTERING
 	_boss = _scene.instantiate()
-	_boss.initialize(_armor, _area.gameplay_area)
+	_boss.initialize(_armor, _area.gameplay_area, _rage_hits)
 	_boss.ev_entered.connect(_on_entered)
 	_boss.ev_hit_landed.connect(_on_hit_landed)
+	_boss.ev_enraged.connect(ev_enraged.emit)
 	_boss.ev_destroyed.connect(_on_destroyed)
 	_spawn_parent.add_child.call_deferred(_boss)
 	ev_appeared.emit(_armor)
 
 
-## Correct answer during the fight (`from_global` = popped balloon). True = last plate, the boss goes down.
+## Correct answer during the fight (`from_global` = popped balloon). True = last plate: no more
+## questions, the angry shoot-out follows.
 func hit(from_global: Vector2) -> bool:
 	if _phase != Phase.FIGHTING:
 		return false
 	if _boss.hit(from_global) > 0:
 		return false
-	_phase = Phase.FALLING
+	_phase = Phase.RAGING
 	return true
+
+
+## A shot hit some `shot_targets` area; counts only on the angry boss hull.
+func shoot(target: Area2D, hit_point: Vector2) -> void:
+	if _phase != Phase.RAGING or not is_instance_valid(_boss) or not _boss.is_hitbox(target):
+		return
+	var left: int = _boss.take_shot(hit_point)
+	if left < 0:
+		return
+	ev_shot.emit(left)
+	if left == 0:
+		_phase = Phase.FALLING
 
 
 ## Fight rounds: the new balloons fly out of the gondola on strings instead of sliding in from the right.

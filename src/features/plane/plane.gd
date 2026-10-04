@@ -25,6 +25,9 @@ enum MovementMode {
 @export var win_anticipation_animation_time: float = 0.35
 @export var win_fly_animation_time: float = 1.6
 @export var explosion_scene: PackedScene
+## Death: scale of the small bursts over the plane / the final center blast.
+@export var death_explosion_scale: float = 1.8
+@export var death_final_explosion_scale: float = 2.8
 @export var movement_mode: MovementMode = MovementMode.DIRECT
 @export var sfx_player: AudioStreamPlayer
 @export var crash_sound: AudioStream
@@ -32,6 +35,8 @@ enum MovementMode {
 ## Look-only line behind the plane (`apply_trail`); hidden until a trail is equipped.
 @export var trail: PlaneFlyerTrail
 @export var nozzle: Marker2D
+## Exhaust flame; moved per plane by `PlaneCatalog.flame_position`.
+@export var flame: Node2D
 
 var direction_y: int = 0
 var speed: float = SPEED_DEFAULTS
@@ -42,6 +47,7 @@ var discrete_positions: Array[float] = []
 
 var _left_touch_global_y_by_index: Dictionary = {}
 var _shoot_requested: bool = false
+var _flame_home := Vector2.INF
 
 
 func initialize(_speed: float, _movement_mode=MovementMode.DIRECT) -> void:
@@ -51,9 +57,16 @@ func initialize(_speed: float, _movement_mode=MovementMode.DIRECT) -> void:
 	set_movement(_movement_mode)
 
 
-func apply_tint(color: Color) -> void:
+## Look of a `PlaneCatalog` plane: its own atlas frames + tint.
+func apply_plane(plane_id: String) -> void:
 	if animated_sprite == null:
 		return
+	animated_sprite.sprite_frames = PlaneCatalog.sprite_frames(plane_id, animated_sprite.sprite_frames)
+	if flame != null:
+		if _flame_home == Vector2.INF:
+			_flame_home = flame.position
+		flame.position = PlaneCatalog.flame_position(plane_id, _flame_home)
+	var color := PlaneCatalog.get_def(plane_id).get("tint", Color.WHITE) as Color
 	var mat := animated_sprite.material as ShaderMaterial
 	if mat != null:
 		mat.set_shader_parameter("sprite_tint", color)
@@ -246,9 +259,9 @@ func die_animation() -> void:
 
 	for i in range(4):
 		await get_tree().create_timer(0.15, false).timeout # Pause between explosions
-		_spawn_explosion_at_random_pos()
+		_spawn_explosion_at_random_pos(Vector2.ZERO, death_explosion_scale)
 
-	_spawn_explosion_at_random_pos(Vector2.ZERO, 1.5) # Large center explosion
+	_spawn_explosion_at_random_pos(Vector2.ZERO, death_final_explosion_scale) # Large center explosion
 	_play_one_shot(crash_sound)
 	animated_sprite.visible = false
 	

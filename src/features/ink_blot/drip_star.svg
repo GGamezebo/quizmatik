@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Solid white star drip; colored at runtime by ink_tint.gdshader (shot look «Звёздочки»). -->
+  <path d="M64 6 L80 44 L121 47 L89 73 L99 114 L64 92 L29 114 L39 73 L7 47 L48 44 Z"
+        fill="#FFFFFF" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round"/>
+</svg>

@@ -17,11 +17,11 @@ def _clamp(x: float, lo: float = -1.0, hi: float = 1.0) -> float:
 	return lo if x < lo else hi if x > hi else x
 
 
-def write_wav(path: str, samples: list[float]) -> None:
+def write_wav(path: str, samples: list[float], fade_tail: bool = True) -> None:
 	if not samples:
 		raise ValueError("empty samples")
-	# fade last 64 samples to kill clicks
-	fade = min(64, len(samples) // 8)
+	# fade last 64 samples to kill clicks (not for seamless loops)
+	fade = min(64, len(samples) // 8) if fade_tail else 0
 	for i in range(fade):
 		samples[-1 - i] *= i / fade
 	peak = max(abs(s) for s in samples) or 1.0
@@ -268,6 +268,37 @@ def victory_whoosh() -> list[float]:
 	return render(0.95, fn)
 
 
+def thrust() -> list[float]:
+	"""Seamless 2 s loop: soft lowpassed air + quiet warm hum (periodic parts loop exactly)."""
+	random.seed(5)
+	loop = 2.0
+	xfade = 0.4
+	lp1 = lp2 = lp3 = bp = 0.0
+
+	def fn(i, n, t):
+		nonlocal lp1, lp2, lp3, bp
+		nse = noise()
+		lp1 = lowpass(lp1, nse, 0.035)
+		lp2 = lowpass(lp2, lp1, 0.035)
+		bp = lowpass(bp, nse, 0.1)
+		lp3 = lowpass(lp3, bp, 0.035)
+		breath = 0.9 + 0.1 * math.sin(2.0 * math.pi * 0.5 * t)
+		air = (lp2 * 6.0 + (bp - lp3) * 0.2) * breath
+		wobble = 0.25 * math.sin(2.0 * math.pi * 1.0 * t)
+		hum = math.sin(2.0 * math.pi * 98.0 * t + wobble) + 0.3 * math.sin(2.0 * math.pi * 196.0 * t + wobble * 2.0)
+		return air * 0.8 + hum * 0.08
+
+	raw = render(loop + xfade, fn)
+	n = int(loop * SR)
+	x = len(raw) - n
+	out = raw[:n]
+	# equal-power crossfade of the extra tail into the head -> no seam at the loop point
+	for i in range(x):
+		w = i / x
+		out[i] = raw[i] * math.sin(0.5 * math.pi * w) + raw[n + i] * math.cos(0.5 * math.pi * w)
+	return out
+
+
 def main() -> None:
 	random.seed(1)
 	pairs = [
@@ -285,6 +316,7 @@ def main() -> None:
 	]
 	for path, fn in pairs:
 		write_wav(path, fn())
+	write_wav(os.path.join(PLANE_DIR, "thrust.wav"), thrust(), fade_tail=False)
 
 
 if __name__ == "__main__":

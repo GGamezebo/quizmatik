@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!-- Shop: paper shopping bag with a gold coin; colored-pencil fill + graphite ink edge (notebook look). -->
+  <!-- Handles -->
+  <path d="M90 104 C90 38 166 38 166 104" fill="none" stroke="#2A3340" stroke-width="10" stroke-linecap="round"/>
+  <path d="M90 104 C90 52 166 52 166 104" fill="none" stroke="#E9DDC2" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+  <!-- Bag body -->
+  <path d="M50 92 L206 92 L222 228 L34 228 Z" fill="#E8754A" stroke="#2A3340" stroke-width="9" stroke-linejoin="round"/>
+  <!-- Top fold band -->
+  <path d="M50 92 L206 92 L208 112 L48 112 Z" fill="#C95A34" stroke="#2A3340" stroke-width="7" stroke-linejoin="round"/>
+  <!-- Handle rivets -->
+  <circle cx="90" cy="104" r="7" fill="#F5E6C8" stroke="#2A3340" stroke-width="4"/>
+  <circle cx="166" cy="104" r="7" fill="#F5E6C8" stroke="#2A3340" stroke-width="4"/>
+  <!-- Pencil hatching on the right shade -->
+  <g stroke="#C95A34" stroke-width="5" stroke-linecap="round" opacity="0.8">
+    <path d="M188 214 L208 194"/>
+    <path d="M176 220 L210 186"/>
+    <path d="M196 132 L204 124"/>
+  </g>
+  <!-- Highlight on the left side -->
+  <path d="M62 130 L54 200" stroke="#F6B08F" stroke-width="9" stroke-linecap="round"/>
+  <!-- Gold coin on the front -->
+  <circle cx="128" cy="172" r="40" fill="#C98A1E" stroke="#2A3340" stroke-width="7"/>
+  <circle cx="128" cy="167" r="38" fill="#F0C94A" stroke="#2A3340" stroke-width="7"/>
+  <path d="M128 145 L134.5 158.5 L149 160.5 L138.5 170.5 L141 185 L128 178 L115 185 L117.5 170.5 L107 160.5 L121.5 158.5 Z"
+        fill="#E0A82E" stroke="#2A3340" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M104 156 A28 28 0 0 1 118 138" fill="none" stroke="#FFF3C4" stroke-width="6" stroke-linecap="round"/>
+</svg>

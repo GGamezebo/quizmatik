@@ -31,7 +31,10 @@ var levels = {
 				{ "level_id": 14, "config": 'level_14' },
 				{ "level_id": 15, "config": 'level_15' },
 				{ "level_id": 16, "config": 'level_16' },
-				{ "level_id": 17, "config": 'level_17', 'is_exam': true },
+				{ "level_id": 17, "config": 'level_17' },
+				{ "level_id": 18, "config": 'level_18' },
+				{ "level_id": 19, "config": 'level_19' },
+				{ "level_id": 20, "config": 'level_20', 'is_exam': true },
 			]
 		},
 		{
@@ -58,7 +61,10 @@ var levels = {
 				{ "level_id": 14, "config": 'level_14' },
 				{ "level_id": 15, "config": 'level_15' },
 				{ "level_id": 16, "config": 'level_16' },
-				{ "level_id": 17, "config": 'level_17', 'is_exam': true },
+				{ "level_id": 17, "config": 'level_17' },
+				{ "level_id": 18, "config": 'level_18' },
+				{ "level_id": 19, "config": 'level_19' },
+				{ "level_id": 20, "config": 'level_20', 'is_exam': true },
 			]
 		},
 		{
@@ -85,7 +91,10 @@ var levels = {
 				{ "level_id": 14, "config": 'level_14' },
 				{ "level_id": 15, "config": 'level_15' },
 				{ "level_id": 16, "config": 'level_16' },
-				{ "level_id": 17, "config": 'level_17', 'is_exam': true },
+				{ "level_id": 17, "config": 'level_17' },
+				{ "level_id": 18, "config": 'level_18' },
+				{ "level_id": 19, "config": 'level_19' },
+				{ "level_id": 20, "config": 'level_20', 'is_exam': true },
 			]
 		},
 		{
@@ -112,7 +121,10 @@ var levels = {
 				{ "level_id": 14, "config": 'level_14' },
 				{ "level_id": 15, "config": 'level_15' },
 				{ "level_id": 16, "config": 'level_16' },
-				{ "level_id": 17, "config": 'level_17', 'is_exam': true },
+				{ "level_id": 17, "config": 'level_17' },
+				{ "level_id": 18, "config": 'level_18' },
+				{ "level_id": 19, "config": 'level_19' },
+				{ "level_id": 20, "config": 'level_20', 'is_exam': true },
 			]
 		},
 		{
@@ -139,7 +151,10 @@ var levels = {
 				{ "level_id": 14, "config": 'level_14' },
 				{ "level_id": 15, "config": 'level_15' },
 				{ "level_id": 16, "config": 'level_16' },
-				{ "level_id": 17, "config": 'level_17', 'is_exam': true },
+				{ "level_id": 17, "config": 'level_17' },
+				{ "level_id": 18, "config": 'level_18' },
+				{ "level_id": 19, "config": 'level_19' },
+				{ "level_id": 20, "config": 'level_20', 'is_exam': true },
 			]
 		}
 	],
@@ -201,6 +216,14 @@ func get_next_container_id(container_id: String) -> String:
 				return str(containers[i + 1].get("container_id", ""))
 			return ""
 	return ""
+
+## Exam `level_id` of the valley (last level); -1 when it has none.
+func get_exam_level_id(container_id: String) -> int:
+	var container: Dictionary = find_container_in_config(container_id)
+	for level in container.get("levels", []):
+		if level.get("is_exam", false):
+			return int(level["level_id"])
+	return -1
 
 func is_level_exam(container_id: String, level_id: int) -> bool:
 	var container: Dictionary = find_container_in_config(container_id)

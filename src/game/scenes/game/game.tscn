@@ -56,6 +56,9 @@
 [ext_resource type="Resource" path="res://src/game/scenes/tutorial/tutorial_anchors.tres" id="61_tutorial_anchors"]
 [ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="62_pdata"]
 [ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="63_cosmetics"]
+[ext_resource type="PackedScene" uid="uid://bnbookbg01quiz" path="res://src/ui/backgrounds/notebook/notebook_background.tscn" id="64_bg_school"]
+[ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="65_bg_forest"]
+[ext_resource type="PackedScene" uid="uid://bnskybg01quiz" path="res://src/ui/backgrounds/notebook_sky/notebook_sky_background.tscn" id="66_bg_forest_pencil"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_streak"]
 content_margin_left = 18.0
@@ -144,6 +147,30 @@ shadow_color = Color(0.165, 0.2, 0.251, 0.25)
 shadow_size = 4
 shadow_offset = Vector2(0, 3)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rage_bg"]
+bg_color = Color(0.94, 0.89, 0.8, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rage_fill"]
+bg_color = Color(0.91, 0.353, 0.353, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fb8ob"]
 shader = ExtResource("36_fb8ob")
 shader_parameter/shadow_offset = Vector2(-5, 10)
@@ -158,6 +185,7 @@ root_events = ExtResource("8_xkl2s")
 initable_components = [NodePath("GameArea"), NodePath("LineSelector"), NodePath("Player"), NodePath("GameManager"), NodePath("HUD"), NodePath("HUD/TimedIntro")]
 pdata = ExtResource("62_pdata")
 cosmetics = ExtResource("63_cosmetics")
+rare_valley_backgrounds = Array[PackedScene]([ExtResource("64_bg_school"), ExtResource("65_bg_forest"), ExtResource("66_bg_forest_pencil")])
 
 [node name="GameArea" type="Node2D" parent="." unique_id=1652487391]
 script = ExtResource("3_5eju7")
@@ -454,8 +482,9 @@ theme_override_font_sizes/font_size = 56
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("14_wlohk")
+game_events = ExtResource("7_7ifmk")
 
-[node name="BossBar" type="PanelContainer" parent="HUD" node_paths=PackedStringArray("pips")]
+[node name="BossBar" type="PanelContainer" parent="HUD" node_paths=PackedStringArray("pips", "title", "rage_bar")]
 visible = false
 anchors_preset = 5
 anchor_left = 0.5
@@ -471,6 +500,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_boss_bar")
 script = ExtResource("45_boss_bar")
 game_events = ExtResource("7_7ifmk")
 pips = NodePath("HBox/Pips")
+title = NodePath("HBox/Title")
+rage_bar = NodePath("HBox/RageBar")
 pip_scene = ExtResource("46_boss_pip")
 
 [node name="HBox" type="HBoxContainer" parent="HUD/BossBar"]
@@ -491,6 +522,19 @@ layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 theme_override_constants/separation = 4
+
+[node name="RageBar" type="ProgressBar" parent="HUD/BossBar/HBox"]
+visible = false
+custom_minimum_size = Vector2(190, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_rage_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rage_fill")
+max_value = 15.0
+step = 0.01
+value = 15.0
+show_percentage = false
 
 [node name="RightPanel" type="HBoxContainer" parent="HUD" unique_id=2075508658]
 anchors_preset = 1

@@ -28,6 +28,10 @@
 [ext_resource type="PackedScene" path="res://src/ui/backgrounds/valley_mix/valley_mix_background.tscn" id="26_r"]
 [ext_resource type="Texture2D" path="res://assets/ui/backgrounds/valleys/valley_mix.png" id="27_r"]
 [ext_resource type="Script" path="res://src/common/cosmetics/cosmetic_catalog.gd" id="28_r"]
+[ext_resource type="Texture2D" uid="uid://c7covqaft52xn" path="res://src/game/scenes/menu/ui/icon_pencil.png" id="29_r"]
+[ext_resource type="Texture2D" uid="uid://cyg5jcu3u4kvb" path="res://src/game/scenes/menu/ui/icon_achievements.png" id="30_r"]
+[ext_resource type="Texture2D" path="res://src/features/ink_blot/drip_star.svg" id="31_r"]
+[ext_resource type="Texture2D" path="res://src/features/ink_blot/drip_heart.svg" id="32_r"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_plain"]
 content_margin_left = 10.0
@@ -242,10 +246,10 @@ id = "shot_stars"
 title = "Звёздочки"
 gold_cost = 8
 shot_tint = Color(1, 0.95, 0.6, 1)
-drip_scale_min = 0.05
-drip_scale_max = 0.11
+drip_scale_min = 0.3
+drip_scale_max = 0.44
 ink_colors = PackedColorArray(1, 0.8, 0.2, 0.95, 1, 0.65, 0.15, 0.9)
-drip_texture = ExtResource("3_r")
+drip_texture = ExtResource("31_r")
 
 [sub_resource type="Resource" id="Resource_20"]
 script = ExtResource("4_r")
@@ -478,6 +482,143 @@ gold_cost = 8
 scene = ExtResource("26_r")
 icon = ExtResource("27_r")
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_violet"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 24.0
+bg_color = Color(0.97, 0.94, 1, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.55, 0.38, 0.75, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 5
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orange"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 24.0
+bg_color = Color(1, 0.96, 0.9, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.88, 0.54, 0.24, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 5
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_silver"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 24.0
+bg_color = Color(0.97, 0.98, 1, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.62, 0.66, 0.72, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 5
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="Resource" id="Resource_101"]
+script = ExtResource("2_r")
+id = "trail_sparks"
+title = "Искорки"
+gold_cost = 6
+style = 1
+color = Color(1, 0.78, 0.2, 0.9)
+palette = PackedColorArray(1, 0.85, 0.25, 0.9, 1, 0.65, 0.15, 0.9, 1, 0.95, 0.55, 0.9)
+width = 3
+spacing = 12
+
+[sub_resource type="Resource" id="Resource_102"]
+script = ExtResource("2_r")
+id = "trail_wave"
+title = "Волна"
+gold_cost = 10
+style = 3
+color = Color(0.2, 0.55, 0.85, 0.85)
+palette = PackedColorArray(0.2, 0.55, 0.85, 0.85, 0.25, 0.75, 0.8, 0.85, 0.35, 0.45, 0.9, 0.85)
+width = 6
+spacing = 18
+
+[sub_resource type="Resource" id="Resource_103"]
+script = ExtResource("4_r")
+id = "shot_violet"
+title = "Фиолетовые"
+gold_cost = 3
+ink_colors = PackedColorArray(0.48, 0.22, 0.72, 0.85, 0.58, 0.3, 0.8, 0.8)
+shot_tint = Color(0.85, 0.7, 1, 1)
+drip_scale_min = 0.12
+drip_scale_max = 0.38
+
+[sub_resource type="Resource" id="Resource_104"]
+script = ExtResource("4_r")
+id = "shot_hearts"
+title = "Сердечки"
+gold_cost = 10
+ink_colors = PackedColorArray(0.92, 0.3, 0.45, 0.95, 1, 0.45, 0.6, 0.9)
+drip_texture = ExtResource("32_r")
+shot_tint = Color(1, 0.75, 0.82, 1)
+drip_scale_min = 0.3
+drip_scale_max = 0.44
+
+[sub_resource type="Resource" id="Resource_105"]
+script = ExtResource("5_r")
+id = "sticker_pencil"
+title = "Карандаш"
+gold_cost = 5
+icon = ExtResource("29_r")
+texture = ExtResource("29_r")
+
+[sub_resource type="Resource" id="Resource_106"]
+script = ExtResource("5_r")
+id = "sticker_cup"
+title = "Кубок"
+gold_cost = 6
+icon = ExtResource("30_r")
+texture = ExtResource("30_r")
+
+[sub_resource type="Resource" id="Resource_107"]
+script = ExtResource("10_r")
+id = "frame_violet"
+title = "Фиолетовая"
+gold_cost = 3
+style = SubResource("StyleBoxFlat_violet")
+
+[sub_resource type="Resource" id="Resource_108"]
+script = ExtResource("10_r")
+id = "frame_orange"
+title = "Оранжевая"
+gold_cost = 3
+style = SubResource("StyleBoxFlat_orange")
+
+[sub_resource type="Resource" id="Resource_109"]
+script = ExtResource("10_r")
+id = "frame_silver"
+title = "Серебряная"
+gold_cost = 6
+style = SubResource("StyleBoxFlat_silver")
+
 [resource]
 script = ExtResource("28_r")
-items = Array[CosmeticItem]([SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_7"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_13"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_18"), SubResource("Resource_19"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_27"), SubResource("Resource_29"), SubResource("Resource_31"), SubResource("Resource_33"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43")])
+items = Array[CosmeticItem]([SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_4"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_7"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_101"), SubResource("Resource_13"), SubResource("Resource_102"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_103"), SubResource("Resource_18"), SubResource("Resource_19"), SubResource("Resource_104"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_105"), SubResource("Resource_106"), SubResource("Resource_27"), SubResource("Resource_29"), SubResource("Resource_31"), SubResource("Resource_33"), SubResource("Resource_107"), SubResource("Resource_108"), SubResource("Resource_109"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43")])

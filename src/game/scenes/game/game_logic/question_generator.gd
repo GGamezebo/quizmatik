@@ -10,22 +10,79 @@ class Question:
 	var fact_key: String = ""
 
 
+## Random operand pairs tried per question before falling back to the last one.
+const PICK_ATTEMPTS: int = 40
+## Re-rolls when the example repeats the previous one (`avoid_fact_key`).
+const REPEAT_ATTEMPTS: int = 4
+
+
 ## `score` = correct answers so far (gates `missing_operand_start_progress`).
 ## With `review_chance` re-asks one of `review_facts` (past mistakes) when it fits the level.
-static func generate_question(gameConfig: GameConfig, score: int = 0) -> Question:
+## `avoid_fact_key` = previous question's fact: never the same example twice in a row.
+static func generate_question(gameConfig: GameConfig, score: int = 0, avoid_fact_key: String = "") -> Question:
 	var active_operations: Array[int] = _active_operations(gameConfig)
 	var picked: Array = []
 	if not gameConfig.review_facts.is_empty() and randf() < gameConfig.review_chance:
-		picked = _pick_review(gameConfig, active_operations)
+		picked = _pick_review(gameConfig, active_operations, avoid_fact_key)
 	if picked.is_empty():
-		var operation: int = active_operations.pick_random()
-		var operand_range: Vector2i = gameConfig.get_operation_range(operation)
-		picked = [
-			operation,
-			randi_range(operand_range.x, operand_range.y),
-			randi_range(operand_range.x, operand_range.y),
-		]
+		for attempt in REPEAT_ATTEMPTS:
+			picked = _pick_random(gameConfig, active_operations.pick_random())
+			if avoid_fact_key.is_empty() or _fact_key_of(picked) != avoid_fact_key:
+				break
 	return _build_question(gameConfig, score, picked[0], picked[1], picked[2])
+
+
+## `[operation, a, b]` from the op's operand ranges that passes `_fits` (last try otherwise).
+static func _pick_random(gameConfig: GameConfig, operation: int) -> Array:
+	var first: Vector2i = gameConfig.get_operation_range(operation)
+	var second: Vector2i = gameConfig.get_second_operand_range(operation)
+	var picked: Array = []
+	for attempt in PICK_ATTEMPTS:
+		picked = [operation, randi_range(first.x, first.y), randi_range(second.x, second.y)]
+		if _fits(gameConfig, operation, picked[1], picked[2]):
+			break
+	return picked
+
+
+## Answer range + carry rule for raw operands (−: minuend ≥ subtrahend; ÷: divisor, quotient).
+static func _fits(gameConfig: GameConfig, operation: int, a: int, b: int) -> bool:
+	var result: int
+	match operation:
+		GameConfig.Operations.ADDITION:
+			result = a + b
+		GameConfig.Operations.SUBTRACTION:
+			result = a - b
+		GameConfig.Operations.MULTIPLICATION:
+			result = a * b
+		_:
+			result = b
+	if result < 0:
+		return false
+	var allowed: Vector2i = gameConfig.get_result_range(operation)
+	if result < allowed.x or result > allowed.y:
+		return false
+	if gameConfig.carry_mode == GameConfig.CarryMode.ANY:
+		return true
+	var carries: bool
+	match operation:
+		GameConfig.Operations.ADDITION:
+			carries = a % 10 + b % 10 >= 10
+		GameConfig.Operations.SUBTRACTION:
+			carries = a % 10 < b % 10
+		_:
+			return true
+	return carries == (gameConfig.carry_mode == GameConfig.CarryMode.REQUIRED)
+
+
+static func _fact_key_of(picked: Array) -> String:
+	var a: int = picked[1]
+	var b: int = picked[2]
+	match picked[0]:
+		GameConfig.Operations.ADDITION:
+			return MathFact.make_key(MathFact.FAMILY_ADD, a, b)
+		GameConfig.Operations.SUBTRACTION:
+			return MathFact.make_key(MathFact.FAMILY_ADD, absi(a - b), mini(a, b))
+	return MathFact.make_key(MathFact.FAMILY_MUL, a, b)
 
 
 static func _active_operations(gameConfig: GameConfig) -> Array[int]:
@@ -45,17 +102,19 @@ static func _active_operations(gameConfig: GameConfig) -> Array[int]:
 
 
 ## Weighted pick among `review_facts` that can be phrased with an allowed operation inside its
-## operand range. Returns `[operation, a, b]` in generator terms, or `[]` when nothing fits.
-static func _pick_review(gameConfig: GameConfig, active_operations: Array[int]) -> Array:
+## operand ranges (+ answer / carry rules). Returns `[operation, a, b]` in generator terms, or `[]` when nothing fits.
+static func _pick_review(gameConfig: GameConfig, active_operations: Array[int], avoid_fact_key: String = "") -> Array:
 	var candidates: Array = []
 	var total_weight: int = 0
 	for fact_key in gameConfig.review_facts:
 		var parsed: Array = MathFact.parse(String(fact_key))
-		if parsed.is_empty():
+		if parsed.is_empty() or MathFact.make_key(parsed[0], parsed[1], parsed[2]) == avoid_fact_key:
 			continue
 		var variants: Array = []
 		for operation in active_operations:
-			variants.append_array(_review_variants(operation, parsed, gameConfig.get_operation_range(operation)))
+			for variant in _review_variants(operation, parsed, gameConfig):
+				if _fits(gameConfig, variant[0], variant[1], variant[2]):
+					variants.append(variant)
 		if variants.is_empty():
 			continue
 		var weight: int = maxi(1, int(gameConfig.review_facts[fact_key]))
@@ -72,29 +131,37 @@ static func _pick_review(gameConfig: GameConfig, active_operations: Array[int]) 
 
 
 ## Ways to ask fact `[family, x, y]` with `operation`, as raw operands
-## (subtraction: minuend, subtrahend; division: divisor, quotient) — all within `operand_range`.
-static func _review_variants(operation: int, parsed: Array, operand_range: Vector2i) -> Array:
+## (subtraction: minuend, subtrahend; division: divisor, quotient) — first / second operand inside their op ranges.
+static func _review_variants(operation: int, parsed: Array, gameConfig: GameConfig) -> Array:
 	var family: String = parsed[0]
 	var x: int = parsed[1]
 	var y: int = parsed[2]
-	var fits := func(value: int) -> bool: return value >= operand_range.x and value <= operand_range.y
-	var result: Array = []
+	var first: Vector2i = gameConfig.get_operation_range(operation)
+	var second: Vector2i = gameConfig.get_second_operand_range(operation)
+	var fits := func(a: int, b: int) -> bool:
+		return a >= first.x and a <= first.y and b >= second.x and b <= second.y
+	var pairs: Array = []
 	match operation:
-		GameConfig.Operations.ADDITION, GameConfig.Operations.MULTIPLICATION:
-			var expected: String = MathFact.FAMILY_ADD if operation == GameConfig.Operations.ADDITION else MathFact.FAMILY_MUL
-			if family == expected and fits.call(x) and fits.call(y):
-				result.append([operation, x, y])
-				result.append([operation, y, x])
+		GameConfig.Operations.ADDITION:
+			if family == MathFact.FAMILY_ADD:
+				pairs = [[x, y], [y, x]]
+		GameConfig.Operations.MULTIPLICATION:
+			if family == MathFact.FAMILY_MUL:
+				pairs = [[x, y], [y, x]]
 		GameConfig.Operations.SUBTRACTION:
-			if family == MathFact.FAMILY_ADD and fits.call(x + y):
-				for subtrahend in [x, y]:
-					if fits.call(subtrahend):
-						result.append([operation, x + y, subtrahend])
+			if family == MathFact.FAMILY_ADD:
+				pairs = [[x + y, x], [x + y, y]]
 		GameConfig.Operations.DIVISION:
-			if family == MathFact.FAMILY_MUL and fits.call(x) and fits.call(y):
-				for divisor_and_quotient in [[x, y], [y, x]]:
-					if divisor_and_quotient[0] >= 1:
-						result.append([operation, divisor_and_quotient[0], divisor_and_quotient[1]])
+			if family == MathFact.FAMILY_MUL:
+				pairs = [[x, y], [y, x]]
+	var result: Array = []
+	for pair in pairs:
+		if operation == GameConfig.Operations.DIVISION and pair[0] < 1:
+			continue
+		if fits.call(pair[0], pair[1]):
+			var variant: Array = [operation, pair[0], pair[1]]
+			if not variant in result:
+				result.append(variant)
 	return result
 
 
@@ -108,6 +175,12 @@ static func _build_question(gameConfig: GameConfig, score: int, chosen_operation
 	# Operands the classic wrong-answer generators expect (division: divisor, quotient).
 	var fake_a: int
 	var fake_b: int
+	# `3 + 45` / `7 x 4`: commutative ops show the ranged operands in either order.
+	if (chosen_operation == GameConfig.Operations.ADDITION or chosen_operation == GameConfig.Operations.MULTIPLICATION) \
+			and randi() % 2 == 0:
+		var swapped: int = a
+		a = b
+		b = swapped
 	match chosen_operation:
 		GameConfig.Operations.ADDITION:
 			op_sign = "+"
@@ -235,7 +308,10 @@ static func _generate_close_fake_add_sub(
 		candidates.append_array([(a - 1) + b, (a + 1) + b, a + (b - 1), a + (b + 1)])
 	else:
 		candidates.append_array([(a - 1) - b, (a + 1) - b, a - (b - 1), a - (b + 1)])
-	
+	# Two-digit work: a forgotten / extra carry is off by ten — kids can't pick by the last digit alone.
+	if correct >= 20 or maxi(a, b) >= 20:
+		candidates.append_array([correct - 10, correct + 10])
+
 	var valid: Array[int] = []
 	for candidate in candidates:
 		if candidate < 0 or candidate == correct or candidate in existing or candidate in valid:

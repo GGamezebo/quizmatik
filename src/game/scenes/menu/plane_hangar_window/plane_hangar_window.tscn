@@ -288,7 +288,6 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("5_font")
 theme_override_font_sizes/font_size = 20
 toggle_mode = true
-button_pressed = true
 button_group = SubResource("ButtonGroup_tabs")
 text = "САМОЛЁТЫ"
 
@@ -299,9 +298,11 @@ theme_override_fonts/font = ExtResource("5_font")
 theme_override_font_sizes/font_size = 20
 toggle_mode = true
 button_group = SubResource("ButtonGroup_tabs")
+button_pressed = true
 text = "ПОКРАСКА"
 
 [node name="Scroll" type="ScrollContainer" parent="Center/Content"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -321,7 +322,6 @@ theme_override_constants/separation = 16
 alignment = 1
 
 [node name="PaintPage" type="HBoxContainer" parent="Center/Content" node_paths=PackedStringArray("category_buttons", "grid", "flyer_view", "flyer", "shot_swatch", "photo_box", "photo_frame", "photo", "photo_sticker", "cover_icon", "item_name", "action_button")]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

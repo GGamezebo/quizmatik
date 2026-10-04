@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Solid white heart drip; colored at runtime by ink_tint.gdshader (shot look «Сердечки»). -->
+  <path d="M64 116 C30 92 8 70 8 44 C8 24 23 10 41 10 C52 10 60 16 64 25 C68 16 76 10 87 10 C105 10 120 24 120 44 C120 70 98 92 64 116 Z"
+        fill="#FFFFFF"/>
+</svg>

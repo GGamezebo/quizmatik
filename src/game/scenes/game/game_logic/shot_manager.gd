@@ -37,6 +37,7 @@ func _on_air_plane_ev_shoot(position: Vector2) -> void:
 		if _style != null:
 			shot.modulate = _style.shot_tint
 		shot.ev_explosion.connect(_on_explosion)
+		shot.ev_target_hit.connect(_on_target_hit)
 		shot.ev_ink_drip.connect(_on_ink_drip)
 		owner.add_child(shot)
 		_on_ink_drip(position)
@@ -50,3 +51,9 @@ func _on_explosion(answer: Answer, hit_point: Vector2) -> void:
 	if _style != null:
 		explosion.modulate = _style.shot_tint
 	game_events.ev_explosion.emit(answer, hit_point)
+
+func _on_target_hit(target: Area2D, hit_point: Vector2) -> void:
+	var explosion := Explosion.spawn_attached(explosion_scene, target, hit_point)
+	if _style != null:
+		explosion.modulate = _style.shot_tint
+	game_events.ev_target_shot.emit(target, hit_point)

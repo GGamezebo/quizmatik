@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://c8trainlabwindow01" path="res://src/dev/training_room_lab/training_room_lab_window.tscn" id="5_training_lab"]
 [ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="6_kcyx7"]
 [ext_resource type="Script" path="res://src/game/scenes/menu/menu_cover.gd" id="70_cover"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/ui/icon_shop.svg" id="73_icon_shop"]
 [ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="71_pdata"]
 [ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="72_catalog"]
 [ext_resource type="PackedScene" uid="uid://d3sdqmf0acdft" path="res://src/ui/backgrounds/background_host.tscn" id="6_levels_bg_host"]
@@ -142,6 +143,11 @@ button = NodePath("../../ProfileWindow/MenuWindowBack/Back")
 [node name="HangarOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
 button = NodePath("../../ProfileWindow/Body/IdCard/VBox/Margin/VBox/PlaneButton")
+target_window = NodePath("../../PlaneHangarWindow")
+
+[node name="ShopOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
+script = ExtResource("4_haj1v")
+button = NodePath("../../MainMenuWindow/MarginContainer/RightSideButtons/Shop")
 target_window = NodePath("../../PlaneHangarWindow")
 
 [node name="HangarBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button")]
@@ -307,6 +313,11 @@ layout_mode = 2
 image = ExtResource("32_icon_profile")
 metadata/hover_scale_bound = true
 
+[node name="Shop" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" instance=ExtResource("30_circle_btn")]
+layout_mode = 2
+image = ExtResource("73_icon_shop")
+metadata/hover_scale_bound = true
+
 [node name="Settings" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" unique_id=319530349 instance=ExtResource("30_circle_btn")]
 layout_mode = 2
 image = ExtResource("15_op54q")
@@ -467,7 +478,8 @@ visible = false
 [node name="ProfileWindow" parent="UI" instance=ExtResource("21_profile")]
 visible = false
 
-[node name="PlaneHangarWindow" parent="UI" instance=ExtResource("21_hangar")]
+[node name="PlaneHangarWindow" parent="UI" node_paths=PackedStringArray("planes_entry_buttons") instance=ExtResource("21_hangar")]
 visible = false
+planes_entry_buttons = [NodePath("../ProfileWindow/Body/IdCard/VBox/Margin/VBox/PlaneButton")]
 
 [editable path="UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start"]
