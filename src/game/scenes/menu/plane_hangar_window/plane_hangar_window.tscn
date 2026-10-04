@@ -16,6 +16,14 @@
 [ext_resource type="Script" uid="uid://dfc4lkuw1o6wl" path="res://src/ui/buttons/hover_scale_binder.gd" id="13_binder"]
 [ext_resource type="Script" path="res://src/ui/ui_anchor/ui_anchor.gd" id="60_ui_anchor"]
 [ext_resource type="Resource" path="res://src/game/scenes/tutorial/tutorial_anchors.tres" id="61_tutorial_anchors"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/plane_hangar_window/cosmetics_page.gd" id="62_page"]
+[ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="63_pdata"]
+[ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="64_catalog"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/plane_hangar_window/cosmetic_card.tscn" id="65_card"]
+[ext_resource type="PackedScene" path="res://src/features/plane/plane_flyer.tscn" id="66_flyer"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/plane_hangar_window/cosmetic_swatch.gd" id="67_swatch"]
+[ext_resource type="Shader" path="res://src/features/plane/plane_body.gdshader" id="68_body"]
+[ext_resource type="Texture2D" path="res://src/features/plane/planes_atlas_spaced.png" id="69_plane"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("8_shadow")
@@ -33,7 +41,133 @@ font = ExtResource("5_font")
 font_size = 24
 font_color = Color(0.165, 0.2, 0.251, 1)
 
-[node name="PlaneHangarWindow" type="Control" node_paths=PackedStringArray("gold_label", "cards_row", "progress", "buy_anchor")]
+[sub_resource type="ButtonGroup" id="ButtonGroup_tabs"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_slots"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_item"]
+font = ExtResource("5_font")
+font_size = 24
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_preview"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.97, 0.94, 0.88, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.28)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stage"]
+bg_color = Color(1, 1, 0.98, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_polaroid"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 24.0
+bg_color = Color(1, 1, 0.99, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.3)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 5
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_photo"]
+resource_local_to_scene = true
+shader = ExtResource("68_body")
+shader_parameter/shadow_offset = Vector2(-2, 3)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.3)
+shader_parameter/shadow_blur = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cta"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+bg_color = Color(0.43, 0.7, 0.34, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 10
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+shadow_color = Color(0.15, 0.12, 0.08, 0.22)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cta_hover"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+bg_color = Color(0.5, 0.77, 0.4, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 10
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+shadow_color = Color(0.15, 0.12, 0.08, 0.28)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cta_pressed"]
+content_margin_left = 20.0
+content_margin_top = 16.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+bg_color = Color(0.37, 0.62, 0.29, 1)
+border_width_left = 4
+border_width_top = 10
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.12, 0.14, 0.18, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cta_disabled"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+bg_color = Color(0.88, 0.85, 0.78, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 10
+border_color = Color(0.165, 0.2, 0.251, 0.45)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+
+[node name="PlaneHangarWindow" type="Control" node_paths=PackedStringArray("gold_label", "cards_row", "progress", "buy_anchor", "planes_tab", "paint_tab", "planes_page", "paint_page")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,6 +182,10 @@ card_scene = ExtResource("11_card")
 root_events = ExtResource("2_root")
 progress = NodePath("ProgressController")
 buy_anchor = NodePath("BuyAnchor")
+planes_tab = NodePath("Center/Content/Tabs/PlanesTab")
+paint_tab = NodePath("Center/Content/Tabs/PaintTab")
+planes_page = NodePath("Center/Content/Scroll")
+paint_page = NodePath("Center/Content/PaintPage")
 
 [node name="HoverScaleBinder" type="Node" parent="."]
 script = ExtResource("13_binder")
@@ -131,13 +269,45 @@ layout_mode = 2
 text = "0"
 label_settings = SubResource("LabelSettings_gold")
 
+[node name="Tabs" type="HBoxContainer" parent="Center/Content"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 66.0
+offset_right = 250.0
+offset_bottom = 126.0
+grow_horizontal = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="PlanesTab" type="Button" parent="Center/Content/Tabs"]
+custom_minimum_size = Vector2(220, 58)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 20
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_tabs")
+text = "САМОЛЁТЫ"
+
+[node name="PaintTab" type="Button" parent="Center/Content/Tabs"]
+custom_minimum_size = Vector2(220, 58)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 20
+toggle_mode = true
+button_group = SubResource("ButtonGroup_tabs")
+text = "ПОКРАСКА"
+
 [node name="Scroll" type="ScrollContainer" parent="Center/Content"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 40.0
-offset_top = 78.0
+offset_top = 136.0
 offset_right = -40.0
 offset_bottom = -28.0
 horizontal_scroll_mode = 2
@@ -149,6 +319,253 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 16
 alignment = 1
+
+[node name="PaintPage" type="HBoxContainer" parent="Center/Content" node_paths=PackedStringArray("category_buttons", "grid", "flyer_view", "flyer", "shot_swatch", "photo_box", "photo_frame", "photo", "photo_sticker", "cover_icon", "item_name", "action_button")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 136.0
+offset_right = -40.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+script = ExtResource("62_page")
+pdata = ExtResource("63_pdata")
+catalog = ExtResource("64_catalog")
+card_scene = ExtResource("65_card")
+category_buttons = [NodePath("Right/Slots/Paint"), NodePath("Right/Slots/Trail"), NodePath("Right/Slots/Shot"), NodePath("Right/Slots/Sticker"), NodePath("Right/Slots/Frame"), NodePath("Right/Slots/Cover")]
+grid = NodePath("Right/Scroll/Grid")
+flyer_view = NodePath("Preview/VBox/Stage/FlyerView")
+flyer = NodePath("Preview/VBox/Stage/FlyerView/Viewport/PlaneFlyer")
+shot_swatch = NodePath("Preview/VBox/Stage/ShotSwatch")
+photo_box = NodePath("Preview/VBox/Stage/PhotoBox")
+photo_frame = NodePath("Preview/VBox/Stage/PhotoBox/Polaroid")
+photo = NodePath("Preview/VBox/Stage/PhotoBox/Polaroid/Photo")
+photo_sticker = NodePath("Preview/VBox/Stage/PhotoBox/Polaroid/Photo/Sticker")
+cover_icon = NodePath("Preview/VBox/Stage/CoverIcon")
+item_name = NodePath("Preview/VBox/ItemName")
+action_button = NodePath("Preview/VBox/Action")
+coin_icon = ExtResource("12_gold")
+
+[node name="Preview" type="PanelContainer" parent="Center/Content/PaintPage"]
+custom_minimum_size = Vector2(400, 430)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_preview")
+
+[node name="VBox" type="VBoxContainer" parent="Center/Content/PaintPage/Preview"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Stage" type="Panel" parent="Center/Content/PaintPage/Preview/VBox"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stage")
+
+[node name="FlyerView" type="SubViewportContainer" parent="Center/Content/PaintPage/Preview/VBox/Stage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="Center/Content/PaintPage/Preview/VBox/Stage/FlyerView"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(376, 278)
+render_target_update_mode = 4
+
+[node name="PlaneFlyer" parent="Center/Content/PaintPage/Preview/VBox/Stage/FlyerView/Viewport" instance=ExtResource("66_flyer")]
+position = Vector2(212, 128)
+scale = Vector2(0.75, 0.75)
+hover_amplitude = 10.0
+
+[node name="ShotSwatch" type="Control" parent="Center/Content/PaintPage/Preview/VBox/Stage"]
+visible = false
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -86.0
+offset_right = -24.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("67_swatch")
+
+[node name="PhotoBox" type="CenterContainer" parent="Center/Content/PaintPage/Preview/VBox/Stage"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Polaroid" type="PanelContainer" parent="Center/Content/PaintPage/Preview/VBox/Stage/PhotoBox"]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_polaroid")
+
+[node name="Photo" type="TextureRect" parent="Center/Content/PaintPage/Preview/VBox/Stage/PhotoBox/Polaroid"]
+material = SubResource("ShaderMaterial_photo")
+custom_minimum_size = Vector2(0, 130)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("69_plane")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Sticker" type="TextureRect" parent="Center/Content/PaintPage/Preview/VBox/Stage/PhotoBox/Polaroid/Photo"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -54.0
+offset_top = -34.0
+offset_right = 26.0
+offset_bottom = 46.0
+grow_horizontal = 0
+rotation = -0.2
+pivot_offset = Vector2(40, 40)
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CoverIcon" type="TextureRect" parent="Center/Content/PaintPage/Preview/VBox/Stage"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="ItemName" type="Label" parent="Center/Content/PaintPage/Preview/VBox"]
+layout_mode = 2
+text = "Без узора"
+label_settings = SubResource("LabelSettings_item")
+horizontal_alignment = 1
+
+[node name="Action" type="Button" parent="Center/Content/PaintPage/Preview/VBox"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.165, 0.2, 0.251, 0.6)
+theme_override_constants/icon_max_width = 30
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_cta")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cta_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cta_pressed")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_cta_disabled")
+text = "НАДЕТО"
+icon_alignment = 2
+
+[node name="Right" type="VBoxContainer" parent="Center/Content/PaintPage"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Slots" type="GridContainer" parent="Center/Content/PaintPage/Right"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 8
+columns = 3
+
+[node name="Paint" type="Button" parent="Center/Content/PaintPage/Right/Slots"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+text = "Узор"
+
+[node name="Trail" type="Button" parent="Center/Content/PaintPage/Right/Slots"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+text = "Шлейф"
+
+[node name="Shot" type="Button" parent="Center/Content/PaintPage/Right/Slots"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+text = "Выстрел"
+
+[node name="Sticker" type="Button" parent="Center/Content/PaintPage/Right/Slots"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+text = "Наклейка"
+
+[node name="Frame" type="Button" parent="Center/Content/PaintPage/Right/Slots"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+text = "Рамка"
+
+[node name="Cover" type="Button" parent="Center/Content/PaintPage/Right/Slots"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 18
+toggle_mode = true
+button_group = SubResource("ButtonGroup_slots")
+text = "Обложка"
+
+[node name="Scroll" type="ScrollContainer" parent="Center/Content/PaintPage/Right"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Grid" type="GridContainer" parent="Center/Content/PaintPage/Right/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 4
 
 [node name="BuyAnchor" type="Node" parent="."]
 script = ExtResource("60_ui_anchor")

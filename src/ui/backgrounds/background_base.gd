@@ -273,7 +273,7 @@ func _apply_sky_pair() -> void:
 	_sky_material.set_shader_parameter(COLOR_AMOUNT_PARAM, _color_amount)
 
 
-func spawn_ink_blot(global_pos: Vector2) -> void:
+func spawn_ink_blot(global_pos: Vector2, style: ShotItem = null) -> void:
 	if ink_blot_scene == null or _ink_layer == null:
 		return
 	while _ink_layer.get_child_count() >= max_ink_blots:
@@ -284,7 +284,7 @@ func spawn_ink_blot(global_pos: Vector2) -> void:
 	if blot == null:
 		return
 	_ink_layer.add_child(blot)
-	blot.setup(_ink_layer.to_local(global_pos))
+	blot.setup(_ink_layer.to_local(global_pos), style)
 
 
 func _fit_to_viewport() -> void:

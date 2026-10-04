@@ -88,8 +88,31 @@ static func idle_texture() -> AtlasTexture:
 	return tex
 
 
-static func apply_preview(rect: TextureRect, plane_id: String) -> void:
+## `paint` needs a `plane_body.gdshader` material on the rect (else ignored).
+static func apply_preview(rect: TextureRect, plane_id: String, paint: PaintItem = null) -> void:
 	if rect == null:
 		return
 	rect.texture = idle_texture()
-	rect.modulate = get_def(plane_id).get("tint", Color.WHITE) as Color
+	var tint := get_def(plane_id).get("tint", Color.WHITE) as Color
+	var mat := rect.material as ShaderMaterial
+	if mat != null:
+		rect.modulate = Color.WHITE
+		mat.set_shader_parameter("sprite_tint", tint)
+		apply_paint(mat, paint)
+	else:
+		rect.modulate = tint
+
+
+## Pushes a `PaintItem` into a `plane_body.gdshader` material. Null item = no pattern.
+static func apply_paint(material: Material, item: PaintItem) -> void:
+	var mat := material as ShaderMaterial
+	if mat == null:
+		return
+	if item == null:
+		mat.set_shader_parameter("paint_pattern", PaintItem.Pattern.NONE)
+		return
+	mat.set_shader_parameter("paint_pattern", item.pattern)
+	mat.set_shader_parameter("paint_color_a", item.color_a)
+	mat.set_shader_parameter("paint_color_b", item.color_b)
+	mat.set_shader_parameter("paint_cell_px", item.cell_px)
+	mat.set_shader_parameter("paint_strength", item.strength)

@@ -75,9 +75,9 @@ func get_active() -> BackgroundBase:
 	return _active
 
 
-func spawn_ink_blot(global_pos: Vector2) -> void:
+func spawn_ink_blot(global_pos: Vector2, style: ShotItem = null) -> void:
 	if _active != null:
-		_active.spawn_ink_blot(global_pos)
+		_active.spawn_ink_blot(global_pos, style)
 
 
 func _spawn_variant() -> void:

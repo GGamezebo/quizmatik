@@ -29,6 +29,9 @@ enum MovementMode {
 @export var sfx_player: AudioStreamPlayer
 @export var crash_sound: AudioStream
 @export var victory_whoosh: AudioStream
+## Look-only line behind the plane (`apply_trail`); hidden until a trail is equipped.
+@export var trail: PlaneFlyerTrail
+@export var nozzle: Marker2D
 
 var direction_y: int = 0
 var speed: float = SPEED_DEFAULTS
@@ -57,8 +60,21 @@ func apply_tint(color: Color) -> void:
 	else:
 		animated_sprite.modulate = color
 
+
+func apply_paint(item: PaintItem) -> void:
+	if animated_sprite != null:
+		PlaneCatalog.apply_paint(animated_sprite.material, item)
+
+
+func apply_trail(item: TrailItem) -> void:
+	if trail != null:
+		trail.apply_style(item)
+
+
 func _ready() -> void:
 	set_movement(movement_mode)
+	if trail != null:
+		trail.source = nozzle
 	if _uses_touch_controls():
 		set_process_input(true)
 

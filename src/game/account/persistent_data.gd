@@ -9,6 +9,7 @@ var statistics: StatisticsData = StatisticsData.new()
 var daily: DailyData = DailyData.new()
 var trophies: TrophiesData = TrophiesData.new()
 var mistakes: MistakesData = MistakesData.new()
+var cosmetics: CosmeticsData = CosmeticsData.new()
 var profile_id: String = ""
 var display_name: String = ""
 ## `BattleDifficulty` id for campaign valleys (`easy` / `normal` / `hard`).
@@ -26,6 +27,7 @@ func to_dict() -> Dictionary:
 		"daily": daily.to_dict(),
 		"trophies": trophies.to_dict(),
 		"mistakes": mistakes.to_dict(),
+		"cosmetics": cosmetics.to_dict(),
 		"profile_id": profile_id,
 		"name": display_name,
 		"difficulty": difficulty,
@@ -43,6 +45,7 @@ func apply_dict(data: Dictionary) -> void:
 	daily = DailyData.from_dict(data.get("daily", {}))
 	trophies = TrophiesData.from_dict(data.get("trophies", {}))
 	mistakes = MistakesData.from_dict(data.get("mistakes", {}))
+	cosmetics = CosmeticsData.from_dict(data.get("cosmetics", {}))
 	profile_id = String(data.get("profile_id", ""))
 	display_name = String(data.get("name", ""))
 	difficulty = String(BattleDifficulty.sanitize(StringName(data.get("difficulty", "normal"))))
@@ -336,3 +339,30 @@ class DailyData:
 
 	func completed_count() -> int:
 		return slots.count(true)
+
+
+## Bought look items (`CosmeticCatalog` ids) + equipped id per slot key (`CosmeticItem.SLOT_KEYS`).
+## Free items are owned implicitly and never stored. Mutated only by `CosmeticsController`.
+class CosmeticsData:
+	var owned: Array[String] = []
+	var equipped: Dictionary[String, String] = {}
+
+	func to_dict() -> Dictionary:
+		var equipped_out: Dictionary = {}
+		for slot_key in equipped:
+			equipped_out[slot_key] = equipped[slot_key]
+		return {"owned": owned.duplicate(), "equipped": equipped_out}
+
+	static func from_dict(d: Dictionary) -> CosmeticsData:
+		var cosmetics := CosmeticsData.new()
+		var owned_raw: Variant = d.get("owned", [])
+		if owned_raw is Array:
+			for item_id in owned_raw:
+				var id := String(item_id)
+				if not id.is_empty() and not cosmetics.owned.has(id):
+					cosmetics.owned.append(id)
+		var equipped_raw: Variant = d.get("equipped", {})
+		if equipped_raw is Dictionary:
+			for slot_key in equipped_raw as Dictionary:
+				cosmetics.equipped[String(slot_key)] = String(equipped_raw[slot_key])
+		return cosmetics

@@ -20,6 +20,8 @@
 [ext_resource type="Script" uid="uid://dfc4lkuw1o6wl" path="res://src/ui/buttons/hover_scale_binder.gd" id="18_binder"]
 [ext_resource type="Script" path="res://src/ui/ui_anchor/ui_anchor.gd" id="60_ui_anchor"]
 [ext_resource type="Resource" path="res://src/game/scenes/tutorial/tutorial_anchors.tres" id="61_tutorial_anchors"]
+[ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="62_catalog"]
+[ext_resource type="Shader" path="res://src/features/plane/plane_body.gdshader" id="63_body"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_title_chip"]
 content_margin_left = 32.0
@@ -74,6 +76,13 @@ font = ExtResource("5_font")
 font_size = 22
 font_color = Color(1, 0.99, 0.96, 1)
 shadow_size = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_photo"]
+resource_local_to_scene = true
+shader = ExtResource("63_body")
+shader_parameter/shadow_offset = Vector2(0, 0)
+shader_parameter/shadow_color = Color(0, 0, 0, 0)
+shader_parameter/shadow_blur = 0.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_polaroid"]
 content_margin_left = 10.0
@@ -334,7 +343,7 @@ font = ExtResource("5_font")
 font_size = 18
 font_color = Color(0.165, 0.2, 0.251, 0.8)
 
-[node name="ProfileWindow" type="Control" node_paths=PackedStringArray("name_label", "gold_label", "trophy_button", "photo", "plane_preview", "plane_name_label", "difficulty_picker", "edit_button", "delete_button", "profiles_grid", "profiles_count_label", "create_card", "create_overlay", "delete_dialog")]
+[node name="ProfileWindow" type="Control" node_paths=PackedStringArray("name_label", "gold_label", "trophy_button", "photo", "plane_preview", "plane_name_label", "difficulty_picker", "edit_button", "delete_button", "profiles_grid", "profiles_count_label", "create_card", "create_overlay", "delete_dialog", "polaroid", "sticker")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -348,6 +357,9 @@ name_label = NodePath("Body/IdCard/VBox/Margin/VBox/Top/Info/NameRow/NameBox/Nam
 gold_label = NodePath("Body/IdCard/VBox/Margin/VBox/Top/Info/Chips/GoldChip/HBox/Gold")
 trophy_button = NodePath("Body/IdCard/VBox/Margin/VBox/Top/Info/Chips/TrophyButton")
 photo = NodePath("Body/IdCard/VBox/Margin/VBox/Top/Polaroid/PhotoBg/Photo")
+polaroid = NodePath("Body/IdCard/VBox/Margin/VBox/Top/Polaroid")
+sticker = NodePath("Body/IdCard/VBox/Margin/VBox/Top/Polaroid/PhotoBg/Photo/Sticker")
+cosmetics = ExtResource("62_catalog")
 plane_preview = NodePath("Body/IdCard/VBox/Margin/VBox/PlaneButton/HBox/PlanePreview")
 plane_name_label = NodePath("Body/IdCard/VBox/Margin/VBox/PlaneButton/HBox/Texts/PlaneName")
 difficulty_picker = NodePath("Body/IdCard/VBox/Margin/VBox/DifficultyPicker")
@@ -455,9 +467,27 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_photo_bg")
 
 [node name="Photo" type="TextureRect" parent="Body/IdCard/VBox/Margin/VBox/Top/Polaroid/PhotoBg"]
+material = SubResource("ShaderMaterial_photo")
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("16_plane")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Sticker" type="TextureRect" parent="Body/IdCard/VBox/Margin/VBox/Top/Polaroid/PhotoBg/Photo"]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_top = -36.0
+offset_right = 24.0
+offset_bottom = 28.0
+grow_horizontal = 0
+rotation = -0.2
+pivot_offset = Vector2(32, 32)
+mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
 

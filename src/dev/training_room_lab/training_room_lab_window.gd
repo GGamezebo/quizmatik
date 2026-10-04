@@ -5,6 +5,8 @@ extends Control
 
 const SAVE_PATH := "user://training_lab_settings.json"
 const GRANT_GOLD := 1
+## Bigger grant for testing cosmetics purchases.
+const GRANT_GOLD_BIG := 10
 
 @export var config: GameConfig
 @export_group("Steppers")
@@ -35,6 +37,7 @@ const GRANT_GOLD := 1
 @export var wipe_progress_button: BaseButton
 @export var wipe_dialog: ConfirmDialog
 @export var grant_gold_button: BaseButton
+@export var grant_gold_big_button: BaseButton
 @export var unlock_valleys_button: BaseButton
 
 
@@ -91,7 +94,9 @@ func _bind_controls() -> void:
 	if unlock_valleys_button != null:
 		unlock_valleys_button.pressed.connect(_on_unlock_valleys_pressed)
 	if grant_gold_button != null:
-		grant_gold_button.pressed.connect(_on_grant_gold_pressed)
+		grant_gold_button.pressed.connect(_on_grant_gold_pressed.bind(GRANT_GOLD))
+	if grant_gold_big_button != null:
+		grant_gold_big_button.pressed.connect(_on_grant_gold_pressed.bind(GRANT_GOLD_BIG))
 
 
 func _connect_stepper(
@@ -256,11 +261,11 @@ func _save_config_to_disk() -> void:
 		ResourceUtils.save_json(SAVE_PATH, ResourceUtils.resource_to_dict(config))
 
 
-func _on_grant_gold_pressed() -> void:
+func _on_grant_gold_pressed(amount: int) -> void:
 	var profiles := ProfileController.find_in_tree(get_tree())
 	if profiles == null or not profiles.has_profiles():
 		return
-	profiles.add_gold(GRANT_GOLD)
+	profiles.add_gold(amount)
 
 
 func _on_unlock_valleys_pressed() -> void:

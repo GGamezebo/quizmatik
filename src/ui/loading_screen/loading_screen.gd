@@ -8,6 +8,8 @@ const GRID_SIZE_PARAM := &"rect_size"
 
 ## Shared live profile (same cached `.tres` as AppRoot) → `equipped_plane_id`. Isolated run → starter.
 @export var pdata: PData
+## Equipped paint / trail on the flyer; null or no profile → catalog defaults.
+@export var cosmetics: CosmeticCatalog
 @export var sheet: Control
 @export var sky: TextureRect
 @export var grid: ColorRect
@@ -40,9 +42,18 @@ func _ready() -> void:
 	_on_grid_resized()
 	var plane_id := pdata.equipped_plane_id if pdata != null else PlaneCatalog.STARTER_ID
 	flyer.apply_plane(plane_id)
+	_apply_cosmetics()
 	fact_label.text = fact_prefix + _random_fact()
 	_apply_progress()
 	_fly_in()
+
+
+func _apply_cosmetics() -> void:
+	if cosmetics == null:
+		return
+	var equipped: Dictionary = pdata.cosmetics.equipped if pdata != null else {}
+	flyer.apply_paint(cosmetics.equipped_item(CosmeticItem.Slot.PAINT, equipped) as PaintItem)
+	flyer.apply_trail(cosmetics.equipped_item(CosmeticItem.Slot.TRAIL, equipped) as TrailItem)
 
 
 func update_progress(value: float) -> void:

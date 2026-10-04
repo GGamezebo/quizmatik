@@ -4,6 +4,9 @@ extends IScene
 @export var levels_config: LevelsConfig
 @export var root_events: RootEvents
 @export var initable_components: Array[Node]
+## Active profile (shared live `.tres`) → equipped look items; isolated run → catalog defaults.
+@export var pdata: PData
+@export var cosmetics: CosmeticCatalog
 
 func initialize(_data: Dictionary) -> void:
 	var scenario: GameConfig = _data.get('custom_battle')
@@ -27,6 +30,7 @@ func initialize(_data: Dictionary) -> void:
 	var review_facts: Variant = _data.get("review_facts", {})
 	game_config.review_facts = review_facts if review_facts is Dictionary else {}
 	_apply_equipped_plane()
+	_apply_cosmetics()
 
 	# Campaign: tie battle background to selected valley.
 	if battle_info != null:
@@ -56,3 +60,17 @@ func _apply_equipped_plane() -> void:
 	var plane := get_node_or_null("Player/AirPlane") as AirPlane
 	if plane != null:
 		plane.apply_tint(PlaneCatalog.get_def(plane_id).get("tint", Color.WHITE) as Color)
+
+
+## Look only: paint / trail on the plane, shot ink. Never touches speed or combat.
+func _apply_cosmetics() -> void:
+	if cosmetics == null:
+		return
+	var equipped: Dictionary = pdata.cosmetics.equipped if pdata != null else {}
+	var plane := get_node_or_null("Player/AirPlane") as AirPlane
+	if plane != null:
+		plane.apply_paint(cosmetics.equipped_item(CosmeticItem.Slot.PAINT, equipped) as PaintItem)
+		plane.apply_trail(cosmetics.equipped_item(CosmeticItem.Slot.TRAIL, equipped) as TrailItem)
+	var shots := get_node_or_null("Controllers/ShotManager")
+	if shots != null:
+		shots.apply_style(cosmetics.equipped_item(CosmeticItem.Slot.SHOT, equipped) as ShotItem)

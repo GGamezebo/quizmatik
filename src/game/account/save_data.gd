@@ -3,7 +3,7 @@ class_name SaveData
 extends Save
 
 static func  CURRENT_SAVE_VERSION() -> int:
-	return 7
+	return 8
 
 static var _migrations: Dictionary = {
 	1: _migrate_1_to_2,
@@ -12,6 +12,7 @@ static var _migrations: Dictionary = {
 	4: _migrate_4_to_5,
 	5: _migrate_5_to_6,
 	6: _migrate_6_to_7,
+	7: _migrate_7_to_8,
 }
 
 func migrate_save_data(data: Dictionary, from_version: int) -> Dictionary:
@@ -133,3 +134,14 @@ static func _migrate_6_to_7(data: Dictionary) -> void:
 		profile.erase("age")
 		if String(profile.get("name", "")).strip_edges().is_empty():
 			profile["name"] = "Пилот"
+
+
+## v8: per-profile look items (`cosmetics.owned` / `equipped`) start empty = slot defaults.
+static func _migrate_7_to_8(data: Dictionary) -> void:
+	var profiles: Variant = data.get("profiles", {})
+	if not (profiles is Dictionary):
+		return
+	for profile_id in profiles as Dictionary:
+		var profile: Variant = profiles[profile_id]
+		if profile is Dictionary and not (profile.get("cosmetics", null) is Dictionary):
+			profile["cosmetics"] = {"owned": [], "equipped": {}}
