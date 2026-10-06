@@ -12,13 +12,30 @@
 				"enter": ["ev.open_tutorial"],
 				"leave": ["ev.close_tutorial"]
 			},
-			"WEB": {
-				"context": "WEBContext",
-				"enter": ["ev.open_web"],
+			"Platform": {
+				"context": "PlatformRouterContext",
+				"enter": ["ev.open_platform"],
 				"states": {
-					"Yandex": {
-						"context": "YandexContext",
-						"enter": ["ev.open_yandex"]
+					"WEB": {
+						"context": "WEBContext",
+						"enter": ["ev.open_web"],
+						"states": {
+							"Yandex": { "context": "YandexContext", "enter": ["ev.open_yandex"] }
+						}
+					},
+					"Android": {
+						"context": "AndroidContext",
+						"enter": ["ev.open_android"],
+						"states": {
+							"GooglePlay": { "context": "GooglePlayContext", "enter": ["ev.open_google_play"] }
+						}
+					},
+					"Desktop": {
+						"context": "DesktopContext",
+						"enter": ["ev.open_desktop"],
+						"states": {
+							"Steam": { "context": "SteamContext", "enter": ["ev.open_steam"] }
+						}
 					}
 				}
 			},

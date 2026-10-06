@@ -3,6 +3,7 @@ extends IScene
 ## App-root HFSM scene: shared account/progress/music + RootEvents → HFSM bridge.
 
 @export var root_events: RootEvents
+@export var platform_services: PlatformServices
 @export var progress_controller: ProgressController
 @export var daily_challenges_controller: DailyChallengesController
 @export var profile_controller: ProfileController
@@ -19,9 +20,13 @@ func initialize(_data: Dictionary) -> void:
 	_listener.add(root_events.ev_return_to_menu, _on_ev_return_to_menu)
 	_listener.add(root_events.ev_profiles_changed, _on_profiles_changed)
 	
-	if OS.has_feature("web"):
-		add_event("ev.open_web", {"music_player": music_player, "root_events": root_events})
-		
+	# Platform branch is picked inside App/Platform (PlatformRouterContext), never here.
+	add_event("ev.open_platform", {
+		"music_player": music_player,
+		"root_events": root_events,
+		"platform_services": platform_services,
+	})
+
 	music_player.play()
 	_maybe_open_first_profile()
 	_sync_tutorial()

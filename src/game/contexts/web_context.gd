@@ -1,21 +1,17 @@
 class_name WEBContext
-extends HfsmBoundEntity
+extends PlatformContext
 
-## Generic HTML5 platform hooks. Opens nested Yandex when export feature is set.
+## Generic HTML5 hooks. Opens nested Yandex when export feature `yandex_games` is set.
 ## Tab hidden / minimized → RootEvents.ev_app_visibility_changed (pause + mute in AppPauseController).
 
-var root_events: RootEvents = null
 var _document: JavaScriptObject = null
 var _on_visibility_cb: JavaScriptObject = null
 
 
-func _init(_data: Dictionary = {}) -> void:
-	print("WEBContext _init")
-	root_events = _data.get("root_events") as RootEvents
+func _enter() -> void:
 	_listen_visibility()
-	
 	if OS.has_feature("yandex_games"):
-		add_event("ev.open_yandex", _data)
+		open_child("ev.open_yandex")
 
 func deinit() -> void:
 	if _document != null and _on_visibility_cb != null:
