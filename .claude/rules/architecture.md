@@ -101,9 +101,8 @@ App phases are driven by HFSM (`src/game/hfsm/app_hfsm.json`) via `src/game/main
 - `main.gd` only creates HFSM + scene host; no gameplay bridge
 - Root `App` scene id `app_root` → `app_root/root.tscn` (`IScene`; RootEvents → `hfsm.add_event`)
 - JSON `scene: { id, loading_screen, async_loading, on_event }` → HFSM mounts via `HfsmSceneRegistry` + `HfsmScenePaths.PATHS`
-- `App` mounts `app_root`; on HTML5, AppRoot emits `ev.open_web` with `music_player`
-- Nested `WEB` enters on `ev.open_web` with BoundEntity `WEBContext`; keep generic HTML5 hooks there
-- Yandex Games export (`custom_features=yandex_games`): `WEBContext` emits `ev.open_yandex` → nested `Yandex` + `YandexContext` (SDK / ads)
+- `App` mounts `app_root`; AppRoot emits `ev.open_platform` → `App/Platform` picks branch `WEB`(→`Yandex`) / `Android`(→`GooglePlay`) / `Desktop`(→`Steam`) by OS + export `custom_features` (`hfsm-app-integration.md`)
+- Game ↔ platform (ads, later IAP / cloud / analytics) only via `PlatformServices` Resource (`src/common/platform/`)
 - Scene node lifecycle: `initialize` / `deinit` / `on_event` called by HFSM
 - Menu UI windows use `WindowStackManager` (not HFSM bindings)
 - Battle payload: **either** `custom_battle` **or** `battle_info` — never both

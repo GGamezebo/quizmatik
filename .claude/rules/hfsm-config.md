@@ -37,7 +37,6 @@ paths:
 - Heavy screens: `scene`; light logic: BoundEntity slots when needed
 - Prefer shallow trees
 - Do not put menu UI windows in HFSM — use `WindowStackManager`
-- Platform hooks: nested state under `App`; `WEB` enters on `ev.open_web` emitted by AppRoot after `OS.has_feature("web")`
-- Yandex Games: child state `WEB/Yandex` enters on `ev.open_yandex` emitted by `WEBContext` when `OS.has_feature("yandex_games")`
+- Platform hooks: only under `App/Platform` (`ev.open_platform`) → `WEB` / `Android` / `Desktop` → store child (`Yandex` / `GooglePlay` / `Steam`) — see `hfsm-app-integration.md`
 - Platform states use the shared `context` slot, e.g. `"context": "WEBContext"` / `"YandexContext"`
 

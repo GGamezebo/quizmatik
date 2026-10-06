@@ -26,16 +26,15 @@ paths:
 
 ## Platform BoundEntity contexts
 
-- `AppRoot.initialize()` emits `ev.open_web` only when `OS.has_feature("web")`
-- Event payload includes `music_player` + `root_events`; `AppRoot` also calls `music_player.play()`
-- `WEBContext` listens to `document.visibilitychange` (JavaScriptBridge; callback kept in a member, removed in `deinit`) → `root_events.ev_app_visibility_changed`
-- Nested `WEB` state enters on `ev.open_web` and binds `"context": "WEBContext"`
-- `WEBContext` emits `ev.open_yandex` when `OS.has_feature("yandex_games")` (export preset custom feature)
-- Nested `WEB/Yandex` binds `"context": "YandexContext"`; receives the same payload
-- Register slot in `main.gd`: `{ "context": { "WEBContext": WEBContext, "YandexContext": YandexContext } }`
-- Contexts live under `src/game/contexts/` (next to `scenes/`)
-- Generic HTML5 hooks in `WEBContext`; Yandex SDK / ads in `YandexContext`
-- BoundEntity can `add_event` (HFSM injects via `sync_hfsm` on enter)
+- `AppRoot.initialize()` always emits `ev.open_platform` with payload `{ root_events, platform_services, music_player }`; AppRoot never checks platform features
+- Tree: `App/Platform` (`PlatformRouterContext`: `web` → `ev.open_web`, `android` → `ev.open_android`, `pc` → `ev.open_desktop`) → `WEB` (`WEBContext`) → `Yandex` (`yandex_games`); `Android` (`AndroidContext`) → `GooglePlay` (`google_play`); `Desktop` (`DesktopContext`, also editor) → `Steam` (`steam`). Store branch = export preset `custom_features`
+- All platform contexts extend `PlatformContext` (`src/game/contexts/`): payload → `root_events` / `services`; setup in `_enter()` (called from `sync_hfsm`); open child via `open_child(ev)` (same payload). Never `add_event` from `_init` (HFSM not bound yet → dropped)
+- New platform/store = new nested state + `PlatformContext` subclass + register in `main.gd` `context` slot; never branch existing contexts or game code
+- Game ↔ platform only via `PlatformServices` (`src/common/platform/platform_services.tres`): caps `can_interstitial` / `can_rewarded` (set only by contexts via `set_ads`, reset in `deinit`), requests `ev_request_interstitial` / `ev_request_rewarded(placement)`, answer `ev_rewarded_result(placement, is_granted)` (always sent). Default `.tres` = caps off → game hides ad entry points
+- Platform pause (tab hidden, SDK pause, ad open) → `root_events.ev_app_visibility_changed`
+- `WEBContext`: `document.visibilitychange` (JS callback kept in member, removed in `deinit`)
+- `YandexContext`: `YaGames.init()` (`/sdk.js` via Web-Yandex preset `head_include`) → `LoadingAPI.ready()` once after SDK up **and** `ev.open_menu`; `ev_battle_started/finished` → `GameplayAPI.start/stop`; `game_api_pause/resume` + ad open/close → visibility; JS callbacks kept in arrays
+- Contexts receive every HFSM event via `on_event` while active
 - Heavy UI stays in scenes; BoundEntity contexts must not mount scenes
 
 ## Tutorial (parallel state)

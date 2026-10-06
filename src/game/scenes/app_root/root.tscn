@@ -22,6 +22,7 @@
 [ext_resource type="Script" path="res://src/game/account/mistakes_controller.gd" id="18_mistakes"]
 [ext_resource type="PackedScene" uid="uid://c8n3apppause01" path="res://src/features/app_pause/app_pause_controller.tscn" id="19_pause"]
 [ext_resource type="PackedScene" path="res://src/game/account/cosmetics_controller.tscn" id="20_cosmetics"]
+[ext_resource type="Resource" path="res://src/common/platform/platform_services.tres" id="21_platform"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -36,6 +37,7 @@ glow_blend_mode = 0
 [node name="AppRoot" type="Node" unique_id=74498543 node_paths=PackedStringArray("progress_controller", "daily_challenges_controller", "profile_controller", "mistakes_controller", "music_player", "first_run_overlay")]
 script = ExtResource("1_main")
 root_events = ExtResource("8_dg77c")
+platform_services = ExtResource("21_platform")
 progress_controller = NodePath("Account/ProgressController")
 daily_challenges_controller = NodePath("Account/DailyChallengesController")
 profile_controller = NodePath("Account/ProfileController")

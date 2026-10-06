@@ -19,8 +19,13 @@ func _start_hfsm_when_ready() -> void:
 		HfsmLoader.load_tree(_hfsm_config_path),
 		{
 			"context": {
+				"PlatformRouterContext": PlatformRouterContext,
 				"WEBContext": WEBContext,
 				"YandexContext": YandexContext,
+				"AndroidContext": AndroidContext,
+				"GooglePlayContext": GooglePlayContext,
+				"DesktopContext": DesktopContext,
+				"SteamContext": SteamContext,
 			},
 		},
 		{
