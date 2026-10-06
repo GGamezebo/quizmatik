@@ -74,6 +74,11 @@ shoot={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://src/common/localization/translations.en.translation")
+locale/fallback="ru"
+
 [layer_names]
 
 2d_render/layer_3="answers"

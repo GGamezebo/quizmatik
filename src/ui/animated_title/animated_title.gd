@@ -42,6 +42,11 @@ func _ready() -> void:
 		call_deferred("_connect_visibility_replay")
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
+		_rebuild_and_play()
+
+
 func _connect_visibility_replay() -> void:
 	if not visibility_changed.is_connected(_on_visibility_changed):
 		visibility_changed.connect(_on_visibility_changed)
@@ -93,10 +98,11 @@ func _rebuild() -> void:
 	if font == null:
 		font = get_theme_default_font()
 
+	var shown_text := tr(title_text)
 	var total_w := 0.0
 	var max_h := 0.0
-	for i in title_text.length():
-		var ch := title_text.substr(i, 1)
+	for i in shown_text.length():
+		var ch := shown_text.substr(i, 1)
 		var cell := _make_glyph_cell(ch, font)
 		_row.add_child(cell)
 		_glyphs.append(cell)
@@ -121,6 +127,7 @@ func _make_glyph_cell(ch: String, font: Font) -> Control:
 	if ch != " ":
 		var label := Label.new()
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 		label.text = ch
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER

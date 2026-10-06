@@ -139,10 +139,10 @@ func _update_action() -> void:
 	action_button.icon = coin_icon
 	var missing := _selected.gold_cost - pdata.gold
 	if missing > 0:
-		action_button.text = "НУЖНО ЕЩЁ %d" % missing
+		action_button.text = tr("НУЖНО ЕЩЁ %d") % missing
 		action_button.disabled = true
 	else:
-		action_button.text = "КУПИТЬ ЗА %d" % _selected.gold_cost
+		action_button.text = tr("КУПИТЬ ЗА %d") % _selected.gold_cost
 		action_button.disabled = _controller() == null
 
 

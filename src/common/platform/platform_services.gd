@@ -5,6 +5,7 @@ extends Resource
 ## (`src/game/contexts/`) answers. Default `.tres` = no platform: caps off → game hides ad entry points.
 
 @warning_ignore("unused_signal") signal ev_caps_changed
+@warning_ignore("unused_signal") signal ev_language_changed
 ## Game → platform. `placement` = where in the game the ad is shown (e.g. &"post_battle").
 ## Interstitial only between battles, never during gameplay (Yandex / Play policy).
 @warning_ignore("unused_signal") signal ev_request_interstitial(placement: StringName)
@@ -14,6 +15,8 @@ extends Resource
 
 var can_interstitial: bool = false
 var can_rewarded: bool = false
+## Platform-reported UI language (e.g. Yandex `environment.i18n.lang`); empty = unknown → OS locale.
+var language: String = ""
 
 
 ## Called only by platform contexts (on SDK ready / on deinit).
@@ -23,3 +26,11 @@ func set_ads(interstitial: bool, rewarded: bool) -> void:
 	can_interstitial = interstitial
 	can_rewarded = rewarded
 	ev_caps_changed.emit()
+
+
+## Called only by platform contexts (on SDK ready / on deinit).
+func set_language(lang: String) -> void:
+	if language == lang:
+		return
+	language = lang
+	ev_language_changed.emit()

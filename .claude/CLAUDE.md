@@ -5,13 +5,13 @@ Targets: Mobile (Android/iOS), Steam, HTML5 (incl. Yandex Games).
 
 Rules live in `.claude/rules/` (AI-only, terse). Human docs: `.claude/doc/`.
 - always loaded: `godot-paradigm.md` (core approach), `architecture.md`, `concepts.md`, `maintain-architecture-rules.md`
-- path-scoped (`paths:` frontmatter): battle, GDScript conventions, HFSM, levels/progress, menu, visuals
+- path-scoped (`paths:` frontmatter): battle, GDScript conventions, HFSM, levels/progress, localization, menu, visuals
 
 Feature plan (source of truth for profiles/planes/gold): `.cursor/plans/profiles-planes.md`.
 
 ## Not covered by the rules (verified 2026-09-26)
 
-- **Localization:** none. UI text is Russian, hardcoded in `.tscn` `text = "..."` and some scripts; no `tr()`, no `TranslationServer`, no `.csv`/`.po`. Keep new UI text in Russian in the scene; do not add a translation system unless asked.
+- **Localization:** ru (source text in scenes/scripts) + en via `src/common/localization/translations.csv` — see `rules/localization.md`. Write new UI text in Russian and add its English row to the CSV.
 - **Tutorial:** HFSM context `App/Tutorial` (`src/game/scenes/tutorial/`) — see `rules/hfsm-app-integration.md` + `rules/architecture.md`.
 
 ## Working here

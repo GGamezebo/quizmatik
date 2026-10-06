@@ -19,6 +19,10 @@ const SAVE_PATH: String = "user://settings.json"
 ## AirPlane.MovementMode: 0 = DIRECT, 1 = DISCRETE
 @export var movement_mode: int = 0
 
+@export_category("Language")
+## `GameLocale.SUPPORTED` code picked with the menu flags; empty = auto-detect (`GameLocale.default_language`).
+@export var language: String = ""
+
 
 func save() -> void:
 	if ResourceUtils.save_json(SAVE_PATH, ResourceUtils.resource_to_dict(self)) == OK:

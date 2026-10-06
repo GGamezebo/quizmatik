@@ -50,6 +50,9 @@ const DIFFICULTY_COPY: Dictionary = {
 @export var missing_operand_chance_by_difficulty: Dictionary = {"easy": 0.0, "normal": 0.3, "hard": 0.4}
 ## Share of `questions_count` answered before they start (normal: second half only).
 @export var missing_operand_start_by_difficulty: Dictionary = {"easy": 0.0, "normal": 0.5, "hard": 0.0}
+@export_group("Boss")
+## Chance of the boss airship after the last question (never in «НА ВРЕМЯ»; armor / rage hits from `config`).
+@export_range(0.0, 1.0, 0.05) var practice_boss_chance: float = 0.25
 @export_group("Actions")
 @export var reset_button: BaseButton
 @export var start_battle_button: BaseButton
@@ -218,11 +221,16 @@ func _set_difficulty_buttons(id: StringName) -> void:
 		difficulty_hard.set_selected(id == &"hard")
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and is_node_ready():
+		_refresh_difficulty_hint()
+
+
 func _refresh_difficulty_hint() -> void:
 	if difficulty_hint != null:
-		var hint := str(DIFFICULTY_COPY.get(_difficulty, DIFFICULTY_COPY[&"normal"]))
+		var hint := tr(str(DIFFICULTY_COPY.get(_difficulty, DIFFICULTY_COPY[&"normal"])))
 		if _timed:
-			hint += " · на время: продержись %d сек" % int(timed_practice_sec)
+			hint += " · " + tr("на время: продержись %d сек") % int(timed_practice_sec)
 		difficulty_hint.text = hint
 
 
@@ -305,6 +313,7 @@ func _apply_difficulty_to_config() -> void:
 	config.early_exam_questions_multiplier = 1.0
 	config.early_exam_answer_speed_multiplier = 1.0
 	config.time_limit_sec = timed_practice_sec if _timed else 0.0
+	config.boss_chance = practice_boss_chance
 
 
 func _on_reset_setting_pressed() -> void:

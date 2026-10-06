@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/language_picker/language_flag.gd" id="1_flag"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_ru.svg" id="2_ru"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="3_shadow"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_shadow"]
+shader = ExtResource("3_shadow")
+shader_parameter/shadow_offset = Vector2(-3, 5)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.45)
+shader_parameter/shadow_blur = 1.5
+
+[node name="LanguageFlag" type="TextureButton" node_paths=PackedStringArray("underline")]
+material = SubResource("ShaderMaterial_shadow")
+custom_minimum_size = Vector2(52, 46)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("2_ru")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("1_flag")
+underline = NodePath("Underline")
+
+[node name="Underline" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 1.0
+offset_right = -10.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+color = Color(0.165, 0.2, 0.251, 1)

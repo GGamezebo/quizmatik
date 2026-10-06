@@ -179,9 +179,10 @@ func unique_name(display_name: String) -> String:
 	return "%s %d" % [base, index]
 
 
+## Empty → `DEFAULT_NAME` in the current UI language (typed names are never translated).
 static func display_name_or_default(display_name: String) -> String:
 	var clean := display_name.strip_edges()
-	return DEFAULT_NAME if clean.is_empty() else clean
+	return String(TranslationServer.translate(DEFAULT_NAME)) if clean.is_empty() else clean
 
 
 func add_gold(amount: int) -> void:

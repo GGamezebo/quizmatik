@@ -23,7 +23,7 @@ func _on_streak_changed(streak: int) -> void:
 	if streak < min_streak:
 		_hide()
 		return
-	label.text = text_format % streak
+	label.text = tr(text_format) % streak
 	visible = true
 	_pop()
 

@@ -38,7 +38,11 @@ static func format_duration(seconds: float) -> String:
 	var minutes: int = int((total_seconds % 3600) / 60.0)
 	var secs: int = total_seconds % 60
 	if hours > 0:
-		return "%dч %02dм %02dс" % [hours, minutes, secs]
+		return _tr("%dч %02dм %02dс") % [hours, minutes, secs]
 	if minutes > 0:
-		return "%dм %02dс" % [minutes, secs]
-	return "%dс" % secs
+		return _tr("%dм %02dс") % [minutes, secs]
+	return _tr("%dс") % secs
+
+
+static func _tr(message: String) -> String:
+	return String(TranslationServer.translate(message))

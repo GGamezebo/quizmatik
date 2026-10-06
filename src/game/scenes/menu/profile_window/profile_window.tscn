@@ -514,6 +514,7 @@ label_settings = SubResource("LabelSettings_caption")
 [node name="Name" type="Label" parent="Body/IdCard/VBox/Margin/VBox/Top/Info/NameRow/NameBox"]
 custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+auto_translate_mode = 2
 text = "Пилот"
 label_settings = SubResource("LabelSettings_name")
 text_overrun_behavior = 3
