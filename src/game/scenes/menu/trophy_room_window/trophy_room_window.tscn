@@ -18,6 +18,9 @@
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="6_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/trophy_room_window/hard_facts_overlay.tscn" id="11_hard_overlay"]
+[ext_resource type="Script" path="res://src/ui/locale_texture_swap/locale_texture_swap.gd" id="12_locale_swap"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_en.png" id="13_cloud_en"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_en.png" id="14_clipboard_en"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
 
@@ -140,6 +143,13 @@ label_settings = SubResource("LabelSettings_title")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="LocaleTextureSwap" type="Node" parent="Layout/TitleCloud" node_paths=PackedStringArray("target")]
+script = ExtResource("12_locale_swap")
+target = NodePath("..")
+textures = Dictionary[String, Texture2D]({
+"en": ExtResource("13_cloud_en")
+})
+
 [node name="LeftPanel" type="Control" parent="Layout"]
 clip_contents = true
 layout_mode = 1
@@ -161,6 +171,13 @@ mouse_filter = 2
 texture = ExtResource("7_clipboard")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="LocaleTextureSwap" type="Node" parent="Layout/LeftPanel/ClipboardBg" node_paths=PackedStringArray("target")]
+script = ExtResource("12_locale_swap")
+target = NodePath("..")
+textures = Dictionary[String, Texture2D]({
+"en": ExtResource("14_clipboard_en")
+})
 
 [node name="StatsMargin" type="MarginContainer" parent="Layout/LeftPanel"]
 layout_mode = 1

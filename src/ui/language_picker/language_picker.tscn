@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/language_picker/language_picker.gd" id="1_picker"]
+[ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="2_settings"]
+[ext_resource type="Resource" path="res://src/common/platform/platform_services.tres" id="3_platform"]
+[ext_resource type="PackedScene" path="res://src/ui/language_picker/language_flag.tscn" id="4_flag"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_ru.svg" id="5_ru"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_en.svg" id="6_en"]
+
+[node name="LanguagePicker" type="HBoxContainer"]
+offset_right = 112.0
+offset_bottom = 46.0
+theme_override_constants/separation = 8
+alignment = 1
+script = ExtResource("1_picker")
+user_settings = ExtResource("2_settings")
+platform_services = ExtResource("3_platform")
+
+[node name="Ru" parent="." instance=ExtResource("4_flag")]
+layout_mode = 2
+tooltip_text = "Русский"
+auto_translate_mode = 2
+texture_normal = ExtResource("5_ru")
+language = "ru"
+
+[node name="En" parent="." instance=ExtResource("4_flag")]
+layout_mode = 2
+tooltip_text = "English"
+auto_translate_mode = 2
+texture_normal = ExtResource("6_en")
+language = "en"

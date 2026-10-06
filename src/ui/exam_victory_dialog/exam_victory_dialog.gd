@@ -21,7 +21,7 @@ func _ready() -> void:
 func open(celebration: Dictionary) -> void:
 	var container_id: String = celebration.get("container_id", "")
 	var next_container_id: String = celebration.get("next_container_id", "")
-	var valley_name := _container_name(container_id)
+	var valley_name := tr(_container_name(container_id))
 	var trophy := ValleyTrophyArt.get_trophy(container_id)
 
 	title_label.text = "ПОЗДРАВЛЯЕМ!"
@@ -30,18 +30,11 @@ func open(celebration: Dictionary) -> void:
 		trophy_rect.visible = trophy != null
 
 	if next_container_id.is_empty():
-		message_label.text = (
-			"Ты сдал экзамен в «%s»!\n\n"
-			% valley_name
-			+ "Поздравляем — все долины покорены!\n\n"
-			+ "Кубок сохранён в профиле."
-		)
+		message_label.text = tr(
+			"Ты сдал экзамен в «%s»!\n\nПоздравляем — все долины покорены!\n\nКубок сохранён в профиле."
+		) % valley_name
 	else:
-		message_label.text = (
-			"Ты сдал экзамен в «%s»!\n\n"
-			% valley_name
-			+ "Кубок сохранён в профиле."
-		)
+		message_label.text = tr("Ты сдал экзамен в «%s»!\n\nКубок сохранён в профиле.") % valley_name
 
 	screen.modulate.a = 0.0
 	show()

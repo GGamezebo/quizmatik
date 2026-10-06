@@ -134,7 +134,7 @@ func _show_level_gold(amount: int) -> void:
 	if level_gold_row:
 		level_gold_row.visible = amount > 0
 	if amount > 0:
-		gold_label.text = "+%d за 3 штампа" % amount
+		gold_label.text = tr("+%d за 3 штампа") % amount
 
 
 func _show_bonus_gold(amount: int) -> void:
@@ -143,7 +143,7 @@ func _show_bonus_gold(amount: int) -> void:
 	if bonus_gold_row:
 		bonus_gold_row.visible = amount > 0
 	if amount > 0:
-		bonus_gold_label.text = "+%d из бонусного шарика" % amount
+		bonus_gold_label.text = tr("+%d из бонусного шарика") % amount
 
 
 func _setup_next_level_button(is_win: bool) -> void:

@@ -1,0 +1,267 @@
+keys,en
+Улётная математика,Jet Math
+Без узора,No pattern
+Полоски,Stripes
+Горошек,Polka dots
+Клетка,Checks
+Звёзды,Stars
+Зигзаг,Zigzag
+Акварель,Watercolor
+Радуга,Rainbow
+Карандаш,Pencil
+Без шлейфа,No trail
+Пунктир,Dashes
+Мелки,Crayons
+Фломастеры,Markers
+Чернила,Ink
+Красные,Red
+Зелёные,Green
+Ластик,Eraser
+Звёздочки,Little stars
+Радужные,Rainbow
+Без наклейки,No sticker
+Кот,Cat
+Цветок,Flower
+Сердце,Heart
+Звезда,Star
+Солнце,Sun
+Обычная,Plain
+Синяя,Blue
+Розовая,Pink
+Зелёная,Green
+Золотая,Gold
+Классика,Classic
+Тетрадь,Notebook
+Тетрадное небо,Notebook sky
+Сложение,Addition
+Вычитание,Subtraction
+Умножение,Multiplication
+Деление,Division
+Микс,Mix
+Смешение,Mix
+Искорки,Sparkles
+Волна,Wave
+Фиолетовые,Purple
+Сердечки,Hearts
+Кубок,Trophy
+Фиолетовая,Purple
+Оранжевая,Orange
+Серебряная,Silver
+Долина Сложения,Addition Valley
+Долина Вычитания,Subtraction Valley
+Долина Умножения,Multiplication Valley
+Долина Деления,Division Valley
+Долина Смешения,Mix Valley
+Фиолетовый,Purple
+Быстрый,Swift
+быстрый,fast
+Зелёный,Green
+быстрее,faster
+Красный,Red
+ещё быстрее,even faster
+Золотой,Golden
+самый быстрый,fastest
+Пилот,Pilot
+Кто будет пилотом?,Who's the pilot?
+Имя пилота,Pilot name
+можно сменить в профиле,can be changed in the profile
+Легко,Easy
+Нормально,Normal
+Сложно,Hard
+Удалить пилота?,Delete pilot?
+"Весь прогресс пилота «%s» будет потерян: звёзды, кубки, золото и самолёты.","All progress of pilot “%s” will be lost: stars, trophies, gold and planes."
+Точно удалить?,Are you sure?
+Это нельзя отменить. Прогресс пилота «%s» исчезнет навсегда.,This can't be undone. All progress of pilot “%s” will be gone forever.
+Последний шанс!,Last chance!
+"Нажми галочку, только если решение окончательное. Пилот «%s» будет удалён.",Tap the check mark only if you're absolutely sure. Pilot “%s” will be deleted.
+Новый пилот,New pilot
+Изменить пилота,Edit pilot
+Удалить,Delete
+ПРОФИЛЬ,PROFILE
+УДОСТОВЕРЕНИЕ ПИЛОТА,PILOT LICENSE
+Имя,Name
+Зал трофеев,Trophy room
+Сложность,Difficulty
+меняй в любой момент,change it any time
+Сменить в ангаре →,Change in hangar →
+Пилоты,Pilots
+УДАЛИТЬ ПИЛОТА,DELETE PILOT
+Спокойный темп,Relaxed pace
+Обычный темп,Normal pace
+Быстрый темп,Fast pace
+Победы,Wins
+Битвы,Battles
+Верные ответы,Correct answers
+Выстрелы,Shots
+Время в игре,Time played
+Сессии,Sessions
+СКОРОСТЬ РЕШЕНИЯ,SOLVING SPEED
+Среднее время: %s,Average time: %s
+Среднее время: —,Average time: —
+КОЛИЧЕСТВО ПОЛЁТОВ,FLIGHTS
+Всего полётов: %s,Total flights: %s
+%dч %02dм %02dс,%dh %02dm %02ds
+%dм %02dс,%dm %02ds
+%dс,%ds
+ТРУДНЫЕ ПРИМЕРЫ,TRICKY PROBLEMS
+"Они чаще попадаются в бою, пока не решишь их верно",They show up more often in battle until you solve them right
+ошибок: %d,mistakes: %d
+ошибок: 5,mistakes: 5
+Ошибок пока нет — так держать!,No mistakes yet — keep it up!
+ДОСТИЖЕНИЯ,ACHIEVEMENTS
+СТАТИСТИКА,STATISTICS
+ТРУДНЫЕ ПРИМЕРЫ — НАЖМИ ДЛЯ СПИСКА,TRICKY PROBLEMS — TAP FOR THE LIST
+ДОПОЛНИТЕЛЬНЫЕ ДОСТИЖЕНИЯ,MORE ACHIEVEMENTS
+СЕРИЯ ×3,STREAK ×3
+СЕРИЯ ×%d,STREAK ×%d
+ДИРИЖАБЛЬ,AIRSHIP
+ЗЛОЙ ДИРИЖАБЛЬ!,ANGRY AIRSHIP!
+Огонь!,Fire!
+Продержись 60 секунд!,Hold out for 60 seconds!
+Продержись %d %s!,Hold out for %d %s!
+секунд,seconds
+секунду,second
+секунды,seconds
+Не пропускай правильный шарик — это минус сердце,Don't miss the right balloon — it costs a heart
+ПРИКЛЮЧЕНИЕ,ADVENTURE
+Проходи уровни и изучай мир,Beat levels and explore the world
+ПРАКТИКА,PRACTICE
+Решай примеры и улучшай навыки,Solve problems and sharpen your skills
+Ежедневная серия,Daily streak
+%d / %d пройдено,%d / %d done
+0 / 5 пройдено,0 / 5 done
+НАСТРОЙКИ,SETTINGS
+СЛЕДУЮЩИЙ,NEXT
+Экзамен,Exam
+В любой момент,Any time
+Усложнённый экзамен,Harder exam
+Вы не прошли все уровни в этом блоке. Экзамен будет усложнённым.,You haven't finished every level in this valley. The exam will be harder.
+Начать,Start
+Отмена,Cancel
+АНГАР,HANGAR
+САМОЛЁТЫ,PLANES
+ПОКРАСКА,STYLE
+Узор,Pattern
+Шлейф,Trail
+Выстрел,Shot
+Наклейка,Sticker
+Рамка,Frame
+Обложка,Cover
+НАДЕТО,EQUIPPED
+НАДЕТЬ,EQUIP
+НУЖНО ЕЩЁ %d,NEED %d MORE
+КУПИТЬ ЗА %d,BUY FOR %d
+✓ надето,✓ equipped
+есть,owned
+Предмет,Item
+Самолёт,Plane
+Выбран,Selected
+В полёте,Flying
+Открыт,Unlocked
+Выбрать,Select
+экзамен сдан,exam passed
+или экзамен,or pass the exam
+Купить,Buy
+Закрыт,Locked
+скорость ×%s,speed ×%s
+снаряд ×%s,shot ×%s
+Музыка в меню,Menu music
+Громкость музыки,Music volume
+Звуки в игре,Game sounds
+Громкость звуков,Sound volume
+Вибрация,Vibration
+Мощность вибрации,Vibration strength
+Язык,Language
+Громкость,Volume
+Настройка,Setting
+Выключено,Off
+Выбери сам,Custom
+"Спокойный темп, больше времени на пример","Relaxed pace, more time per problem"
+Средний темп; со второй половины — примеры с пропуском,Medium pace; missing-number problems in the second half
+Быстрый темп и примеры с пропуском: ? + 3 = 7,Fast pace and missing-number problems: ? + 3 = 7
+"Средний темп, стандартное время на пример","Medium pace, standard time per problem"
+на время: продержись %d сек,timed: hold out for %d sec
+СЛОЖЕНИЕ  +,ADDITION  +
+ВЫЧИТАНИЕ  −,SUBTRACTION  −
+УМНОЖЕНИЕ  ×,MULTIPLY  ×
+ДЕЛЕНИЕ  ÷,DIVIDE  ÷
+Настрой практику под себя и улучшай навыки,Set up practice your way and sharpen your skills
+✦  МАТЕМАТИЧЕСКИЕ ДЕЙСТВИЯ  ✦,✦  OPERATIONS  ✦
+✦  СЛОЖНОСТЬ  ✦,✦  DIFFICULTY  ✦
+ЛЕГКО,EASY
+НОРМАЛЬНО,NORMAL
+СЛОЖНО,HARD
+НА ВРЕМЯ,TIMED
+Свой диапазон:,Custom range:
+мин,min
+макс,max
+ОПЕРАЦИЯ,OPERATION
+ПОБЕДНЫЙ ПОЛЁТ!,VICTORY FLIGHT!
+ПОСАДКА...,LANDING...
++%d за 3 штампа,+%d for 3 stamps
++%d из бонусного шарика,+%d from the bonus balloon
++1 за 3 штампа,+1 for 3 stamps
++1 из бонусного шарика,+1 from the bonus balloon
+"Пауза! Сначала научимся летать.
+Веди пальцем по левой половине экрана вверх и вниз","Pause! First, let's learn to fly.
+Slide your finger up and down on the left half of the screen"
+"Пауза! Сначала научимся летать.
+Жми стрелки ВВЕРХ и ВНИЗ","Pause! First, let's learn to fly.
+Press the UP and DOWN arrows"
+"Реши пример — ответ
+на подсвеченном шарике!","Solve the problem — the answer
+is on the glowing balloon!"
+"Встань напротив
+подсвеченного шарика","Line up with
+the glowing balloon"
+"Отлично! Теперь нажми
+на правую половину экрана — выстрел!","Great! Now tap
+the right half of the screen to shoot!"
+Отлично! Теперь жми ПРОБЕЛ — выстрел!,Great! Now press SPACE to shoot!
+Попал! Так держать!,Hit! Keep it up!
+Нажми на первый уровень!,Tap the first level!
+Выбери долину и нажми на неё!,Pick a valley and tap it!
+"Нажми, чтобы начать приключение!",Tap to start the adventure!
+"Ура, твоя первая печать!
+Выиграй 5 боёв за день — получишь
+золотую монетку. За монетки можно
+купить новый самолёт!","Hooray, your first stamp!
+Win 5 battles in a day to get
+a gold coin. Coins can buy
+a new plane!"
+Понятно!,Got it!
+Купи новый самолёт!,Buy a new plane!
+"Нажми на самолёт —
+откроется ангар","Tap the plane
+to open the hangar"
+"Хватает монеток на новый самолёт!
+Открой профиль пилота","You have enough coins for a new plane!
+Open your pilot profile"
+Долина открыта,Valley unlocked
+У тебя новый самолёт!,You got a new plane!
+Молодец! +1 золотая,Well done! +1 gold
+Награда за ежедневную серию 5/5,Reward for the 5/5 daily streak
+Поздравляем!,Congratulations!
+ПОЗДРАВЛЯЕМ!,CONGRATULATIONS!
+ОК,OK
+Заголовок,Title
+Текст сообщения,Message text
+"Ты сдал экзамен в «%s»!
+
+Поздравляем — все долины покорены!
+
+Кубок сохранён в профиле.","You passed the %s exam!
+
+Congratulations — every valley is conquered!
+
+The trophy is saved in your profile."
+"Ты сдал экзамен в «%s»!
+
+Кубок сохранён в профиле.","You passed the %s exam!
+
+The trophy is saved in your profile."
+Заводим мотор…,Starting the engine…
+Проверяем крылья…,Checking the wings…
+Взлетаем!,Takeoff!
+А ты знаешь?,Did you know?
+А ты знаешь?  7 × 8 = 56,Did you know?  7 × 8 = 56

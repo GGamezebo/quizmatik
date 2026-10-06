@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://c8n3apppause01" path="res://src/features/app_pause/app_pause_controller.tscn" id="19_pause"]
 [ext_resource type="PackedScene" path="res://src/game/account/cosmetics_controller.tscn" id="20_cosmetics"]
 [ext_resource type="Resource" path="res://src/common/platform/platform_services.tres" id="21_platform"]
+[ext_resource type="PackedScene" path="res://src/features/locale/locale_controller.tscn" id="22_locale"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -89,6 +90,8 @@ game_events = ExtResource("10_game_events")
 [node name="VibrationController" parent="." unique_id=205950017 instance=ExtResource("14_vib")]
 
 [node name="AppPauseController" parent="." instance=ExtResource("19_pause")]
+
+[node name="LocaleController" parent="." instance=ExtResource("22_locale")]
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=205950014]
 stream = ExtResource("7_5vw27")

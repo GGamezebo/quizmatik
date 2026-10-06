@@ -2,7 +2,8 @@ class_name YandexContext
 extends PlatformContext
 
 ## `Platform/WEB/Yandex`: Yandex Games SDK v2 (`/sdk.js` from the Web-Yandex export `head_include`).
-## SDK init → LoadingAPI.ready (once menu opened); battle → GameplayAPI start/stop;
+## SDK init → LoadingAPI.ready (once menu opened) + `environment.i18n.lang` → PlatformServices.language;
+## battle → GameplayAPI start/stop;
 ## PlatformServices ad requests → fullscreen / rewarded; SDK + ad pause → RootEvents.ev_app_visibility_changed.
 
 const SDK_PAUSE := "game_api_pause"
@@ -42,6 +43,7 @@ func deinit() -> void:
 		_ysdk.off(SDK_RESUME, _on_resume_cb)
 	if services != null:
 		services.set_ads(false, false)
+		services.set_language("")
 	_ysdk = null
 	_sdk_callbacks.clear()
 	_ad_callbacks.clear()
@@ -63,6 +65,8 @@ func _on_sdk_ready(args: Array) -> void:
 		_listener.add(services.ev_request_interstitial, _show_interstitial)
 		_listener.add(services.ev_request_rewarded, _show_rewarded)
 		services.set_ads(true, true)
+		# Yandex moderation: UI language must follow the SDK, not the browser.
+		services.set_language(String(_ysdk.environment.i18n.lang))
 	_send_ready()
 
 ## Game Ready must fire once, when the player can actually interact (menu requested + SDK up).

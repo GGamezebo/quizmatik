@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="84" viewBox="0 0 120 84">
+  <!-- English (UK) flag sticker: colored-pencil fill + graphite ink edge on a cream die-cut rim. -->
+  <defs>
+    <clipPath id="inner">
+      <rect x="9" y="9" width="102" height="66" rx="9"/>
+    </clipPath>
+  </defs>
+  <rect x="2" y="2" width="116" height="80" rx="15" fill="#FFFBF0"/>
+  <g clip-path="url(#inner)">
+    <rect x="9" y="9" width="102" height="66" fill="#2F4F9A"/>
+    <!-- Diagonals -->
+    <path d="M9 9 L111 75 M111 9 L9 75" stroke="#FFFFFF" stroke-width="13"/>
+    <path d="M9 9 L111 75 M111 9 L9 75" stroke="#D9473F" stroke-width="4.5"/>
+    <!-- Cross -->
+    <path d="M60 9 V75 M9 42 H111" stroke="#FFFFFF" stroke-width="20"/>
+    <path d="M60 9 V75 M9 42 H111" stroke="#D9473F" stroke-width="11"/>
+    <!-- Pencil hatching -->
+    <g stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.18">
+      <path d="M14 30 L26 14"/>
+      <path d="M86 30 L98 14"/>
+      <path d="M20 72 L32 56"/>
+      <path d="M92 72 L104 56"/>
+    </g>
+  </g>
+  <rect x="9" y="9" width="102" height="66" rx="9" fill="none" stroke="#2A3340" stroke-width="4.5"/>
+</svg>

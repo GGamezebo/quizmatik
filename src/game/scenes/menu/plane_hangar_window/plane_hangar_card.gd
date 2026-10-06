@@ -62,8 +62,8 @@ func setup(id: String, unlocked: bool, equipped: bool, gold: int, exam_passed: b
 
 func _abilities_text(def: Dictionary) -> String:
 	var parts: PackedStringArray = []
-	parts.append("скорость ×%s" % str(def.get("speed_mult", 1.0)))
-	parts.append("снаряд ×%s" % str(def.get("shot_speed_mult", 1.0)))
+	parts.append(tr("скорость ×%s") % str(def.get("speed_mult", 1.0)))
+	parts.append(tr("снаряд ×%s") % str(def.get("shot_speed_mult", 1.0)))
 	return " · ".join(parts)
 
 

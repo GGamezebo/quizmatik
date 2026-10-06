@@ -39,7 +39,7 @@ func open(allow_cancel: bool = true, title: String = "Кто будет пило
 		difficulty_header.visible = show_difficulty
 	if difficulty_picker:
 		difficulty_picker.visible = show_difficulty
-	configure(ProfileController.DEFAULT_NAME, BattleDifficulty.NORMAL)
+	configure("", BattleDifficulty.NORMAL)
 	screen.modulate.a = 0.0
 	show()
 	var tween := create_tween()

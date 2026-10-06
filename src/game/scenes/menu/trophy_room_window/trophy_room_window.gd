@@ -113,7 +113,7 @@ func _rebuild_extra() -> void:
 		var subtitle_fmt: String = row_data[2]
 		var value_text := ProgressStatistics.format_stat_value(key, stats.get(key, 0), stats)
 		var slot: Control = extra_slot_scene.instantiate()
-		slot.initialize(key, title, subtitle_fmt % value_text)
+		slot.initialize(key, title, tr(subtitle_fmt) % value_text)
 		extra_list.add_child(slot)
 
 

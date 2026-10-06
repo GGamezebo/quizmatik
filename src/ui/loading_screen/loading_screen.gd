@@ -19,7 +19,7 @@ const GRID_SIZE_PARAM := &"rect_size"
 @export var fact_label: Label
 ## Shown by progress thirds (last one near the end).
 @export var status_lines: Array[String] = ["Заводим мотор…", "Проверяем крылья…", "Взлетаем!"]
-@export var fact_prefix: String = "А ты знаешь?  "
+@export var fact_prefix: String = "А ты знаешь?"
 @export_range(0.0, 0.2, 0.001) var sky_scroll_speed: float = 0.015
 ## Fraction of the bar per second the shown value chases the real one (no jumps on web).
 @export var progress_follow_speed: float = 1.8
@@ -43,7 +43,7 @@ func _ready() -> void:
 	var plane_id := pdata.equipped_plane_id if pdata != null else PlaneCatalog.STARTER_ID
 	flyer.apply_plane(plane_id)
 	_apply_cosmetics()
-	fact_label.text = fact_prefix + _random_fact()
+	fact_label.text = tr(fact_prefix) + "  " + _random_fact()
 	_apply_progress()
 	_fly_in()
 

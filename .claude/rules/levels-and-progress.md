@@ -32,7 +32,7 @@ paths:
 
 - Schema: `PData` (`src/game/account/persistent_data.gd`) — typed nested classes; live defaults in `persistent_data.tres` = **active profile**
 - Save envelope v9 (v4 = tutorial chapters, v5 = `mistakes`, v6 = `ContainerProgress.unlocked`, v7 = `difficulty` replaces `gender`/`age`, v8 = `cosmetics`, v9 = exam level 17 → 20, passed valleys get 17-19 with exam stars): `{ active_profile_id, profiles }` (`SaveData.CURRENT_SAVE_VERSION`); switch stashes live PData into the slot
-- Profile identity = `display_name` (empty → `ProfileController.DEFAULT_NAME` «Пилот»; `create_profile` + new-pilot prefill use `unique_name()` → «Пилот 2», «Пилот 3»…, case-insensitive) + `PData.difficulty` (`BattleDifficulty` id). Never collect gender/age/other personal data (store requirements)
+- Profile identity = `display_name` (empty → `ProfileController.DEFAULT_NAME` «Пилот», shown/prefilled translated via `display_name_or_default`; `create_profile` + new-pilot prefill use `unique_name()` → «Пилот 2», «Пилот 3»…, case-insensitive) + `PData.difficulty` (`BattleDifficulty` id). Never collect gender/age/other personal data (store requirements)
 - `ProfileController` — create/switch/delete (never last), gold, equipped plane; `set_difficulty()` / `valley_difficulty()` → `BattleDifficulty` for valleys only; lab-only `wipe_all_profiles()` empties the envelope immediately (then first-run overlay)
 - `PData.trophies.unlocked` — valley exam trophies; UI kit `tools/generate_achievements_ui.py`
 - Disk: `SaveManager` + GodotSavesAddon (`SaveData`) profile `save` under `user://save/` (not plain `progress.json`)
@@ -50,7 +50,7 @@ paths:
 - Int level keys restored in `PData.ContainerProgress.from_dict` (JSON string keys → `int`)
 - Schema migrations: `SaveData.migrate_save_data` / `CURRENT_SAVE_VERSION` (addon), not a separate migrator class
 - Unlock helpers: `LevelsContainerConditions` in `conditions.gd`; `ContainerProgress.unlocked` (dev lab «open all valleys», `ProgressController.unlock_all_containers()`) opens a valley regardless of its condition, levels inside stay sequential
-- Settings: `UserSettings` → `user://settings.json` (JSON via `ResourceUtils`); `save()` emits `ev_changed` so mute UI / buses can resync without scene NodePaths
+- Settings: `UserSettings` (incl. `language`, "" = auto) → `user://settings.json` (JSON via `ResourceUtils`); `save()` emits `ev_changed` so mute UI / buses can resync without scene NodePaths
 
 ## Must
 

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="84" viewBox="0 0 120 84">
+  <!-- Russian flag sticker: colored-pencil stripes + graphite ink edge on a cream die-cut rim. -->
+  <defs>
+    <clipPath id="inner">
+      <rect x="9" y="9" width="102" height="66" rx="9"/>
+    </clipPath>
+  </defs>
+  <rect x="2" y="2" width="116" height="80" rx="15" fill="#FFFBF0"/>
+  <g clip-path="url(#inner)">
+    <rect x="9" y="9" width="102" height="22" fill="#FFFFFF"/>
+    <rect x="9" y="31" width="102" height="22" fill="#3E6FC2"/>
+    <rect x="9" y="53" width="102" height="22" fill="#D9473F"/>
+    <!-- Pencil hatching -->
+    <g stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.28">
+      <path d="M20 52 L32 32"/>
+      <path d="M48 52 L60 32"/>
+      <path d="M76 52 L88 32"/>
+      <path d="M34 74 L46 54"/>
+      <path d="M62 74 L74 54"/>
+      <path d="M90 74 L102 54"/>
+    </g>
+    <path d="M9 31 H111 M9 53 H111" stroke="#2A3340" stroke-width="1.5" opacity="0.35"/>
+  </g>
+  <rect x="9" y="9" width="102" height="66" rx="9" fill="none" stroke="#2A3340" stroke-width="4.5"/>
+</svg>

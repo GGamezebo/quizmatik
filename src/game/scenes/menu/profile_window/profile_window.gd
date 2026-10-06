@@ -198,7 +198,7 @@ func _on_create_pressed() -> void:
 	create_overlay.open(true, "Новый пилот")
 	var profiles := _profiles()
 	if profiles != null:
-		create_overlay.configure(profiles.unique_name(ProfileController.DEFAULT_NAME), BattleDifficulty.NORMAL)
+		create_overlay.configure(profiles.unique_name(""), BattleDifficulty.NORMAL)
 
 
 func _on_edit_pressed() -> void:
@@ -237,7 +237,7 @@ func _open_delete_step() -> void:
 	var live := _live()
 	var display := ProfileController.display_name_or_default(live.display_name if live != null else "")
 	var step: Array = DELETE_STEPS[_delete_step]
-	delete_dialog.open(String(step[0]), String(step[1]) % display, "Удалить", "Отмена")
+	delete_dialog.open(String(step[0]), tr(String(step[1])) % display, "Удалить", "Отмена")
 
 
 func _on_delete_confirmed() -> void:
