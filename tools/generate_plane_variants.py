@@ -4,7 +4,7 @@ Atlas layout: 288x108 cells, rows = idle / down / up (same as plane_frames.tres)
 columns = PlaneCatalog `atlas_column` (0 = base art «Быстрый» = pencil, left untouched).
 
 Each other plane is a different piece of stationery in the same low-poly colored-pencil look:
-1 ballpoint pen (violet), 2 marker (green), 3 ruler + set square (red), 4 fountain pen (gold).
+1 ballpoint pen (light blue), 2 marker (green), 3 ruler + set square (red), 4 fountain pen (gold).
 Bodies are drawn here as flat faceted polygons with ink outline + diagonal pencil hatching;
 cabin / wing / top fin / gun are cut from the base drawing (wing recolored), so the plane
 language and the 3-frame wing animation stay the same. The white sticker rim is rebuilt last.
@@ -251,7 +251,7 @@ def rgb(hex_str: str) -> tuple[float, float, float]:
 
 
 METAL = [rgb("eef0f6"), rgb("c4c8d4"), rgb("8d93a6")]
-VIOLET = [rgb("cdb6ff"), rgb("9b72f0"), rgb("6c3fc8"), rgb("4a2a94")]
+SKY = [rgb("c6ecff"), rgb("7fcaf4"), rgb("3f9bd8"), rgb("24689f")]
 GREEN = [rgb("b6f0a0"), rgb("5cc85a"), rgb("2f9a40"), rgb("1d6a2c")]
 WHITE = [rgb("ffffff"), rgb("eceee9"), rgb("c9cdc8")]
 RED = [rgb("ffc2b4"), rgb("ff8a78"), rgb("e9524a"), rgb("b4303a")]
@@ -268,16 +268,16 @@ def pen(parts: Parts) -> np.ndarray:
     top, bottom = 30, 74
     # push button + plunger
     sk.facet([(4, 46), (10, 46), (10, 58), (4, 58)], METAL[1])
-    sk.facet(arc(22, 52, 13, 13, 90, 270) + [(30, 39), (30, 65)], VIOLET[3])
-    sk.facet([(14, 42), (30, 42), (30, 50), (12, 50)], VIOLET[2], 0.9)
+    sk.facet(arc(22, 52, 13, 13, 90, 270) + [(30, 39), (30, 65)], SKY[3])
+    sk.facet([(14, 42), (30, 42), (30, 50), (12, 50)], SKY[2], 0.9)
     # barrel (slight taper)
-    bands(30, 202, [top, 41, 52, 63, bottom], [VIOLET[0], VIOLET[1], VIOLET[2], VIOLET[3]], sk)
+    bands(30, 202, [top, 41, 52, 63, bottom], [SKY[0], SKY[1], SKY[2], SKY[3]], sk)
     sk.facet([(28, top - 1), (36, top - 1), (36, bottom + 1), (28, bottom + 1)], METAL[0])
     sk.line([(31, top + 1), (31, bottom - 1)], 0.8, METAL[2])
     # front ring + ribbed grip
     sk.facet([(200, top + 1), (210, top + 1), (210, bottom - 1), (200, bottom - 1)], METAL[0])
-    sk.facet([(210, 34), (238, 37), (238, 67), (210, 70)], VIOLET[3])
-    sk.facet([(210, 34), (238, 37), (238, 46), (210, 45)], VIOLET[2], 0.9)
+    sk.facet([(210, 34), (238, 37), (238, 67), (210, 70)], SKY[3])
+    sk.facet([(210, 34), (238, 37), (238, 46), (210, 45)], SKY[2], 0.9)
     for x in range(214, 237, 5):
         sk.line([(x, 35.5 + (x - 210) * 0.1), (x, 68.5 - (x - 210) * 0.1)], 0.9)
     # metal cone + ball
@@ -290,7 +290,7 @@ def pen(parts: Parts) -> np.ndarray:
     sk.facet(arc(177, 25, 5, 5, 0, 360, 12), METAL[1], 1.2)
     body = sk.result()
     return assemble(body, parts, cabin_dx=0, cabin_dy=2, top=top, bottom=bottom,
-                    fin_dx=40, wing_dx=0, gun_dx=0, gun_bottom=69, wing_ramp=(VIOLET[3], VIOLET[0]))
+                    fin_dx=40, wing_dx=0, gun_dx=0, gun_bottom=69, wing_ramp=(SKY[3], SKY[0]))
 
 
 def marker(parts: Parts) -> np.ndarray:

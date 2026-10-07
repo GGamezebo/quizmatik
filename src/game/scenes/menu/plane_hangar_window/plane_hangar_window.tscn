@@ -352,7 +352,7 @@ action_button = NodePath("Preview/VBox/Action")
 coin_icon = ExtResource("12_gold")
 
 [node name="Preview" type="PanelContainer" parent="Center/Content/PaintPage"]
-custom_minimum_size = Vector2(400, 430)
+custom_minimum_size = Vector2(400, 350)
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_preview")
@@ -363,7 +363,7 @@ theme_override_constants/separation = 10
 
 [node name="Stage" type="Panel" parent="Center/Content/PaintPage/Preview/VBox"]
 clip_contents = true
-custom_minimum_size = Vector2(0, 250)
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -382,11 +382,11 @@ stretch = true
 [node name="Viewport" type="SubViewport" parent="Center/Content/PaintPage/Preview/VBox/Stage/FlyerView"]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(376, 278)
+size = Vector2i(376, 206)
 render_target_update_mode = 4
 
 [node name="PlaneFlyer" parent="Center/Content/PaintPage/Preview/VBox/Stage/FlyerView/Viewport" instance=ExtResource("66_flyer")]
-position = Vector2(212, 128)
+position = Vector2(212, 100)
 scale = Vector2(0.75, 0.75)
 hover_amplitude = 10.0
 
