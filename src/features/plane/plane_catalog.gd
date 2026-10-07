@@ -21,7 +21,7 @@ const DEFS: Dictionary = {
 		"id": "starter",
 		"flame_offset": Vector2(-11, 0),
 		"atlas_column": 1,
-		"name": "Фиолетовый",
+		"name": "Синий",
 		"tint": Color(1.0, 1.0, 1.0),
 		"speed_mult": 0.65,
 		"shot_speed_mult": 1.0,

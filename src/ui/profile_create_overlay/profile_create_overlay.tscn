@@ -106,7 +106,7 @@ shader_parameter/shadow_offset = Vector2(-4, 8)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
 shader_parameter/shadow_blur = 2.0
 
-[node name="ProfileCreateOverlay" type="CanvasLayer" node_paths=PackedStringArray("screen", "title_label", "name_edit", "difficulty_header", "difficulty_picker", "confirm_button", "cancel_button")]
+[node name="ProfileCreateOverlay" type="CanvasLayer" node_paths=PackedStringArray("screen", "title_label", "name_edit", "difficulty_header", "difficulty_picker", "confirm_button", "cancel_button", "keyboard_lift_target")]
 layer = 40
 visible = false
 script = ExtResource("1_script")
@@ -117,6 +117,7 @@ difficulty_header = NodePath("Screen/CenterContainer/PanelContainer/VBox/DiffHea
 difficulty_picker = NodePath("Screen/CenterContainer/PanelContainer/VBox/DifficultyPicker")
 confirm_button = NodePath("Screen/CenterContainer/PanelContainer/VBox/Buttons/Confirm")
 cancel_button = NodePath("Screen/CenterContainer/PanelContainer/VBox/Buttons/Cancel")
+keyboard_lift_target = NodePath("Screen/CenterContainer")
 
 [node name="Screen" type="Control" parent="."]
 layout_mode = 3
