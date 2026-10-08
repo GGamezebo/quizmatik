@@ -39,6 +39,15 @@ func complete_tutorial_step(step_id: String) -> void:
 	pdata.state.tutorial_steps[step_id] = true
 	save()
 
+func get_last_container_id() -> String:
+	return pdata.state.last_container_id
+
+func set_last_container_id(container_id: String) -> void:
+	if container_id.is_empty() or pdata.state.last_container_id == container_id:
+		return
+	pdata.state.last_container_id = container_id
+	save()
+
 func post_battle(battle_info: GameConfig.BattleInfo, stars: int) -> Dictionary:
 	if battle_info.is_exam:
 		return pass_exam(battle_info.container_id, stars)

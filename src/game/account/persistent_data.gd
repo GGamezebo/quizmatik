@@ -247,6 +247,8 @@ class StateData:
 	var tutorial_completed: bool = false
 	## Finished tutorial chapters by id (ids owned by the tutorial context).
 	var tutorial_steps: Dictionary[String, bool] = {}
+	## Valley last picked in the menu carousel — menu reopens on it ("" = first valley).
+	var last_container_id: String = ""
 
 	func to_dict() -> Dictionary:
 		var steps: Dictionary = {}
@@ -255,6 +257,7 @@ class StateData:
 		return {
 			"tutorial_completed": tutorial_completed,
 			"tutorial_steps": steps,
+			"last_container_id": last_container_id,
 		}
 
 	static func from_dict(d: Dictionary) -> StateData:
@@ -264,6 +267,7 @@ class StateData:
 		if raw is Dictionary:
 			for step_id in raw as Dictionary:
 				state.tutorial_steps[String(step_id)] = bool(raw[step_id])
+		state.last_container_id = String(d.get("last_container_id", ""))
 		return state
 
 
