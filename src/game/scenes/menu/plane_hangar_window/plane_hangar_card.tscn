@@ -37,7 +37,8 @@ font_size = 18
 font_color = Color(0.72, 0.52, 0.12, 1)
 
 [node name="PlaneHangarCard" type="PanelContainer" node_paths=PackedStringArray("preview", "name_label", "badge_label", "status_label", "action_button", "abilities_label", "cost_row", "cost_label")]
-custom_minimum_size = Vector2(210, 320)
+custom_minimum_size = Vector2(200, 340)
+size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 script = ExtResource("1_script")
 preview = NodePath("VBox/Preview")
@@ -52,10 +53,9 @@ cost_label = NodePath("VBox/CostRow/Cost")
 [node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 2
 theme_override_constants/separation = 6
-alignment = 1
 
 [node name="Preview" type="TextureRect" parent="VBox"]
-custom_minimum_size = Vector2(180, 80)
+custom_minimum_size = Vector2(172, 80)
 layout_mode = 2
 texture = ExtResource("3_plane")
 expand_mode = 1
@@ -105,6 +105,11 @@ text = ""
 label_settings = SubResource("LabelSettings_small")
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="Spacer" type="Control" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
 
 [node name="Action" type="Button" parent="VBox"]
 custom_minimum_size = Vector2(0, 40)

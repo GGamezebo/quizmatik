@@ -311,14 +311,14 @@ offset_left = 40.0
 offset_top = 136.0
 offset_right = -40.0
 offset_bottom = -28.0
-horizontal_scroll_mode = 2
+horizontal_scroll_mode = 3
 vertical_scroll_mode = 0
 
 [node name="Cards" type="HBoxContainer" parent="Center/Content/Scroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 16
+theme_override_constants/separation = 12
 alignment = 1
 
 [node name="PaintPage" type="HBoxContainer" parent="Center/Content" node_paths=PackedStringArray("category_buttons", "grid", "flyer_view", "flyer", "shot_swatch", "photo_box", "photo_frame", "photo", "photo_sticker", "cover_icon", "item_name", "action_button")]
