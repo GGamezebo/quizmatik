@@ -70,6 +70,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	event_listener.add(game_events.ev_explosion, _on_explosion)
 	event_listener.add(game_events.ev_target_shot, _boss.shoot)
 	event_listener.add(air_plane.ev_air_plane_colladed, _on_air_plane_collided)
+	event_listener.add(area.boundary_changed, _on_area_resized)
 	
 	_round_controller.start()
 
@@ -97,7 +98,17 @@ func _process(delta: float) -> void:
 func _on_answers_spawned(options: Array[Answer]) -> void:
 	_boss.release_answers(options)
 	_apply_answers_paused(options)
-	game_events.ev_answers_spawned.emit(options.duplicate(), _round_controller.question.correct_answer, area.getLines().duplicate())
+	var question := _round_controller.question
+	game_events.ev_answers_spawned.emit(options.duplicate(), question.correct_answer, area.getLines().duplicate(), question.missing_operand)
+
+
+func _on_area_resized(new_rect: Rect2) -> void:
+	var lines: Array[Rect2] = area.getLines()
+	if _round_controller:
+		for answer in _round_controller.options:
+			if is_instance_valid(answer) and answer.lane_index < lines.size():
+				answer.refit(lines[answer.lane_index], new_rect)
+	game_events.ev_lanes_changed.emit(lines.duplicate())
 
 
 func _on_pause_answers(paused: bool) -> void:

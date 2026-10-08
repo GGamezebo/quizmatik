@@ -8,6 +8,8 @@ const SCROLL_OFFSET_PARAM := &"scroll_offset"
 const NEXT_TEXTURE_PARAM := &"next_texture"
 const COLOR_AMOUNT_PARAM := &"color_amount"
 const MIRROR_SEAMLESS_PARAM := &"mirror_seamless"
+const COVER_SCALE_PARAM := &"cover_scale"
+const COVER_OFFSET_PARAM := &"cover_offset"
 
 ## Sky drift in texture widths per second. 0 keeps the sky static (e.g. post battle).
 @export_range(0.0, 0.2, 0.001) var sky_scroll_speed: float = 0.0
@@ -291,7 +293,24 @@ func _fit_to_viewport() -> void:
 	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
 	_sky.position = Vector2.ZERO
 	_sky.size = viewport_size
+	_apply_cover(viewport_size)
 
 	for child in get_children():
 		if child is CPUParticles2D:
 			child.position = Vector2(viewport_size.x + 520.0, viewport_size.y * 0.5)
+			child.emission_rect_extents.y = viewport_size.y * 0.5
+
+
+## Keep the sky texture's aspect when the window isn't 16:9 (web resize / phones): crop, never stretch.
+func _apply_cover(viewport_size: Vector2) -> void:
+	if _sky_material == null or _sky.texture == null or viewport_size.y <= 0.0:
+		return
+	var tex_size: Vector2 = _sky.texture.get_size()
+	var ratio: float = (viewport_size.x / viewport_size.y) / (tex_size.x / tex_size.y)
+	var cover_scale := Vector2.ONE
+	if ratio > 1.0:
+		cover_scale.y = 1.0 / ratio
+	else:
+		cover_scale.x = ratio
+	_sky_material.set_shader_parameter(COVER_SCALE_PARAM, cover_scale)
+	_sky_material.set_shader_parameter(COVER_OFFSET_PARAM, (Vector2.ONE - cover_scale) * 0.5)

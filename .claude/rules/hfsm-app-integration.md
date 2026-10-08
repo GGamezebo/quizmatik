@@ -31,6 +31,7 @@ paths:
 - All platform contexts extend `PlatformContext` (`src/game/contexts/`): payload → `root_events` / `services`; setup in `_enter()` (called from `sync_hfsm`); open child via `open_child(ev)` (same payload). Never `add_event` from `_init` (HFSM not bound yet → dropped)
 - New platform/store = new nested state + `PlatformContext` subclass + register in `main.gd` `context` slot; never branch existing contexts or game code
 - Game ↔ platform only via `PlatformServices` (`src/common/platform/platform_services.tres`): caps `can_interstitial` / `can_rewarded` (set only by contexts via `set_ads`, reset in `deinit`), requests `ev_request_interstitial` / `ev_request_rewarded(placement)`, answer `ev_rewarded_result(placement, is_granted)` (always sent); `language` via `set_language` (+ `ev_language_changed`, reset to "" in `deinit`) → `LocaleController`. Default `.tres` = caps off → game hides ad entry points
+- No store context = no monetization (tester presets `Web`, `Android-Test` have no store feature). Ad/purchase UI visible only via `PlatformServices` caps; content locks only from store contexts; default `.tres` = everything open, nothing sold. Plan: `.claude/doc/monetization.md`
 - Platform pause (tab hidden, SDK pause, ad open) → `root_events.ev_app_visibility_changed`
 - `WEBContext`: `document.visibilitychange` (JS callback kept in member, removed in `deinit`)
 - `YandexContext`: `YaGames.init()` (`/sdk.js` via Web-Yandex preset `head_include`) → `LoadingAPI.ready()` once after SDK up **and** `ev.open_menu`; SDK up → `services.set_language(environment.i18n.lang)`; `ev_battle_started/finished` → `GameplayAPI.start/stop`; `game_api_pause/resume` + ad open/close → visibility; JS callbacks kept in arrays
@@ -41,7 +42,7 @@ paths:
 
 - `App/Tutorial` scene `tutorial` (`scenes/tutorial/tutorial.tscn`, sync load), parallel to Menu/Battle
 - AppRoot `_sync_tutorial()` on initialize + `ev_profiles_changed`: profile exists and `!ProgressController.is_tutorial_completed()` → `ev.open_tutorial`, else `ev.close_tutorial`
-- Tutorial scene reacts to `ev.start_game` / `ev.exit_game` / `ev.open_menu` via `on_event` (re-evaluates chapter); all chapters done → `complete_tutorial()` + `ev.close_tutorial` (guarded: its own close event must not re-enter `_refresh`)
+- Tutorial scene reacts to `ev.start_game` / `ev.exit_game` / `ev.open_menu` via `on_event` (re-evaluates chapter); all chapters + `BattleTips.TIPS` done → `complete_tutorial()` + `ev.close_tutorial` (guarded: its own close event must not re-enter `_refresh`)
 
 ## Menu UI
 

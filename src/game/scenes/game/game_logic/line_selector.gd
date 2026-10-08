@@ -42,7 +42,7 @@ func _report_lane() -> void:
 		_centered = centered
 		game_events.ev_plane_lane_changed.emit(selected_lane, centered)
 	
-func _on_boundary_changed() -> void:
+func _on_boundary_changed(_new_rect: Rect2) -> void:
 	_update_plane_discret_positions()
 	selected_lane = area.getLine(air_plane.position)
 	

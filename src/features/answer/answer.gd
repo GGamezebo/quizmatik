@@ -145,6 +145,20 @@ func launch_from(origin: Vector2, target_x: float) -> void:
 	_launch_target_x = target_x
 
 
+## Battle area resized (window resize): move to the lane's new center, keep the relative x, refit size.
+func refit(lane: Rect2, gameplay_area: Rect2) -> void:
+	if _is_dying:
+		return
+	if _gameplay_area.size.x > 0.0:
+		var t: float = (position.x - _gameplay_area.position.x) / _gameplay_area.size.x
+		position.x = gameplay_area.position.x + t * gameplay_area.size.x
+	position.y = lane.get_center().y
+	_gameplay_area = gameplay_area
+	_lane_height = lane.size.y
+	if is_node_ready():
+		_fit_to_lane()
+
+
 func set_acceleration(acceleration: float) -> void:
 	_acceleration = acceleration
 
