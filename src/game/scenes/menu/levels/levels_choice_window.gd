@@ -25,9 +25,7 @@ func on_window_enter() -> void:
 
 
 func _update_window() -> void:
-	var previous_id := ""
-	if _selected_index_valid():
-		previous_id = _container_ids[carousel.selected_index]
+	var previous_id := progress.get_last_container_id()
 
 	if carousel != null:
 		carousel.clear_packs()
@@ -74,14 +72,6 @@ func _update_window() -> void:
 	_update_background_for_index(start_index)
 
 
-func _selected_index_valid() -> bool:
-	return (
-		carousel != null
-		and carousel.selected_index >= 0
-		and carousel.selected_index < _container_ids.size()
-	)
-
-
 func _count_completed_levels(container_id: String) -> int:
 	var container_config: Dictionary = levelsConfig.find_container_in_config(container_id)
 	if container_config.is_empty():
@@ -116,6 +106,7 @@ func _on_pack_activated(index: int) -> void:
 
 
 func _on_pack_enter_requested(container_id: String) -> void:
+	progress.set_last_container_id(container_id)
 	_update_background_for_container(container_id)
 	_set_pack_chrome_visible(false)
 	level_selection_window.initialize(container_id)
@@ -134,6 +125,8 @@ func _on_visibility_changed() -> void:
 
 func _on_selection_changed(index: int) -> void:
 	_update_background_for_index(index)
+	if index >= 0 and index < _container_ids.size():
+		progress.set_last_container_id(_container_ids[index])
 
 
 func _update_background_for_index(index: int) -> void:

@@ -49,6 +49,7 @@ paths:
 - Shared live resource: all controllers / trophy room `@export` the same `persistent_data.tres`; `SaveManager.load_pdata()` mutates the **active** profile via `PData.apply_dict`
 - Int level keys restored in `PData.ContainerProgress.from_dict` (JSON string keys → `int`)
 - Schema migrations: `SaveData.migrate_save_data` / `CURRENT_SAVE_VERSION` (addon), not a separate migrator class
+- Last valley: `PData.state.last_container_id` (per profile) — set only via `ProgressController.set_last_container_id` from `levels_choice_window` (carousel selection / valley enter); carousel `finalize` starts on it (app start, back from battle). Never keep the selected valley only in carousel index
 - Unlock helpers: `LevelsContainerConditions` in `conditions.gd`; `ContainerProgress.unlocked` (dev lab «open all valleys», `ProgressController.unlock_all_containers()`) opens a valley regardless of its condition, levels inside stay sequential
 - Settings: `UserSettings` (incl. `language`, "" = auto) → `user://settings.json` (JSON via `ResourceUtils`); `save()` emits `ev_changed` so mute UI / buses can resync without scene NodePaths
 

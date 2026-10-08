@@ -22,6 +22,7 @@ config/features=PackedStringArray("4.7", "Mobile")
 [audio]
 
 buses/default_bus_layout="uid://dhqwa53ij6mjm"
+driver/output_latency.web=150
 
 [display]
 

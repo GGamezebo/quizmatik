@@ -5,8 +5,8 @@ Battle (G major 124), exam (E minor 132), boss (D minor 150) — pure loops (loo
 Win  — D major, 120 BPM: brass fanfare intro (2 bars) → loop on the Canon
        progression D A Bm F#m G D G A (lead + glockenspiel, plucked arp,
        string pad, bass, drums).
-Lose — A minor, 80 BPM: gentle descending piano intro (2 bars) → warm, hopeful
-       loop Am F C G F C Dm E (piano, music box, pad, soft brushes).
+Lose — A minor, 100 BPM: "wah-wah-wah-waaah" muted-horn intro D C# C B (2 bars) →
+       bouncy "try again" loop Am F C G F C Dm E (piano, music box, pad, bass, light groove).
 
 Each file = intro + loop. The loop's reverb tail is folded onto the loop start
 so it repeats seamlessly; the `.ogg.import` `loop_offset` must equal the intro
@@ -445,7 +445,7 @@ def win_theme() -> tuple[np.ndarray, float]:
 # --- LOSE ------------------------------------------------------------------------
 
 def lose_theme() -> tuple[np.ndarray, float]:
-	bpm = 80.0
+	bpm = 100.0
 	intro_bars, loop_bars = 2, 8
 	beat = 60.0 / bpm
 	loop_start = intro_bars * 4 * beat
@@ -454,66 +454,81 @@ def lose_theme() -> tuple[np.ndarray, float]:
 	lm = Mix(loop_end - loop_start + TAIL_SEC, bpm)  # loop: bar 0 at t=0
 
 	def piano(f, d, vel=0.8):
-		return struck(f, d, vel=vel, decay=0.9, decay_k=0.55, rolloff=1.5, ring=1.8, hammer=0.08)
+		return struck(f, d, vel=vel, decay=0.9, decay_k=0.55, rolloff=1.5, ring=1.2, hammer=0.1)
 
 	def soft_piano(f, d):
 		return piano(f, d, 0.45)
 
 	def pad(f, d):
-		return additive(f, d, rolloff=1.2, attack=0.7, release=1.4, vibrato=0.0025, detune=0.004,
+		return additive(f, d, rolloff=1.2, attack=0.5, release=1.0, vibrato=0.0025, detune=0.004,
 			bright_env=False, max_k=8)
+
+	def wah(f, d):
+		# muted "sad trombone": warm horn, the last long note wobbles
+		return additive(f, d, rolloff=0.6, attack=0.05, release=0.25, vibrato=0.004 if d < 1.5 else 0.018,
+			detune=0.003, max_k=14)
 
 	def music_box(f, d):
 		return bell(f, music_box=True)
 
-	# Intro: soft descending sigh over Am, then F → E.
-	place_melody(im, -2, [("E5", 1), ("D5", 1), ("C5", 1), ("B4", 1)], piano, gain=0.42, pan=0.1, send=0.45)
-	place_melody(im, -1, [("A4", 2), ("G#4", 2)], piano, gain=0.42, pan=0.1, send=0.5)
-	for bar, start, length, root, minor in ((-2, 0, 4, "A", True), (-1, 0, 2, "F", False), (-1, 2, 2, "E", False)):
+	# Intro: unmistakable "wah-wah-wah-waaah" (D C# C B) over Dm → E, then a quick pickup.
+	for st, name, length in ((0, "D5", 0.9), (1, "C#5", 0.9), (2, "C5", 1.6)):
+		im.add(wah(hz(midi(name)), length * beat), im.sec(-2, st), 0.30, pan=0.1, send=0.35)
+		im.add(wah(hz(midi(name) - 12), length * beat), im.sec(-2, st), 0.14, pan=-0.1, send=0.35)
+	im.add(wah(hz(midi("B4")), 2.6 * beat), im.sec(-1), 0.32, pan=0.1, send=0.4)
+	im.add(wah(hz(midi("B3")), 2.6 * beat), im.sec(-1), 0.15, pan=-0.1, send=0.4)
+	for bar, root, minor in ((-2, "D", True), (-1, "E", False)):
 		b, voicing, _ = chord(root, minor)
 		for m in voicing:
-			im.add(pad(hz(m), length * beat), im.sec(bar, start), 0.11, pan=-0.3, send=0.6)
-		im.add(bass(hz(b), length * beat, soft=True), im.sec(bar, start), 0.32, send=0.08)
+			im.add(pad(hz(m), 3 * beat), im.sec(bar), 0.09, pan=-0.3, send=0.6)
+		im.add(bass(hz(b), 2.5 * beat, soft=True), im.sec(bar), 0.32, send=0.08)
+	im.add(timpani(hz(midi("A2"))), im.sec(-2), 0.30, send=0.2)
+	im.add(timpani(hz(midi("E2"))), im.sec(-1), 0.30, send=0.2)
+	# pickup into the loop: "let's go again!"
+	place_melody(im, -1, [("-", 3), ("E4", 0.5), ("A4", 0.5)], piano, gain=0.36, pan=0.1, send=0.3)
+	for st in (3, 3.5):
+		im.add(rim(), im.sec(-1, st), 0.10, pan=-0.1, send=0.3)
 
-	# Loop: Am F C G F C Dm E — bittersweet but hopeful ("try again!").
+	# Loop: Am F C G F C Dm E — still minor, but bouncy "try again!" groove.
 	prog = [("A", True), ("F", False), ("C", False), ("G", False),
 		("F", False), ("C", False), ("D", True), ("E", False)]
 	melody = [
-		[("E5", 1.5), ("D5", 0.5), ("C5", 1), ("A4", 1)],
-		[("C5", 1.5), ("A4", 0.5), ("F4", 1), ("A4", 1)],
-		[("G4", 1.5), ("C5", 0.5), ("E5", 2)],
-		[("D5", 2), ("B4", 1), ("D5", 1)],
-		[("C5", 1), ("A4", 0.5), ("C5", 0.5), ("F5", 1.5), ("E5", 0.5)],
-		[("E5", 1.5), ("D5", 0.5), ("C5", 2)],
-		[("A4", 1), ("D5", 1), ("F5", 1), ("E5", 0.5), ("D5", 0.5)],
-		[("B4", 2), ("G#4", 1), ("B4", 1)],
+		[("E5", 1), ("-", 0.5), ("D5", 0.5), ("C5", 0.5), ("B4", 0.5), ("A4", 1)],
+		[("C5", 1), ("-", 0.5), ("A4", 0.5), ("F4", 0.5), ("A4", 0.5), ("C5", 1)],
+		[("G4", 0.5), ("C5", 0.5), ("E5", 1), ("D5", 0.5), ("C5", 0.5), ("E5", 1)],
+		[("D5", 1.5), ("B4", 0.5), ("G4", 1), ("B4", 0.5), ("D5", 0.5)],
+		[("C5", 0.5), ("A4", 0.5), ("C5", 0.5), ("F5", 1), ("E5", 0.5), ("C5", 1)],
+		[("E5", 1), ("D5", 0.5), ("C5", 0.5), ("G4", 1), ("C5", 1)],
+		[("A4", 0.5), ("D5", 0.5), ("F5", 1), ("E5", 0.5), ("D5", 0.5), ("C5", 1)],
+		[("B4", 1), ("G#4", 0.5), ("B4", 0.5), ("E5", 1), ("E4", 0.5), ("A4", 0.5)],
 	]
 	arp_pat = [0, 1, 2, 3, 2, 1, 2, 1]
 	for bar, ((root, minor), mel) in enumerate(zip(prog, melody)):
 		b, voicing, arp = chord(root, minor)
 		full = bar >= 4
 		for m in voicing:
-			lm.add(pad(hz(m), 4 * beat), lm.sec(bar), 0.10, pan=-0.3, send=0.6)
-		place_melody(lm, bar, mel, piano, gain=0.40, pan=0.1, send=0.42)
+			lm.add(pad(hz(m), 4 * beat), lm.sec(bar), 0.07, pan=-0.3, send=0.6)
+		place_melody(lm, bar, mel, piano, gain=0.40, pan=0.1, send=0.32)
 		if full:
-			place_melody(lm, bar, [(n[:-1] + str(int(n[-1]) + 1), d) for n, d in mel],
-				music_box, gain=0.13, pan=0.4, send=0.5)
+			place_melody(lm, bar, _octave_up(mel), music_box, gain=0.12, pan=0.4, send=0.45)
 		for i, idx in enumerate(arp_pat):
-			lm.add(soft_piano(hz(arp[idx] - 12 if idx >= 3 else arp[idx]), 0.5 * beat),
-				lm.sec(bar, i * 0.5), 0.17 if i % 2 == 0 else 0.13, pan=-0.25, send=0.4)
-		lm.add(bass(hz(b), 2.6 * beat, soft=True), lm.sec(bar), 0.34, send=0.06)
-		lm.add(bass(hz(b), 0.9 * beat, soft=True), lm.sec(bar, 3), 0.22, send=0.06)
-		# soft brushes: shaker throughout, kick + rim in the second half
+			lm.add(soft_piano(hz(arp[idx] - 12 if idx >= 3 else arp[idx]), 0.4 * beat),
+				lm.sec(bar, i * 0.5), 0.15 if i % 2 == 0 else 0.11, pan=-0.25, send=0.3)
+		# bouncy bass: root, octave hop, root, approach
+		for st, off, d, g in ((0, 0, 0.9, 0.36), (1.5, 12, 0.4, 0.24), (2, 0, 0.9, 0.32), (3.5, 7, 0.4, 0.22)):
+			lm.add(bass(hz(b + off), d * beat), lm.sec(bar, st), g, send=0.05)
+		# light groove from bar 0: kick 1 / 2.5 / 3, rim backbeat, shaker 8ths; clap joins in second half
+		for st in (0, 1.5, 2):
+			lm.add(kick(soft=True), lm.sec(bar, st), 0.5 if st == 0 else 0.36, send=0.04)
+		for st in (1, 3):
+			lm.add(rim(), lm.sec(bar, st), 0.13, pan=-0.1, send=0.25)
+			if full:
+				lm.add(clap(), lm.sec(bar, st), 0.08, pan=0.05, send=0.25)
 		for i in range(8):
-			lm.add(shaker(), lm.sec(bar, i * 0.5), 0.05 if i % 2 else 0.035, pan=0.35, send=0.15)
-		if full or bar in (2, 3):
-			for st in (0, 2.5):
-				lm.add(kick(soft=True), lm.sec(bar, st), 0.42 if st == 0 else 0.3, send=0.05)
-			for st in (1, 3):
-				lm.add(rim(), lm.sec(bar, st), 0.10, pan=-0.1, send=0.3)
+			lm.add(shaker(), lm.sec(bar, i * 0.5), 0.06 if i % 2 else 0.04, pan=0.35, send=0.12)
 
-	intro = im.render(t60=2.6, wet_ratio=0.5)
-	body = lm.render(t60=2.6, wet_ratio=0.5)
+	intro = im.render(t60=2.0, wet_ratio=0.42)
+	body = lm.render(t60=2.0, wet_ratio=0.42)
 	return finalize(intro, body, loop_start, loop_end - loop_start), loop_start
 
 
