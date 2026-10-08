@@ -8,6 +8,8 @@ class Question:
 	var correct_answer: int
 	## `MathFact` key of the underlying example (same for `7 x 8`, `56 / 8`, `? x 8 = 56`).
 	var fact_key: String = ""
+	## `? + 3 = 7` / `4 + ? = 7` — the answer is a hidden operand, not the result.
+	var missing_operand: bool = false
 
 
 ## Random operand pairs tried per question before falling back to the last one.
@@ -265,6 +267,7 @@ static func _hide_operand(q: Question, operation: int, a: int, b: int, op_sign: 
 	else:
 		q.correct_answer = b
 		q.text = "%d %s ? = %d" % [a, op_sign, result]
+	q.missing_operand = true
 	return true
 
 

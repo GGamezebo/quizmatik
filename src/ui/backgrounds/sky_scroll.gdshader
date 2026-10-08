@@ -11,22 +11,26 @@ uniform float subdue : hint_range(0.0, 1.0) = 0.82;
 uniform vec3 paper_tint = vec3(0.953, 0.902, 0.784);
 uniform bool mirror_seamless = false;
 uniform sampler2D next_texture : source_color, hint_default_white;
+// Aspect "cover" crop (set by BackgroundBase on resize): uv = UV * cover_scale + cover_offset.
+uniform vec2 cover_scale = vec2(1.0);
+uniform vec2 cover_offset = vec2(0.0);
 
 void fragment() {
+	vec2 uv = UV * cover_scale + cover_offset;
 	vec4 col;
 	if (mirror_seamless) {
 		// Period 2: [0..1] normal, [1..2] mirrored — edges always match.
-		float x = mod(UV.x + scroll_offset, 2.0);
+		float x = mod(uv.x + scroll_offset, 2.0);
 		if (x > 1.0) {
 			x = 2.0 - x;
 		}
-		col = texture(TEXTURE, vec2(x, UV.y));
+		col = texture(TEXTURE, vec2(x, uv.y));
 	} else {
-		float x = UV.x + scroll_offset;
+		float x = uv.x + scroll_offset;
 		if (x < 1.0) {
-			col = texture(TEXTURE, vec2(x, UV.y));
+			col = texture(TEXTURE, vec2(x, uv.y));
 		} else {
-			col = texture(next_texture, vec2(fract(x), UV.y));
+			col = texture(next_texture, vec2(fract(x), uv.y));
 		}
 	}
 	float gray = dot(col.rgb, vec3(0.299, 0.587, 0.114));

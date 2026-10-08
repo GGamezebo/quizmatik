@@ -61,6 +61,7 @@ func _ready() -> void:
 	_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
 	_listener.add(game_events.ev_answers_spawned, _on_answers_spawned)
 	_listener.add(game_events.ev_plane_lane_changed, _on_plane_lane_changed)
+	_listener.add(game_events.ev_lanes_changed, _on_lanes_changed)
 	_listener.add(game_events.ev_correct_answer, _on_correct_answer)
 
 
@@ -105,7 +106,19 @@ func _on_plane_lane_changed(lane: int, centered: bool) -> void:
 		_update_aim()
 
 
-func _on_answers_spawned(answers: Array, correct_value: int, lanes: Array) -> void:
+## Window resized mid-coaching: re-cut the spotlight holes for the new lanes.
+func _on_lanes_changed(lanes: Array) -> void:
+	if lanes.is_empty():
+		return
+	_lanes = lanes
+	match _stage:
+		Stage.MOVE:
+			dim.set_rects([_plane_zone()])
+		Stage.AIM:
+			dim.set_rects(_aim_holes())
+
+
+func _on_answers_spawned(answers: Array, correct_value: int, lanes: Array, _missing_operand: bool) -> void:
 	if _stage != Stage.WAIT_ANSWERS:
 		return
 	_lanes = lanes
@@ -137,11 +150,16 @@ func _enter_aim() -> void:
 	var banner := anchors.get_control(goal_anchor_id)
 	goal_hint.point_at(banner, Vector2(0.5, 1.0), true, goal_text)
 	goal_hint.set_active(true)
+	dim.set_rects(_aim_holes())
+	_update_aim()
+
+
+func _aim_holes() -> Array[Rect2]:
 	var holes: Array[Rect2] = [_plane_zone(), _lane_rect(_correct_lane)]
+	var banner := anchors.get_control(goal_anchor_id)
 	if banner != null:
 		holes.append(banner.get_global_rect().grow(hole_margin))
-	dim.set_rects(holes)
-	_update_aim()
+	return holes
 
 
 func _update_aim() -> void:
