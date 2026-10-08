@@ -107,5 +107,8 @@ func _apply_battle_result(data: Dictionary) -> void:
 	if not unlocked_plane_id.is_empty():
 		root_events.ev_show_celebration.emit(CelebrationSplash.KIND_PLANE, {"plane_id": unlocked_plane_id})
 	var next_container_id := String(celebration.get("next_container_id", ""))
-	if bool(celebration.get("first_exam_pass", false)) and not next_container_id.is_empty():
-		root_events.ev_show_celebration.emit(CelebrationSplash.KIND_VALLEY, {"container_id": next_container_id})
+	if bool(celebration.get("first_exam_pass", false)):
+		if next_container_id.is_empty():
+			root_events.ev_show_celebration.emit(CelebrationSplash.KIND_MASTER, {})
+		else:
+			root_events.ev_show_celebration.emit(CelebrationSplash.KIND_VALLEY, {"container_id": next_container_id})

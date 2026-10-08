@@ -1,12 +1,13 @@
 class_name CelebrationSplash
 extends CanvasLayer
 
-## Queued full-screen celebrations: valley unlock, new plane, daily gold.
+## Queued full-screen celebrations: valley unlock, new plane, daily gold, math master (last valley).
 ## Not on the window stack. Hold while exam trophy dialog is up.
 
 const KIND_VALLEY := "valley"
 const KIND_PLANE := "plane"
 const KIND_DAILY_GOLD := "daily_gold"
+const KIND_MASTER := "master"
 const FADE_DURATION: float = 0.22
 
 @export var root_events: RootEvents
@@ -18,6 +19,10 @@ const FADE_DURATION: float = 0.22
 @export var levels_config: LevelsConfig
 ## Gold coin art for the daily-gold celebration.
 @export var gold_art: Texture2D
+## Art for the "math master" celebration (last valley exam).
+@export var master_art: Texture2D
+## Flying ribbons — emitted only during the master celebration.
+@export var ribbons: CPUParticles2D
 
 var _queue: Array[Dictionary] = []
 var _busy: bool = false
@@ -74,6 +79,8 @@ func _present(kind: String, payload: Dictionary) -> void:
 			_present_plane(String(payload.get("plane_id", PlaneCatalog.STARTER_ID)))
 		KIND_DAILY_GOLD:
 			_present_daily_gold()
+		KIND_MASTER:
+			_present_master()
 		_:
 			_busy = false
 			_try_show_next()
@@ -105,6 +112,23 @@ func _present_daily_gold() -> void:
 	art_rect.modulate = Color.WHITE
 
 
+func _present_master() -> void:
+	title_label.text = "Мастер счёта!"
+	message_label.text = "Все долины пройдены! Ты — настоящий мастер математики!"
+	art_rect.texture = master_art
+	art_rect.modulate = Color.WHITE
+	_set_ribbons(true)
+
+
+func _set_ribbons(on: bool) -> void:
+	if ribbons == null:
+		return
+	ribbons.visible = on
+	if on:
+		ribbons.restart()
+	ribbons.emitting = on
+
+
 func _container_name(container_id: String) -> String:
 	if levels_config == null or container_id.is_empty():
 		return container_id
@@ -114,5 +138,6 @@ func _container_name(container_id: String) -> String:
 
 func _on_confirm_pressed() -> void:
 	hide()
+	_set_ribbons(false)
 	_busy = false
 	_try_show_next()
