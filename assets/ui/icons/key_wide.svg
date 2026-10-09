@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="112" viewBox="0 0 256 112">
+  <!-- Blank wide keycap (label drawn by a Label on top), parchment + graphite ink. -->
+  <g stroke="#2A3340" stroke-width="8" stroke-linejoin="round">
+    <rect x="8" y="14" width="240" height="92" rx="20" fill="#B9A57E"/>
+    <rect x="8" y="6" width="240" height="84" rx="20" fill="#F3E6C8"/>
+  </g>
+</svg>

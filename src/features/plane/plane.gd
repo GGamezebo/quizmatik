@@ -109,10 +109,19 @@ func _handle_screen_touch(event: InputEventScreenTouch) -> void:
 	if event.pressed:
 		if _is_left_screen_half(event.position):
 			_left_touch_global_y_by_index[event.index] = _screen_to_global_y(event.position)
-		elif _is_right_screen_half(event.position):
+		elif _is_right_screen_half(event.position) and is_processing():
 			_shoot_requested = true
 	else:
 		_left_touch_global_y_by_index.erase(event.index)
+
+
+## Keyboard/mouse scheme: left click shoots too. Unhandled only — clicks on HUD buttons never fire.
+func _unhandled_input(event: InputEvent) -> void:
+	if _uses_touch_controls() or not is_processing():
+		return
+	var click := event as InputEventMouseButton
+	if click and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+		_shoot_requested = true
 
 
 func _handle_screen_drag(event: InputEventScreenDrag) -> void:
@@ -122,7 +131,7 @@ func _handle_screen_drag(event: InputEventScreenDrag) -> void:
 		_left_touch_global_y_by_index[event.index] = _screen_to_global_y(event.position)
 
 
-## Touch scheme (left half drag = move, right half tap = shoot) vs keyboard/mouse.
+## Touch scheme (left half drag = move, right half tap = shoot) vs keyboard/mouse (arrows + space / left click).
 static func is_touch_scheme() -> bool:
 	return OS.has_feature("mobile") or (
 		OS.has_feature("web") and DisplayServer.is_touchscreen_available()

@@ -1,6 +1,10 @@
 class_name CountDownState
 extends StateBase
 
+## Plane flies in, then GAME. Overlays may hold the start: `ev_countdown_entered` →
+## `ev_hold_countdown(true)` … `(false)`; `ev_countdown_started` once the fly-in begins.
+
+@export var game_events: GameEvents
 @export var air_plane: AirPlane
 @export var spawn_duration: float = 2.4
 @export var spawn_distance: float = 660.0
@@ -10,12 +14,39 @@ extends StateBase
 static func get_state() -> String:
 	return FSMGameStates.COUNTDOWN
 	
+var _active: bool = false
+var _held: bool = false
+var _started: bool = false
+
 func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	air_plane.set_process(false)
-	_start_spawn_animation()
+	air_plane.modulate.a = spawn_alpha
+	_active = true
+	_held = false
+	_started = false
+	if game_events:
+		event_listener.add(game_events.ev_hold_countdown, _on_hold_countdown)
+		game_events.ev_countdown_entered.emit()
+	_try_start.call_deferred()
 	
 func leave(_event_data: Dictionary) -> void:
+	_active = false
+	if game_events:
+		event_listener.remove(game_events.ev_hold_countdown, _on_hold_countdown)
 	air_plane.set_process(true)
+
+func _on_hold_countdown(held: bool) -> void:
+	_held = held
+	if not held:
+		_try_start()
+
+func _try_start() -> void:
+	if not _active or _held or _started:
+		return
+	_started = true
+	_start_spawn_animation()
+	if game_events:
+		game_events.ev_countdown_started.emit()
 	
 func _start_spawn_animation() -> void:
 	var default_position: Vector2 = air_plane.position

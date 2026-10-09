@@ -10,7 +10,7 @@ paths:
 
 - Orchestration: `game.gd` resolves scenario → `ResourceUtils.update_resource` into live `GameConfig`
 - Live `game_config.tres` on the scene = **standalone defaults** (scene must run alone); parent overrides via `ev_start_game` → `initialize(data)`
-- States: `GameManager` FSM only (`CountDown` / `Game` / `EndGame`)
+- States: `GameManager` FSM only (`CountDown` / `Game` / `EndGame`). `CountDownState`: emits `ev_countdown_entered`, starts the plane fly-in deferred unless held (`ev_hold_countdown`), then `ev_countdown_started` (HUD `ui/timed_intro.gd` pops on it); plane hidden while held
 - Round: `round/round_controller.gd`, `answer_spawner.gd`, `combat_resolver.gd`
 - Questions: `question_generator.gd` (`QuizQuestion`)
 - Features: spawn/compose from `src/features/` — keep feature logic inside the feature; scene only wires and reacts to `ev_*`
@@ -29,7 +29,7 @@ paths:
 | HUD only | `ui/` — listen to `GameEvents`, don't own combat |
 | SFX | AppRoot `SfxController` via `GameEvents` (`ev_shoot`, `ev_explosion`, `ev_correct_answer`, `ev_mistake`, `ev_bonus_collected`, `ev_win`, `ev_lose`, state change); plane thrust/crash/whoosh stay on the plane |
 | Vibration | AppRoot `VibrationController` via same `GameEvents` (+ `ev_streak` double tick, `ev_health_restored` 3 rising pulses) + `RootEvents` + UI presses; plane crash = long multi-pulse on `ev_lose` |
-| Touch plane | `AirPlane`: left half drag = move, right half tap = shoot (`mobile` / web+touchscreen); keyboard/mouse unchanged on desktop |
+| Touch plane | `AirPlane`: left half drag = move, right half tap = shoot (`mobile` / web+touchscreen); else arrows + `shoot` (space) or left click (`_unhandled_input` → HUD buttons never shoot). Taps/clicks while the plane isn't processing (countdown) never queue a shot. HUD `ui/touch_hints.gd` (`HUD/TouchHints`, touch scheme only) = visual-only icons (shoot bottom-right presses on `ev_shoot`, dims on `ev_lock_shoot`; move pill bottom-left lights on `AirPlane.has_movement_touch()`); never give them input — zones stay the halves |
 | Tutorial | Not in this scene — `scenes/tutorial/` `BattleCoach` talks via `GameEvents` only. Battle exposes: info `ev_answers_spawned(answers, correct, lanes, missing_operand)`, `ev_lanes_changed(lanes)`, `ev_plane_lane_changed(lane, centered)` (`LineSelector`); commands `ev_pause_answers` (`GameState` → `Answer.frozen`), `ev_lock_shoot` (`ShotManager`); `HUD/QuestionAnchor` (`battle.question`). Touch scheme: `AirPlane.is_touch_scheme()` (static) |
 | Equipped plane | `PlaneCatalog` + `ProfileController`: planes differ **only** by `speed_mult` (`AirPlane`) and `shot_speed_mult` (`GameState` → `AirPlane.shot_speed_mult` → `ShotManager` scales each shot), + look (`AirPlane.apply_plane(id)`: own atlas frames + tint); never add perks (blast, shield, hint) (isolated F6 → starter) |
 | Cosmetics | `game.gd._apply_cosmetics()` (exports `pdata` + `cosmetics` catalog): `AirPlane.apply_paint` / `apply_trail` (trail follows `Nozzle` via `PlaneFlyerTrail.source`; plane sits at the left edge → mostly seen on the win fly-off), `ShotManager.apply_style` (shot tint, explosion tint, ink drips). Visual only — never touch speed / combat |

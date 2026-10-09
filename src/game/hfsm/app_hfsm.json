@@ -12,6 +12,11 @@
 				"enter": ["ev.open_tutorial"],
 				"leave": ["ev.close_tutorial"]
 			},
+			"ControlsIntro": {
+				"scene": { "id": "controls_intro", "async_loading": false },
+				"enter": ["ev.open_controls_intro"],
+				"leave": ["ev.close_controls_intro"]
+			},
 			"Platform": {
 				"context": "PlatformRouterContext",
 				"enter": ["ev.open_platform"],

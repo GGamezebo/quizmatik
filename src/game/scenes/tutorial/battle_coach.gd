@@ -32,7 +32,7 @@ enum Stage { IDLE, WAIT_ANSWERS, MOVE, AIM, DONE }
 @export_multiline var goal_text: String = "Реши пример — ответ\nна подсвеченном шарике!"
 @export_multiline var aim_text: String = "Встань напротив\nподсвеченного шарика"
 @export_multiline var shoot_text_touch: String = "Отлично! Теперь нажми\nна правую половину экрана — выстрел!"
-@export_multiline var shoot_text_keys: String = "Отлично! Теперь жми ПРОБЕЛ — выстрел!"
+@export_multiline var shoot_text_keys: String = "Отлично! Теперь жми ПРОБЕЛ\nили кликни мышкой — выстрел!"
 @export_multiline var success_text: String = "Попал! Так держать!"
 
 @export_group("Tuning")

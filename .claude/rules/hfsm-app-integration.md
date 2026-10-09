@@ -44,6 +44,11 @@ paths:
 - AppRoot `_sync_tutorial()` on initialize + `ev_profiles_changed`: profile exists and `!ProgressController.is_tutorial_completed()` → `ev.open_tutorial`, else `ev.close_tutorial`
 - Tutorial scene reacts to `ev.start_game` / `ev.exit_game` / `ev.open_menu` via `on_event` (re-evaluates chapter); all chapters + `BattleTips.TIPS` done → `complete_tutorial()` + `ev.close_tutorial` (guarded: its own close event must not re-enter `_refresh`)
 
+## Controls intro (parallel state)
+
+- `App/ControlsIntro` scene `controls_intro` (`scenes/controls_intro/controls_intro.tscn`, sync load); AppRoot `initialize` emits `ev.open_controls_intro` once per app session
+- First battle `ev_countdown_entered` → used up: tutorial `first_flight` pending → skip; else hold countdown + overlay; tap/key → release + `ev.close_controls_intro`
+
 ## Menu UI
 
 - Full-screen menu windows: `WindowStackManager` inside MenuScene — not HFSM bindings

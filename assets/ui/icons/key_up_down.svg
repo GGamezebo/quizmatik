@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="256" viewBox="0 0 128 256">
+  <!-- Up / down arrow keycaps stacked, parchment caps + graphite ink (notebook look). -->
+  <g stroke="#2A3340" stroke-width="8" stroke-linejoin="round">
+    <rect x="10" y="10" width="108" height="108" rx="18" fill="#B9A57E"/>
+    <rect x="10" y="4" width="108" height="100" rx="18" fill="#F3E6C8"/>
+    <rect x="10" y="142" width="108" height="108" rx="18" fill="#B9A57E"/>
+    <rect x="10" y="136" width="108" height="100" rx="18" fill="#F3E6C8"/>
+  </g>
+  <g fill="#2A3340">
+    <path d="M64 26 L94 72 L34 72 Z"/>
+    <path d="M64 214 L94 168 L34 168 Z"/>
+  </g>
+</svg>
