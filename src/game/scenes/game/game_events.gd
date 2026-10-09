@@ -42,5 +42,12 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_plane_lane_changed(lane: int, centered: bool)
 ## Command: stop / resume answer movement (plane still flies).
 @warning_ignore("unused_signal") signal ev_pause_answers(paused: bool)
+## Info: CountDown entered. An overlay may answer right in the handler with `ev_hold_countdown(true)`
+## (the plane spawn waits a frame for it).
+@warning_ignore("unused_signal") signal ev_countdown_entered
+## Command: hold / release the countdown (plane spawn animation waits while held).
+@warning_ignore("unused_signal") signal ev_hold_countdown(held: bool)
+## Info: countdown animation actually started (after any hold).
+@warning_ignore("unused_signal") signal ev_countdown_started
 ## Command: ignore shoot input while locked.
 @warning_ignore("unused_signal") signal ev_lock_shoot(locked: bool)

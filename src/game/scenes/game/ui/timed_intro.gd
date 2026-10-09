@@ -1,6 +1,6 @@
 extends Control
 
-## Timed level intro: during the countdown a clock card pops up («Продержись 60 секунд!»),
+## Timed level intro: when the countdown starts (`ev_countdown_started`, after any hold) a clock card pops up («Продержись 60 секунд!»),
 ## then flies into the HUD timer clock when the battle starts. Hidden on regular levels.
 
 @export var game_events: GameEvents
@@ -24,7 +24,7 @@ func initialize(game_config: GameConfig) -> void:
 	caption.text = tr("Продержись %d %s!") % [seconds, tr(_seconds_word(seconds))]
 	if game_events:
 		_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
-	_pop_in.call_deferred()
+		_listener.add(game_events.ev_countdown_started, _pop_in)
 
 
 func _exit_tree() -> void:

@@ -30,6 +30,8 @@ func initialize(_data: Dictionary) -> void:
 	music_player.play()
 	_maybe_open_first_profile()
 	_sync_tutorial()
+	# Once per app session: «how to play» before the first battle (closes itself).
+	add_event("ev.open_controls_intro")
 
 func deinit() -> void:
 	_listener.deinit()

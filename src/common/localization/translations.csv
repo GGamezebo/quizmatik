@@ -217,7 +217,9 @@ the glowing balloon"
 "Отлично! Теперь нажми
 на правую половину экрана — выстрел!","Great! Now tap
 the right half of the screen to shoot!"
-Отлично! Теперь жми ПРОБЕЛ — выстрел!,Great! Now press SPACE to shoot!
+"Отлично! Теперь жми ПРОБЕЛ
+или кликни мышкой — выстрел!","Great! Now press SPACE
+or click the mouse to shoot!"
 Попал! Так держать!,Hit! Keep it up!
 Нажми на первый уровень!,Tap the first level!
 Выбери долину и нажми на неё!,Pick a valley and tap it!
@@ -276,3 +278,20 @@ knocks off one armor plate"
 "Он разозлился и летит к тебе!
 Стреляй прямо в дирижабль!","It's angry and coming for you!
 Shoot right at the airship!"
+Как управлять?,How to play?
+"Веди пальцем вверх и вниз —
+самолёт полетит за ним","Slide your finger up and down —
+the plane follows it"
+"Стрелки ВВЕРХ и ВНИЗ —
+самолёт летит за ними","UP and DOWN arrows —
+the plane follows them"
+"Нажми в любом месте
+справа — выстрел!","Tap anywhere
+on the right — shoot!"
+"ПРОБЕЛ или клик
+мышкой — выстрел!","SPACE or mouse
+click — shoot!"
+"Нажми, чтобы начать",Tap to start
+"Нажми любую клавишу или кликни, чтобы начать",Press any key or click to start
+ПРОБЕЛ,SPACE
+или,or

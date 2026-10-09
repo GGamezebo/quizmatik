@@ -7,6 +7,7 @@ extends Node
 @export_file("*.tscn") var game: String = "res://src/game/scenes/game/game.tscn"
 @export_file("*.tscn") var post_battle: String = "res://src/game/scenes/post_battle/post_battle.tscn"
 @export_file("*.tscn") var tutorial: String = "res://src/game/scenes/tutorial/tutorial.tscn"
+@export_file("*.tscn") var controls_intro: String = "res://src/game/scenes/controls_intro/controls_intro.tscn"
 @export_file("*.tscn") var settings_window: String = "res://src/game/scenes/menu/settings_window/settings_window.tscn"
 
 
