@@ -40,6 +40,7 @@ const GRANT_GOLD_BIG := 10
 @export var grant_gold_button: BaseButton
 @export var grant_gold_big_button: BaseButton
 @export var unlock_valleys_button: BaseButton
+@export var complete_valleys_button: BaseButton
 
 
 func _ready() -> void:
@@ -95,6 +96,8 @@ func _bind_controls() -> void:
 		wipe_dialog.ev_confirmed.connect(_on_wipe_progress_confirmed)
 	if unlock_valleys_button != null:
 		unlock_valleys_button.pressed.connect(_on_unlock_valleys_pressed)
+	if complete_valleys_button != null:
+		complete_valleys_button.pressed.connect(_on_complete_valleys_pressed)
 	if grant_gold_button != null:
 		grant_gold_button.pressed.connect(_on_grant_gold_pressed.bind(GRANT_GOLD))
 	if grant_gold_big_button != null:
@@ -276,6 +279,13 @@ func _on_unlock_valleys_pressed() -> void:
 	if progress == null:
 		return
 	progress.unlock_all_containers()
+
+
+func _on_complete_valleys_pressed() -> void:
+	var progress := ProgressController.find_in_tree(get_tree())
+	if progress == null:
+		return
+	progress.complete_all_containers()
 
 
 func _on_wipe_progress_pressed() -> void:

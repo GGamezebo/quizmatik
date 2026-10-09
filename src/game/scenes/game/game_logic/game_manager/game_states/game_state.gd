@@ -20,6 +20,7 @@ var _round_controller: RoundController
 var _bonus: BonusController
 var _boss: BossController
 var _time_limit: BattleTimeLimit
+var _endless: EndlessDirector
 var __components: Array[Variant] = []
 var _answers_paused: bool = false
 ## Question already reported as a mistake — a later correct hit (after the hint) isn't "known".
@@ -45,6 +46,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_bonus = BonusController.new(game_config, area, bonus_scene, game_manager.owner)
 	_boss = BossController.new(game_config, area, boss_scene, game_manager.owner)
 	_time_limit = BattleTimeLimit.new(game_config.time_limit_sec)
+	_endless = EndlessDirector.new(game_config)
 		
 	__components.append_array([
 		answer_spawner,
@@ -52,6 +54,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 		_bonus,
 		_boss,
 		_time_limit,
+		_endless,
 	])
 	
 	_round_controller.ev_answers_spawned.connect(_on_answers_spawned)
@@ -66,6 +69,8 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_boss.ev_defeated.connect(_on_boss_defeated)
 	_time_limit.ev_tick.connect(game_events.ev_time_left.emit)
 	_time_limit.ev_expired.connect(_end_game)
+	_endless.ev_tick.connect(_on_endless_tick)
+	_endless.ev_boss_due.connect(_on_endless_boss_due)
 	event_listener.add(game_events.ev_pause_answers, _on_pause_answers)
 	event_listener.add(game_events.ev_explosion, _on_explosion)
 	event_listener.add(game_events.ev_target_shot, _boss.shoot)
@@ -86,11 +91,14 @@ func leave(_event_data: Dictionary) -> void:
 	_bonus = null
 	_boss = null
 	_time_limit = null
+	_endless = null
 	_missed_question = null
 
 func _process(delta: float) -> void:
 	if _time_limit:
 		_time_limit.update(delta)
+	if _endless:
+		_endless.update(delta)
 	if _round_controller:
 		_round_controller.update_answer_acceleration(player.acceleration)
 		_bonus.update_acceleration(player.acceleration)
@@ -119,6 +127,8 @@ func _on_pause_answers(paused: bool) -> void:
 		_bonus.set_paused(paused)
 	if _time_limit:
 		_time_limit.set_paused(paused)
+	if _endless:
+		_endless.set_paused(paused)
 
 
 func _apply_answers_paused(options: Array[Answer]) -> void:
@@ -187,11 +197,29 @@ func _on_correct(answer: Answer) -> void:
 
 func _on_boss_defeated() -> void:
 	game_events.ev_boss_defeated.emit()
+	if game_config.endless:
+		_endless.boss_finished()
+		_round_controller.release_rounds()
+		return
 	_end_game()
 
-## Timed levels: letting the correct balloon fly away costs a heart (else waiting would win).
+
+func _on_endless_tick(seconds: int) -> void:
+	player.survived_sec = seconds
+	game_events.ev_endless_time.emit(seconds)
+
+
+## Endless: the current balloons finish, no new round until the boss is in place (`ev_ready`).
+func _on_endless_boss_due() -> void:
+	if not _boss.arm():
+		_endless.boss_finished()
+		return
+	_round_controller.hold_rounds()
+	_boss.start()
+
+## Timed / endless: letting the correct balloon fly away costs a heart (else waiting would win / last).
 func _on_correct_missed() -> void:
-	if not game_config.is_timed():
+	if not game_config.is_timed() and not game_config.endless:
 		return
 	game_events.ev_mistake.emit()
 	_round_controller.kill_all_answers()

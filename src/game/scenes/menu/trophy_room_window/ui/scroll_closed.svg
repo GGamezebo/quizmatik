@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="160" viewBox="0 0 560 160">
+  <!-- Rolled-up parchment scroll tied with a ribbon + wax seal with a lock (endless record not open yet).
+       Same parchment / ink palette as daily_scroll.png. -->
+  <defs>
+    <linearGradient id="roll" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F6E7C4"/>
+      <stop offset="0.45" stop-color="#EBD3A0"/>
+      <stop offset="1" stop-color="#C9A56A"/>
+    </linearGradient>
+  </defs>
+  <!-- Roll body -->
+  <path d="M60 40 L500 40 C512 40 520 58 520 80 C520 102 512 120 500 120 L60 120 Z"
+        fill="url(#roll)" stroke="#2A2620" stroke-width="5" stroke-linejoin="round"/>
+  <!-- Left spiral end -->
+  <ellipse cx="60" cy="80" rx="26" ry="40" fill="#F1DDB0" stroke="#2A2620" stroke-width="5"/>
+  <path d="M60 80 m0 -6 a6 6 0 1 1 -6 6 a12 14 0 1 1 12 14 a18 24 0 1 1 -18 -24"
+        fill="none" stroke="#7A5B33" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Pencil hatching on the shaded underside -->
+  <g stroke="#A88452" stroke-width="3" stroke-linecap="round" opacity="0.7">
+    <path d="M120 112 L136 100"/><path d="M180 114 L196 102"/><path d="M240 114 L256 102"/>
+    <path d="M340 114 L356 102"/><path d="M400 114 L416 102"/><path d="M455 112 L471 100"/>
+  </g>
+  <!-- Highlight -->
+  <path d="M96 52 L486 52" stroke="#FFF6DE" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+  <!-- Ribbon -->
+  <rect x="270" y="38" width="30" height="84" fill="#B8423A" stroke="#2A2620" stroke-width="4"/>
+  <path d="M276 118 L262 152 L276 144 L284 156 Z" fill="#B8423A" stroke="#2A2620" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M294 118 L310 150 L296 143 L288 156 Z" fill="#9E3530" stroke="#2A2620" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Wax seal -->
+  <path d="M285 50 C304 48 316 60 315 78 C318 96 304 110 285 108 C266 112 252 98 255 80 C252 62 266 48 285 50 Z"
+        fill="#C2453B" stroke="#2A2620" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="285" cy="79" r="19" fill="none" stroke="#8E2C26" stroke-width="3"/>
+  <!-- Lock on the seal -->
+  <path d="M277 76 L277 70 A8 8 0 0 1 293 70 L293 76" fill="none" stroke="#F3E6C8" stroke-width="4" stroke-linecap="round"/>
+  <rect x="273" y="75" width="24" height="18" rx="3" fill="#F3E6C8"/>
+  <circle cx="285" cy="83" r="3" fill="#8E2C26"/>
+</svg>

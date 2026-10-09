@@ -78,7 +78,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "unlock_valleys_button")]
+[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "unlock_valleys_button", "complete_valleys_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -112,9 +112,10 @@ start_battle_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/Acti
 random_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/RandomButton")
 wipe_progress_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/WipeProgressButton")
 wipe_dialog = NodePath("WipeDialog")
-grant_gold_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GrantGoldButton")
-grant_gold_big_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GrantGoldBigButton")
+grant_gold_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow/GrantGoldButton")
+grant_gold_big_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow/GrantGoldBigButton")
 unlock_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/UnlockValleysButton")
+complete_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/CompleteValleysButton")
 
 [node name="DailyChallengesController" parent="." unique_id=341384884 instance=ExtResource("8_daily")]
 
@@ -754,22 +755,33 @@ text = "• Больше здоровья — больше шансов на о�
 • Округление ускоряет ответы после серии верных"
 autowrap_mode = 3
 
-[node name="GrantGoldButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
-custom_minimum_size = Vector2(0, 40)
+[node name="GoldRow" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox"]
 layout_mode = 2
-icon_texture = ExtResource("20_gold")
-caption_text = "+1 ЗОЛОТАЯ"
+theme_override_constants/separation = 6
 
-[node name="GrantGoldBigButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
+[node name="GrantGoldButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow" instance=ExtResource("11_action")]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+size_flags_horizontal = 3
 icon_texture = ExtResource("20_gold")
-caption_text = "+10 ЗОЛОТЫХ"
+caption_text = "+1"
+
+[node name="GrantGoldBigButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+icon_texture = ExtResource("20_gold")
+caption_text = "+10"
 
 [node name="UnlockValleysButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 caption_text = "ОТКРЫТЬ ВСЕ ДОЛИНЫ"
+
+[node name="CompleteValleysButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+caption_text = "ПРОЙТИ ВСЕ ДОЛИНЫ"
 
 [node name="WipeProgressButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
 custom_minimum_size = Vector2(0, 40)

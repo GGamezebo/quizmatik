@@ -5,6 +5,7 @@ extends Node
 ## Empty battle/exam slots fall back to background_music; empty boss slot keeps the battle theme.
 ## In battle (GameEvents): boss fly-in crossfades to boss_music; timed level's last seconds speed the
 ## music up; win / lose fades it out so the stingers are heard before the result theme.
+## Endless battle: boss down → back to the battle theme; a new record plays the win theme.
 
 @export var root_events: RootEvents
 @export var game_events: GameEvents
@@ -31,6 +32,8 @@ var _listener: EventListener = EventListener.new()
 var _playing_result: bool = false
 var _faded: bool = false
 var _tween: Tween = null
+## Theme of the running battle (boss down → back to it).
+var _battle_stream: AudioStream = null
 
 
 func _ready() -> void:
@@ -40,6 +43,7 @@ func _ready() -> void:
 		_listener.add(root_events.ev_start_game, _on_start_game)
 	if game_events:
 		_listener.add(game_events.ev_boss_appeared, _on_boss_appeared)
+		_listener.add(game_events.ev_boss_defeated, _on_boss_defeated)
 		_listener.add(game_events.ev_time_left, _on_time_left)
 		_listener.add(game_events.ev_win, _fade_out)
 		_listener.add(game_events.ev_lose, _fade_out)
@@ -66,7 +70,7 @@ func _enable_loop(stream: AudioStream) -> void:
 
 
 func _on_exit_game(data: Dictionary = {}) -> void:
-	var is_win: bool = bool(data.get("is_win", false))
+	var is_win: bool = bool(data.get("is_win", false)) or bool(data.get("is_record", false))
 	_play_result(win_music if is_win else lose_music)
 
 
@@ -77,11 +81,12 @@ func _on_return_to_menu(_data: Dictionary = {}) -> void:
 func _on_start_game(data: Dictionary = {}) -> void:
 	var battle_info = data.get("battle_info")
 	if battle_info is GameConfig.BattleInfo and battle_info.is_exam and exam_music:
-		_play_loop(exam_music)
+		_battle_stream = exam_music
 	elif battle_music:
-		_play_loop(battle_music)
+		_battle_stream = battle_music
 	else:
-		_play_loop(background_music)
+		_battle_stream = background_music
+	_play_loop(_battle_stream)
 
 
 func _on_boss_appeared(_armor: int) -> void:
@@ -91,6 +96,16 @@ func _on_boss_appeared(_armor: int) -> void:
 	_tween = create_tween()
 	_tween.tween_property(music_player, "volume_db", _SILENT_DB, boss_fade_sec)
 	_tween.tween_callback(_play_loop.bind(boss_music))
+
+
+## Regular battles end right after (win fade wins); endless keeps flying → battle theme again.
+func _on_boss_defeated() -> void:
+	if music_player == null or _battle_stream == null or music_player.stream == _battle_stream:
+		return
+	_kill_tween()
+	_tween = create_tween()
+	_tween.tween_property(music_player, "volume_db", _SILENT_DB, boss_fade_sec)
+	_tween.tween_callback(_play_loop.bind(_battle_stream))
 
 
 func _on_time_left(seconds: int) -> void:

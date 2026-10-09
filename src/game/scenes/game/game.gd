@@ -32,6 +32,7 @@ func initialize(_data: Dictionary) -> void:
 	game_config.battle_info = battle_info
 	var review_facts: Variant = _data.get("review_facts", {})
 	game_config.review_facts = review_facts if review_facts is Dictionary else {}
+	game_config.endless_best_sec = pdata.statistics.endless_best_sec if pdata != null else 0
 	_apply_equipped_plane()
 	_apply_cosmetics()
 

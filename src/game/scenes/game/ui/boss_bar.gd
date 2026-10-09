@@ -16,10 +16,15 @@ extends Control
 
 var _listener: EventListener = EventListener.new()
 var _tween: Tween
+var _title_text: String = ""
+var _title_color: Color = Color.BLACK
 
 
 func _ready() -> void:
 	visible = false
+	if title:
+		_title_text = title.text
+		_title_color = title.get_theme_color("font_color")
 	if game_events:
 		_listener.add(game_events.ev_boss_appeared, _on_boss_appeared)
 		_listener.add(game_events.ev_boss_hit, _on_boss_hit)
@@ -38,6 +43,13 @@ func _on_boss_appeared(armor: int) -> void:
 		child.queue_free()
 	for i in armor:
 		pips.add_child(pip_scene.instantiate())
+	# Endless: the next boss starts from the armor look again.
+	pips.visible = true
+	if title:
+		title.text = _title_text
+		title.add_theme_color_override("font_color", _title_color)
+	if rage_bar:
+		rage_bar.visible = false
 	visible = true
 	modulate.a = 1.0
 	_pop.call_deferred()

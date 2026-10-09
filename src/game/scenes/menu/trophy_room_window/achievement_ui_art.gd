@@ -11,8 +11,6 @@ const STAT_ICONS: Dictionary = {
 	"total_shoot_count": preload("res://src/game/scenes/menu/trophy_room_window/ui/stat_icons/icon_shots.png"),
 	"total_time": preload("res://src/game/scenes/menu/trophy_room_window/ui/stat_icons/icon_time.png"),
 	"game_sessions": preload("res://src/game/scenes/menu/trophy_room_window/ui/stat_icons/icon_sessions.png"),
-	"avg_battle_time": preload("res://src/game/scenes/menu/trophy_room_window/ui/stat_icons/icon_speed.png"),
-	"total_flights": preload("res://src/game/scenes/menu/trophy_room_window/ui/stat_icons/icon_flights.png"),
 }
 
 

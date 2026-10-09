@@ -23,6 +23,8 @@ static func apply_correct(
 ) -> bool:
 	player.score += 1
 	apply_streak(player, game_config)
+	if game_config.endless:
+		return false  # difficulty follows time (`EndlessDirector`), never won by count
 	game_config.apply_answer_speed_after_round(player.score, base_speed)
 	game_config.apply_generate_number_after_round(player.score, base_min_generate, base_max_generate)
 	return not game_config.is_timed() and player.score >= game_config.questions_count

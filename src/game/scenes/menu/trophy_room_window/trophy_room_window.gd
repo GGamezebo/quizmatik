@@ -5,14 +5,21 @@ extends Control
 @export var levels_config: LevelsConfig
 @export var stats_list: VBoxContainer
 @export var trophies_list: HBoxContainer
-@export var extra_list: HBoxContainer
 @export var stat_row_scene: PackedScene
 @export var trophy_slot_scene: PackedScene
-@export var extra_slot_scene: PackedScene
 @export var hard_facts_label: Label
 @export var hard_facts_empty_text: String = ""
 @export var hard_facts_button: BaseButton
 @export var hard_facts_overlay: HardFactsOverlay
+@export_group("Endless record scroll")
+## Open scroll with the best endless time — once every valley exam is passed.
+@export var record_open_nodes: Array[Control] = []
+## Rolled-up sealed scroll + hint while the endless battle is locked.
+@export var record_closed_nodes: Array[Control] = []
+@export var record_value: Label
+@export var record_hint: Label
+@export var record_hint_text: String = "Бесконечный полёт"
+@export var record_empty_hint: String = "Нажми часы в меню и лети!"
 
 const HARD_FACTS_SHOWN: int = 3
 
@@ -29,7 +36,7 @@ func on_window_enter() -> void:
 		progress.sync_all_trophies_from_exams()
 	_rebuild_trophies()
 	_rebuild_stats()
-	_rebuild_extra()
+	_rebuild_record()
 	_rebuild_hard_facts()
 
 
@@ -97,24 +104,19 @@ func _rebuild_stats() -> void:
 		stats_list.add_child(row)
 
 
-func _rebuild_extra() -> void:
-	var live := _live_pdata()
-	if live == null or extra_list == null or extra_slot_scene == null:
+func _rebuild_record() -> void:
+	var unlocked: bool = progress != null and progress.are_all_valleys_completed()
+	for node in record_open_nodes:
+		node.visible = unlocked
+	for node in record_closed_nodes:
+		node.visible = not unlocked
+	if not unlocked or record_value == null:
 		return
-
-	for child in extra_list.get_children():
-		extra_list.remove_child(child)
-		child.free()
-
-	var stats: Dictionary = live.statistics.to_dict()
-	for row_data in ProgressStatistics.EXTRA_ROWS:
-		var key: String = row_data[0]
-		var title: String = row_data[1]
-		var subtitle_fmt: String = row_data[2]
-		var value_text := ProgressStatistics.format_stat_value(key, stats.get(key, 0), stats)
-		var slot: Control = extra_slot_scene.instantiate()
-		slot.initialize(key, title, tr(subtitle_fmt) % value_text)
-		extra_list.add_child(slot)
+	var live := _live_pdata()
+	var best: int = live.statistics.endless_best_sec if live != null else 0
+	record_value.text = ProgressStatistics.format_clock(best) if best > 0 else "—"
+	if record_hint:
+		record_hint.text = record_hint_text if best > 0 else record_empty_hint
 
 
 func _rebuild_hard_facts() -> void:

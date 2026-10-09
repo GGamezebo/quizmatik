@@ -282,6 +282,8 @@ class StatisticsData:
 	var total_scores: int = 0
 	var total_stars: int = 0
 	var total_mistakes: int = 0
+	## Best endless survival time, whole seconds (0 = never played).
+	var endless_best_sec: int = 0
 
 	func to_dict() -> Dictionary:
 		return {
@@ -295,6 +297,7 @@ class StatisticsData:
 			"total_scores": total_scores,
 			"total_stars": total_stars,
 			"total_mistakes": total_mistakes,
+			"endless_best_sec": endless_best_sec,
 		}
 
 	static func from_dict(d: Dictionary) -> StatisticsData:
@@ -309,6 +312,7 @@ class StatisticsData:
 		stats.total_scores = int(d.get("total_scores", 0))
 		stats.total_stars = int(d.get("total_stars", 0))
 		stats.total_mistakes = int(d.get("total_mistakes", 0))
+		stats.endless_best_sec = int(d.get("endless_best_sec", 0))
 		return stats
 
 
