@@ -87,6 +87,8 @@ var _shake: float = 0.0
 var _falling: bool = false
 var _raging: bool = false
 var _rage_left: int = 0
+## `initialize(..., rage_shots <= 0)`: last plate off → it goes down at once, no angry phase.
+var _no_rage: bool = false
 var _rage_tween: Tween
 var _spark_tween: Tween
 var _flash_tween: Tween
@@ -97,6 +99,7 @@ var _strings: Dictionary = {}
 func initialize(armor: int, play_area: Rect2, rage_shots: int) -> void:
 	_armor_left = maxi(armor, 1)
 	_play_area = play_area
+	_no_rage = rage_shots <= 0
 	rage_hits = maxi(rage_shots, 1)
 	_pick_plates()
 
@@ -268,7 +271,10 @@ func _land_hit(plate: Node2D, armor_left: int) -> void:
 		_drop_plate(plate)
 	ev_hit_landed.emit(armor_left)
 	if armor_left <= 0:
-		_enrage()
+		if _no_rage:
+			_fall()
+		else:
+			_enrage()
 
 
 func _enrage() -> void:

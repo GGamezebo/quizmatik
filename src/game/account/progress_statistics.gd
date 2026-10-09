@@ -12,21 +12,8 @@ const DISPLAY_ROWS: Array = [
 	["game_sessions", "Сессии"],
 ]
 
-const EXTRA_ROWS: Array = [
-	["avg_battle_time", "СКОРОСТЬ РЕШЕНИЯ", "Среднее время: %s"],
-	["total_flights", "КОЛИЧЕСТВО ПОЛЁТОВ", "Всего полётов: %s"],
-]
 
-
-static func format_stat_value(key: String, value: Variant, stats: Dictionary = {}) -> String:
-	if key == "avg_battle_time":
-		var battles: int = int(stats.get("total_battles", 0))
-		if battles <= 0:
-			return "—"
-		var avg: float = float(stats.get("battle_total_time", 0.0)) / battles
-		return format_duration(avg)
-	if key == "total_flights":
-		return str(int(stats.get("total_battles", 0)))
+static func format_stat_value(key: String, value: Variant, _stats: Dictionary = {}) -> String:
 	if key.ends_with("_time") and (value is float or value is int):
 		return format_duration(float(value))
 	return str(value)
@@ -42,6 +29,18 @@ static func format_duration(seconds: float) -> String:
 	if minutes > 0:
 		return _tr("%dм %02dс") % [minutes, secs]
 	return _tr("%dс") % secs
+
+
+## Stopwatch look «m:ss», from an hour «h:mm:ss» (endless time in HUD, post-battle, menu, trophy room).
+static func format_clock(seconds: int) -> String:
+	var total: int = maxi(0, seconds)
+	@warning_ignore("integer_division")
+	var hours: int = total / 3600
+	@warning_ignore("integer_division")
+	var minutes: int = (total % 3600) / 60
+	if hours > 0:
+		return "%d:%02d:%02d" % [hours, minutes, total % 60]
+	return "%d:%02d" % [minutes, total % 60]
 
 
 static func _tr(message: String) -> String:

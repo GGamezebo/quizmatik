@@ -15,6 +15,8 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_health_restored
 ## Timed level: whole seconds left (emitted when the shown value changes).
 @warning_ignore("unused_signal") signal ev_time_left(seconds: int)
+## Endless battle: whole seconds survived (emitted when the shown value changes).
+@warning_ignore("unused_signal") signal ev_endless_time(seconds: int)
 ## Golden bonus balloon popped (shot or ram) — `amount` gold granted after the battle.
 @warning_ignore("unused_signal") signal ev_bonus_collected(amount: int)
 ## Boss airship flies in after the last regular answer (`armor` plates to knock off).

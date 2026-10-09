@@ -60,6 +60,7 @@
 [ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="65_bg_forest"]
 [ext_resource type="PackedScene" uid="uid://bnskybg01quiz" path="res://src/ui/backgrounds/notebook_sky/notebook_sky_background.tscn" id="66_bg_forest_pencil"]
 [ext_resource type="Script" path="res://src/game/scenes/game/ui/touch_hints.gd" id="70_touch_hints"]
+[ext_resource type="Script" path="res://src/game/scenes/game/ui/endless_record_plate.gd" id="73_record_plate"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/touch_hint_shoot.svg" id="71_hint_shoot"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/touch_hint_move.svg" id="72_hint_move"]
 
@@ -111,6 +112,25 @@ shader = ExtResource("36_fb8ob")
 shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_record_plate"]
+content_margin_left = 28.0
+content_margin_top = 14.0
+content_margin_right = 28.0
+content_margin_bottom = 16.0
+bg_color = Color(1, 0.851, 0.4, 0.97)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 6
+shadow_offset = Vector2(-3, 6)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_timed_intro"]
 content_margin_left = 36.0
@@ -185,7 +205,7 @@ script = ExtResource("1_j4hd0")
 game_config = ExtResource("2_j4hd0")
 levels_config = ExtResource("3_hmv8q")
 root_events = ExtResource("8_xkl2s")
-initable_components = [NodePath("GameArea"), NodePath("LineSelector"), NodePath("Player"), NodePath("GameManager"), NodePath("HUD"), NodePath("HUD/TimedIntro")]
+initable_components = [NodePath("GameArea"), NodePath("LineSelector"), NodePath("Player"), NodePath("GameManager"), NodePath("HUD"), NodePath("HUD/TimedIntro"), NodePath("HUD/EndlessRecordPlate")]
 pdata = ExtResource("62_pdata")
 cosmetics = ExtResource("63_cosmetics")
 rare_valley_backgrounds = Array[PackedScene]([ExtResource("64_bg_school"), ExtResource("65_bg_forest"), ExtResource("66_bg_forest_pencil")])
@@ -265,6 +285,7 @@ sky_scroll_speed = 0.02
 paint_from_score = true
 player = NodePath("../../Player")
 game_config = ExtResource("2_j4hd0")
+game_events = ExtResource("7_7ifmk")
 paint_tween_seconds = 0.7
 ink_blot_scene = ExtResource("13_ink")
 
@@ -696,6 +717,70 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.32, 0.36, 0.4, 1)
 theme_override_font_sizes/font_size = 20
 text = "Не пропускай правильный шарик — это минус сердце"
+horizontal_alignment = 1
+
+[node name="EndlessRecordPlate" type="Control" parent="HUD" node_paths=PackedStringArray("card", "subtitle")]
+visible = false
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 132.0
+offset_bottom = 262.0
+grow_horizontal = 2
+mouse_filter = 2
+theme = ExtResource("theme_ui")
+script = ExtResource("73_record_plate")
+game_events = ExtResource("7_7ifmk")
+card = NodePath("Center/Card")
+subtitle = NodePath("Center/Card/HBox/VBox/Subtitle")
+
+[node name="Center" type="CenterContainer" parent="HUD/EndlessRecordPlate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Card" type="PanelContainer" parent="HUD/EndlessRecordPlate/Center"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_record_plate")
+
+[node name="HBox" type="HBoxContainer" parent="HUD/EndlessRecordPlate/Center/Card"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Clock" type="TextureRect" parent="HUD/EndlessRecordPlate/Center/Card/HBox"]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("41_clock")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="HUD/EndlessRecordPlate/Center/Card/HBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Title" type="Label" parent="HUD/EndlessRecordPlate/Center/Card/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_fonts/font = ExtResource("43_title_font")
+theme_override_font_sizes/font_size = 44
+text = "НОВЫЙ РЕКОРД!"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="HUD/EndlessRecordPlate/Center/Card/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.32, 0.27, 0.15, 1)
+theme_override_font_sizes/font_size = 22
+text = "Прежний рекорд: 2:15"
 horizontal_alignment = 1
 
 [node name="QuestionAnchor" type="Node" parent="HUD" node_paths=PackedStringArray("target")]

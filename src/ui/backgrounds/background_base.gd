@@ -22,6 +22,12 @@ const COVER_OFFSET_PARAM := &"cover_offset"
 @export var paint_from_score: bool = false
 @export var player: Player
 @export var game_config: GameConfig
+## Timed battle (`game_config.is_timed()`): paint fills in by elapsed time via `ev_time_left`
+## instead of score — one step every `paint_time_step_sec`, fully colored at 0.
+## Endless battle: one step per difficulty stage (`ev_endless_time`) up to `GameConfig.endless_paint_max`
+## at `endless_paint_sec`, then stays (never full).
+@export var game_events: GameEvents
+@export_range(1.0, 30.0, 0.5) var paint_time_step_sec: float = 5.0
 ## Menu: paint fills in with completed daily slots (0..DAILY_SLOT_COUNT).
 @export var paint_from_daily: bool = false
 @export var daily_controller: DailyChallengesController
@@ -86,6 +92,10 @@ func apply_host_config(config: Dictionary) -> void:
 		player = config["player"]
 	if config.has("game_config"):
 		game_config = config["game_config"]
+	if config.has("game_events"):
+		game_events = config["game_events"]
+	if config.has("paint_time_step_sec"):
+		paint_time_step_sec = config["paint_time_step_sec"]
 	if config.has("paint_from_daily"):
 		paint_from_daily = config["paint_from_daily"]
 	if config.has("daily_controller"):
@@ -112,9 +122,22 @@ func _bind_paint_score() -> void:
 		player.ev_score_changed.connect(_on_score_changed)
 	if game_config != null and not game_config.changed.is_connected(_on_game_config_changed):
 		game_config.changed.connect(_on_game_config_changed)
+	if game_events != null and not game_events.ev_time_left.is_connected(_on_time_left):
+		game_events.ev_time_left.connect(_on_time_left)
+	if game_events != null and not game_events.ev_endless_time.is_connected(_on_endless_time):
+		game_events.ev_endless_time.connect(_on_endless_time)
 	_set_color_target_from_score(player.score)
 	_color_amount = _color_target
 	_apply_color_amount()
+
+
+func _exit_tree() -> void:
+	if game_events != null and game_events.ev_time_left.is_connected(_on_time_left):
+		game_events.ev_time_left.disconnect(_on_time_left)
+	if game_events != null and game_events.ev_endless_time.is_connected(_on_endless_time):
+		game_events.ev_endless_time.disconnect(_on_endless_time)
+	if game_config != null and game_config.changed.is_connected(_on_game_config_changed):
+		game_config.changed.disconnect(_on_game_config_changed)
 
 
 func _bind_paint_daily() -> void:
@@ -159,13 +182,46 @@ func _process(delta: float) -> void:
 
 
 func _on_score_changed(new_score: int) -> void:
+	if _is_time_painted():
+		return
 	_set_color_target_from_score(new_score)
 	_tween_paint_to_target()
 
 
 func _on_game_config_changed() -> void:
-	if player != null:
+	if player != null and not _is_time_painted():
 		_set_color_target_from_score(player.score)
+
+
+## Timed battle: whole `paint_time_step_sec` steps of elapsed time; 0 left → full color.
+func _on_time_left(seconds_left: int) -> void:
+	if not paint_from_score or not game_config.is_timed():
+		return
+	var limit: float = game_config.time_limit_sec
+	var elapsed: float = maxf(limit - float(seconds_left), 0.0)
+	var stepped: float = floorf(elapsed / paint_time_step_sec) * paint_time_step_sec
+	var target: float = 1.0 if seconds_left <= 0 else clampf(stepped / limit, 0.0, 1.0)
+	if is_equal_approx(target, _color_target):
+		return
+	_color_target = target
+	_tween_paint_to_target()
+
+
+func _on_endless_time(seconds: int) -> void:
+	if not paint_from_score or game_config == null or not game_config.endless:
+		return
+	var step_sec: float = maxf(game_config.endless_step_sec, 1.0)
+	var stepped: float = floorf(float(seconds) / step_sec) * step_sec
+	var share: float = clampf(stepped / maxf(game_config.endless_paint_sec, 1.0), 0.0, 1.0)
+	var target: float = share * game_config.endless_paint_max
+	if is_equal_approx(target, _color_target):
+		return
+	_color_target = target
+	_tween_paint_to_target()
+
+
+func _is_time_painted() -> bool:
+	return game_config != null and (game_config.is_timed() or game_config.endless)
 
 
 func _on_daily_changed() -> void:
@@ -174,6 +230,9 @@ func _on_daily_changed() -> void:
 
 
 func _set_color_target_from_score(score: int) -> void:
+	if _is_time_painted():
+		_color_target = 0.0
+		return
 	if game_config == null or game_config.questions_count <= 0:
 		_color_target = 1.0 if score > 0 else 0.0
 		return

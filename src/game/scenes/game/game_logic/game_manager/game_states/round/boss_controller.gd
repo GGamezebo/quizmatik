@@ -5,6 +5,8 @@ extends RefCounted
 ## (exam = 1, never on timed levels). Flies in (`ev_appeared`) → rounds resume (`ev_ready`); every correct
 ## answer then knocks off one armor plate (`ev_hit`); armor 0 → it gets angry (`ev_enraged`) and creeps
 ## toward the plane; shots on its hull (`shoot`, `ev_shot`) bring it down (`ev_defeated` → battle won).
+## Endless battle: never rolled — `arm()` + `start()` on `EndlessDirector.ev_boss_due`, again after each fall;
+## no angry phase (else waiting it out would farm time) — the last plate brings it down.
 
 signal ev_appeared(armor: int)
 signal ev_ready
@@ -29,8 +31,8 @@ func _init(game_config: GameConfig, area: GameArea, scene: PackedScene, spawn_pa
 	_scene = scene
 	_spawn_parent = spawn_parent
 	_armor = game_config.boss_armor
-	_rage_hits = game_config.boss_rage_hits
-	if scene != null and _armor > 0 and not game_config.is_timed() and randf() < game_config.boss_chance:
+	_rage_hits = 0 if game_config.endless else game_config.boss_rage_hits
+	if scene != null and _armor > 0 and not game_config.is_timed() and not game_config.endless 			and randf() < game_config.boss_chance:
 		_phase = Phase.WAITING
 
 
@@ -51,6 +53,14 @@ func deinit() -> void:
 ## Regular answers done, but the boss is still to come.
 func is_waiting() -> bool:
 	return _phase == Phase.WAITING
+
+
+## Endless: queue the next boss (only between bosses).
+func arm() -> bool:
+	if _scene == null or _armor <= 0 or _phase != Phase.NONE:
+		return false
+	_phase = Phase.WAITING
+	return true
 
 
 ## Boss in place: correct answers go to `hit` instead of the score.
@@ -79,7 +89,7 @@ func hit(from_global: Vector2) -> bool:
 		return false
 	if _boss.hit(from_global) > 0:
 		return false
-	_phase = Phase.RAGING
+	_phase = Phase.FALLING if _rage_hits <= 0 else Phase.RAGING
 	return true
 
 
@@ -117,4 +127,5 @@ func _on_hit_landed(armor_left: int) -> void:
 
 func _on_destroyed() -> void:
 	_boss = null
+	_phase = Phase.NONE
 	ev_defeated.emit()

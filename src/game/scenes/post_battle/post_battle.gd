@@ -14,6 +14,10 @@ extends IScene
 @export var bonus_gold_row: Control
 @export var bonus_gold_label: Label
 @export var stamps: Array[TextureRect] = []
+## Endless battle: stamps make way for the clock row (time survived + record).
+@export var stamps_row: Control
+@export var endless_row: Control
+@export var endless_record_label: Label
 @export var stamp_textures: Array[Texture2D] = []
 @export var stamp_empty: Texture2D
 @export_group("Buttons")
@@ -23,6 +27,13 @@ extends IScene
 @export var exam_victory_dialog: ExamVictoryDialog
 @export var background_host: BackgroundHost
 @export var _game_config: GameConfig
+@export_group("Endless texts")
+@export var endless_record_title: String = "НОВЫЙ РЕКОРД!"
+@export var endless_title: String = "ПОЛЁТ ОКОНЧЕН"
+@export var endless_time_format: String = "Время: %s"
+@export var endless_record_format: String = "Рекорд: %s"
+@export var endless_previous_format: String = "Прежний рекорд: %s"
+@export var endless_first_text: String = "Первый рекорд!"
 
 var _next_battle_info: GameConfig.BattleInfo = null
 var _pending_auto_container: String = ""
@@ -35,14 +46,19 @@ static func build_result_data(
 	is_win: bool,
 	stars_count: int = 0,
 ) -> Dictionary:
-	return {
+	var data := {
 		"game_config": game_config,
 		"score": player.score,
-		"max_score": 0 if game_config.is_timed() else game_config.questions_count,
+		"max_score": 0 if game_config.is_timed() or game_config.endless else game_config.questions_count,
 		"is_win": is_win,
 		"stars": stars_count,
 		"bonus_gold": player.bonus_gold,
 	}
+	if game_config.endless:
+		data["endless_sec"] = player.survived_sec
+		data["endless_best_before"] = game_config.endless_best_sec
+		data["is_record"] = player.survived_sec > game_config.endless_best_sec
+	return data
 
 
 func initialize(data: Dictionary) -> void:
@@ -55,6 +71,7 @@ func initialize(data: Dictionary) -> void:
 	var stars_count: int = data.get("stars", 0)
 	var max_score: int = data.get("max_score", _game_config.questions_count if _game_config else 0)
 	_update_results(is_win, score, max_score, stars_count)
+	_show_endless(data)
 	_show_level_gold(int(data.get("level_gold", 0)))
 	_show_bonus_gold(int(data.get("bonus_gold", 0)))
 	if gold_lines:
@@ -109,6 +126,31 @@ func _update_results(is_win: bool, score: int, max_score: int, stars_count: int)
 		score_label.text = str(score)
 
 	_show_stamps(stars_count)
+
+
+## Endless: «m:ss» survived instead of the score; record line under the clock.
+func _show_endless(data: Dictionary) -> void:
+	var endless: bool = data.has("endless_sec")
+	if stamps_row:
+		stamps_row.visible = not endless
+	if endless_row:
+		endless_row.visible = endless
+	if not endless:
+		return
+	var seconds: int = int(data["endless_sec"])
+	var best_before: int = int(data.get("endless_best_before", 0))
+	var is_record: bool = bool(data.get("is_record", false))
+	title_label.text = endless_record_title if is_record else endless_title
+	var title_settings: LabelSettings = title_label.label_settings.duplicate()
+	title_settings.font_color = Color(0.22, 0.44, 0.28, 1.0) if is_record else Color(0.22, 0.25, 0.3, 1.0)
+	title_label.label_settings = title_settings
+	score_label.text = tr(endless_time_format) % ProgressStatistics.format_clock(seconds)
+	if not is_record:
+		endless_record_label.text = tr(endless_record_format) % ProgressStatistics.format_clock(best_before)
+	elif best_before > 0:
+		endless_record_label.text = tr(endless_previous_format) % ProgressStatistics.format_clock(best_before)
+	else:
+		endless_record_label.text = endless_first_text
 
 
 func _show_stamps(count: int) -> void:

@@ -91,6 +91,25 @@ var review_facts: Dictionary = {}
 ## a correct balloon flying off-screen costs a heart. 0 = regular «answer N questions».
 @export var time_limit_sec: float = 0.0
 
+@export_category("Endless")
+## Endless survival battle (main-menu clock, unlocked after every valley exam): no question count / time
+## limit, rounds until 0 hearts; score = seconds survived (`EndlessDirector`). Every `endless_step_sec` the
+## next `endless_stages` entry applies; a boss flies in every `endless_boss_every_sec` of balloons.
+@export var endless: bool = false
+@export var endless_step_sec: float = 30.0
+@export var endless_boss_every_sec: float = 120.0
+## One dict per step: `STAGE_KEYS` + min/max_generate_number + "answer_speed" + "missing_operand_chance"
+## (absolute values — every stage lists all of them). Past the last stage it stays, speed × growth per step.
+@export var endless_stages: Array[Dictionary] = []
+@export var endless_speed_growth: float = 1.04
+@export var endless_max_answer_speed: float = 160.0
+## Background paint: one step per `endless_step_sec`, reaching `endless_paint_max` at `endless_paint_sec`
+## and staying there — never fully colored.
+@export_range(0.0, 1.0, 0.05) var endless_paint_max: float = 0.75
+@export var endless_paint_sec: float = 120.0
+## Runtime: active profile's best endless time before this battle (`game.gd` from `PData.statistics`).
+var endless_best_sec: int = 0
+
 @export_category("Bonus")
 ## Chance that one golden bonus balloon flies by during the battle (0 = never; practice / exams keep 0).
 @export_range(0.0, 1.0, 0.05) var bonus_gold_chance: float = 0.0
@@ -122,6 +141,27 @@ const PLAYER_ACCELERATION_DEFAULT: float = 1.0  # default acceleration coefficie
 
 func is_timed() -> bool:
 	return time_limit_sec > 0.0
+
+
+## Endless: difficulty of `step` (0 = start). Steps past the last stage keep it and speed up.
+func apply_endless_stage(step: int) -> void:
+	if endless_stages.is_empty():
+		return
+	var index: int = clampi(step, 0, endless_stages.size() - 1)
+	var stage: Dictionary = endless_stages[index]
+	var min_n: int = int(stage.get("min_generate_number", min_generate_number))
+	var max_n: int = int(stage.get("max_generate_number", max_generate_number))
+	min_generate_number = mini(min_n, max_n)
+	max_generate_number = maxi(min_n, max_n)
+	for key in STAGE_KEYS:
+		if stage.has(key):
+			set(key, stage[key])
+	missing_operand_chance = float(stage.get("missing_operand_chance", missing_operand_chance))
+	var speed: float = float(stage.get("answer_speed", answer_speed))
+	var extra_steps: int = step - index
+	if extra_steps > 0:
+		speed = minf(speed * pow(endless_speed_growth, extra_steps), maxf(endless_max_answer_speed, speed))
+	answer_speed = speed
 
 
 func apply_early_exam_modifiers() -> void:

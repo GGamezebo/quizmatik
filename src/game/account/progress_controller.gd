@@ -75,6 +75,25 @@ func unlock_all_containers() -> void:
 		pdata.levels.ensure_container(str(container_data.get("container_id", ""))).unlocked = true
 	save()
 
+## Dev lab: every valley passed on max — all levels + exam with 3 stars (trophies, exam planes too).
+func complete_all_containers() -> void:
+	for container_data in levels_config.levels.get("containers", []):
+		var container_id := str(container_data.get("container_id", ""))
+		pdata.levels.ensure_container(container_id).unlocked = true
+		pass_exam(container_id, 3)
+	save()
+
+
+## Every valley exam passed (any stars) — opens the endless battle (menu clock, trophy room record).
+func are_all_valleys_completed() -> bool:
+	var containers: Array = levels_config.levels.get("containers", [])
+	if containers.is_empty():
+		return false
+	for container_data in containers:
+		if not is_valley_exam_completed(str(container_data.get("container_id", ""))):
+			return false
+	return true
+
 func is_container_seen(container_id: String) -> bool:
 	if not pdata.levels.containers.has(container_id):
 		return false

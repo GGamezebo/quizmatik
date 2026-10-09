@@ -31,6 +31,8 @@ var streak: int = 0:
 
 ## Gold from bonus balloons this battle (granted by AppRoot after the battle, win or lose).
 var bonus_gold: int = 0
+## Endless battle: whole seconds survived (score of the mode).
+var survived_sec: int = 0
 
 @onready var acceleration: float = ACCELERATION_DEFAULT:
 	set(new_value):
@@ -41,6 +43,7 @@ var bonus_gold: int = 0
 func initialize(game_config: GameConfig) -> void:
 	self.health = game_config.health
 	bonus_gold = 0
+	survived_sec = 0
 	
 	var componentClasses = [
 		AccelerationComponent

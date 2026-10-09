@@ -51,6 +51,9 @@
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 [ext_resource type="Script" path="res://src/ui/ui_anchor/ui_anchor.gd" id="60_ui_anchor"]
 [ext_resource type="Resource" path="res://src/game/scenes/tutorial/tutorial_anchors.tres" id="61_tutorial_anchors"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/endless/endless_entry.gd" id="80_endless_entry"]
+[ext_resource type="Resource" path="res://src/game/scenes/menu/endless/endless_game_config.tres" id="81_endless_cfg"]
+[ext_resource type="Texture2D" uid="uid://ca0dm5vhpchjx" path="res://assets/ui/icons/clock.svg" id="82_clock"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
 colors = PackedColorArray(0.165, 0.2, 0.251, 0.5, 0.953, 0.902, 0.784, 0.06)
@@ -241,6 +244,47 @@ image_active = ExtResource("19_sfx_on")
 image_inacitve = ExtResource("19_sfx_off")
 user_settings = ExtResource("9_3qhmn")
 metadata/hover_scale_bound = true
+
+[node name="EndlessEntry" type="VBoxContainer" parent="UI/MainMenuWindow" node_paths=PackedStringArray("progress", "button", "best_label")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 90.0
+offset_top = 30.0
+offset_right = 270.0
+offset_bottom = 230.0
+grow_vertical = 2
+theme = ExtResource("theme_ui")
+theme_override_constants/separation = 2
+script = ExtResource("80_endless_entry")
+root_events = ExtResource("2_35kkh")
+progress = NodePath("../../LevelsWindow/ProgressController")
+endless_config = ExtResource("81_endless_cfg")
+button = NodePath("Clock")
+best_label = NodePath("Best")
+
+[node name="Clock" parent="UI/MainMenuWindow/EndlessEntry" instance=ExtResource("30_circle_btn")]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+size_flags_horizontal = 4
+image = ExtResource("82_clock")
+metadata/hover_scale_bound = true
+
+[node name="Icon" parent="UI/MainMenuWindow/EndlessEntry/Clock" index="0"]
+offset_left = -52.0
+offset_top = -52.0
+offset_right = 52.0
+offset_bottom = 52.0
+
+[node name="Best" type="Label" parent="UI/MainMenuWindow/EndlessEntry"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_outline_color = Color(0.98, 0.95, 0.9, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 24
+text = "Рекорд 2:15"
+horizontal_alignment = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="UI/MainMenuWindow" unique_id=487516089]
 layout_mode = 1
