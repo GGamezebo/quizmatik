@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dm7ex4ie6suhi"]
 
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="1_bdkra"]
-[ext_resource type="Texture2D" uid="uid://lq6oiqxogefy" path="res://src/features/heart/heart.png" id="1_tex"]
+[ext_resource type="Texture2D" uid="uid://lq6oiqxogefy" path="res://assets/ui/icons/heart.png" id="1_tex"]
 [ext_resource type="Script" uid="uid://dudvmrmniumrc" path="res://src/features/heart/heart.gd" id="2_script"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fb8ob"]

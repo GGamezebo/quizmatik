@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://lq6oiqxogefy"
-path.s3tc="res://.godot/imported/heart.png-ecc24608311ff4033f98214238090eed.s3tc.ctex"
-path.etc2="res://.godot/imported/heart.png-ecc24608311ff4033f98214238090eed.etc2.ctex"
+path.s3tc="res://.godot/imported/heart.png-8a50dc08cbb44dc094a7a9f491e4efc7.s3tc.ctex"
+path.etc2="res://.godot/imported/heart.png-8a50dc08cbb44dc094a7a9f491e4efc7.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/features/heart/heart.png"
-dest_files=["res://.godot/imported/heart.png-ecc24608311ff4033f98214238090eed.s3tc.ctex", "res://.godot/imported/heart.png-ecc24608311ff4033f98214238090eed.etc2.ctex"]
+source_file="res://assets/ui/icons/heart.png"
+dest_files=["res://.godot/imported/heart.png-8a50dc08cbb44dc094a7a9f491e4efc7.s3tc.ctex", "res://.godot/imported/heart.png-8a50dc08cbb44dc094a7a9f491e4efc7.etc2.ctex"]
 
 [params]
 

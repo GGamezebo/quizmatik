@@ -32,24 +32,23 @@ endless_stages = Array[Dictionary]([{
 },
 "result_ranges": {
 1: Vector2i(2, 10),
-2: Vector2i(1, 9)
+2: Vector2i(0, 9)
 },
 "carry_mode": 0,
-"answer_speed": 50.0,
 "missing_operand_chance": 0.0
 }, {
 "allowed_operations": 15,
 "min_generate_number": 1,
-"max_generate_number": 10,
+"max_generate_number": 12,
 "operation_ranges": {
-1: Vector2i(1, 9),
-2: Vector2i(5, 10),
+1: Vector2i(1, 6),
+2: Vector2i(4, 12),
 4: Vector2i(2, 3),
 8: Vector2i(2, 3)
 },
 "second_operand_ranges": {
-1: Vector2i(1, 9),
-2: Vector2i(1, 9),
+1: Vector2i(1, 6),
+2: Vector2i(1, 6),
 4: Vector2i(1, 5),
 8: Vector2i(1, 5)
 },
@@ -58,8 +57,71 @@ endless_stages = Array[Dictionary]([{
 2: Vector2i(0, 9)
 },
 "carry_mode": 0,
-"answer_speed": 56.0,
-"missing_operand_chance": 0.0
+"missing_operand_chance": 0.01
+}, {
+"allowed_operations": 15,
+"min_generate_number": 1,
+"max_generate_number": 13,
+"operation_ranges": {
+1: Vector2i(1, 7),
+2: Vector2i(6, 13),
+4: Vector2i(2, 3),
+8: Vector2i(2, 3)
+},
+"second_operand_ranges": {
+1: Vector2i(1, 7),
+2: Vector2i(1, 7),
+4: Vector2i(1, 5),
+8: Vector2i(1, 5)
+},
+"result_ranges": {
+1: Vector2i(2, 10),
+2: Vector2i(0, 9)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.02
+}, {
+"allowed_operations": 15,
+"min_generate_number": 2,
+"max_generate_number": 15,
+"operation_ranges": {
+1: Vector2i(2, 7),
+2: Vector2i(7, 15),
+4: Vector2i(2, 4),
+8: Vector2i(2, 4)
+},
+"second_operand_ranges": {
+1: Vector2i(2, 7),
+2: Vector2i(2, 7),
+4: Vector2i(2, 5),
+8: Vector2i(2, 5)
+},
+"result_ranges": {
+1: Vector2i(2, 14)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.03
+}, {
+"allowed_operations": 15,
+"min_generate_number": 2,
+"max_generate_number": 16,
+"operation_ranges": {
+1: Vector2i(2, 8),
+2: Vector2i(9, 16),
+4: Vector2i(2, 4),
+8: Vector2i(2, 4)
+},
+"second_operand_ranges": {
+1: Vector2i(2, 8),
+2: Vector2i(2, 8),
+4: Vector2i(2, 5),
+8: Vector2i(2, 5)
+},
+"result_ranges": {
+1: Vector2i(2, 16)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.04
 }, {
 "allowed_operations": 15,
 "min_generate_number": 2,
@@ -77,41 +139,101 @@ endless_stages = Array[Dictionary]([{
 8: Vector2i(2, 5)
 },
 "result_ranges": {
-1: Vector2i(11, 18),
-2: Vector2i(2, 9)
+1: Vector2i(2, 18)
 },
 "carry_mode": 0,
-"answer_speed": 62.0,
 "missing_operand_chance": 0.05
 }, {
 "allowed_operations": 15,
 "min_generate_number": 2,
-"max_generate_number": 40,
+"max_generate_number": 24,
 "operation_ranges": {
-1: Vector2i(10, 30),
-2: Vector2i(15, 40),
+1: Vector2i(4, 15),
+2: Vector2i(12, 24),
 4: Vector2i(2, 6),
 8: Vector2i(2, 6)
 },
 "second_operand_ranges": {
 1: Vector2i(2, 9),
 2: Vector2i(2, 9),
-4: Vector2i(2, 9),
-8: Vector2i(2, 9)
+4: Vector2i(2, 6),
+8: Vector2i(2, 6)
 },
 "result_ranges": {
-1: Vector2i(12, 39)
+1: Vector2i(2, 24)
 },
 "carry_mode": 0,
-"answer_speed": 68.0,
-"missing_operand_chance": 0.1
+"missing_operand_chance": 0.07
 }, {
 "allowed_operations": 15,
 "min_generate_number": 2,
-"max_generate_number": 70,
+"max_generate_number": 31,
 "operation_ranges": {
-1: Vector2i(10, 60),
-2: Vector2i(20, 70),
+1: Vector2i(5, 21),
+2: Vector2i(14, 31),
+4: Vector2i(2, 7),
+8: Vector2i(2, 7)
+},
+"second_operand_ranges": {
+1: Vector2i(2, 9),
+2: Vector2i(2, 9),
+4: Vector2i(2, 7),
+8: Vector2i(2, 7)
+},
+"result_ranges": {
+1: Vector2i(2, 30)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.09
+}, {
+"allowed_operations": 15,
+"min_generate_number": 2,
+"max_generate_number": 37,
+"operation_ranges": {
+1: Vector2i(7, 28),
+2: Vector2i(16, 37),
+4: Vector2i(2, 7),
+8: Vector2i(2, 7)
+},
+"second_operand_ranges": {
+1: Vector2i(2, 9),
+2: Vector2i(2, 9),
+4: Vector2i(2, 7),
+8: Vector2i(2, 7)
+},
+"result_ranges": {
+1: Vector2i(2, 37)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.11
+}, {
+"allowed_operations": 15,
+"min_generate_number": 2,
+"max_generate_number": 44,
+"operation_ranges": {
+1: Vector2i(8, 34),
+2: Vector2i(18, 44),
+4: Vector2i(2, 8),
+8: Vector2i(2, 8)
+},
+"second_operand_ranges": {
+1: Vector2i(2, 9),
+2: Vector2i(2, 9),
+4: Vector2i(2, 8),
+8: Vector2i(2, 8)
+},
+"result_ranges": {
+1: Vector2i(2, 43)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.13
+}, {
+"allowed_operations": 15,
+"min_generate_number": 2,
+"max_generate_number": 50,
+"operation_ranges": {
+1: Vector2i(10, 40),
+2: Vector2i(20, 50),
 4: Vector2i(2, 9),
 8: Vector2i(2, 9)
 },
@@ -122,11 +244,94 @@ endless_stages = Array[Dictionary]([{
 8: Vector2i(2, 9)
 },
 "result_ranges": {
-1: Vector2i(12, 69)
+1: Vector2i(2, 49)
 },
 "carry_mode": 0,
-"answer_speed": 74.0,
 "missing_operand_chance": 0.15
+}, {
+"allowed_operations": 15,
+"min_generate_number": 2,
+"max_generate_number": 60,
+"operation_ranges": {
+1: Vector2i(10, 48),
+2: Vector2i(20, 60),
+4: Vector2i(2, 9),
+8: Vector2i(2, 9)
+},
+"second_operand_ranges": {
+1: Vector2i(3, 11),
+2: Vector2i(3, 11),
+4: Vector2i(2, 9),
+8: Vector2i(2, 9)
+},
+"result_ranges": {
+1: Vector2i(2, 59)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.17
+}, {
+"allowed_operations": 15,
+"min_generate_number": 2,
+"max_generate_number": 70,
+"operation_ranges": {
+1: Vector2i(10, 56),
+2: Vector2i(20, 70),
+4: Vector2i(2, 9),
+8: Vector2i(2, 9)
+},
+"second_operand_ranges": {
+1: Vector2i(3, 13),
+2: Vector2i(3, 13),
+4: Vector2i(2, 9),
+8: Vector2i(2, 9)
+},
+"result_ranges": {
+1: Vector2i(2, 69)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.19
+}, {
+"allowed_operations": 15,
+"min_generate_number": 3,
+"max_generate_number": 79,
+"operation_ranges": {
+1: Vector2i(10, 64),
+2: Vector2i(20, 79),
+4: Vector2i(3, 9),
+8: Vector2i(3, 9)
+},
+"second_operand_ranges": {
+1: Vector2i(4, 15),
+2: Vector2i(4, 15),
+4: Vector2i(3, 9),
+8: Vector2i(3, 9)
+},
+"result_ranges": {
+1: Vector2i(2, 79)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.21
+}, {
+"allowed_operations": 15,
+"min_generate_number": 3,
+"max_generate_number": 89,
+"operation_ranges": {
+1: Vector2i(10, 72),
+2: Vector2i(20, 89),
+4: Vector2i(3, 9),
+8: Vector2i(3, 9)
+},
+"second_operand_ranges": {
+1: Vector2i(4, 17),
+2: Vector2i(4, 17),
+4: Vector2i(3, 9),
+8: Vector2i(3, 9)
+},
+"result_ranges": {
+1: Vector2i(2, 89)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.23
 }, {
 "allowed_operations": 15,
 "min_generate_number": 3,
@@ -144,55 +349,94 @@ endless_stages = Array[Dictionary]([{
 8: Vector2i(3, 9)
 },
 "result_ranges": {
-1: Vector2i(15, 99)
+1: Vector2i(2, 99)
 },
 "carry_mode": 0,
-"answer_speed": 80.0,
-"missing_operand_chance": 0.2
-}, {
-"allowed_operations": 15,
-"min_generate_number": 4,
-"max_generate_number": 99,
-"operation_ranges": {
-1: Vector2i(20, 79),
-2: Vector2i(30, 99),
-4: Vector2i(4, 9),
-8: Vector2i(4, 9)
-},
-"second_operand_ranges": {
-1: Vector2i(10, 20),
-2: Vector2i(10, 30),
-4: Vector2i(4, 9),
-8: Vector2i(4, 9)
-},
-"result_ranges": {
-1: Vector2i(30, 99)
-},
-"carry_mode": 0,
-"answer_speed": 86.0,
 "missing_operand_chance": 0.25
 }, {
 "allowed_operations": 15,
-"min_generate_number": 6,
+"min_generate_number": 3,
 "max_generate_number": 99,
 "operation_ranges": {
-1: Vector2i(20, 89),
-2: Vector2i(40, 99),
-4: Vector2i(6, 9),
-8: Vector2i(6, 9)
+1: Vector2i(12, 82),
+2: Vector2i(24, 99),
+4: Vector2i(3, 9),
+8: Vector2i(3, 9)
 },
 "second_operand_ranges": {
-1: Vector2i(10, 40),
-2: Vector2i(10, 40),
-4: Vector2i(6, 9),
-8: Vector2i(6, 9)
+1: Vector2i(6, 27),
+2: Vector2i(6, 25),
+4: Vector2i(4, 9),
+8: Vector2i(4, 9)
 },
 "result_ranges": {
-1: Vector2i(30, 99)
+1: Vector2i(2, 99)
 },
 "carry_mode": 0,
-"answer_speed": 92.0,
-"missing_operand_chance": 0.3
+"missing_operand_chance": 0.26
+}, {
+"allowed_operations": 15,
+"min_generate_number": 3,
+"max_generate_number": 99,
+"operation_ranges": {
+1: Vector2i(14, 84),
+2: Vector2i(28, 99),
+4: Vector2i(3, 9),
+8: Vector2i(3, 9)
+},
+"second_operand_ranges": {
+1: Vector2i(7, 35),
+2: Vector2i(7, 31),
+4: Vector2i(4, 9),
+8: Vector2i(4, 9)
+},
+"result_ranges": {
+1: Vector2i(2, 99)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.27
+}, {
+"allowed_operations": 15,
+"min_generate_number": 2,
+"max_generate_number": 99,
+"operation_ranges": {
+1: Vector2i(16, 85),
+2: Vector2i(32, 99),
+4: Vector2i(2, 9),
+8: Vector2i(2, 9)
+},
+"second_operand_ranges": {
+1: Vector2i(8, 44),
+2: Vector2i(8, 38),
+4: Vector2i(5, 9),
+8: Vector2i(5, 9)
+},
+"result_ranges": {
+1: Vector2i(2, 99)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.28
+}, {
+"allowed_operations": 15,
+"min_generate_number": 2,
+"max_generate_number": 99,
+"operation_ranges": {
+1: Vector2i(18, 87),
+2: Vector2i(36, 99),
+4: Vector2i(2, 9),
+8: Vector2i(2, 9)
+},
+"second_operand_ranges": {
+1: Vector2i(9, 52),
+2: Vector2i(9, 44),
+4: Vector2i(5, 9),
+8: Vector2i(5, 9)
+},
+"result_ranges": {
+1: Vector2i(2, 99)
+},
+"carry_mode": 0,
+"missing_operand_chance": 0.29
 }, {
 "allowed_operations": 15,
 "min_generate_number": 2,
@@ -210,13 +454,11 @@ endless_stages = Array[Dictionary]([{
 8: Vector2i(6, 9)
 },
 "result_ranges": {
-1: Vector2i(30, 99)
+1: Vector2i(2, 99)
 },
 "carry_mode": 0,
-"answer_speed": 98.0,
 "missing_operand_chance": 0.3
 }])
-endless_speed_growth = 1.04
-endless_max_answer_speed = 160.0
+streak_heal_every = 0
 bonus_gold_chance = 0.5
 boss_armor = 3

@@ -65,6 +65,13 @@ func _sync_tutorial() -> void:
 	add_event("ev.open_tutorial" if needs_tutorial else "ev.close_tutorial")
 
 
+func _apply_endless_record(data: Dictionary) -> void:
+	profile_controller.add_gold(ENDLESS_RECORD_GOLD)
+	data["record_gold"] = ENDLESS_RECORD_GOLD
+	if bool(daily_challenges_controller.register_win().get("gold_awarded", false)):
+		root_events.ev_show_celebration.emit(CelebrationSplash.KIND_DAILY_GOLD, {})
+
+
 func _maybe_open_first_profile() -> void:
 	if profile_controller == null or first_run_overlay == null:
 		return
@@ -79,6 +86,9 @@ func _on_first_profile_submitted(display_name: String, difficulty: StringName) -
 		return
 	profile_controller.create_profile(display_name, difficulty)
 
+## Endless battle: each new time record = +gold and one daily slot (the mode is never "won").
+const ENDLESS_RECORD_GOLD: int = 1
+
 func _apply_battle_result(data: Dictionary) -> void:
 	var is_win: bool = data['is_win']
 	var stars: int = data['stars']
@@ -88,6 +98,8 @@ func _apply_battle_result(data: Dictionary) -> void:
 	var bonus_gold: int = int(data.get("bonus_gold", 0))
 	if bonus_gold > 0:
 		profile_controller.add_gold(bonus_gold)
+	if bool(data.get("is_record", false)):
+		_apply_endless_record(data)
 	if not is_win:
 		return
 	var daily_result: Dictionary = daily_challenges_controller.register_win()

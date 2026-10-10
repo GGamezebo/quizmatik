@@ -57,7 +57,7 @@ See `godot-paradigm.md` (context scene, resource defaults, HFSM override, resour
 |------|----------|
 | `assets/audio/music/` | Looping BGM streams (OGG/MP3, not WAV) |
 | `assets/effects/` | FX sprites (e.g. starlight) |
-| `assets/ui/icons/` | Shared UI icons (stars, mute, movement, gold coin `coin_gold.svg`, timed-level `clock.svg`, control hints `touch_hint_*` / `hint_finger` / `key_*` / `mouse_click`) |
+| `assets/ui/icons/` | Shared UI icons (stars, mute, movement, gold coin `coin_gold.svg`, timed-level `clock.svg`, control hints `touch_hint_*` / `hint_finger` / `key_*` / `mouse_click`, `heart.png` = HUD heart + endless heart balloon) |
 | `assets/ui/stamps/` | Ink stamps for daily / post-battle / level grid (`stamp_empty`, `stamp_sun`, …) |
 | `assets/ui/hud/` | Battle HUD frames (score, question banner) |
 | `assets/ui/backgrounds/` | Shared menu/paper/sky textures used by scenes |
