@@ -24,8 +24,11 @@ func _start_hfsm_when_ready() -> void:
 				"YandexContext": YandexContext,
 				"AndroidContext": AndroidContext,
 				"GooglePlayContext": GooglePlayContext,
+				"GooglePlayShopContext": GooglePlayShopContext,
+				"YandexShopContext": YandexShopContext,
 				"DesktopContext": DesktopContext,
 				"SteamContext": SteamContext,
+				"DevShopContext": DevShopContext,
 			},
 		},
 		{

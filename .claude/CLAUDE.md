@@ -5,7 +5,7 @@ Targets: Mobile (Android/iOS), Steam, HTML5 (incl. Yandex Games).
 
 Rules live in `.claude/rules/` (AI-only, terse). Human docs: `.claude/doc/`.
 - always loaded: `godot-paradigm.md` (core approach), `architecture.md`, `concepts.md`, `maintain-architecture-rules.md`
-- path-scoped (`paths:` frontmatter): battle, GDScript conventions, HFSM, levels/progress, localization, menu, visuals
+- path-scoped (`paths:` frontmatter): battle, GDScript conventions, HFSM, levels/progress, localization, menu, monetization, visuals
 
 Feature plan (source of truth for profiles/planes/gold): `.cursor/plans/profiles-planes.md`.
 

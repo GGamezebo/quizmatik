@@ -28,3 +28,16 @@ func _enter() -> void:
 
 func open_child(event_name: String) -> void:
 	add_event(event_name, data)
+
+
+## Opens the store's `*Shop` child (ads + purchases). The single monetization kill switch:
+## export feature `no_monetization` (tester presets) → no shop, no `App/Monetization`, no offers.
+func open_shop(extra: Dictionary = {}) -> void:
+	if OS.has_feature("no_monetization"):
+		return
+	add_event("ev.open_shop", data.merged(extra))
+
+
+## Shop contexts: mount game-side `App/Monetization` (pacing, limits, paywall UI).
+func open_monetization() -> void:
+	add_event("ev.open_monetization", data)

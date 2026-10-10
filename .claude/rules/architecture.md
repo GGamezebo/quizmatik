@@ -106,7 +106,7 @@ App phases are driven by HFSM (`src/game/hfsm/app_hfsm.json`) via `src/game/main
 - Root `App` scene id `app_root` → `app_root/root.tscn` (`IScene`; RootEvents → `hfsm.add_event`)
 - JSON `scene: { id, loading_screen, async_loading, on_event }` → HFSM mounts via `HfsmSceneRegistry` + `HfsmScenePaths.PATHS`
 - `App` mounts `app_root`; AppRoot emits `ev.open_platform` → `App/Platform` picks branch `WEB`(→`Yandex`) / `Android`(→`GooglePlay`) / `Desktop`(→`Steam`) by OS + export `custom_features` (`hfsm-app-integration.md`)
-- Game ↔ platform (ads, later IAP / cloud / analytics) only via `PlatformServices` Resource (`src/common/platform/`)
+- Game ↔ platform (ads, IAP, later cloud / analytics) only via `PlatformServices` Resource (`src/common/platform/`); monetization rules in `App/Monetization`, host UI only via `OfferBoard` — `monetization.md`
 - Scene node lifecycle: `initialize` / `deinit` / `on_event` called by HFSM
 - Menu UI windows use `WindowStackManager` (not HFSM bindings)
 - Battle payload: **either** `custom_battle` **or** `battle_info` — never both
@@ -128,6 +128,7 @@ Background pause: `AppPauseController` (`src/features/app_pause/`, instanced in 
 - New isolated gameplay unit → `src/features/{name}/` (self-contained; `.gd` + `.tscn` colocated)
 - New screen / flow → `src/game/scenes/{name}/`
 - Platform BoundEntity context → `src/game/contexts/` + register in `main.gd` `context` slot
+- Monetization: store `*_shop_context.gd` → `src/game/contexts/`; game rules + paywall → `src/game/scenes/monetization/`; `OfferBoard` → `src/common/monetization/`; hooks `src/ui/rewarded_gold_button/`, `src/ui/purchase_offer_button/`, `src/ui/parental_gate/` — `monetization.md`
 - Project-shared Resource/type → `src/common/`
 - Shared UI widget (button base, dialog, loading, animated title) → `src/ui/` (`animated_title/` = per-letter fall/hop intro)
 - HFSM loading overlay → `src/ui/loading_screen/` (`main.tscn` `loading_screen_scene`, `min_load_time` 0.7): contract `update_progress(0..1)` + `fade_out()` only; equipped plane via `@export pdata` (`persistent_data.tres`) → `PlaneFlyer`; never pass payload / touch `core/lib/hfsm` for it

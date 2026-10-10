@@ -28,7 +28,28 @@ font_color = Color(0.22, 0.25, 0.3, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
 
-[node name="LevelContainer" type="Control" unique_id=1077235570 node_paths=PackedStringArray("card_root", "art_rect", "stamp_rect", "title_label", "progress_label", "lock_overlay", "hit_button")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_badge"]
+content_margin_left = 14.0
+content_margin_top = 4.0
+content_margin_right = 14.0
+content_margin_bottom = 4.0
+bg_color = Color(0.98, 0.83, 0.38, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_badge"]
+font = ExtResource("7_font")
+font_size = 18
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[node name="LevelContainer" type="Control" unique_id=1077235570 node_paths=PackedStringArray("card_root", "art_rect", "stamp_rect", "title_label", "progress_label", "lock_overlay", "hit_button", "paywall_badge")]
 custom_minimum_size = Vector2(300, 440)
 layout_mode = 3
 anchors_preset = 0
@@ -43,6 +64,7 @@ title_label = NodePath("Card/Title")
 progress_label = NodePath("Card/ProgressChip/Progress")
 lock_overlay = NodePath("Card/LockOverlay")
 hit_button = NodePath("Card/HitButton")
+paywall_badge = NodePath("Card/PaywallBadge")
 
 [node name="Card" type="Control" parent="." unique_id=1324036295]
 custom_minimum_size = Vector2(300, 440)
@@ -174,6 +196,27 @@ texture_filter = 1
 texture = ExtResource("5_lock")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="PaywallBadge" type="PanelContainer" parent="Card"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -90.0
+offset_top = 22.0
+offset_right = 90.0
+offset_bottom = 54.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_badge")
+
+[node name="Label" type="Label" parent="Card/PaywallBadge"]
+layout_mode = 2
+text = "Полная версия"
+label_settings = SubResource("LabelSettings_badge")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HitButton" type="Button" parent="Card" unique_id=979366978]
 layout_mode = 1
