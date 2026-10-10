@@ -98,11 +98,18 @@ var review_facts: Dictionary = {}
 @export var endless: bool = false
 @export var endless_step_sec: float = 30.0
 @export var endless_boss_every_sec: float = 120.0
-## One dict per step: `STAGE_KEYS` + min/max_generate_number + "answer_speed" + "missing_operand_chance"
-## (absolute values — every stage lists all of them). Past the last stage it stays, speed × growth per step.
+## Example difficulty, one dict per step: `STAGE_KEYS` + min/max_generate_number + "missing_operand_chance"
+## (absolute values — every stage lists all of them). Past the last stage it stays.
 @export var endless_stages: Array[Dictionary] = []
-@export var endless_speed_growth: float = 1.04
-@export var endless_max_answer_speed: float = 160.0
+## Answer speed per step (independent of stages): start → max at `endless_speed_max_sec`, then stays.
+## Ease-in `endless_speed_curve` (> 1 = gentle start). Max: the fastest plane must still cross all lanes
+## (≈405 px at 600 × 1.3 px/s ≈ 0.5 s) while a balloon flies ≈985 px to it (420 → ≈2.3 s).
+@export var endless_speed_start: float = 50.0
+@export var endless_speed_max: float = 420.0
+@export var endless_speed_max_sec: float = 1200.0
+@export var endless_speed_curve: float = 1.3
+## Heart balloon (+1 heart, never above `health`) every `endless_heart_every_sec`, only when hurt; else wait again.
+@export var endless_heart_every_sec: float = 300.0
 ## Background paint: one step per `endless_step_sec`, reaching `endless_paint_max` at `endless_paint_sec`
 ## and staying there — never fully colored.
 @export_range(0.0, 1.0, 0.05) var endless_paint_max: float = 0.75
@@ -143,7 +150,7 @@ func is_timed() -> bool:
 	return time_limit_sec > 0.0
 
 
-## Endless: difficulty of `step` (0 = start). Steps past the last stage keep it and speed up.
+## Endless: difficulty of `step` (0 = start): examples from `endless_stages`, speed from the curve.
 func apply_endless_stage(step: int) -> void:
 	if endless_stages.is_empty():
 		return
@@ -157,11 +164,8 @@ func apply_endless_stage(step: int) -> void:
 		if stage.has(key):
 			set(key, stage[key])
 	missing_operand_chance = float(stage.get("missing_operand_chance", missing_operand_chance))
-	var speed: float = float(stage.get("answer_speed", answer_speed))
-	var extra_steps: int = step - index
-	if extra_steps > 0:
-		speed = minf(speed * pow(endless_speed_growth, extra_steps), maxf(endless_max_answer_speed, speed))
-	answer_speed = speed
+	var progress: float = clampf(float(step) * endless_step_sec / maxf(endless_speed_max_sec, 1.0), 0.0, 1.0)
+	answer_speed = lerpf(endless_speed_start, endless_speed_max, pow(progress, endless_speed_curve))
 
 
 func apply_early_exam_modifiers() -> void:

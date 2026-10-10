@@ -14,10 +14,13 @@ static func get_state() -> String:
 @export var answerScene: PackedScene
 @export var explosion_scene: PackedScene
 @export var bonus_scene: PackedScene
+## Endless battle extra-life balloon.
+@export var heart_scene: PackedScene
 @export var boss_scene: PackedScene
 
 var _round_controller: RoundController
 var _bonus: BonusController
+var _heart: HeartController
 var _boss: BossController
 var _time_limit: BattleTimeLimit
 var _endless: EndlessDirector
@@ -44,6 +47,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	var answer_spawner: AnswerSpawner = AnswerSpawner.new(area, answerScene, game_manager.owner)
 	_round_controller = RoundController.new(game_config, player, answer_spawner, game_manager.get_tree(), ev_question_changed)
 	_bonus = BonusController.new(game_config, area, bonus_scene, game_manager.owner)
+	_heart = HeartController.new(game_config, area, heart_scene, game_manager.owner)
 	_boss = BossController.new(game_config, area, boss_scene, game_manager.owner)
 	_time_limit = BattleTimeLimit.new(game_config.time_limit_sec)
 	_endless = EndlessDirector.new(game_config)
@@ -52,6 +56,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 		answer_spawner,
 		_round_controller,
 		_bonus,
+		_heart,
 		_boss,
 		_time_limit,
 		_endless,
@@ -60,6 +65,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_round_controller.ev_answers_spawned.connect(_on_answers_spawned)
 	_round_controller.ev_round_started.connect(_bonus.on_round_started)
 	_bonus.ev_collected.connect(_on_bonus_collected)
+	_heart.ev_collected.connect(_on_heart_collected)
 	_round_controller.ev_correct_missed.connect(_on_correct_missed)
 	_boss.ev_appeared.connect(game_events.ev_boss_appeared.emit)
 	_boss.ev_ready.connect(_round_controller.release_rounds)
@@ -71,6 +77,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_time_limit.ev_expired.connect(_end_game)
 	_endless.ev_tick.connect(_on_endless_tick)
 	_endless.ev_boss_due.connect(_on_endless_boss_due)
+	_endless.ev_heart_due.connect(_on_endless_heart_due)
 	event_listener.add(game_events.ev_pause_answers, _on_pause_answers)
 	event_listener.add(game_events.ev_explosion, _on_explosion)
 	event_listener.add(game_events.ev_target_shot, _boss.shoot)
@@ -89,6 +96,7 @@ func leave(_event_data: Dictionary) -> void:
 	
 	_round_controller = null
 	_bonus = null
+	_heart = null
 	_boss = null
 	_time_limit = null
 	_endless = null
@@ -102,6 +110,7 @@ func _process(delta: float) -> void:
 	if _round_controller:
 		_round_controller.update_answer_acceleration(player.acceleration)
 		_bonus.update_acceleration(player.acceleration)
+		_heart.update_acceleration(player.acceleration)
 
 func _on_answers_spawned(options: Array[Answer]) -> void:
 	_boss.release_answers(options)
@@ -125,6 +134,8 @@ func _on_pause_answers(paused: bool) -> void:
 		_apply_answers_paused(_round_controller.options)
 	if _bonus:
 		_bonus.set_paused(paused)
+	if _heart:
+		_heart.set_paused(paused)
 	if _time_limit:
 		_time_limit.set_paused(paused)
 	if _endless:
@@ -138,13 +149,13 @@ func _apply_answers_paused(options: Array[Answer]) -> void:
 
 
 func _on_explosion(answer: Answer, _hit_point: Vector2) -> void:
-	if _bonus.try_collect(answer):
+	if _bonus.try_collect(answer) or _heart.try_collect(answer):
 		return
 	var action: CombatResolver.HitAction = CombatResolver.resolve(answer, _round_controller.question, false)
 	_apply_combat(action, answer)
 
 func _on_air_plane_collided(collided_plane: AirPlane, answer: Answer) -> void:
-	if _bonus.try_collect(answer):
+	if _bonus.try_collect(answer) or _heart.try_collect(answer):
 		return
 	var action: CombatResolver.HitAction = CombatResolver.resolve(answer, _round_controller.question, true)
 	if action == CombatResolver.HitAction.WRONG_COLLISION:
@@ -225,6 +236,17 @@ func _on_correct_missed() -> void:
 	_round_controller.kill_all_answers()
 	if CombatResolver.apply_damage(player):
 		_end_game()
+
+## Endless: only when hurt — full health waits for the next due.
+func _on_endless_heart_due() -> void:
+	if player.health < game_config.health:
+		_heart.spawn(game_config.answer_speed)
+
+
+func _on_heart_collected() -> void:
+	if player.health < game_config.health:
+		player.health += 1
+		game_events.ev_health_restored.emit()
 
 func _on_bonus_collected(amount: int) -> void:
 	player.bonus_gold += amount

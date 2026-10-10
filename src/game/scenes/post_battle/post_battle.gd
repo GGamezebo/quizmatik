@@ -72,10 +72,12 @@ func initialize(data: Dictionary) -> void:
 	var max_score: int = data.get("max_score", _game_config.questions_count if _game_config else 0)
 	_update_results(is_win, score, max_score, stars_count)
 	_show_endless(data)
-	_show_level_gold(int(data.get("level_gold", 0)))
+	var record_gold: int = int(data.get("record_gold", 0))
+	_show_level_gold(int(data.get("level_gold", 0)), record_gold)
 	_show_bonus_gold(int(data.get("bonus_gold", 0)))
+	var earned_gold: int = int(data.get("level_gold", 0)) + int(data.get("bonus_gold", 0)) + record_gold
 	if gold_lines:
-		gold_lines.visible = int(data.get("level_gold", 0)) > 0 or int(data.get("bonus_gold", 0)) > 0
+		gold_lines.visible = earned_gold > 0
 	_setup_next_level_button(is_win)
 
 	_listener.add(menu_button.pressed, _on_menu)
@@ -170,12 +172,15 @@ func _show_stamps(count: int) -> void:
 			stamp.texture = stamp_empty
 
 
-func _show_level_gold(amount: int) -> void:
+## Same coin row: level «3 stamps» gold, or the endless record gold (never both in one battle).
+func _show_level_gold(amount: int, record_amount: int = 0) -> void:
 	if gold_label == null:
 		return
 	if level_gold_row:
-		level_gold_row.visible = amount > 0
-	if amount > 0:
+		level_gold_row.visible = amount > 0 or record_amount > 0
+	if record_amount > 0:
+		gold_label.text = tr("+%d за рекорд") % record_amount
+	elif amount > 0:
 		gold_label.text = tr("+%d за 3 штампа") % amount
 
 
