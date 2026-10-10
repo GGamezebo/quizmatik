@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/monetization/monetization.gd" id="1_script"]
+[ext_resource type="Resource" path="res://src/common/platform/platform_services.tres" id="2_services"]
+[ext_resource type="Resource" path="res://src/common/monetization/offer_board.tres" id="3_board"]
+[ext_resource type="PackedScene" uid="uid://b8r4b8hm2ev2w" path="res://src/game/account/profile_controller.tscn" id="4_profile"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/monetization/ui/paywall_dialog.tscn" id="5_paywall"]
+[ext_resource type="PackedScene" path="res://src/ui/parental_gate/parental_gate.tscn" id="6_gate"]
+
+[node name="Monetization" type="Node" node_paths=PackedStringArray("profile_controller", "paywall_dialog", "parental_gate")]
+process_mode = 3
+script = ExtResource("1_script")
+platform_services = ExtResource("2_services")
+offer_board = ExtResource("3_board")
+profile_controller = NodePath("Profile")
+paywall_dialog = NodePath("PaywallDialog")
+parental_gate = NodePath("ParentalGate")
+
+[node name="Profile" parent="." instance=ExtResource("4_profile")]
+
+[node name="PaywallDialog" parent="." instance=ExtResource("5_paywall")]
+
+[node name="ParentalGate" parent="." instance=ExtResource("6_gate")]

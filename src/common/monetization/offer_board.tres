@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="OfferBoard" format=3]
+
+[ext_resource type="Script" path="res://src/common/monetization/offer_board.gd" id="1_board"]
+
+[resource]
+script = ExtResource("1_board")

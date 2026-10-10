@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/purchase_offer_button/purchase_offer_button.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Resource" path="res://src/common/monetization/offer_board.tres" id="2_board"]
+
+[node name="PurchaseOfferButton" type="Button"]
+visible = false
+custom_minimum_size = Vector2(280, 64)
+focus_mode = 0
+theme = ExtResource("theme_ui")
+theme_override_font_sizes/font_size = 24
+text = "Убрать рекламу"
+script = ExtResource("1_script")
+offer_board = ExtResource("2_board")

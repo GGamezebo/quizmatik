@@ -24,6 +24,7 @@
 [ext_resource type="Script" path="res://src/game/scenes/menu/plane_hangar_window/cosmetic_swatch.gd" id="67_swatch"]
 [ext_resource type="Shader" path="res://src/features/plane/plane_body.gdshader" id="68_body"]
 [ext_resource type="Texture2D" path="res://src/features/plane/planes_atlas_spaced.png" id="69_plane"]
+[ext_resource type="PackedScene" path="res://src/ui/rewarded_gold_button/rewarded_gold_button.tscn" id="70_rewarded"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("8_shadow")
@@ -268,6 +269,21 @@ stretch_mode = 5
 layout_mode = 2
 text = "0"
 label_settings = SubResource("LabelSettings_gold")
+
+[node name="RewardedGold" parent="Center/Content" instance=ExtResource("70_rewarded")]
+custom_minimum_size = Vector2(240, 54)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -296.0
+offset_top = 66.0
+offset_right = -48.0
+offset_bottom = 120.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 22
+placement = &"hangar"
+once_per_screen = false
 
 [node name="Tabs" type="HBoxContainer" parent="Center/Content"]
 layout_mode = 1

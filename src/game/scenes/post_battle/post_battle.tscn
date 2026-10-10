@@ -27,6 +27,8 @@
 [ext_resource type="Texture2D" uid="uid://hghugnctmjyn" path="res://src/game/scenes/menu/levels/ui/btn_back.png" id="14_ypp4h"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 [ext_resource type="PackedScene" path="res://src/ui/exam_victory_dialog/exam_victory_dialog.tscn" id="15_exam_victory"]
+[ext_resource type="Resource" path="res://src/common/monetization/offer_board.tres" id="16_offer_board"]
+[ext_resource type="PackedScene" path="res://src/ui/rewarded_gold_button/rewarded_gold_button.tscn" id="17_rewarded"]
 
 [sub_resource type="Gradient" id="Gradient_overlay"]
 colors = PackedColorArray(0.12, 0.1, 0.08, 0.22, 0.953, 0.902, 0.784, 0.05)
@@ -79,7 +81,7 @@ shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
 
-[node name="PostBattleScene" type="Node" unique_id=1710544667 node_paths=PackedStringArray("progress", "title_label", "score_label", "gold_lines", "level_gold_row", "gold_label", "bonus_gold_row", "bonus_gold_label", "stamps", "next_level_button", "menu_button", "repeat_button", "exam_victory_dialog", "background_host", "stamps_row", "endless_row", "endless_record_label")]
+[node name="PostBattleScene" type="Node" unique_id=1710544667 node_paths=PackedStringArray("progress", "title_label", "score_label", "gold_lines", "level_gold_row", "gold_label", "bonus_gold_row", "bonus_gold_label", "stamps", "next_level_button", "menu_button", "repeat_button", "exam_victory_dialog", "background_host", "rewarded_gold_button", "stamps_row", "endless_row", "endless_record_label")]
 script = ExtResource("1_uxaqq")
 root_events = ExtResource("2_jg6wr")
 progress = NodePath("ProgressController")
@@ -101,6 +103,8 @@ menu_button = NodePath("UI/Screen/CenterContainer/ResultCard/Buttons/Menu")
 repeat_button = NodePath("UI/Screen/CenterContainer/ResultCard/Buttons/Repeat")
 exam_victory_dialog = NodePath("ExamVictoryDialog")
 background_host = NodePath("UI/Screen/Background")
+offer_board = ExtResource("16_offer_board")
+rewarded_gold_button = NodePath("UI/Screen/RewardedGold")
 _game_config = ExtResource("3_isyvk")
 
 [node name="ExamVictoryDialog" parent="." instance=ExtResource("15_exam_victory")]
@@ -340,3 +344,18 @@ texture_normal = ExtResource("12_next")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("13_hover")
+
+[node name="RewardedGold" parent="UI/Screen" instance=ExtResource("17_rewarded")]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -268.0
+offset_top = -96.0
+offset_right = -18.0
+offset_bottom = -28.0
+grow_horizontal = 0
+grow_vertical = 0
+placement = &"post_battle"

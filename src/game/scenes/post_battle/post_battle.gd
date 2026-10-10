@@ -26,6 +26,9 @@ extends IScene
 @export var repeat_button: BaseButton
 @export var exam_victory_dialog: ExamVictoryDialog
 @export var background_host: BackgroundHost
+## Monetization hooks (default board = no offers, nothing paywalled).
+@export var offer_board: OfferBoard
+@export var rewarded_gold_button: RewardedGoldButton
 @export var _game_config: GameConfig
 @export_group("Endless texts")
 @export var endless_record_title: String = "НОВЫЙ РЕКОРД!"
@@ -78,6 +81,8 @@ func initialize(data: Dictionary) -> void:
 	var earned_gold: int = int(data.get("level_gold", 0)) + int(data.get("bonus_gold", 0)) + record_gold
 	if gold_lines:
 		gold_lines.visible = earned_gold > 0
+	if rewarded_gold_button:
+		rewarded_gold_button.setup(earned_gold)
 	_setup_next_level_button(is_win)
 
 	_listener.add(menu_button.pressed, _on_menu)
@@ -247,6 +252,8 @@ func _resolve_auto_level_select_container(is_win: bool) -> String:
 	if next_container_id.is_empty():
 		return ""
 	if not progress.is_container_unlocked(next_container_id):
+		return ""
+	if offer_board != null and offer_board.is_container_paywalled(next_container_id):
 		return ""
 	if progress.get_level_stars(next_container_id, 1) > 0:
 		return ""

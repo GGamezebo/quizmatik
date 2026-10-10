@@ -14,6 +14,7 @@
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="16_font"]
 [ext_resource type="PackedScene" path="res://src/ui/language_picker/language_picker.tscn" id="17_language_picker"]
+[ext_resource type="PackedScene" path="res://src/ui/purchase_offer_button/purchase_offer_button.tscn" id="18_purchase_offer"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("8_shadow")
@@ -177,6 +178,21 @@ text = "Вибрация"
 
 [node name="Title" parent="CenterContainer/Content/SettingsMargin/SettingsList/RowVibrationIntensity" index="0"]
 text = "Мощность вибрации"
+
+[node name="PurchaseOffer" parent="CenterContainer/Content" instance=ExtResource("18_purchase_offer")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = 10.0
+offset_right = 150.0
+offset_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 0
+placement = &"settings"
 
 [node name="MenuWindowBack" parent="." unique_id=767459829 instance=ExtResource("14_menu_back")]
 

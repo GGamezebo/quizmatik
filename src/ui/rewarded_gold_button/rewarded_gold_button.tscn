@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/rewarded_gold_button/rewarded_gold_button.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Resource" path="res://src/common/monetization/offer_board.tres" id="2_board"]
+[ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="3_coin"]
+
+[node name="RewardedGoldButton" type="Button"]
+visible = false
+custom_minimum_size = Vector2(250, 68)
+focus_mode = 0
+theme = ExtResource("theme_ui")
+theme_override_constants/h_separation = 10
+theme_override_constants/icon_max_width = 36
+theme_override_font_sizes/font_size = 24
+text = "+1 за рекламу"
+icon = ExtResource("3_coin")
+script = ExtResource("1_script")
+offer_board = ExtResource("2_board")

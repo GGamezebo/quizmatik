@@ -7,8 +7,11 @@ extends Control
 @export var windows_stack_manager: WindowStackManager
 @export var level_selection_window: Control
 @export var background_host: BackgroundHost
+## Monetization hook: paid valleys (default board = none).
+@export var offer_board: OfferBoard
 
 var _container_ids: Array[String] = []
+var _listener: EventListener = EventListener.new()
 
 
 func _ready() -> void:
@@ -16,7 +19,13 @@ func _ready() -> void:
 	if carousel != null:
 		carousel.ev_pack_activated.connect(_on_pack_activated)
 		carousel.ev_selection_changed.connect(_on_selection_changed)
+	if offer_board != null:
+		_listener.add(offer_board.ev_changed, _on_offers_changed)
 	_update_window()
+
+
+func _exit_tree() -> void:
+	_listener.deinit()
 
 
 func on_window_enter() -> void:
@@ -58,6 +67,7 @@ func _update_window() -> void:
 			total_count,
 			exam_stars,
 		)
+		container_instance.set_paywalled(_is_paywalled(container_id))
 		if is_unlocked:
 			progress.mark_container_seen(container_id)
 		carousel.add_pack(container_instance)
@@ -100,6 +110,9 @@ func _on_pack_activated(index: int) -> void:
 	if index < 0 or index >= _container_ids.size():
 		return
 	var container_id := _container_ids[index]
+	if _is_paywalled(container_id):
+		offer_board.ev_paywall_requested.emit(&"valley")
+		return
 	if not progress.is_container_unlocked(container_id):
 		return
 	_on_pack_enter_requested(container_id)
@@ -116,6 +129,16 @@ func _on_pack_enter_requested(container_id: String) -> void:
 func open_level_select(container_id: String) -> void:
 	windows_stack_manager.open_stacked_window(self)
 	_on_pack_enter_requested(container_id)
+
+
+func _is_paywalled(container_id: String) -> bool:
+	return offer_board != null and offer_board.is_container_paywalled(container_id)
+
+
+## Purchase / store state changed while the carousel is open → redraw locks.
+func _on_offers_changed() -> void:
+	if is_visible_in_tree():
+		_update_window()
 
 
 func _on_visibility_changed() -> void:
