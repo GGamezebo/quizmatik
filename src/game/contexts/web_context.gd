@@ -1,7 +1,7 @@
 class_name WEBContext
 extends PlatformContext
 
-## Generic HTML5 hooks. Opens nested Yandex when export feature `yandex_games` is set.
+## Generic HTML5 hooks. Opens nested Yandex / CrazyGames / Poki by export feature `yandex_games` / `crazygames` / `poki`.
 ## Tab hidden / minimized → RootEvents.ev_app_visibility_changed (pause + mute in AppPauseController).
 
 var _document: JavaScriptObject = null
@@ -12,6 +12,10 @@ func _enter() -> void:
 	_listen_visibility()
 	if OS.has_feature("yandex_games"):
 		open_child("ev.open_yandex")
+	elif OS.has_feature("crazygames"):
+		open_child("ev.open_crazygames")
+	elif OS.has_feature("poki"):
+		open_child("ev.open_poki")
 
 func deinit() -> void:
 	if _document != null and _on_visibility_cb != null:
