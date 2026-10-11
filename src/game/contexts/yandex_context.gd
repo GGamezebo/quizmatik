@@ -4,7 +4,7 @@ extends PlatformContext
 ## `Platform/WEB/Yandex`: Yandex Games SDK v2 (`/sdk.js` from the Web-Yandex export `head_include`).
 ## SDK init → LoadingAPI.ready (once menu opened) + `environment.i18n.lang` → PlatformServices.language;
 ## battle → GameplayAPI start/stop; SDK pause → RootEvents.ev_app_visibility_changed.
-## Ads + payments live in child `Yandex/YandexShop` (opened after SDK init unless `no_monetization`).
+## Cloud save lives in child `Yandex/YandexCloudSave`. Ads + payments live in child `Yandex/YandexShop` (opened after SDK init unless `no_monetization`).
 
 const SDK_PAUSE := "game_api_pause"
 const SDK_RESUME := "game_api_resume"
@@ -60,6 +60,7 @@ func _on_sdk_ready(args: Array) -> void:
 		# Yandex moderation: UI language must follow the SDK, not the browser.
 		services.set_language(String(_ysdk.environment.i18n.lang))
 	_send_ready()
+	open_cloud_save({"ysdk": _ysdk})
 	open_shop({"ysdk": _ysdk})
 
 ## Game Ready must fire once, when the player can actually interact (menu requested + SDK up).

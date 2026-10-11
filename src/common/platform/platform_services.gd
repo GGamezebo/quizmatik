@@ -17,12 +17,23 @@ extends Resource
 ## Store → game. Always answered after `ev_request_purchase` (false on cancel / error / pending).
 @warning_ignore("unused_signal") signal ev_purchase_result(is_success: bool)
 
+## Game → platform: read the cloud copy of the save. Answered by `ev_cloud_pulled` only on success
+## (no answer = cloud unreachable → game stays local-only this session, never overwrites the cloud).
+@warning_ignore("unused_signal") signal ev_request_cloud_pull
+## Platform → game. `json` = cloud envelope (`CloudSaveCodec`), "" = nothing stored yet.
+@warning_ignore("unused_signal") signal ev_cloud_pulled(json: String)
+## Game → platform: store this envelope in the cloud (fire and forget; failures retried by the next push).
+@warning_ignore("unused_signal") signal ev_request_cloud_push(json: String)
+
 ## Offer kinds (one paid offer per store).
 const OFFER_NO_ADS := &"no_ads"
 const OFFER_FULL_VERSION := &"full_version"
 
 var can_interstitial: bool = false
 var can_rewarded: bool = false
+## true while a platform context can store the save in the platform cloud (signed in / SDK up).
+## Default false: no platform / not signed in → save stays local only.
+var can_cloud_save: bool = false
 ## Platform-reported UI language (e.g. Yandex `environment.i18n.lang`); empty = unknown → OS locale.
 var language: String = ""
 ## Store's paid offer still for sale; empty = nothing to buy (no store / already owned).
@@ -40,6 +51,14 @@ func set_ads(interstitial: bool, rewarded: bool) -> void:
 		return
 	can_interstitial = interstitial
 	can_rewarded = rewarded
+	ev_caps_changed.emit()
+
+
+## Called only by cloud-save contexts (backend ready / on deinit).
+func set_cloud_save(enabled: bool) -> void:
+	if can_cloud_save == enabled:
+		return
+	can_cloud_save = enabled
 	ev_caps_changed.emit()
 
 

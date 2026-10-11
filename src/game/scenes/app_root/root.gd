@@ -52,6 +52,9 @@ func _on_ev_return_to_menu(data: Dictionary = {}) -> void:
 	add_event("ev.open_menu", data)
 
 func _on_profiles_changed() -> void:
+	# Cloud save arrived while «Кто будет пилотом?» was open → the profile already exists.
+	if first_run_overlay != null and first_run_overlay.visible and profile_controller.has_profiles():
+		first_run_overlay.close()
 	_maybe_open_first_profile()
 	_sync_tutorial()
 

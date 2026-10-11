@@ -15,6 +15,11 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Jet Math"
+config/name_localized={
+"ru": "Улётная математика"
+}
+config/use_custom_user_dir=true
+config/custom_user_dir_name="quizmatic"
 config/version="0.1.0"
 run/main_scene="uid://ddo0h56tnwsk1"
 config/features=PackedStringArray("4.7", "Mobile")
