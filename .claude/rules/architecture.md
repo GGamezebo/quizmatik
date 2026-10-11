@@ -49,7 +49,7 @@ See `godot-paradigm.md` (context scene, resource defaults, HFSM override, resour
 | `tools/` | Offline generators (e.g. levels) |
 | `assets/` | Runtime shared art — see layout below |
 | `concepts/` | AI style reference only (`ART_DIRECTION.md` + frames) — game and tools never use it; see `concepts.md` |
-| `store/` | Store-listing screenshots/banners (`screenshots/`, `banners/`); `store/.gdignore`, never packed, never referenced by game |
+| `store/` | ALL store-page media (images, banners, screenshots, videos, trailers) → `screenshots/` `banners/` `videos/`; never put such media in `assets/`/`docs/`; `store/.gdignore`, never packed, never referenced by game |
 | `docs/` | Public static pages for store listings (privacy policy → GitHub Pages); `docs/.gdignore`, never packed |
 | `src/dev/` | Editor/dev utilities — not the game entry. `training_room_lab/` = frozen snapshot of full practice UI (editor-only menu button) |
 
