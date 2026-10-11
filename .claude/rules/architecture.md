@@ -49,6 +49,7 @@ See `godot-paradigm.md` (context scene, resource defaults, HFSM override, resour
 | `tools/` | Offline generators (e.g. levels) |
 | `assets/` | Runtime shared art — see layout below |
 | `concepts/` | AI style reference only (`ART_DIRECTION.md` + frames) — game and tools never use it; see `concepts.md` |
+| `store/` | Store-listing screenshots/banners (`screenshots/`, `banners/`); `store/.gdignore`, never packed, never referenced by game |
 | `docs/` | Public static pages for store listings (privacy policy → GitHub Pages); `docs/.gdignore`, never packed |
 | `src/dev/` | Editor/dev utilities — not the game entry. `training_room_lab/` = frozen snapshot of full practice UI (editor-only menu button) |
 
@@ -67,7 +68,7 @@ See `godot-paradigm.md` (context scene, resource defaults, HFSM override, resour
 | `assets/fonts/` | Runtime fonts only: Nunito Bold + Rubik Doodle Shadow |
 
 Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level_*.tres` (root).
-Export never packs: `concepts/`, `tools/`, `bin/`, `.cursor/`, `.claude/`, `.vscode/`, `.godot/`, `.git/` — see `export_presets.cfg` `exclude_filter`, `concepts/.gdignore`, `tools/.gdignore`, `.claude/.gdignore`.
+Export never packs: `concepts/`, `store/`, `tools/`, `bin/`, `.cursor/`, `.claude/`, `.vscode/`, `.godot/`, `.git/` — see `export_presets.cfg` `exclude_filter`, `concepts/.gdignore`, `tools/.gdignore`, `.claude/.gdignore`.
 
 ## Layer contracts
 
