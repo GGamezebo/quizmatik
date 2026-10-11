@@ -55,6 +55,7 @@ resources = [PackedStringArray("levels"), [ExtResource("2_kek77")]]
 script = ExtResource("4_toymq")
 _pdata = ExtResource("5_nvg4k")
 _root_events = ExtResource("8_dg77c")
+_services = ExtResource("21_platform")
 
 [node name="Save" type="Node" parent="Account/SaveManager" unique_id=294182503]
 script = ExtResource("6_nvg4k")

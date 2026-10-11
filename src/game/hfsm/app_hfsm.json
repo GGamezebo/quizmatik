@@ -29,7 +29,8 @@
 								"context": "YandexContext",
 								"enter": ["ev.open_yandex"],
 								"states": {
-									"YandexShop": { "context": "YandexShopContext", "enter": ["ev.open_shop"] }
+									"YandexShop": { "context": "YandexShopContext", "enter": ["ev.open_shop"] },
+									"YandexCloudSave": { "context": "YandexCloudSaveContext", "enter": ["ev.open_cloud_save"] }
 								}
 							}
 						}
@@ -42,7 +43,8 @@
 								"context": "GooglePlayContext",
 								"enter": ["ev.open_google_play"],
 								"states": {
-									"GooglePlayShop": { "context": "GooglePlayShopContext", "enter": ["ev.open_shop"] }
+									"GooglePlayShop": { "context": "GooglePlayShopContext", "enter": ["ev.open_shop"] },
+									"GooglePlayCloudSave": { "context": "GooglePlayCloudSaveContext", "enter": ["ev.open_cloud_save"] }
 								}
 							}
 						}

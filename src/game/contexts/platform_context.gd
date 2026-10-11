@@ -38,6 +38,11 @@ func open_shop(extra: Dictionary = {}) -> void:
 	add_event("ev.open_shop", data.merged(extra))
 
 
+## Opens the platform's `*CloudSave` child (cloud copy of the save). Independent of `no_monetization`.
+func open_cloud_save(extra: Dictionary = {}) -> void:
+	add_event("ev.open_cloud_save", data.merged(extra))
+
+
 ## Shop contexts: mount game-side `App/Monetization` (pacing, limits, paywall UI).
 func open_monetization() -> void:
 	add_event("ev.open_monetization", data)

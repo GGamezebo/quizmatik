@@ -16,6 +16,12 @@ static var _migrations: Dictionary = {
 	8: _migrate_8_to_9,
 }
 
+## Cloud envelope (`{ active_profile_id, profiles }`) from an older save version → current schema.
+static func migrate_envelope(data: Dictionary, from_version: int) -> Dictionary:
+	var d := data.duplicate(true)
+	_migrate(d, from_version)
+	return d
+
 func migrate_save_data(data: Dictionary, from_version: int) -> Dictionary:
 	var d = data.duplicate(true)
 	_migrate(d, from_version)
