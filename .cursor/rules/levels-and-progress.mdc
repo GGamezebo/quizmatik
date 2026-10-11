@@ -8,9 +8,11 @@ alwaysApply: false
 
 ## Levels
 
-- Canonical files: `src/levels/{addition|subtraction|multiplication|division|mix}/level_N.tres`
-- Container metadata + unlocks: `src/common/levels/levels_config.gd`
-- Bulk generation: `tools/generate_levels.py` (prefer over hand-editing dozens of `.tres`)
+- Canonical files: `src/levels/{addition|subtraction|multiplication|division|mix}/level_1..20.tres`; **20 = exam** (`is_exam` in config; read it via `LevelsConfig.get_exam_level_id()`, never hardcode)
+- Container metadata + unlocks: `src/common/levels/levels_config.gd` (hand-edited)
+- Bulk generation: `tools/generate_levels.py` = source of truth for the curriculum (kids 7-10, RU school order; per valley 4 acts + exam climbing through act skills via score stages 4/8/12). Edit the curve there and re-run (`python tools/generate_levels.py` rewrites only level `.tres`, keeps uids); never hand-patch level `.tres`
+- Pace authored as `t` = seconds per balloon flight on NORMAL (`answer_speed = 1100 / t`); new-skill (`intro`) levels: no `? + 3 = 7`, no speed ramp
+- Generator constants: timed L9 + L17 (60 s); `boss_chance` 1.0 on L10, L15, exam (`boss_armor` 5, `boss_rage_hits` 20), .15 on other L3–19 non-timed; `bonus_gold_chance` .35 on L3–19; lines 3 on L1–3 else 4; never narrow `player_acceleration_*`
 - Ignore legacy `src/levels/level_*.tres` at root
 - Missing level file → assert at `LevelsConfig` init — always add file + config entry together
 
@@ -18,19 +20,27 @@ alwaysApply: false
 
 - Schema: `src/common/game_config_default.gd`
 - Level content = exported fields on level `.tres` (ops, ranges, speeds, health, questions)
-- Player difficulty: `BattleDifficulty.apply(config, id, base)` — coefficients on questions / `answer_speed` / round-speed extras; **never health** (always 3 in training)
-- Mid-battle ramps: `answer_speed_round_coeffs` and optional `generate_number_round_ranges` (score → min/max)
+- Example shape per op: `operation_ranges` (1st operand: addend / minuend / factor / divisor), `second_operand_ranges` (2nd: addend / subtrahend / factor / quotient), `result_ranges` (allowed answer), `carry_mode` (+/− through the ten: ANY / NONE / REQUIRED). Missing op entry → min/max_generate_number; missing 2nd → 1st
+- Player difficulty: `BattleDifficulty.apply(config, id, base)` — coefficients on questions / `answer_speed` / round-speed extras (only speed-ups scale; < 1 exam-stage slow-downs kept); **never health** (always 3 in training). Levels tuned for NORMAL ≈ 8 y.o.
+- Mid-battle ramps: `answer_speed_round_coeffs` and `generate_number_round_ranges` (score → stage: min/max fall back to base; `GameConfig.STAGE_KEYS` replace and persist). Thresholds rescale with `questions_count` (`scale_round_thresholds`: difficulty preset + early exam)
 - Do not permanently edit runtime `game/game_config.tres` (overwritten per battle)
 
 ## Progress
 
 - Schema: `PData` (`src/game/account/persistent_data.gd`) — typed nested classes; live defaults in `persistent_data.tres` = **active profile**
-- Save envelope v3: `{ active_profile_id, profiles }` (`SaveData.CURRENT_SAVE_VERSION`); switch stashes live PData into the slot
-- `ProfileController` — create/switch/delete (never last), gold, equipped plane; age → `BattleDifficulty` for valleys only; lab-only `wipe_all_profiles()` empties the envelope immediately (then first-run overlay)
+- Save envelope v9 (v4 = tutorial chapters, v5 = `mistakes`, v6 = `ContainerProgress.unlocked`, v7 = `difficulty` replaces `gender`/`age`, v8 = `cosmetics`, v9 = exam level 17 → 20, passed valleys get 17-19 with exam stars): `{ active_profile_id, profiles }` (`SaveData.CURRENT_SAVE_VERSION`); switch stashes live PData into the slot
+- Profile identity = `display_name` (empty → `ProfileController.DEFAULT_NAME` «Пилот», shown/prefilled translated via `display_name_or_default`; `create_profile` + new-pilot prefill use `unique_name()` → «Пилот 2», «Пилот 3»…, case-insensitive) + `PData.difficulty` (`BattleDifficulty` id). Never collect gender/age/other personal data (store requirements)
+- `ProfileController` — create/switch/delete (never last), gold, equipped plane; `set_difficulty()` / `valley_difficulty()` → `BattleDifficulty` for valleys only; lab-only `wipe_all_profiles()` empties the envelope immediately (then first-run overlay)
 - `PData.trophies.unlocked` — valley exam trophies; UI kit `tools/generate_achievements_ui.py`
 - Disk: `SaveManager` + GodotSavesAddon (`SaveData`) profile `save` under `user://save/` (not plain `progress.json`)
-- Campaign mutations: `ProgressController` only
+- Campaign mutations: `ProgressController` only (incl. tutorial: `complete_tutorial()` / `complete_tutorial_step(id)` → `PData.state.tutorial_completed` / `tutorial_steps`; save v4 migration marks profiles with wins as completed)
+- Weak examples: `PData.mistakes` (`MathFact` key → `weights` + `misses`) mutated only by `MistakesController` (AppRoot `Account/`) on `GameEvents.ev_fact_answered`: miss weight +2 (cap 6) and misses +1, clean correct weight −1; weight 0 → `erase()` from both dicts; max 50 facts (trim drops tail of `top_keys`). `top_keys` order = misses desc → weight desc → key. AppRoot `_on_ev_start_game` adds payload `review_facts` (top 10 keys → weights) to **every** battle start
 - Daily challenges (UTC day, 5 win-slots): `DailyChallengesController` — any battle win fills one slot; 5/5 first time that day → +1 gold
+- Level gold: regular level first reaching 3★ → +1 gold (`ProgressController.pass_level` returns amount, `post_battle` → `{level_gold}`; AppRoot grants via `ProfileController.add_gold`, passes `level_gold` to PostBattle label). Exam gives no level gold
+- Bonus gold: `GameConfig.bonus_gold_chance` (default 0 = practice / exam / L1–2) → ≤1 golden balloon per battle; payload `bonus_gold` granted by AppRoot `_apply_battle_result` **before** the win check (kept on lose / HUD exit; lost on in-battle restart); PostBattle `BonusGold` label
+- Cosmetics: `PData.cosmetics` (`owned` ids, `equipped` slot key → id; keys = `CosmeticItem.SLOT_KEYS`, never rename) mutated only by `CosmeticsController.try_buy` / `equip` (spends `pdata.gold`); free items never stored
+- Cloud copy (`PlatformServices.can_cloud_save`): `SaveManager` pulls once per cap-on, `CloudSaveCodec` (`src/game/account/`) = JSON envelope `{version, saved_at, active_profile_id, profiles}` (< 190 KB, version > game → ignored, older → `SaveData.migrate_envelope`). Rule: newer `saved_at` (unix s, stamped on each local write; unsaved changes = now) wins, equal = in sync; cloud wins → replace profiles, `apply_dict`, local write, `ev_profiles_changed` (AppRoot closes first-run overlay). Pull answer during battle is deferred to battle end. Push: never before the first pull answered, never with no profiles; coalesced `CLOUD_PUSH_SEC`, immediate on battle end / pause / focus-out / close. Settings (`UserSettings`) stay local
+- `project.godot` `config/custom_user_dir_name="quizmatic"` keeps `user://` = old folder after the display rename to «Jet Math» — never drop it (desktop saves would be orphaned)
 - Disk write: only `SaveManager` (controllers emit `RootEvents.ev_save_progress` → `save()`)
 - `save()` is **debounced** (`SAVE_DEBOUNCE_SEC`, restarts on each request): no synchronous write per mutation
 - **Never writes during battle** (`ev_battle_started`→`ev_battle_finished`); force-flush at battle end
@@ -38,8 +48,9 @@ alwaysApply: false
 - Shared live resource: all controllers / trophy room `@export` the same `persistent_data.tres`; `SaveManager.load_pdata()` mutates the **active** profile via `PData.apply_dict`
 - Int level keys restored in `PData.ContainerProgress.from_dict` (JSON string keys → `int`)
 - Schema migrations: `SaveData.migrate_save_data` / `CURRENT_SAVE_VERSION` (addon), not a separate migrator class
-- Unlock helpers: `LevelsContainerConditions` in `conditions.gd`
-- Settings: `UserSettings` → `user://settings.json` (JSON via `ResourceUtils`); `save()` emits `ev_changed` so mute UI / buses can resync without scene NodePaths
+- Last valley: `PData.state.last_container_id` (per profile) — set only via `ProgressController.set_last_container_id` from `levels_choice_window` (carousel selection / valley enter); carousel `finalize` starts on it (app start, back from battle). Never keep the selected valley only in carousel index
+- Unlock helpers: `LevelsContainerConditions` in `conditions.gd`; `ContainerProgress.unlocked` (dev lab «open all valleys», `ProgressController.unlock_all_containers()`; «pass all valleys» = `complete_all_containers()`; `are_all_valleys_completed()` = every exam passed → endless battle) opens a valley regardless of its condition, levels inside stay sequential
+- Settings: `UserSettings` (incl. `language`, "" = auto) → `user://settings.json` (JSON via `ResourceUtils`); `save()` emits `ev_changed` so mute UI / buses can resync without scene NodePaths
 
 ## Must
 
