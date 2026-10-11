@@ -32,6 +32,21 @@
 									"YandexShop": { "context": "YandexShopContext", "enter": ["ev.open_shop"] },
 									"YandexCloudSave": { "context": "YandexCloudSaveContext", "enter": ["ev.open_cloud_save"] }
 								}
+							},
+							"CrazyGames": {
+								"context": "CrazyGamesContext",
+								"enter": ["ev.open_crazygames"],
+								"states": {
+									"CrazyGamesShop": { "context": "CrazyGamesShopContext", "enter": ["ev.open_shop"] },
+									"CrazyGamesCloudSave": { "context": "CrazyGamesCloudSaveContext", "enter": ["ev.open_cloud_save"] }
+								}
+							},
+							"Poki": {
+								"context": "PokiContext",
+								"enter": ["ev.open_poki"],
+								"states": {
+									"PokiShop": { "context": "PokiShopContext", "enter": ["ev.open_shop"] }
+								}
 							}
 						}
 					},

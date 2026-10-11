@@ -21,14 +21,14 @@ Plan / prices (human): `.claude/doc/monetization.md`.
 
 ## Layers (each only talks to the next)
 
-1. Store shop context (platform code, `src/game/contexts/*_shop_context.gd`): `Yandex/YandexShop` (ads + `no_ads` purchase, valleys free), `GooglePlay/GooglePlayShop` (no ads; `full_version` purchase locks paid valleys), editor `Desktop/DevShop` (`-- --dev-shop=yandex|play`). Writes `PlatformServices` (`set_ads` / `set_offer` / `set_content_locked`), answers `ev_rewarded_result` / `ev_purchase_result` always; on enter `open_monetization()`
+1. Store shop context (platform code, `src/game/contexts/*_shop_context.gd`): `Yandex/YandexShop` (ads + `no_ads` purchase, valleys free), `GooglePlay/GooglePlayShop` (no ads; `full_version` purchase locks paid valleys), `CrazyGames/CrazyGamesShop` + `Poki/PokiShop` (base `AdsOnlyShopContext`: ads only, no offer, valleys free), editor `Desktop/DevShop` (`-- --dev-shop=yandex|play`). Writes `PlatformServices` (`set_ads` / `set_offer` / `set_content_locked`), answers `ev_rewarded_result` / `ev_purchase_result` always; on enter `open_monetization()`
 2. `App/Monetization` scene (`src/game/scenes/monetization/`, platform-agnostic): interstitial pacing (only on `ev.open_menu`, ≥ `interstitial_min_battles` session battles, cooldown), rewarded gold (per-device daily limit in `user://monetization.json`, gold via own `ProfileController` instance), paywall → `ParentalGate` → `ev_request_purchase`. Publishes `OfferBoard`
 3. Host UI hooks read only `OfferBoard` (`src/common/monetization/offer_board.tres`), never `PlatformServices`: `RewardedGoldButton` (post-battle `setup(earned)` ×2, hangar `once_per_screen=false`), `PurchaseOfferButton` (settings), valley carousel `is_container_paywalled` → `LevelContainer.set_paywalled` + tap → `ev_paywall_requested`; post-battle never auto-opens a paywalled valley
 
 ## Kill switch (testers)
 
 - `PlatformContext.open_shop()` is the only way to a shop; skipped with export feature `no_monetization` → no shop, no `App/Monetization`, default board = no offers, all valleys open
-- Tester presets: `Web`, `Android-Test` (no store feature), `Web-Yandex-Test` (`yandex_games,no_monetization`: SDK yes, money no)
+- Tester presets: `Web`, `Android-Test` (no store feature), `Web-Yandex-Test` (`yandex_games,no_monetization`: SDK yes, money no). Release portal presets: `Web-CrazyGames` (`crazygames`), `Web-Poki` (`poki`); for a portal's Basic Launch / no-ads phase add `no_monetization`
 
 ## Must
 
