@@ -207,10 +207,11 @@ func _update_strings() -> void:
 		return
 	var start: Vector2 = tethers.to_local(get_launch_point())
 	for line: Line2D in _strings.keys():
-		var balloon: Node2D = _strings[line]
-		if not is_instance_valid(balloon) or _falling:
+		# Freed balloons stay in the dict until the string snaps; a typed assign errors on them.
+		if not is_instance_valid(_strings[line]) or _falling:
 			_snap(line)
 			continue
+		var balloon: Node2D = _strings[line]
 		if not balloon.is_inside_tree():
 			continue
 		var knot: Vector2 = balloon.global_position + Vector2(0.0, tether_knot_offset * balloon.scale.y)
