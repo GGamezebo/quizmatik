@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" path="res://src/features/plane/plane_flyer.tscn" id="7_flyer"]
 [ext_resource type="FontVariation" uid="uid://dyt157qapui8s" path="res://core/theme/title_font.tres" id="8_title_font"]
 [ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="9_cosmetics"]
+[ext_resource type="PackedScene" path="res://src/ui/animated_title/animated_title.tscn" id="11_title"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
 resource_local_to_scene = true
@@ -33,6 +34,21 @@ shader_parameter/margin_color = Color(0.85, 0.35, 0.35, 0.35)
 font = ExtResource("8_title_font")
 font_size = 48
 font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_drift_ink"]
+font = ExtResource("8_title_font")
+font_size = 84
+font_color = Color(0.165, 0.2, 0.251, 0.32)
+
+[sub_resource type="LabelSettings" id="LabelSettings_drift_green"]
+font = ExtResource("8_title_font")
+font_size = 96
+font_color = Color(0.22, 0.44, 0.3, 0.38)
+
+[sub_resource type="LabelSettings" id="LabelSettings_drift_red"]
+font = ExtResource("8_title_font")
+font_size = 72
+font_color = Color(0.9, 0.35, 0.35, 0.4)
 
 [sub_resource type="LabelSettings" id="LabelSettings_fact"]
 font_size = 28
@@ -65,7 +81,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 14
 corner_radius_bottom_left = 8
 
-[node name="LoadingScreen" type="CanvasLayer" node_paths=PackedStringArray("sheet", "sky", "grid", "flyer", "progress_bar", "status_label", "fact_label")]
+[node name="LoadingScreen" type="CanvasLayer" node_paths=PackedStringArray("sheet", "sky", "grid", "flyer", "progress_bar", "status_label", "fact_label", "drifters")]
 script = ExtResource("1_8cml4")
 pdata = ExtResource("2_pdata")
 cosmetics = ExtResource("9_cosmetics")
@@ -76,6 +92,7 @@ flyer = NodePath("Sheet/FlightAnchor/PlaneFlyer")
 progress_bar = NodePath("Sheet/Bottom/Ruler")
 status_label = NodePath("Sheet/Bottom/Status")
 fact_label = NodePath("Sheet/Bottom/Fact")
+drifters = [NodePath("Sheet/Drifters/D1"), NodePath("Sheet/Drifters/D2"), NodePath("Sheet/Drifters/D3"), NodePath("Sheet/Drifters/D4"), NodePath("Sheet/Drifters/D5"), NodePath("Sheet/Drifters/D6"), NodePath("Sheet/Drifters/D7"), NodePath("Sheet/Drifters/D8")]
 
 [node name="Sheet" type="Control" parent="."]
 layout_mode = 3
@@ -119,6 +136,119 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="Drifters" type="Control" parent="Sheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="D1" type="Label" parent="Sheet/Drifters"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 150.0
+offset_right = 170.0
+offset_bottom = 260.0
+pivot_offset = Vector2(55, 55)
+mouse_filter = 2
+text = "+"
+label_settings = SubResource("LabelSettings_drift_ink")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="D2" type="Label" parent="Sheet/Drifters"]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 470.0
+offset_right = 300.0
+offset_bottom = 580.0
+pivot_offset = Vector2(55, 55)
+mouse_filter = 2
+text = "×"
+label_settings = SubResource("LabelSettings_drift_green")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="D3" type="Label" parent="Sheet/Drifters"]
+layout_mode = 0
+offset_left = 1010.0
+offset_top = 140.0
+offset_right = 1120.0
+offset_bottom = 250.0
+pivot_offset = Vector2(55, 55)
+mouse_filter = 2
+text = "7"
+label_settings = SubResource("LabelSettings_drift_red")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="D4" type="Label" parent="Sheet/Drifters"]
+layout_mode = 0
+offset_left = 1120.0
+offset_top = 420.0
+offset_right = 1230.0
+offset_bottom = 530.0
+pivot_offset = Vector2(55, 55)
+mouse_filter = 2
+text = "="
+label_settings = SubResource("LabelSettings_drift_ink")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="D5" type="Label" parent="Sheet/Drifters"]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 60.0
+offset_right = 440.0
+offset_bottom = 170.0
+pivot_offset = Vector2(55, 55)
+mouse_filter = 2
+text = "÷"
+label_settings = SubResource("LabelSettings_drift_green")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="D6" type="Label" parent="Sheet/Drifters"]
+layout_mode = 0
+offset_left = 930.0
+offset_top = 520.0
+offset_right = 1040.0
+offset_bottom = 630.0
+pivot_offset = Vector2(55, 55)
+mouse_filter = 2
+text = "−"
+label_settings = SubResource("LabelSettings_drift_ink")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="D7" type="Label" parent="Sheet/Drifters"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 330.0
+offset_right = 230.0
+offset_bottom = 440.0
+pivot_offset = Vector2(55, 55)
+mouse_filter = 2
+text = "?"
+label_settings = SubResource("LabelSettings_drift_red")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="D8" type="Label" parent="Sheet/Drifters"]
+layout_mode = 0
+offset_left = 1180.0
+offset_top = 250.0
+offset_right = 1290.0
+offset_bottom = 360.0
+pivot_offset = Vector2(55, 55)
+mouse_filter = 2
+text = "5"
+label_settings = SubResource("LabelSettings_drift_green")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="FlightAnchor" type="Control" parent="Sheet"]
 layout_mode = 1
 anchors_preset = 8
@@ -133,6 +263,28 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="PlaneFlyer" parent="Sheet/FlightAnchor" instance=ExtResource("7_flyer")]
+
+[node name="Header" type="HBoxContainer" parent="Sheet"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -400.0
+offset_top = 28.0
+offset_right = 400.0
+offset_bottom = 168.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Title" parent="Sheet/Header" instance=ExtResource("11_title")]
+layout_mode = 2
+size_flags_vertical = 4
+title_font = ExtResource("8_title_font")
+font_size = 64
+font_color = Color(0.16, 0.5, 0.24, 1)
+fall_distance = 120.0
 
 [node name="Bottom" type="VBoxContainer" parent="Sheet"]
 layout_mode = 1

@@ -14,10 +14,14 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="quizmatic"
+config/name="Jet Math"
 config/version="0.1.0"
 run/main_scene="uid://ddo0h56tnwsk1"
 config/features=PackedStringArray("4.7", "Mobile")
+config/icon="res://assets/app_icon/icon_512.png"
+boot_splash/bg_color=Color(0.953, 0.902, 0.784, 1)
+boot_splash/image="res://assets/app_icon/splash.png"
+boot_splash/fullsize=false
 
 [audio]
 
