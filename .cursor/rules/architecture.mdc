@@ -24,20 +24,17 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 - Design every feature/control/UI for comfortable play on touch **and** mouse/keyboard — not PC-first with mobile as afterthought.
 - Prefer InputMap actions (`shoot`, `ui_*`) over hard-coded keys; add touch controls (on-screen buttons / gestures) without breaking desktop/web.
 - UI: readable at phone landscape, safe areas, hit targets large enough for fingers; still clean on 16:9 desktop and browser.
+- Stretch: `canvas_items` + aspect `keep_height` (height always 720; wider → world widens; narrower → engine bars, native only). Never `expand` — tall windows stretch lanes/balloons vs fixed-size plane. Width ≥ 1280 still changes at runtime → never cache viewport size / lane rects.
+- Web presets (`Web`, `Web-Yandex`): `html/canvas_resize_policy=0` + same `html/head_include` fit script/CSS in both — page sizes `#canvas` to full width × min(height, width·9/16), centered, notebook-grid paper body behind (no black bars). Change both presets together; Yandex keeps `/sdk.js` first
+- Stretch: `canvas_items` + aspect `keep_height` (height always 720; wider → world widens, narrower → bars top/bottom). Never `expand` — tall windows stretch lanes/balloons vs fixed-size plane. Layout must still handle width ≥ 1280 changing at runtime (resize).
 - Performance: mobile renderer / mid-range phones and browsers matter — avoid heavy one-platform-only effects unless gated.
-- Platform-specific code: isolate behind small helpers/`OS.has_feature(...)` — do not fork gameplay into three codepaths.
+- Particles: `CPUParticles2D` only, never `GPUParticles2D` — GPU `preprocess` re-simulates on every new instance (WebGL/ANGLE: 0.3–2.7 s frozen frame + audio stall on each scene mount).
+- Platform-specific code: only in HFSM platform contexts/scenes — `godot-paradigm.md` → Platform code. Never fork gameplay per platform.
 - Before merging a feature, ask: *playable with touch, with keyboard/mouse, and in browser?*
 
 ## #1 Scene isolation (critical)
 
-**Every scene must open and run alone in the editor without crashes**, with no parent context required.
-
-- Bake safe defaults into **Resource files** (`.tres`) and `@export` them on the scene — enough to boot, play, and not null-ref.
-- Parent contexts do **not** inject required nodes at edit-time. They **override** those resource defaults at runtime via events / `initialize(data)`.
-- Typical override path: parent emits event → child `initialize` → `ResourceUtils.update_resource(live_resource, incoming)` (see `GameScene` + `game_config.tres`).
-- Standalone defaults are valid fallbacks; full-app data always wins when the parent provides it.
-- Never assume “only runs under `AppRoot` / `main.gd`”: no required autoloads, no required sibling scenes, no crash if event payload is empty (keep resource defaults).
-- When adding a dependency, ask: *can this scene still F6/run isolated?* If not, put a default Resource on the scene.
+See `godot-paradigm.md` (context scene, resource defaults, HFSM override, resource events).
 
 ## Entry & folders
 
@@ -52,16 +49,19 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 | `core/` | Project-agnostic code only (no Quizmatik types/scenes) |
 | `tools/` | Offline generators (e.g. levels) |
 | `assets/` | Runtime shared art — see layout below |
-| `concepts/` | AI style reference only (`ART_DIRECTION.md` + frames) — game and tools never use it; see `concepts.mdc` |
+| `concepts/` | AI style reference only (`ART_DIRECTION.md` + frames) — game and tools never use it; see `concepts.md` |
+| `store/` | ALL store-page media (images, banners, screenshots, videos, trailers) → `screenshots/` `banners/` `videos/`; never put such media in `assets/`/`docs/`; `store/.gdignore`, never packed, never referenced by game |
+| `docs/` | Public static pages for store listings (privacy policy → GitHub Pages); `docs/.gdignore`, never packed |
 | `src/dev/` | Editor/dev utilities — not the game entry. `training_room_lab/` = frozen snapshot of full practice UI (editor-only menu button) |
 
 ### `assets/` layout
 
 | Path | Contents |
 |------|----------|
+| `assets/app_icon/` | App icon kit (launcher / adaptive / PWA / boot splash) — output of `tools/generate_app_icon.py`, wired in `project.godot` (`config/icon`, `boot_splash`) + every `export_presets.cfg` preset; edit the script, never the PNGs |
 | `assets/audio/music/` | Looping BGM streams (OGG/MP3, not WAV) |
 | `assets/effects/` | FX sprites (e.g. starlight) |
-| `assets/ui/icons/` | Shared UI icons (stars, mute, movement) |
+| `assets/ui/icons/` | Shared UI icons (stars, mute, movement, gold coin `coin_gold.svg`, timed-level `clock.svg`, control hints `touch_hint_*` / `hint_finger` / `key_*` / `mouse_click`, `heart.png` = HUD heart + endless heart balloon) |
 | `assets/ui/stamps/` | Ink stamps for daily / post-battle / level grid (`stamp_empty`, `stamp_sun`, …) |
 | `assets/ui/hud/` | Battle HUD frames (score, question banner) |
 | `assets/ui/backgrounds/` | Shared menu/paper/sky textures used by scenes |
@@ -69,7 +69,7 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 | `assets/fonts/` | Runtime fonts only: Nunito Bold + Rubik Doodle Shadow |
 
 Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level_*.tres` (root).
-Export never packs: `concepts/`, `tools/`, `bin/`, `.cursor/`, `.claude/`, `.vscode/`, `.godot/`, `.git/` — see `export_presets.cfg` `exclude_filter`, `concepts/.gdignore`, `tools/.gdignore`, `.claude/.gdignore`.
+Export never packs: `concepts/`, `store/`, `tools/`, `bin/`, `.cursor/`, `.claude/`, `.vscode/`, `.godot/`, `.git/` — see `export_presets.cfg` `exclude_filter`, `concepts/.gdignore`, `tools/.gdignore`, `.claude/.gdignore`.
 
 ## Layer contracts
 
@@ -92,12 +92,7 @@ Export never packs: `concepts/`, `tools/`, `bin/`, `.cursor/`, `.claude/`, `.vsc
 
 ## UI — editor-first (critical)
 
-- Prefer building UI **graphically in the Godot editor** (nodes in `.tscn`). Build controls in GDScript only in rare places that need runtime dynamism.
-- Scripts normally only: bind `@export` node refs, update texts/visibility/state, connect signals.
-- Need a repeated item (level button, row)? Create a **template `.tscn` in the editor**, then `instantiate()` — do not `Control.new()` + build the tree in code.
-- Prefer editing the scene file / asking for editor steps over large programmatic UI diffs.
-- OK programmatic exceptions: lists/grids filled from data, tiny debug overlays, one-off runtime labels — still prefer a scene template when practical.
-- **Theme in editor:** Project Settings `gui/theme/custom` applies at runtime, but isolated scene preview often shows the default theme. Assign `core/theme/style.tres` to the root `Control` of each UI window (`theme = ...`) so the editor matches the game.
+See `godot-paradigm.md` → UI. Theme: root `Control` of each window gets `theme = core/theme/style.tres` (isolated preview otherwise shows default theme).
 
 ## Context flow
 
@@ -106,15 +101,16 @@ Menu --ev.start_game--> Battle --ev.exit_game--> PostBattle
 PostBattle --ev.return_to_menu--> Menu
 PostBattle --ev.start_game--> Battle (retry)
 Battle --ev.start_game--> Battle (in-battle restart remount)
+App/Tutorial (parallel) --ev.open_tutorial / ev.close_tutorial
+App/ControlsIntro (parallel, once per session) --ev.open_controls_intro / ev.close_controls_intro
 ```
 
 App phases are driven by HFSM (`src/game/hfsm/app_hfsm.json`) via `src/game/main.gd`:
 - `main.gd` only creates HFSM + scene host; no gameplay bridge
 - Root `App` scene id `app_root` → `app_root/root.tscn` (`IScene`; RootEvents → `hfsm.add_event`)
 - JSON `scene: { id, loading_screen, async_loading, on_event }` → HFSM mounts via `HfsmSceneRegistry` + `HfsmScenePaths.PATHS`
-- `App` mounts `app_root`; on HTML5, AppRoot emits `ev.open_web` with `music_player`
-- Nested `WEB` enters on `ev.open_web` with BoundEntity `WEBContext`; keep generic HTML5 hooks there
-- Yandex Games export (`custom_features=yandex_games`): `WEBContext` emits `ev.open_yandex` → nested `Yandex` + `YandexContext` (SDK / ads)
+- `App` mounts `app_root`; AppRoot emits `ev.open_platform` → `App/Platform` picks branch `WEB`(→`Yandex` / `CrazyGames` / `Poki`) / `Android`(→`GooglePlay`) / `Desktop`(→`Steam`) by OS + export `custom_features` (`hfsm-app-integration.md`)
+- Game ↔ platform (ads, IAP, later cloud / analytics) only via `PlatformServices` Resource (`src/common/platform/`); monetization rules in `App/Monetization`, host UI only via `OfferBoard` — `monetization.md`
 - Scene node lifecycle: `initialize` / `deinit` / `on_event` called by HFSM
 - Menu UI windows use `WindowStackManager` (not HFSM bindings)
 - Battle payload: **either** `custom_battle` **or** `battle_info` — never both
@@ -124,30 +120,42 @@ App phases are driven by HFSM (`src/game/hfsm/app_hfsm.json`) via `src/game/main
 
 `GameManager` FSM: `CountDown` → `Game` → `EndGame` (via `FSMGameEvents`).
 Round logic: `RoundController` + `AnswerSpawner` + `CombatResolver` + `QuizQuestion`.
+Boss airship (exam always, regular levels by chance) = extra phase inside `GameState` after the last regular answer — see `game.md`; feature `src/features/boss/`.
 Do not drive win/lose with ad-hoc flags outside the FSM.
-SFX: `SfxController` (`src/features/sfx/`, instanced in `app_root/root.tscn`) listens to `GameEvents` + UI `BaseButton.pressed`. Plane thrust / crash / victory whoosh stay on `plane.tscn`.
+SFX: `SfxController` (`src/features/sfx/`, instanced in `app_root/root.tscn`) listens to `GameEvents` + UI `BaseButton.pressed`. Plane thrust / crash / victory whoosh stay on `plane.tscn`. Thrust = seamless loop `plane/thrust.wav` from `tools/generate_sfx.py` `thrust()` (`loop_mode=2`); its player (`plane/audio_stream_player.gd`) only fades volume / glides pitch — never restart/stop per direction change.
 Vibration: `VibrationController` (`src/features/vibration/`, instanced in `app_root/root.tscn`) listens to `GameEvents` + `RootEvents` + UI `BaseButton.pressed` (`Input.vibrate_handheld` + joy rumble). Android export must keep `permissions/vibrate=true`.
-Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swaps — background by default; on `RootEvents.ev_exit_game` plays win/lose theme; restores background on `ev_return_to_menu` / `ev_start_game`. Menu + battle HUD mute icons toggle Music (`is_music_mute`) and SFX (`is_sound_mute`) buses; never mute Master.
+Music: `MusicController` (`src/features/music/`) owns AppRoot `MusicPlayer` swaps — background by default; on `RootEvents.ev_exit_game` plays win/lose theme; background on `ev_return_to_menu`; `ev_start_game` plays `exam_music` (battle_info.is_exam) / `battle_music`, empty slot → background. Also listens to `GameEvents`: `ev_boss_appeared` → fade to `boss_music`; `ev_time_left` ≤ `hurry_seconds` → `pitch_scale` up; `ev_win`/`ev_lose` → fade out (result theme on `ev_exit_game`). All themes in `src/features/music/` = output of `tools/generate_music.py`; win/lose = intro + loop, their `.ogg.import` `loop_offset` must equal the printed intro length (win 4.0, lose 4.8); battle/exam/boss loop from 0. AppRoot `MusicPlayer` = `playback_type` Stream (intro/loop + pitch); web build is non-threaded → Stream mixes on main thread, so keep `audio/driver/output_latency.web` = 150 (never back to 50 — choppy music on itch/Yandex). Menu + battle HUD mute icons toggle Music (`is_music_mute`) and SFX (`is_sound_mute`) buses; never mute Master from UI.
+Background pause: `AppPauseController` (`src/features/app_pause/`, instanced in `app_root/root.tscn`, `PROCESS_MODE_ALWAYS`) — app focus-out / paused / `RootEvents.ev_app_visibility_changed(false)` → `get_tree().paused = true` + mute Master; restores on return (Yandex moderation requirement). Platform visibility sources emit that event (web: `WEBContext` `document.visibilitychange`). Nodes that must run while backgrounded need `PROCESS_MODE_ALWAYS`.
 
 ## Placement rules
 
 - New isolated gameplay unit → `src/features/{name}/` (self-contained; `.gd` + `.tscn` colocated)
 - New screen / flow → `src/game/scenes/{name}/`
 - Platform BoundEntity context → `src/game/contexts/` + register in `main.gd` `context` slot
+- Monetization: store `*_shop_context.gd` → `src/game/contexts/`; game rules + paywall → `src/game/scenes/monetization/`; `OfferBoard` → `src/common/monetization/`; hooks `src/ui/rewarded_gold_button/`, `src/ui/purchase_offer_button/`, `src/ui/parental_gate/` — `monetization.md`
 - Project-shared Resource/type → `src/common/`
 - Shared UI widget (button base, dialog, loading, animated title) → `src/ui/` (`animated_title/` = per-letter fall/hop intro)
+- HFSM loading overlay → `src/ui/loading_screen/` (`main.tscn` `loading_screen_scene`, `min_load_time` 0.7; header = `AnimatedTitle`, bobbing math-glyph `drifters` decor): contract `update_progress(0..1)` + `fade_out()` only; equipped plane via `@export pdata` (`persistent_data.tres`) → `PlaneFlyer`; never pass payload / touch `core/lib/hfsm` for it
 - New battle/menu sky variant → `src/ui/backgrounds/{name}/` + add PackedScene to `BackgroundHost.variants`
 - Valley landscape scenes → `src/ui/backgrounds/valley_{container}/`; map `container_id` via `ValleyBackgroundArt`
 - Generic reusable utility (no project deps) → `core/lib/`
 - Level data → `src/levels/{container}/`; metadata → `levels_config.gd` / `tools/generate_levels.py`
-- Progress mutations → `ProgressController` / `DailyChallengesController` / `StatisticsController` / `ProfileController`; disk write only via `RootEvents.ev_save_progress` → `SaveManager.save()` (debounced; suppressed during battle; force-flush at battle end / app close)
-- Profiles (max 4; profile = progress) → `src/game/account/` + `menu/profile_window/`; hangar → `menu/plane_hangar_window/`; catalog → `src/features/plane/plane_catalog.gd`
-- Celebration overlays (valley / plane / daily gold) → `src/ui/celebration_splash/` (not window stack); first-run create overlay same rule
+- Progress mutations → `ProgressController` / `DailyChallengesController` / `StatisticsController` / `MistakesController` / `ProfileController`; disk write only via `RootEvents.ev_save_progress` → `SaveManager.save()` (debounced; suppressed during battle; force-flush at battle end / app close)
+- Profiles (max 4; profile = progress) → `src/game/account/` + `menu/profile_window/`; hangar → `menu/plane_hangar_window/`; catalog → `src/features/plane/plane_catalog.gd`; plane art shared via `plane_frames.tres` / `flame_frames.tres` (battle `plane.tscn` + visual-only `PlaneFlyer` `plane_flyer.tscn`: hover + pencil trail, `apply_plane(id)`) — never instance battle `plane.tscn` for showcases; each plane = own column `atlas_column` of `planes_atlas_spaced.png` (288×108 cells, rows idle/down/up; col 0 = base pencil art «Быстрый», cols 1+ = pen / marker / ruler / fountain pen only from `tools/generate_plane_variants.py`, pre-colored → `tint` white; exhaust flame moved per plane by def `flame_offset` via `PlaneCatalog.flame_position`, never per-plane flame nodes); set look only via `AirPlane`/`PlaneFlyer.apply_plane(id)` (→ `PlaneCatalog.sprite_frames`) or `PlaneCatalog.apply_preview`
+- First-run tutorial → context `src/game/scenes/tutorial/` (HFSM `App/Tutorial`, see `hfsm-app-integration.md`). All tutorial logic/texts live there: `tutorial.gd` = chapters `first_flight` → `daily_stamp` → `plane_shop` (flags `PData.state.tutorial_steps`), `MenuPointer` steps per chapter, `BattleCoach`; one-shot battle tips `BattleTips` (`tip_missing_operand` / `tip_boss` / `tip_boss_rage`, same flags, after first_flight; info from `GameEvents.ev_answers_spawned(..., missing_operand)` / `ev_boss_*`; tutorial closes only when chapters + tips done). Other scenes only mark UI: `UiAnchor` → `tutorial/tutorial_anchors.tres` (`menu.start`, `menu.pack`, `levels.next`, `menu.daily`, `menu.profile`, `profile.plane`, `hangar.buy`, `battle.question`, `battle.boss`). Never add tutorial code/hints to menu/battle scenes
+- «How to play» before the first battle of each app session → context `src/game/scenes/controls_intro/` (HFSM `App/ControlsIntro`, opened by AppRoot `initialize`, closes itself after one battle): holds countdown via `GameEvents.ev_countdown_entered` → `ev_hold_countdown(true/false)`; touch / keys variants (`AirPlane.is_touch_scheme()`); touch cards fly into `HUD/TouchHints` corners; skipped while tutorial `first_flight` pending (`BattleCoach` teaches). Never put its UI/logic in the battle scene
+- Hint/anchor UI kit (shared UI, not core): `src/ui/tutorial_hint/` (`TutorialHint` arrow + cloud shader; look via `TutorialHintStyle` — palette `tutorial/tutorial_hint_style.tres`; `AnchorPointer` + `AnchorPointerStep`), `src/ui/ui_anchor/` (`UiAnchor`, `UiAnchorRegistry`), `src/ui/spotlight_dim/` (`SpotlightDim`: dim + clickable holes via `_has_point`, optional `ui_*` key block; hints drawn above it)
+- Difficulty choice widget (easy/normal/hard cards, `ev_changed`) → `src/ui/difficulty_picker/` (`DifficultyPicker`; profile window + create overlay)
+- Cosmetics (look only, bought with gold; never speed/aim/perks) → data `src/common/cosmetics/` (`CosmeticItem` subclasses `PaintItem` / `TrailItem` / `ShotItem` / `StickerItem` / `FrameItem` / `CoverItem`, all items in `cosmetic_catalog.tres`; free item = slot default); buy/equip only via `CosmeticsController` (AppRoot `Account/`); readers `@export` catalog + live `pdata` → `catalog.equipped_item(slot, pdata.cosmetics.equipped)`. Paint = `features/plane/plane_body.gdshader` (`PlaneCatalog.apply_paint`), trail = `PlaneFlyerTrail.apply_style`, shot = `ShotManager.apply_style` → `InkBlot` (`ink_tint.gdshader` for colored inks); new art never needed — stickers reuse `assets/ui/stamps/`, covers reuse `BackgroundBase` scenes
+- Celebration overlays (valley / plane / daily gold / `KIND_MASTER` = first exam pass of the last valley, AppRoot when `next_container_id` empty; CPUParticles2D `Ribbons` only for master) → `src/ui/celebration_splash/` (not window stack); first-run create overlay same rule
 - App-root SFX → `src/features/sfx/` (`SfxController` instanced in `app_root/root.tscn`); plane-local audio stays on `plane.tscn`
 - App-root vibration → `src/features/vibration/` (`VibrationController` instanced in `app_root/root.tscn`)
+- App-root background pause → `src/features/app_pause/` (`AppPauseController`)
 - App-root music → `src/features/music/` (`MusicController` + win/lose themes; drives AppRoot `MusicPlayer`)
-- Editor-only practice lab (frozen full training UI) → `src/dev/training_room_lab/` — do not merge into player-facing `training_room_window/`; menu bottom-left button uses `OS.has_feature("editor")`; **+1 ЗОЛОТАЯ** / **СБРОСИТЬ ПРОГРЕСС** (wipe closes lab → first-run overlay)
-- Player practice UI → `training_room_window/`: ops columns + `BattleDifficulty` coefficients into `GameConfig` (full steppers live only in lab)
+- App-root language → `src/features/locale/` (`LocaleController`); table + `GameLocale` → `src/common/localization/`; flags widget → `src/ui/language_picker/`; baked-text art swap → `src/ui/locale_texture_swap/` — `localization.md`
+- Editor-only practice lab (frozen full training UI) → `src/dev/training_room_lab/` — do not merge into player-facing `training_room_window/`; menu bottom-left button uses `OS.has_feature("editor")`; **+1** / **+10** gold (one row) / **СБРОСИТЬ ПРОГРЕСС** (wipe closes lab → first-run overlay); block «Бонус, время и босс» = `bonus_gold_chance` + `time_limit_sec` + `boss_chance` + `boss_armor` + `boss_rage_hits` steppers (0 / 3 / 15 by default); **ОТКРЫТЬ ВСЕ ДОЛИНЫ** → `ProgressController.unlock_all_containers()`; **ПРОЙТИ ВСЕ ДОЛИНЫ** → `complete_all_containers()` (every level + exam 3 stars)
+- Endless survival battle → menu entry `menu/endless/` (`endless_entry.gd` = main-menu left clock, visible only when `ProgressController.are_all_valleys_completed()`; `endless_game_config.tres` = `GameConfig.endless` + `endless_stages` → `custom_battle`); battle side `round/endless_director.gd` — `game.md`. Record = `PData.statistics.endless_best_sec` (written only by `StatisticsController` from `ev_exit_game` `endless_sec`); shown in HUD plate, post-battle, trophy room scroll
+- Player practice UI → `training_room_window/`: ops columns + `BattleDifficulty` coefficients into `GameConfig` (full steppers live only in lab); «НА ВРЕМЯ» switch (`TrainingOptionButton.is_switch`, preset `timed`) → `time_limit_sec = timed_practice_sec` (60); boss airship after the last question = `practice_boss_chance` (.25) → `config.boss_chance` (never when timed); `? + 3 = 7` = `missing_operand_chance_by_difficulty` (normal .3, hard .4) + `missing_operand_start_by_difficulty` (normal .5 = second half) exports there, not in `BattleDifficulty` (that also drives campaign via profile `PData.difficulty`)
 
 ## Cheap-change heuristics
 
