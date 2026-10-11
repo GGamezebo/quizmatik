@@ -55,6 +55,7 @@ See `godot-paradigm.md` (context scene, resource defaults, HFSM override, resour
 
 | Path | Contents |
 |------|----------|
+| `assets/app_icon/` | App icon kit (launcher / adaptive / PWA / boot splash) — output of `tools/generate_app_icon.py`, wired in `project.godot` (`config/icon`, `boot_splash`) + every `export_presets.cfg` preset; edit the script, never the PNGs |
 | `assets/audio/music/` | Looping BGM streams (OGG/MP3, not WAV) |
 | `assets/effects/` | FX sprites (e.g. starlight) |
 | `assets/ui/icons/` | Shared UI icons (stars, mute, movement, gold coin `coin_gold.svg`, timed-level `clock.svg`, control hints `touch_hint_*` / `hint_finger` / `key_*` / `mouse_click`, `heart.png` = HUD heart + endless heart balloon) |
@@ -131,7 +132,7 @@ Background pause: `AppPauseController` (`src/features/app_pause/`, instanced in 
 - Monetization: store `*_shop_context.gd` → `src/game/contexts/`; game rules + paywall → `src/game/scenes/monetization/`; `OfferBoard` → `src/common/monetization/`; hooks `src/ui/rewarded_gold_button/`, `src/ui/purchase_offer_button/`, `src/ui/parental_gate/` — `monetization.md`
 - Project-shared Resource/type → `src/common/`
 - Shared UI widget (button base, dialog, loading, animated title) → `src/ui/` (`animated_title/` = per-letter fall/hop intro)
-- HFSM loading overlay → `src/ui/loading_screen/` (`main.tscn` `loading_screen_scene`, `min_load_time` 0.7): contract `update_progress(0..1)` + `fade_out()` only; equipped plane via `@export pdata` (`persistent_data.tres`) → `PlaneFlyer`; never pass payload / touch `core/lib/hfsm` for it
+- HFSM loading overlay → `src/ui/loading_screen/` (`main.tscn` `loading_screen_scene`, `min_load_time` 0.7; header = `AnimatedTitle`, bobbing math-glyph `drifters` decor): contract `update_progress(0..1)` + `fade_out()` only; equipped plane via `@export pdata` (`persistent_data.tres`) → `PlaneFlyer`; never pass payload / touch `core/lib/hfsm` for it
 - New battle/menu sky variant → `src/ui/backgrounds/{name}/` + add PackedScene to `BackgroundHost.variants`
 - Valley landscape scenes → `src/ui/backgrounds/valley_{container}/`; map `container_id` via `ValleyBackgroundArt`
 - Generic reusable utility (no project deps) → `core/lib/`

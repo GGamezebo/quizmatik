@@ -17,6 +17,8 @@ const GRID_SIZE_PARAM := &"rect_size"
 @export var progress_bar: ProgressBar
 @export var status_label: Label
 @export var fact_label: Label
+## Faint math glyphs on the sheet that bob and spin (decor only).
+@export var drifters: Array[Control] = []
 ## Shown by progress thirds (last one near the end).
 @export var status_lines: Array[String] = ["Заводим мотор…", "Проверяем крылья…", "Взлетаем!"]
 @export var fact_prefix: String = "А ты знаешь?"
@@ -33,6 +35,8 @@ var _sky_offset: float = 0.0
 var _sky_material: ShaderMaterial
 var _grid_material: ShaderMaterial
 var _leaving: bool = false
+var _clock: float = 0.0
+var _drifter_homes: Array[Vector2] = []
 
 
 func _ready() -> void:
@@ -46,6 +50,8 @@ func _ready() -> void:
 	fact_label.text = tr(fact_prefix) + "  " + _random_fact()
 	_apply_progress()
 	_fly_in()
+	for drifter in drifters:
+		_drifter_homes.append(drifter.position)
 
 
 func _apply_cosmetics() -> void:
@@ -78,6 +84,8 @@ func fade_out() -> void:
 
 
 func _process(delta: float) -> void:
+	_clock += delta
+	_animate_decor()
 	_shown_progress = move_toward(_shown_progress, _target_progress, progress_follow_speed * delta)
 	_apply_progress()
 	if _sky_material != null:
@@ -108,3 +116,10 @@ func _on_grid_resized() -> void:
 func _random_fact() -> String:
 	var family := MathFact.FAMILY_MUL if randf() < 0.5 else MathFact.FAMILY_ADD
 	return MathFact.display_with_answer(MathFact.make_key(family, randi_range(2, 9), randi_range(2, 9)))
+
+
+func _animate_decor() -> void:
+	for i in drifters.size():
+		var phase := float(i) * 1.7
+		drifters[i].position = _drifter_homes[i] + Vector2(sin(_clock * 0.7 + phase) * 14.0, sin(_clock * 1.1 + phase) * 22.0)
+		drifters[i].rotation_degrees = sin(_clock * 0.9 + phase) * 14.0
