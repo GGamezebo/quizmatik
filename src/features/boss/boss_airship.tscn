@@ -8,6 +8,11 @@
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="6_shadow"]
 [ext_resource type="PackedScene" uid="uid://bcowytgx55cwf" path="res://src/features/explosion/explosion.tscn" id="7_explosion"]
 [ext_resource type="PackedScene" path="res://src/features/boss/boss_tether.tscn" id="8_tether"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/regular_moss.svg" id="v_moss"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/regular_plum.svg" id="v_plum"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/regular_sand.svg" id="v_sand"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/regular_teal.svg" id="v_teal"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/regular_rose.svg" id="v_rose"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_body"]
 resource_local_to_scene = true
@@ -34,6 +39,7 @@ z_index = -1
 script = ExtResource("1_script")
 visual = NodePath("Visual")
 body = NodePath("Visual/Body")
+body_variants = Array[Texture2D]([ExtResource("2_body"), ExtResource("v_moss"), ExtResource("v_plum"), ExtResource("v_sand"), ExtResource("v_teal"), ExtResource("v_rose")])
 propeller = NodePath("Visual/Propeller")
 plates = [NodePath("Visual/Plates/TopFront"), NodePath("Visual/Plates/TopMid"), NodePath("Visual/Plates/TopBack"), NodePath("Visual/Plates/LowFront"), NodePath("Visual/Plates/LowMid"), NodePath("Visual/Plates/LowBack")]
 spark = NodePath("Spark")

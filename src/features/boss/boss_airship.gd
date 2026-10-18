@@ -3,7 +3,7 @@ extends Node2D
 
 ## Boss airship: flies in from the right, hovers behind the balloons and loses one armor plate per
 ## `hit()` (a star flies from the popped balloon into the plate). Last plate → it gets angry: turns red,
-## creeps toward the plane (never reaches it — freezes at `rage_stop_x`) and takes `rage_hits` shots
+## creeps slowly up to the plane (stops just short of its nose at `rage_stop_x`) and takes `rage_hits` shots
 ## on its `hitbox` (`take_shot`) before going down in flames. The rage is pure shooting fun, no threat.
 ## Plates = editor-placed slots; `initialize(armor)` shows an evenly spread subset.
 
@@ -18,6 +18,9 @@ signal ev_destroyed
 
 @export var visual: Node2D
 @export var body: CanvasItem
+## Color variants of the hull (output of `tools/generate_boss_variants.py`); one picked at random
+## per boss. Empty = keep the editor texture.
+@export var body_variants: Array[Texture2D] = []
 @export var propeller: Node2D
 ## Armor plate slots; shown subset is spread evenly over this order.
 @export var plates: Array[Node2D] = []
@@ -32,10 +35,11 @@ signal ev_destroyed
 @export var rage_hits: int = 15
 ## Physics layer bits the hitbox gets while angry (5 = shot targets; never the answers' layer 3).
 @export_flags_2d_physics var rage_hitbox_layer: int = 16
-## Freezes once its center is this far right of the play area's left edge (short of the plane).
-@export var rage_stop_x: float = 760.0
-## Creep speed toward the plane, px/s.
-@export var rage_speed: float = 28.0
+## Freezes once its center is this far right of the play area's left edge: hull nose (~220 px left of center)
+## stops just short of the plane nose (~320 px global).
+@export var rage_stop_x: float = 560.0
+## Average creep speed toward the plane, px/s (eases out: slows down as it closes in).
+@export var rage_speed: float = 45.0
 ## Pause (growl + shake) before it starts creeping.
 @export var rage_growl_sec: float = 0.8
 ## Hull tint while angry (body shader `sprite_tint`).
@@ -105,6 +109,9 @@ func initialize(armor: int, play_area: Rect2, rage_shots: int) -> void:
 
 
 func _ready() -> void:
+	var sprite := body as Sprite2D
+	if sprite and not body_variants.is_empty():
+		sprite.texture = body_variants.pick_random()
 	if spark:
 		spark.visible = false
 	if hitbox:
@@ -292,7 +299,7 @@ func _enrage() -> void:
 	var distance: float = maxf(position.x - stop_x, 0.0)
 	_rage_tween = create_tween()
 	_rage_tween.tween_interval(rage_growl_sec)
-	_rage_tween.tween_property(self, "position:x", stop_x, distance / maxf(rage_speed, 1.0))		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_rage_tween.tween_property(self, "position:x", stop_x, distance / maxf(rage_speed, 1.0))		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	# Arrived: one more angry shudder, then it just hangs there.
 	_rage_tween.tween_property(self, "_shake", 0.8, 0.05)
 

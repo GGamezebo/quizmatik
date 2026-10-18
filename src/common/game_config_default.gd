@@ -130,6 +130,8 @@ var endless_best_sec: int = 0
 @export_range(1, 12) var boss_armor: int = 3
 ## After the last plate the boss gets angry and creeps toward the plane: shots needed to bring it down.
 @export_range(1, 60) var boss_rage_hits: int = 15
+## Royal «chief» boss look (crown, angular hull) — set on exams; look only, same fight rules.
+@export var boss_royal: bool = false
 
 @export_category("Early Exam")
 ## Applied when the player starts the exam before completing all regular levels in the block.

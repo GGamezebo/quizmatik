@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="300" viewBox="0 0 520 300">
+  <!-- Boss airship (nose left, faces the plane): colored-pencil fills + graphite ink edge,
+       white die-cut sticker rim. Armor plates and propeller are separate sprites. -->
+  <defs>
+    <clipPath id="envelope_clip">
+      <path d="M40 120 C40 62 118 36 240 36 C362 36 438 72 452 120 C438 168 362 204 240 204 C118 204 40 178 40 120 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Sticker rim -->
+  <g fill="#FFFFFF" stroke="#FFFFFF" stroke-width="20" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M372 64 L438 16 Q446 10 456 10 L482 10 Q496 10 493 24 L474 100 Z"/>
+    <path d="M372 176 L438 224 Q446 230 456 230 L482 230 Q496 230 493 216 L474 140 Z"/>
+    <path d="M436 110 L490 104 Q500 120 490 136 L436 130 Z"/>
+    <path d="M190 201 L186 219 M230 204 L226 219 M250 204 L254 219 M290 201 L292 219"/>
+    <path d="M180 218 L292 218 Q304 218 304 230 L300 252 Q298 262 286 262 L186 262 Q174 262 172 252 L168 230 Q168 218 180 218 Z"/>
+    <ellipse cx="318" cy="240" rx="20" ry="12"/>
+    <path d="M40 120 C40 62 118 36 240 36 C362 36 438 72 452 120 C438 168 362 204 240 204 C118 204 40 178 40 120 Z"/>
+  </g>
+
+  <!-- Tail fins (behind the envelope) -->
+  <g stroke="#2A3340" stroke-width="6" stroke-linejoin="round">
+    <path d="M372 64 L438 16 Q446 10 456 10 L482 10 Q496 10 493 24 L474 100 Z" fill="#5E7896"/>
+    <path d="M372 176 L438 224 Q446 230 456 230 L482 230 Q496 230 493 216 L474 140 Z" fill="#5E7896"/>
+    <path d="M436 110 L490 104 Q500 120 490 136 L436 130 Z" fill="#506884"/>
+  </g>
+  <g stroke="#3E526B" stroke-width="4" stroke-linecap="round" opacity="0.8">
+    <path d="M446 30 L472 30"/>
+    <path d="M440 48 L476 48"/>
+    <path d="M446 210 L472 210"/>
+    <path d="M440 192 L476 192"/>
+  </g>
+  <!-- Fin stripes -->
+  <path d="M458 12 L472 98" stroke="#F3E6C8" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+  <path d="M458 228 L472 142" stroke="#F3E6C8" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+
+  <!-- Gondola rigging -->
+  <g stroke="#2A3340" stroke-width="5" stroke-linecap="round">
+    <path d="M190 201 L186 219"/>
+    <path d="M230 204 L226 219"/>
+    <path d="M250 204 L254 219"/>
+    <path d="M290 201 L292 219"/>
+  </g>
+  <path d="M192 206 L252 216 M248 206 L290 216" stroke="#2A3340" stroke-width="2.5" opacity="0.6"/>
+
+  <!-- Engine pod (propeller sprite sits at its tail) -->
+  <ellipse cx="318" cy="240" rx="20" ry="12" fill="#8A7A82" stroke="#2A3340" stroke-width="5"/>
+  <path d="M304 236 L330 236" stroke="#D3B5B3" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Gondola -->
+  <path d="M180 218 L292 218 Q304 218 304 230 L300 252 Q298 262 286 262 L186 262 Q174 262 172 252 L168 230 Q168 218 180 218 Z"
+        fill="#B9844F" stroke="#2A3340" stroke-width="6" stroke-linejoin="round"/>
+  <g stroke="#8E5F33" stroke-width="3" stroke-linecap="round" opacity="0.8">
+    <path d="M174 250 L298 250"/>
+    <path d="M200 252 L196 260"/>
+    <path d="M250 252 L246 260"/>
+  </g>
+  <g fill="#F3E6C8" stroke="#2A3340" stroke-width="4">
+    <rect x="186" y="226" width="26" height="18" rx="5"/>
+    <rect x="223" y="226" width="26" height="18" rx="5"/>
+    <rect x="260" y="226" width="26" height="18" rx="5"/>
+  </g>
+
+  <!-- Envelope -->
+  <path d="M40 120 C40 62 118 36 240 36 C362 36 438 72 452 120 C438 168 362 204 240 204 C118 204 40 178 40 120 Z"
+        fill="#B48E8E"/>
+  <!-- Pencil shading, lower belly -->
+  <g clip-path="url(#envelope_clip)" stroke="#8F6A6A" stroke-width="4" stroke-linecap="round" opacity="0.75">
+    <path d="M40 206 L84 150"/>
+    <path d="M66 210 L112 152"/>
+    <path d="M92 212 L140 154"/>
+    <path d="M118 214 L168 156"/>
+    <path d="M144 216 L196 158"/>
+    <path d="M170 216 L222 158"/>
+    <path d="M196 216 L248 158"/>
+    <path d="M222 216 L274 158"/>
+    <path d="M248 216 L300 158"/>
+    <path d="M274 216 L326 158"/>
+    <path d="M300 214 L352 156"/>
+    <path d="M326 212 L378 154"/>
+    <path d="M352 210 L404 152"/>
+    <path d="M378 206 L430 148"/>
+    <path d="M404 200 L454 142"/>
+  </g>
+  <!-- Gore seams -->
+  <g fill="none" stroke="#684B4B" stroke-width="3" stroke-linecap="round" opacity="0.6">
+    <path d="M150 44 Q132 120 150 197"/>
+    <path d="M245 36 Q228 120 245 204"/>
+    <path d="M340 41 Q324 120 340 199"/>
+    <path d="M46 124 C160 134 330 134 448 124"/>
+  </g>
+  <!-- Highlight band -->
+  <path d="M84 76 C140 52 300 46 404 74" fill="none" stroke="#D3B5B3" stroke-width="11" stroke-linecap="round" opacity="0.9"/>
+  <path d="M70 92 C76 84 82 80 90 76" fill="none" stroke="#EBDAD8" stroke-width="7" stroke-linecap="round"/>
+  <!-- Envelope ink edge -->
+  <path d="M40 120 C40 62 118 36 240 36 C362 36 438 72 452 120 C438 168 362 204 240 204 C118 204 40 178 40 120 Z"
+        fill="none" stroke="#2A3340" stroke-width="7" stroke-linejoin="round"/>
+
+  <!-- Grumpy face on the nose -->
+  <g stroke="#2A3340" stroke-width="4">
+    <ellipse cx="84" cy="108" rx="14" ry="16" fill="#FFFFFF"/>
+    <ellipse cx="124" cy="102" rx="15" ry="17" fill="#FFFFFF"/>
+  </g>
+  <circle cx="78" cy="112" r="6.5" fill="#2A3340"/>
+  <circle cx="117" cy="107" r="7" fill="#2A3340"/>
+  <circle cx="75.5" cy="109.5" r="2" fill="#FFFFFF"/>
+  <circle cx="114.5" cy="104.5" r="2.2" fill="#FFFFFF"/>
+  <g stroke="#2A3340" stroke-width="7" stroke-linecap="round">
+    <path d="M66 86 L98 96"/>
+    <path d="M110 90 L142 78"/>
+  </g>
+  <path d="M64 152 Q86 136 110 150" fill="none" stroke="#2A3340" stroke-width="5" stroke-linecap="round"/>
+  <path d="M74 146 L78 152 L84 143 L90 150 L96 142" fill="none" stroke="#2A3340" stroke-width="2.5" stroke-linejoin="round" opacity="0.7"/>
+</svg>
