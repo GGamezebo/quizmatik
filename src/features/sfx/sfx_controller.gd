@@ -1,9 +1,11 @@
 class_name SfxController
 extends Node
 
-## App-root SFX: listens to GameEvents / UI button presses. Plane-local loops stay on the plane.
+## App-root SFX: listens to GameEvents / RootEvents (menu daily card) / UI button presses.
+## Plane-local loops stay on the plane.
 
 @export var game_events: GameEvents
+@export var root_events: RootEvents
 @export var bus_name: StringName = &"SFX"
 @export var player_count: int = 8
 
@@ -27,6 +29,12 @@ extends Node
 @export var boss_hit: AudioStream
 ## Last rage shot — the boss goes down; empty = `pop` pitched way down.
 @export var boss_down: AudioStream
+
+@export_group("Menu")
+## Daily stamp slammed onto the card (the 5th one louder).
+@export var stamp: AudioStream
+## Daily series done → «Золотой полёт» appears.
+@export var series: AudioStream
 
 const _BUTTON_META := "quizmatik_sfx_hooked"
 const _POP_DEBOUNCE_MSEC := 80
@@ -52,6 +60,9 @@ func _ready() -> void:
 		_listener.add(game_events.ev_win, _on_win)
 		_listener.add(game_events.ev_lose, _on_lose)
 		_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
+	if root_events:
+		_listener.add(root_events.ev_daily_stamp_landed, _on_daily_stamp_landed)
+		_listener.add(root_events.ev_daily_series_shown, _on_daily_series_shown)
 	get_tree().node_added.connect(_on_node_added)
 	_hook_tree(get_tree().root)
 
@@ -117,6 +128,14 @@ func _on_correct_answer() -> void:
 func _on_mistake() -> void:
 	play(mistake, -2.0, 0.04)
 	_play_pop_if_idle()
+
+
+func _on_daily_stamp_landed(completes_series: bool) -> void:
+	play(stamp, 2.0 if completes_series else -1.0, 0.06, 0.9 if completes_series else 1.0)
+
+
+func _on_daily_series_shown() -> void:
+	play(series, -1.0)
 
 
 func _on_bonus_collected(_amount: int) -> void:

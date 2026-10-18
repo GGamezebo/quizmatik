@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://src/features/answer/bonus_balloon.tscn" id="1_bonus"]
+[ext_resource type="Script" path="res://src/features/answer/golden_choice_balloon.gd" id="2_choice"]
+
+[node name="GoldenChoiceBalloon" instance=ExtResource("1_bonus")]
+script = ExtResource("2_choice")
+label_body_offset = Vector2(0, 30)
+font_size_1_digit = 54
+font_size_2_digit = 54
+font_size_3_digit = 54
+
+[node name="CoinOutline" parent="Visual" index="2"]
+position = Vector2(0, -28)
+scale = Vector2(0.19, 0.19)
+
+[node name="Coin" parent="Visual" index="3"]
+position = Vector2(0, -28)
+scale = Vector2(0.15, 0.15)

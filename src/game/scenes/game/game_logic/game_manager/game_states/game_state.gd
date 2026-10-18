@@ -17,6 +17,8 @@ static func get_state() -> String:
 ## Endless battle extra-life balloon.
 @export var heart_scene: PackedScene
 @export var boss_scene: PackedScene
+## Golden flight final pick (coin balloons reuse `bonus_scene`).
+@export var golden_choice_scene: PackedScene
 ## Royal «chief» boss look when `GameConfig.boss_royal` (falls back to `boss_scene`).
 @export var exam_boss_scene: PackedScene
 
@@ -26,6 +28,7 @@ var _heart: HeartController
 var _boss: BossController
 var _time_limit: BattleTimeLimit
 var _endless: EndlessDirector
+var _golden: GoldenFlightController
 var __components: Array[Variant] = []
 var _answers_paused: bool = false
 ## Question already reported as a mistake — a later correct hit (after the hint) isn't "known".
@@ -54,6 +57,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_boss = BossController.new(game_config, area, boss_packed, game_manager.owner)
 	_time_limit = BattleTimeLimit.new(game_config.time_limit_sec)
 	_endless = EndlessDirector.new(game_config)
+	_golden = GoldenFlightController.new(game_config, area, bonus_scene, golden_choice_scene, game_manager.owner, game_manager.get_tree())
 		
 	__components.append_array([
 		answer_spawner,
@@ -63,6 +67,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 		_boss,
 		_time_limit,
 		_endless,
+		_golden,
 	])
 	
 	_round_controller.ev_answers_spawned.connect(_on_answers_spawned)
@@ -77,7 +82,10 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_boss.ev_shot.connect(game_events.ev_boss_shot.emit)
 	_boss.ev_defeated.connect(_on_boss_defeated)
 	_time_limit.ev_tick.connect(game_events.ev_time_left.emit)
-	_time_limit.ev_expired.connect(_end_game)
+	_time_limit.ev_expired.connect(_on_time_expired)
+	_golden.ev_collected.connect(_on_bonus_collected)
+	_golden.ev_choice_started.connect(game_events.ev_golden_choice.emit)
+	_golden.ev_finished.connect(_end_game)
 	_endless.ev_tick.connect(_on_endless_tick)
 	_endless.ev_boss_due.connect(_on_endless_boss_due)
 	_endless.ev_heart_due.connect(_on_endless_heart_due)
@@ -103,6 +111,7 @@ func leave(_event_data: Dictionary) -> void:
 	_boss = null
 	_time_limit = null
 	_endless = null
+	_golden = null
 	_missed_question = null
 
 func _process(delta: float) -> void:
@@ -110,10 +119,13 @@ func _process(delta: float) -> void:
 		_time_limit.update(delta)
 	if _endless:
 		_endless.update(delta)
+	if _golden:
+		_golden.update(delta)
 	if _round_controller:
 		_round_controller.update_answer_acceleration(player.acceleration)
 		_bonus.update_acceleration(player.acceleration)
 		_heart.update_acceleration(player.acceleration)
+		_golden.update_acceleration(player.acceleration)
 
 func _on_answers_spawned(options: Array[Answer]) -> void:
 	_boss.release_answers(options)
@@ -143,6 +155,8 @@ func _on_pause_answers(paused: bool) -> void:
 		_time_limit.set_paused(paused)
 	if _endless:
 		_endless.set_paused(paused)
+	if _golden:
+		_golden.set_paused(paused)
 
 
 func _apply_answers_paused(options: Array[Answer]) -> void:
@@ -152,13 +166,13 @@ func _apply_answers_paused(options: Array[Answer]) -> void:
 
 
 func _on_explosion(answer: Answer, _hit_point: Vector2) -> void:
-	if _bonus.try_collect(answer) or _heart.try_collect(answer):
+	if _golden.try_collect(answer) or _bonus.try_collect(answer) or _heart.try_collect(answer):
 		return
 	var action: CombatResolver.HitAction = CombatResolver.resolve(answer, _round_controller.question, false)
 	_apply_combat(action, answer)
 
 func _on_air_plane_collided(collided_plane: AirPlane, answer: Answer) -> void:
-	if _bonus.try_collect(answer) or _heart.try_collect(answer):
+	if _golden.try_collect(answer) or _bonus.try_collect(answer) or _heart.try_collect(answer):
 		return
 	var action: CombatResolver.HitAction = CombatResolver.resolve(answer, _round_controller.question, true)
 	if action == CombatResolver.HitAction.WRONG_COLLISION:
@@ -179,15 +193,13 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 			answer.fail()
 			answer.take_damage()
 			_hint_correct()
-			if CombatResolver.apply_damage(player):
-				_end_game()
+			_apply_damage()
 		CombatResolver.HitAction.WRONG_COLLISION:
 			if _round_controller.has_answer(answer):
 				game_events.ev_mistake.emit()
 				answer.fail()
 				_round_controller.kill_all_answers(answer)
-				if CombatResolver.apply_damage(player):
-					_end_game()
+				_apply_damage()
 
 ## Last regular answer → boss fly-in (if rolled) instead of the win; during the fight a hit knocks off armor.
 func _on_correct(answer: Answer) -> void:
@@ -201,6 +213,7 @@ func _on_correct(answer: Answer) -> void:
 		return
 	var is_win: bool = _round_controller.on_correct_answer(answer)
 	_emit_streak_events(health_before)
+	_golden.on_correct(answer.lane_index, game_config.answer_speed)
 	if not is_win:
 		return
 	if _boss.is_waiting():
@@ -233,12 +246,28 @@ func _on_endless_boss_due() -> void:
 
 ## Timed / endless: letting the correct balloon fly away costs a heart (else waiting would win / last).
 func _on_correct_missed() -> void:
-	if not game_config.is_timed() and not game_config.endless:
+	if game_config.golden_flight or (not game_config.is_timed() and not game_config.endless):
 		return
 	game_events.ev_mistake.emit()
 	_round_controller.kill_all_answers()
+	_apply_damage()
+
+
+## Golden flight never costs hearts (a miss just means no coin balloon).
+func _apply_damage() -> void:
+	if game_config.golden_flight:
+		return
 	if CombatResolver.apply_damage(player):
 		_end_game()
+
+
+## Timed end; golden flight first waits for the final pick (`GoldenFlightController.ev_finished`).
+func _on_time_expired() -> void:
+	if not _golden.is_active():
+		_end_game()
+		return
+	_round_controller.finish()
+	_golden.start_choice()
 
 ## Endless: only when hurt — full health waits for the next due.
 func _on_endless_heart_due() -> void:

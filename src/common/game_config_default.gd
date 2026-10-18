@@ -123,6 +123,17 @@ var endless_best_sec: int = 0
 ## Bonus balloon speed relative to the answers (> 1 keeps it ahead of the round's balloons).
 @export var bonus_gold_speed_mult: float = 1.25
 
+@export_category("Golden flight")
+## Daily bonus battle («Золотой полёт», after 5/5 stamps): no hearts; each correct answer may release a
+## fast coin balloon (catch = shoot or ram it); time up → pick one of the choice balloons. Gold kept win or lose.
+@export var golden_flight: bool = false
+## Coin balloon speed = `answer_speed` × this.
+@export var golden_coin_speed_mult: float = 3.5
+## Minimum seconds between coin balloons (fast answers don't flood the sky).
+@export var golden_coin_gap_sec: float = 5.0
+## Hidden gold of the final choice balloons (one per lane, shuffled).
+@export var golden_choice_gold: Array[int] = [1, 2, 3, 4]
+
 @export_category("Boss")
 ## Chance of the boss airship after the last regular answer (exam = 1; 0 = never). Ignored on timed levels.
 @export_range(0.0, 1.0, 0.05) var boss_chance: float = 0.0

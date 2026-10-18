@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="GameConfig" format=3]
+
+[ext_resource type="Script" uid="uid://cjyn2dgnipjnn" path="res://src/common/game_config_default.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+health = 3
+questions_count = 30
+allowed_operations = 3
+min_generate_number = 1
+max_generate_number = 10
+answer_speed = 70.0
+result_ranges = {
+1: Vector2i(2, 10),
+2: Vector2i(0, 9)
+}
+review_chance = 0.6
+streak_heal_every = 0
+time_limit_sec = 60.0
+golden_flight = true
