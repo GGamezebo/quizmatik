@@ -189,6 +189,9 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 		CombatResolver.HitAction.WRONG_SHOT:
 			game_events.ev_mistake.emit()
 			_report_fact(false)
+			if game_config.golden_flight:
+				_fail_golden_round(answer)
+				return
 			_round_controller.remove_answer(answer)
 			answer.fail()
 			answer.take_damage()
@@ -197,6 +200,9 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 		CombatResolver.HitAction.WRONG_COLLISION:
 			if _round_controller.has_answer(answer):
 				game_events.ev_mistake.emit()
+				if game_config.golden_flight:
+					_fail_golden_round(answer)
+					return
 				answer.fail()
 				_round_controller.kill_all_answers(answer)
 				_apply_damage()
@@ -251,6 +257,12 @@ func _on_correct_missed() -> void:
 	game_events.ev_mistake.emit()
 	_round_controller.kill_all_answers()
 	_apply_damage()
+
+
+## Golden flight miss: the whole round pops — no coin balloon for it, next question follows.
+func _fail_golden_round(answer: Answer) -> void:
+	answer.fail()
+	_round_controller.pop_all_answers()
 
 
 ## Golden flight never costs hearts (a miss just means no coin balloon).

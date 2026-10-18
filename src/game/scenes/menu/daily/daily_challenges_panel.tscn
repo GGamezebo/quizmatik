@@ -88,9 +88,9 @@ script = ExtResource("1_panel")
 daily_controller = NodePath("DailyChallengesController")
 slots_row = NodePath("Margin/VBox/SlotsRow")
 slot_scene = ExtResource("3_slot")
-title_label = NodePath("Margin/VBox/HeaderWrap/Header/Title")
+title_label = NodePath("Margin/VBox/HeaderWrap/Header/Texts/Title")
 stamp_filled_variants = Array[Texture2D]([ExtResource("9_stamp_sun"), ExtResource("10_stamp_flower"), ExtResource("11_stamp_cat"), ExtResource("12_stamp_star"), ExtResource("13_stamp_heart")])
-streak_label = NodePath("Margin/VBox/HeaderWrap/Header/Streak")
+streak_label = NodePath("Margin/VBox/HeaderWrap/Header/Texts/Streak")
 cycle_pips = [NodePath("Margin/VBox/HeaderWrap/Header/Cycle/Pip1"), NodePath("Margin/VBox/HeaderWrap/Header/Cycle/Pip2"), NodePath("Margin/VBox/HeaderWrap/Header/Cycle/Pip3"), NodePath("Margin/VBox/HeaderWrap/Header/Cycle/Pip4")]
 cycle_goal = NodePath("Margin/VBox/HeaderWrap/Header/Cycle/Goal")
 pip_empty = SubResource("StyleBoxFlat_pip_empty")
@@ -133,7 +133,7 @@ theme_override_constants/margin_bottom = 20
 [node name="VBox" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 25
+theme_override_constants/separation = 6
 alignment = 0
 
 [node name="HeaderWrap" type="MarginContainer" parent="Margin/VBox"]
@@ -150,29 +150,36 @@ theme_override_constants/separation = 8
 [node name="Icon" type="TextureRect" parent="Margin/VBox/HeaderWrap/Header"]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 0
 mouse_filter = 2
 texture = ExtResource("6_cal")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Title" type="Label" parent="Margin/VBox/HeaderWrap/Header"]
+[node name="Texts" type="VBoxContainer" parent="Margin/VBox/HeaderWrap/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = -4
+
+[node name="Title" type="Label" parent="Margin/VBox/HeaderWrap/Header/Texts"]
 layout_mode = 2
 text = "Ежедневная серия"
 label_settings = SubResource("LabelSettings_title")
 vertical_alignment = 1
 
-[node name="Streak" type="Label" parent="Margin/VBox/HeaderWrap/Header"]
+[node name="Streak" type="Label" parent="Margin/VBox/HeaderWrap/Header/Texts"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "3 дня подряд"
 label_settings = SubResource("LabelSettings_streak")
 vertical_alignment = 1
 clip_text = true
 
 [node name="Cycle" type="HBoxContainer" parent="Margin/VBox/HeaderWrap/Header"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
-size_flags_vertical = 4
+size_flags_vertical = 0
 mouse_filter = 2
 theme_override_constants/separation = 5
 
