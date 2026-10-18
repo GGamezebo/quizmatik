@@ -60,6 +60,9 @@
 [ext_resource type="Texture2D" path="res://assets/ui/icons/magister_cap.svg" id="85_magister_cap"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/magister/magister_rules_overlay.tscn" id="86_magister_rules"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/endless/endless_rules_overlay.tscn" id="89_endless_rules"]
+[ext_resource type="Resource" path="res://src/game/scenes/menu/endless/endless_game_config_easy.tres" id="90_endless_cfg_easy"]
+[ext_resource type="Resource" path="res://src/game/scenes/menu/magister/magister_game_config_easy.tres" id="91_magister_cfg_easy"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/magister/magister_easy_rules_overlay.tscn" id="92_magister_easy_rules"]
 [ext_resource type="Script" path="res://core/lib/pulse/ui_pulse.gd" id="87_ui_pulse"]
 [ext_resource type="Script" path="res://src/game/scenes/menu/ui/shop_pulse.gd" id="88_shop_pulse"]
 [ext_resource type="Script" path="res://src/game/scenes/menu/ui/awards_pulse.gd" id="90_awards_pulse"]
@@ -270,6 +273,7 @@ script = ExtResource("80_endless_entry")
 root_events = ExtResource("2_35kkh")
 progress = NodePath("../../LevelsWindow/ProgressController")
 endless_config = ExtResource("81_endless_cfg")
+easy_endless_config = ExtResource("90_endless_cfg_easy")
 button = NodePath("ClockBox/Clock")
 best_label = NodePath("Best")
 pulse = NodePath("Pulse")
@@ -316,7 +320,7 @@ horizontal_alignment = 1
 
 [node name="RulesOverlay" parent="UI/MainMenuWindow/EndlessEntry" instance=ExtResource("89_endless_rules")]
 
-[node name="MagisterEntry" type="VBoxContainer" parent="UI/MainMenuWindow" node_paths=PackedStringArray("progress", "button", "caption", "pulse", "rules_overlay")]
+[node name="MagisterEntry" type="VBoxContainer" parent="UI/MainMenuWindow" node_paths=PackedStringArray("progress", "button", "caption", "pulse", "rules_overlay", "easy_rules_overlay")]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -335,10 +339,12 @@ script = ExtResource("83_magister_entry")
 root_events = ExtResource("2_35kkh")
 progress = NodePath("../../LevelsWindow/ProgressController")
 magister_config = ExtResource("84_magister_cfg")
+easy_magister_config = ExtResource("91_magister_cfg_easy")
 button = NodePath("CapBox/Cap")
 caption = NodePath("Caption")
 pulse = NodePath("Pulse")
 rules_overlay = NodePath("RulesOverlay")
+easy_rules_overlay = NodePath("EasyRulesOverlay")
 
 [node name="CapBox" type="Control" parent="UI/MainMenuWindow/MagisterEntry"]
 custom_minimum_size = Vector2(160, 160)
@@ -380,6 +386,8 @@ text = "Магистр"
 horizontal_alignment = 1
 
 [node name="RulesOverlay" parent="UI/MainMenuWindow/MagisterEntry" instance=ExtResource("86_magister_rules")]
+
+[node name="EasyRulesOverlay" parent="UI/MainMenuWindow/MagisterEntry" instance=ExtResource("92_magister_easy_rules")]
 
 [node name="CenterContainer" type="CenterContainer" parent="UI/MainMenuWindow" unique_id=487516089]
 layout_mode = 1

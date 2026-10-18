@@ -10,10 +10,11 @@ static func build(template: GameConfig, progress: ProgressController, time_sec: 
 	var config: GameConfig = null
 	var frontier: Array = find_frontier(progress)
 	if not frontier.is_empty():
-		var level: GameConfig = progress.levels_config.get_level_config(frontier[0], frontier[1])
+		var difficulty: StringName = BattleDifficulty.sanitize(StringName(progress.pdata.difficulty))
+		var level: GameConfig = progress.levels_config.get_level_config(frontier[0], frontier[1], difficulty)
 		if level != null:
 			config = level.duplicate(true)
-			BattleDifficulty.apply(config, BattleDifficulty.sanitize(StringName(progress.pdata.difficulty)))
+			BattleDifficulty.apply(config, difficulty)
 	if config == null:
 		config = template.duplicate(true)
 	config.golden_flight = true

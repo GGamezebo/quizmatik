@@ -12,6 +12,7 @@ paths:
 ## Levels
 
 - Canonical files: `src/levels/{addition|subtraction|multiplication|division|mix}/level_1..20.tres`; **20 = exam** (`is_exam` in config; read it via `LevelsConfig.get_exam_level_id()`, never hardcode)
+- EASY profile = grade-1 set `src/levels/{valley}/easy/level_1..20.tres` (± within 20, × / ÷ tables 2–5; same ids / exams / timed / boss layout; progress shared) from generator `EASY_VALLEYS`; pick only via `LevelsConfig.get_level_config(container, level, difficulty)` (game.gd, `GoldenFlightScenario`); file missing → same init assert
 - Container metadata + unlocks: `src/common/levels/levels_config.gd` (hand-edited)
 - Bulk generation: `tools/generate_levels.py` = source of truth for the curriculum (kids 7-10, RU school order; per valley 4 acts + exam climbing through act skills via score stages 4/8/12). Edit the curve there and re-run (`python tools/generate_levels.py` rewrites only level `.tres`, keeps uids); never hand-patch level `.tres`
 - Pace authored as `t` = seconds per balloon flight on NORMAL (`answer_speed = 1100 / t`); new-skill (`intro`) levels: no `? + 3 = 7`, no speed ramp
@@ -24,7 +25,7 @@ paths:
 - Schema: `src/common/game_config_default.gd`
 - Level content = exported fields on level `.tres` (ops, ranges, speeds, health, questions)
 - Example shape per op: `operation_ranges` (1st operand: addend / minuend / factor / divisor), `second_operand_ranges` (2nd: addend / subtrahend / factor / quotient), `result_ranges` (allowed answer), `carry_mode` (+/− through the ten: ANY / NONE / REQUIRED). Missing op entry → min/max_generate_number; missing 2nd → 1st
-- Player difficulty: `BattleDifficulty.apply(config, id, base)` — coefficients on questions / `answer_speed` / round-speed extras (only speed-ups scale; < 1 exam-stage slow-downs kept); **never health** (always 3 in training). Levels tuned for NORMAL ≈ 8 y.o.
+- Player difficulty: `BattleDifficulty.apply(config, id, base)` — coefficients on questions / `answer_speed` / round-speed extras (only speed-ups scale; < 1 exam-stage slow-downs kept); **never health** (always 3 in training). Levels tuned for NORMAL ≈ 8 y.o.; EASY also swaps the content (easy level set above, `easy_*` endless / magister configs via `ProgressController.is_easy_difficulty()`)
 - Mid-battle ramps: `answer_speed_round_coeffs` and `generate_number_round_ranges` (score → stage: min/max fall back to base; `GameConfig.STAGE_KEYS` replace and persist). Thresholds rescale with `questions_count` (`scale_round_thresholds`: difficulty preset + early exam)
 - Do not permanently edit runtime `game/game_config.tres` (overwritten per battle)
 

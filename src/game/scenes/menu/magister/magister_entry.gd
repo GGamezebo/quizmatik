@@ -10,6 +10,10 @@ extends Control
 @export var progress: ProgressController
 @export var magister_config: GameConfig
 @export var rules_overlay: RulesOverlay
+## EASY profile (grade 1): all four operations (± within 20, × / ÷ tables 2-5) instead of squares / roots,
+## with its own rules card. Empty → the normal ones.
+@export var easy_magister_config: GameConfig
+@export var easy_rules_overlay: RulesOverlay
 @export var button: BaseButton
 @export var caption: Label
 @export var caption_text: String = "Магистр"
@@ -24,8 +28,9 @@ var _caption_color: Color
 
 func _ready() -> void:
 	button.pressed.connect(_on_pressed)
-	if rules_overlay:
-		rules_overlay.ev_start_pressed.connect(_on_rules_start)
+	for overlay in [rules_overlay, easy_rules_overlay]:
+		if overlay:
+			(overlay as RulesOverlay).ev_start_pressed.connect(_on_rules_start)
 	visibility_changed.connect(_refresh)
 	if caption:
 		_caption_color = caption.get_theme_color("font_color")
@@ -56,9 +61,10 @@ func _refresh() -> void:
 
 
 func _on_pressed() -> void:
-	if rules_overlay != null and progress != null \
+	var overlay: RulesOverlay = easy_rules_overlay if _is_easy() and easy_rules_overlay != null else rules_overlay
+	if overlay != null and progress != null \
 			and not progress.is_tutorial_step_done(ProgressController.MAGISTER_RULES_STEP):
-		rules_overlay.open(true)
+		overlay.open(true)
 		return
 	_start()
 
@@ -70,4 +76,9 @@ func _on_rules_start() -> void:
 
 
 func _start() -> void:
-	root_events.ev_start_game.emit({"custom_battle": magister_config})
+	var config: GameConfig = easy_magister_config if _is_easy() and easy_magister_config != null else magister_config
+	root_events.ev_start_game.emit({"custom_battle": config})
+
+
+func _is_easy() -> bool:
+	return progress != null and progress.is_easy_difficulty()

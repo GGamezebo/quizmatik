@@ -3,6 +3,10 @@ extends Resource
 
 @export_dir var levels_dir = "res://src/levels"
 
+## Grade-1 level set per valley (`tools/generate_levels.py` EASY_VALLEYS).
+const EASY_FOLDER := "easy"
+const EASY_CONFIG_KEY := "easy_config"
+
 var _containers_by_id: Dictionary = {}
 
 var levels = {
@@ -171,13 +175,16 @@ func _init() -> void:
 		for level_data in container["levels"]:
 			var config_name = level_data["config"]
 			var file_name = config_name + ".tres"
-			var full_path = levels_dir.path_join(container_id).path_join(file_name)
+			var folder: String = levels_dir.path_join(container_id)
+			level_data["config"] = _load_level(folder.path_join(file_name))
+			level_data[EASY_CONFIG_KEY] = _load_level(folder.path_join(EASY_FOLDER).path_join(file_name))
 
-			if ResourceLoader.exists(full_path):
-				level_data["config"] = ResourceLoader.load(full_path)
-				print("[Loader] Level config loaded successfully for level", level_data["level_id"], ": ", full_path)
-			else:
-				assert(false, "[Loader] Level config not found: " + full_path)
+func _load_level(full_path: String) -> GameConfig:
+	if ResourceLoader.exists(full_path):
+		print("[Loader] Level config loaded: ", full_path)
+		return ResourceLoader.load(full_path) as GameConfig
+	assert(false, "[Loader] Level config not found: " + full_path)
+	return null
 
 func find_container_in_config(container_id: String) -> Dictionary:
 	if not _containers_by_id.has(container_id):
@@ -185,13 +192,16 @@ func find_container_in_config(container_id: String) -> Dictionary:
 		return {}
 	return _containers_by_id[container_id]
 
-func get_level_config(container_id: String, level_id: int) -> GameConfig:
+## `difficulty` EASY → grade-1 set from `{container}/easy/` (same level ids, exams and progress).
+func get_level_config(container_id: String, level_id: int, difficulty: StringName = BattleDifficulty.NORMAL) -> GameConfig:
 	var container: Dictionary = find_container_in_config(container_id)
 	if container.is_empty():
 		return null
 
 	for level in container["levels"]:
 		if level.get("level_id") == level_id:
+			if difficulty == BattleDifficulty.EASY and level.get(EASY_CONFIG_KEY) != null:
+				return level[EASY_CONFIG_KEY]
 			return level['config']
 
 	push_warning("[ProgressManager] Warning: Level '" + str(level_id) + "' not found in container '" + container_id + "'.")

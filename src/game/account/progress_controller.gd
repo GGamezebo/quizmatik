@@ -113,6 +113,10 @@ func passed_valley_exams_count() -> int:
 func is_endless_unlocked() -> bool:
 	return passed_valley_exams_count() >= ENDLESS_UNLOCK_EXAMS
 
+## Profile on EASY (grade 1): menu modes pick their `easy_*` config / rules card.
+func is_easy_difficulty() -> bool:
+	return pdata != null and BattleDifficulty.sanitize(StringName(pdata.difficulty)) == BattleDifficulty.EASY
+
 ## Some weak example recorded (`PData.mistakes`) and its intro not shown yet.
 func is_mistakes_intro_pending() -> bool:
 	return not pdata.mistakes.weights.is_empty() and not is_tutorial_step_done(MISTAKES_INTRO_STEP)

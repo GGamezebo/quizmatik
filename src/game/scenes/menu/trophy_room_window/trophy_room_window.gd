@@ -14,6 +14,8 @@ extends Control
 @export var hall_lamps: HallLamps
 ## Rules shown when the not-yet-earned magister cup is tapped.
 @export var magister_rules: RulesOverlay
+## Same card for an EASY profile (four operations instead of squares / roots); empty → `magister_rules`.
+@export var magister_easy_rules: RulesOverlay
 @export var hard_facts_label: Label
 @export var hard_facts_empty_text: String = ""
 @export var hard_facts_button: BaseButton
@@ -162,7 +164,8 @@ func _on_hard_facts_pressed() -> void:
 
 
 func _on_magister_hint_pressed() -> void:
-	magister_rules.open(false)
+	var easy: bool = magister_easy_rules != null and progress != null and progress.is_easy_difficulty()
+	(magister_easy_rules if easy else magister_rules).open(false)
 
 
 func _on_hard_facts_closed() -> void:
