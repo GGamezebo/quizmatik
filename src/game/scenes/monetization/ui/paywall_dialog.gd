@@ -19,7 +19,7 @@ const FADE_DURATION: float = 0.2
 const TEXTS: Dictionary = {
 	&"full_version": [
 		"Полная версия",
-		"Все долины: вычитание, умножение, деление и смешанные примеры. Одна покупка — навсегда.",
+		"Для родителей: ещё 4 долины — вычитание, умножение, деление и смешанные примеры, 80 уровней. Без рекламы и подписок. Одна покупка — навсегда.",
 	],
 	&"no_ads": [
 		"Без рекламы",
@@ -37,7 +37,10 @@ func _ready() -> void:
 
 
 func open(kind: StringName, price: String) -> void:
-	var texts: Array = TEXTS.get(kind, TEXTS[&"no_ads"])
+	if not TEXTS.has(kind):
+		push_warning("PaywallDialog: no texts for offer %s" % kind)
+		return
+	var texts: Array = TEXTS[kind]
 	title_label.text = texts[0]
 	message_label.text = texts[1]
 	buy_button.text = tr("Купить за %s") % price if not price.is_empty() else "Купить"
@@ -71,3 +74,10 @@ func show_result(is_success: bool) -> void:
 	_close_tween = create_tween()
 	_close_tween.tween_interval(success_close_delay)
 	_close_tween.tween_callback(close)
+
+
+## Store accepted the payment but has not settled it (cash / slow card): no second «Купить».
+func show_pending() -> void:
+	set_waiting(false)
+	buy_button.disabled = true
+	status_label.text = "Оплата ещё обрабатывается. Покупка откроется сама, как только магазин её подтвердит."

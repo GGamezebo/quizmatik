@@ -35,6 +35,7 @@ func initialize(_data: Dictionary) -> void:
 	_listener.add(platform_services.ev_caps_changed, _publish)
 	_listener.add(platform_services.ev_rewarded_result, _on_rewarded_result)
 	_listener.add(platform_services.ev_purchase_result, _on_purchase_result)
+	_listener.add(platform_services.ev_purchase_pending, _on_purchase_pending)
 	_listener.add(offer_board.ev_rewarded_gold_requested, _on_rewarded_requested)
 	_listener.add(offer_board.ev_paywall_requested, _on_paywall_requested)
 	_listener.add(paywall_dialog.ev_buy_pressed, _on_buy_pressed)
@@ -126,6 +127,12 @@ func _on_purchase_result(is_success: bool) -> void:
 		return
 	_is_purchasing = false
 	paywall_dialog.show_result(is_success)
+
+func _on_purchase_pending() -> void:
+	if not _is_purchasing:
+		return
+	_is_purchasing = false
+	paywall_dialog.show_pending()
 
 
 # --- Per-device state (not in PData: shared by all pilots) ---
