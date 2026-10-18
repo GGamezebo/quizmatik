@@ -1,0 +1,38 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://src/features/boss/boss_airship.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/exam_airship_body.svg" id="2_body"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/exam_armor_plate.svg" id="3_plate"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/royal_violet.svg" id="v_violet"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/royal_navy.svg" id="v_navy"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/royal_pine.svg" id="v_pine"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/royal_bronze.svg" id="v_bronze"]
+
+[node name="BossExamAirship" instance=ExtResource("1_base")]
+rage_stop_x = 600.0
+hover_inset_x = 260.0
+body_variants = Array[Texture2D]([ExtResource("2_body"), ExtResource("v_violet"), ExtResource("v_navy"), ExtResource("v_pine"), ExtResource("v_bronze")])
+
+[node name="Visual" parent="." index="0"]
+scale = Vector2(1.12, 1.12)
+
+[node name="Body" parent="Visual" index="0"]
+texture = ExtResource("2_body")
+
+[node name="TopFront" parent="Visual/Plates" index="0"]
+texture = ExtResource("3_plate")
+
+[node name="TopMid" parent="Visual/Plates" index="1"]
+texture = ExtResource("3_plate")
+
+[node name="TopBack" parent="Visual/Plates" index="2"]
+texture = ExtResource("3_plate")
+
+[node name="LowFront" parent="Visual/Plates" index="3"]
+texture = ExtResource("3_plate")
+
+[node name="LowMid" parent="Visual/Plates" index="4"]
+texture = ExtResource("3_plate")
+
+[node name="LowBack" parent="Visual/Plates" index="5"]
+texture = ExtResource("3_plate")

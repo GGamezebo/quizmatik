@@ -25,7 +25,7 @@ CARRY_ANY, CARRY_NONE, CARRY_REQUIRED = 0, 1, 2
 TIMED_LEVELS = {9: 60.0, 17: 60.0}
 # Guaranteed mini-boss (armor 3): early taste on L2 + L5, end of acts 2 and 3.
 BOSS_LEVELS = {2, 5, 10, 15}
-EXAM_BOSS_ARMOR = 5
+EXAM_BOSS_ARMOR = 6  # every plate slot = max HP
 EXAM_BOSS_RAGE_HITS = 20
 EXAM_QUESTIONS = 15
 EXAM_STAGE_SCORES = (4, 8, 12)
@@ -345,6 +345,7 @@ def level_fields(valley: dict, level_id: int) -> dict:
         fields["boss_chance"] = boss
         if is_exam:
             fields["boss_armor"] = EXAM_BOSS_ARMOR
+            fields["boss_royal"] = True
             fields["boss_rage_hits"] = EXAM_BOSS_RAGE_HITS
     if is_exam:
         fields["early_exam_questions_multiplier"] = 1.3

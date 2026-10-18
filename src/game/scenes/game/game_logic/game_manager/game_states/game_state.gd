@@ -17,6 +17,8 @@ static func get_state() -> String:
 ## Endless battle extra-life balloon.
 @export var heart_scene: PackedScene
 @export var boss_scene: PackedScene
+## Royal «chief» boss look when `GameConfig.boss_royal` (falls back to `boss_scene`).
+@export var exam_boss_scene: PackedScene
 
 var _round_controller: RoundController
 var _bonus: BonusController
@@ -48,7 +50,8 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_round_controller = RoundController.new(game_config, player, answer_spawner, game_manager.get_tree(), ev_question_changed)
 	_bonus = BonusController.new(game_config, area, bonus_scene, game_manager.owner)
 	_heart = HeartController.new(game_config, area, heart_scene, game_manager.owner)
-	_boss = BossController.new(game_config, area, boss_scene, game_manager.owner)
+	var boss_packed: PackedScene = exam_boss_scene if game_config.boss_royal and exam_boss_scene != null else boss_scene
+	_boss = BossController.new(game_config, area, boss_packed, game_manager.owner)
 	_time_limit = BattleTimeLimit.new(game_config.time_limit_sec)
 	_endless = EndlessDirector.new(game_config)
 		

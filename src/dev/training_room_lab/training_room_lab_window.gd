@@ -22,6 +22,7 @@ const GRANT_GOLD_BIG := 10
 @export var boss_chance_stepper: TrainingLabStepper
 @export var boss_armor_stepper: TrainingLabStepper
 @export var boss_rage_stepper: TrainingLabStepper
+@export var boss_royal_check: CheckBox
 @export var stepper_template: PackedScene
 @export_group("Operations")
 @export var op_addition: CheckBox
@@ -78,6 +79,8 @@ func _bind_controls() -> void:
 	_connect_stepper(boss_chance_stepper, "boss_chance", 0.05, 0.0, 1.0, 2)
 	_connect_stepper(boss_armor_stepper, "boss_armor", 1.0, 1.0, 12.0, 0)
 	_connect_stepper(boss_rage_stepper, "boss_rage_hits", 1.0, 1.0, 60.0, 0)
+	if boss_royal_check != null:
+		boss_royal_check.toggled.connect(func(is_checked: bool) -> void: config.boss_royal = is_checked)
 
 	_bind_operation_checkbox(op_addition, GameConfig.Operations.ADDITION)
 	_bind_operation_checkbox(op_subtraction, GameConfig.Operations.SUBTRACTION)
@@ -156,6 +159,8 @@ func _sync_ui_from_config() -> void:
 	_set_stepper_value(boss_chance_stepper, config.boss_chance)
 	_set_stepper_value(boss_armor_stepper, config.boss_armor)
 	_set_stepper_value(boss_rage_stepper, config.boss_rage_hits)
+	if boss_royal_check != null:
+		boss_royal_check.set_pressed_no_signal(config.boss_royal)
 
 	var flags: int = config.allowed_operations
 	if op_addition != null:

@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="300" viewBox="0 0 520 300">
+  <!-- Exam boss («boss of all bosses»): faceted iron dreadnought, nose left, spiked crown + ridge,
+       slanted glaring eyes. Same canvas/anchors as airship_body.svg (hatch, engine pod, plate rows).
+       Colored-pencil fills + graphite ink edge, white die-cut sticker rim. -->
+  <defs>
+    <clipPath id="hull_clip">
+      <path d="M22 122 L66 66 L150 42 L340 42 L424 62 L460 120 L424 178 L340 200 L150 200 L66 178 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Sticker rim -->
+  <g fill="#FFFFFF" stroke="#FFFFFF" stroke-width="20" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M360 62 L430 6 L500 6 L470 104 Z"/>
+    <path d="M360 180 L430 236 L500 236 L470 138 Z"/>
+    <path d="M440 108 L506 96 L494 120 L506 146 L440 134 Z"/>
+    <path d="M196 200 L184 218 M232 200 L228 218 M252 200 L256 218 M290 200 L296 218"/>
+    <path d="M166 218 L306 218 L292 262 L180 262 Z"/>
+    <path d="M300 232 L314 226 L334 226 L344 240 L334 254 L314 254 L300 248 Z"/>
+    <path d="M22 122 L66 66 L150 42 L340 42 L424 62 L460 120 L424 178 L340 200 L150 200 L66 178 Z"/>
+    <path d="M194 44 L200 10 L224 30 L246 2 L268 30 L292 10 L298 44 Z"/>
+    <path d="M110 50 L122 28 L132 46 M160 42 L170 22 L180 42 M310 42 L320 22 L330 42 M360 46 L372 28 L382 52"/>
+  </g>
+
+  <!-- Tail fins (behind the hull): sharp blades -->
+  <g stroke="#2A3340" stroke-width="6" stroke-linejoin="miter">
+    <path d="M360 62 L430 6 L500 6 L470 104 Z" fill="#C0602F"/>
+    <path d="M360 180 L430 236 L500 236 L470 138 Z" fill="#C0602F"/>
+    <path d="M440 108 L506 96 L494 120 L506 146 L440 134 Z" fill="#9E4C24"/>
+  </g>
+  <g stroke="#2A3340" stroke-width="4" stroke-linecap="square">
+    <path d="M436 18 L486 18"/>
+    <path d="M430 30 L480 30"/>
+    <path d="M436 224 L486 224"/>
+    <path d="M430 212 L480 212"/>
+  </g>
+  <path d="M488 10 L466 98" stroke="#E6B44A" stroke-width="6" stroke-linecap="square"/>
+  <path d="M488 232 L466 144" stroke="#E6B44A" stroke-width="6" stroke-linecap="square"/>
+
+  <!-- Gondola rigging -->
+  <g stroke="#2A3340" stroke-width="5" stroke-linecap="round">
+    <path d="M196 200 L184 218"/>
+    <path d="M232 200 L228 218"/>
+    <path d="M252 200 L256 218"/>
+    <path d="M290 200 L296 218"/>
+  </g>
+  <path d="M194 206 L254 216 M250 206 L292 216" stroke="#2A3340" stroke-width="2.5" opacity="0.6"/>
+
+  <!-- Engine pod: hexagonal (propeller sprite sits at its tail) -->
+  <path d="M300 232 L314 226 L334 226 L344 240 L334 254 L314 254 L300 248 Z" fill="#3F5658" stroke="#2A3340" stroke-width="5" stroke-linejoin="miter"/>
+  <path d="M308 236 L334 236" stroke="#87A09D" stroke-width="4" stroke-linecap="square"/>
+
+  <!-- Gondola: iron wedge with glowing slits -->
+  <path d="M166 218 L306 218 L292 262 L180 262 Z" fill="#34454A" stroke="#2A3340" stroke-width="6" stroke-linejoin="miter"/>
+  <g stroke="#223034" stroke-width="3" stroke-linecap="square" opacity="0.9">
+    <path d="M176 250 L296 250"/>
+    <path d="M204 252 L200 260"/>
+    <path d="M254 252 L250 260"/>
+  </g>
+  <g fill="#F2C14E" stroke="#2A3340" stroke-width="4" stroke-linejoin="miter">
+    <path d="M182 228 L212 228 L208 242 L186 242 Z"/>
+    <path d="M222 228 L252 228 L248 242 L226 242 Z"/>
+    <path d="M262 228 L292 228 L286 242 L264 242 Z"/>
+  </g>
+
+  <!-- Ridge spikes -->
+  <g fill="#5F7A78" stroke="#2A3340" stroke-width="5" stroke-linejoin="miter">
+    <path d="M110 50 L122 28 L132 46 Z"/>
+    <path d="M160 42 L170 22 L180 42 Z"/>
+    <path d="M310 42 L320 22 L330 42 Z"/>
+    <path d="M360 46 L372 28 L382 52 Z"/>
+  </g>
+
+  <!-- Hull: faceted iron envelope -->
+  <path d="M22 122 L66 66 L150 42 L340 42 L424 62 L460 120 L424 178 L340 200 L150 200 L66 178 Z" fill="#3F5658"/>
+  <!-- Upper facet (lighter) -->
+  <path d="M66 66 L150 42 L340 42 L424 62 L440 92 L60 92 Z" fill="#57716F" clip-path="url(#hull_clip)"/>
+  <!-- Pencil shading, lower belly -->
+  <g clip-path="url(#hull_clip)" stroke="#2C3E40" stroke-width="4" stroke-linecap="round" opacity="0.8">
+    <path d="M40 206 L84 150"/>
+    <path d="M66 210 L112 152"/>
+    <path d="M92 212 L140 154"/>
+    <path d="M118 214 L168 156"/>
+    <path d="M144 216 L196 158"/>
+    <path d="M170 216 L222 158"/>
+    <path d="M196 216 L248 158"/>
+    <path d="M222 216 L274 158"/>
+    <path d="M248 216 L300 158"/>
+    <path d="M274 216 L326 158"/>
+    <path d="M300 214 L352 156"/>
+    <path d="M326 212 L378 154"/>
+    <path d="M352 210 L404 152"/>
+    <path d="M378 206 L430 148"/>
+    <path d="M404 200 L454 142"/>
+  </g>
+  <!-- Crimson war stripe -->
+  <path d="M150 128 L440 128 L452 140 L162 140 Z" fill="#C0602F" clip-path="url(#hull_clip)"/>
+  <!-- Facet seams (straight, hard) -->
+  <g fill="none" stroke="#2A3340" stroke-width="3" stroke-linecap="square" opacity="0.7">
+    <path d="M150 42 L150 200"/>
+    <path d="M245 42 L245 200"/>
+    <path d="M340 42 L340 200"/>
+    <path d="M60 92 L440 92"/>
+  </g>
+  <!-- Rivets along seams -->
+  <g fill="#2A3340">
+    <circle cx="150" cy="60" r="3"/><circle cx="150" cy="180" r="3"/>
+    <circle cx="245" cy="60" r="3"/><circle cx="245" cy="180" r="3"/>
+    <circle cx="340" cy="60" r="3"/><circle cx="340" cy="180" r="3"/>
+  </g>
+  <!-- Highlight edge -->
+  <path d="M80 64 L150 48 L338 48 L414 66" fill="none" stroke="#9FB9B6" stroke-width="7" stroke-linecap="square" stroke-linejoin="miter" opacity="0.9"/>
+  <!-- Hull ink edge -->
+  <path d="M22 122 L66 66 L150 42 L340 42 L424 62 L460 120 L424 178 L340 200 L150 200 L66 178 Z"
+        fill="none" stroke="#2A3340" stroke-width="7" stroke-linejoin="miter"/>
+
+  <!-- Nose chevron -->
+  <path d="M28 104 L48 118 L28 140" fill="none" stroke="#2A3340" stroke-width="4" stroke-linejoin="miter"/>
+
+  <!-- Spiked gold crown: chief of all bosses -->
+  <path d="M194 44 L200 10 L224 30 L246 2 L268 30 L292 10 L298 44 Z" fill="#E8B64C" stroke="#2A3340" stroke-width="5" stroke-linejoin="miter"/>
+  <path d="M200 36 L292 36" stroke="#B5852A" stroke-width="4"/>
+  <path d="M216 24 L224 32 M246 12 L246 28 M276 24 L268 32" stroke="#F8DE95" stroke-width="3" stroke-linecap="round"/>
+  <path d="M246 34 L252 40 L246 46 L240 40 Z" fill="#B0262E" stroke="#2A3340" stroke-width="2.5"/>
+
+  <!-- Furious face on the nose: slanted slit eyes, heavy brows, jagged teeth -->
+  <g stroke="#2A3340" stroke-width="4" stroke-linejoin="miter">
+    <path d="M54 96 L108 108 L98 132 L60 124 Z" fill="#F2C14E"/>
+    <path d="M114 108 L164 90 L160 120 L122 132 Z" fill="#F2C14E"/>
+  </g>
+  <path d="M76 108 L94 112 L88 128 L74 124 Z" fill="#B0262E"/>
+  <path d="M128 110 L146 104 L142 124 L128 128 Z" fill="#B0262E"/>
+  <g stroke="#1B202B" stroke-width="12" stroke-linecap="square">
+    <path d="M50 84 L110 102"/>
+    <path d="M112 100 L168 76"/>
+  </g>
+  <path d="M62 148 L80 140 L98 146 L116 140 L134 148 L124 166 L72 166 Z" fill="#2A3340" stroke="#2A3340" stroke-width="4" stroke-linejoin="miter"/>
+  <path d="M70 148 L76 158 L84 145 L92 158 L100 146 L108 158 L116 144 L124 158 L130 149" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="miter"/>
+  <!-- Scar -->
+  <path d="M166 84 L180 108 M166 96 L176 92 M170 102 L180 98" stroke="#2A3340" stroke-width="3" stroke-linecap="round"/>
+</svg>

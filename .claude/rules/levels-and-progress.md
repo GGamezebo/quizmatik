@@ -15,7 +15,7 @@ paths:
 - Container metadata + unlocks: `src/common/levels/levels_config.gd` (hand-edited)
 - Bulk generation: `tools/generate_levels.py` = source of truth for the curriculum (kids 7-10, RU school order; per valley 4 acts + exam climbing through act skills via score stages 4/8/12). Edit the curve there and re-run (`python tools/generate_levels.py` rewrites only level `.tres`, keeps uids); never hand-patch level `.tres`
 - Pace authored as `t` = seconds per balloon flight on NORMAL (`answer_speed = 1100 / t`); new-skill (`intro`) levels: no `? + 3 = 7`, no speed ramp
-- Generator constants: timed L9 + L17 (60 s); `boss_chance` 1.0 on L2, L5, L10, L15, exam (`boss_armor` 5, `boss_rage_hits` 20), .25 on other L3–19 non-timed; `bonus_gold_chance` .35 on L3–19; lines 3 on L1–3 else 4; never narrow `player_acceleration_*`
+- Generator constants: timed L9 + L17 (60 s); `boss_chance` 1.0 on L2, L5, L10, L15, exam (`boss_armor` 6 = all plate slots, `boss_rage_hits` 20, `boss_royal` true), .25 on other L3–19 non-timed; `bonus_gold_chance` .35 on L3–19; lines 3 on L1–3 else 4; never narrow `player_acceleration_*`
 - Ignore legacy `src/levels/level_*.tres` at root
 - Missing level file → assert at `LevelsConfig` init — always add file + config entry together
 
