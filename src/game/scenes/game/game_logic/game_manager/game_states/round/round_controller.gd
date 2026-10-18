@@ -93,6 +93,11 @@ func finish() -> void:
 	_is_active = false
 	kill_all_answers()
 
+## Every balloon of the round pops (golden flight miss: no second try for this round's coin).
+func pop_all_answers() -> void:
+	for option in options.duplicate():
+		option.take_damage(true)
+
 func kill_all_answers(hit_answer: Answer = null) -> void:
 	for option in options.duplicate():
 		option.take_damage(option == hit_answer)
