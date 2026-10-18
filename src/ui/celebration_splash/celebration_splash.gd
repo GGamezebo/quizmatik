@@ -1,7 +1,7 @@
 class_name CelebrationSplash
 extends CanvasLayer
 
-## Queued full-screen celebrations: valley unlock, new plane, daily gold, math master (last valley).
+## Queued full-screen celebrations: valley unlock, new plane, daily gold, math master (last valley), magister.
 ## Not on the window stack. Hold while exam trophy dialog is up.
 ## Valley sold by the store (OfferBoard paywall) → «waits in the full version» + buy button → paywall.
 
@@ -9,6 +9,8 @@ const KIND_VALLEY := "valley"
 const KIND_PLANE := "plane"
 const KIND_DAILY_GOLD := "daily_gold"
 const KIND_MASTER := "master"
+## Magister trial survived (first time).
+const KIND_MAGISTER := "magister"
 const FADE_DURATION: float = 0.22
 const PAYWALLED_ART_TINT := Color(0.78, 0.78, 0.78)
 
@@ -26,6 +28,8 @@ const PAYWALLED_ART_TINT := Color(0.78, 0.78, 0.78)
 @export var gold_art: Texture2D
 ## Art for the "math master" celebration (last valley exam).
 @export var master_art: Texture2D
+## Magister award art (hall-of-fame trophy).
+@export var magister_art: Texture2D
 ## Flying ribbons — emitted only during the master celebration.
 @export var ribbons: CPUParticles2D
 
@@ -91,6 +95,8 @@ func _present(kind: String, payload: Dictionary) -> void:
 			_present_daily_gold()
 		KIND_MASTER:
 			_present_master()
+		KIND_MAGISTER:
+			_present_magister()
 		_:
 			_busy = false
 			_try_show_next()
@@ -133,6 +139,14 @@ func _present_master() -> void:
 	title_label.text = "Мастер счёта!"
 	message_label.text = "Все долины пройдены! Ты — настоящий мастер математики!"
 	art_rect.texture = master_art
+	art_rect.modulate = Color.WHITE
+	_set_ribbons(true)
+
+
+func _present_magister() -> void:
+	title_label.text = "Ты — магистр!"
+	message_label.text = "10 минут квадратов и корней! Награда ждёт тебя в зале славы"
+	art_rect.texture = magister_art
 	art_rect.modulate = Color.WHITE
 	_set_ribbons(true)
 

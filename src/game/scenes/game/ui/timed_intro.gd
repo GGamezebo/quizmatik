@@ -22,7 +22,13 @@ func initialize(game_config: GameConfig) -> void:
 		return
 	var seconds: int = ceili(game_config.time_limit_sec)
 	var caption_format: String = "Золотой полёт: %d %s!" if game_config.golden_flight else "Продержись %d %s!"
-	caption.text = tr(caption_format) % [seconds, tr(_seconds_word(seconds))]
+	# Whole minutes from 2 on («10 минут»), else seconds («60 секунд»).
+	@warning_ignore("integer_division")
+	var minutes: int = seconds / 60
+	if seconds >= 120 and seconds % 60 == 0:
+		caption.text = tr(caption_format) % [minutes, tr(_minutes_word(minutes))]
+	else:
+		caption.text = tr(caption_format) % [seconds, tr(_seconds_word(seconds))]
 	if game_events:
 		_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
 		_listener.add(game_events.ev_countdown_started, _pop_in)
@@ -82,3 +88,16 @@ static func _seconds_word(n: int) -> String:
 	if mod10 >= 2 and mod10 <= 4:
 		return "секунды"
 	return "секунд"
+
+
+## 1 минута, 2–4 минуты, 5+ минут (11–14 → минут).
+static func _minutes_word(n: int) -> String:
+	var mod100: int = n % 100
+	var mod10: int = n % 10
+	if mod100 >= 11 and mod100 <= 14:
+		return "минут"
+	if mod10 == 1:
+		return "минута"
+	if mod10 >= 2 and mod10 <= 4:
+		return "минуты"
+	return "минут"

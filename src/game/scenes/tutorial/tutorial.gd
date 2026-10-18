@@ -11,11 +11,21 @@ extends IScene
 ## - plane_shop: first time a new plane is affordable — lead to profile → hangar → buy
 ## Battle tips (`BattleTips.TIPS`, same flags, after first_flight, any order): first `? + 3 = 7`,
 ## first boss, first angry boss. Tutorial closes only when chapters and tips are all done.
+## Late chapter (not gated by `tutorial_completed`; AppRoot reopens the context for it):
+## - endless_intro: menu clock appeared (`ProgressController.is_endless_intro_pending`) — explain the
+##   record battle (confirm button or pressing the clock).
+## - shop_tour: after plane_shop (or a finished tutorial), the first battle that ends with gold for a look
+##   item arms it (`SHOP_TOUR_ARMED`); back in menu → shop button → tap through `shop_tour_steps`
+##   (cards / slot chips, each advances on press; last = buy button, confirm or press). Buying optional.
+##   While it waits to arm, the context stays open idle (AppRoot: `is_shop_tour_pending`).
 
 const CHAPTER_FIRST_FLIGHT := "first_flight"
 const CHAPTER_DAILY_STAMP := "daily_stamp"
 const CHAPTER_PLANE_SHOP := "plane_shop"
 const CHAPTERS: Array[String] = [CHAPTER_FIRST_FLIGHT, CHAPTER_DAILY_STAMP, CHAPTER_PLANE_SHOP]
+const CHAPTER_ENDLESS_INTRO := ProgressController.ENDLESS_INTRO_STEP
+const CHAPTER_SHOP_TOUR := ProgressController.SHOP_TOUR_STEP
+const SHOP_TOUR_ARMED := "shop_tour_armed"
 
 @export var root_events: RootEvents
 @export var progress: ProgressController
@@ -27,11 +37,19 @@ const CHAPTERS: Array[String] = [CHAPTER_FIRST_FLIGHT, CHAPTER_DAILY_STAMP, CHAP
 @export var first_flight_steps: Array[AnchorPointerStep] = []
 @export var daily_stamp_steps: Array[AnchorPointerStep] = []
 @export var plane_shop_steps: Array[AnchorPointerStep] = []
+@export var endless_intro_steps: Array[AnchorPointerStep] = []
+## Main-menu shop button (shown while the hangar is closed).
+@export var shop_entry_step: AnchorPointerStep
+## Inside the shop, in order; one shown at a time.
+@export var shop_tour_steps: Array[AnchorPointerStep] = []
+## Look items for sale — arms the shop tour when one is affordable after a battle.
+@export var cosmetic_catalog: CosmeticCatalog
 
 var _listener: EventListener = EventListener.new()
 var _chapter: String = ""
 var _in_menu: bool = true
 var _finished: bool = false
+var _tour_index: int = 0
 
 
 func _ready() -> void:
@@ -39,6 +57,7 @@ func _ready() -> void:
 	battle_coach.ev_finished.connect(_refresh)
 	battle_tips.ev_tip_shown.connect(progress.complete_tutorial_step)
 	menu_pointer.ev_step_confirmed.connect(_on_step_confirmed)
+	menu_pointer.ev_target_pressed.connect(_on_target_pressed)
 	super._ready()
 
 
@@ -60,8 +79,14 @@ func on_event(event_name: String, _data: Dictionary) -> void:
 	match event_name:
 		"ev.open_menu":
 			_in_menu = true
-		"ev.start_game", "ev.exit_game":
+		"ev.start_game":
+			## Only the clock is clickable under the endless hint → pressing it = got it.
+			if _chapter == CHAPTER_ENDLESS_INTRO and menu_pointer.current_step() != null:
+				progress.complete_tutorial_step(CHAPTER_ENDLESS_INTRO)
 			_in_menu = false
+		"ev.exit_game":
+			_in_menu = false
+			_maybe_arm_shop_tour()
 	_refresh()
 
 
@@ -71,8 +96,11 @@ func _refresh() -> void:
 	var chapter := _pending_chapter()
 	var tips := _pending_tips()
 	if chapter.is_empty() and tips.is_empty():
-		_finish_tutorial()
-		return
+		if not progress.is_shop_tour_pending():
+			_finish_tutorial()
+			return
+		## Only the shop tour is left and it isn't armed yet — stay open, show nothing.
+		progress.complete_tutorial()
 	_chapter = chapter
 	battle_coach.arm(chapter == CHAPTER_FIRST_FLIGHT)
 	battle_tips.set_pending(tips)
@@ -88,11 +116,14 @@ func _refresh() -> void:
 
 
 func _pending_chapter() -> String:
-	if progress.is_tutorial_completed():
-		return ""
-	for chapter in CHAPTERS:
-		if not progress.is_tutorial_step_done(chapter):
-			return chapter
+	if not progress.is_tutorial_completed():
+		for chapter in CHAPTERS:
+			if not progress.is_tutorial_step_done(chapter):
+				return chapter
+	if progress.is_endless_intro_pending():
+		return CHAPTER_ENDLESS_INTRO
+	if progress.is_shop_tour_pending() and progress.is_tutorial_step_done(SHOP_TOUR_ARMED):
+		return CHAPTER_SHOP_TOUR
 	return ""
 
 
@@ -122,7 +153,32 @@ func _steps_for(chapter: String) -> Array[AnchorPointerStep]:
 			return daily_stamp_steps
 		CHAPTER_PLANE_SHOP:
 			return plane_shop_steps
+		CHAPTER_ENDLESS_INTRO:
+			return endless_intro_steps
+		CHAPTER_SHOP_TOUR:
+			return _shop_tour_current_steps()
 	return first_flight_steps
+
+
+## Current tour step first (deeper screen), shop button as the way back in.
+func _shop_tour_current_steps() -> Array[AnchorPointerStep]:
+	var steps: Array[AnchorPointerStep] = []
+	if _tour_index < shop_tour_steps.size():
+		steps.append(shop_tour_steps[_tour_index])
+	if shop_entry_step != null:
+		steps.append(shop_entry_step)
+	return steps
+
+
+## Battle just ended (reward already applied): after the plane chapter, gold for a look item → arm.
+func _maybe_arm_shop_tour() -> void:
+	if not progress.is_shop_tour_pending() or progress.is_tutorial_step_done(SHOP_TOUR_ARMED):
+		return
+	if not (progress.is_tutorial_completed() or progress.is_tutorial_step_done(CHAPTER_PLANE_SHOP)):
+		return
+	var pdata := progress.pdata
+	if cosmetic_catalog != null and cosmetic_catalog.has_affordable(pdata.gold, pdata.cosmetics.owned):
+		progress.complete_tutorial_step(SHOP_TOUR_ARMED)
 
 
 func _can_buy_new_plane() -> bool:
@@ -154,8 +210,25 @@ func _on_goal_reached() -> void:
 
 
 func _on_step_confirmed(_step: AnchorPointerStep) -> void:
-	if _chapter == CHAPTER_DAILY_STAMP:
-		_complete_chapter(CHAPTER_DAILY_STAMP)
+	if _chapter in [CHAPTER_DAILY_STAMP, CHAPTER_ENDLESS_INTRO, CHAPTER_SHOP_TOUR]:
+		_complete_chapter(_chapter)
+
+
+func _on_target_pressed(step: AnchorPointerStep) -> void:
+	if _chapter != CHAPTER_SHOP_TOUR or _tour_index >= shop_tour_steps.size():
+		return
+	if step != shop_tour_steps[_tour_index]:
+		return
+	## Deferred: the pressed button is still emitting; the page reacts to the press first.
+	_advance_shop_tour.call_deferred()
+
+
+func _advance_shop_tour() -> void:
+	_tour_index += 1
+	if _tour_index >= shop_tour_steps.size():
+		_complete_chapter(CHAPTER_SHOP_TOUR)
+	else:
+		_refresh()
 
 
 func _on_celebration(kind: String, _payload: Dictionary) -> void:

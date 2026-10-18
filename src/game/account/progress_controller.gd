@@ -4,6 +4,17 @@ extends Node
 signal ev_container_seen(container_id: String)
 signal ev_level_seen(container_id: String, level_id: int)
 
+## Valley exams needed to open the endless battle.
+const ENDLESS_UNLOCK_EXAMS := 4
+## Tutorial chapter id of the endless-battle intro (shown in menu when the clock appears).
+const ENDLESS_INTRO_STEP := "endless_intro"
+## Tutorial chapter id of the one-time shop tour (after the plane chapter, gold for a look item).
+const SHOP_TOUR_STEP := "shop_tour"
+## `PData.trophies` id of the magister award (survived the magister trial).
+const MAGISTER_TROPHY := "magister"
+## `PData.state.tutorial_steps` flag: the magister rules were read and the first trial started.
+const MAGISTER_RULES_STEP := "magister_rules"
+
 @export var pdata: PData
 @export var levels_config: LevelsConfig
 @export var conditions: Script
@@ -84,15 +95,54 @@ func complete_all_containers() -> void:
 	save()
 
 
-## Every valley exam passed (any stars) — opens the endless battle (menu clock, trophy room record).
-func are_all_valleys_completed() -> bool:
+## Valley exams passed (any stars), any valleys.
+func passed_valley_exams_count() -> int:
+	var count := 0
+	for container_data in levels_config.levels.get("containers", []):
+		if is_valley_exam_completed(str(container_data.get("container_id", ""))):
+			count += 1
+	return count
+
+## Endless battle open (menu clock, trophy room record): `ENDLESS_UNLOCK_EXAMS` valley exams passed.
+func is_endless_unlocked() -> bool:
+	return passed_valley_exams_count() >= ENDLESS_UNLOCK_EXAMS
+
+## Shop tour not done yet (the tutorial context waits for it; it arms itself after a battle).
+func is_shop_tour_pending() -> bool:
+	return not is_tutorial_step_done(SHOP_TOUR_STEP)
+
+## Endless open but its menu intro (tutorial chapter `ENDLESS_INTRO_STEP`) not shown yet.
+func is_endless_intro_pending() -> bool:
+	return is_endless_unlocked() and not is_tutorial_step_done(ENDLESS_INTRO_STEP)
+
+## Every valley exam passed (menu magister cap → magister trial).
+func are_all_valley_exams_passed() -> bool:
+	var containers: Array = levels_config.levels.get("containers", [])
+	return not containers.is_empty() and passed_valley_exams_count() >= containers.size()
+
+## Every valley trophy on the shelf — the magister cup shows up (pulsing, rules on tap until earned).
+func are_all_valley_trophies_unlocked() -> bool:
 	var containers: Array = levels_config.levels.get("containers", [])
 	if containers.is_empty():
 		return false
 	for container_data in containers:
-		if not is_valley_exam_completed(str(container_data.get("container_id", ""))):
+		if not is_trophy_unlocked(str(container_data.get("container_id", ""))):
 			return false
 	return true
+
+func is_magister() -> bool:
+	return pdata.trophies.is_unlocked(MAGISTER_TROPHY)
+
+## Magister trial survived; true only the first time (award + celebration).
+func unlock_magister() -> bool:
+	if not pdata.trophies.unlock(MAGISTER_TROPHY):
+		return false
+	save()
+	return true
+
+## Hall of fame complete: every valley trophy, the endless record scroll and the magister award (lamps on).
+func is_hall_complete() -> bool:
+	return is_endless_unlocked() and is_magister() and are_all_valley_trophies_unlocked()
 
 func is_container_seen(container_id: String) -> bool:
 	if not pdata.levels.containers.has(container_id):

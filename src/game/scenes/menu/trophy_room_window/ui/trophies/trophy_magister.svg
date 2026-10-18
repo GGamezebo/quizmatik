@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210" height="256" viewBox="0 0 210 256">
+  <!-- Magister award: gold cup in a laurel wreath crowned with a graduation cap; root sign on the base. -->
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#C9962F"/>
+      <stop offset="0.35" stop-color="#F5D27A"/>
+      <stop offset="0.7" stop-color="#E3AE45"/>
+      <stop offset="1" stop-color="#B5852A"/>
+    </linearGradient>
+    <linearGradient id="cap" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8E6CC8"/>
+      <stop offset="1" stop-color="#5B3F8C"/>
+    </linearGradient>
+  </defs>
+  <!-- Laurel wreath (behind the cup) -->
+  <g fill="#7FA25A" stroke="#2A3340" stroke-width="3" stroke-linejoin="round">
+    <path d="M40 160 Q20 120 34 82 Q50 112 52 150 Z"/>
+    <path d="M30 128 Q8 108 12 80 Q32 96 38 122 Z"/>
+    <path d="M50 186 Q22 176 16 148 Q40 154 56 178 Z"/>
+    <path d="M170 160 Q190 120 176 82 Q160 112 158 150 Z"/>
+    <path d="M180 128 Q202 108 198 80 Q178 96 172 122 Z"/>
+    <path d="M160 186 Q188 176 194 148 Q170 154 154 178 Z"/>
+  </g>
+  <g stroke="#5E7D3F" stroke-width="2.5" stroke-linecap="round" opacity="0.9">
+    <path d="M40 152 Q34 120 36 92"/>
+    <path d="M170 152 Q176 120 174 92"/>
+  </g>
+  <!-- Handles -->
+  <path d="M58 98 Q20 98 28 132 Q36 156 70 150" fill="none" stroke="#2A3340" stroke-width="13" stroke-linecap="round"/>
+  <path d="M58 98 Q20 98 28 132 Q36 156 70 150" fill="none" stroke="#E3AE45" stroke-width="6" stroke-linecap="round"/>
+  <path d="M152 98 Q190 98 182 132 Q174 156 140 150" fill="none" stroke="#2A3340" stroke-width="13" stroke-linecap="round"/>
+  <path d="M152 98 Q190 98 182 132 Q174 156 140 150" fill="none" stroke="#E3AE45" stroke-width="6" stroke-linecap="round"/>
+  <!-- Cup -->
+  <path d="M52 86 L158 86 Q156 150 120 170 L90 170 Q54 150 52 86 Z" fill="url(#gold)" stroke="#2A3340" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M66 96 Q68 136 92 156" fill="none" stroke="#FFF2C4" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+  <g stroke="#B5852A" stroke-width="3" stroke-linecap="round" opacity="0.7">
+    <path d="M128 150 L146 110"/>
+    <path d="M118 160 L142 128"/>
+  </g>
+  <!-- Stem + base -->
+  <path d="M92 170 L118 170 L114 196 L96 196 Z" fill="url(#gold)" stroke="#2A3340" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M66 196 L144 196 L152 220 L58 220 Z" fill="url(#gold)" stroke="#2A3340" stroke-width="5" stroke-linejoin="round"/>
+  <rect x="48" y="220" width="114" height="24" rx="6" fill="#6B4E36" stroke="#2A3340" stroke-width="5"/>
+  <path d="M86 233 L92 230 L98 240 L106 222 L126 222" fill="none" stroke="#F2C14E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Graduation cap on top -->
+  <path d="M74 66 L74 86 Q105 98 136 86 L136 66 Z" fill="#45306E" stroke="#2A3340" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M105 22 L170 50 L105 78 L40 50 Z" fill="url(#cap)" stroke="#2A3340" stroke-width="5" stroke-linejoin="round"/>
+  <circle cx="105" cy="50" r="5" fill="#F2C14E" stroke="#2A3340" stroke-width="3"/>
+  <path d="M105 50 Q140 58 156 60 L156 92" fill="none" stroke="#2A3340" stroke-width="7" stroke-linecap="round"/>
+  <path d="M105 50 Q140 58 156 60 L156 92" fill="none" stroke="#E8B64C" stroke-width="3" stroke-linecap="round"/>
+  <path d="M149 90 L163 90 L167 116 L145 116 Z" fill="#E8B64C" stroke="#2A3340" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Sparkles -->
+  <path d="M28 40 L32 50 L42 54 L32 58 L28 68 L24 58 L14 54 L24 50 Z" fill="#F2C14E" stroke="#2A3340" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M186 22 L189 30 L197 33 L189 36 L186 44 L183 36 L175 33 L183 30 Z" fill="#F2C14E" stroke="#2A3340" stroke-width="3" stroke-linejoin="round"/>
+</svg>

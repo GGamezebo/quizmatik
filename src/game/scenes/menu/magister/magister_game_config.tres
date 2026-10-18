@@ -1,0 +1,100 @@
+[gd_resource type="Resource" script_class="GameConfig" format=3]
+
+[ext_resource type="Script" uid="uid://cjyn2dgnipjnn" path="res://src/common/game_config_default.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+health = 3
+questions_count = 30
+allowed_operations = 48
+min_generate_number = 1
+max_generate_number = 16
+answer_speed = 55.0
+operation_ranges = {
+16: Vector2i(1, 5),
+32: Vector2i(1, 5)
+}
+review_chance = 0.2
+time_limit_sec = 600.0
+endless_step_sec = 60.0
+endless_boss_every_sec = 120.0
+endless_stages = Array[Dictionary]([{
+"allowed_operations": 48,
+"operation_ranges": {
+16: Vector2i(1, 5),
+32: Vector2i(1, 5)
+},
+"missing_operand_chance": 0.0
+}, {
+"allowed_operations": 48,
+"operation_ranges": {
+16: Vector2i(1, 7),
+32: Vector2i(1, 6)
+},
+"missing_operand_chance": 0.0
+}, {
+"allowed_operations": 48,
+"operation_ranges": {
+16: Vector2i(2, 9),
+32: Vector2i(2, 8)
+},
+"missing_operand_chance": 0.0
+}, {
+"allowed_operations": 48,
+"operation_ranges": {
+16: Vector2i(2, 10),
+32: Vector2i(2, 10)
+},
+"missing_operand_chance": 0.0
+}, {
+"allowed_operations": 48,
+"operation_ranges": {
+16: Vector2i(3, 11),
+32: Vector2i(3, 11)
+},
+"missing_operand_chance": 0.0
+}, {
+"allowed_operations": 48,
+"operation_ranges": {
+16: Vector2i(3, 12),
+32: Vector2i(3, 12)
+},
+"missing_operand_chance": 0.0
+}, {
+"allowed_operations": 48,
+"operation_ranges": {
+16: Vector2i(4, 13),
+32: Vector2i(4, 13)
+},
+"missing_operand_chance": 0.0
+}, {
+"allowed_operations": 48,
+"operation_ranges": {
+16: Vector2i(5, 14),
+32: Vector2i(4, 14)
+},
+"missing_operand_chance": 0.0
+}, {
+"allowed_operations": 48,
+"operation_ranges": {
+16: Vector2i(6, 15),
+32: Vector2i(5, 15)
+},
+"missing_operand_chance": 0.0
+}, {
+"allowed_operations": 48,
+"operation_ranges": {
+16: Vector2i(7, 16),
+32: Vector2i(6, 16)
+},
+"missing_operand_chance": 0.0
+}])
+endless_speed_start = 55.0
+endless_speed_max = 115.0
+endless_speed_max_sec = 600.0
+endless_speed_curve = 1.2
+endless_heart_every_sec = 0.0
+magister = true
+boss_armor = 4
+boss_rage_hits = 0
+boss_royal = true

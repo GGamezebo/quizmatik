@@ -69,6 +69,7 @@
 [ext_resource type="Texture2D" path="res://assets/ui/icons/touch_hint_shoot.svg" id="71_hint_shoot"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/touch_hint_move.svg" id="72_hint_move"]
 [ext_resource type="PackedScene" path="res://src/features/boss/boss_exam_airship.tscn" id="73_exam_boss"]
+[ext_resource type="Texture2D" uid="uid://dcqgqisgon0k4" path="res://assets/ui/icons/stopwatch.png" id="74_stopwatch"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_streak"]
 content_margin_left = 18.0
@@ -345,6 +346,7 @@ maxScore = NodePath("MaxScore")
 separator = NodePath("Separator")
 time_left = NodePath("TimeLeft")
 time_icon = NodePath("TimeIcon")
+endless_time_texture = ExtResource("74_stopwatch")
 game_events = ExtResource("7_7ifmk")
 
 [node name="Score" type="Label" parent="HUD/TopLeftPanel/HBox/ScoreFrame/Frame/Score" unique_id=1130806769]
@@ -797,7 +799,7 @@ custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
-texture = ExtResource("41_clock")
+texture = ExtResource("74_stopwatch")
 expand_mode = 1
 stretch_mode = 5
 

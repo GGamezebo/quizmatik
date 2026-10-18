@@ -54,7 +54,13 @@
 [ext_resource type="Resource" path="res://src/common/monetization/offer_board.tres" id="62_offer_board"]
 [ext_resource type="Script" path="res://src/game/scenes/menu/endless/endless_entry.gd" id="80_endless_entry"]
 [ext_resource type="Resource" path="res://src/game/scenes/menu/endless/endless_game_config.tres" id="81_endless_cfg"]
-[ext_resource type="Texture2D" uid="uid://ca0dm5vhpchjx" path="res://assets/ui/icons/clock.svg" id="82_clock"]
+[ext_resource type="Texture2D" uid="uid://dcqgqisgon0k4" path="res://assets/ui/icons/stopwatch.png" id="82_stopwatch"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/magister/magister_entry.gd" id="83_magister_entry"]
+[ext_resource type="Resource" path="res://src/game/scenes/menu/magister/magister_game_config.tres" id="84_magister_cfg"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/magister_cap.svg" id="85_magister_cap"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/magister/magister_rules_overlay.tscn" id="86_magister_rules"]
+[ext_resource type="Script" path="res://core/lib/pulse/ui_pulse.gd" id="87_ui_pulse"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/ui/shop_pulse.gd" id="88_shop_pulse"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
 colors = PackedColorArray(0.165, 0.2, 0.251, 0.5, 0.953, 0.902, 0.784, 0.06)
@@ -151,7 +157,7 @@ target_window = NodePath("../../PlaneHangarWindow")
 
 [node name="ShopOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/MarginContainer/RightSideButtons/Shop")
+button = NodePath("../../MainMenuWindow/MarginContainer/RightSideButtons/ShopBox/Shop")
 target_window = NodePath("../../PlaneHangarWindow")
 
 [node name="HangarBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button")]
@@ -246,7 +252,7 @@ image_inacitve = ExtResource("19_sfx_off")
 user_settings = ExtResource("9_3qhmn")
 metadata/hover_scale_bound = true
 
-[node name="EndlessEntry" type="VBoxContainer" parent="UI/MainMenuWindow" node_paths=PackedStringArray("progress", "button", "best_label")]
+[node name="EndlessEntry" type="VBoxContainer" parent="UI/MainMenuWindow" node_paths=PackedStringArray("progress", "button", "best_label", "pulse")]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -262,21 +268,39 @@ script = ExtResource("80_endless_entry")
 root_events = ExtResource("2_35kkh")
 progress = NodePath("../../LevelsWindow/ProgressController")
 endless_config = ExtResource("81_endless_cfg")
-button = NodePath("Clock")
+button = NodePath("ClockBox/Clock")
 best_label = NodePath("Best")
+pulse = NodePath("Pulse")
 
-[node name="Clock" parent="UI/MainMenuWindow/EndlessEntry" instance=ExtResource("30_circle_btn")]
+[node name="ClockBox" type="Control" parent="UI/MainMenuWindow/EndlessEntry"]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
 size_flags_horizontal = 4
-image = ExtResource("82_clock")
+mouse_filter = 2
+
+[node name="Clock" parent="UI/MainMenuWindow/EndlessEntry/ClockBox" instance=ExtResource("30_circle_btn")]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+image = ExtResource("82_stopwatch")
 metadata/hover_scale_bound = true
 
-[node name="Icon" parent="UI/MainMenuWindow/EndlessEntry/Clock" index="0"]
+[node name="Icon" parent="UI/MainMenuWindow/EndlessEntry/ClockBox/Clock" index="0"]
 offset_left = -52.0
-offset_top = -52.0
+offset_top = -44.0
 offset_right = 52.0
-offset_bottom = 52.0
+offset_bottom = 48.0
+
+[node name="Pulse" type="Node" parent="UI/MainMenuWindow/EndlessEntry" node_paths=PackedStringArray("target")]
+script = ExtResource("87_ui_pulse")
+target = NodePath("../ClockBox")
+pulse_scale = 1.08
 
 [node name="Best" type="Label" parent="UI/MainMenuWindow/EndlessEntry"]
 layout_mode = 2
@@ -286,6 +310,71 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 24
 text = "Рекорд 2:15"
 horizontal_alignment = 1
+
+[node name="MagisterEntry" type="VBoxContainer" parent="UI/MainMenuWindow" node_paths=PackedStringArray("progress", "button", "caption", "pulse", "rules_overlay")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -325.0
+offset_top = 30.0
+offset_right = -145.0
+offset_bottom = 230.0
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("theme_ui")
+theme_override_constants/separation = 2
+script = ExtResource("83_magister_entry")
+root_events = ExtResource("2_35kkh")
+progress = NodePath("../../LevelsWindow/ProgressController")
+magister_config = ExtResource("84_magister_cfg")
+button = NodePath("CapBox/Cap")
+caption = NodePath("Caption")
+pulse = NodePath("Pulse")
+rules_overlay = NodePath("RulesOverlay")
+
+[node name="CapBox" type="Control" parent="UI/MainMenuWindow/MagisterEntry"]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Cap" parent="UI/MainMenuWindow/MagisterEntry/CapBox" instance=ExtResource("30_circle_btn")]
+custom_minimum_size = Vector2(160, 160)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+image = ExtResource("85_magister_cap")
+metadata/hover_scale_bound = true
+
+[node name="Icon" parent="UI/MainMenuWindow/MagisterEntry/CapBox/Cap" index="0"]
+offset_left = -54.0
+offset_top = -54.0
+offset_right = 54.0
+offset_bottom = 54.0
+
+[node name="Pulse" type="Node" parent="UI/MainMenuWindow/MagisterEntry" node_paths=PackedStringArray("target")]
+script = ExtResource("87_ui_pulse")
+target = NodePath("../CapBox")
+pulse_scale = 1.08
+
+[node name="Caption" type="Label" parent="UI/MainMenuWindow/MagisterEntry"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_outline_color = Color(0.98, 0.95, 0.9, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 24
+text = "Магистр"
+horizontal_alignment = 1
+
+[node name="RulesOverlay" parent="UI/MainMenuWindow/MagisterEntry" instance=ExtResource("86_magister_rules")]
 
 [node name="CenterContainer" type="CenterContainer" parent="UI/MainMenuWindow" unique_id=487516089]
 layout_mode = 1
@@ -298,6 +387,7 @@ mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/MainMenuWindow/CenterContainer" unique_id=92845443]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 18
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=877131779]
@@ -359,8 +449,21 @@ layout_mode = 2
 image = ExtResource("32_icon_profile")
 metadata/hover_scale_bound = true
 
-[node name="Shop" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" instance=ExtResource("30_circle_btn")]
+[node name="ShopBox" type="Control" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons"]
+custom_minimum_size = Vector2(112, 112)
 layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Shop" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons/ShopBox" instance=ExtResource("30_circle_btn")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
 image = ExtResource("73_icon_shop")
 metadata/hover_scale_bound = true
 
@@ -430,6 +533,31 @@ script = ExtResource("60_ui_anchor")
 registry = ExtResource("61_tutorial_anchors")
 anchor_id = "menu.start"
 target = NodePath("../CenterContainer/VBoxContainer/CtaRow/Start")
+
+[node name="EndlessAnchor" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("target")]
+script = ExtResource("60_ui_anchor")
+registry = ExtResource("61_tutorial_anchors")
+anchor_id = "menu.endless"
+target = NodePath("../EndlessEntry/ClockBox/Clock")
+
+[node name="ShopAnchor" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("target")]
+script = ExtResource("60_ui_anchor")
+registry = ExtResource("61_tutorial_anchors")
+anchor_id = "menu.shop"
+target = NodePath("../MarginContainer/RightSideButtons/ShopBox/Shop")
+
+[node name="ShopPulse" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("button", "pulse")]
+script = ExtResource("88_shop_pulse")
+root_events = ExtResource("2_35kkh")
+pdata = ExtResource("71_pdata")
+catalog = ExtResource("72_catalog")
+button = NodePath("../MarginContainer/RightSideButtons/ShopBox/Shop")
+pulse = NodePath("Pulse")
+
+[node name="Pulse" type="Node" parent="UI/MainMenuWindow/ShopPulse" node_paths=PackedStringArray("target")]
+script = ExtResource("87_ui_pulse")
+target = NodePath("../../MarginContainer/RightSideButtons/ShopBox")
+pulse_scale = 1.08
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("carousel", "progress", "windows_stack_manager", "level_selection_window", "background_host")]
 visible = false

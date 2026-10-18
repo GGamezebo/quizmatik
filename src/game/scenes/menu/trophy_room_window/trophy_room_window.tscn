@@ -20,8 +20,12 @@
 [ext_resource type="Script" path="res://src/ui/locale_texture_swap/locale_texture_swap.gd" id="12_locale_swap"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_en.png" id="13_cloud_en"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_en.png" id="14_clipboard_en"]
-[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/stat_icons/icon_speed.png" id="15_record_icon"]
+[ext_resource type="Texture2D" uid="uid://dcqgqisgon0k4" path="res://assets/ui/icons/stopwatch.png" id="15_record_icon"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/scroll_closed.svg" id="16_scroll_closed"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/trophy_room_window/hall_bulb.tscn" id="40_bulb"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/trophy_room_window/hall_lamps.gd" id="41_lamps"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/trophies/trophy_magister.svg" id="42_magister"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/magister/magister_rules_overlay.tscn" id="43_magister_rules"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
 
@@ -64,7 +68,7 @@ shader_parameter/shadow_offset = Vector2(-3, 6)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.28)
 shader_parameter/shadow_blur = 2.0
 
-[node name="TrophyRoomWindow" type="Control" node_paths=PackedStringArray("progress", "stats_list", "trophies_list", "hard_facts_label", "hard_facts_button", "hard_facts_overlay", "record_open_nodes", "record_closed_nodes", "record_value", "record_hint")]
+[node name="TrophyRoomWindow" type="Control" node_paths=PackedStringArray("magister_rules", "hall_lamps", "progress", "stats_list", "trophies_list", "hard_facts_label", "hard_facts_button", "hard_facts_overlay", "record_open_nodes", "record_closed_nodes", "record_value", "record_hint")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -78,6 +82,9 @@ progress = NodePath("ProgressController")
 levels_config = ExtResource("2_levels")
 stats_list = NodePath("Layout/LeftPanel/StatsMargin/StatsVBox/StatsList")
 trophies_list = NodePath("Layout/RightPanel/ShelfBlock/TrophiesRow")
+magister_trophy = ExtResource("42_magister")
+hall_lamps = NodePath("HallLamps")
+magister_rules = NodePath("MagisterRulesOverlay")
 hard_facts_label = NodePath("Layout/RightPanel/HardFacts/HardFactsMargin/HardFactsVBox/HardFactsList")
 hard_facts_button = NodePath("Layout/RightPanel/HardFacts/HardFactsButton")
 hard_facts_overlay = NodePath("HardFactsOverlay")
@@ -102,6 +109,116 @@ mouse_filter = 2
 texture = ExtResource("5_bg")
 expand_mode = 1
 stretch_mode = 6
+
+[node name="HallLamps" type="Control" parent="." node_paths=PackedStringArray("bulbs")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("41_lamps")
+bulbs = [NodePath("Left/Bulb1"), NodePath("Left/Bulb2"), NodePath("Left/Bulb3"), NodePath("Left/Bulb4"), NodePath("Left/Bulb5"), NodePath("Right/Bulb1"), NodePath("Right/Bulb2"), NodePath("Right/Bulb3"), NodePath("Right/Bulb4"), NodePath("Right/Bulb5")]
+
+[node name="Left" type="Control" parent="HallLamps"]
+layout_mode = 1
+anchors_preset = 0
+offset_right = 290.0
+offset_bottom = 140.0
+mouse_filter = 2
+
+[node name="Wire" type="Line2D" parent="HallLamps/Left"]
+points = PackedVector2Array(0, 6, 23, 25, 47, 40, 71, 53, 94, 62, 118, 68, 142, 71, 167, 71, 191, 67, 216, 61, 240, 51, 265, 38, 290, 22)
+width = 3.0
+default_color = Color(0.165, 0.2, 0.251, 0.85)
+antialiased = true
+
+[node name="Bulb1" parent="HallLamps/Left" instance=ExtResource("40_bulb")]
+offset_left = 19.0
+offset_top = 29.0
+offset_right = 49.0
+offset_bottom = 74.0
+rotation = -0.12
+
+[node name="Bulb2" parent="HallLamps/Left" instance=ExtResource("40_bulb")]
+offset_left = 73.0
+offset_top = 57.0
+offset_right = 103.0
+offset_bottom = 102.0
+rotation = 0.08
+
+[node name="Bulb3" parent="HallLamps/Left" instance=ExtResource("40_bulb")]
+offset_left = 128.0
+offset_top = 68.0
+offset_right = 158.0
+offset_bottom = 113.0
+rotation = -0.04
+
+[node name="Bulb4" parent="HallLamps/Left" instance=ExtResource("40_bulb")]
+offset_left = 183.0
+offset_top = 63.0
+offset_right = 213.0
+offset_bottom = 108.0
+rotation = 0.1
+
+[node name="Bulb5" parent="HallLamps/Left" instance=ExtResource("40_bulb")]
+offset_left = 239.0
+offset_top = 41.0
+offset_right = 269.0
+offset_bottom = 86.0
+rotation = -0.08
+
+[node name="Right" type="Control" parent="HallLamps"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -290.0
+offset_bottom = 140.0
+grow_horizontal = 0
+mouse_filter = 2
+
+[node name="Wire" type="Line2D" parent="HallLamps/Right"]
+points = PackedVector2Array(0, 22, 25, 38, 50, 51, 74, 61, 99, 67, 123, 71, 148, 71, 172, 68, 196, 62, 219, 53, 243, 40, 267, 25, 290, 6)
+width = 3.0
+default_color = Color(0.165, 0.2, 0.251, 0.85)
+antialiased = true
+
+[node name="Bulb1" parent="HallLamps/Right" instance=ExtResource("40_bulb")]
+offset_left = 21.0
+offset_top = 41.0
+offset_right = 51.0
+offset_bottom = 86.0
+rotation = -0.12
+
+[node name="Bulb2" parent="HallLamps/Right" instance=ExtResource("40_bulb")]
+offset_left = 77.0
+offset_top = 63.0
+offset_right = 107.0
+offset_bottom = 108.0
+rotation = 0.08
+
+[node name="Bulb3" parent="HallLamps/Right" instance=ExtResource("40_bulb")]
+offset_left = 132.0
+offset_top = 68.0
+offset_right = 162.0
+offset_bottom = 113.0
+rotation = -0.04
+
+[node name="Bulb4" parent="HallLamps/Right" instance=ExtResource("40_bulb")]
+offset_left = 187.0
+offset_top = 57.0
+offset_right = 217.0
+offset_bottom = 102.0
+rotation = 0.1
+
+[node name="Bulb5" parent="HallLamps/Right" instance=ExtResource("40_bulb")]
+offset_left = 241.0
+offset_top = 29.0
+offset_right = 271.0
+offset_bottom = 74.0
+rotation = -0.08
 
 [node name="Layout" type="Control" parent="."]
 layout_mode = 1
@@ -240,9 +357,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -280.0
+offset_left = -336.0
 offset_top = -43.0
-offset_right = 280.0
+offset_right = 336.0
 offset_bottom = 21.0
 grow_horizontal = 2
 grow_vertical = 0
@@ -445,10 +562,12 @@ theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_colors/font_outline_color = Color(0.98, 0.95, 0.9, 1)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 18
-text = "Пройди все долины — и свиток откроется"
+text = "Сдай 4 экзамена — и свиток откроется"
 horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="MenuWindowBack" parent="." instance=ExtResource("9_menu_back")]
 
 [node name="HardFactsOverlay" parent="." instance=ExtResource("11_hard_overlay")]
+
+[node name="MagisterRulesOverlay" parent="." instance=ExtResource("43_magister_rules")]

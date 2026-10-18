@@ -230,7 +230,7 @@ func _on_correct(answer: Answer) -> void:
 
 func _on_boss_defeated() -> void:
 	game_events.ev_boss_defeated.emit()
-	if game_config.endless:
+	if _endless.is_active():
 		_endless.boss_finished()
 		_round_controller.release_rounds()
 		return

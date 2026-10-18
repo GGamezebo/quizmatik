@@ -1,0 +1,42 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/trophy_room_window/hall_bulb.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/lamps/bulb_off.svg" id="2_off"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/lamps/bulb_on.svg" id="3_on"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/lamps/bulb_glow.svg" id="4_glow"]
+
+[node name="HallBulb" type="Control" node_paths=PackedStringArray("glass", "glow")]
+custom_minimum_size = Vector2(30, 45)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 30.0
+offset_bottom = 45.0
+pivot_offset = Vector2(15, 0)
+mouse_filter = 2
+script = ExtResource("1_script")
+glass = NodePath("Glass")
+glow = NodePath("Glow")
+unlit_texture = ExtResource("2_off")
+lit_texture = ExtResource("3_on")
+
+[node name="Glow" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_left = -55.0
+offset_top = -38.0
+offset_right = 85.0
+offset_bottom = 102.0
+pivot_offset = Vector2(70, 70)
+mouse_filter = 2
+texture = ExtResource("4_glow")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Glass" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 30.0
+offset_bottom = 45.0
+mouse_filter = 2
+texture = ExtResource("2_off")
+expand_mode = 1
+stretch_mode = 5

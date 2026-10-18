@@ -7,6 +7,8 @@ extends Node
 signal ev_step_changed(step: AnchorPointerStep)
 ## Hint confirm button pressed for `step` (steps with `button_text`).
 signal ev_step_confirmed(step: AnchorPointerStep)
+## The pointed control (a `BaseButton`) was pressed while `step` was shown.
+signal ev_target_pressed(step: AnchorPointerStep)
 
 @export var registry: UiAnchorRegistry
 @export var hint: TutorialHint
@@ -17,6 +19,7 @@ signal ev_step_confirmed(step: AnchorPointerStep)
 var _enabled: bool = false
 var _current: AnchorPointerStep
 var _current_control: Control
+var _pressed_source: BaseButton
 
 
 func _ready() -> void:
@@ -54,6 +57,7 @@ func _show(step: AnchorPointerStep, control: Control) -> void:
 		return
 	_current = step
 	_current_control = control
+	_watch_press(control as BaseButton)
 	hint.set_active(false)
 	if step == null:
 		if dim != null:
@@ -67,6 +71,19 @@ func _show(step: AnchorPointerStep, control: Control) -> void:
 			dim.follow(control, step.hole_rect, step.hole_margin)
 		dim.set_active(step.dim)
 	ev_step_changed.emit(step)
+
+
+func _watch_press(button: BaseButton) -> void:
+	if is_instance_valid(_pressed_source) and _pressed_source.pressed.is_connected(_on_target_pressed):
+		_pressed_source.pressed.disconnect(_on_target_pressed)
+	_pressed_source = button
+	if button != null:
+		button.pressed.connect(_on_target_pressed)
+
+
+func _on_target_pressed() -> void:
+	if _current != null:
+		ev_target_pressed.emit(_current)
 
 
 func _on_hint_button() -> void:

@@ -17,7 +17,9 @@ font_color = Color(0.165, 0.2, 0.251, 1)
 font_size = 14
 font_color = Color(0.86, 0.52, 0.14, 1)
 
-[node name="TrophySlot" type="VBoxContainer" node_paths=PackedStringArray("pedestal_rect", "trophy_rect", "name_label", "progress_label")]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
+
+[node name="TrophySlot" type="VBoxContainer" node_paths=PackedStringArray("pedestal_rect", "trophy_rect", "name_label", "progress_label", "hint_button")]
 custom_minimum_size = Vector2(104, 0)
 theme_override_constants/separation = 0
 alignment = 1
@@ -26,6 +28,7 @@ pedestal_rect = NodePath("CupArea/Pedestal")
 trophy_rect = NodePath("CupArea/Trophy")
 name_label = NodePath("Name")
 progress_label = NodePath("Progress")
+hint_button = NodePath("CupArea/HintButton")
 
 [node name="Name" type="Label" parent="."]
 clip_contents = true
@@ -75,6 +78,20 @@ grow_vertical = 0
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
+
+[node name="HintButton" type="Button" parent="CupArea"]
+visible = false
+z_index = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_hit")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hit")
 
 [node name="Progress" type="Label" parent="."]
 modulate = Color(1, 1, 1, 0)

@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://heyte07h81jn" path="res://src/game/scenes/menu/training_room_window/ui/icon_play.png" id="17_icon_play"]
 [ext_resource type="Texture2D" uid="uid://dnb4x6dyrbrg2" path="res://src/game/scenes/menu/training_room_window/ui/icon_shuffle.png" id="18_icon_shuffle"]
 [ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="20_gold"]
+[ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="21_root_events"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("6_shadow")
@@ -78,7 +79,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "unlock_valleys_button", "complete_valleys_button")]
+[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -111,12 +112,16 @@ add_round_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/Content
 reset_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/ResetButton")
 start_battle_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/StartPractice")
 random_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/RandomButton")
-wipe_progress_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/WipeProgressButton")
+wipe_progress_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/WipeRow/WipeProgressButton")
 wipe_dialog = NodePath("WipeDialog")
 grant_gold_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow/GrantGoldButton")
 grant_gold_big_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow/GrantGoldBigButton")
-unlock_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/UnlockValleysButton")
-complete_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/CompleteValleysButton")
+unlock_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ValleysRow/UnlockValleysButton")
+complete_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ValleysRow/CompleteValleysButton")
+wipe_keep_tutorial_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/WipeRow/WipeKeepTutorialButton")
+exam_buttons = [NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamAddition"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamSubtraction"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamMultiplication"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamDivision"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamMix")]
+exam_container_ids = Array[String](["addition", "subtraction", "multiplication", "division", "mix"])
+root_events = ExtResource("21_root_events")
 
 [node name="DailyChallengesController" parent="." unique_id=341384884 instance=ExtResource("8_daily")]
 
@@ -768,33 +773,91 @@ layout_mode = 2
 theme_override_constants/separation = 6
 
 [node name="GrantGoldButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow" instance=ExtResource("11_action")]
-custom_minimum_size = Vector2(0, 40)
+custom_minimum_size = Vector2(0, 34)
 layout_mode = 2
 size_flags_horizontal = 3
 icon_texture = ExtResource("20_gold")
 caption_text = "+1"
 
 [node name="GrantGoldBigButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow" instance=ExtResource("11_action")]
-custom_minimum_size = Vector2(0, 40)
+custom_minimum_size = Vector2(0, 34)
 layout_mode = 2
 size_flags_horizontal = 3
 icon_texture = ExtResource("20_gold")
 caption_text = "+10"
 
-[node name="UnlockValleysButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
-custom_minimum_size = Vector2(0, 40)
+[node name="ValleysRow" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox"]
 layout_mode = 2
-caption_text = "ОТКРЫТЬ ВСЕ ДОЛИНЫ"
+theme_override_constants/separation = 6
 
-[node name="CompleteValleysButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
-custom_minimum_size = Vector2(0, 40)
+[node name="UnlockValleysButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ValleysRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 34)
 layout_mode = 2
-caption_text = "ПРОЙТИ ВСЕ ДОЛИНЫ"
+size_flags_horizontal = 3
+caption_text = "ОТКРЫТЬ ВСЕ"
 
-[node name="WipeProgressButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" instance=ExtResource("11_action")]
-custom_minimum_size = Vector2(0, 40)
+[node name="CompleteValleysButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ValleysRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 34)
 layout_mode = 2
-caption_text = "СБРОСИТЬ ПРОГРЕСС"
+size_flags_horizontal = 3
+caption_text = "ПРОЙТИ ВСЕ"
+
+[node name="ExamRow" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ExamLabel" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+text = "Экзамен:"
+vertical_alignment = 1
+
+[node name="ExamAddition" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(36, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "+"
+
+[node name="ExamSubtraction" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(36, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "−"
+
+[node name="ExamMultiplication" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(36, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "×"
+
+[node name="ExamDivision" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(36, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "÷"
+
+[node name="ExamMix" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(36, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "±"
+
+[node name="WipeRow" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="WipeProgressButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/WipeRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "СБРОСИТЬ ВСЁ"
+
+[node name="WipeKeepTutorialButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/WipeRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "БЕЗ ОБУЧЕНИЯ"
 
 [node name="ActionsRow" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox" unique_id=77448343]
 layout_mode = 2
