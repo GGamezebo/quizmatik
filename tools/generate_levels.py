@@ -5,6 +5,8 @@ Curriculum for kids 7-10 (Russian primary school order): each valley = 19 regula
 Pace is authored as `t` = seconds a balloon needs to reach the plane on NORMAL difficulty
 (BattleDifficulty: EASY ≈ +40% time, HARD ≈ −25%); speed = TRAVEL_PX / t.
 
+EASY profile (grade 1: ± within 20, × / ÷ tables 2-5) gets its own set in src/levels/{valley}/easy/.
+
 Run: python tools/generate_levels.py  (rewrites only level .tres; levels_config.gd is hand-edited).
 """
 import os
@@ -207,6 +209,136 @@ VALLEYS = {
 }
 
 
+# === EASY profile = grade 1 (± within 20, × / ÷ tables 2-5) → src/levels/{valley}/easy/ ===========
+# Same act / timed / boss layout as the normal valleys; BattleDifficulty.EASY still adds its time.
+A_E20 = {ADD: op((1, 15), (1, 9), (2, 20))}
+S_E20 = {SUB: op((2, 20), (1, 9), (1, 19))}
+A_TEEN = {ADD: op((10, 15), (1, 4), (11, 19))}
+S_TEEN = {SUB: op((11, 19), (1, 9), (10, 18))}
+S_20_CROSS = {SUB: op((11, 18), (2, 9), (2, 9))}
+
+ADDITION_EASY = {
+    **{i: ADDITION[i] for i in range(1, 11)},
+    11: lvl(16, 7, {ADD: op((5, 9), (5, 7), (11, 16))}, CARRY_REQUIRED, intro=True),
+    12: lvl(15, 8, A_20_CROSS, CARRY_REQUIRED),
+    13: lvl(15, 8, {ADD: op((11, 18), (1, 9), (12, 20))}, CARRY_NONE, intro=True),
+    14: lvl(14, 9, A_E20),
+    15: lvl(13, 9, A_20_CROSS, CARRY_REQUIRED),
+    16: lvl(15, 9, {ADD: op((1, 9), (1, 9), (2, 18))}, missing=0.5, missing_start=0.0),
+    17: lvl(13, 0, A_E20),
+    18: lvl(12, 10, A_E20),
+    19: lvl(12, 10, {ADD: op((1, 18), (1, 9), (2, 20))}),
+    20: [
+        stage(12, A_10),
+        stage(13, A_TEEN, CARRY_NONE),
+        stage(14, A_20_CROSS, CARRY_REQUIRED),
+        stage(13, A_E20),
+    ],
+}
+
+SUBTRACTION_EASY = {
+    **{i: SUBTRACTION[i] for i in range(1, 11)},
+    11: lvl(15, 8, {SUB: op((12, 18), (3, 9), (3, 9))}, CARRY_REQUIRED),
+    12: lvl(15, 7, {SUB: op((20, 20), (1, 9), (11, 19))}, intro=True),
+    13: lvl(15, 7, {SUB: op((11, 19), (10, 10), (1, 9))}, intro=True),
+    14: lvl(14, 9, S_E20),
+    15: lvl(13, 9, S_20_CROSS, CARRY_REQUIRED),
+    16: lvl(15, 9, S_E20, missing=0.5, missing_start=0.0),
+    17: lvl(13, 0, {SUB: op((2, 18), (1, 9), (1, 17))}),
+    18: lvl(14, 10, {**A_E20, **S_E20}),
+    19: lvl(12, 10, {**A_E20, **S_E20}),
+    20: [
+        stage(12, {SUB: op((2, 10), (1, 9), (1, 9))}),
+        stage(13, S_TEEN, CARRY_NONE),
+        stage(14, S_20_CROSS, CARRY_REQUIRED),
+        stage(13, {**A_E20, **S_E20}),
+    ],
+}
+
+
+def table_valley_easy(operation, slow):
+    """Tables 2-5 only. `rev` = first operand 2-10 × table 2-5 (7 × 3; 35 ÷ 7 = 5)."""
+    t = lambda base: base + slow
+    small = table(operation, (2, 5))
+    rev = table(operation, (2, 10), (2, 5))
+    return {
+        1: lvl(t(15), 6, table(operation, (2, 2)), intro=True),
+        2: lvl(t(15), 6, table(operation, (3, 3)), intro=True),
+        3: lvl(t(13), 7, table(operation, (2, 3))),
+        4: lvl(t(15), 7, table(operation, (4, 4)), intro=True),
+        5: lvl(t(15), 7, table(operation, (5, 5)), intro=True),
+        6: lvl(t(13), 8, small),
+        7: lvl(t(14), 8, table(operation, (4, 5))),
+        8: lvl(t(12), 8, table(operation, (2, 3))),
+        9: lvl(t(12), 0, small),
+        10: lvl(t(13), 8, small),
+        11: lvl(t(12), 8, table(operation, (4, 5))),
+        12: lvl(t(15), 7, rev, intro=True),
+        13: lvl(t(14), 8, rev),
+        14: lvl(t(13), 9, small),
+        15: lvl(t(13), 9, rev),
+        16: (
+            lvl(t(15), 9, small, missing=0.5, missing_start=0.0)
+            if operation == MUL
+            else lvl(t(14), 9, {**table(MUL, (2, 5)), **small})
+        ),
+        17: lvl(t(12), 0, small),
+        18: lvl(t(12), 10, rev),
+        19: (
+            lvl(t(12), 10, small)
+            if operation == MUL
+            else lvl(t(12), 10, {**table(MUL, (2, 10), (2, 5)), **rev}, missing=0.4)
+        ),
+        20: [
+            stage(t(12), table(operation, (2, 3))),
+            stage(t(13), table(operation, (4, 5))),
+            stage(t(13), small),
+            stage(t(13), rev),
+        ],
+    }
+
+
+M_MD_5_REV = {MUL: op((2, 10), (2, 5)), DIV: op((2, 10), (2, 5))}
+M_AS_E20 = {**A_E20, **S_E20}
+
+MIX_EASY = {
+    1: lvl(14, 8, M_AS_20),
+    2: lvl(14, 8, M_MD_5),
+    3: lvl(14, 8, {**M_AS_20, **M_MD_5}),
+    4: lvl(14, 8, M_AS_E20),
+    5: lvl(15, 8, M_MD_5_REV),
+    6: lvl(14, 9, {**M_AS_E20, **M_MD_5}),
+    7: lvl(12, 8, M_AS_E20),
+    8: lvl(14, 8, M_MD_5_REV),
+    9: lvl(13, 0, {**M_AS_20, **M_MD_5}),
+    10: lvl(13, 10, {**M_AS_E20, **M_MD_5}),
+    11: lvl(13, 9, {**M_AS_E20, MUL: op((2, 10), (2, 5))}),
+    12: lvl(13, 9, M_MD_5_REV),
+    13: lvl(13, 10, {**M_AS_E20, **M_MD_5_REV}),
+    14: lvl(12, 9, {**M_AS_20, **M_MD_5_REV}),
+    15: lvl(12, 9, M_MD_5),
+    16: lvl(15, 10, {**M_AS_E20, **M_MD_5}, missing=0.5, missing_start=0.0),
+    17: lvl(13, 0, {**M_AS_E20, **M_MD_5}),
+    18: lvl(13, 10, {**M_AS_E20, **M_MD_5_REV}),
+    19: lvl(12, 10, {**M_AS_E20, **M_MD_5_REV}),
+    20: [
+        stage(13, {**M_AS_20, **M_MD_5}),
+        stage(14, M_AS_E20),
+        stage(14, M_MD_5_REV),
+        stage(13, {**M_AS_E20, **M_MD_5_REV}),
+    ],
+}
+
+EASY_FOLDER = "easy"
+EASY_VALLEYS = {
+    "addition": ADDITION_EASY,
+    "subtraction": SUBTRACTION_EASY,
+    "multiplication": table_valley_easy(MUL, 0),
+    "division": table_valley_easy(DIV, 2),
+    "mix": MIX_EASY,
+}
+
+
 def speed(t: float) -> float:
     return round(TRAVEL_PX / t, 1)
 
@@ -376,18 +508,23 @@ def make_tres(valley: dict, level_id: int, uid: str) -> str:
     return "\n".join(lines) + "\n"
 
 
+def write_valley(valley_id: str, valley: dict, folder: str) -> int:
+    assert sorted(valley) == list(range(1, LEVEL_COUNT + 1)), folder
+    os.makedirs(folder, exist_ok=True)
+    for level_id in range(1, LEVEL_COUNT + 1):
+        path = os.path.join(folder, f"level_{level_id}.tres")
+        content = make_tres(valley, level_id, existing_uid(path))
+        with open(path, "w", encoding="utf-8", newline="\n") as file:
+            file.write(content)
+    return LEVEL_COUNT
+
+
 def main() -> None:
     written = removed = 0
     for valley_id, valley in VALLEYS.items():
-        assert sorted(valley) == list(range(1, LEVEL_COUNT + 1)), valley_id
         folder = os.path.join(BASE, valley_id)
-        os.makedirs(folder, exist_ok=True)
-        for level_id in range(1, LEVEL_COUNT + 1):
-            path = os.path.join(folder, f"level_{level_id}.tres")
-            content = make_tres(valley, level_id, existing_uid(path))
-            with open(path, "w", encoding="utf-8", newline="\n") as file:
-                file.write(content)
-            written += 1
+        written += write_valley(valley_id, valley, folder)
+        written += write_valley(valley_id, EASY_VALLEYS[valley_id], os.path.join(folder, EASY_FOLDER))
         for level_id in range(LEVEL_COUNT + 1, 40):
             for suffix in (".tres", ".tres.import"):
                 stale = os.path.join(folder, f"level_{level_id}{suffix}")

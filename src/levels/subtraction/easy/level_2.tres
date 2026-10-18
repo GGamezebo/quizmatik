@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="GameConfig" format=3]
+
+[ext_resource type="Script" path="res://src/common/game_config_default.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+allowed_operations = 2
+min_generate_number = 3
+max_generate_number = 10
+answer_lines_count = 3
+health = 3
+questions_count = 6
+answer_speed = 73.3
+answer_speed_round_coeffs = {}
+operation_ranges = {
+2: Vector2i(3, 10)
+}
+second_operand_ranges = {
+2: Vector2i(1, 5)
+}
+result_ranges = {
+2: Vector2i(1, 9)
+}
+boss_chance = 1.0

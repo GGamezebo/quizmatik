@@ -17,14 +17,15 @@ func initialize(_data: Dictionary) -> void:
 	assert(not scenario or not battle_info, 'Incorrect battle config')
 	
 	if battle_info:
-		scenario = levels_config.get_level_config(battle_info.container_id, battle_info.level_id)
+		var profiles := ProfileController.find_in_tree(get_tree())
+		var difficulty: StringName = profiles.valley_difficulty() if profiles != null else BattleDifficulty.NORMAL
+		scenario = levels_config.get_level_config(battle_info.container_id, battle_info.level_id, difficulty)
 		if scenario:
 			scenario = scenario.duplicate(true)
 			if battle_info.is_early_exam:
 				scenario.apply_early_exam_modifiers()
-			var profiles := ProfileController.find_in_tree(get_tree())
 			if profiles != null:
-				BattleDifficulty.apply(scenario, profiles.valley_difficulty())
+				BattleDifficulty.apply(scenario, difficulty)
 		
 	if scenario:
 		_load_game_scenario(scenario)

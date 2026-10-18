@@ -9,6 +9,8 @@ extends Control
 @export var root_events: RootEvents
 @export var progress: ProgressController
 @export var endless_config: GameConfig
+## EASY profile (grade 1: ± within 20, × / ÷ tables 2-5); empty → `endless_config`.
+@export var easy_endless_config: GameConfig
 @export var rules_overlay: RulesOverlay
 @export var button: BaseButton
 @export var best_label: Label
@@ -64,4 +66,6 @@ func _on_rules_start() -> void:
 
 
 func _start() -> void:
-	root_events.ev_start_game.emit({"custom_battle": endless_config})
+	var easy: bool = easy_endless_config != null and progress != null and progress.is_easy_difficulty()
+	var config: GameConfig = easy_endless_config if easy else endless_config
+	root_events.ev_start_game.emit({"custom_battle": config})

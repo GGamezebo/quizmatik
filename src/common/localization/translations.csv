@@ -86,9 +86,9 @@ keys,en
 Сменить в ангаре →,Change in hangar →
 Пилоты,Pilots
 УДАЛИТЬ ПИЛОТА,DELETE PILOT
-Спокойный темп,Relaxed pace
-Обычный темп,Normal pace
-Быстрый темп,Fast pace
+1 класс,Grade 1
+2–3 класс,Grades 2–3
+3–4 класс,Grades 3–4
 Победы,Wins
 Битвы,Battles
 Верные ответы,Correct answers
@@ -355,6 +355,17 @@ Hold out as long as you can!"
 • Выдержишь — кубок магистра встанет в зале славы!","• The timer runs backwards: hold out for 10 minutes.
 • Every 2 minutes an airship arrives — knock off its armor with answers. If you are hurt, a heart flies out after it.
 • Examples get harder: up to 16² = 256 and the root of 256.
+• Make it — and the magister cup takes its place in the hall of fame!"
+Плюс и минус,Plus and minus
+Умножение и деление,Multiplication and division
+Числа до 20 — считай через десяток,Numbers up to 20 — count through ten
+"Таблицы на 2, 3, 4 и 5","Tables of 2, 3, 4 and 5"
+"• Таймер идёт назад: продержись 10 минут.
+• Каждые 2 минуты прилетает дирижабль — сбей его броню ответами. Если ранен, после него вылетит сердечко.
+• Все четыре действия, и с каждой минутой примеры сложнее.
+• Выдержишь — кубок магистра встанет в зале славы!","• The timer runs backwards: hold out for 10 minutes.
+• Every 2 minutes an airship arrives — knock off its armor with answers. If you are hurt, a heart flies out after it.
+• All four operations, and the examples get harder every minute.
 • Make it — and the magister cup takes its place in the hall of fame!"
 "Монеток хватает на обновку!
 Загляни в магазин","You have enough coins for something new!

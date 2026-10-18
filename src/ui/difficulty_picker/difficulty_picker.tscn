@@ -139,7 +139,7 @@ horizontal_alignment = 1
 
 [node name="Hint" type="Label" parent="Easy/Content"]
 layout_mode = 2
-text = "Спокойный темп"
+text = "1 класс"
 label_settings = SubResource("LabelSettings_hint")
 horizontal_alignment = 1
 
@@ -203,7 +203,7 @@ horizontal_alignment = 1
 
 [node name="Hint" type="Label" parent="Normal/Content"]
 layout_mode = 2
-text = "Обычный темп"
+text = "2–3 класс"
 label_settings = SubResource("LabelSettings_hint")
 horizontal_alignment = 1
 
@@ -267,6 +267,6 @@ horizontal_alignment = 1
 
 [node name="Hint" type="Label" parent="Hard/Content"]
 layout_mode = 2
-text = "Быстрый темп"
+text = "3–4 класс"
 label_settings = SubResource("LabelSettings_hint")
 horizontal_alignment = 1

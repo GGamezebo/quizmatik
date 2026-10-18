@@ -9,7 +9,8 @@ const NORMAL := &"normal"
 const HARD := &"hard"
 
 ## Multipliers vs the unmodified config (normal = 1). Levels are tuned for an ~8-year-old on NORMAL;
-## EASY = 7-year-old / unsure (+40% time per balloon, no mid-battle speed-up), HARD = confident 10-year-old.
+## EASY = grade 1 (own level set `src/levels/{valley}/easy/` + these +40% time, no mid-battle speed-up),
+## HARD = confident 10-year-old.
 const PRESETS: Dictionary = {
 	EASY: {
 		"questions": 0.75,
