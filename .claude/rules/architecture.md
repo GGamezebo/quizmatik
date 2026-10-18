@@ -108,7 +108,7 @@ App phases are driven by HFSM (`src/game/hfsm/app_hfsm.json`) via `src/game/main
 - `main.gd` only creates HFSM + scene host; no gameplay bridge
 - Root `App` scene id `app_root` → `app_root/root.tscn` (`IScene`; RootEvents → `hfsm.add_event`)
 - JSON `scene: { id, loading_screen, async_loading, on_event }` → HFSM mounts via `HfsmSceneRegistry` + `HfsmScenePaths.PATHS`
-- `App` mounts `app_root`; AppRoot emits `ev.open_platform` → `App/Platform` picks branch `WEB`(→`Yandex` / `CrazyGames` / `Poki`) / `Android`(→`GooglePlay`) / `Desktop`(→`Steam`) by OS + export `custom_features` (`hfsm-app-integration.md`)
+- `App` mounts `app_root`; AppRoot emits `ev.open_platform` → `App/Platform` picks branch `WEB`(→`Yandex` / `CrazyGames` / `Poki`) / `Android`(→`GooglePlay` / `RuStore`) / `Desktop`(→`Steam`) by OS + export `custom_features` (`hfsm-app-integration.md`)
 - Game ↔ platform (ads, IAP, later cloud / analytics) only via `PlatformServices` Resource (`src/common/platform/`); monetization rules in `App/Monetization`, host UI only via `OfferBoard` — `monetization.md`
 - Scene node lifecycle: `initialize` / `deinit` / `on_event` called by HFSM
 - Menu UI windows use `WindowStackManager` (not HFSM bindings)

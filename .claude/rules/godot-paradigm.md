@@ -16,7 +16,7 @@ description: Core Godot paradigm — context scenes, resource defaults + HFSM ov
 - HFSM brings up only what the running platform needs: parent context checks `OS.has_feature(...)` once → emits `ev.open_<platform>` → nested state mounts platform context. Other platforms never load it.
 - Game code stays platform-agnostic: talks to platform contexts only via Resource events (e.g. `RootEvents`); no `OS.has_feature` for platforms in gameplay/UI.
 - Allowed in features: device-capability input (touch vs KBM, `DisplayServer.is_touchscreen_available()`), editor-only dev hooks (`OS.has_feature("editor")`).
-- Ref: `App/Platform` (`PlatformRouterContext`) → `WEB` → `Yandex`, `Android` → `GooglePlay`, `Desktop` → `Steam`; store `*Shop` children; game side = `PlatformServices` → `App/Monetization` → `OfferBoard` — `hfsm-app-integration.md`, `monetization.md`.
+- Ref: `App/Platform` (`PlatformRouterContext`) → `WEB` → `Yandex`, `Android` → `GooglePlay` / `RuStore`, `Desktop` → `Steam`; store `*Shop` children; game side = `PlatformServices` → `App/Monetization` → `OfferBoard` — `hfsm-app-integration.md`, `monetization.md`.
 
 ## Components
 - Entity = parent + components (child Nodes or `RefCounted`).

@@ -30,6 +30,8 @@ func _start_hfsm_when_ready() -> void:
 				"AndroidContext": AndroidContext,
 				"GooglePlayContext": GooglePlayContext,
 				"GooglePlayShopContext": GooglePlayShopContext,
+				"RuStoreContext": RuStoreContext,
+				"RuStoreShopContext": RuStoreShopContext,
 				"YandexShopContext": YandexShopContext,
 				"YandexCloudSaveContext": YandexCloudSaveContext,
 				"GooglePlayCloudSaveContext": GooglePlayCloudSaveContext,
