@@ -24,4 +24,4 @@ result_ranges = {
 1: Vector2i(12, 99)
 }
 bonus_gold_chance = 0.35
-boss_chance = 0.15
+boss_chance = 0.25

@@ -20,4 +20,4 @@ second_operand_ranges = {
 }
 carry_mode = 2
 bonus_gold_chance = 0.35
-boss_chance = 0.15
+boss_chance = 0.25

@@ -32,4 +32,4 @@ result_ranges = {
 missing_operand_chance = 0.2
 missing_operand_start_progress = 0.5
 bonus_gold_chance = 0.35
-boss_chance = 0.15
+boss_chance = 0.25
