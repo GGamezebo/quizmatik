@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://src/ui/spotlight_dim/spotlight_dim.tscn" id="11_dim"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="12_root_events"]
 [ext_resource type="Script" path="res://src/game/scenes/tutorial/battle_tips.gd" id="13_tips"]
+[ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="14_catalog"]
 
 [sub_resource type="Resource" id="Step_level"]
 script = ExtResource("6_step")
@@ -68,6 +69,68 @@ text = "Хватает монеток на новый самолёт!
 anchor_point = Vector2(0.5, 0.95)
 points_up = true
 
+[sub_resource type="Resource" id="Step_endless"]
+script = ExtResource("6_step")
+anchor_id = "menu.endless"
+text = "Открылся бой на рекорд!
+Отвечай, пока есть сердечки —
+шарики летят всё быстрее.
+Продержись как можно дольше!"
+anchor_point = Vector2(0.5, 0.05)
+button_text = "Понятно!"
+
+[sub_resource type="Resource" id="Step_shop_entry"]
+script = ExtResource("6_step")
+anchor_id = "menu.shop"
+text = "Монеток хватает на обновку!
+Загляни в магазин"
+anchor_point = Vector2(0.5, 0.95)
+points_up = true
+
+[sub_resource type="Resource" id="Step_tour_item1"]
+script = ExtResource("6_step")
+anchor_id = "shop.item"
+text = "Нажми на товар —
+самолёт сразу его примерит!"
+anchor_point = Vector2(0.5, 0.95)
+points_up = true
+
+[sub_resource type="Resource" id="Step_tour_trail"]
+script = ExtResource("6_step")
+anchor_id = "shop.slot.trail"
+text = "А здесь — шлейфы
+за самолётом"
+anchor_point = Vector2(0.5, 0.05)
+
+[sub_resource type="Resource" id="Step_tour_item2"]
+script = ExtResource("6_step")
+anchor_id = "shop.item"
+text = "Примерь шлейф!"
+anchor_point = Vector2(0.5, 0.95)
+points_up = true
+
+[sub_resource type="Resource" id="Step_tour_cover"]
+script = ExtResource("6_step")
+anchor_id = "shop.slot.cover"
+text = "А тут — обложки
+для главного меню"
+anchor_point = Vector2(0.5, 0.05)
+
+[sub_resource type="Resource" id="Step_tour_item3"]
+script = ExtResource("6_step")
+anchor_id = "shop.item"
+text = "Посмотри, как красиво!"
+anchor_point = Vector2(0.5, 0.95)
+points_up = true
+
+[sub_resource type="Resource" id="Step_tour_buy"]
+script = ExtResource("6_step")
+anchor_id = "shop.buy"
+text = "Понравилось — купи за монетки!
+Или копи на что-то особенное."
+anchor_point = Vector2(0.5, 0.05)
+button_text = "Понятно!"
+
 [node name="Tutorial" type="Node" node_paths=PackedStringArray("progress", "menu_pointer", "battle_coach", "battle_tips")]
 script = ExtResource("1_tutorial")
 root_events = ExtResource("12_root_events")
@@ -78,6 +141,10 @@ battle_tips = NodePath("BattleTips")
 first_flight_steps = Array[ExtResource("6_step")]([SubResource("Step_level"), SubResource("Step_pack"), SubResource("Step_start")])
 daily_stamp_steps = Array[ExtResource("6_step")]([SubResource("Step_daily")])
 plane_shop_steps = Array[ExtResource("6_step")]([SubResource("Step_buy"), SubResource("Step_profile_plane"), SubResource("Step_profile")])
+endless_intro_steps = Array[ExtResource("6_step")]([SubResource("Step_endless")])
+shop_entry_step = SubResource("Step_shop_entry")
+shop_tour_steps = Array[ExtResource("6_step")]([SubResource("Step_tour_item1"), SubResource("Step_tour_trail"), SubResource("Step_tour_item2"), SubResource("Step_tour_cover"), SubResource("Step_tour_item3"), SubResource("Step_tour_buy")])
+cosmetic_catalog = ExtResource("14_catalog")
 
 [node name="ProgressController" parent="." instance=ExtResource("2_progress")]
 

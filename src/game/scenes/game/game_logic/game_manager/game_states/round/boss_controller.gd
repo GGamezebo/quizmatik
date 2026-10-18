@@ -5,8 +5,9 @@ extends RefCounted
 ## (exam = 1, never on timed levels). Flies in (`ev_appeared`) → rounds resume (`ev_ready`); every correct
 ## answer then knocks off one armor plate (`ev_hit`); armor 0 → it gets angry (`ev_enraged`) and creeps
 ## toward the plane; shots on its hull (`shoot`, `ev_shot`) bring it down (`ev_defeated` → battle won).
-## Endless battle: never rolled — `arm()` + `start()` on `EndlessDirector.ev_boss_due`, again after each fall;
-## no angry phase (else waiting it out would farm time) — the last plate brings it down.
+## Staged battles (endless, magister): never rolled — `arm()` + `start()` on `EndlessDirector.ev_boss_due`, again
+## after each fall; no angry phase (endless, or `boss_rage_hits` 0: waiting it out would farm time) — the last
+## plate brings it down.
 
 signal ev_appeared(armor: int)
 signal ev_ready
@@ -31,7 +32,7 @@ func _init(game_config: GameConfig, area: GameArea, scene: PackedScene, spawn_pa
 	_scene = scene
 	_spawn_parent = spawn_parent
 	_armor = game_config.boss_armor
-	_rage_hits = 0 if game_config.endless else game_config.boss_rage_hits
+	_rage_hits = 0 if game_config.endless else maxi(game_config.boss_rage_hits, 0)
 	if scene != null and _armor > 0 and not game_config.is_timed() and not game_config.endless 			and randf() < game_config.boss_chance:
 		_phase = Phase.WAITING
 

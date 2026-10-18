@@ -22,6 +22,14 @@ func items_for(slot: CosmeticItem.Slot) -> Array[CosmeticItem]:
 	return result
 
 
+## Some paid item not in `owned` costs at most `gold`.
+func has_affordable(gold: int, owned: Array) -> bool:
+	for item in items:
+		if item != null and item.gold_cost > 0 and item.gold_cost <= gold and not owned.has(item.id):
+			return true
+	return false
+
+
 ## First free item of the slot (what a fresh profile wears).
 func default_for(slot: CosmeticItem.Slot) -> CosmeticItem:
 	for item in items_for(slot):

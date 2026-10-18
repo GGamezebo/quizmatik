@@ -10,7 +10,9 @@ extends HBoxContainer
 @export var maxScore: Label
 @export var separator: Control
 @export var time_left: Label
-@export var time_icon: Control
+@export var time_icon: TextureRect
+## Endless counts up → stopwatch; timed levels keep the scene clock (countdown).
+@export var endless_time_texture: Texture2D
 @export var time_warning_sec: int = 10
 @export var time_warning_color: Color = Color(0.70, 0.28, 0.26, 1.0)
 ## Clock + time must fit inside the frame: the time font shrinks for «10:00» / «1:05:30».
@@ -19,11 +21,14 @@ extends HBoxContainer
 
 var _time_color: Color
 var _time_font_size: int = 42
+var _countdown_texture: Texture2D
 
 
 func _ready() -> void:
 	_time_color = time_left.get_theme_color("font_color") if time_left else Color.BLACK
 	_time_font_size = time_left.get_theme_font_size("font_size")
+	if time_icon:
+		_countdown_texture = time_icon.texture
 	resized.connect(_fit_time)
 	_refresh_mode()
 	game_config.changed.connect(_refresh_mode)
@@ -49,6 +54,10 @@ func _refresh_mode() -> void:
 	time_left.visible = timed
 	if time_icon:
 		time_icon.visible = timed
+		if game_config.endless and endless_time_texture:
+			time_icon.texture = endless_time_texture
+		else:
+			time_icon.texture = _countdown_texture
 	maxScore.text = str(game_config.questions_count)
 	if game_config.endless:
 		_on_endless_time(0)

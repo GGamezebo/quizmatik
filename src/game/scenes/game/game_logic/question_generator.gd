@@ -56,6 +56,10 @@ static func _fits(gameConfig: GameConfig, operation: int, a: int, b: int) -> boo
 			result = a - b
 		GameConfig.Operations.MULTIPLICATION:
 			result = a * b
+		GameConfig.Operations.SQUARE:
+			result = a * a
+		GameConfig.Operations.ROOT:
+			result = a
 		_:
 			result = b
 	if result < 0:
@@ -84,6 +88,8 @@ static func _fact_key_of(picked: Array) -> String:
 			return MathFact.make_key(MathFact.FAMILY_ADD, a, b)
 		GameConfig.Operations.SUBTRACTION:
 			return MathFact.make_key(MathFact.FAMILY_ADD, absi(a - b), mini(a, b))
+		GameConfig.Operations.SQUARE, GameConfig.Operations.ROOT:
+			return MathFact.make_key(MathFact.FAMILY_MUL, a, a)
 	return MathFact.make_key(MathFact.FAMILY_MUL, a, b)
 
 
@@ -97,6 +103,10 @@ static func _active_operations(gameConfig: GameConfig) -> Array[int]:
 		active_operations.append(GameConfig.Operations.MULTIPLICATION)
 	if gameConfig.allowed_operations & GameConfig.Operations.DIVISION:
 		active_operations.append(GameConfig.Operations.DIVISION)
+	if gameConfig.allowed_operations & GameConfig.Operations.SQUARE:
+		active_operations.append(GameConfig.Operations.SQUARE)
+	if gameConfig.allowed_operations & GameConfig.Operations.ROOT:
+		active_operations.append(GameConfig.Operations.ROOT)
 		
 	if active_operations.is_empty():
 		active_operations.append(GameConfig.Operations.MULTIPLICATION)
@@ -156,6 +166,9 @@ static func _review_variants(operation: int, parsed: Array, gameConfig: GameConf
 		GameConfig.Operations.DIVISION:
 			if family == MathFact.FAMILY_MUL:
 				pairs = [[x, y], [y, x]]
+		GameConfig.Operations.SQUARE, GameConfig.Operations.ROOT:
+			if family == MathFact.FAMILY_MUL and x == y:
+				pairs = [[x, x]]
 	var result: Array = []
 	for pair in pairs:
 		if operation == GameConfig.Operations.DIVISION and pair[0] < 1:
@@ -216,6 +229,8 @@ static func _build_question(gameConfig: GameConfig, score: int, chosen_operation
 			op_sign = "/"
 			fake_a = divisor
 			fake_b = quotient
+	if chosen_operation == GameConfig.Operations.SQUARE or chosen_operation == GameConfig.Operations.ROOT:
+		return _build_power_question(q, chosen_operation, a, gameConfig.answer_lines_count)
 	if chosen_operation != GameConfig.Operations.DIVISION:
 		fake_a = a
 		fake_b = b
@@ -245,6 +260,41 @@ static func _build_question(gameConfig: GameConfig, score: int, chosen_operation
 	q.options = options_set
 	
 	return q
+
+## `n² = ?` / `√(n²) = ?` (fact `mul:n:n`; never a hidden operand). Wrong options a child really gives:
+## square — `2n` (n² read as n×2), neighbour squares, ±1..2, ±10; root — n ± 1..3.
+static func _build_power_question(q: Question, operation: int, n: int, count: int) -> Question:
+	var square: int = n * n
+	var candidates: Array[int] = []
+	if operation == GameConfig.Operations.SQUARE:
+		q.text = "%d² = ?" % n
+		q.correct_answer = square
+		candidates.append_array([n * 2, (n - 1) * (n - 1), (n + 1) * (n + 1), n * (n + 1), n * (n - 1)])
+		candidates.append_array([square - 1, square + 1, square - 2, square + 2, square - 10, square + 10])
+	else:
+		q.text = "√%d = ?" % square
+		q.correct_answer = n
+		candidates.append_array([n - 1, n + 1, n - 2, n + 2, n - 3, n + 3])
+	q.fact_key = MathFact.make_key(MathFact.FAMILY_MUL, n, n)
+	# Same give-away rule as ×: nothing far off by size.
+	@warning_ignore("integer_division")
+	var max_distance: int = maxi(3, q.correct_answer / 2)
+	candidates.shuffle()
+	var options: Array = [q.correct_answer]
+	for candidate in candidates:
+		if options.size() >= count:
+			break
+		if candidate >= 0 and not candidate in options and absi(candidate - q.correct_answer) <= max_distance:
+			options.append(candidate)
+	var extra: int = q.correct_answer + 1
+	while options.size() < count:
+		if not extra in options:
+			options.append(extra)
+		extra += 1
+	options.shuffle()
+	q.options = options
+	return q
+
 
 ## Turns `a op b = r` into `? op b = r` or `a op ? = r`. False when the hidden value would be ambiguous.
 static func _hide_operand(q: Question, operation: int, a: int, b: int, op_sign: String) -> bool:

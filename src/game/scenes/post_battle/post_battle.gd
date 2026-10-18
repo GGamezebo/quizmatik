@@ -39,6 +39,8 @@ extends IScene
 @export var endless_first_text: String = "Первый рекорд!"
 @export_group("Golden flight texts")
 @export var golden_title: String = "ЗОЛОТОЙ ПОЛЁТ!"
+@export_group("Magister texts")
+@export var magister_title: String = "ТЫ — МАГИСТР!"
 
 var _next_battle_info: GameConfig.BattleInfo = null
 var _pending_auto_container: String = ""
@@ -62,6 +64,8 @@ static func build_result_data(
 	if game_config.golden_flight:
 		# Caught coin balloons + the final pick, kept on any exit.
 		data["golden_gold"] = player.bonus_gold
+	if game_config.magister:
+		data["magister"] = true
 	if game_config.endless:
 		data["endless_sec"] = player.survived_sec
 		data["endless_best_before"] = game_config.endless_best_sec
@@ -82,9 +86,10 @@ func initialize(data: Dictionary) -> void:
 	_show_endless(data)
 	var record_gold: int = int(data.get("record_gold", 0))
 	var golden_gold: int = int(data.get("golden_gold", 0))
-	_show_level_gold(int(data.get("level_gold", 0)), record_gold, golden_gold)
+	var magister_gold: int = int(data.get("magister_gold", 0))
+	_show_level_gold(int(data.get("level_gold", 0)), record_gold, golden_gold, magister_gold)
 	_show_bonus_gold(int(data.get("bonus_gold", 0)))
-	var earned_gold: int = int(data.get("level_gold", 0)) + int(data.get("bonus_gold", 0)) + record_gold + golden_gold
+	var earned_gold: int = int(data.get("level_gold", 0)) + int(data.get("bonus_gold", 0)) + record_gold + golden_gold + magister_gold
 	if gold_lines:
 		gold_lines.visible = earned_gold > 0
 	if rewarded_gold_button:
@@ -96,6 +101,11 @@ func initialize(data: Dictionary) -> void:
 		repeat_button.visible = false
 		call_deferred("_grab_button_focus", menu_button)
 		title_label.text = golden_title
+		if stamps_row:
+			stamps_row.visible = false
+	if _game_config != null and _game_config.magister:
+		if is_win:
+			title_label.text = magister_title
 		if stamps_row:
 			stamps_row.visible = false
 
@@ -191,13 +201,15 @@ func _show_stamps(count: int) -> void:
 			stamp.texture = stamp_empty
 
 
-## Same coin row: level «3 stamps» gold, endless record gold or golden-flight gold (one kind per battle).
-func _show_level_gold(amount: int, record_amount: int = 0, golden_amount: int = 0) -> void:
+## Same coin row: level «3 stamps» gold, endless record, golden-flight or magister gold (one kind per battle).
+func _show_level_gold(amount: int, record_amount: int = 0, golden_amount: int = 0, magister_amount: int = 0) -> void:
 	if gold_label == null:
 		return
 	if level_gold_row:
-		level_gold_row.visible = amount > 0 or record_amount > 0 or golden_amount > 0
-	if golden_amount > 0:
+		level_gold_row.visible = amount > 0 or record_amount > 0 or golden_amount > 0 or magister_amount > 0
+	if magister_amount > 0:
+		gold_label.text = tr("+%d за звание магистра") % magister_amount
+	elif golden_amount > 0:
 		gold_label.text = tr("+%d за золотой полёт") % golden_amount
 	elif record_amount > 0:
 		gold_label.text = tr("+%d за рекорд") % record_amount

@@ -42,7 +42,15 @@ const GRANT_GOLD_BIG := 10
 @export var grant_gold_big_button: BaseButton
 @export var unlock_valleys_button: BaseButton
 @export var complete_valleys_button: BaseButton
+## Wipes progress like «СБРОСИТЬ ПРОГРЕСС» but keeps the active pilot and its tutorial flags.
+@export var wipe_keep_tutorial_button: BaseButton
+## «Экзамен:» row — one button per valley (same order as `exam_container_ids`) passes that exam at once.
+@export var exam_buttons: Array[BaseButton] = []
+@export var exam_container_ids: Array[String] = []
+@export var root_events: RootEvents
 
+
+var _wipe_keep_tutorial: bool = false
 
 func _ready() -> void:
 	_load_config_from_disk()
@@ -94,13 +102,17 @@ func _bind_controls() -> void:
 	if random_button != null:
 		random_button.pressed.connect(_on_random_settings_pressed)
 	if wipe_progress_button != null:
-		wipe_progress_button.pressed.connect(_on_wipe_progress_pressed)
+		wipe_progress_button.pressed.connect(_on_wipe_progress_pressed.bind(false))
 	if wipe_dialog != null:
 		wipe_dialog.ev_confirmed.connect(_on_wipe_progress_confirmed)
 	if unlock_valleys_button != null:
 		unlock_valleys_button.pressed.connect(_on_unlock_valleys_pressed)
 	if complete_valleys_button != null:
 		complete_valleys_button.pressed.connect(_on_complete_valleys_pressed)
+	if wipe_keep_tutorial_button != null:
+		wipe_keep_tutorial_button.pressed.connect(_on_wipe_progress_pressed.bind(true))
+	for index in mini(exam_buttons.size(), exam_container_ids.size()):
+		exam_buttons[index].pressed.connect(_on_exam_pressed.bind(exam_container_ids[index]))
 	if grant_gold_button != null:
 		grant_gold_button.pressed.connect(_on_grant_gold_pressed.bind(GRANT_GOLD))
 	if grant_gold_big_button != null:
@@ -277,6 +289,7 @@ func _on_grant_gold_pressed(amount: int) -> void:
 	if profiles == null or not profiles.has_profiles():
 		return
 	profiles.add_gold(amount)
+	_notify_progress_changed()
 
 
 func _on_unlock_valleys_pressed() -> void:
@@ -284,6 +297,7 @@ func _on_unlock_valleys_pressed() -> void:
 	if progress == null:
 		return
 	progress.unlock_all_containers()
+	_notify_progress_changed()
 
 
 func _on_complete_valleys_pressed() -> void:
@@ -291,11 +305,37 @@ func _on_complete_valleys_pressed() -> void:
 	if progress == null:
 		return
 	progress.complete_all_containers()
+	_notify_progress_changed()
 
 
-func _on_wipe_progress_pressed() -> void:
+## Marks the exam of `container_id` passed at once (3 stars, like a won exam: trophy, plane, next valley).
+func _on_exam_pressed(container_id: String) -> void:
+	var progress := ProgressController.find_in_tree(get_tree())
+	if progress == null:
+		return
+	progress.pass_exam(container_id, 3)
+	_notify_progress_changed()
+
+
+## Lab edits bypass battles: the same signal a profile switch sends makes AppRoot / tutorial / menu
+## re-check what is due (hints like the endless clock intro or the plane shop, menu entries).
+func _notify_progress_changed() -> void:
+	if root_events != null:
+		root_events.ev_profiles_changed.emit()
+
+
+func _on_wipe_progress_pressed(keep_tutorial: bool) -> void:
+	_wipe_keep_tutorial = keep_tutorial
 	if wipe_dialog == null:
 		_on_wipe_progress_confirmed()
+		return
+	if keep_tutorial:
+		wipe_dialog.open(
+			"Сбросить без обучения?",
+			"Прогресс, золото и другие пилоты удалятся. Текущий пилот и пройденное обучение останутся.",
+			"Сбросить",
+			"Отмена",
+		)
 		return
 	wipe_dialog.open(
 		"Сбросить всё?",
@@ -308,7 +348,11 @@ func _on_wipe_progress_pressed() -> void:
 func _on_wipe_progress_confirmed() -> void:
 	_close_lab_window()
 	var profiles := ProfileController.find_in_tree(get_tree())
-	if profiles != null:
+	if profiles == null:
+		return
+	if _wipe_keep_tutorial:
+		profiles.reset_progress_keep_tutorial()
+	else:
 		profiles.wipe_all_profiles()
 
 

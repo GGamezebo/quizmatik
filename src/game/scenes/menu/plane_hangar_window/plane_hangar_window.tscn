@@ -337,7 +337,7 @@ size_flags_vertical = 3
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="PaintPage" type="HBoxContainer" parent="Center/Content" node_paths=PackedStringArray("category_buttons", "grid", "flyer_view", "flyer", "shot_swatch", "photo_box", "photo_frame", "photo", "photo_sticker", "cover_icon", "item_name", "action_button")]
+[node name="PaintPage" type="HBoxContainer" parent="Center/Content" node_paths=PackedStringArray("category_buttons", "grid", "item_anchor", "flyer_view", "flyer", "shot_swatch", "photo_box", "photo_frame", "photo", "photo_sticker", "cover_icon", "item_name", "action_button")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -355,6 +355,7 @@ catalog = ExtResource("64_catalog")
 card_scene = ExtResource("65_card")
 category_buttons = [NodePath("Right/Slots/Paint"), NodePath("Right/Slots/Trail"), NodePath("Right/Slots/Shot"), NodePath("Right/Slots/Sticker"), NodePath("Right/Slots/Frame"), NodePath("Right/Slots/Cover")]
 grid = NodePath("Right/Scroll/Grid")
+item_anchor = NodePath("../../../ShopItemAnchor")
 flyer_view = NodePath("Preview/VBox/Stage/FlyerView")
 flyer = NodePath("Preview/VBox/Stage/FlyerView/Viewport/PlaneFlyer")
 shot_swatch = NodePath("Preview/VBox/Stage/ShotSwatch")
@@ -587,5 +588,28 @@ columns = 4
 script = ExtResource("60_ui_anchor")
 registry = ExtResource("61_tutorial_anchors")
 anchor_id = "hangar.buy"
+
+[node name="ShopItemAnchor" type="Node" parent="."]
+script = ExtResource("60_ui_anchor")
+registry = ExtResource("61_tutorial_anchors")
+anchor_id = "shop.item"
+
+[node name="ShopTrailAnchor" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("60_ui_anchor")
+registry = ExtResource("61_tutorial_anchors")
+anchor_id = "shop.slot.trail"
+target = NodePath("../Center/Content/PaintPage/Right/Slots/Trail")
+
+[node name="ShopCoverAnchor" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("60_ui_anchor")
+registry = ExtResource("61_tutorial_anchors")
+anchor_id = "shop.slot.cover"
+target = NodePath("../Center/Content/PaintPage/Right/Slots/Cover")
+
+[node name="ShopBuyAnchor" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("60_ui_anchor")
+registry = ExtResource("61_tutorial_anchors")
+anchor_id = "shop.buy"
+target = NodePath("../Center/Content/PaintPage/Preview/VBox/Action")
 
 [node name="MenuWindowBack" parent="." instance=ExtResource("9_back")]

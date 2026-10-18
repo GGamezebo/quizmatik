@@ -1,11 +1,11 @@
 class_name EndlessDirector
 extends RefCounted
 
-## Endless battle (`GameConfig.endless`): counts seconds survived (`ev_tick`), raises difficulty every
-## `endless_step_sec` (`GameConfig.apply_endless_stage`) and asks for a boss after every
-## `endless_boss_every_sec` of balloons (`ev_boss_due`; the clock waits until `boss_finished`);
-## `ev_heart_due` every `endless_heart_every_sec` (the listener spawns a heart balloon only if hurt).
-## Paused together with the answers (`ev_pause_answers`).
+## Staged battle director — endless (`GameConfig.endless`) or any battle with `endless_stages` (magister trial,
+## timed by `BattleTimeLimit`): raises difficulty every `endless_step_sec` (`GameConfig.apply_endless_stage`)
+## and asks for a boss after every `endless_boss_every_sec` of balloons (`ev_boss_due`; the clock waits until
+## `boss_finished`); `ev_heart_due` every `endless_heart_every_sec` (> 0; the listener spawns a heart balloon
+## only if hurt). Endless only: seconds survived (`ev_tick`). Paused together with the answers (`ev_pause_answers`).
 
 signal ev_tick(seconds: int)
 signal ev_boss_due
@@ -25,7 +25,7 @@ var _heart_clock: float = 0.0
 ## Applies the first stage right away — call before the first round is generated.
 func _init(config: GameConfig) -> void:
 	_config = config
-	_active = config.endless
+	_active = config.is_staged()
 	if _active:
 		_config.apply_endless_stage(0)
 
@@ -33,6 +33,10 @@ func _init(config: GameConfig) -> void:
 func deinit() -> void:
 	_active = false
 	_config = null
+
+
+func is_active() -> bool:
+	return _active
 
 
 func set_paused(paused: bool) -> void:
@@ -50,7 +54,7 @@ func update(delta: float) -> void:
 		return
 	_elapsed += delta
 	var seconds: int = floori(_elapsed)
-	if seconds != _shown:
+	if seconds != _shown and _config.endless:
 		_shown = seconds
 		ev_tick.emit(seconds)
 	var step: int = floori(_elapsed / maxf(_config.endless_step_sec, 1.0))

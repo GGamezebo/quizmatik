@@ -124,6 +124,34 @@ func wipe_all_profiles() -> void:
 	ev_profiles_changed.emit.call_deferred()
 
 
+
+## Dev lab: everything back to a fresh start except the active pilot (id, name, difficulty) and its tutorial flags;
+## other pilots are removed. No pilot yet → same as `wipe_all_profiles`.
+func reset_progress_keep_tutorial() -> void:
+	if pdata == null or pdata.profile_id.is_empty():
+		wipe_all_profiles()
+		return
+	var state: Dictionary = pdata.state.to_dict()
+	pdata.apply_dict({
+		"profile_id": pdata.profile_id,
+		"name": pdata.display_name,
+		"difficulty": pdata.difficulty,
+		"state": {
+			"tutorial_completed": state.get("tutorial_completed", false),
+			"tutorial_steps": state.get("tutorial_steps", {}),
+		},
+	})
+	var sm := _save_manager()
+	if sm != null:
+		sm.profiles.clear()
+		sm.profiles[pdata.profile_id] = pdata.to_dict()
+		sm.active_profile_id = pdata.profile_id
+	save()
+	if root_events != null:
+		root_events.ev_profiles_changed.emit.call_deferred()
+	ev_profiles_changed.emit.call_deferred()
+
+
 func delete_profile(profile_id: String) -> bool:
 	if not can_delete():
 		return false

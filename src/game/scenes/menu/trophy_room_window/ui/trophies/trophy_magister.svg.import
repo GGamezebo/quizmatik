@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcqgqisgon0k4"
-path.s3tc="res://.godot/imported/icon_speed.png-d8fbd931037130f5fb826fb640b8a0f0.s3tc.ctex"
-path.etc2="res://.godot/imported/icon_speed.png-d8fbd931037130f5fb826fb640b8a0f0.etc2.ctex"
+uid="uid://ckugywmsgvuaw"
+path.s3tc="res://.godot/imported/trophy_magister.svg-38a9a781b2984d7a4d8ef5a7da352fbb.s3tc.ctex"
+path.etc2="res://.godot/imported/trophy_magister.svg-38a9a781b2984d7a4d8ef5a7da352fbb.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/game/scenes/menu/trophy_room_window/ui/stat_icons/icon_speed.png"
-dest_files=["res://.godot/imported/icon_speed.png-d8fbd931037130f5fb826fb640b8a0f0.s3tc.ctex", "res://.godot/imported/icon_speed.png-d8fbd931037130f5fb826fb640b8a0f0.etc2.ctex"]
+source_file="res://src/game/scenes/menu/trophy_room_window/ui/trophies/trophy_magister.svg"
+dest_files=["res://.godot/imported/trophy_magister.svg-38a9a781b2984d7a4d8ef5a7da352fbb.s3tc.ctex", "res://.godot/imported/trophy_magister.svg-38a9a781b2984d7a4d8ef5a7da352fbb.etc2.ctex"]
 
 [params]
 
@@ -40,3 +40,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=0
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

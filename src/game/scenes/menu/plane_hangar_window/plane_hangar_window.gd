@@ -37,6 +37,8 @@ func _exit_tree() -> void:
 
 
 func on_window_enter() -> void:
+	if paint_page != null:
+		paint_page.reset_slot()
 	_show_tab(_next_tab_paint)
 	_next_tab_paint = true
 

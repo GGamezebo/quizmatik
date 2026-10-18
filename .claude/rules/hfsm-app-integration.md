@@ -43,7 +43,7 @@ paths:
 ## Tutorial (parallel state)
 
 - `App/Tutorial` scene `tutorial` (`scenes/tutorial/tutorial.tscn`, sync load), parallel to Menu/Battle
-- AppRoot `_sync_tutorial()` on initialize + `ev_profiles_changed`: profile exists and `!ProgressController.is_tutorial_completed()` → `ev.open_tutorial`, else `ev.close_tutorial`
+- AppRoot `_sync_tutorial()` on initialize + `ev_profiles_changed` + `ev_return_to_menu`: profile exists and (`!ProgressController.is_tutorial_completed()` or `is_endless_intro_pending()`) → `ev.open_tutorial`, else `ev.close_tutorial`
 - Tutorial scene reacts to `ev.start_game` / `ev.exit_game` / `ev.open_menu` via `on_event` (re-evaluates chapter); all chapters + `BattleTips.TIPS` done → `complete_tutorial()` + `ev.close_tutorial` (guarded: its own close event must not re-enter `_refresh`)
 
 ## Controls intro (parallel state)

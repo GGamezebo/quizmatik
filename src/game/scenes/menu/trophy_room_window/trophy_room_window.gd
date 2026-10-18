@@ -7,12 +7,19 @@ extends Control
 @export var trophies_list: HBoxContainer
 @export var stat_row_scene: PackedScene
 @export var trophy_slot_scene: PackedScene
+## Magister award (last shelf slot) — survived the magister trial.
+@export var magister_trophy: Texture2D
+@export var magister_name: String = "Магистр"
+## Garland bulbs: lit once everything here is unlocked (`ProgressController.is_hall_complete`).
+@export var hall_lamps: HallLamps
+## Rules shown when the not-yet-earned magister cup is tapped.
+@export var magister_rules: MagisterRulesOverlay
 @export var hard_facts_label: Label
 @export var hard_facts_empty_text: String = ""
 @export var hard_facts_button: BaseButton
 @export var hard_facts_overlay: HardFactsOverlay
 @export_group("Endless record scroll")
-## Open scroll with the best endless time — once every valley exam is passed.
+## Open scroll with the best endless time — once `ProgressController.is_endless_unlocked`.
 @export var record_open_nodes: Array[Control] = []
 ## Rolled-up sealed scroll + hint while the endless battle is locked.
 @export var record_closed_nodes: Array[Control] = []
@@ -38,6 +45,8 @@ func on_window_enter() -> void:
 	_rebuild_stats()
 	_rebuild_record()
 	_rebuild_hard_facts()
+	if hall_lamps != null:
+		hall_lamps.set_lit(progress != null and progress.is_hall_complete())
 
 
 func _live_pdata() -> PData:
@@ -68,6 +77,13 @@ func _rebuild_trophies() -> void:
 			_total_levels(container_id),
 		)
 		trophies_list.add_child(slot)
+	# Magister cup: hidden until every valley trophy is on the shelf; pulses with rules on tap until earned.
+	if magister_trophy != null and progress != null and progress.are_all_valley_trophies_unlocked():
+		var earned: bool = progress.is_magister()
+		var magister_slot: TrophySlot = trophy_slot_scene.instantiate() as TrophySlot
+		magister_slot.initialize_award(magister_name, magister_trophy, earned, not earned and magister_rules != null)
+		magister_slot.ev_hint_pressed.connect(_on_magister_hint_pressed)
+		trophies_list.add_child(magister_slot)
 
 
 func _is_exam_completed_fallback(container_id: String) -> bool:
@@ -105,7 +121,7 @@ func _rebuild_stats() -> void:
 
 
 func _rebuild_record() -> void:
-	var unlocked: bool = progress != null and progress.are_all_valleys_completed()
+	var unlocked: bool = progress != null and progress.is_endless_unlocked()
 	for node in record_open_nodes:
 		node.visible = unlocked
 	for node in record_closed_nodes:
@@ -142,6 +158,10 @@ func _on_hard_facts_pressed() -> void:
 			"misses": live.mistakes.misses.get(fact_key, 1),
 		})
 	hard_facts_overlay.open(rows)
+
+
+func _on_magister_hint_pressed() -> void:
+	magister_rules.open(false)
 
 
 func _on_hard_facts_closed() -> void:

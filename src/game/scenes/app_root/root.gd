@@ -49,6 +49,7 @@ func _on_ev_exit_game(data: Dictionary = {}) -> void:
 	add_event("ev.exit_game", data)
 
 func _on_ev_return_to_menu(data: Dictionary = {}) -> void:
+	_sync_tutorial()
 	add_event("ev.open_menu", data)
 
 func _on_profiles_changed() -> void:
@@ -59,11 +60,16 @@ func _on_profiles_changed() -> void:
 	_sync_tutorial()
 
 
-## Tutorial is a parallel HFSM state: open for a profile that hasn't finished it, close otherwise.
+## Tutorial is a parallel HFSM state: open for a profile that hasn't finished it (or has a late
+## chapter due / awaited — endless intro, shop tour), close otherwise.
 func _sync_tutorial() -> void:
 	var needs_tutorial: bool = (
 		profile_controller != null and profile_controller.has_profiles()
-		and not progress_controller.is_tutorial_completed()
+		and (
+			not progress_controller.is_tutorial_completed()
+			or progress_controller.is_endless_intro_pending()
+			or progress_controller.is_shop_tour_pending()
+		)
 	)
 	add_event("ev.open_tutorial" if needs_tutorial else "ev.close_tutorial")
 
@@ -91,6 +97,8 @@ func _on_first_profile_submitted(display_name: String, difficulty: StringName) -
 
 ## Endless battle: each new time record = +gold and one daily slot (the mode is never "won").
 const ENDLESS_RECORD_GOLD: int = 1
+## Magister trial survived the first time (with the hall-of-fame award).
+const MAGISTER_GOLD: int = 10
 
 func _apply_battle_result(data: Dictionary) -> void:
 	var is_win: bool = data['is_win']
@@ -109,6 +117,10 @@ func _apply_battle_result(data: Dictionary) -> void:
 		_apply_endless_record(data)
 	if not is_win:
 		return
+	if bool(data.get("magister", false)) and progress_controller.unlock_magister():
+		profile_controller.add_gold(MAGISTER_GOLD)
+		data["magister_gold"] = MAGISTER_GOLD
+		root_events.ev_show_celebration.emit(CelebrationSplash.KIND_MAGISTER, {})
 	var daily_result: Dictionary = daily_challenges_controller.register_win()
 	var celebration: Dictionary = {}
 	if battle_info:

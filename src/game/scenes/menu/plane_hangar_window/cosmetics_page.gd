@@ -10,6 +10,8 @@ extends Control
 ## One toggle button per `CosmeticItem.Slot`, same order.
 @export var category_buttons: Array[Button] = []
 @export var grid: GridContainer
+## Marks one card worth trying on (not selected; affordable first) for overlays (tutorial shop tour).
+@export var item_anchor: UiAnchor
 @export_group("Preview")
 @export var flyer_view: Control
 @export var flyer: PlaneFlyer
@@ -43,6 +45,12 @@ func refresh() -> void:
 		_selected = _equipped(_slot)
 	_rebuild_cards()
 	_update_preview()
+
+
+## Back to the first slot (each shop visit starts on «Узор»).
+func reset_slot() -> void:
+	_slot = CosmeticItem.Slot.PAINT
+	_selected = null
 
 
 func _select_slot(slot: int) -> void:
@@ -91,6 +99,26 @@ func _rebuild_cards() -> void:
 		var item := items[index]
 		card.setup(item, pdata.equipped_plane_id, _is_owned(item), item == _equipped(_slot))
 		card.set_pressed_no_signal(item == _selected)
+	_mark_item_anchor(items)
+
+
+## Not-selected card: affordable not-owned → any not-owned → any.
+func _mark_item_anchor(items: Array[CosmeticItem]) -> void:
+	if item_anchor == null:
+		return
+	var best := -1
+	var best_rank := -1
+	for index in items.size():
+		var item := items[index]
+		if item == _selected:
+			continue
+		var rank := 0
+		if not _is_owned(item):
+			rank = 2 if item.gold_cost <= pdata.gold else 1
+		if rank > best_rank:
+			best_rank = rank
+			best = index
+	item_anchor.set_target(_cards[best] if best >= 0 else null)
 
 
 func _on_card_selected(item: CosmeticItem) -> void:

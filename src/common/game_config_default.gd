@@ -25,7 +25,11 @@ enum Operations {
 	ADDITION = 1,       # 1 << 0
 	SUBTRACTION = 2,    # 1 << 1
 	MULTIPLICATION = 4, # 1 << 2
-	DIVISION = 8        # 1 << 3
+	DIVISION = 8,       # 1 << 3
+	## `n² = ?` — operand range = n.
+	SQUARE = 16,        # 1 << 4
+	## `√(n²) = ?` — operand range = the root n.
+	ROOT = 32,          # 1 << 5
 }
 
 enum CarryMode {
@@ -47,7 +51,7 @@ const STAGE_KEYS: Array[String] = [
 @export var answer_lines_count: int = 4
 @export var health: int = 3
 @export var questions_count: int = 5
-@export_flags("Addition:1", "Subtraction:2", "Multiplication:4", "Division:8") var allowed_operations: int = Operations.ADDITION | Operations.SUBTRACTION
+@export_flags("Addition:1", "Subtraction:2", "Multiplication:4", "Division:8", "Square:16", "Root:32") var allowed_operations: int = Operations.ADDITION | Operations.SUBTRACTION
 @export var min_generate_number: int = 2
 @export var max_generate_number: int = 9
 @export var answer_speed: float = 80.0
@@ -134,13 +138,18 @@ var endless_best_sec: int = 0
 ## Hidden gold of the final choice balloons (one per lane, shuffled).
 @export var golden_choice_gold: Array[int] = [1, 2, 3, 4]
 
+@export_category("Magister")
+## Magister trial (menu cap, all valleys open): surviving the timer = the magister award.
+@export var magister: bool = false
+
 @export_category("Boss")
 ## Chance of the boss airship after the last regular answer (exam = 1; 0 = never). Ignored on timed levels.
 @export_range(0.0, 1.0, 0.05) var boss_chance: float = 0.0
 ## Correct answers needed to knock all armor plates off the boss.
 @export_range(1, 12) var boss_armor: int = 3
 ## After the last plate the boss gets angry and creeps toward the plane: shots needed to bring it down.
-@export_range(1, 60) var boss_rage_hits: int = 15
+## 0 = no angry phase (the last plate brings it down).
+@export_range(0, 60) var boss_rage_hits: int = 15
 ## Royal «chief» boss look (crown, angular hull) — set on exams; look only, same fight rules.
 @export var boss_royal: bool = false
 
@@ -157,6 +166,11 @@ const PLAYER_ACCELERATION_DEFAULT: float = 1.0  # default acceleration coefficie
 @export var player_acceleration_min: float = 0.5  # min acceleration coefficient
 @export var player_acceleration_max: float = 2.0  # max acceleration coefficient
 @export var player_acceleration_speed: float = 1.0  # acceleration coefficient per second
+
+
+## Difficulty follows time (`EndlessDirector` + `endless_stages`), never score ramps: endless, magister trial.
+func is_staged() -> bool:
+	return endless or not endless_stages.is_empty()
 
 
 func is_timed() -> bool:
