@@ -7,3 +7,5 @@ extends PlatformContext
 func _enter() -> void:
 	if OS.has_feature("google_play"):
 		open_child("ev.open_google_play")
+	elif OS.has_feature("rustore"):
+		open_child("ev.open_rustore")

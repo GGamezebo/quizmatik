@@ -37,6 +37,6 @@ paths:
 - Heavy screens: `scene`; light logic: BoundEntity slots when needed
 - Prefer shallow trees
 - Do not put menu UI windows in HFSM — use `WindowStackManager`
-- Platform hooks: only under `App/Platform` (`ev.open_platform`) → `WEB` / `Android` / `Desktop` → store child (`Yandex` / `GooglePlay` / `Steam`) → `*Shop`; game-side `App/Monetization` scene — see `hfsm-app-integration.md`, `monetization.md`
+- Platform hooks: only under `App/Platform` (`ev.open_platform`) → `WEB` / `Android` / `Desktop` → store child (`Yandex` / `GooglePlay` / `RuStore` / `Steam`) → `*Shop`; game-side `App/Monetization` scene — see `hfsm-app-integration.md`, `monetization.md`
 - Platform states use the shared `context` slot, e.g. `"context": "WEBContext"` / `"YandexContext"`
 
