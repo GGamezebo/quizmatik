@@ -30,8 +30,11 @@ static func apply_correct(
 	return not game_config.is_timed() and player.score >= game_config.questions_count
 
 ## +1 streak; every `streak_heal_every` in a row restores a heart up to `streak_heal_max_health`.
+## Staged battles (endless, magister) never heal by streak — only heart balloons.
 static func apply_streak(player: Player, game_config: GameConfig) -> void:
 	player.streak += 1
+	if game_config.is_staged():
+		return
 	var every: int = game_config.streak_heal_every
 	if every > 0 and player.streak % every == 0 and player.health < game_config.streak_heal_max_health:
 		player.health += 1

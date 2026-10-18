@@ -49,7 +49,10 @@ func _pop_in(heart: Control) -> void:
 	tween.tween_property(heart, "scale", Vector2.ONE, 0.35)
 
 
+## Detached at once: a second change in the same frame must not count a heart that is only queued for free.
 func _remove_health() -> void:
 	var child_count := get_child_count()
 	if child_count > 0:
-		get_child(child_count - 1).queue_free()
+		var heart: Node = get_child(child_count - 1)
+		remove_child(heart)
+		heart.queue_free()

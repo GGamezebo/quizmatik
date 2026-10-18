@@ -18,6 +18,11 @@ extends IScene
 ##   item arms it (`SHOP_TOUR_ARMED`); back in menu → shop button → tap through `shop_tour_steps`
 ##   (cards / slot chips, each advances on press; last = buy button, confirm or press). Buying optional.
 ##   While it waits to arm, the context stays open idle (AppRoot: `is_shop_tour_pending`).
+## - mistakes_intro: first weak example recorded (`is_mistakes_intro_pending`) → menu hall-of-fame button →
+##   hard facts board (press) → facts overlay: «the game practices these first» (confirm).
+## Late chapters show only when no base chapter is ready (no other menu hint); order = priority.
+## Tours (shop_tour, mistakes_intro): entry steps = way in, tour steps one at a time (press advances;
+## earlier steps stay as fallback when the player backs out; confirm = done).
 
 const CHAPTER_FIRST_FLIGHT := "first_flight"
 const CHAPTER_DAILY_STAMP := "daily_stamp"
@@ -25,6 +30,7 @@ const CHAPTER_PLANE_SHOP := "plane_shop"
 const CHAPTERS: Array[String] = [CHAPTER_FIRST_FLIGHT, CHAPTER_DAILY_STAMP, CHAPTER_PLANE_SHOP]
 const CHAPTER_ENDLESS_INTRO := ProgressController.ENDLESS_INTRO_STEP
 const CHAPTER_SHOP_TOUR := ProgressController.SHOP_TOUR_STEP
+const CHAPTER_MISTAKES_INTRO := ProgressController.MISTAKES_INTRO_STEP
 const SHOP_TOUR_ARMED := "shop_tour_armed"
 
 @export var root_events: RootEvents
@@ -32,6 +38,8 @@ const SHOP_TOUR_ARMED := "shop_tour_armed"
 @export var menu_pointer: AnchorPointer
 @export var battle_coach: BattleCoach
 @export var battle_tips: BattleTips
+## Hint layer; a step's `layer` lifts it above menu overlays while shown.
+@export var overlay: CanvasLayer
 
 @export_group("Chapter steps")
 @export var first_flight_steps: Array[AnchorPointerStep] = []
@@ -42,6 +50,10 @@ const SHOP_TOUR_ARMED := "shop_tour_armed"
 @export var shop_entry_step: AnchorPointerStep
 ## Inside the shop, in order; one shown at a time.
 @export var shop_tour_steps: Array[AnchorPointerStep] = []
+## Main-menu hall-of-fame button.
+@export var mistakes_entry_steps: Array[AnchorPointerStep] = []
+## Hard facts board → facts overlay.
+@export var mistakes_tour_steps: Array[AnchorPointerStep] = []
 ## Look items for sale — arms the shop tour when one is affordable after a battle.
 @export var cosmetic_catalog: CosmeticCatalog
 
@@ -50,6 +62,7 @@ var _chapter: String = ""
 var _in_menu: bool = true
 var _finished: bool = false
 var _tour_index: int = 0
+var _overlay_layer: int = 0
 
 
 func _ready() -> void:
@@ -58,6 +71,9 @@ func _ready() -> void:
 	battle_tips.ev_tip_shown.connect(progress.complete_tutorial_step)
 	menu_pointer.ev_step_confirmed.connect(_on_step_confirmed)
 	menu_pointer.ev_target_pressed.connect(_on_target_pressed)
+	menu_pointer.ev_step_changed.connect(_on_step_changed)
+	if overlay != null:
+		_overlay_layer = overlay.layer
 	super._ready()
 
 
@@ -101,6 +117,8 @@ func _refresh() -> void:
 			return
 		## Only the shop tour is left and it isn't armed yet — stay open, show nothing.
 		progress.complete_tutorial()
+	if chapter != _chapter:
+		_tour_index = 0
 	_chapter = chapter
 	battle_coach.arm(chapter == CHAPTER_FIRST_FLIGHT)
 	battle_tips.set_pending(tips)
@@ -115,15 +133,30 @@ func _refresh() -> void:
 	menu_pointer.set_enabled(_in_menu and not steps.is_empty())
 
 
+## Ready base chapter → else a due late chapter → else the waiting base chapter (shows nothing).
 func _pending_chapter() -> String:
+	var base := ""
 	if not progress.is_tutorial_completed():
 		for chapter in CHAPTERS:
 			if not progress.is_tutorial_step_done(chapter):
-				return chapter
+				base = chapter
+				break
+	if not base.is_empty() and _is_chapter_ready(base):
+		return base
+	if base != CHAPTER_FIRST_FLIGHT:
+		var late := _due_late_chapter()
+		if not late.is_empty():
+			return late
+	return base
+
+
+func _due_late_chapter() -> String:
 	if progress.is_endless_intro_pending():
 		return CHAPTER_ENDLESS_INTRO
 	if progress.is_shop_tour_pending() and progress.is_tutorial_step_done(SHOP_TOUR_ARMED):
 		return CHAPTER_SHOP_TOUR
+	if progress.is_mistakes_intro_pending():
+		return CHAPTER_MISTAKES_INTRO
 	return ""
 
 
@@ -155,18 +188,38 @@ func _steps_for(chapter: String) -> Array[AnchorPointerStep]:
 			return plane_shop_steps
 		CHAPTER_ENDLESS_INTRO:
 			return endless_intro_steps
-		CHAPTER_SHOP_TOUR:
-			return _shop_tour_current_steps()
+		CHAPTER_SHOP_TOUR, CHAPTER_MISTAKES_INTRO:
+			return _tour_current_steps()
 	return first_flight_steps
 
 
-## Current tour step first (deeper screen), shop button as the way back in.
-func _shop_tour_current_steps() -> Array[AnchorPointerStep]:
+func _tour_steps() -> Array[AnchorPointerStep]:
+	match _chapter:
+		CHAPTER_SHOP_TOUR:
+			return shop_tour_steps
+		CHAPTER_MISTAKES_INTRO:
+			return mistakes_tour_steps
+	return []
+
+
+func _tour_entry_steps() -> Array[AnchorPointerStep]:
 	var steps: Array[AnchorPointerStep] = []
-	if _tour_index < shop_tour_steps.size():
-		steps.append(shop_tour_steps[_tour_index])
-	if shop_entry_step != null:
-		steps.append(shop_entry_step)
+	match _chapter:
+		CHAPTER_SHOP_TOUR:
+			if shop_entry_step != null:
+				steps.append(shop_entry_step)
+		CHAPTER_MISTAKES_INTRO:
+			steps.append_array(mistakes_entry_steps)
+	return steps
+
+
+## Current tour step first (deepest screen), then earlier ones (player backed out), then the way in.
+func _tour_current_steps() -> Array[AnchorPointerStep]:
+	var tour := _tour_steps()
+	var steps: Array[AnchorPointerStep] = []
+	for index in range(mini(_tour_index, tour.size() - 1), -1, -1):
+		steps.append(tour[index])
+	steps.append_array(_tour_entry_steps())
 	return steps
 
 
@@ -210,25 +263,29 @@ func _on_goal_reached() -> void:
 
 
 func _on_step_confirmed(_step: AnchorPointerStep) -> void:
-	if _chapter in [CHAPTER_DAILY_STAMP, CHAPTER_ENDLESS_INTRO, CHAPTER_SHOP_TOUR]:
+	if _chapter in [CHAPTER_DAILY_STAMP, CHAPTER_ENDLESS_INTRO, CHAPTER_SHOP_TOUR, CHAPTER_MISTAKES_INTRO]:
 		_complete_chapter(_chapter)
 
 
 func _on_target_pressed(step: AnchorPointerStep) -> void:
-	if _chapter != CHAPTER_SHOP_TOUR or _tour_index >= shop_tour_steps.size():
+	var tour := _tour_steps()
+	if _tour_index >= tour.size() or step != tour[_tour_index]:
 		return
-	if step != shop_tour_steps[_tour_index]:
-		return
-	## Deferred: the pressed button is still emitting; the page reacts to the press first.
-	_advance_shop_tour.call_deferred()
+	## Deferred: the pressed button is still emitting; the screen reacts to the press first.
+	_advance_tour.call_deferred()
 
 
-func _advance_shop_tour() -> void:
+func _advance_tour() -> void:
 	_tour_index += 1
-	if _tour_index >= shop_tour_steps.size():
-		_complete_chapter(CHAPTER_SHOP_TOUR)
+	if _tour_index >= _tour_steps().size():
+		_complete_chapter(_chapter)
 	else:
 		_refresh()
+
+
+func _on_step_changed(step: AnchorPointerStep) -> void:
+	if overlay != null:
+		overlay.layer = step.layer if step != null and step.layer > 0 else _overlay_layer
 
 
 func _on_celebration(kind: String, _payload: Dictionary) -> void:

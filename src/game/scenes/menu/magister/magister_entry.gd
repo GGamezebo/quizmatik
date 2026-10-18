@@ -9,13 +9,13 @@ extends Control
 @export var root_events: RootEvents
 @export var progress: ProgressController
 @export var magister_config: GameConfig
-@export var rules_overlay: MagisterRulesOverlay
+@export var rules_overlay: RulesOverlay
 @export var button: BaseButton
 @export var caption: Label
 @export var caption_text: String = "Магистр"
 @export var caption_done_text: String = "Ты магистр!"
 @export var caption_done_color: Color = Color(0.72, 0.48, 0.08)
-## Pulses the whole cap button (its wrapper box; the button itself keeps its hover scale) while shown.
+## Pulses the whole cap button (its wrapper box; the button itself keeps its hover scale) while shown, until the trial is passed.
 @export var pulse: UiPulse
 
 var _listener: EventListener = EventListener.new()
@@ -46,13 +46,13 @@ func _notification(what: int) -> void:
 func _refresh() -> void:
 	var unlocked: bool = progress != null and progress.are_all_valley_exams_passed()
 	button.visible = unlocked
+	var done: bool = unlocked and progress.is_magister()
 	if caption:
 		caption.visible = unlocked
-		var done: bool = unlocked and progress.is_magister()
 		caption.text = caption_done_text if done else caption_text
 		caption.add_theme_color_override("font_color", caption_done_color if done else _caption_color)
 	if pulse:
-		pulse.set_active(unlocked and is_visible_in_tree())
+		pulse.set_active(unlocked and not done and is_visible_in_tree())
 
 
 func _on_pressed() -> void:

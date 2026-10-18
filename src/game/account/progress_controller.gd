@@ -10,10 +10,16 @@ const ENDLESS_UNLOCK_EXAMS := 4
 const ENDLESS_INTRO_STEP := "endless_intro"
 ## Tutorial chapter id of the one-time shop tour (after the plane chapter, gold for a look item).
 const SHOP_TOUR_STEP := "shop_tour"
+## Tutorial chapter id of the one-time weak-examples intro (hall of fame → hard facts board).
+const MISTAKES_INTRO_STEP := "mistakes_intro"
 ## `PData.trophies` id of the magister award (survived the magister trial).
 const MAGISTER_TROPHY := "magister"
 ## `PData.state.tutorial_steps` flag: the magister rules were read and the first trial started.
 const MAGISTER_RULES_STEP := "magister_rules"
+## `PData.state.tutorial_steps` flag: the endless rules were read and the first endless battle started.
+const ENDLESS_RULES_STEP := "endless_rules"
+## Award id of the opened endless record scroll in the hall of fame (`award_ids`).
+const ENDLESS_AWARD := "endless_record"
 
 @export var pdata: PData
 @export var levels_config: LevelsConfig
@@ -107,6 +113,10 @@ func passed_valley_exams_count() -> int:
 func is_endless_unlocked() -> bool:
 	return passed_valley_exams_count() >= ENDLESS_UNLOCK_EXAMS
 
+## Some weak example recorded (`PData.mistakes`) and its intro not shown yet.
+func is_mistakes_intro_pending() -> bool:
+	return not pdata.mistakes.weights.is_empty() and not is_tutorial_step_done(MISTAKES_INTRO_STEP)
+
 ## Shop tour not done yet (the tutorial context waits for it; it arms itself after a battle).
 func is_shop_tour_pending() -> bool:
 	return not is_tutorial_step_done(SHOP_TOUR_STEP)
@@ -143,6 +153,34 @@ func unlock_magister() -> bool:
 ## Hall of fame complete: every valley trophy, the endless record scroll and the magister award (lamps on).
 func is_hall_complete() -> bool:
 	return is_endless_unlocked() and is_magister() and are_all_valley_trophies_unlocked()
+
+## Hall-of-fame awards the player has: unlocked trophies (valleys, magister) + the endless record scroll.
+func award_ids() -> Array[String]:
+	sync_all_trophies_from_exams()
+	var ids: Array[String] = []
+	for trophy_id in pdata.trophies.unlocked:
+		if pdata.trophies.unlocked[trophy_id]:
+			ids.append(trophy_id)
+	if is_endless_unlocked():
+		ids.append(ENDLESS_AWARD)
+	return ids
+
+## Some award not shown in the trophy room yet → menu achievements button pulses.
+func has_unseen_awards() -> bool:
+	for award_id in award_ids():
+		if not pdata.trophies.seen.get(award_id, false):
+			return true
+	return false
+
+## Trophy room opened: every current award counts as seen.
+func mark_awards_seen() -> void:
+	var changed := false
+	for award_id in award_ids():
+		if not pdata.trophies.seen.get(award_id, false):
+			pdata.trophies.seen[award_id] = true
+			changed = true
+	if changed:
+		save()
 
 func is_container_seen(container_id: String) -> bool:
 	if not pdata.levels.containers.has(container_id):

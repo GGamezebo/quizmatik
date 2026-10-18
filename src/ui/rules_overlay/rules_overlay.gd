@@ -1,8 +1,8 @@
-class_name MagisterRulesOverlay
+class_name RulesOverlay
 extends CanvasLayer
 
-## Magister trial rules (overlay, not a stacked window): what a square and a root are (3×3 picture) and how the
-## trial goes. `open(true)` adds the start button (first trial from the menu cap) → `ev_start_pressed`.
+## Battle-mode rules card (overlay, not a stacked window); content = the scene (magister trial, endless record).
+## `open(true)` adds the start button (first press on the menu entry) → `ev_start_pressed`.
 ## Closes on back button, tap on the dim, `ui_cancel` → `ev_closed`.
 
 signal ev_start_pressed

@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://src/game/scenes/menu/magister/magister_rules_overlay.gd" id="1_script"]
+[ext_resource type="Script" path="res://src/ui/rules_overlay/rules_overlay.gd" id="1_script"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 [ext_resource type="Script" path="res://src/ui/buttons/hover_scale_binder.gd" id="2_hover_binder"]
 [ext_resource type="Texture2D" uid="uid://hghugnctmjyn" path="res://src/game/scenes/menu/levels/ui/btn_back.png" id="3_back"]
@@ -356,7 +356,7 @@ autowrap_mode = 3
 [node name="Rules" type="Label" parent="Screen/CenterContainer/Panel/VBox"]
 layout_mode = 2
 text = "• Таймер идёт назад: продержись 10 минут.
-• Каждые 2 минуты прилетает дирижабль — сбей его броню ответами.
+• Каждые 2 минуты прилетает дирижабль — сбей его броню ответами. Если ранен, после него вылетит сердечко.
 • Примеры всё сложнее: до 16² = 256 и корня из 256.
 • Выдержишь — кубок магистра встанет в зале славы!"
 label_settings = SubResource("LabelSettings_rules")

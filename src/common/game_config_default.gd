@@ -114,6 +114,8 @@ var review_facts: Dictionary = {}
 @export var endless_speed_curve: float = 1.3
 ## Heart balloon (+1 heart, never above `health`) every `endless_heart_every_sec`, only when hurt; else wait again.
 @export var endless_heart_every_sec: float = 300.0
+## Staged battle: a heart balloon flies in after each defeated boss, only when hurt (magister trial).
+@export var boss_drops_heart: bool = false
 ## Background paint: one step per `endless_step_sec`, reaching `endless_paint_max` at `endless_paint_sec`
 ## and staying there — never fully colored.
 @export_range(0.0, 1.0, 0.05) var endless_paint_max: float = 0.75

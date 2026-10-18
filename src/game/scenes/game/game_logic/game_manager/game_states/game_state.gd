@@ -233,6 +233,8 @@ func _on_boss_defeated() -> void:
 	if _endless.is_active():
 		_endless.boss_finished()
 		_round_controller.release_rounds()
+		if game_config.boss_drops_heart:
+			_spawn_heart_if_hurt()
 		return
 	_end_game()
 
@@ -283,6 +285,11 @@ func _on_time_expired() -> void:
 
 ## Endless: only when hurt — full health waits for the next due.
 func _on_endless_heart_due() -> void:
+	_spawn_heart_if_hurt()
+
+
+## Heart balloon only below max health (`game_config.health`): hearts never go above it.
+func _spawn_heart_if_hurt() -> void:
 	if player.health < game_config.health:
 		_heart.spawn(game_config.answer_speed)
 

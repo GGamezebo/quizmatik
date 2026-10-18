@@ -26,6 +26,8 @@
 [ext_resource type="Script" path="res://src/game/scenes/menu/trophy_room_window/hall_lamps.gd" id="41_lamps"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/trophies/trophy_magister.svg" id="42_magister"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/magister/magister_rules_overlay.tscn" id="43_magister_rules"]
+[ext_resource type="Script" path="res://src/ui/ui_anchor/ui_anchor.gd" id="90_ui_anchor"]
+[ext_resource type="Resource" path="res://src/game/scenes/tutorial/tutorial_anchors.tres" id="91_tutorial_anchors"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
 
@@ -567,6 +569,18 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="MenuWindowBack" parent="." instance=ExtResource("9_menu_back")]
+
+[node name="HardFactsAnchor" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("90_ui_anchor")
+registry = ExtResource("91_tutorial_anchors")
+anchor_id = "awards.hard_facts"
+target = NodePath("../Layout/RightPanel/HardFacts/HardFactsButton")
+
+[node name="HardFactsListAnchor" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("90_ui_anchor")
+registry = ExtResource("91_tutorial_anchors")
+anchor_id = "awards.hard_facts_list"
+target = NodePath("../HardFactsOverlay/Screen/CenterContainer/Panel/VBox/Scroll")
 
 [node name="HardFactsOverlay" parent="." instance=ExtResource("11_hard_overlay")]
 
