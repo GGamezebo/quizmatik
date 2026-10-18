@@ -23,4 +23,4 @@ second_operand_ranges = {
 8: Vector2i(2, 9)
 }
 bonus_gold_chance = 0.35
-boss_chance = 0.15
+boss_chance = 1.0

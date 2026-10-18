@@ -23,8 +23,8 @@ ADD, SUB, MUL, DIV = 1, 2, 4, 8
 CARRY_ANY, CARRY_NONE, CARRY_REQUIRED = 0, 1, 2
 
 TIMED_LEVELS = {9: 60.0, 17: 60.0}
-# End of acts 2 and 3: guaranteed mini-boss (armor 3).
-BOSS_LEVELS = {10, 15}
+# Guaranteed mini-boss (armor 3): early taste on L2 + L5, end of acts 2 and 3.
+BOSS_LEVELS = {2, 5, 10, 15}
 EXAM_BOSS_ARMOR = 5
 EXAM_BOSS_RAGE_HITS = 20
 EXAM_QUESTIONS = 15
@@ -249,7 +249,7 @@ def boss_chance(level_id: int) -> float:
         return 1.0
     if level_id < 3 or level_id in TIMED_LEVELS:
         return 0.0
-    return 0.15
+    return 0.25
 
 
 # --- Godot text serialization ------------------------------------------------------------------

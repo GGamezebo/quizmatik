@@ -21,3 +21,4 @@ second_operand_ranges = {
 result_ranges = {
 2: Vector2i(1, 9)
 }
+boss_chance = 1.0

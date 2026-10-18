@@ -25,4 +25,4 @@ second_operand_ranges = {
 }
 missing_operand_chance = 0.4
 bonus_gold_chance = 0.35
-boss_chance = 0.15
+boss_chance = 0.25
