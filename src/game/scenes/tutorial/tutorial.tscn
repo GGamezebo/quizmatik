@@ -131,7 +131,29 @@ text = "Понравилось — купи за монетки!
 anchor_point = Vector2(0.5, 0.05)
 button_text = "Понятно!"
 
-[node name="Tutorial" type="Node" node_paths=PackedStringArray("progress", "menu_pointer", "battle_coach", "battle_tips")]
+[sub_resource type="Resource" id="Step_mistakes_entry"]
+script = ExtResource("6_step")
+anchor_id = "menu.awards"
+text = "Загляни в зал славы —\nтам твои трудные примеры"
+anchor_point = Vector2(0.5, 0.95)
+points_up = true
+
+[sub_resource type="Resource" id="Step_mistakes_board"]
+script = ExtResource("6_step")
+anchor_id = "awards.hard_facts"
+text = "Здесь примеры, в которых ты ошибался.\nНажми на табло!"
+anchor_point = Vector2(0.5, 0.05)
+
+[sub_resource type="Resource" id="Step_mistakes_list"]
+script = ExtResource("6_step")
+anchor_id = "awards.hard_facts_list"
+text = "Эти примеры игра будет давать\nв первую очередь — пока не запомнишь!"
+anchor_point = Vector2(0.5, 0.4)
+points_up = true
+button_text = "Понятно!"
+layer = 12
+
+[node name="Tutorial" type="Node" node_paths=PackedStringArray("progress", "menu_pointer", "battle_coach", "battle_tips", "overlay")]
 script = ExtResource("1_tutorial")
 root_events = ExtResource("12_root_events")
 progress = NodePath("ProgressController")
@@ -145,6 +167,9 @@ endless_intro_steps = Array[ExtResource("6_step")]([SubResource("Step_endless")]
 shop_entry_step = SubResource("Step_shop_entry")
 shop_tour_steps = Array[ExtResource("6_step")]([SubResource("Step_tour_item1"), SubResource("Step_tour_trail"), SubResource("Step_tour_item2"), SubResource("Step_tour_cover"), SubResource("Step_tour_item3"), SubResource("Step_tour_buy")])
 cosmetic_catalog = ExtResource("14_catalog")
+overlay = NodePath("Overlay")
+mistakes_entry_steps = Array[ExtResource("6_step")]([SubResource("Step_mistakes_entry")])
+mistakes_tour_steps = Array[ExtResource("6_step")]([SubResource("Step_mistakes_board"), SubResource("Step_mistakes_list")])
 
 [node name="ProgressController" parent="." instance=ExtResource("2_progress")]
 

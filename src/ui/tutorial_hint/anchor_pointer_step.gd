@@ -10,6 +10,8 @@ extends Resource
 @export var points_up: bool = false
 ## Non-empty → hint shows a confirm button; `AnchorPointer.ev_step_confirmed` fires on press.
 @export var button_text: String = ""
+## Host's CanvasLayer for the hint while this step shows (above overlays); 0 = host default.
+@export var layer: int = 0
 
 @export_group("Spotlight")
 ## Dim the screen around the anchor (only the hole stays clickable).

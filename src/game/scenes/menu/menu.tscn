@@ -59,8 +59,10 @@
 [ext_resource type="Resource" path="res://src/game/scenes/menu/magister/magister_game_config.tres" id="84_magister_cfg"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/magister_cap.svg" id="85_magister_cap"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/magister/magister_rules_overlay.tscn" id="86_magister_rules"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/endless/endless_rules_overlay.tscn" id="89_endless_rules"]
 [ext_resource type="Script" path="res://core/lib/pulse/ui_pulse.gd" id="87_ui_pulse"]
 [ext_resource type="Script" path="res://src/game/scenes/menu/ui/shop_pulse.gd" id="88_shop_pulse"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/ui/awards_pulse.gd" id="90_awards_pulse"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
 colors = PackedColorArray(0.165, 0.2, 0.251, 0.5, 0.953, 0.902, 0.784, 0.06)
@@ -134,7 +136,7 @@ button = NodePath("../../SettingsWindow/MenuWindowBack/Back")
 
 [node name="TrophyRoomOpen" type="Node" parent="UI/StackWindowController" unique_id=551433926 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../MainMenuWindow/MarginContainer/RightSideButtons/Achievements")
+button = NodePath("../../MainMenuWindow/MarginContainer/RightSideButtons/AchievementsBox/Achievements")
 target_window = NodePath("../../TrophyRoomWindow")
 
 [node name="TrophyRoomBack" type="Node" parent="UI/StackWindowController" unique_id=1133530387 node_paths=PackedStringArray("button")]
@@ -252,7 +254,7 @@ image_inacitve = ExtResource("19_sfx_off")
 user_settings = ExtResource("9_3qhmn")
 metadata/hover_scale_bound = true
 
-[node name="EndlessEntry" type="VBoxContainer" parent="UI/MainMenuWindow" node_paths=PackedStringArray("progress", "button", "best_label", "pulse")]
+[node name="EndlessEntry" type="VBoxContainer" parent="UI/MainMenuWindow" node_paths=PackedStringArray("progress", "button", "best_label", "pulse", "rules_overlay")]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -271,6 +273,7 @@ endless_config = ExtResource("81_endless_cfg")
 button = NodePath("ClockBox/Clock")
 best_label = NodePath("Best")
 pulse = NodePath("Pulse")
+rules_overlay = NodePath("RulesOverlay")
 
 [node name="ClockBox" type="Control" parent="UI/MainMenuWindow/EndlessEntry"]
 custom_minimum_size = Vector2(160, 160)
@@ -310,6 +313,8 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 24
 text = "Рекорд 2:15"
 horizontal_alignment = 1
+
+[node name="RulesOverlay" parent="UI/MainMenuWindow/EndlessEntry" instance=ExtResource("89_endless_rules")]
 
 [node name="MagisterEntry" type="VBoxContainer" parent="UI/MainMenuWindow" node_paths=PackedStringArray("progress", "button", "caption", "pulse", "rules_overlay")]
 layout_mode = 1
@@ -472,8 +477,21 @@ layout_mode = 2
 image = ExtResource("15_op54q")
 metadata/hover_scale_bound = true
 
-[node name="Achievements" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons" unique_id=42729555 instance=ExtResource("30_circle_btn")]
+[node name="AchievementsBox" type="Control" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons"]
+custom_minimum_size = Vector2(112, 112)
 layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+
+[node name="Achievements" parent="UI/MainMenuWindow/MarginContainer/RightSideButtons/AchievementsBox" unique_id=42729555 instance=ExtResource("30_circle_btn")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
 image = ExtResource("32_icon_achievements")
 metadata/hover_scale_bound = true
 
@@ -540,6 +558,12 @@ registry = ExtResource("61_tutorial_anchors")
 anchor_id = "menu.endless"
 target = NodePath("../EndlessEntry/ClockBox/Clock")
 
+[node name="AwardsAnchor" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("target")]
+script = ExtResource("60_ui_anchor")
+registry = ExtResource("61_tutorial_anchors")
+anchor_id = "menu.awards"
+target = NodePath("../MarginContainer/RightSideButtons/AchievementsBox/Achievements")
+
 [node name="ShopAnchor" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("target")]
 script = ExtResource("60_ui_anchor")
 registry = ExtResource("61_tutorial_anchors")
@@ -557,6 +581,18 @@ pulse = NodePath("Pulse")
 [node name="Pulse" type="Node" parent="UI/MainMenuWindow/ShopPulse" node_paths=PackedStringArray("target")]
 script = ExtResource("87_ui_pulse")
 target = NodePath("../../MarginContainer/RightSideButtons/ShopBox")
+pulse_scale = 1.08
+
+[node name="AwardsPulse" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("progress", "button", "pulse")]
+script = ExtResource("90_awards_pulse")
+root_events = ExtResource("2_35kkh")
+progress = NodePath("../../LevelsWindow/ProgressController")
+button = NodePath("../MarginContainer/RightSideButtons/AchievementsBox/Achievements")
+pulse = NodePath("Pulse")
+
+[node name="Pulse" type="Node" parent="UI/MainMenuWindow/AwardsPulse" node_paths=PackedStringArray("target")]
+script = ExtResource("87_ui_pulse")
+target = NodePath("../../MarginContainer/RightSideButtons/AchievementsBox")
 pulse_scale = 1.08
 
 [node name="LevelsWindow" type="Control" parent="UI" unique_id=769606670 node_paths=PackedStringArray("carousel", "progress", "windows_stack_manager", "level_selection_window", "background_host")]

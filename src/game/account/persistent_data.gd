@@ -168,12 +168,17 @@ class LevelsProgress:
 
 class TrophiesData:
 	var unlocked: Dictionary[String, bool] = {}
+	## Hall-of-fame awards the player already saw in the trophy room (ids from `ProgressController.award_ids`).
+	var seen: Dictionary[String, bool] = {}
 
 	func to_dict() -> Dictionary:
 		var result: Dictionary = {}
 		for container_id in unlocked:
 			result[container_id] = unlocked[container_id]
-		return {"unlocked": result}
+		var seen_out: Dictionary = {}
+		for award_id in seen:
+			seen_out[award_id] = seen[award_id]
+		return {"unlocked": result, "seen": seen_out}
 
 	static func from_dict(d: Dictionary) -> TrophiesData:
 		var trophies := TrophiesData.new()
@@ -181,6 +186,10 @@ class TrophiesData:
 		if raw is Dictionary:
 			for container_id in raw as Dictionary:
 				trophies.unlocked[String(container_id)] = bool(raw[container_id])
+		var raw_seen: Variant = d.get("seen", {})
+		if raw_seen is Dictionary:
+			for award_id in raw_seen as Dictionary:
+				trophies.seen[String(award_id)] = bool(raw_seen[award_id])
 		return trophies
 
 	func unlock(container_id: String) -> bool:

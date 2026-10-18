@@ -13,7 +13,7 @@ extends Control
 ## Garland bulbs: lit once everything here is unlocked (`ProgressController.is_hall_complete`).
 @export var hall_lamps: HallLamps
 ## Rules shown when the not-yet-earned magister cup is tapped.
-@export var magister_rules: MagisterRulesOverlay
+@export var magister_rules: RulesOverlay
 @export var hard_facts_label: Label
 @export var hard_facts_empty_text: String = ""
 @export var hard_facts_button: BaseButton
@@ -41,6 +41,7 @@ func _ready() -> void:
 func on_window_enter() -> void:
 	if progress != null:
 		progress.sync_all_trophies_from_exams()
+		progress.mark_awards_seen()
 	_rebuild_trophies()
 	_rebuild_stats()
 	_rebuild_record()
