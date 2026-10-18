@@ -299,6 +299,44 @@ def thrust() -> list[float]:
 	return out
 
 
+def stamp() -> list[float]:
+	"""Ink stamp slammed onto paper: low thud + short paper slap."""
+	random.seed(61)
+	lp = 0.0
+
+	def fn(i, n, t):
+		nonlocal lp
+		thud = math.sin(2.0 * math.pi * (95.0 - 40.0 * t) * t) * env_exp(i, n, 0.001, 0.07)
+		nse = noise()
+		lp = lowpass(lp, nse, 0.25)
+		slap = lp * env_exp(i, n, 0.0006, 0.025)
+		knock = tone(260.0, t, ((1, 1.0), (2, 0.35))) * env_exp(i, n, 0.001, 0.03)
+		return thud * 0.8 + slap * 0.9 + knock * 0.3
+
+	return render(0.26, fn)
+
+
+def series() -> list[float]:
+	"""Daily series done: rising sparkly arpeggio (golden flight unlocked)."""
+	random.seed(67)
+	notes = [(784.0, 0.0), (987.77, 0.08), (1174.66, 0.16), (1567.98, 0.26)]
+
+	def note(freq: float, start: float, dur: float) -> list[float]:
+		def fn(i, _n, t):
+			local = t - start
+			if local < 0.0:
+				return 0.0
+			e = env_exp(int(local * SR), int(dur * SR), 0.004, 0.22)
+			shimmer = 1.0 + 0.08 * math.sin(2.0 * math.pi * 7.0 * local)
+			return tone(freq, local, ((1, 1.0), (2, 0.25), (4, 0.08))) * e * shimmer
+
+		return render(start + dur, fn)
+
+	tracks = [note(f, s, 0.5) for f, s in notes]
+	sparkle = render(0.8, lambda i, n, t: noise() * env_exp(i, n, 0.2, 0.25) * 0.05)
+	return mix(*tracks, sparkle)
+
+
 def main() -> None:
 	random.seed(1)
 	pairs = [
@@ -313,6 +351,8 @@ def main() -> None:
 		(os.path.join(SFX_DIR, "go.wav"), go),
 		(os.path.join(PLANE_DIR, "crash.wav"), crash),
 		(os.path.join(PLANE_DIR, "victory_whoosh.wav"), victory_whoosh),
+		(os.path.join(SFX_DIR, "stamp.wav"), stamp),
+		(os.path.join(SFX_DIR, "series.wav"), series),
 	]
 	for path, fn in pairs:
 		write_wav(path, fn())

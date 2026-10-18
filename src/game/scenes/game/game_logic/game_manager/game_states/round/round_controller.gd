@@ -88,6 +88,11 @@ func release_rounds() -> void:
 	if _is_active and options.is_empty():
 		_start_round()
 
+## No more rounds; the current balloons fade out (golden flight time-up).
+func finish() -> void:
+	_is_active = false
+	kill_all_answers()
+
 func kill_all_answers(hit_answer: Answer = null) -> void:
 	for option in options.duplicate():
 		option.take_damage(option == hit_answer)

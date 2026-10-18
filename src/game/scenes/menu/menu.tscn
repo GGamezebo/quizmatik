@@ -333,9 +333,10 @@ caption_text = "ПРАКТИКА"
 subtitle_text = "Решай примеры и улучшай навыки"
 caption_color = Color(0.329, 0.486, 0.29, 1)
 
-[node name="DailyChallengesPanel" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=1900100001 instance=ExtResource("23_daily")]
+[node name="DailyChallengesPanel" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=1900100001 node_paths=PackedStringArray("progress") instance=ExtResource("23_daily")]
 layout_mode = 2
 size_flags_horizontal = 4
+progress = NodePath("../../../../LevelsWindow/ProgressController")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/MainMenuWindow" unique_id=1046765864]
 layout_mode = 1

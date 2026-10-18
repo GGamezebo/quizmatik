@@ -31,6 +31,8 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_target_shot(target: Area2D, hit_point: Vector2)
 ## Boss fell off-screen — the battle is won right after.
 @warning_ignore("unused_signal") signal ev_boss_defeated
+## Golden flight time is up: no more questions, pick one of the choice balloons.
+@warning_ignore("unused_signal") signal ev_golden_choice
 @warning_ignore("unused_signal") signal ev_win
 @warning_ignore("unused_signal") signal ev_lose
 

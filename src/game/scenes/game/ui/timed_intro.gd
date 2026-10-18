@@ -21,7 +21,8 @@ func initialize(game_config: GameConfig) -> void:
 	if game_config == null or not game_config.is_timed():
 		return
 	var seconds: int = ceili(game_config.time_limit_sec)
-	caption.text = tr("Продержись %d %s!") % [seconds, tr(_seconds_word(seconds))]
+	var caption_format: String = "Золотой полёт: %d %s!" if game_config.golden_flight else "Продержись %d %s!"
+	caption.text = tr(caption_format) % [seconds, tr(_seconds_word(seconds))]
 	if game_events:
 		_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
 		_listener.add(game_events.ev_countdown_started, _pop_in)

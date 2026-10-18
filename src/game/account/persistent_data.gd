@@ -320,18 +320,30 @@ class DailyData:
 	var utc_day: String = ""
 	var slots: Array[bool] = empty_slots()
 	var reward_claimed: bool = false
+	## Today's «Золотой полёт» (bonus battle after 5/5) already started.
+	var bonus_flight_played: bool = false
+	## Consecutive UTC days with all slots filled (kept across days; 0 = broken / never).
+	var streak_days: int = 0
+	## Last UTC day the slots were completed ("" = never).
+	var last_complete_day: String = ""
 
 	func to_dict() -> Dictionary:
 		return {
 			"utc_day": utc_day,
 			"slots": slots.duplicate(),
 			"reward_claimed": reward_claimed,
+			"bonus_flight_played": bonus_flight_played,
+			"streak_days": streak_days,
+			"last_complete_day": last_complete_day,
 		}
 
 	static func from_dict(d: Dictionary) -> DailyData:
 		var daily := DailyData.new()
 		daily.utc_day = String(d.get("utc_day", ""))
 		daily.reward_claimed = bool(d.get("reward_claimed", false))
+		daily.bonus_flight_played = bool(d.get("bonus_flight_played", false))
+		daily.streak_days = maxi(int(d.get("streak_days", 0)), 0)
+		daily.last_complete_day = String(d.get("last_complete_day", ""))
 		var raw: Variant = d.get("slots", [])
 		if raw is Array:
 			var source: Array = raw

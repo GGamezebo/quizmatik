@@ -4,12 +4,16 @@ extends CanvasLayer
 @export var player: Player
 @export var restart_button: BaseButton
 @export var exit_button: BaseButton
+## Hearts row; hidden in the golden flight (hearts are never lost there).
+@export var health_view: Control
 
 var _game_config: GameConfig
 
 
 func initialize(game_config: GameConfig) -> void:
 	_game_config = game_config
+	if health_view:
+		health_view.visible = not game_config.golden_flight
 
 
 func _ready() -> void:

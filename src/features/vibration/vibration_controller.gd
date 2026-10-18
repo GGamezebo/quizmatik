@@ -51,6 +51,12 @@ extends Node
 @export var crash_pulse_count: int = 4
 @export var crash_pulse_gap_sec: float = 0.15
 
+@export_group("Menu daily card")
+@export var stamp_duration_ms: int = 70
+@export_range(0.0, 1.0) var stamp_amplitude: float = 0.7
+@export var series_pulse_ms: int = 60
+@export_range(0.0, 1.0) var series_amplitude: float = 0.8
+
 @export_group("Root flow")
 @export var start_game_duration_ms: int = 50
 @export_range(0.0, 1.0) var start_game_amplitude: float = 0.35
@@ -84,6 +90,8 @@ func _ready() -> void:
 	if root_events:
 		_listener.add(root_events.ev_start_game, _on_start_game)
 		_listener.add(root_events.ev_return_to_menu, _on_return_to_menu)
+		_listener.add(root_events.ev_daily_stamp_landed, _on_daily_stamp_landed)
+		_listener.add(root_events.ev_daily_series_shown, _on_daily_series_shown)
 	get_tree().node_added.connect(_on_node_added)
 	_hook_tree(get_tree().root)
 
@@ -129,6 +137,18 @@ func _amp_to_weak(amplitude: float) -> float:
 
 func _amp_to_strong(amplitude: float) -> float:
 	return clampf(amplitude, 0.0, 1.0)
+
+
+func _on_daily_stamp_landed(completes_series: bool) -> void:
+	vibrate(stamp_duration_ms * (2 if completes_series else 1), stamp_amplitude)
+
+
+## Two quick pulses — «you got it!».
+func _on_daily_series_shown() -> void:
+	vibrate(series_pulse_ms, series_amplitude)
+	await get_tree().create_timer(0.14).timeout
+	if is_inside_tree():
+		vibrate(series_pulse_ms, series_amplitude)
 
 
 func _on_shoot() -> void:

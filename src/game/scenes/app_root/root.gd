@@ -101,6 +101,10 @@ func _apply_battle_result(data: Dictionary) -> void:
 	var bonus_gold: int = int(data.get("bonus_gold", 0))
 	if bonus_gold > 0:
 		profile_controller.add_gold(bonus_gold)
+	# Daily «Золотой полёт»: caught coin balloons + final pick, also on a HUD exit.
+	var golden_gold: int = int(data.get("golden_gold", 0))
+	if golden_gold > 0:
+		profile_controller.add_gold(golden_gold)
 	if bool(data.get("is_record", false)):
 		_apply_endless_record(data)
 	if not is_win:

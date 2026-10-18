@@ -14,3 +14,7 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_celebration_unhold
 ## Platform context reports app visibility (e.g. web tab hidden/minimized) → AppPauseController.
 @warning_ignore("unused_signal") signal ev_app_visibility_changed(is_visible: bool)
+## Menu daily card: a stamp slam hit the paper (`completes_series` = the 5th of the day) → SFX / vibration.
+@warning_ignore("unused_signal") signal ev_daily_stamp_landed(completes_series: bool)
+## Menu daily card: the stamps turned into «ЗОЛОТОЙ ПОЛЁТ» → SFX / vibration.
+@warning_ignore("unused_signal") signal ev_daily_series_shown
