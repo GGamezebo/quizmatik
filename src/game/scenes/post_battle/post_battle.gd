@@ -87,9 +87,11 @@ func initialize(data: Dictionary) -> void:
 	var record_gold: int = int(data.get("record_gold", 0))
 	var golden_gold: int = int(data.get("golden_gold", 0))
 	var magister_gold: int = int(data.get("magister_gold", 0))
-	_show_level_gold(int(data.get("level_gold", 0)), record_gold, golden_gold, magister_gold)
+	var exam_gold: int = int(data.get("exam_gold", 0))
+	_show_level_gold(int(data.get("level_gold", 0)), record_gold, golden_gold, magister_gold,
+			exam_gold, bool(data.get("plane_refund", false)))
 	_show_bonus_gold(int(data.get("bonus_gold", 0)))
-	var earned_gold: int = int(data.get("level_gold", 0)) + int(data.get("bonus_gold", 0)) + record_gold + golden_gold + magister_gold
+	var earned_gold: int = int(data.get("level_gold", 0)) + int(data.get("bonus_gold", 0)) + record_gold + golden_gold 			+ magister_gold + exam_gold
 	if gold_lines:
 		gold_lines.visible = earned_gold > 0
 	if rewarded_gold_button:
@@ -201,13 +203,18 @@ func _show_stamps(count: int) -> void:
 			stamp.texture = stamp_empty
 
 
-## Same coin row: level «3 stamps» gold, endless record, golden-flight or magister gold (one kind per battle).
-func _show_level_gold(amount: int, record_amount: int = 0, golden_amount: int = 0, magister_amount: int = 0) -> void:
+## Same coin row: level «3 stamps» gold, endless record, golden-flight, magister or first exam pass gold
+## (one kind per battle; exam gold includes the refund for an exam plane bought earlier).
+func _show_level_gold(amount: int, record_amount: int = 0, golden_amount: int = 0, magister_amount: int = 0,
+		exam_amount: int = 0, plane_refund: bool = false) -> void:
 	if gold_label == null:
 		return
 	if level_gold_row:
-		level_gold_row.visible = amount > 0 or record_amount > 0 or golden_amount > 0 or magister_amount > 0
-	if magister_amount > 0:
+		level_gold_row.visible = amount > 0 or record_amount > 0 or golden_amount > 0 or magister_amount > 0 \
+				or exam_amount > 0
+	if exam_amount > 0:
+		gold_label.text = tr("+%d за экзамен и купленный самолёт" if plane_refund else "+%d за экзамен") % exam_amount
+	elif magister_amount > 0:
 		gold_label.text = tr("+%d за звание магистра") % magister_amount
 	elif golden_amount > 0:
 		gold_label.text = tr("+%d за золотой полёт") % golden_amount

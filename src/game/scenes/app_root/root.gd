@@ -99,7 +99,7 @@ func _on_first_profile_submitted(display_name: String, difficulty: StringName) -
 ## Endless battle: each new time record = +gold and one daily slot (the mode is never "won").
 const ENDLESS_RECORD_GOLD: int = 1
 ## Magister trial survived the first time (with the hall-of-fame award).
-const MAGISTER_GOLD: int = 10
+const MAGISTER_GOLD: int = 25
 
 func _apply_battle_result(data: Dictionary) -> void:
 	var is_win: bool = data['is_win']
@@ -131,6 +131,14 @@ func _apply_battle_result(data: Dictionary) -> void:
 		if level_gold > 0:
 			profile_controller.add_gold(level_gold)
 			data["level_gold"] = level_gold
+		var exam_gold: int = int(celebration.get("exam_gold", 0))
+		var plane_refund_gold: int = int(celebration.get("plane_refund_gold", 0))
+		celebration.erase("exam_gold")
+		celebration.erase("plane_refund_gold")
+		if exam_gold + plane_refund_gold > 0:
+			profile_controller.add_gold(exam_gold + plane_refund_gold)
+			data["exam_gold"] = exam_gold + plane_refund_gold
+			data["plane_refund"] = plane_refund_gold > 0
 		if not celebration.is_empty():
 			data["exam_celebration"] = celebration
 			if bool(celebration.get("first_exam_pass", false)):

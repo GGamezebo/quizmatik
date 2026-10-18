@@ -302,6 +302,11 @@ func sync_all_trophies_from_exams() -> void:
 		save()
 
 
+## First pass of a valley exam: coins on top of the trophy and the exam plane.
+const EXAM_FIRST_PASS_GOLD: int = 5
+## Exam plane already bought: this share of its price comes back instead (the purchase never feels wasted).
+const PLANE_REFUND_SHARE: float = 0.5
+
 func pass_exam(container_id: String, stars: int) -> Dictionary:
 	var container := pdata.levels.ensure_container(container_id)
 	var was_first_pass := not container.exam_passed
@@ -317,12 +322,16 @@ func pass_exam(container_id: String, stars: int) -> Dictionary:
 		pdata.trophies.unlock(container_id)
 
 	var unlocked_plane_id := ""
+	var plane_refund_gold := 0
 	if was_first_pass:
 		var plane_id := PlaneCatalog.plane_id_for_exam(container_id)
 		if not plane_id.is_empty():
 			var profiles := ProfileController.find_in_tree(get_tree())
 			if profiles != null and profiles.unlock_plane(plane_id):
 				unlocked_plane_id = plane_id
+			elif profiles != null and profiles.is_plane_unlocked(plane_id):
+				var cost := int(PlaneCatalog.get_def(plane_id).get("gold_cost", 0))
+				plane_refund_gold = int(floor(cost * PLANE_REFUND_SHARE))
 
 	save()
 
@@ -336,4 +345,8 @@ func pass_exam(container_id: String, stars: int) -> Dictionary:
 	}
 	if not unlocked_plane_id.is_empty():
 		result["unlocked_plane_id"] = unlocked_plane_id
+	## Gold is granted by AppRoot (battle result), not here — the dev lab pass gives none.
+	result["exam_gold"] = EXAM_FIRST_PASS_GOLD
+	if plane_refund_gold > 0:
+		result["plane_refund_gold"] = plane_refund_gold
 	return result
