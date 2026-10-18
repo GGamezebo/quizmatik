@@ -16,6 +16,9 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_request_purchase
 ## Store → game. Always answered after `ev_request_purchase` (false on cancel / error / pending).
 @warning_ignore("unused_signal") signal ev_purchase_result(is_success: bool)
+## Store → game, instead of `ev_purchase_result`: payment accepted but not settled yet (Play pending:
+## cash / slow card). Content unlocks later by itself via `set_content_locked` / `set_offer`.
+@warning_ignore("unused_signal") signal ev_purchase_pending
 
 ## Game → platform: read the cloud copy of the save. Answered by `ev_cloud_pulled` only on success
 ## (no answer = cloud unreachable → game stays local-only this session, never overwrites the cloud).

@@ -54,11 +54,12 @@ shader_parameter/shadow_offset = Vector2(-4, 8)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
 shader_parameter/shadow_blur = 2.0
 
-[node name="ParentalGate" type="CanvasLayer" node_paths=PackedStringArray("screen", "question_label", "answer_buttons", "cancel_button")]
+[node name="ParentalGate" type="CanvasLayer" node_paths=PackedStringArray("screen", "message_label", "question_label", "answer_buttons", "cancel_button")]
 layer = 30
 visible = false
 script = ExtResource("1_script")
 screen = NodePath("Screen")
+message_label = NodePath("Screen/CenterContainer/Panel/VBox/Message")
 question_label = NodePath("Screen/CenterContainer/Panel/VBox/Question")
 answer_buttons = [NodePath("Screen/CenterContainer/Panel/VBox/Answers/Answer1"), NodePath("Screen/CenterContainer/Panel/VBox/Answers/Answer2"), NodePath("Screen/CenterContainer/Panel/VBox/Answers/Answer3"), NodePath("Screen/CenterContainer/Panel/VBox/Answers/Answer4")]
 cancel_button = NodePath("Screen/CenterContainer/Panel/VBox/Cancel")
