@@ -39,6 +39,8 @@ var can_rewarded: bool = false
 var can_cloud_save: bool = false
 ## Platform-reported UI language (e.g. Yandex `environment.i18n.lang`); empty = unknown → OS locale.
 var language: String = ""
+## UI languages this platform build offers (`GameLocale.SUPPORTED` codes); empty = all of them.
+var languages: PackedStringArray = []
 ## Store's paid offer still for sale; empty = nothing to buy (no store / already owned).
 var offer_kind: StringName = &""
 ## Store-formatted price («199 ₽», «$2.99»); empty = unknown.
@@ -87,4 +89,12 @@ func set_language(lang: String) -> void:
 	if language == lang:
 		return
 	language = lang
+	ev_language_changed.emit()
+
+
+## Called only by platform contexts (on enter / `[]` on deinit).
+func set_languages(codes: PackedStringArray) -> void:
+	if languages == codes:
+		return
+	languages = codes
 	ev_language_changed.emit()

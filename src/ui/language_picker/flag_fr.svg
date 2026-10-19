@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="84" viewBox="0 0 120 84">
+  <!-- French flag sticker: colored-pencil fill + graphite ink edge on a cream die-cut rim. -->
+  <defs>
+    <clipPath id="inner">
+      <rect x="9" y="9" width="102" height="66" rx="9"/>
+    </clipPath>
+  </defs>
+  <rect x="2" y="2" width="116" height="80" rx="15" fill="#FFFBF0"/>
+  <g clip-path="url(#inner)">
+    <rect x="9.00" y="9" width="34.40" height="66" fill="#2F4F9A"/>
+    <rect x="43.00" y="9" width="34.40" height="66" fill="#FFFFFF"/>
+    <rect x="77.00" y="9" width="34.40" height="66" fill="#D9473F"/>
+    <!-- Pencil hatching -->
+    <g stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.2">
+      <path d="M18 34 L30 16"/>
+      <path d="M50 72 L62 54"/>
+      <path d="M84 40 L96 22"/>
+    </g>
+  </g>
+  <rect x="9" y="9" width="102" height="66" rx="9" fill="none" stroke="#2A3340" stroke-width="4.5"/>
+</svg>

@@ -86,7 +86,7 @@ shoot={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://src/common/localization/translations.en.translation")
+locale/translations=PackedStringArray("res://src/common/localization/translations.en.translation", "res://src/common/localization/translations.tr.translation", "res://src/common/localization/translations.es.translation", "res://src/common/localization/translations.pt.translation", "res://src/common/localization/translations.de.translation", "res://src/common/localization/translations.fr.translation", "res://src/common/localization/translations.it.translation", "res://src/common/localization/translations.pl.translation", "res://src/common/localization/translations.uk.translation", "res://src/common/localization/translations.id.translation", "res://src/common/localization/translations.nl.translation")
 locale/fallback="ru"
 
 [layer_names]

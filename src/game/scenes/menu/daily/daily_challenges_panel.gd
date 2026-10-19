@@ -215,27 +215,12 @@ func _fit_slot_sizes() -> void:
 		slot.call_deferred("_fit_mark")
 
 
-## «1 день подряд», «2 дня подряд», «5 дней подряд» (11–14 → дней).
+## «1 день подряд», «2 дня подряд», «5 дней подряд» — form by the active language's plural rule.
 static func _days_in_row_text(days: int) -> String:
-	var mod100: int = days % 100
-	var mod10: int = days % 10
-	var format: String = "%d дней подряд"
-	if mod100 < 11 or mod100 > 14:
-		if mod10 == 1:
-			format = "%d день подряд"
-		elif mod10 >= 2 and mod10 <= 4:
-			format = "%d дня подряд"
+	var format := GameLocale.plural(days, "%d день подряд", "%d дня подряд", "%d дней подряд")
 	return TranslationServer.translate(format) % days
 
 
-## 1 минута, 2–4 минуты, 5+ минут.
+## Key «минута» / «минуты» / «минут» for the active language's plural rule.
 static func _minutes_word(n: int) -> String:
-	var mod100: int = n % 100
-	var mod10: int = n % 10
-	if mod100 >= 11 and mod100 <= 14:
-		return "минут"
-	if mod10 == 1:
-		return "минута"
-	if mod10 >= 2 and mod10 <= 4:
-		return "минуты"
-	return "минут"
+	return GameLocale.plural(n, "минута", "минуты", "минут")

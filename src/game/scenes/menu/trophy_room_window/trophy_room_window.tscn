@@ -20,6 +20,26 @@
 [ext_resource type="Script" path="res://src/ui/locale_texture_swap/locale_texture_swap.gd" id="12_locale_swap"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_en.png" id="13_cloud_en"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_en.png" id="14_clipboard_en"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_tr.png" id="13_cloud_tr"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_tr.png" id="14_clipboard_tr"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_es.png" id="13_cloud_es"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_es.png" id="14_clipboard_es"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_pt.png" id="13_cloud_pt"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_pt.png" id="14_clipboard_pt"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_de.png" id="13_cloud_de"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_de.png" id="14_clipboard_de"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_fr.png" id="13_cloud_fr"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_fr.png" id="14_clipboard_fr"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_it.png" id="13_cloud_it"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_it.png" id="14_clipboard_it"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_pl.png" id="13_cloud_pl"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_pl.png" id="14_clipboard_pl"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_uk.png" id="13_cloud_uk"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_uk.png" id="14_clipboard_uk"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_id.png" id="13_cloud_id"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_id.png" id="14_clipboard_id"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/title_cloud_nl.png" id="13_cloud_nl"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/panel_clipboard_nl.png" id="14_clipboard_nl"]
 [ext_resource type="Texture2D" uid="uid://dcqgqisgon0k4" path="res://assets/ui/icons/stopwatch.png" id="15_record_icon"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/scroll_closed.svg" id="16_scroll_closed"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/trophy_room_window/hall_bulb.tscn" id="40_bulb"]
@@ -271,7 +291,17 @@ vertical_alignment = 1
 script = ExtResource("12_locale_swap")
 target = NodePath("..")
 textures = Dictionary[String, Texture2D]({
-"en": ExtResource("13_cloud_en")
+"en": ExtResource("13_cloud_en"),
+"tr": ExtResource("13_cloud_tr"),
+"es": ExtResource("13_cloud_es"),
+"pt": ExtResource("13_cloud_pt"),
+"de": ExtResource("13_cloud_de"),
+"fr": ExtResource("13_cloud_fr"),
+"it": ExtResource("13_cloud_it"),
+"pl": ExtResource("13_cloud_pl"),
+"uk": ExtResource("13_cloud_uk"),
+"id": ExtResource("13_cloud_id"),
+"nl": ExtResource("13_cloud_nl")
 })
 
 [node name="LeftPanel" type="Control" parent="Layout"]
@@ -300,7 +330,17 @@ stretch_mode = 5
 script = ExtResource("12_locale_swap")
 target = NodePath("..")
 textures = Dictionary[String, Texture2D]({
-"en": ExtResource("14_clipboard_en")
+"en": ExtResource("14_clipboard_en"),
+"tr": ExtResource("14_clipboard_tr"),
+"es": ExtResource("14_clipboard_es"),
+"pt": ExtResource("14_clipboard_pt"),
+"de": ExtResource("14_clipboard_de"),
+"fr": ExtResource("14_clipboard_fr"),
+"it": ExtResource("14_clipboard_it"),
+"pl": ExtResource("14_clipboard_pl"),
+"uk": ExtResource("14_clipboard_uk"),
+"id": ExtResource("14_clipboard_id"),
+"nl": ExtResource("14_clipboard_nl")
 })
 
 [node name="StatsMargin" type="MarginContainer" parent="Layout/LeftPanel"]

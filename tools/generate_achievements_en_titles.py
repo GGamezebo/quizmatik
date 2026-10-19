@@ -1,12 +1,15 @@
-"""English variants of the trophy-room art with baked Russian titles.
+"""Per-language variants of the trophy-room art with baked Russian titles.
 
 Erases the painted text («ДОСТИЖЕНИЯ» cloud, «СТАТИСТИКА» clipboard) by diffusing the surrounding
-paper into the text pixels, then draws the English title in a matching font.
-Output sits next to the source (`*_en.png`); `LocaleTextureSwap` picks it when the UI language is English.
+paper into the text pixels, then draws the translated title (column of `translations.csv`) in a matching font.
+Output sits next to the source (`*_<lang>.png`); `LocaleTextureSwap` picks it for that UI language.
+New language column in the CSV → re-run, then add the two PNGs to both `LocaleTextureSwap.textures` in
+`trophy_room_window.tscn`.
 
 Run from the project root: python tools/generate_achievements_en_titles.py
 """
 
+import csv
 from pathlib import Path
 
 import numpy as np
@@ -14,6 +17,9 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 UI = Path("src/game/scenes/menu/trophy_room_window/ui")
 FONTS = Path("assets/fonts")
+TRANSLATIONS = Path("src/common/localization/translations.csv")
+CLOUD_KEY = "ДОСТИЖЕНИЯ"
+CLIPBOARD_KEY = "СТАТИСТИКА"
 
 
 def erase_text(img: Image.Image, box: tuple[int, int, int, int], dark: int, grow: int) -> Image.Image:
@@ -69,25 +75,33 @@ def draw_centered(img: Image.Image, box: tuple[int, int, int, int], text: str, f
     draw.text((x, y), text, font=font, fill=fill)
 
 
-def cloud() -> None:
-    img = Image.open(UI / "title_cloud.png")
-    text_box = (36, 32, 330, 98)
-    img = erase_text(img, text_box, dark=150, grow=7)
-    font = fit_font(FONTS / "RubikDoodleShadow-Regular.ttf", "ACHIEVEMENTS", 262, 46)
-    draw_centered(img, (40, 36, 320, 92), "ACHIEVEMENTS", font, (58, 62, 70, 255))
-    img.save(UI / "title_cloud_en.png")
+def titles() -> dict[str, tuple[str, str]]:
+    """Language column → (cloud title, clipboard title)."""
+    with TRANSLATIONS.open(encoding="utf-8", newline="") as f:
+        rows = {row["keys"]: row for row in csv.DictReader(f)}
+    langs = [col for col in rows[CLOUD_KEY] if col != "keys"]
+    return {lang: (rows[CLOUD_KEY][lang], rows[CLIPBOARD_KEY][lang]) for lang in langs}
 
 
-def clipboard() -> None:
-    img = Image.open(UI / "panel_clipboard.png")
-    text_box = (318, 300, 656, 372)
-    img = erase_text(img, text_box, dark=150, grow=9)
-    font = fit_font(FONTS / "Nunito-Bold.ttf", "STATISTICS", 330, 52)
-    draw_centered(img, (318, 306, 656, 366), "STATISTICS", font, (92, 62, 38, 255))
-    img.save(UI / "panel_clipboard_en.png")
+def cloud(blank: Image.Image, lang: str, text: str) -> None:
+    img = blank.copy()
+    font = fit_font(FONTS / "RubikDoodleShadow-Regular.ttf", text, 262, 46)
+    draw_centered(img, (40, 36, 320, 92), text, font, (58, 62, 70, 255))
+    img.save(UI / f"title_cloud_{lang}.png")
+
+
+def clipboard(blank: Image.Image, lang: str, text: str) -> None:
+    img = blank.copy()
+    font = fit_font(FONTS / "Nunito-Bold.ttf", text, 330, 52)
+    draw_centered(img, (318, 306, 656, 366), text, font, (92, 62, 38, 255))
+    img.save(UI / f"panel_clipboard_{lang}.png")
 
 
 if __name__ == "__main__":
-    cloud()
-    clipboard()
+    blank_cloud = erase_text(Image.open(UI / "title_cloud.png"), (36, 32, 330, 98), dark=150, grow=7)
+    blank_clipboard = erase_text(Image.open(UI / "panel_clipboard.png"), (318, 300, 656, 372), dark=150, grow=9)
+    for lang, (cloud_text, clipboard_text) in titles().items():
+        cloud(blank_cloud, lang, cloud_text)
+        clipboard(blank_clipboard, lang, clipboard_text)
+        print(lang, cloud_text, "/", clipboard_text)
     print("ok")

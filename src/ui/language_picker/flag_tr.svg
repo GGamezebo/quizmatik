@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="84" viewBox="0 0 120 84">
+  <!-- Turkish flag sticker: colored-pencil fill + graphite ink edge on a cream die-cut rim. -->
+  <defs>
+    <clipPath id="inner">
+      <rect x="9" y="9" width="102" height="66" rx="9"/>
+    </clipPath>
+  </defs>
+  <rect x="2" y="2" width="116" height="80" rx="15" fill="#FFFBF0"/>
+  <g clip-path="url(#inner)">
+    <rect x="9" y="9" width="102" height="66" fill="#D9473F"/>
+    <circle cx="50" cy="42" r="17" fill="#FFFFFF"/>
+    <circle cx="54.5" cy="42" r="13.6" fill="#D9473F"/>
+    <polygon points="64.50,42.00 70.25,40.00 70.37,33.92 74.05,38.77 79.88,37.00 76.40,42.00 79.88,47.00 74.05,45.23 70.37,50.08 70.25,44.00" fill="#FFFFFF"/>
+    <!-- Pencil hatching -->
+    <g stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.2">
+      <path d="M18 34 L30 16"/>
+      <path d="M50 72 L62 54"/>
+      <path d="M84 40 L96 22"/>
+    </g>
+  </g>
+  <rect x="9" y="9" width="102" height="66" rx="9" fill="none" stroke="#2A3340" stroke-width="4.5"/>
+</svg>
