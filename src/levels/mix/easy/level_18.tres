@@ -18,14 +18,14 @@ answer_speed_round_coeffs = {
 operation_ranges = {
 1: Vector2i(1, 15),
 2: Vector2i(2, 20),
-4: Vector2i(2, 10),
-8: Vector2i(2, 10)
+4: Vector2i(1, 10),
+8: Vector2i(1, 10)
 }
 second_operand_ranges = {
 1: Vector2i(1, 9),
 2: Vector2i(1, 9),
-4: Vector2i(2, 5),
-8: Vector2i(2, 5)
+4: Vector2i(1, 5),
+8: Vector2i(1, 5)
 }
 result_ranges = {
 1: Vector2i(2, 20),

@@ -12,7 +12,7 @@ paths:
 ## Levels
 
 - Canonical files: `src/levels/{addition|subtraction|multiplication|division|mix}/level_1..20.tres`; **20 = exam** (`is_exam` in config; read it via `LevelsConfig.get_exam_level_id()`, never hardcode)
-- EASY profile = grade-1 set `src/levels/{valley}/easy/level_1..20.tres` (± within 20, × / ÷ tables 2–5; same ids / exams / timed / boss layout; progress shared) from generator `EASY_VALLEYS`; pick only via `LevelsConfig.get_level_config(container, level, difficulty)` (game.gd, `GoldenFlightScenario`); file missing → same init assert
+- EASY profile = grade-1 set `src/levels/{valley}/easy/level_1..20.tres` (± within 20, × / ÷ tables 2–5 + ×1 / ×10 (own intro levels L4 / L5, then mixed in); same ids / exams / timed / boss layout; progress shared) from generator `EASY_VALLEYS`; pick only via `LevelsConfig.get_level_config(container, level, difficulty)` (game.gd, `GoldenFlightScenario`); file missing → same init assert
 - Container metadata + unlocks: `src/common/levels/levels_config.gd` (hand-edited)
 - Bulk generation: `tools/generate_levels.py` = source of truth for the curriculum (kids 7-10, RU school order; per valley 4 acts + exam climbing through act skills via score stages 4/8/12). Edit the curve there and re-run (`python tools/generate_levels.py` rewrites only level `.tres`, keeps uids); never hand-patch level `.tres`
 - Pace authored as `t` = seconds per balloon flight on NORMAL (`answer_speed = 1100 / t`); new-skill (`intro`) levels: no `? + 3 = 7`, no speed ramp
