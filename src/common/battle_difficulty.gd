@@ -10,7 +10,7 @@ const HARD := &"hard"
 
 ## Multipliers vs the unmodified config (normal = 1). Levels are tuned for an ~8-year-old on NORMAL;
 ## EASY = grade 1 (own level set `src/levels/{valley}/easy/` + these +40% time, no mid-battle speed-up),
-## HARD = confident 10-year-old.
+## HARD = grade 3-4: normal levels faster, every valley open, exams first (`ProgressController.skip_gold_for`).
 const PRESETS: Dictionary = {
 	EASY: {
 		"questions": 0.75,

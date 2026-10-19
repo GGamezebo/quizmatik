@@ -11,6 +11,11 @@ extends Control
 @export var background_host: BackgroundHost
 ## Marks the next level tile for overlays (tutorial) — target set on each populate.
 @export var next_level_anchor: UiAnchor
+## Wrapper around the exam tile; pulses on HARD until the exam is passed.
+@export var exam_slot_scene: PackedScene
+## HARD: «you already know this — take the exam» offer on entering these valleys.
+@export var hard_skip_overlay: HardSkipOverlay
+@export var skip_offer_container_ids: Array[String] = ["addition", "subtraction"]
 
 var _pending_battle_info: GameConfig.BattleInfo = null
 
@@ -19,11 +24,15 @@ func initialize(_container_id: String) -> void:
 	container_id = _container_id
 	_sync_local_background()
 	_populate_levels_grid()
+	_offer_hard_skip()
 
 
 func _ready() -> void:
 	early_exam_dialog.ev_confirmed.connect(_on_early_exam_confirmed)
 	early_exam_dialog.ev_canceled.connect(_on_early_exam_canceled)
+	if hard_skip_overlay:
+		hard_skip_overlay.ev_exam_pressed.connect(_on_skip_exam_pressed)
+		hard_skip_overlay.ev_in_order_pressed.connect(_on_skip_in_order_pressed)
 	_sync_local_background()
 
 
@@ -67,7 +76,13 @@ func _populate_levels_grid() -> void:
 		var is_exam: bool = level.get("is_exam", false)
 		var btn = level_button.instantiate()
 		btn.initialize(lvl_id, false, 0, is_exam)
-		grid_container.add_child(btn)
+		if is_exam and exam_slot_scene != null:
+			var slot := exam_slot_scene.instantiate() as ExamSlot
+			slot.hold(btn)
+			grid_container.add_child(slot)
+			slot.set_pulsing(progress.is_hard_difficulty() and not progress.is_valley_exam_completed(container_id))
+		else:
+			grid_container.add_child(btn)
 
 		var is_unlocked: bool = progress.is_level_unlocked(container_id, lvl_id)
 		var stars: int = progress.get_level_stars(container_id, lvl_id)
@@ -104,7 +119,8 @@ func _find_next_level_id(container: Dictionary) -> int:
 
 
 func _on_level_selected(battle_info: GameConfig.BattleInfo) -> void:
-	if battle_info.is_exam and not progress.are_all_regular_levels_completed(battle_info.container_id):
+	# HARD: exams first by design — no «harder early exam» on top of the HARD pace.
+	if battle_info.is_exam and not progress.is_hard_difficulty() 			and not progress.are_all_regular_levels_completed(battle_info.container_id):
 		_pending_battle_info = battle_info
 		early_exam_dialog.open(
 			"Усложнённый экзамен",
@@ -137,3 +153,23 @@ func _start_game(battle_info: GameConfig.BattleInfo) -> void:
 	root_events.ev_start_game.emit({
 		"battle_info": battle_info
 	})
+
+
+func _offer_hard_skip() -> void:
+	if hard_skip_overlay == null or progress == null or not progress.is_hard_difficulty():
+		return
+	if not container_id in skip_offer_container_ids or progress.is_valley_exam_completed(container_id):
+		return
+	if not progress.is_first_flight_done() 			or progress.is_tutorial_step_done(ProgressController.hard_skip_declined_step(container_id)):
+		return
+	hard_skip_overlay.open(progress.skip_gold_for(container_id) + ProgressController.EXAM_FIRST_PASS_GOLD)
+
+
+func _on_skip_exam_pressed() -> void:
+	var exam_id: int = levels.get_exam_level_id(container_id)
+	if exam_id > 0:
+		_start_game(GameConfig.BattleInfo.new(container_id, exam_id, true))
+
+
+func _on_skip_in_order_pressed() -> void:
+	progress.complete_tutorial_step(ProgressController.hard_skip_declined_step(container_id))

@@ -29,7 +29,8 @@ func open(celebration: Dictionary) -> void:
 		trophy_rect.texture = trophy
 		trophy_rect.visible = trophy != null
 
-	if next_container_id.is_empty():
+	# HARD opens valleys in any order: «all conquered» only once every exam is passed.
+	if bool(celebration.get("all_exams_passed", next_container_id.is_empty())):
 		message_label.text = tr(
 			"Ты сдал экзамен в «%s»!\n\nПоздравляем — все долины покорены!\n\nКубок сохранён в профиле."
 		) % valley_name
