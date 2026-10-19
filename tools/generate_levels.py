@@ -5,7 +5,7 @@ Curriculum for kids 7-10 (Russian primary school order): each valley = 19 regula
 Pace is authored as `t` = seconds a balloon needs to reach the plane on NORMAL difficulty
 (BattleDifficulty: EASY ≈ +40% time, HARD ≈ −25%); speed = TRAVEL_PX / t.
 
-EASY profile (grade 1: ± within 20, × / ÷ tables 2-5) gets its own set in src/levels/{valley}/easy/.
+EASY profile (grade 1: ± within 20, × / ÷ tables 2-5 + ×1 / ×10) gets its own set in src/levels/{valley}/easy/.
 
 Run: python tools/generate_levels.py  (rewrites only level .tres; levels_config.gd is hand-edited).
 """
@@ -209,7 +209,7 @@ VALLEYS = {
 }
 
 
-# === EASY profile = grade 1 (± within 20, × / ÷ tables 2-5) → src/levels/{valley}/easy/ ===========
+# === EASY profile = grade 1 (± within 20, × / ÷ tables 2-5 + ×1 / ×10) → src/levels/{valley}/easy/ ===========
 # Same act / timed / boss layout as the normal valleys; BattleDifficulty.EASY still adds its time.
 A_E20 = {ADD: op((1, 15), (1, 9), (2, 20))}
 S_E20 = {SUB: op((2, 20), (1, 9), (1, 19))}
@@ -257,48 +257,50 @@ SUBTRACTION_EASY = {
 
 
 def table_valley_easy(operation, slow):
-    """Tables 2-5 only. `rev` = first operand 2-10 × table 2-5 (7 × 3; 35 ÷ 7 = 5)."""
+    """Tables 2-5 plus the easy ×1 / ×10 (÷1 / ÷10). `rev` = 7 × 3 / 35 ÷ 7; `ones_tens` = also 1 and 10 in play."""
     t = lambda base: base + slow
     small = table(operation, (2, 5))
     rev = table(operation, (2, 10), (2, 5))
+    ones_tens = table(operation, (1, 5), (1, 10))
+    ones_tens_rev = table(operation, (1, 10), (1, 5))
     return {
         1: lvl(t(15), 6, table(operation, (2, 2)), intro=True),
         2: lvl(t(15), 6, table(operation, (3, 3)), intro=True),
         3: lvl(t(13), 7, table(operation, (2, 3))),
-        4: lvl(t(15), 7, table(operation, (4, 4)), intro=True),
-        5: lvl(t(15), 7, table(operation, (5, 5)), intro=True),
-        6: lvl(t(13), 8, small),
-        7: lvl(t(14), 8, table(operation, (4, 5))),
-        8: lvl(t(12), 8, table(operation, (2, 3))),
+        4: lvl(t(14), 7, table(operation, (1, 1), (1, 10)), intro=True),
+        5: lvl(t(14), 7, table(operation, (10, 10), (1, 10)), intro=True),
+        6: lvl(t(13), 8, table(operation, (1, 3), (1, 10))),
+        7: lvl(t(15), 7, table(operation, (4, 4)), intro=True),
+        8: lvl(t(15), 7, table(operation, (5, 5)), intro=True),
         9: lvl(t(12), 0, small),
-        10: lvl(t(13), 8, small),
-        11: lvl(t(12), 8, table(operation, (4, 5))),
+        10: lvl(t(13), 8, table(operation, (4, 5))),
+        11: lvl(t(13), 8, ones_tens),
         12: lvl(t(15), 7, rev, intro=True),
-        13: lvl(t(14), 8, rev),
+        13: lvl(t(14), 8, ones_tens_rev),
         14: lvl(t(13), 9, small),
         15: lvl(t(13), 9, rev),
         16: (
-            lvl(t(15), 9, small, missing=0.5, missing_start=0.0)
+            lvl(t(15), 9, ones_tens, missing=0.5, missing_start=0.0)
             if operation == MUL
-            else lvl(t(14), 9, {**table(MUL, (2, 5)), **small})
+            else lvl(t(14), 9, {**table(MUL, (1, 5), (1, 10)), **small})
         ),
-        17: lvl(t(12), 0, small),
-        18: lvl(t(12), 10, rev),
+        17: lvl(t(12), 0, ones_tens),
+        18: lvl(t(12), 10, ones_tens_rev),
         19: (
-            lvl(t(12), 10, small)
+            lvl(t(12), 10, ones_tens)
             if operation == MUL
-            else lvl(t(12), 10, {**table(MUL, (2, 10), (2, 5)), **rev}, missing=0.4)
+            else lvl(t(12), 10, {**table(MUL, (1, 10), (1, 5)), **ones_tens_rev}, missing=0.4)
         ),
         20: [
             stage(t(12), table(operation, (2, 3))),
+            stage(t(13), table(operation, (1, 3), (1, 10))),
             stage(t(13), table(operation, (4, 5))),
-            stage(t(13), small),
-            stage(t(13), rev),
+            stage(t(13), ones_tens_rev),
         ],
     }
 
 
-M_MD_5_REV = {MUL: op((2, 10), (2, 5)), DIV: op((2, 10), (2, 5))}
+M_MD_5_REV = {MUL: op((1, 10), (1, 5)), DIV: op((1, 10), (1, 5))}
 M_AS_E20 = {**A_E20, **S_E20}
 
 MIX_EASY = {
