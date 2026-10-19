@@ -20,6 +20,10 @@ const MAGISTER_RULES_STEP := "magister_rules"
 const ENDLESS_RULES_STEP := "endless_rules"
 ## Award id of the opened endless record scroll in the hall of fame (`award_ids`).
 const ENDLESS_AWARD := "endless_record"
+## Tutorial chapter id of the coached first battle (= tutorial `CHAPTER_FIRST_FLIGHT`).
+const FIRST_FLIGHT_STEP := "first_flight"
+## HARD: first exam pass pays this per regular level that had no stars yet (levels skipped via the exam).
+const HARD_SKIP_LEVEL_GOLD := 2
 
 @export var pdata: PData
 @export var levels_config: LevelsConfig
@@ -74,7 +78,10 @@ func post_battle(battle_info: GameConfig.BattleInfo, stars: int) -> Dictionary:
 		return {"level_gold": level_gold}
 	return {}
 
+## HARD (grade 3-4) opens every valley while the profile stays on HARD (computed, never saved).
 func is_container_unlocked(container_id: String) -> bool:
+	if is_hard_difficulty() and not levels_config.find_container_in_config(container_id).is_empty():
+		return true
 	var progress := pdata.levels.containers.get(container_id) as PData.ContainerProgress
 	if progress != null and progress.unlocked:
 		return true
@@ -116,6 +123,32 @@ func is_endless_unlocked() -> bool:
 ## Profile on EASY (grade 1): menu modes pick their `easy_*` config / rules card.
 func is_easy_difficulty() -> bool:
 	return pdata != null and BattleDifficulty.sanitize(StringName(pdata.difficulty)) == BattleDifficulty.EASY
+
+## Profile on HARD (grade 3-4): all valleys open, exams first (`skip_gold_for`, `HardSkipOverlay`).
+func is_hard_difficulty() -> bool:
+	return pdata != null and BattleDifficulty.sanitize(StringName(pdata.difficulty)) == BattleDifficulty.HARD
+
+## First flight coached (or whole tutorial done): menu offers may show.
+func is_first_flight_done() -> bool:
+	return is_tutorial_completed() or is_tutorial_step_done(FIRST_FLIGHT_STEP) or pdata.levels.has_any_stars()
+
+## `tutorial_steps` flag: the player chose «Пройду по порядку» in this valley's exam offer.
+static func hard_skip_declined_step(container_id: String) -> String:
+	return "hard_skip_declined:" + container_id
+
+## HARD only: gold for the regular levels a first exam pass would skip (no stars yet); else 0.
+func skip_gold_for(container_id: String) -> int:
+	if not is_hard_difficulty() or is_valley_exam_completed(container_id):
+		return 0
+	var container := pdata.levels.containers.get(container_id) as PData.ContainerProgress
+	var skipped := 0
+	for level in levels_config.find_container_in_config(container_id).get("levels", []):
+		if level.get("is_exam", false):
+			continue
+		var level_id: int = level["level_id"]
+		if container == null or not container.completed_levels.has(level_id) 				or container.completed_levels[level_id].stars < 1:
+			skipped += 1
+	return skipped * HARD_SKIP_LEVEL_GOLD
 
 ## Some weak example recorded (`PData.mistakes`) and its intro not shown yet.
 func is_mistakes_intro_pending() -> bool:
@@ -312,6 +345,11 @@ const EXAM_FIRST_PASS_GOLD: int = 5
 const PLANE_REFUND_SHARE: float = 0.5
 
 func pass_exam(container_id: String, stars: int) -> Dictionary:
+	# Before the exam stamps its stars on every level (they count as skipped only while empty).
+	var skip_gold := skip_gold_for(container_id)
+	# Celebrate the next valley only when this pass really opens it (HARD has them all open already).
+	var next_id := levels_config.get_next_container_id(container_id)
+	var opens_next := not next_id.is_empty() and not is_container_unlocked(next_id)
 	var container := pdata.levels.ensure_container(container_id)
 	var was_first_pass := not container.exam_passed
 	container.exam_passed = true
@@ -345,7 +383,8 @@ func pass_exam(container_id: String, stars: int) -> Dictionary:
 	var result := {
 		"first_exam_pass": true,
 		"container_id": container_id,
-		"next_container_id": levels_config.get_next_container_id(container_id),
+		"next_container_id": next_id if opens_next else "",
+		"all_exams_passed": are_all_valley_exams_passed(),
 	}
 	if not unlocked_plane_id.is_empty():
 		result["unlocked_plane_id"] = unlocked_plane_id
@@ -353,4 +392,6 @@ func pass_exam(container_id: String, stars: int) -> Dictionary:
 	result["exam_gold"] = EXAM_FIRST_PASS_GOLD
 	if plane_refund_gold > 0:
 		result["plane_refund_gold"] = plane_refund_gold
+	if skip_gold > 0:
+		result["skip_gold"] = skip_gold
 	return result

@@ -1,0 +1,18 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/levels/exam_slot.gd" id="1_script"]
+[ext_resource type="Script" path="res://core/lib/pulse/ui_pulse.gd" id="2_pulse"]
+
+[node name="ExamSlot" type="Control" node_paths=PackedStringArray("pulse")]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1_script")
+pulse = NodePath("Pulse")
+
+[node name="Pulse" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("2_pulse")
+target = NodePath("..")
+pulse_scale = 1.12
+period = 1.2

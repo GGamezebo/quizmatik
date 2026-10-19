@@ -1,0 +1,374 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/levels/hard_skip_overlay.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Script" path="res://src/ui/buttons/hover_scale_binder.gd" id="2_hover_binder"]
+[ext_resource type="Texture2D" uid="uid://hghugnctmjyn" path="res://src/game/scenes/menu/levels/ui/btn_back.png" id="3_back"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="4_shadow"]
+[ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="5_title_font"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="6_font"]
+[ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="8_coin"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/icon_exam.png" id="10_exam"]
+
+[sub_resource type="Gradient" id="Gradient_overlay"]
+colors = PackedColorArray(0.12, 0.1, 0.08, 0.55, 0.953, 0.902, 0.784, 0.2)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_overlay"]
+gradient = SubResource("Gradient_overlay")
+width = 1280
+height = 720
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 36.0
+content_margin_top = 22.0
+content_margin_right = 36.0
+content_margin_bottom = 20.0
+bg_color = Color(0.953, 0.902, 0.784, 0.97)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+shadow_color = Color(0.15, 0.12, 0.08, 0.28)
+shadow_size = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chip_new"]
+content_margin_left = 10.0
+content_margin_top = 2.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+bg_color = Color(0.94, 0.79, 0.29, 0.55)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.85)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_create"]
+content_margin_left = 28.0
+content_margin_right = 28.0
+bg_color = Color(0.36, 0.62, 0.42, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 5
+shadow_offset = Vector2(-3, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_create_hover"]
+content_margin_left = 28.0
+content_margin_right = 28.0
+bg_color = Color(0.41, 0.68, 0.47, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.25)
+shadow_size = 5
+shadow_offset = Vector2(-3, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_create_pressed"]
+content_margin_left = 28.0
+content_margin_right = 28.0
+bg_color = Color(0.29, 0.52, 0.35, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_keep"]
+content_margin_left = 22.0
+content_margin_right = 22.0
+bg_color = Color(0.99, 0.97, 0.94, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.18)
+shadow_size = 5
+shadow_offset = Vector2(-3, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_keep_hover"]
+content_margin_left = 22.0
+content_margin_right = 22.0
+bg_color = Color(1, 0.99, 0.97, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.18)
+shadow_size = 5
+shadow_offset = Vector2(-3, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_keep_pressed"]
+content_margin_left = 22.0
+content_margin_right = 22.0
+bg_color = Color(0.88, 0.82, 0.7, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("5_title_font")
+font_size = 34
+font_color = Color(0.165, 0.2, 0.251, 1)
+outline_size = 0
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_lead"]
+font = ExtResource("6_font")
+font_size = 20
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_note"]
+font = ExtResource("6_font")
+font_size = 15
+font_color = Color(0.32, 0.36, 0.4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gold"]
+font = ExtResource("5_title_font")
+font_size = 54
+font_color = Color(0.165, 0.2, 0.251, 1)
+outline_size = 0
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_arrow"]
+font = ExtResource("6_font")
+font_size = 28
+font_color = Color(0.165, 0.2, 0.251, 0.8)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
+shader = ExtResource("4_shadow")
+shader_parameter/shadow_offset = Vector2(-3, 6)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.3)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_button"]
+shader = ExtResource("4_shadow")
+shader_parameter/shadow_offset = Vector2(-4, 8)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
+shader_parameter/shadow_blur = 2.0
+
+[node name="HardSkipOverlay" type="CanvasLayer" node_paths=PackedStringArray("screen", "gold_label", "exam_button", "in_order_button", "cancel_button")]
+layer = 40
+visible = false
+script = ExtResource("1_script")
+screen = NodePath("Screen")
+gold_label = NodePath("Screen/CenterContainer/Panel/VBox/Reward/Prize/VBox/Row/Amount")
+exam_button = NodePath("Screen/CenterContainer/Panel/VBox/Buttons/Exam")
+in_order_button = NodePath("Screen/CenterContainer/Panel/VBox/Buttons/InOrder")
+cancel_button = NodePath("Screen/CenterContainer/Panel/VBox/Buttons/Cancel")
+
+[node name="Screen" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("theme_ui")
+
+[node name="HoverScaleBinder" type="Node" parent="Screen"]
+script = ExtResource("2_hover_binder")
+scale_factor = 1.04
+
+[node name="Dim" type="TextureRect" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_overlay")
+expand_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Screen/CenterContainer"]
+custom_minimum_size = Vector2(820, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Screen/CenterContainer/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Screen/CenterContainer/Panel/VBox"]
+layout_mode = 2
+text = "Ты уже большой пилот!"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Lead" type="Label" parent="Screen/CenterContainer/Panel/VBox"]
+custom_minimum_size = Vector2(680, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Эти примеры ты уже знаешь. Сдай экзамен — и вся долина пройдена!"
+label_settings = SubResource("LabelSettings_lead")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Reward" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="Exam" type="TextureRect" parent="Screen/CenterContainer/Panel/VBox/Reward"]
+material = SubResource("ShaderMaterial_sticker")
+custom_minimum_size = Vector2(132, 132)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("10_exam")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Arrow" type="Label" parent="Screen/CenterContainer/Panel/VBox/Reward"]
+layout_mode = 2
+text = "→"
+label_settings = SubResource("LabelSettings_arrow")
+vertical_alignment = 1
+
+[node name="Prize" type="PanelContainer" parent="Screen/CenterContainer/Panel/VBox/Reward"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip_new")
+
+[node name="VBox" type="VBoxContainer" parent="Screen/CenterContainer/Panel/VBox/Reward/Prize"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Row" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox/Reward/Prize/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Coin" type="TextureRect" parent="Screen/CenterContainer/Panel/VBox/Reward/Prize/VBox/Row"]
+material = SubResource("ShaderMaterial_sticker")
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("8_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Amount" type="Label" parent="Screen/CenterContainer/Panel/VBox/Reward/Prize/VBox/Row"]
+auto_translate_mode = 2
+layout_mode = 2
+text = "+43"
+label_settings = SubResource("LabelSettings_gold")
+vertical_alignment = 1
+
+[node name="Caption" type="Label" parent="Screen/CenterContainer/Panel/VBox/Reward/Prize/VBox"]
+layout_mode = 2
+text = "за экзамен и все уровни"
+label_settings = SubResource("LabelSettings_note")
+horizontal_alignment = 1
+
+[node name="Gap" type="Control" parent="Screen/CenterContainer/Panel/VBox"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Buttons" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Cancel" type="TextureButton" parent="Screen/CenterContainer/Panel/VBox/Buttons"]
+material = SubResource("ShaderMaterial_button")
+custom_minimum_size = Vector2(76, 76)
+layout_mode = 2
+focus_mode = 0
+texture_filter = 1
+texture_normal = ExtResource("3_back")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Exam" type="Button" parent="Screen/CenterContainer/Panel/VBox/Buttons"]
+custom_minimum_size = Vector2(280, 68)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.98, 0.95, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.95, 0.9, 1)
+theme_override_colors/font_focus_color = Color(1, 0.98, 0.95, 1)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_create")
+theme_override_styles/hover = SubResource("StyleBoxFlat_create_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_create_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_create")
+text = "НА ЭКЗАМЕН!"
+
+[node name="InOrder" type="Button" parent="Screen/CenterContainer/Panel/VBox/Buttons"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_hover_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_pressed_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_focus_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_fonts/font = ExtResource("6_font")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_keep")
+theme_override_styles/hover = SubResource("StyleBoxFlat_keep_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_keep_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_keep")
+text = "Пройду по порядку"

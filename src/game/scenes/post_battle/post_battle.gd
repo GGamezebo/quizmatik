@@ -89,7 +89,7 @@ func initialize(data: Dictionary) -> void:
 	var magister_gold: int = int(data.get("magister_gold", 0))
 	var exam_gold: int = int(data.get("exam_gold", 0))
 	_show_level_gold(int(data.get("level_gold", 0)), record_gold, golden_gold, magister_gold,
-			exam_gold, bool(data.get("plane_refund", false)))
+			exam_gold, bool(data.get("plane_refund", false)), bool(data.get("skipped_levels", false)))
 	_show_bonus_gold(int(data.get("bonus_gold", 0)))
 	var earned_gold: int = int(data.get("level_gold", 0)) + int(data.get("bonus_gold", 0)) + record_gold + golden_gold 			+ magister_gold + exam_gold
 	if gold_lines:
@@ -206,13 +206,15 @@ func _show_stamps(count: int) -> void:
 ## Same coin row: level «3 stamps» gold, endless record, golden-flight, magister or first exam pass gold
 ## (one kind per battle; exam gold includes the refund for an exam plane bought earlier).
 func _show_level_gold(amount: int, record_amount: int = 0, golden_amount: int = 0, magister_amount: int = 0,
-		exam_amount: int = 0, plane_refund: bool = false) -> void:
+		exam_amount: int = 0, plane_refund: bool = false, skipped_levels: bool = false) -> void:
 	if gold_label == null:
 		return
 	if level_gold_row:
 		level_gold_row.visible = amount > 0 or record_amount > 0 or golden_amount > 0 or magister_amount > 0 \
 				or exam_amount > 0
-	if exam_amount > 0:
+	if exam_amount > 0 and skipped_levels:
+		gold_label.text = tr("+%d за экзамен и пропущенные уровни") % exam_amount
+	elif exam_amount > 0:
 		gold_label.text = tr("+%d за экзамен и купленный самолёт" if plane_refund else "+%d за экзамен") % exam_amount
 	elif magister_amount > 0:
 		gold_label.text = tr("+%d за звание магистра") % magister_amount

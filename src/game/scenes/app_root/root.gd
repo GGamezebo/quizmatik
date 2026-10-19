@@ -133,12 +133,15 @@ func _apply_battle_result(data: Dictionary) -> void:
 			data["level_gold"] = level_gold
 		var exam_gold: int = int(celebration.get("exam_gold", 0))
 		var plane_refund_gold: int = int(celebration.get("plane_refund_gold", 0))
+		var skip_gold: int = int(celebration.get("skip_gold", 0))
 		celebration.erase("exam_gold")
 		celebration.erase("plane_refund_gold")
-		if exam_gold + plane_refund_gold > 0:
-			profile_controller.add_gold(exam_gold + plane_refund_gold)
-			data["exam_gold"] = exam_gold + plane_refund_gold
+		celebration.erase("skip_gold")
+		if exam_gold + plane_refund_gold + skip_gold > 0:
+			profile_controller.add_gold(exam_gold + plane_refund_gold + skip_gold)
+			data["exam_gold"] = exam_gold + plane_refund_gold + skip_gold
 			data["plane_refund"] = plane_refund_gold > 0
+			data["skipped_levels"] = skip_gold > 0
 		if not celebration.is_empty():
 			data["exam_celebration"] = celebration
 			if bool(celebration.get("first_exam_pass", false)):
@@ -150,7 +153,7 @@ func _apply_battle_result(data: Dictionary) -> void:
 		root_events.ev_show_celebration.emit(CelebrationSplash.KIND_PLANE, {"plane_id": unlocked_plane_id})
 	var next_container_id := String(celebration.get("next_container_id", ""))
 	if bool(celebration.get("first_exam_pass", false)):
-		if next_container_id.is_empty():
+		if bool(celebration.get("all_exams_passed", false)):
 			root_events.ev_show_celebration.emit(CelebrationSplash.KIND_MASTER, {})
-		else:
+		elif not next_container_id.is_empty():
 			root_events.ev_show_celebration.emit(CelebrationSplash.KIND_VALLEY, {"container_id": next_container_id})
