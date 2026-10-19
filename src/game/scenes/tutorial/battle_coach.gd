@@ -70,8 +70,11 @@ func _exit_tree() -> void:
 	_listener.deinit()
 
 
-## Parent enables coaching while the first-flight chapter is pending.
+## Parent enables coaching while the first-flight chapter is pending. Re-arming after a finished
+## flight (a new pilot while this context stayed open) starts the coaching over.
 func arm(value: bool) -> void:
+	if value and not _armed and _stage == Stage.DONE:
+		_stage = Stage.IDLE
 	_armed = value
 	if not value:
 		stop()

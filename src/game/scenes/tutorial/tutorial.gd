@@ -102,6 +102,9 @@ func on_event(event_name: String, _data: Dictionary) -> void:
 			_in_menu = false
 		"ev.exit_game":
 			_in_menu = false
+			# Safety net: a won battle always ends the first flight (never stuck on «level 1» hints).
+			if bool(_data.get("is_win", false)) and not progress.is_tutorial_step_done(CHAPTER_FIRST_FLIGHT):
+				progress.complete_tutorial_step(CHAPTER_FIRST_FLIGHT)
 			_maybe_arm_shop_tour()
 	_refresh()
 
@@ -109,6 +112,9 @@ func on_event(event_name: String, _data: Dictionary) -> void:
 func _refresh() -> void:
 	if _finished:
 		return
+	# Saves stuck before the coach fix: a pilot with stars has flown already.
+	if not progress.is_tutorial_step_done(CHAPTER_FIRST_FLIGHT) and progress.pdata.levels.has_any_stars():
+		progress.complete_tutorial_step(CHAPTER_FIRST_FLIGHT)
 	var chapter := _pending_chapter()
 	var tips := _pending_tips()
 	if chapter.is_empty() and tips.is_empty():
