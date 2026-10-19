@@ -181,7 +181,6 @@ func _init() -> void:
 
 func _load_level(full_path: String) -> GameConfig:
 	if ResourceLoader.exists(full_path):
-		print("[Loader] Level config loaded: ", full_path)
 		return ResourceLoader.load(full_path) as GameConfig
 	assert(false, "[Loader] Level config not found: " + full_path)
 	return null

@@ -82,6 +82,7 @@ corner_radius_bottom_right = 14
 corner_radius_bottom_left = 8
 
 [node name="LoadingScreen" type="CanvasLayer" node_paths=PackedStringArray("sheet", "sky", "grid", "flyer", "progress_bar", "status_label", "fact_label", "drifters")]
+layer = 100
 script = ExtResource("1_8cml4")
 pdata = ExtResource("2_pdata")
 cosmetics = ExtResource("9_cosmetics")
