@@ -38,6 +38,50 @@ shader_parameter/shadow_offset = Vector2(-2, 4)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
 shader_parameter/shadow_blur = 1.5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chip"]
+bg_color = Color(0.985, 0.955, 0.885, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+shadow_color = Color(0.15, 0.12, 0.08, 0.3)
+shadow_size = 3
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chip_hover"]
+bg_color = Color(0.98, 0.94, 0.86, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.12, 0.14, 0.18, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+shadow_color = Color(0.15, 0.12, 0.08, 0.36)
+shadow_size = 3
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chip_pressed"]
+bg_color = Color(0.878, 0.82, 0.702, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.12, 0.14, 0.18, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
 [node name="LanguagePicker" type="HBoxContainer" node_paths=PackedStringArray("inline_flags", "current_button", "current_flag", "current_name", "overlay")]
 custom_minimum_size = Vector2(0, 52)
 theme_override_constants/separation = 12
@@ -89,26 +133,31 @@ theme_override_constants/separation = 8
 alignment = 2
 
 [node name="CurrentButton" type="Button" parent="."]
-custom_minimum_size = Vector2(270, 52)
+custom_minimum_size = Vector2(236, 44)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
 mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_chip")
+theme_override_styles/hover = SubResource("StyleBoxFlat_chip_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_chip_pressed")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_chip_pressed")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
 
 [node name="HBox" type="HBoxContainer" parent="CurrentButton"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 12.0
-offset_right = -12.0
+offset_left = 8.0
+offset_right = -14.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="Flag" type="TextureRect" parent="CurrentButton/HBox"]
-custom_minimum_size = Vector2(50, 35)
+custom_minimum_size = Vector2(46, 32)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
@@ -126,7 +175,8 @@ vertical_alignment = 1
 text_overrun_behavior = 3
 
 [node name="Arrow" type="TextureRect" parent="CurrentButton/HBox"]
-custom_minimum_size = Vector2(22, 16)
+modulate = Color(1, 1, 1, 0.85)
+custom_minimum_size = Vector2(20, 14)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
