@@ -77,27 +77,11 @@ func _fly_away() -> void:
 	tween.chain().tween_callback(hide)
 
 
-## 1 секунду, 2–4 секунды, 5+ секунд (11–14 → секунд).
+## Key «секунду» / «секунды» / «секунд» for the active language's plural rule.
 static func _seconds_word(n: int) -> String:
-	var mod100: int = n % 100
-	var mod10: int = n % 10
-	if mod100 >= 11 and mod100 <= 14:
-		return "секунд"
-	if mod10 == 1:
-		return "секунду"
-	if mod10 >= 2 and mod10 <= 4:
-		return "секунды"
-	return "секунд"
+	return GameLocale.plural(n, "секунду", "секунды", "секунд")
 
 
-## 1 минута, 2–4 минуты, 5+ минут (11–14 → минут).
+## Key «минута» / «минуты» / «минут» for the active language's plural rule.
 static func _minutes_word(n: int) -> String:
-	var mod100: int = n % 100
-	var mod10: int = n % 10
-	if mod100 >= 11 and mod100 <= 14:
-		return "минут"
-	if mod10 == 1:
-		return "минута"
-	if mod10 >= 2 and mod10 <= 4:
-		return "минуты"
-	return "минут"
+	return GameLocale.plural(n, "минута", "минуты", "минут")

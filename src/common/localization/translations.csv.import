@@ -6,10 +6,10 @@ uid="uid://dhqm3fljjgkue"
 
 [deps]
 
-files=["res://src/common/localization/translations.en.translation"]
+files=["res://src/common/localization/translations.en.translation", "res://src/common/localization/translations.tr.translation", "res://src/common/localization/translations.es.translation", "res://src/common/localization/translations.pt.translation", "res://src/common/localization/translations.de.translation", "res://src/common/localization/translations.fr.translation", "res://src/common/localization/translations.it.translation", "res://src/common/localization/translations.pl.translation", "res://src/common/localization/translations.uk.translation", "res://src/common/localization/translations.id.translation", "res://src/common/localization/translations.nl.translation"]
 
 source_file="res://src/common/localization/translations.csv"
-dest_files=["res://src/common/localization/translations.en.translation"]
+dest_files=["res://src/common/localization/translations.en.translation", "res://src/common/localization/translations.tr.translation", "res://src/common/localization/translations.es.translation", "res://src/common/localization/translations.pt.translation", "res://src/common/localization/translations.de.translation", "res://src/common/localization/translations.fr.translation", "res://src/common/localization/translations.it.translation", "res://src/common/localization/translations.pl.translation", "res://src/common/localization/translations.uk.translation", "res://src/common/localization/translations.id.translation", "res://src/common/localization/translations.nl.translation"]
 
 [params]
 

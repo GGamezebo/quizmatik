@@ -7,6 +7,8 @@ extends PlatformContext
 ## Cloud save lives in child `Yandex/YandexCloudSave`. Ads + payments live in child `Yandex/YandexShop` (opened after SDK init unless `no_monetization`).
 
 const SDK_PAUSE := "game_api_pause"
+## UI languages offered on Yandex Games (declared in the Yandex console).
+const LANGUAGES: PackedStringArray = [GameLocale.RU, GameLocale.EN]
 const SDK_RESUME := "game_api_resume"
 
 var _ysdk: JavaScriptObject = null
@@ -21,6 +23,8 @@ var _on_resume_cb: JavaScriptObject = null
 
 
 func _enter() -> void:
+	if services != null:
+		services.set_languages(LANGUAGES)
 	var ya_games: JavaScriptObject = JavaScriptBridge.get_interface("YaGames")
 	if ya_games == null:
 		push_warning("YandexContext: YaGames missing — Web-Yandex export must include /sdk.js")
@@ -40,6 +44,7 @@ func deinit() -> void:
 		_ysdk.off(SDK_RESUME, _on_resume_cb)
 	if services != null:
 		services.set_language("")
+		services.set_languages([])
 	_ysdk = null
 	_sdk_callbacks.clear()
 	super.deinit()

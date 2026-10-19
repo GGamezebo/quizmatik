@@ -13,6 +13,7 @@ shader_parameter/shadow_blur = 1.5
 [node name="LanguageFlag" type="TextureButton" node_paths=PackedStringArray("underline")]
 material = SubResource("ShaderMaterial_shadow")
 custom_minimum_size = Vector2(52, 46)
+auto_translate_mode = 2
 focus_mode = 0
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("2_ru")

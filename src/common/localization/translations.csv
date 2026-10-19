@@ -1,247 +1,357 @@
-keys,en
-Улётная математика,Jet Math
-Без узора,No pattern
-Полоски,Stripes
-Горошек,Polka dots
-Клетка,Checks
-Звёзды,Stars
-Зигзаг,Zigzag
-Акварель,Watercolor
-Радуга,Rainbow
-Карандаш,Pencil
-Без шлейфа,No trail
-Пунктир,Dashes
-Мелки,Crayons
-Фломастеры,Markers
-Чернила,Ink
-Красные,Red
-Зелёные,Green
-Ластик,Eraser
-Звёздочки,Little stars
-Радужные,Rainbow
-Без наклейки,No sticker
-Кот,Cat
-Цветок,Flower
-Сердце,Heart
-Звезда,Star
-Солнце,Sun
-Обычная,Plain
-Синяя,Blue
-Розовая,Pink
-Зелёная,Green
-Золотая,Gold
-Классика,Classic
-Тетрадь,Notebook
-Тетрадное небо,Notebook sky
-Сложение,Addition
-Вычитание,Subtraction
-Умножение,Multiplication
-Деление,Division
-Микс,Mix
-Смешение,Mix
-Искорки,Sparkles
-Волна,Wave
-Фиолетовые,Purple
-Сердечки,Hearts
-Кубок,Trophy
-Фиолетовая,Purple
-Оранжевая,Orange
-Серебряная,Silver
-Долина Сложения,Addition Valley
-Долина Вычитания,Subtraction Valley
-Долина Умножения,Multiplication Valley
-Долина Деления,Division Valley
-Долина Смешения,Mix Valley
-Синий,Blue
-Быстрый,Swift
-быстрый,fast
-Зелёный,Green
-быстрее,faster
-Красный,Red
-ещё быстрее,even faster
-Золотой,Golden
-самый быстрый,fastest
-Пилот,Pilot
-Кто будет пилотом?,Who's the pilot?
-Имя пилота,Pilot name
-можно сменить в профиле,can be changed in the profile
-Легко,Easy
-Нормально,Normal
-Сложно,Hard
-Удалить пилота?,Delete pilot?
-"Весь прогресс пилота «%s» будет потерян: звёзды, кубки, золото и самолёты.","All progress of pilot “%s” will be lost: stars, trophies, gold and planes."
-Точно удалить?,Are you sure?
-Это нельзя отменить. Прогресс пилота «%s» исчезнет навсегда.,This can't be undone. All progress of pilot “%s” will be gone forever.
-Последний шанс!,Last chance!
-"Нажми галочку, только если решение окончательное. Пилот «%s» будет удалён.",Tap the check mark only if you're absolutely sure. Pilot “%s” will be deleted.
-Новый пилот,New pilot
-Изменить пилота,Edit pilot
-Удалить,Delete
-ПРОФИЛЬ,PROFILE
-УДОСТОВЕРЕНИЕ ПИЛОТА,PILOT LICENSE
-Имя,Name
-Зал трофеев,Trophy room
-Сложность,Difficulty
-меняй в любой момент,change it any time
-Сменить в ангаре →,Change in hangar →
-Пилоты,Pilots
-УДАЛИТЬ ПИЛОТА,DELETE PILOT
-1 класс,Grade 1
-2–3 класс,Grades 2–3
-3–4 класс,Grades 3–4
-Победы,Wins
-Битвы,Battles
-Верные ответы,Correct answers
-Выстрелы,Shots
-Время в игре,Time played
-Сессии,Sessions
-%dч %02dм %02dс,%dh %02dm %02ds
-%dм %02dс,%dm %02ds
-%dс,%ds
-ТРУДНЫЕ ПРИМЕРЫ,TRICKY PROBLEMS
-"Они чаще попадаются в бою, пока не решишь их верно",They show up more often in battle until you solve them right
-ошибок: %d,mistakes: %d
-ошибок: 5,mistakes: 5
-Ошибок пока нет — так держать!,No mistakes yet — keep it up!
-ДОСТИЖЕНИЯ,ACHIEVEMENTS
-СТАТИСТИКА,STATISTICS
-ТРУДНЫЕ ПРИМЕРЫ — НАЖМИ ДЛЯ СПИСКА,TRICKY PROBLEMS — TAP FOR THE LIST
-СЕРИЯ ×3,STREAK ×3
-СЕРИЯ ×%d,STREAK ×%d
-ДИРИЖАБЛЬ,AIRSHIP
-ЗЛОЙ ДИРИЖАБЛЬ!,ANGRY AIRSHIP!
-Огонь!,Fire!
-Продержись 60 секунд!,Hold out for 60 seconds!
-Продержись %d %s!,Hold out for %d %s!
-секунд,seconds
-секунду,second
-секунды,seconds
-Не пропускай правильный шарик — это минус сердце,Don't miss the right balloon — it costs a heart
-ПРИКЛЮЧЕНИЕ,ADVENTURE
-Проходи уровни и изучай мир,Beat levels and explore the world
-ПРАКТИКА,PRACTICE
-Решай примеры и улучшай навыки,Solve problems and sharpen your skills
-Ежедневная серия,Daily streak
-%d / %d пройдено,%d / %d done
-0 / 5 пройдено,0 / 5 done
-НАСТРОЙКИ,SETTINGS
-СЛЕДУЮЩИЙ,NEXT
-Экзамен,Exam
-В любой момент,Any time
-Усложнённый экзамен,Harder exam
-Вы не прошли все уровни в этом блоке. Экзамен будет усложнённым.,You haven't finished every level in this valley. The exam will be harder.
-Начать,Start
-Отмена,Cancel
-АНГАР,HANGAR
-САМОЛЁТЫ,PLANES
-ПОКРАСКА,STYLE
-Узор,Pattern
-Шлейф,Trail
-Выстрел,Shot
-Наклейка,Sticker
-Рамка,Frame
-Обложка,Cover
-НАДЕТО,EQUIPPED
-НАДЕТЬ,EQUIP
-НУЖНО ЕЩЁ %d,NEED %d MORE
-КУПИТЬ ЗА %d,BUY FOR %d
-✓ надето,✓ equipped
-есть,owned
-Предмет,Item
-Самолёт,Plane
-Выбран,Selected
-В полёте,Flying
-Открыт,Unlocked
-Выбрать,Select
-экзамен сдан,exam passed
-или экзамен,or pass the exam
-Купить,Buy
-Закрыт,Locked
-скорость ×%s,speed ×%s
-снаряд ×%s,shot ×%s
-Музыка в меню,Menu music
-Громкость музыки,Music volume
-Звуки в игре,Game sounds
-Громкость звуков,Sound volume
-Вибрация,Vibration
-Мощность вибрации,Vibration strength
-Язык,Language
-Громкость,Volume
-Настройка,Setting
-Выключено,Off
-Выбери сам,Custom
-"Спокойный темп, больше времени на пример","Relaxed pace, more time per problem"
-Средний темп; со второй половины — примеры с пропуском,Medium pace; missing-number problems in the second half
-Быстрый темп и примеры с пропуском: ? + 3 = 7,Fast pace and missing-number problems: ? + 3 = 7
-"Средний темп, стандартное время на пример","Medium pace, standard time per problem"
-на время: продержись %d сек,timed: hold out for %d sec
-СЛОЖЕНИЕ  +,ADDITION  +
-ВЫЧИТАНИЕ  −,SUBTRACTION  −
-УМНОЖЕНИЕ  ×,MULTIPLY  ×
-ДЕЛЕНИЕ  ÷,DIVIDE  ÷
-Настрой практику под себя и улучшай навыки,Set up practice your way and sharpen your skills
-✦  МАТЕМАТИЧЕСКИЕ ДЕЙСТВИЯ  ✦,✦  OPERATIONS  ✦
-✦  СЛОЖНОСТЬ  ✦,✦  DIFFICULTY  ✦
-ЛЕГКО,EASY
-НОРМАЛЬНО,NORMAL
-СЛОЖНО,HARD
-НА ВРЕМЯ,TIMED
-Свой диапазон:,Custom range:
-мин,min
-макс,max
-ОПЕРАЦИЯ,OPERATION
-ПОБЕДНЫЙ ПОЛЁТ!,VICTORY FLIGHT!
-ПОСАДКА...,LANDING...
-+%d за 3 штампа,+%d for 3 stamps
-+%d из бонусного шарика,+%d from the bonus balloon
-+1 за 3 штампа,+1 for 3 stamps
-+1 из бонусного шарика,+1 from the bonus balloon
+keys,en,tr,es,pt,de,fr,it,pl,uk,id,nl
+Улётная математика,Jet Math,Jet Math,Jet Math,Jet Math,Jet Math,Jet Math,Jet Math,Jet Math,Jet Math,Jet Math,Jet Math
+Без узора,No pattern,Desen yok,Sin estampado,Sem estampa,Ohne Muster,Sans motif,Senza motivo,Bez wzoru,Без візерунка,Tanpa motif,Geen patroon
+Полоски,Stripes,Çizgili,Rayas,Listras,Streifen,Rayures,Righe,Paski,Смужки,Garis-garis,Strepen
+Горошек,Polka dots,Puantiyeli,Lunares,Bolinhas,Punkte,Pois,Pois,Groszki,Горошок,Polkadot,Stippen
+Клетка,Checks,Kareli,Cuadros,Xadrez,Karos,Carreaux,Quadretti,Kratka,Клітинка,Kotak-kotak,Ruitjes
+Звёзды,Stars,Yıldızlar,Estrellas,Estrelas,Sterne,Étoiles,Stelle,Gwiazdy,Зірки,Bintang,Sterren
+Зигзаг,Zigzag,Zikzak,Zigzag,Zigue-zague,Zickzack,Zigzag,Zigzag,Zygzak,Зигзаг,Zigzag,Zigzag
+Акварель,Watercolor,Suluboya,Acuarela,Aquarela,Aquarell,Aquarelle,Acquerello,Akwarela,Акварель,Cat air,Waterverf
+Радуга,Rainbow,Gökkuşağı,Arcoíris,Arco-íris,Regenbogen,Arc-en-ciel,Arcobaleno,Tęcza,Веселка,Pelangi,Regenboog
+Карандаш,Pencil,Kurşun kalem,Lápiz,Lápis,Bleistift,Crayon,Matita,Ołówek,Олівець,Pensil,Potlood
+Без шлейфа,No trail,İz yok,Sin estela,Sem rastro,Ohne Spur,Sans traînée,Senza scia,Bez smugi,Без шлейфу,Tanpa jejak,Geen spoor
+Пунктир,Dashes,Kesik çizgi,Rayitas,Tracejado,Striche,Pointillés,Tratteggio,Kreski,Пунктир,Putus-putus,Streepjes
+Мелки,Crayons,Pastel boya,Ceras,Giz de cera,Wachsmalstifte,Craies,Pastelli,Kredki,Крейдочки,Krayon,Krijtjes
+Фломастеры,Markers,Keçeli kalem,Rotuladores,Canetinhas,Filzstifte,Feutres,Pennarelli,Flamastry,Фломастери,Spidol,Stiften
+Чернила,Ink,Mürekkep,Tinta,Tinta,Tinte,Encre,Inchiostro,Atrament,Чорнило,Tinta,Inkt
+Красные,Red,Kırmızı,Roja,Vermelha,Rot,Rouge,Rosso,Czerwony,Червоні,Merah,Rood
+Зелёные,Green,Yeşil,Verde,Verde,Grün,Verte,Verde,Zielony,Зелені,Hijau,Groen
+Ластик,Eraser,Silgi,Goma,Borracha,Radiergummi,Gomme,Gomma,Gumka,Гумка,Penghapus,Gum
+Звёздочки,Little stars,Yıldızcıklar,Estrellitas,Estrelinhas,Sternchen,Petites étoiles,Stelline,Gwiazdki,Зірочки,Bintang kecil,Sterretjes
+Радужные,Rainbow,Gökkuşağı,Arcoíris,Arco-íris,Regenbogen,Arc-en-ciel,Arcobaleno,Tęczowy,Райдужні,Pelangi,Regenboog
+Без наклейки,No sticker,Çıkartma yok,Sin pegatina,Sem adesivo,Ohne Sticker,Sans autocollant,Senza adesivo,Bez naklejki,Без наліпки,Tanpa stiker,Geen sticker
+Кот,Cat,Kedi,Gato,Gato,Katze,Chat,Gatto,Kot,Кіт,Kucing,Kat
+Цветок,Flower,Çiçek,Flor,Flor,Blume,Fleur,Fiore,Kwiatek,Квітка,Bunga,Bloem
+Сердце,Heart,Kalp,Corazón,Coração,Herz,Cœur,Cuore,Serce,Серце,Hati,Hart
+Звезда,Star,Yıldız,Estrella,Estrela,Stern,Étoile,Stella,Gwiazda,Зірка,Bintang,Ster
+Солнце,Sun,Güneş,Sol,Sol,Sonne,Soleil,Sole,Słońce,Сонце,Matahari,Zon
+Обычная,Plain,Sade,Sencillo,Simples,Schlicht,Simple,Semplice,Zwykła,Звичайна,Biasa,Gewoon
+Синяя,Blue,Mavi,Azul,Azul,Blau,Bleu,Blu,Niebieska,Синя,Biru,Blauw
+Розовая,Pink,Pembe,Rosa,Rosa,Rosa,Rose,Rosa,Różowa,Рожева,Merah muda,Roze
+Зелёная,Green,Yeşil,Verde,Verde,Grün,Vert,Verde,Zielona,Зелена,Hijau,Groen
+Золотая,Gold,Altın,Dorado,Dourada,Gold,Doré,Dorata,Złota,Золота,Emas,Goud
+Классика,Classic,Klasik,Clásica,Clássica,Klassisch,Classique,Classica,Klasyka,Класика,Klasik,Klassiek
+Тетрадь,Notebook,Defter,Cuaderno,Caderno,Heft,Cahier,Quaderno,Zeszyt,Зошит,Buku tulis,Schrift
+Тетрадное небо,Notebook sky,Defter gökyüzü,Cielo de cuaderno,Céu de caderno,Heft-Himmel,Ciel de cahier,Cielo di quaderno,Zeszytowe niebo,Зошитове небо,Langit buku tulis,Schriftlucht
+Сложение,Addition,Toplama,Suma,Adição,Plus,Addition,Addizione,Dodawanie,Додавання,Penjumlahan,Optellen
+Вычитание,Subtraction,Çıkarma,Resta,Subtração,Minus,Soustraction,Sottrazione,Odejmowanie,Віднімання,Pengurangan,Aftrekken
+Умножение,Multiplication,Çarpma,Multiplicación,Multiplicação,Mal,Multiplication,Moltiplicazione,Mnożenie,Множення,Perkalian,Vermenigvuldigen
+Деление,Division,Bölme,División,Divisão,Geteilt,Division,Divisione,Dzielenie,Ділення,Pembagian,Delen
+Микс,Mix,Karışık,Mezcla,Mistura,Mix,Mélange,Mix,Mieszanka,Мікс,Campuran,Mix
+Смешение,Mix,Karışık,Mezcla,Mistura,Mix,Mélange,Mix,Mieszanka,Мікс,Campuran,Mix
+Искорки,Sparkles,Kıvılcımlar,Chispas,Faíscas,Funken,Étincelles,Scintille,Iskierki,Іскорки,Percikan,Vonkjes
+Волна,Wave,Dalga,Ola,Onda,Welle,Vague,Onda,Fala,Хвиля,Ombak,Golf
+Фиолетовые,Purple,Mor,Morada,Roxa,Lila,Violette,Viola,Fioletowy,Фіолетові,Ungu,Paars
+Сердечки,Hearts,Kalpler,Corazones,Coraçõezinhos,Herzchen,Petits cœurs,Cuoricini,Serduszka,Сердечка,Hati kecil,Hartjes
+Кубок,Trophy,Kupa,Copa,Taça,Pokal,Coupe,Coppa,Puchar,Кубок,Piala,Beker
+Фиолетовая,Purple,Mor,Morado,Roxa,Lila,Violet,Viola,Fioletowa,Фіолетова,Ungu,Paars
+Оранжевая,Orange,Turuncu,Naranja,Laranja,Orange,Orange,Arancione,Pomarańczowa,Помаранчева,Oranye,Oranje
+Серебряная,Silver,Gümüş,Plateado,Prateada,Silber,Argenté,Argentata,Srebrna,Срібна,Perak,Zilver
+Долина Сложения,Addition Valley,Toplama Vadisi,Valle de la Suma,Vale da Adição,Plus-Tal,Vallée de l’Addition,Valle dell’Addizione,Dolina Dodawania,Долина Додавання,Lembah Penjumlahan,Optelvallei
+Долина Вычитания,Subtraction Valley,Çıkarma Vadisi,Valle de la Resta,Vale da Subtração,Minus-Tal,Vallée de la Soustraction,Valle della Sottrazione,Dolina Odejmowania,Долина Віднімання,Lembah Pengurangan,Aftrekvallei
+Долина Умножения,Multiplication Valley,Çarpma Vadisi,Valle de la Multiplicación,Vale da Multiplicação,Mal-Tal,Vallée de la Multiplication,Valle della Moltiplicazione,Dolina Mnożenia,Долина Множення,Lembah Perkalian,Keersommenvallei
+Долина Деления,Division Valley,Bölme Vadisi,Valle de la División,Vale da Divisão,Geteilt-Tal,Vallée de la Division,Valle della Divisione,Dolina Dzielenia,Долина Ділення,Lembah Pembagian,Deelvallei
+Долина Смешения,Mix Valley,Karışık Vadi,Valle de la Mezcla,Vale da Mistura,Mix-Tal,Vallée du Mélange,Valle del Mix,Dolina Mieszanki,Долина Міксу,Lembah Campuran,Mixvallei
+Синий,Blue,Mavi,Azul,Azul,Blau,Bleu,Blu,Niebieski,Синій,Biru,Blauw
+Быстрый,Swift,Hızlı,Veloz,Veloz,Flink,Rapide,Lampo,Szybki,Швидкий,Kilat,Flits
+быстрый,fast,hızlı,rápido,rápido,schnell,rapide,veloce,szybki,швидкий,cepat,snel
+Зелёный,Green,Yeşil,Verde,Verde,Grün,Vert,Verde,Zielony,Зелений,Hijau,Groen
+быстрее,faster,daha hızlı,más rápido,mais rápido,schneller,plus rapide,più veloce,szybszy,швидший,lebih cepat,sneller
+Красный,Red,Kırmızı,Rojo,Vermelho,Rot,Rouge,Rosso,Czerwony,Червоний,Merah,Rood
+ещё быстрее,even faster,çok daha hızlı,aún más rápido,ainda mais rápido,noch schneller,encore plus rapide,ancora più veloce,jeszcze szybszy,ще швидший,jauh lebih cepat,nog sneller
+Золотой,Golden,Altın,Dorado,Dourado,Gold,Doré,Dorato,Złoty,Золотий,Emas,Goud
+самый быстрый,fastest,en hızlı,el más rápido,o mais rápido,am schnellsten,le plus rapide,il più veloce,najszybszy,найшвидший,paling cepat,het snelst
+Пилот,Pilot,Pilot,Piloto,Piloto,Pilot,Pilote,Pilota,Pilot,Пілот,Pilot,Piloot
+Кто будет пилотом?,Who's the pilot?,Pilot kim olacak?,¿Quién será el piloto?,Quem vai pilotar?,Wer fliegt?,Qui sera le pilote ?,Chi sarà il pilota?,Kto będzie pilotem?,Хто буде пілотом?,Siapa yang jadi pilot?,Wie wordt de piloot?
+Имя пилота,Pilot name,Pilot adı,Nombre del piloto,Nome do piloto,Name des Piloten,Nom du pilote,Nome del pilota,Imię pilota,Ім’я пілота,Nama pilot,Naam van de piloot
+можно сменить в профиле,can be changed in the profile,profilde değiştirilebilir,se puede cambiar en el perfil,dá para mudar no perfil,kann im Profil geändert werden,modifiable dans le profil,si può cambiare nel profilo,można zmienić w profilu,можна змінити в профілі,bisa diganti di profil,kun je later in het profiel wijzigen
+Легко,Easy,Kolay,Fácil,Fácil,Leicht,Facile,Facile,Łatwy,Легко,Mudah,Makkelijk
+Нормально,Normal,Normal,Normal,Normal,Normal,Normal,Normale,Normalny,Нормально,Normal,Normaal
+Сложно,Hard,Zor,Difícil,Difícil,Schwer,Difficile,Difficile,Trudny,Складно,Sulit,Moeilijk
+Удалить пилота?,Delete pilot?,Pilot silinsin mi?,¿Borrar piloto?,Apagar piloto?,Pilot löschen?,Supprimer le pilote ?,Eliminare il pilota?,Usunąć pilota?,Видалити пілота?,Hapus pilot?,Piloot verwijderen?
+"Весь прогресс пилота «%s» будет потерян: звёзды, кубки, золото и самолёты.","All progress of pilot “%s” will be lost: stars, trophies, gold and planes.","“%s” adlı pilotun tüm ilerlemesi silinecek: yıldızlar, kupalar, altınlar ve uçaklar.","Se perderá todo el progreso del piloto «%s»: estrellas, copas, oro y aviones.","Todo o progresso do piloto “%s” será perdido: estrelas, taças, ouro e aviões.","Der ganze Fortschritt von „%s“ geht verloren: Sterne, Pokale, Gold und Flugzeuge.","Toute la progression du pilote « %s » sera perdue : étoiles, coupes, or et avions.","Tutti i progressi del pilota «%s» andranno persi: stelle, coppe, oro e aerei.","Cały postęp pilota „%s” przepadnie: gwiazdki, puchary, złoto i samoloty.","Увесь прогрес пілота «%s» буде втрачено: зірки, кубки, золото й літаки.","Semua kemajuan pilot “%s” akan hilang: bintang, piala, emas, dan pesawat.","Alle voortgang van piloot ‘%s’ gaat verloren: sterren, bekers, goud en vliegtuigen."
+Точно удалить?,Are you sure?,Emin misin?,¿Seguro?,Tem certeza?,Wirklich löschen?,Tu es sûr ?,Sei sicuro?,Na pewno?,Точно видалити?,Yakin?,Echt verwijderen?
+Это нельзя отменить. Прогресс пилота «%s» исчезнет навсегда.,This can't be undone. All progress of pilot “%s” will be gone forever.,Bu geri alınamaz. “%s” adlı pilotun ilerlemesi sonsuza dek kaybolacak.,No se puede deshacer. El progreso del piloto «%s» desaparecerá para siempre.,Isso não pode ser desfeito. O progresso do piloto “%s” sumirá para sempre.,Das kann man nicht rückgängig machen. Der Fortschritt von „%s“ ist für immer weg.,C’est irréversible. La progression du pilote « %s » disparaîtra pour toujours.,Non si può annullare. I progressi del pilota «%s» spariranno per sempre.,Tego nie da się cofnąć. Postęp pilota „%s” zniknie na zawsze.,Це не можна скасувати. Прогрес пілота «%s» зникне назавжди.,Ini tidak bisa dibatalkan. Kemajuan pilot “%s” akan hilang selamanya.,Dit kan niet ongedaan worden gemaakt. De voortgang van piloot ‘%s’ is voor altijd weg.
+Последний шанс!,Last chance!,Son şans!,¡Última oportunidad!,Última chance!,Letzte Chance!,Dernière chance !,Ultima possibilità!,Ostatnia szansa!,Останній шанс!,Kesempatan terakhir!,Laatste kans!
+"Нажми галочку, только если решение окончательное. Пилот «%s» будет удалён.",Tap the check mark only if you're absolutely sure. Pilot “%s” will be deleted.,Onay işaretine yalnızca gerçekten eminsen dokun. “%s” adlı pilot silinecek.,Pulsa la marca solo si estás totalmente seguro. El piloto «%s» será borrado.,Toque no visto só se tiver certeza absoluta. O piloto “%s” será apagado.,"Tippe nur auf den Haken, wenn du ganz sicher bist. „%s“ wird gelöscht.",Touche la coche seulement si tu es vraiment sûr. Le pilote « %s » sera supprimé.,Tocca la spunta solo se sei proprio sicuro. Il pilota «%s» verrà eliminato.,"Dotknij ptaszka tylko wtedy, gdy jesteś całkiem pewien. Pilot „%s” zostanie usunięty.","Натисни галочку, тільки якщо рішення остаточне. Пілота «%s» буде видалено.",Ketuk tanda centang hanya kalau kamu benar-benar yakin. Pilot “%s” akan dihapus.,Tik alleen op het vinkje als je het echt zeker weet. Piloot ‘%s’ wordt verwijderd.
+Новый пилот,New pilot,Yeni pilot,Nuevo piloto,Novo piloto,Neuer Pilot,Nouveau pilote,Nuovo pilota,Nowy pilot,Новий пілот,Pilot baru,Nieuwe piloot
+Изменить пилота,Edit pilot,Pilotu düzenle,Editar piloto,Editar piloto,Pilot bearbeiten,Modifier le pilote,Modifica pilota,Edytuj pilota,Змінити пілота,Ubah pilot,Piloot bewerken
+Удалить,Delete,Sil,Borrar,Apagar,Löschen,Supprimer,Elimina,Usuń,Видалити,Hapus,Verwijderen
+ПРОФИЛЬ,PROFILE,PROFİL,PERFIL,PERFIL,PROFIL,PROFIL,PROFILO,PROFIL,ПРОФІЛЬ,PROFIL,PROFIEL
+УДОСТОВЕРЕНИЕ ПИЛОТА,PILOT LICENSE,PİLOT KİMLİĞİ,LICENCIA DE PILOTO,LICENÇA DE PILOTO,PILOTENSCHEIN,LICENCE DE PILOTE,PATENTE DI PILOTA,LICENCJA PILOTA,ПОСВІДЧЕННЯ ПІЛОТА,LISENSI PILOT,VLIEGBREVET
+Имя,Name,Ad,Nombre,Nome,Name,Nom,Nome,Imię,Ім’я,Nama,Naam
+Зал трофеев,Trophy room,Kupa salonu,Sala de trofeos,Sala de troféus,Pokalsaal,Salle des trophées,Sala dei trofei,Sala trofeów,Зала трофеїв,Ruang piala,Trofeeënzaal
+Сложность,Difficulty,Zorluk,Dificultad,Dificuldade,Schwierigkeit,Difficulté,Difficoltà,Poziom trudności,Складність,Tingkat kesulitan,Moeilijkheid
+меняй в любой момент,change it any time,istediğin zaman değiştir,cámbiala cuando quieras,mude quando quiser,jederzeit änderbar,change quand tu veux,cambiala quando vuoi,"zmieniaj, kiedy chcesz",змінюй будь-коли,ganti kapan saja,verander het wanneer je wilt
+Сменить в ангаре →,Change in hangar →,Hangarda değiştir →,Cambiar en el hangar →,Mudar no hangar →,Im Hangar ändern →,Changer au hangar →,Cambia nell’hangar →,Zmień w hangarze →,Змінити в ангарі →,Ganti di hanggar →,Wijzigen in de hangar →
+Пилоты,Pilots,Pilotlar,Pilotos,Pilotos,Piloten,Pilotes,Piloti,Piloci,Пілоти,Pilot,Piloten
+УДАЛИТЬ ПИЛОТА,DELETE PILOT,PİLOTU SİL,BORRAR PILOTO,APAGAR PILOTO,PILOT LÖSCHEN,SUPPRIMER LE PILOTE,ELIMINA PILOTA,USUŃ PILOTA,ВИДАЛИТИ ПІЛОТА,HAPUS PILOT,PILOOT VERWIJDEREN
+1 класс,Grade 1,1. sınıf,1.º de primaria,1º ano,1. Klasse,CP,1ª elementare,1 klasa,1 клас,Kelas 1,Groep 3
+2–3 класс,Grades 2–3,2–3. sınıf,2.º–3.º de primaria,2º–3º ano,2.–3. Klasse,CE1–CE2,2ª–3ª elementare,2–3 klasa,2–3 клас,Kelas 2–3,Groep 4–5
+3–4 класс,Grades 3–4,3–4. sınıf,3.º–4.º de primaria,3º–4º ano,3.–4. Klasse,CE2–CM1,3ª–4ª elementare,3–4 klasa,3–4 клас,Kelas 3–4,Groep 5–6
+Победы,Wins,Zaferler,Victorias,Vitórias,Siege,Victoires,Vittorie,Zwycięstwa,Перемоги,Kemenangan,Overwinningen
+Битвы,Battles,Savaşlar,Batallas,Batalhas,Kämpfe,Combats,Battaglie,Bitwy,Бої,Pertarungan,Gevechten
+Верные ответы,Correct answers,Doğru cevaplar,Respuestas correctas,Respostas certas,Richtige Antworten,Bonnes réponses,Risposte giuste,Dobre odpowiedzi,Правильні відповіді,Jawaban benar,Goede antwoorden
+Выстрелы,Shots,Atışlar,Disparos,Tiros,Schüsse,Tirs,Colpi,Strzały,Постріли,Tembakan,Schoten
+Время в игре,Time played,Oyun süresi,Tiempo de juego,Tempo de jogo,Spielzeit,Temps de jeu,Tempo di gioco,Czas gry,Час у грі,Waktu bermain,Speeltijd
+Сессии,Sessions,Oturumlar,Sesiones,Sessões,Sitzungen,Sessions,Sessioni,Sesje,Сесії,Sesi,Sessies
+%dч %02dм %02dс,%dh %02dm %02ds,%dsa %02ddk %02dsn,%dh %02dm %02ds,%dh %02dm %02ds,%d h %02d min %02d s,%d h %02d min %02d s,%dh %02dm %02ds,%d h %02d min %02d s,%dгод %02dхв %02dс,%dj %02dm %02dd,%du %02dm %02ds
+%dм %02dс,%dm %02ds,%ddk %02dsn,%dm %02ds,%dm %02ds,%d min %02d s,%d min %02d s,%dm %02ds,%d min %02d s,%dхв %02dс,%dm %02dd,%dm %02ds
+%dс,%ds,%dsn,%ds,%ds,%d s,%d s,%ds,%d s,%dс,%dd,%ds
+ТРУДНЫЕ ПРИМЕРЫ,TRICKY PROBLEMS,ZOR İŞLEMLER,EJERCICIOS DIFÍCILES,CONTAS DIFÍCEIS,KNIFFLIGE AUFGABEN,CALCULS DIFFICILES,CALCOLI DIFFICILI,TRUDNE PRZYKŁADY,СКЛАДНІ ПРИКЛАДИ,SOAL SULIT,LASTIGE SOMMEN
+"Они чаще попадаются в бою, пока не решишь их верно",They show up more often in battle until you solve them right,Doğru çözene kadar savaşta daha sık çıkarlar,Aparecen más a menudo en la batalla hasta que los resuelvas bien,Elas aparecem mais nas batalhas até você acertar,"Sie kommen im Kampf öfter, bis du sie richtig löst",Ils reviennent plus souvent en combat jusqu’à ce que tu les réussisses,In battaglia escono più spesso finché non li risolvi bene,"Pojawiają się częściej w bitwie, dopóki nie rozwiążesz ich dobrze","Вони частіше трапляються в бою, поки не розв’яжеш їх правильно",Soal ini lebih sering muncul dalam pertarungan sampai kamu menjawabnya dengan benar,Ze komen vaker terug in het gevecht tot je ze goed oplost
+ошибок: %d,mistakes: %d,hata: %d,errores: %d,erros: %d,Fehler: %d,erreurs : %d,errori: %d,błędy: %d,помилок: %d,salah: %d,fouten: %d
+ошибок: 5,mistakes: 5,hata: 5,errores: 5,erros: 5,Fehler: 5,erreurs : 5,errori: 5,błędy: 5,помилок: 5,salah: 5,fouten: 5
+Ошибок пока нет — так держать!,No mistakes yet — keep it up!,Henüz hata yok — böyle devam!,Aún no hay errores. ¡Sigue así!,Nenhum erro ainda — continue assim!,Noch keine Fehler — weiter so!,Pas encore d’erreurs — continue comme ça !,Ancora nessun errore — continua così!,Na razie bez błędów — tak trzymaj!,Помилок поки немає — так тримати!,Belum ada yang salah — terus begitu!,Nog geen fouten — ga zo door!
+ДОСТИЖЕНИЯ,ACHIEVEMENTS,BAŞARILAR,LOGROS,CONQUISTAS,ERFOLGE,SUCCÈS,TRAGUARDI,OSIĄGNIĘCIA,ДОСЯГНЕННЯ,PENCAPAIAN,PRESTATIES
+СТАТИСТИКА,STATISTICS,İSTATİSTİK,ESTADÍSTICAS,ESTATÍSTICAS,STATISTIK,STATISTIQUES,STATISTICHE,STATYSTYKI,СТАТИСТИКА,STATISTIK,STATISTIEKEN
+ТРУДНЫЕ ПРИМЕРЫ — НАЖМИ ДЛЯ СПИСКА,TRICKY PROBLEMS — TAP FOR THE LIST,ZOR İŞLEMLER — LİSTE İÇİN DOKUN,EJERCICIOS DIFÍCILES — TOCA PARA VER LA LISTA,CONTAS DIFÍCEIS — TOQUE PARA VER A LISTA,KNIFFLIGE AUFGABEN — TIPPEN FÜR DIE LISTE,CALCULS DIFFICILES — TOUCHE POUR LA LISTE,CALCOLI DIFFICILI — TOCCA PER LA LISTA,"TRUDNE PRZYKŁADY — DOTKNIJ, BY ZOBACZYĆ LISTĘ",СКЛАДНІ ПРИКЛАДИ — НАТИСНИ ДЛЯ СПИСКУ,SOAL SULIT — KETUK UNTUK DAFTAR,LASTIGE SOMMEN — TIK VOOR DE LIJST
+СЕРИЯ ×3,STREAK ×3,SERİ ×3,RACHA ×3,SEQUÊNCIA ×3,SERIE ×3,SÉRIE ×3,SERIE ×3,SERIA ×3,СЕРІЯ ×3,BERUNTUN ×3,REEKS ×3
+СЕРИЯ ×%d,STREAK ×%d,SERİ ×%d,RACHA ×%d,SEQUÊNCIA ×%d,SERIE ×%d,SÉRIE ×%d,SERIE ×%d,SERIA ×%d,СЕРІЯ ×%d,BERUNTUN ×%d,REEKS ×%d
+ДИРИЖАБЛЬ,AIRSHIP,ZEPLİN,DIRIGIBLE,DIRIGÍVEL,LUFTSCHIFF,DIRIGEABLE,DIRIGIBILE,STEROWIEC,ДИРИЖАБЛЬ,KAPAL UDARA,LUCHTSCHIP
+ЗЛОЙ ДИРИЖАБЛЬ!,ANGRY AIRSHIP!,KIZGIN ZEPLİN!,¡DIRIGIBLE ENFADADO!,DIRIGÍVEL BRAVO!,WÜTENDES LUFTSCHIFF!,DIRIGEABLE EN COLÈRE !,DIRIGIBILE ARRABBIATO!,ZŁY STEROWIEC!,ЗЛИЙ ДИРИЖАБЛЬ!,KAPAL UDARA MARAH!,BOOS LUCHTSCHIP!
+Огонь!,Fire!,Ateş!,¡Fuego!,Fogo!,Feuer!,Feu !,Fuoco!,Ognia!,Вогонь!,Tembak!,Vuur!
+Продержись 60 секунд!,Hold out for 60 seconds!,60 saniye dayan!,¡Aguanta 60 segundos!,Aguente 60 segundos!,Halte 60 Sekunden durch!,Tiens 60 secondes !,Resisti 60 secondi!,Wytrzymaj 60 sekund!,Протримайся 60 секунд!,Bertahan 60 detik!,Hou 60 seconden vol!
+Продержись %d %s!,Hold out for %d %s!,%d %s dayan!,¡Aguanta %d %s!,Aguente %d %s!,Halte %d %s durch!,Tiens %d %s !,Resisti %d %s!,Wytrzymaj %d %s!,Протримайся %d %s!,Bertahan %d %s!,Hou %d %s vol!
+секунд,seconds,saniye,segundos,segundos,Sekunden,secondes,secondi,sekund,секунд,detik,seconden
+секунду,second,saniye,segundo,segundo,Sekunde,seconde,secondo,sekundę,секунду,detik,seconde
+секунды,seconds,saniye,segundos,segundos,Sekunden,secondes,secondi,sekundy,секунди,detik,seconden
+Не пропускай правильный шарик — это минус сердце,Don't miss the right balloon — it costs a heart,Doğru balonu kaçırma — bir kalp kaybedersin,No dejes pasar el globo correcto: cuesta un corazón,Não deixe passar o balão certo — custa um coração,Verpass den richtigen Ballon nicht — das kostet ein Herz,Ne rate pas le bon ballon — sinon tu perds un cœur,Non perdere il palloncino giusto — costa un cuore,Nie przepuść dobrego balonika — to kosztuje serce,Не пропускай правильну кульку — це мінус серце,Jangan lewatkan balon yang benar — itu mengurangi satu hati,Mis de goede ballon niet — dat kost een hart
+ПРИКЛЮЧЕНИЕ,ADVENTURE,MACERA,AVENTURA,AVENTURA,ABENTEUER,AVENTURE,AVVENTURA,PRZYGODA,ПРИГОДА,PETUALANGAN,AVONTUUR
+Проходи уровни и изучай мир,Beat levels and explore the world,"Seviyeleri geç, dünyayı keşfet",Supera niveles y explora el mundo,Passe de fase e explore o mundo,Schaffe Level und entdecke die Welt,Passe les niveaux et explore le monde,Supera i livelli ed esplora il mondo,Przechodź poziomy i odkrywaj świat,Проходь рівні й досліджуй світ,Selesaikan level dan jelajahi dunia,Haal levels en ontdek de wereld
+ПРАКТИКА,PRACTICE,ALIŞTIRMA,PRÁCTICA,PRÁTICA,ÜBEN,ENTRAÎNEMENT,ALLENAMENTO,TRENING,ПРАКТИКА,LATIHAN,OEFENEN
+Решай примеры и улучшай навыки,Solve problems and sharpen your skills,"İşlem çöz, becerilerini geliştir",Resuelve ejercicios y mejora tus habilidades,Resolva contas e melhore suas habilidades,Löse Aufgaben und werde immer besser,Résous des calculs et progresse,Risolvi calcoli e migliora le tue abilità,Rozwiązuj przykłady i ćwicz umiejętności,Розв’язуй приклади й покращуй навички,Kerjakan soal dan asah kemampuanmu,Los sommen op en word steeds beter
+Ежедневная серия,Daily streak,Günlük seri,Racha diaria,Sequência diária,Tägliche Serie,Série du jour,Serie del giorno,Codzienna seria,Щоденна серія,Rangkaian harian,Dagelijkse reeks
+%d / %d пройдено,%d / %d done,%d / %d tamam,%d / %d hechos,%d / %d feitas,%d / %d geschafft,%d / %d réussis,%d / %d fatti,%d / %d zrobione,%d / %d пройдено,%d / %d selesai,%d / %d gehaald
+0 / 5 пройдено,0 / 5 done,0 / 5 tamam,0 / 5 hechos,0 / 5 feitas,0 / 5 geschafft,0 / 5 réussis,0 / 5 fatti,0 / 5 zrobione,0 / 5 пройдено,0 / 5 selesai,0 / 5 gehaald
+НАСТРОЙКИ,SETTINGS,AYARLAR,AJUSTES,CONFIGURAÇÕES,EINSTELLUNGEN,RÉGLAGES,IMPOSTAZIONI,USTAWIENIA,НАЛАШТУВАННЯ,PENGATURAN,INSTELLINGEN
+СЛЕДУЮЩИЙ,NEXT,SONRAKİ,SIGUIENTE,PRÓXIMO,WEITER,SUIVANT,AVANTI,DALEJ,НАСТУПНИЙ,BERIKUTNYA,VOLGENDE
+Экзамен,Exam,Sınav,Examen,Prova,Prüfung,Examen,Esame,Egzamin,Іспит,Ujian,Examen
+В любой момент,Any time,Her zaman,Cuando quieras,Quando quiser,Jederzeit,Quand tu veux,Quando vuoi,Kiedy chcesz,Будь-коли,Kapan saja,Wanneer je wilt
+Усложнённый экзамен,Harder exam,Zorlaştırılmış sınav,Examen más difícil,Prova mais difícil,Schwerere Prüfung,Examen renforcé,Esame più difficile,Trudniejszy egzamin,Ускладнений іспит,Ujian yang lebih sulit,Moeilijker examen
+Вы не прошли все уровни в этом блоке. Экзамен будет усложнённым.,You haven't finished every level in this valley. The exam will be harder.,Bu vadideki tüm seviyeleri bitirmedin. Sınav daha zor olacak.,No has completado todos los niveles de este valle. El examen será más difícil.,Você não terminou todas as fases deste vale. A prova será mais difícil.,Du hast nicht alle Level in diesem Tal geschafft. Die Prüfung wird schwerer.,Tu n’as pas fini tous les niveaux de cette vallée. L’examen sera plus difficile.,Non hai finito tutti i livelli di questa valle. L’esame sarà più difficile.,Nie przeszedłeś wszystkich poziomów w tej dolinie. Egzamin będzie trudniejszy.,Ти пройшов не всі рівні в цій долині. Іспит буде складнішим.,Kamu belum menyelesaikan semua level di lembah ini. Ujiannya akan lebih sulit.,Je hebt niet alle levels in deze vallei gehaald. Het examen wordt moeilijker.
+Начать,Start,Başla,Empezar,Começar,Los,Commencer,Inizia,Start,Почати,Mulai,Start
+Отмена,Cancel,İptal,Cancelar,Cancelar,Abbrechen,Annuler,Annulla,Anuluj,Скасувати,Batal,Annuleren
+АНГАР,HANGAR,HANGAR,HANGAR,HANGAR,HANGAR,HANGAR,HANGAR,HANGAR,АНГАР,HANGGAR,HANGAR
+САМОЛЁТЫ,PLANES,UÇAKLAR,AVIONES,AVIÕES,FLUGZEUGE,AVIONS,AEREI,SAMOLOTY,ЛІТАКИ,PESAWAT,VLIEGTUIGEN
+ПОКРАСКА,STYLE,GÖRÜNÜM,ESTILO,VISUAL,AUSSEHEN,LOOK,STILE,WYGLĄD,ФАРБУВАННЯ,GAYA,STIJL
+Узор,Pattern,Desen,Estampado,Estampa,Muster,Motif,Motivo,Wzór,Візерунок,Motif,Patroon
+Шлейф,Trail,İz,Estela,Rastro,Spur,Traînée,Scia,Smuga,Шлейф,Jejak,Spoor
+Выстрел,Shot,Atış,Disparo,Tiro,Schuss,Tir,Colpo,Strzał,Постріл,Tembakan,Schot
+Наклейка,Sticker,Çıkartma,Pegatina,Adesivo,Sticker,Autocollant,Adesivo,Naklejka,Наліпка,Stiker,Sticker
+Рамка,Frame,Çerçeve,Marco,Moldura,Rahmen,Cadre,Cornice,Ramka,Рамка,Bingkai,Lijst
+Обложка,Cover,Kapak,Portada,Capa,Titelbild,Fond,Sfondo,Okładka,Обкладинка,Sampul,Achtergrond
+НАДЕТО,EQUIPPED,TAKILI,EQUIPADO,EQUIPADO,AUSGERÜSTET,ÉQUIPÉ,EQUIPAGGIATO,ZAŁOŻONE,ВДЯГНЕНО,DIPAKAI,AAN
+НАДЕТЬ,EQUIP,TAK,EQUIPAR,EQUIPAR,AUSRÜSTEN,ÉQUIPER,EQUIPAGGIA,ZAŁÓŻ,ВДЯГНУТИ,PAKAI,AANDOEN
+НУЖНО ЕЩЁ %d,NEED %d MORE,%d DAHA GEREKLİ,FALTAN %d,FALTAM %d,NOCH %d NÖTIG,ENCORE %d,NE SERVONO ALTRI %d,BRAKUJE %d,ТРЕБА ЩЕ %d,KURANG %d,NOG %d NODIG
+КУПИТЬ ЗА %d,BUY FOR %d,SATIN AL: %d,COMPRAR POR %d,COMPRAR POR %d,KAUFEN FÜR %d,ACHETER : %d,COMPRA PER %d,KUP ZA %d,КУПИТИ ЗА %d,BELI SEHARGA %d,KOOP VOOR %d
+✓ надето,✓ equipped,✓ takılı,✓ equipado,✓ equipado,✓ ausgerüstet,✓ équipé,✓ equipaggiato,✓ założone,✓ вдягнено,✓ dipakai,✓ aan
+есть,owned,sende var,tuyo,seu,vorhanden,à toi,tuo,masz,є,dimiliki,van jou
+Предмет,Item,Eşya,Objeto,Item,Gegenstand,Objet,Oggetto,Przedmiot,Предмет,Barang,Voorwerp
+Самолёт,Plane,Uçak,Avión,Avião,Flugzeug,Avion,Aereo,Samolot,Літак,Pesawat,Vliegtuig
+Выбран,Selected,Seçildi,Elegido,Escolhido,Gewählt,Choisi,Scelto,Wybrany,Вибрано,Dipilih,Gekozen
+В полёте,Flying,Uçuşta,En vuelo,Voando,Im Flug,En vol,In volo,W locie,У польоті,Terbang,In de lucht
+Открыт,Unlocked,Açık,Desbloqueado,Liberado,Frei,Débloqué,Sbloccato,Odblokowany,Відкрито,Terbuka,Vrij
+Выбрать,Select,Seç,Elegir,Escolher,Wählen,Choisir,Scegli,Wybierz,Вибрати,Pilih,Kiezen
+экзамен сдан,exam passed,sınav geçildi,examen aprobado,prova aprovada,Prüfung bestanden,examen réussi,esame superato,egzamin zdany,іспит складено,ujian lulus,examen gehaald
+или экзамен,or pass the exam,ya da sınavı geç,o aprueba el examen,ou passe na prova,oder Prüfung bestehen,ou réussis l’examen,o supera l’esame,albo zdaj egzamin,або іспит,atau lulus ujian,of haal het examen
+Купить,Buy,Satın al,Comprar,Comprar,Kaufen,Acheter,Compra,Kup,Купити,Beli,Kopen
+Закрыт,Locked,Kilitli,Bloqueado,Bloqueado,Gesperrt,Verrouillé,Bloccato,Zablokowany,Закрито,Terkunci,Op slot
+скорость ×%s,speed ×%s,hız ×%s,velocidad ×%s,velocidade ×%s,Tempo ×%s,vitesse ×%s,velocità ×%s,prędkość ×%s,швидкість ×%s,kecepatan ×%s,snelheid ×%s
+снаряд ×%s,shot ×%s,mermi ×%s,disparo ×%s,tiro ×%s,Schuss ×%s,tir ×%s,colpo ×%s,pocisk ×%s,снаряд ×%s,peluru ×%s,schot ×%s
+Музыка в меню,Menu music,Menü müziği,Música del menú,Música do menu,Menümusik,Musique du menu,Musica del menu,Muzyka w menu,Музика в меню,Musik menu,Menumuziek
+Громкость музыки,Music volume,Müzik sesi,Volumen de la música,Volume da música,Musiklautstärke,Volume de la musique,Volume della musica,Głośność muzyki,Гучність музики,Volume musik,Muziekvolume
+Звуки в игре,Game sounds,Oyun sesleri,Sonidos del juego,Sons do jogo,Spielgeräusche,Sons du jeu,Suoni del gioco,Dźwięki w grze,Звуки в грі,Suara permainan,Spelgeluiden
+Громкость звуков,Sound volume,Efekt sesi,Volumen de los sonidos,Volume dos sons,Geräuschlautstärke,Volume des sons,Volume dei suoni,Głośność dźwięków,Гучність звуків,Volume suara,Geluidsvolume
+Вибрация,Vibration,Titreşim,Vibración,Vibração,Vibration,Vibration,Vibrazione,Wibracje,Вібрація,Getaran,Trillen
+Мощность вибрации,Vibration strength,Titreşim gücü,Fuerza de la vibración,Força da vibração,Vibrationsstärke,Force de la vibration,Forza della vibrazione,Siła wibracji,Сила вібрації,Kekuatan getaran,Trilsterkte
+Язык,Language,Dil,Idioma,Idioma,Sprache,Langue,Lingua,Język,Мова,Bahasa,Taal
+Громкость,Volume,Ses,Volumen,Volume,Lautstärke,Volume,Volume,Głośność,Гучність,Volume,Volume
+Настройка,Setting,Ayar,Ajuste,Ajuste,Einstellung,Réglage,Impostazione,Ustawienie,Налаштування,Pengaturan,Instelling
+Выключено,Off,Kapalı,Apagado,Desligado,Aus,Désactivé,Spento,Wyłączone,Вимкнено,Mati,Uit
+Выбери сам,Custom,Kendin seç,A tu manera,Do seu jeito,Selbst wählen,À ta façon,Scegli tu,Wybierz sam,Вибери сам,Atur sendiri,Zelf kiezen
+"Спокойный темп, больше времени на пример","Relaxed pace, more time per problem","Sakin tempo, işlem başına daha çok zaman","Ritmo tranquilo, más tiempo por ejercicio","Ritmo tranquilo, mais tempo por conta","Ruhiges Tempo, mehr Zeit pro Aufgabe","Rythme calme, plus de temps par calcul","Ritmo tranquillo, più tempo per ogni calcolo","Spokojne tempo, więcej czasu na przykład","Спокійний темп, більше часу на приклад","Tempo santai, lebih banyak waktu per soal","Rustig tempo, meer tijd per som"
+Средний темп; со второй половины — примеры с пропуском,Medium pace; missing-number problems in the second half,Orta tempo; ikinci yarıda eksik sayılı işlemler,"Ritmo medio; en la segunda mitad, ejercicios con número oculto","Ritmo médio; na segunda metade, contas com número escondido",Mittleres Tempo; ab der zweiten Hälfte Lückenaufgaben,Rythme moyen ; calculs à trou dans la seconde moitié,Ritmo medio; nella seconda metà calcoli con il numero nascosto,Średnie tempo; w drugiej połowie przykłady z luką,Середній темп; з другої половини — приклади з пропуском,Tempo sedang; di paruh kedua ada soal dengan angka hilang,Gemiddeld tempo; in de tweede helft sommen met een ontbrekend getal
+Быстрый темп и примеры с пропуском: ? + 3 = 7,Fast pace and missing-number problems: ? + 3 = 7,Hızlı tempo ve eksik sayılı işlemler: ? + 3 = 7,Ritmo rápido y ejercicios con número oculto: ? + 3 = 7,Ritmo rápido e contas com número escondido: ? + 3 = 7,Schnelles Tempo und Lückenaufgaben: ? + 3 = 7,Rythme rapide et calculs à trou : ? + 3 = 7,Ritmo veloce e calcoli con il numero nascosto: ? + 3 = 7,Szybkie tempo i przykłady z luką: ? + 3 = 7,Швидкий темп і приклади з пропуском: ? + 3 = 7,Tempo cepat dan soal dengan angka hilang: ? + 3 = 7,Snel tempo en sommen met een ontbrekend getal: ? + 3 = 7
+"Средний темп, стандартное время на пример","Medium pace, standard time per problem","Orta tempo, işlem başına standart süre","Ritmo medio, tiempo normal por ejercicio","Ritmo médio, tempo padrão por conta","Mittleres Tempo, normale Zeit pro Aufgabe","Rythme moyen, temps normal par calcul","Ritmo medio, tempo normale per ogni calcolo","Średnie tempo, zwykły czas na przykład","Середній темп, стандартний час на приклад","Tempo sedang, waktu standar per soal","Gemiddeld tempo, normale tijd per som"
+на время: продержись %d сек,timed: hold out for %d sec,süreli: %d sn dayan,contrarreloj: aguanta %d s,contra o tempo: aguente %d s,auf Zeit: halte %d Sek. durch,chrono : tiens %d s,a tempo: resisti %d s,na czas: wytrzymaj %d s,на час: протримайся %d с,berwaktu: bertahan %d dtk,op tijd: hou %d sec vol
+СЛОЖЕНИЕ  +,ADDITION  +,TOPLAMA  +,SUMA  +,ADIÇÃO  +,PLUS  +,ADDITION  +,ADDIZIONE  +,DODAWANIE  +,ДОДАВАННЯ  +,PENJUMLAHAN  +,OPTELLEN  +
+ВЫЧИТАНИЕ  −,SUBTRACTION  −,ÇIKARMA  −,RESTA  −,SUBTRAÇÃO  −,MINUS  −,SOUSTRACTION  −,SOTTRAZIONE  −,ODEJMOWANIE  −,ВІДНІМАННЯ  −,PENGURANGAN  −,AFTREKKEN  −
+УМНОЖЕНИЕ  ×,MULTIPLY  ×,ÇARPMA  ×,MULTIPLICACIÓN  ×,MULTIPLICAÇÃO  ×,MAL  ×,MULTIPLICATION  ×,MOLTIPLICAZIONE  ×,MNOŻENIE  ×,МНОЖЕННЯ  ×,PERKALIAN  ×,KEER  ×
+ДЕЛЕНИЕ  ÷,DIVIDE  ÷,BÖLME  ÷,DIVISIÓN  ÷,DIVISÃO  ÷,GETEILT  ÷,DIVISION  ÷,DIVISIONE  ÷,DZIELENIE  ÷,ДІЛЕННЯ  ÷,PEMBAGIAN  ÷,DELEN  ÷
+Настрой практику под себя и улучшай навыки,Set up practice your way and sharpen your skills,"Alıştırmayı kendine göre ayarla, becerilerini geliştir",Ajusta la práctica a tu gusto y mejora tus habilidades,Monte a prática do seu jeito e melhore suas habilidades,Stell dein Training ein und werde immer besser,Règle ton entraînement comme tu veux et progresse,Imposta l’allenamento come preferisci e migliora le tue abilità,Ustaw trening po swojemu i ćwicz umiejętności,Налаштуй практику під себе й покращуй навички,Atur latihan sesukamu dan asah kemampuanmu,Stel het oefenen in zoals jij wilt en word steeds beter
+✦  МАТЕМАТИЧЕСКИЕ ДЕЙСТВИЯ  ✦,✦  OPERATIONS  ✦,✦  İŞLEMLER  ✦,✦  OPERACIONES  ✦,✦  OPERAÇÕES  ✦,✦  RECHENARTEN  ✦,✦  OPÉRATIONS  ✦,✦  OPERAZIONI  ✦,✦  DZIAŁANIA  ✦,✦  МАТЕМАТИЧНІ ДІЇ  ✦,✦  OPERASI HITUNG  ✦,✦  BEWERKINGEN  ✦
+✦  СЛОЖНОСТЬ  ✦,✦  DIFFICULTY  ✦,✦  ZORLUK  ✦,✦  DIFICULTAD  ✦,✦  DIFICULDADE  ✦,✦  SCHWIERIGKEIT  ✦,✦  DIFFICULTÉ  ✦,✦  DIFFICOLTÀ  ✦,✦  TRUDNOŚĆ  ✦,✦  СКЛАДНІСТЬ  ✦,✦  KESULITAN  ✦,✦  MOEILIJKHEID  ✦
+ЛЕГКО,EASY,KOLAY,FÁCIL,FÁCIL,LEICHT,FACILE,FACILE,ŁATWY,ЛЕГКО,MUDAH,MAKKELIJK
+НОРМАЛЬНО,NORMAL,NORMAL,NORMAL,NORMAL,NORMAL,NORMAL,NORMALE,NORMALNY,НОРМАЛЬНО,NORMAL,NORMAAL
+СЛОЖНО,HARD,ZOR,DIFÍCIL,DIFÍCIL,SCHWER,DIFFICILE,DIFFICILE,TRUDNY,СКЛАДНО,SULIT,MOEILIJK
+НА ВРЕМЯ,TIMED,SÜRELİ,CONTRARRELOJ,CONTRA O TEMPO,AUF ZEIT,CHRONO,A TEMPO,NA CZAS,НА ЧАС,BERWAKTU,OP TIJD
+Свой диапазон:,Custom range:,Kendi aralığın:,Tu rango:,Seu intervalo:,Eigener Bereich:,Ta plage :,Il tuo intervallo:,Własny zakres:,Свій діапазон:,Rentang sendiri:,Eigen bereik:
+мин,min,min,mín,mín,min,min,min,min,мін,min,min
+макс,max,maks,máx,máx,max,max,max,maks,макс,maks,max
+ОПЕРАЦИЯ,OPERATION,İŞLEM,OPERACIÓN,OPERAÇÃO,RECHENART,OPÉRATION,OPERAZIONE,DZIAŁANIE,ДІЯ,OPERASI,BEWERKING
+ПОБЕДНЫЙ ПОЛЁТ!,VICTORY FLIGHT!,ZAFER UÇUŞU!,¡VUELO DE VICTORIA!,VOO DA VITÓRIA!,SIEGESFLUG!,VOL DE LA VICTOIRE !,VOLO DELLA VITTORIA!,LOT ZWYCIĘSTWA!,ПЕРЕМОЖНИЙ ПОЛІТ!,TERBANG KEMENANGAN!,OVERWINNINGSVLUCHT!
+ПОСАДКА...,LANDING...,İNİŞ...,ATERRIZANDO...,POUSANDO...,LANDUNG...,ATTERRISSAGE...,ATTERRAGGIO...,LĄDOWANIE...,ПОСАДКА...,MENDARAT...,LANDEN...
++%d за 3 штампа,+%d for 3 stamps,3 damga için +%d,+%d por 3 sellos,+%d por 3 carimbos,+%d für 3 Stempel,+%d pour 3 tampons,+%d per 3 timbri,+%d za 3 pieczątki,+%d за 3 штампи,+%d untuk 3 stempel,+%d voor 3 stempels
++%d из бонусного шарика,+%d from the bonus balloon,bonus balondan +%d,+%d del globo extra,+%d do balão bônus,+%d aus dem Bonusballon,+%d du ballon bonus,+%d dal palloncino bonus,+%d z balonika bonusowego,+%d з бонусної кульки,+%d dari balon bonus,+%d uit de bonusballon
++1 за 3 штампа,+1 for 3 stamps,3 damga için +1,+1 por 3 sellos,+1 por 3 carimbos,+1 für 3 Stempel,+1 pour 3 tampons,+1 per 3 timbri,+1 za 3 pieczątki,+1 за 3 штампи,+1 untuk 3 stempel,+1 voor 3 stempels
++1 из бонусного шарика,+1 from the bonus balloon,bonus balondan +1,+1 del globo extra,+1 do balão bônus,+1 aus dem Bonusballon,+1 du ballon bonus,+1 dal palloncino bonus,+1 z balonika bonusowego,+1 з бонусної кульки,+1 dari balon bonus,+1 uit de bonusballon
 "Пауза! Сначала научимся летать.
 Веди пальцем по левой половине экрана вверх и вниз","Pause! First, let's learn to fly.
-Slide your finger up and down on the left half of the screen"
+Slide your finger up and down on the left half of the screen","Mola! Önce uçmayı öğrenelim.
+Parmağını ekranın sol yarısında yukarı ve aşağı kaydır","¡Pausa! Primero aprendamos a volar.
+Desliza el dedo arriba y abajo por la mitad izquierda de la pantalla","Pausa! Primeiro, vamos aprender a voar.
+Deslize o dedo para cima e para baixo na metade esquerda da tela","Pause! Zuerst lernen wir fliegen.
+Wisch mit dem Finger auf der linken Bildschirmhälfte hoch und runter","Pause ! D’abord, apprenons à voler.
+Fais glisser ton doigt en haut et en bas sur la moitié gauche de l’écran","Pausa! Prima impariamo a volare.
+Fai scorrere il dito su e giù sulla metà sinistra dello schermo","Pauza! Najpierw nauczmy się latać.
+Przesuwaj palcem w górę i w dół po lewej połowie ekranu","Пауза! Спершу навчимося літати.
+Веди пальцем по лівій половині екрана вгору й униз","Jeda! Ayo belajar terbang dulu.
+Geser jarimu ke atas dan ke bawah di separuh kiri layar","Pauze! Eerst leren we vliegen.
+Veeg met je vinger omhoog en omlaag over de linkerhelft van het scherm"
 "Пауза! Сначала научимся летать.
 Жми стрелки ВВЕРХ и ВНИЗ","Pause! First, let's learn to fly.
-Press the UP and DOWN arrows"
+Press the UP and DOWN arrows","Mola! Önce uçmayı öğrenelim.
+YUKARI ve AŞAĞI oklarına bas","¡Pausa! Primero aprendamos a volar.
+Pulsa las flechas ARRIBA y ABAJO","Pausa! Primeiro, vamos aprender a voar.
+Aperte as setas PARA CIMA e PARA BAIXO","Pause! Zuerst lernen wir fliegen.
+Drück die Pfeile HOCH und RUNTER","Pause ! D’abord, apprenons à voler.
+Appuie sur les flèches HAUT et BAS","Pausa! Prima impariamo a volare.
+Premi le frecce SU e GIÙ","Pauza! Najpierw nauczmy się latać.
+Naciskaj strzałki W GÓRĘ i W DÓŁ","Пауза! Спершу навчимося літати.
+Тисни стрілки ВГОРУ та ВНИЗ","Jeda! Ayo belajar terbang dulu.
+Tekan panah ATAS dan BAWAH","Pauze! Eerst leren we vliegen.
+Druk op de pijltjes OMHOOG en OMLAAG"
 "Реши пример — ответ
 на подсвеченном шарике!","Solve the problem — the answer
-is on the glowing balloon!"
+is on the glowing balloon!","İşlemi çöz — cevap
+parlayan balonda!","Resuelve el ejercicio: ¡la respuesta
+está en el globo que brilla!","Resolva a conta — a resposta
+está no balão brilhante!","Löse die Aufgabe — die Antwort
+steht auf dem leuchtenden Ballon!","Résous le calcul — la réponse
+est sur le ballon qui brille !","Risolvi il calcolo — la risposta
+è sul palloncino che brilla!","Rozwiąż przykład — odpowiedź
+jest na świecącym baloniku!","Розв’яжи приклад — відповідь
+на підсвіченій кульці!","Kerjakan soalnya — jawabannya
+ada di balon yang bersinar!","Los de som op — het antwoord
+staat op de ballon die oplicht!"
 "Встань напротив
 подсвеченного шарика","Line up with
-the glowing balloon"
+the glowing balloon","Parlayan balonun
+karşısına geç","Ponte enfrente
+del globo que brilla","Fique na frente
+do balão brilhante","Flieg auf eine Höhe
+mit dem leuchtenden Ballon","Place-toi en face
+du ballon qui brille","Mettiti davanti
+al palloncino che brilla","Ustaw się naprzeciwko
+świecącego balonika","Стань навпроти
+підсвіченої кульки","Sejajarkan diri
+dengan balon yang bersinar","Ga recht tegenover
+de ballon die oplicht"
 "Отлично! Теперь нажми
 на правую половину экрана — выстрел!","Great! Now tap
-the right half of the screen to shoot!"
+the right half of the screen to shoot!","Harika! Şimdi ateş etmek için
+ekranın sağ yarısına dokun!","¡Genial! Ahora toca
+la mitad derecha de la pantalla: ¡dispara!","Ótimo! Agora toque
+na metade direita da tela — fogo!","Super! Jetzt tippe
+auf die rechte Bildschirmhälfte — Schuss!","Bravo ! Maintenant touche
+la moitié droite de l’écran — tir !","Ottimo! Ora tocca
+la metà destra dello schermo — fuoco!","Świetnie! Teraz dotknij
+prawej połowy ekranu — strzał!","Чудово! Тепер натисни
+на праву половину екрана — постріл!","Bagus! Sekarang ketuk
+separuh kanan layar — tembak!","Super! Tik nu op
+de rechterhelft van het scherm — schieten!"
 "Отлично! Теперь жми ПРОБЕЛ
 или кликни мышкой — выстрел!","Great! Now press SPACE
-or click the mouse to shoot!"
-Попал! Так держать!,Hit! Keep it up!
-Нажми на первый уровень!,Tap the first level!
-Выбери долину и нажми на неё!,Pick a valley and tap it!
-"Нажми, чтобы начать приключение!",Tap to start the adventure!
+or click the mouse to shoot!","Harika! Şimdi ateş etmek için BOŞLUK'a
+bas ya da fareye tıkla!","¡Genial! Ahora pulsa ESPACIO
+o haz clic con el ratón: ¡dispara!","Ótimo! Agora aperte ESPAÇO
+ou clique com o mouse — fogo!","Super! Jetzt drück die LEERTASTE
+oder klick mit der Maus — Schuss!","Bravo ! Maintenant appuie sur ESPACE
+ou clique avec la souris — tir !","Ottimo! Ora premi SPAZIO
+o fai clic con il mouse — fuoco!","Świetnie! Teraz naciśnij SPACJĘ
+albo kliknij myszką — strzał!","Чудово! Тепер тисни ПРОБІЛ
+або клацни мишкою — постріл!","Bagus! Sekarang tekan SPASI
+atau klik mouse — tembak!","Super! Druk nu op SPATIE
+of klik met de muis — schieten!"
+Попал! Так держать!,Hit! Keep it up!,Vurdun! Böyle devam!,¡Le diste! ¡Sigue así!,Acertou! Continue assim!,Treffer! Weiter so!,Touché ! Continue comme ça !,Colpito! Continua così!,Trafiony! Tak trzymaj!,Влучив! Так тримати!,Kena! Terus begitu!,Raak! Ga zo door!
+Нажми на первый уровень!,Tap the first level!,İlk seviyeye dokun!,¡Toca el primer nivel!,Toque na primeira fase!,Tippe auf das erste Level!,Touche le premier niveau !,Tocca il primo livello!,Dotknij pierwszego poziomu!,Натисни на перший рівень!,Ketuk level pertama!,Tik op het eerste level!
+Выбери долину и нажми на неё!,Pick a valley and tap it!,Bir vadi seç ve ona dokun!,¡Elige un valle y tócalo!,Escolha um vale e toque nele!,Wähle ein Tal und tippe darauf!,Choisis une vallée et touche-la !,Scegli una valle e toccala!,Wybierz dolinę i dotknij jej!,Вибери долину й натисни на неї!,Pilih lembah dan ketuk!,Kies een vallei en tik erop!
+"Нажми, чтобы начать приключение!",Tap to start the adventure!,Maceraya başlamak için dokun!,¡Toca para empezar la aventura!,Toque para começar a aventura!,"Tippe, um das Abenteuer zu starten!",Touche pour commencer l’aventure !,Tocca per iniziare l’avventura!,"Dotknij, aby zacząć przygodę!","Натисни, щоб почати пригоду!",Ketuk untuk memulai petualangan!,Tik om het avontuur te beginnen!
 "Ура, твоя первая печать!
 Выиграй 5 боёв за день — получишь
 золотую монетку. За монетки можно
 купить новый самолёт!","Hooray, your first stamp!
 Win 5 battles in a day to get
 a gold coin. Coins can buy
-a new plane!"
-Понятно!,Got it!
-Купи новый самолёт!,Buy a new plane!
+a new plane!","Yaşasın, ilk damgan!
+Bir günde 5 savaş kazan,
+altın bir para al. Paralarla
+yeni bir uçak alabilirsin!","¡Hurra, tu primer sello!
+Gana 5 batallas en un día y
+conseguirás una moneda de oro.
+¡Con monedas compras aviones!","Oba, seu primeiro carimbo!
+Vença 5 batalhas em um dia e
+ganhe uma moeda de ouro.
+Com moedas você compra aviões!","Juhu, dein erster Stempel!
+Gewinne 5 Kämpfe an einem Tag
+und du bekommst eine Goldmünze.
+Mit Münzen kaufst du Flugzeuge!","Youpi, ton premier tampon !
+Gagne 5 combats dans la journée
+et tu auras une pièce d’or.
+Avec les pièces, on achète des avions !","Evviva, il tuo primo timbro!
+Vinci 5 battaglie in un giorno
+e avrai una moneta d’oro.
+Con le monete compri nuovi aerei!","Hura, twoja pierwsza pieczątka!
+Wygraj 5 bitew w jeden dzień,
+a dostaniesz złotą monetę.
+Za monety kupisz nowy samolot!","Ура, твоя перша печатка!
+Виграй 5 боїв за день — отримаєш
+золоту монетку. За монетки можна
+купити новий літак!","Hore, stempel pertamamu!
+Menangkan 5 pertarungan sehari
+dan dapatkan koin emas.
+Dengan koin kamu bisa beli pesawat!","Hoera, je eerste stempel!
+Win 5 gevechten op één dag
+en je krijgt een gouden munt.
+Met munten koop je vliegtuigen!"
+Понятно!,Got it!,Anladım!,¡Entendido!,Entendi!,Alles klar!,Compris !,Capito!,Rozumiem!,Зрозуміло!,Mengerti!,Begrepen!
+Купи новый самолёт!,Buy a new plane!,Yeni bir uçak al!,¡Compra un avión nuevo!,Compre um avião novo!,Kauf ein neues Flugzeug!,Achète un nouvel avion !,Compra un nuovo aereo!,Kup nowy samolot!,Купи новий літак!,Beli pesawat baru!,Koop een nieuw vliegtuig!
 "Нажми на самолёт —
 откроется ангар","Tap the plane
-to open the hangar"
+to open the hangar","Uçağa dokun —
+hangar açılacak","Toca el avión:
+se abrirá el hangar","Toque no avião —
+o hangar vai abrir","Tippe auf das Flugzeug —
+der Hangar geht auf","Touche l’avion —
+le hangar va s’ouvrir","Tocca l’aereo —
+si aprirà l’hangar","Dotknij samolotu —
+otworzy się hangar","Натисни на літак —
+відкриється ангар","Ketuk pesawatnya —
+hanggar akan terbuka","Tik op het vliegtuig —
+de hangar gaat open"
 "Хватает монеток на новый самолёт!
 Открой профиль пилота","You have enough coins for a new plane!
-Open your pilot profile"
-Долина открыта,Valley unlocked
-У тебя новый самолёт!,You got a new plane!
-Молодец! +1 золотая,Well done! +1 gold
-Награда за ежедневную серию 5/5,Reward for the 5/5 daily streak
-Поздравляем!,Congratulations!
-ПОЗДРАВЛЯЕМ!,CONGRATULATIONS!
-ОК,OK
-Заголовок,Title
-Текст сообщения,Message text
+Open your pilot profile","Yeni bir uçak için yeterli paran var!
+Pilot profilini aç","¡Tienes monedas para un avión nuevo!
+Abre tu perfil de piloto","Você tem moedas para um avião novo!
+Abra seu perfil de piloto","Du hast genug Münzen für ein neues Flugzeug!
+Öffne dein Pilotenprofil","Tu as assez de pièces pour un nouvel avion !
+Ouvre ton profil de pilote","Hai abbastanza monete per un nuovo aereo!
+Apri il tuo profilo da pilota","Masz dość monet na nowy samolot!
+Otwórz profil pilota","Монеток вистачає на новий літак!
+Відкрий профіль пілота","Koinmu cukup untuk pesawat baru!
+Buka profil pilotmu","Je hebt genoeg munten voor een nieuw vliegtuig!
+Open je pilotenprofiel"
+Долина открыта,Valley unlocked,Vadi açıldı,Valle desbloqueado,Vale liberado,Tal freigeschaltet,Vallée débloquée,Valle sbloccata,Dolina odblokowana,Долину відкрито,Lembah terbuka,Vallei vrijgespeeld
+У тебя новый самолёт!,You got a new plane!,Yeni bir uçağın var!,¡Tienes un avión nuevo!,Você ganhou um avião novo!,Du hast ein neues Flugzeug!,Tu as un nouvel avion !,Hai un nuovo aereo!,Masz nowy samolot!,У тебе новий літак!,Kamu punya pesawat baru!,Je hebt een nieuw vliegtuig!
+Молодец! +1 золотая,Well done! +1 gold,Aferin! +1 altın,¡Muy bien! +1 de oro,Muito bem! +1 de ouro,Super! +1 Gold,Bravo ! +1 pièce d’or,Bravo! +1 d’oro,Brawo! +1 złota,Молодець! +1 золота,Hebat! +1 emas,Goed zo! +1 goud
+Награда за ежедневную серию 5/5,Reward for the 5/5 daily streak,5/5 günlük seri ödülü,Premio por la racha diaria 5/5,Prêmio pela sequência diária 5/5,Belohnung für die tägliche Serie 5/5,Récompense pour la série du jour 5/5,Premio per la serie del giorno 5/5,Nagroda za codzienną serię 5/5,Нагорода за щоденну серію 5/5,Hadiah rangkaian harian 5/5,Beloning voor de dagelijkse reeks 5/5
+Поздравляем!,Congratulations!,Tebrikler!,¡Felicidades!,Parabéns!,Glückwunsch!,Félicitations !,Complimenti!,Gratulacje!,Вітаємо!,Selamat!,Gefeliciteerd!
+ПОЗДРАВЛЯЕМ!,CONGRATULATIONS!,TEBRİKLER!,¡FELICIDADES!,PARABÉNS!,GLÜCKWUNSCH!,FÉLICITATIONS !,COMPLIMENTI!,GRATULACJE!,ВІТАЄМО!,SELAMAT!,GEFELICITEERD!
+ОК,OK,TAMAM,OK,OK,OK,OK,OK,OK,ОК,OK,OK
+Заголовок,Title,Başlık,Título,Título,Überschrift,Titre,Titolo,Tytuł,Заголовок,Judul,Titel
+Текст сообщения,Message text,Mesaj metni,Texto del mensaje,Texto da mensagem,Nachrichtentext,Texte du message,Testo del messaggio,Treść wiadomości,Текст повідомлення,Teks pesan,Berichttekst
 "Ты сдал экзамен в «%s»!
 
 Поздравляем — все долины покорены!
@@ -250,162 +360,492 @@ Open your pilot profile"
 
 Congratulations — every valley is conquered!
 
-The trophy is saved in your profile."
+The trophy is saved in your profile.","“%s” sınavını geçtin!
+
+Tebrikler — tüm vadiler fethedildi!
+
+Kupa profiline kaydedildi.","¡Aprobaste el examen de «%s»!
+
+¡Felicidades: has conquistado todos los valles!
+
+La copa está guardada en tu perfil.","Você passou na prova de “%s”!
+
+Parabéns — todos os vales foram conquistados!
+
+A taça está guardada no seu perfil.","Du hast die Prüfung im „%s“ bestanden!
+
+Glückwunsch — alle Täler sind erobert!
+
+Der Pokal ist in deinem Profil gespeichert.","Tu as réussi l’examen de la « %s » !
+
+Félicitations — toutes les vallées sont conquises !
+
+La coupe est enregistrée dans ton profil.","Hai superato l’esame della «%s»!
+
+Complimenti — hai conquistato tutte le valli!
+
+La coppa è salvata nel tuo profilo.","Egzamin zdany: „%s”!
+
+Gratulacje — wszystkie doliny zdobyte!
+
+Puchar jest zapisany w profilu.","Ти склав іспит у «%s»!
+
+Вітаємо — усі долини підкорено!
+
+Кубок збережено в профілі.","Kamu lulus ujian di “%s”!
+
+Selamat — semua lembah sudah ditaklukkan!
+
+Piala disimpan di profilmu.","Je hebt het examen van de ‘%s’ gehaald!
+
+Gefeliciteerd — alle valleien zijn veroverd!
+
+De beker staat in je profiel."
 "Ты сдал экзамен в «%s»!
 
 Кубок сохранён в профиле.","You passed the %s exam!
 
-The trophy is saved in your profile."
-Заводим мотор…,Starting the engine…
-Проверяем крылья…,Checking the wings…
-Взлетаем!,Takeoff!
-А ты знаешь?,Did you know?
-А ты знаешь?  7 × 8 = 56,Did you know?  7 × 8 = 56
-Мастер счёта!,Math master!
-"Все долины пройдены! Ты — настоящий мастер математики!","All valleys completed! You are a true math master!"
+The trophy is saved in your profile.","“%s” sınavını geçtin!
+
+Kupa profiline kaydedildi.","¡Aprobaste el examen de «%s»!
+
+La copa está guardada en tu perfil.","Você passou na prova de “%s”!
+
+A taça está guardada no seu perfil.","Du hast die Prüfung im „%s“ bestanden!
+
+Der Pokal ist in deinem Profil gespeichert.","Tu as réussi l’examen de la « %s » !
+
+La coupe est enregistrée dans ton profil.","Hai superato l’esame della «%s»!
+
+La coppa è salvata nel tuo profilo.","Egzamin zdany: „%s”!
+
+Puchar jest zapisany w profilu.","Ти склав іспит у «%s»!
+
+Кубок збережено в профілі.","Kamu lulus ujian di “%s”!
+
+Piala disimpan di profilmu.","Je hebt het examen van de ‘%s’ gehaald!
+
+De beker staat in je profiel."
+Заводим мотор…,Starting the engine…,Motoru çalıştırıyoruz…,Arrancando el motor…,Ligando o motor…,Motor wird gestartet…,On démarre le moteur…,Accendiamo il motore…,Odpalamy silnik…,Заводимо мотор…,Menyalakan mesin…,Motor starten…
+Проверяем крылья…,Checking the wings…,Kanatları kontrol ediyoruz…,Revisando las alas…,Checando as asas…,Flügel werden geprüft…,On vérifie les ailes…,Controlliamo le ali…,Sprawdzamy skrzydła…,Перевіряємо крила…,Memeriksa sayap…,Vleugels controleren…
+Взлетаем!,Takeoff!,Kalkış!,¡Despegamos!,Decolar!,Abheben!,Décollage !,Decollo!,Startujemy!,Злітаємо!,Lepas landas!,Opstijgen!
+А ты знаешь?,Did you know?,Biliyor musun?,¿Sabías que…?,Você sabia?,Wusstest du schon?,Le savais-tu ?,Lo sapevi?,"Czy wiesz, że…?",А ти знаєш?,Tahukah kamu?,Wist je dat?
+А ты знаешь?  7 × 8 = 56,Did you know?  7 × 8 = 56,Biliyor musun?  7 × 8 = 56,¿Sabías que…?  7 × 8 = 56,Você sabia?  7 × 8 = 56,Wusstest du schon?  7 × 8 = 56,Le savais-tu ?  7 × 8 = 56,Lo sapevi?  7 × 8 = 56,"Czy wiesz, że…?  7 × 8 = 56",А ти знаєш?  7 × 8 = 56,Tahukah kamu?  7 × 8 = 56,Wist je dat?  7 × 8 = 56
+Мастер счёта!,Math master!,Hesap ustası!,¡Maestro del cálculo!,Mestre das contas!,Rechenmeister!,Champion du calcul !,Campione di calcolo!,Mistrz liczenia!,Майстер лічби!,Jago hitung!,Rekenkampioen!
+Все долины пройдены! Ты — настоящий мастер математики!,All valleys completed! You are a true math master!,Tüm vadiler tamamlandı! Sen gerçek bir matematik ustasısın!,¡Todos los valles superados! ¡Eres un verdadero maestro de las matemáticas!,Todos os vales concluídos! Você é um verdadeiro mestre da matemática!,Alle Täler geschafft! Du bist ein echter Mathe-Meister!,Toutes les vallées sont terminées ! Tu es un vrai champion des maths !,Tutte le valli completate! Sei un vero campione di matematica!,Wszystkie doliny przebyte! Jesteś prawdziwym mistrzem matematyki!,Усі долини пройдено! Ти — справжній майстер математики!,Semua lembah selesai! Kamu benar-benar jago matematika!,Alle valleien gehaald! Je bent een echte wiskundekampioen!
 "Новый пример! Одно число спряталось.
 Какое число стоит вместо «?»","A new kind of example! A number is hiding.
-Which number goes in place of «?»"
+Which number goes in place of «?»","Yeni bir işlem türü! Bir sayı saklandı.
+«?» yerine hangi sayı gelir?","¡Un ejercicio nuevo! Un número se escondió.
+¿Qué número va en lugar de «?»?","Um tipo novo de conta! Um número se escondeu.
+Que número vai no lugar do «?»","Eine neue Aufgabe! Eine Zahl hat sich versteckt.
+Welche Zahl gehört an die Stelle von «?»","Un nouveau calcul ! Un nombre s’est caché.
+Quel nombre va à la place du « ? »","Un calcolo nuovo! Un numero si è nascosto.
+Quale numero va al posto del «?»","Nowy przykład! Jedna liczba się schowała.
+Jaka liczba stoi zamiast «?»","Новий приклад! Одне число сховалося.
+Яке число стоїть замість «?»","Soal jenis baru! Ada angka yang bersembunyi.
+Angka berapa yang menggantikan «?»","Een nieuwe som! Er heeft zich een getal verstopt.
+Welk getal hoort op de plaats van «?»"
 "Дирижабль! Каждый верный ответ
 сбивает с него одну броню","An airship! Every correct answer
-knocks off one armor plate"
+knocks off one armor plate","Bir zeplin! Her doğru cevap
+ondan bir zırh düşürür","¡Un dirigible! Cada respuesta correcta
+le quita una placa de blindaje","Um dirigível! Cada resposta certa
+arranca uma placa de armadura","Ein Luftschiff! Jede richtige Antwort
+schlägt ihm eine Panzerplatte ab","Un dirigeable ! Chaque bonne réponse
+lui arrache une plaque de blindage","Un dirigibile! Ogni risposta giusta
+gli stacca una placca di corazza","Sterowiec! Każda dobra odpowiedź
+zbija z niego jedną płytę pancerza","Дирижабль! Кожна правильна відповідь
+збиває з нього одну броню","Kapal udara! Setiap jawaban benar
+merontokkan satu pelat bajanya","Een luchtschip! Elk goed antwoord
+slaat er een pantserplaat af"
 "Он разозлился и летит к тебе!
 Стреляй прямо в дирижабль!","It's angry and coming for you!
-Shoot right at the airship!"
-Как управлять?,How to play?
+Shoot right at the airship!","Kızdı ve sana doğru geliyor!
+Doğrudan zepline ateş et!","¡Se ha enfadado y viene a por ti!
+¡Dispara directamente al dirigible!","Ele ficou bravo e vem atrás de você!
+Atire direto no dirigível!","Es ist wütend und fliegt auf dich zu!
+Schieß direkt auf das Luftschiff!","Il est en colère et fonce sur toi !
+Tire droit sur le dirigeable !","Si è arrabbiato e viene verso di te!
+Spara dritto al dirigibile!","Rozzłościł się i leci na ciebie!
+Strzelaj prosto w sterowiec!","Він розлютився й летить до тебе!
+Стріляй просто в дирижабль!","Dia marah dan terbang ke arahmu!
+Tembak langsung kapal udaranya!","Het is boos en komt op je af!
+Schiet recht op het luchtschip!"
+Как управлять?,How to play?,Nasıl oynanır?,¿Cómo se juega?,Como jogar?,Wie spielt man?,Comment jouer ?,Come si gioca?,Jak grać?,Як керувати?,Cara bermain?,Hoe speel je?
 "Веди пальцем вверх и вниз —
 самолёт полетит за ним","Slide your finger up and down —
-the plane follows it"
+the plane follows it","Parmağını yukarı aşağı kaydır —
+uçak onu takip eder","Desliza el dedo arriba y abajo:
+el avión lo sigue","Deslize o dedo para cima e para baixo —
+o avião vai junto","Wisch mit dem Finger hoch und runter —
+das Flugzeug folgt ihm","Fais glisser ton doigt en haut et en bas —
+l’avion le suit","Fai scorrere il dito su e giù —
+l’aereo lo segue","Przesuwaj palcem w górę i w dół —
+samolot leci za nim","Веди пальцем угору й униз —
+літак полетить за ним","Geser jarimu ke atas dan ke bawah —
+pesawat mengikutinya","Veeg met je vinger omhoog en omlaag —
+het vliegtuig volgt hem"
 "Стрелки ВВЕРХ и ВНИЗ —
 самолёт летит за ними","UP and DOWN arrows —
-the plane follows them"
+the plane follows them","YUKARI ve AŞAĞI okları —
+uçak onları takip eder","Flechas ARRIBA y ABAJO:
+el avión las sigue","Setas PARA CIMA e PARA BAIXO —
+o avião vai junto","Pfeile HOCH und RUNTER —
+das Flugzeug folgt ihnen","Flèches HAUT et BAS —
+l’avion les suit","Frecce SU e GIÙ —
+l’aereo le segue","Strzałki W GÓRĘ i W DÓŁ —
+samolot leci za nimi","Стрілки ВГОРУ та ВНИЗ —
+літак летить за ними","Panah ATAS dan BAWAH —
+pesawat mengikutinya","Pijltjes OMHOOG en OMLAAG —
+het vliegtuig volgt ze"
 "Нажми в любом месте
 справа — выстрел!","Tap anywhere
-on the right — shoot!"
+on the right — shoot!","Sağda herhangi bir yere
+dokun — ateş!","Toca en cualquier sitio
+a la derecha: ¡disparo!","Toque em qualquer lugar
+à direita — fogo!","Tippe irgendwo
+rechts — Schuss!","Touche n’importe où
+à droite — tir !","Tocca in un punto qualsiasi
+a destra — fuoco!","Dotknij w dowolnym miejscu
+po prawej — strzał!","Натисни будь-де
+праворуч — постріл!","Ketuk di mana saja
+di sebelah kanan — tembak!","Tik ergens
+rechts — schieten!"
 "ПРОБЕЛ или клик
 мышкой — выстрел!","SPACE or mouse
-click — shoot!"
-"Нажми, чтобы начать",Tap to start
-"Нажми любую клавишу или кликни, чтобы начать",Press any key or click to start
-ПРОБЕЛ,SPACE
-или,or
-Для взрослых,For grown-ups
-"Чтобы продолжить, попросите взрослого решить пример:","To continue, ask a grown-up to solve this:"
-Полная версия,Full version
-"Для родителей: ещё 4 долины — вычитание, умножение, деление и смешанные примеры, 80 уровней. Без рекламы и подписок. Одна покупка — навсегда.","For parents: 4 more valleys — subtraction, multiplication, division and mixed problems, 80 levels. No ads, no subscriptions. One purchase, forever."
-Без рекламы,No ads
-Реклама между полётами больше не появится. Одна покупка — навсегда.,"No more ads between flights. One purchase, forever."
-Купить за %s,Buy for %s
-Подождите…,Please wait…
-Покупка не завершена. Попробуйте ещё раз.,Purchase not completed. Please try again.
-Спасибо! Покупка открыта.,Thank you! Your purchase is unlocked.
-"Оплата ещё обрабатывается. Покупка откроется сама, как только магазин её подтвердит.","Payment is still processing. Your purchase will unlock by itself as soon as the store confirms it."
-Новая долина ждёт!,A new valley awaits!
-«%s» — в полной версии. Покажи родителям!,“%s” is in the full version. Show this to your parents!
-Ответ неверный. Новый пример через %d с.,Wrong answer. New example in %d s.
-+%d получено!,+%d received!
-+%d за рекламу,+%d for an ad
-Убрать рекламу,Remove ads
-НОВЫЙ РЕКОРД!,NEW RECORD!
-Прежний рекорд: %s,Previous record: %s
-Рекорд %s,Record %s
-ПОЛЁТ ОКОНЧЕН,FLIGHT OVER
-Рекорд: %s,Record: %s
-Первый рекорд!,First record!
-РЕКОРД ВРЕМЕНИ,TIME RECORD
-Бесконечный полёт,Endless flight
-Нажми часы в меню и лети!,Tap the clock in the menu and fly!
-Сдай 4 экзамена — и свиток откроется,Pass 4 exams to open this scroll
-"Время: %s","Time: %s"
-+%d за рекорд,+%d for the record
-ЗОЛОТОЙ ПОЛЁТ,GOLDEN FLIGHT
-+%d за золотой полёт,+%d for the golden flight
-Лови монетки: %d %s!,Catch the coins: %d %s!
-Большой полёт: %d %s!,Big flight: %d %s!
-минута,minute
-минуты,minutes
-минут,minutes
-%d день подряд,%d day in a row
-%d дня подряд,%d days in a row
-%d дней подряд,%d days in a row
-Золотой полёт: %d %s!,Golden flight: %d %s!
-Выбери шарик!,Pick a balloon!
-ЗОЛОТОЙ ПОЛЁТ!,GOLDEN FLIGHT!
+click — shoot!","BOŞLUK ya da fare
+tıklaması — ateş!","ESPACIO o clic
+del ratón: ¡disparo!","ESPAÇO ou clique
+do mouse — fogo!","LEERTASTE oder
+Mausklick — Schuss!","ESPACE ou clic
+de souris — tir !","SPAZIO o clic
+del mouse — fuoco!","SPACJA albo kliknięcie
+myszką — strzał!","ПРОБІЛ або клік
+мишкою — постріл!","SPASI atau klik
+mouse — tembak!","SPATIE of muis-
+klik — schieten!"
+"Нажми, чтобы начать",Tap to start,Başlamak için dokun,Toca para empezar,Toque para começar,Tippe zum Starten,Touche pour commencer,Tocca per iniziare,"Dotknij, aby zacząć","Натисни, щоб почати",Ketuk untuk mulai,Tik om te beginnen
+"Нажми любую клавишу или кликни, чтобы начать",Press any key or click to start,Başlamak için bir tuşa bas ya da tıkla,Pulsa una tecla o haz clic para empezar,Aperte qualquer tecla ou clique para começar,Drück eine Taste oder klicke zum Starten,Appuie sur une touche ou clique pour commencer,Premi un tasto o fai clic per iniziare,"Naciśnij dowolny klawisz lub kliknij, aby zacząć","Натисни будь-яку клавішу або клацни, щоб почати",Tekan tombol apa saja atau klik untuk mulai,Druk op een toets of klik om te beginnen
+ПРОБЕЛ,SPACE,BOŞLUK,ESPACIO,ESPAÇO,LEERTASTE,ESPACE,SPAZIO,SPACJA,ПРОБІЛ,SPASI,SPATIE
+или,or,ya da,o,ou,oder,ou,o,albo,або,atau,of
+Для взрослых,For grown-ups,Yetişkinler için,Para adultos,Para adultos,Für Erwachsene,Pour les adultes,Per gli adulti,Dla dorosłych,Для дорослих,Untuk orang dewasa,Voor volwassenen
+"Чтобы продолжить, попросите взрослого решить пример:","To continue, ask a grown-up to solve this:",Devam etmek için bir yetişkinden bu işlemi çözmesini isteyin:,"Para continuar, pida a un adulto que resuelva este ejercicio:","Para continuar, peça a um adulto que resolva esta conta:",Bitte lassen Sie einen Erwachsenen diese Aufgabe lösen:,"Pour continuer, demandez à un adulte de résoudre ce calcul :","Per continuare, chieda a un adulto di risolvere questo calcolo:","Aby kontynuować, proszę poprosić osobę dorosłą o rozwiązanie przykładu:","Щоб продовжити, попросіть дорослого розв’язати приклад:","Untuk melanjutkan, silakan minta orang dewasa mengerjakan soal ini:",Vraag een volwassene om deze som op te lossen om verder te gaan:
+Полная версия,Full version,Tam sürüm,Versión completa,Versão completa,Vollversion,Version complète,Versione completa,Pełna wersja,Повна версія,Versi lengkap,Volledige versie
+"Для родителей: ещё 4 долины — вычитание, умножение, деление и смешанные примеры, 80 уровней. Без рекламы и подписок. Одна покупка — навсегда.","For parents: 4 more valleys — subtraction, multiplication, division and mixed problems, 80 levels. No ads, no subscriptions. One purchase, forever.","Ebeveynler için: 4 vadi daha — çıkarma, çarpma, bölme ve karışık işlemler, 80 seviye. Reklam ve abonelik yok. Tek seferlik satın alma — sonsuza dek.","Para padres: 4 valles más (resta, multiplicación, división y ejercicios mezclados), 80 niveles. Sin anuncios ni suscripciones. Un solo pago, para siempre.","Para os pais: mais 4 vales — subtração, multiplicação, divisão e contas misturadas, 80 fases. Sem anúncios e sem assinaturas. Uma compra, para sempre.","Für Eltern: 4 weitere Täler — Minus, Mal, Geteilt und gemischte Aufgaben, 80 Level. Ohne Werbung und ohne Abo. Ein Kauf — für immer.","Pour les parents : 4 vallées de plus — soustraction, multiplication, division et calculs mélangés, 80 niveaux. Sans publicité ni abonnement. Un seul achat, pour toujours.","Per i genitori: altre 4 valli — sottrazione, moltiplicazione, divisione e calcoli misti, 80 livelli. Niente pubblicità né abbonamenti. Un solo acquisto, per sempre.","Dla rodziców: jeszcze 4 doliny — odejmowanie, mnożenie, dzielenie i przykłady mieszane, 80 poziomów. Bez reklam i subskrypcji. Jeden zakup — na zawsze.","Для батьків: ще 4 долини — віднімання, множення, ділення й змішані приклади, 80 рівнів. Без реклами й підписок. Одна покупка — назавжди.","Untuk orang tua: 4 lembah lagi — pengurangan, perkalian, pembagian, dan soal campuran, 80 level. Tanpa iklan dan langganan. Sekali beli — selamanya.","Voor ouders: nog 4 valleien — aftrekken, vermenigvuldigen, delen en gemengde sommen, 80 levels. Geen reclame en geen abonnement. Eén aankoop, voor altijd."
+Без рекламы,No ads,Reklamsız,Sin anuncios,Sem anúncios,Ohne Werbung,Sans publicité,Senza pubblicità,Bez reklam,Без реклами,Tanpa iklan,Geen reclame
+Реклама между полётами больше не появится. Одна покупка — навсегда.,"No more ads between flights. One purchase, forever.",Uçuşlar arasında artık reklam çıkmayacak. Tek seferlik satın alma — sonsuza dek.,"Ya no habrá anuncios entre vuelos. Un solo pago, para siempre.","Não haverá mais anúncios entre os voos. Uma compra, para sempre.",Zwischen den Flügen gibt es keine Werbung mehr. Ein Kauf — für immer.,"Plus de publicité entre les vols. Un seul achat, pour toujours.","Niente più pubblicità tra un volo e l’altro. Un solo acquisto, per sempre.",Między lotami nie będzie już reklam. Jeden zakup — na zawsze.,Реклама між польотами більше не з’являтиметься. Одна покупка — назавжди.,Tidak akan ada iklan lagi di antara penerbangan. Sekali beli — selamanya.,"Tussen de vluchten komt geen reclame meer. Eén aankoop, voor altijd."
+Купить за %s,Buy for %s,%s karşılığında satın al,Comprar por %s,Comprar por %s,Kaufen für %s,Acheter pour %s,Compra per %s,Kup za %s,Купити за %s,Beli seharga %s,Kopen voor %s
+Подождите…,Please wait…,Lütfen bekleyin…,Espere…,Aguarde…,Bitte warten…,Veuillez patienter…,Attendere…,Proszę czekać…,Зачекайте…,Mohon tunggu…,Even geduld…
+Покупка не завершена. Попробуйте ещё раз.,Purchase not completed. Please try again.,Satın alma tamamlanmadı. Lütfen tekrar deneyin.,La compra no se completó. Inténtelo de nuevo.,A compra não foi concluída. Tente novamente.,Der Kauf wurde nicht abgeschlossen. Bitte versuchen Sie es erneut.,L’achat n’a pas abouti. Veuillez réessayer.,"Acquisto non completato. Riprovi, per favore.",Zakup nie został zakończony. Proszę spróbować ponownie.,Покупку не завершено. Спробуйте ще раз.,Pembelian belum selesai. Silakan coba lagi.,De aankoop is niet voltooid. Probeer het opnieuw.
+Спасибо! Покупка открыта.,Thank you! Your purchase is unlocked.,Teşekkürler! Satın aldığınız içerik açıldı.,¡Gracias! La compra ya está disponible.,Obrigado! A compra foi liberada.,Danke! Der Kauf ist freigeschaltet.,Merci ! L’achat est débloqué.,Grazie! L’acquisto è sbloccato.,Dziękujemy! Zakup jest odblokowany.,Дякуємо! Покупку відкрито.,Terima kasih! Pembelian sudah terbuka.,Bedankt! De aankoop is vrijgespeeld.
+"Оплата ещё обрабатывается. Покупка откроется сама, как только магазин её подтвердит.",Payment is still processing. Your purchase will unlock by itself as soon as the store confirms it.,Ödeme hâlâ işleniyor. Mağaza onaylar onaylamaz içerik kendiliğinden açılacak.,El pago aún se está procesando. La compra se desbloqueará sola en cuanto la tienda la confirme.,O pagamento ainda está sendo processado. A compra será liberada sozinha assim que a loja confirmar.,"Die Zahlung wird noch bearbeitet. Der Kauf wird automatisch freigeschaltet, sobald der Store ihn bestätigt.",Le paiement est encore en cours. L’achat se débloquera tout seul dès que la boutique l’aura confirmé.,Il pagamento è ancora in elaborazione. L’acquisto si sbloccherà da solo appena lo store lo conferma.,"Płatność jest jeszcze przetwarzana. Zakup odblokuje się sam, gdy tylko sklep go potwierdzi.","Оплата ще обробляється. Покупка відкриється сама, щойно магазин її підтвердить.",Pembayaran masih diproses. Pembelian akan terbuka sendiri setelah toko mengonfirmasinya.,De betaling wordt nog verwerkt. De aankoop wordt vanzelf vrijgespeeld zodra de winkel hem bevestigt.
+Новая долина ждёт!,A new valley awaits!,Yeni bir vadi seni bekliyor!,¡Un valle nuevo te espera!,Um vale novo espera por você!,Ein neues Tal wartet!,Une nouvelle vallée t’attend !,Una nuova valle ti aspetta!,Czeka na ciebie nowa dolina!,Нова долина чекає!,Lembah baru menunggumu!,Er wacht een nieuwe vallei!
+«%s» — в полной версии. Покажи родителям!,“%s” is in the full version. Show this to your parents!,“%s” tam sürümde. Ebeveynlerine göster!,«%s» está en la versión completa. ¡Enséñaselo a tus padres!,“%s” está na versão completa. Mostre para seus pais!,„%s“ gibt es in der Vollversion. Zeig es deinen Eltern!,« %s » est dans la version complète. Montre-le à tes parents !,«%s» è nella versione completa. Mostralo ai tuoi genitori!,„%s” jest w pełnej wersji. Pokaż to rodzicom!,«%s» — у повній версії. Покажи батькам!,“%s” ada di versi lengkap. Tunjukkan ke orang tuamu!,‘%s’ zit in de volledige versie. Laat het aan je ouders zien!
+Ответ неверный. Новый пример через %d с.,Wrong answer. New example in %d s.,Yanlış cevap. %d sn sonra yeni işlem.,Respuesta incorrecta. Nuevo ejercicio en %d s.,Resposta errada. Nova conta em %d s.,Falsche Antwort. Neue Aufgabe in %d Sek.,Mauvaise réponse. Nouveau calcul dans %d s.,Risposta sbagliata. Nuovo calcolo tra %d s.,Zła odpowiedź. Nowy przykład za %d s.,Відповідь неправильна. Новий приклад через %d с.,Jawaban salah. Soal baru dalam %d dtk.,Fout antwoord. Nieuwe som over %d sec.
++%d получено!,+%d received!,+%d alındı!,¡+%d recibido!,+%d recebido!,+%d erhalten!,+%d reçu !,+%d ricevuti!,+%d otrzymano!,+%d отримано!,+%d diterima!,+%d ontvangen!
++%d за рекламу,+%d for an ad,Reklam karşılığı +%d,+%d por un anuncio,+%d por um anúncio,+%d für Werbung,+%d pour une pub,+%d con uno spot,+%d za reklamę,+%d за рекламу,+%d dari iklan,+%d voor een reclame
+Убрать рекламу,Remove ads,Reklamları kaldır,Quitar anuncios,Remover anúncios,Werbung entfernen,Retirer la publicité,Rimuovi pubblicità,Usuń reklamy,Прибрати рекламу,Hapus iklan,Reclame verwijderen
+НОВЫЙ РЕКОРД!,NEW RECORD!,YENİ REKOR!,¡NUEVO RÉCORD!,NOVO RECORDE!,NEUER REKORD!,NOUVEAU RECORD !,NUOVO RECORD!,NOWY REKORD!,НОВИЙ РЕКОРД!,REKOR BARU!,NIEUW RECORD!
+Прежний рекорд: %s,Previous record: %s,Önceki rekor: %s,Récord anterior: %s,Recorde anterior: %s,Bisheriger Rekord: %s,Ancien record : %s,Record precedente: %s,Poprzedni rekord: %s,Попередній рекорд: %s,Rekor sebelumnya: %s,Vorig record: %s
+Рекорд %s,Record %s,Rekor %s,Récord %s,Recorde %s,Rekord %s,Record %s,Record %s,Rekord %s,Рекорд %s,Rekor %s,Record %s
+ПОЛЁТ ОКОНЧЕН,FLIGHT OVER,UÇUŞ BİTTİ,FIN DEL VUELO,FIM DO VOO,FLUG ZU ENDE,FIN DU VOL,VOLO FINITO,KONIEC LOTU,ПОЛІТ ЗАКІНЧЕНО,PENERBANGAN SELESAI,VLUCHT VOORBIJ
+Рекорд: %s,Record: %s,Rekor: %s,Récord: %s,Recorde: %s,Rekord: %s,Record : %s,Record: %s,Rekord: %s,Рекорд: %s,Rekor: %s,Record: %s
+Первый рекорд!,First record!,İlk rekor!,¡Primer récord!,Primeiro recorde!,Erster Rekord!,Premier record !,Primo record!,Pierwszy rekord!,Перший рекорд!,Rekor pertama!,Eerste record!
+РЕКОРД ВРЕМЕНИ,TIME RECORD,SÜRE REKORU,RÉCORD DE TIEMPO,RECORDE DE TEMPO,ZEITREKORD,RECORD DE TEMPS,RECORD DI TEMPO,REKORD CZASU,РЕКОРД ЧАСУ,REKOR WAKTU,TIJDRECORD
+Бесконечный полёт,Endless flight,Sonsuz uçuş,Vuelo infinito,Voo sem fim,Endlosflug,Vol sans fin,Volo infinito,Lot bez końca,Нескінченний політ,Terbang tanpa akhir,Eindeloze vlucht
+Нажми часы в меню и лети!,Tap the clock in the menu and fly!,Menüdeki saate dokun ve uç!,¡Toca el reloj del menú y vuela!,Toque no relógio do menu e voe!,Tippe im Menü auf die Uhr und flieg los!,Touche l’horloge du menu et envole-toi !,Tocca l’orologio nel menu e vola!,Dotknij zegara w menu i leć!,Натисни годинник у меню й лети!,Ketuk jam di menu dan terbanglah!,Tik op de klok in het menu en vlieg!
+Сдай 4 экзамена — и свиток откроется,Pass 4 exams to open this scroll,Bu tomarı açmak için 4 sınavı geç,Aprueba 4 exámenes para abrir este pergamino,Passe em 4 provas para abrir este pergaminho,"Bestehe 4 Prüfungen, dann öffnet sich die Schriftrolle",Réussis 4 examens pour ouvrir ce parchemin,Supera 4 esami per aprire questa pergamena,"Zdaj 4 egzaminy, a zwój się otworzy",Склади 4 іспити — і сувій відкриється,Lulus 4 ujian untuk membuka gulungan ini,Haal 4 examens om deze rol te openen
+Время: %s,Time: %s,Süre: %s,Tiempo: %s,Tempo: %s,Zeit: %s,Temps : %s,Tempo: %s,Czas: %s,Час: %s,Waktu: %s,Tijd: %s
++%d за рекорд,+%d for the record,Rekor için +%d,+%d por el récord,+%d pelo recorde,+%d für den Rekord,+%d pour le record,+%d per il record,+%d za rekord,+%d за рекорд,+%d untuk rekor,+%d voor het record
+ЗОЛОТОЙ ПОЛЁТ,GOLDEN FLIGHT,ALTIN UÇUŞ,VUELO DORADO,VOO DOURADO,GOLDFLUG,VOL DORÉ,VOLO D’ORO,ZŁOTY LOT,ЗОЛОТИЙ ПОЛІТ,TERBANG EMAS,GOUDEN VLUCHT
++%d за золотой полёт,+%d for the golden flight,Altın uçuş için +%d,+%d por el vuelo dorado,+%d pelo voo dourado,+%d für den Goldflug,+%d pour le vol doré,+%d per il volo d’oro,+%d za złoty lot,+%d за золотий політ,+%d untuk terbang emas,+%d voor de gouden vlucht
+Лови монетки: %d %s!,Catch the coins: %d %s!,Paraları yakala: %d %s!,¡Atrapa las monedas: %d %s!,Pegue as moedas: %d %s!,Fang die Münzen: %d %s!,Attrape les pièces : %d %s !,Prendi le monete: %d %s!,Łap monety: %d %s!,Лови монетки: %d %s!,Tangkap koin: %d %s!,Vang de munten: %d %s!
+Большой полёт: %d %s!,Big flight: %d %s!,Büyük uçuş: %d %s!,¡Gran vuelo: %d %s!,Grande voo: %d %s!,Großer Flug: %d %s!,Grand vol : %d %s !,Grande volo: %d %s!,Wielki lot: %d %s!,Великий політ: %d %s!,Terbang besar: %d %s!,Grote vlucht: %d %s!
+минута,minute,dakika,minuto,minuto,Minute,minute,minuto,minuta,хвилина,menit,minuut
+минуты,minutes,dakika,minutos,minutos,Minuten,minutes,minuti,minuty,хвилини,menit,minuten
+минут,minutes,dakika,minutos,minutos,Minuten,minutes,minuti,minut,хвилин,menit,minuten
+%d день подряд,%d day in a row,%d gün üst üste,%d día seguido,%d dia seguido,%d Tag in Folge,%d jour d’affilée,%d giorno di fila,%d dzień z rzędu,%d день поспіль,%d hari berturut-turut,%d dag op rij
+%d дня подряд,%d days in a row,%d gün üst üste,%d días seguidos,%d dias seguidos,%d Tage in Folge,%d jours d’affilée,%d giorni di fila,%d dni z rzędu,%d дні поспіль,%d hari berturut-turut,%d dagen op rij
+%d дней подряд,%d days in a row,%d gün üst üste,%d días seguidos,%d dias seguidos,%d Tage in Folge,%d jours d’affilée,%d giorni di fila,%d dni z rzędu,%d днів поспіль,%d hari berturut-turut,%d dagen op rij
+Золотой полёт: %d %s!,Golden flight: %d %s!,Altın uçuş: %d %s!,¡Vuelo dorado: %d %s!,Voo dourado: %d %s!,Goldflug: %d %s!,Vol doré : %d %s !,Volo d’oro: %d %s!,Złoty lot: %d %s!,Золотий політ: %d %s!,Terbang emas: %d %s!,Gouden vlucht: %d %s!
+Выбери шарик!,Pick a balloon!,Bir balon seç!,¡Elige un globo!,Escolha um balão!,Wähle einen Ballon!,Choisis un ballon !,Scegli un palloncino!,Wybierz balonik!,Вибери кульку!,Pilih balon!,Kies een ballon!
+ЗОЛОТОЙ ПОЛЁТ!,GOLDEN FLIGHT!,ALTIN UÇUŞ!,¡VUELO DORADO!,VOO DOURADO!,GOLDFLUG!,VOL DORÉ !,VOLO D’ORO!,ZŁOTY LOT!,ЗОЛОТИЙ ПОЛІТ!,TERBANG EMAS!,GOUDEN VLUCHT!
 "Открылся бой на рекорд!
 Отвечай, пока есть сердечки —
 шарики летят всё быстрее.
 Продержись как можно дольше!","Record battle unlocked!
 Answer while you have hearts —
 the balloons keep speeding up.
-Hold out as long as you can!"
-Магистр,Magister
-Ты магистр!,You are a magister!
-ТЫ — МАГИСТР!,YOU ARE A MAGISTER!
-+%d за звание магистра,+%d for the magister title
-Ты — магистр!,You are a magister!
-10 минут квадратов и корней! Награда ждёт тебя в зале славы,10 minutes of squares and roots! Your award is waiting in the hall of fame
-Испытание магистра,Magister trial
-Квадрат,Square
-Корень,Root
-Число умножаем само на себя: квадрат 3 на 3 — это 9 клеток,A number times itself: a 3 by 3 square is 9 cells
-Наоборот: из 9 клеток вышел квадрат — его сторона 3,The other way round: 9 cells make a square — its side is 3
+Hold out as long as you can!","Rekor savaşı açıldı!
+Kalplerin bitene kadar cevap ver —
+balonlar gittikçe hızlanır.
+Olabildiğince uzun dayan!","¡Batalla de récord desbloqueada!
+Responde mientras tengas corazones:
+los globos van cada vez más rápido.
+¡Aguanta todo lo que puedas!","Batalha de recorde liberada!
+Responda enquanto tiver corações —
+os balões ficam cada vez mais rápidos.
+Aguente o máximo que puder!","Rekordkampf freigeschaltet!
+Antworte, solange du Herzen hast —
+die Ballons werden immer schneller.
+Halte so lange durch, wie du kannst!","Le combat record est débloqué !
+Réponds tant qu’il te reste des cœurs —
+les ballons vont de plus en plus vite.
+Tiens le plus longtemps possible !","Battaglia record sbloccata!
+Rispondi finché hai cuori —
+i palloncini vanno sempre più veloci.
+Resisti più a lungo che puoi!","Odblokowano bitwę o rekord!
+Odpowiadaj, dopóki masz serduszka —
+baloniki lecą coraz szybciej.
+Wytrzymaj jak najdłużej!","Відкрився бій на рекорд!
+Відповідай, поки є сердечка —
+кульки летять дедалі швидше.
+Протримайся якомога довше!","Pertarungan rekor terbuka!
+Jawab selama hatimu masih ada —
+balon terbang makin cepat.
+Bertahanlah selama mungkin!","Recordgevecht vrijgespeeld!
+Antwoord zolang je hartjes hebt —
+de ballonnen gaan steeds sneller.
+Hou het zo lang mogelijk vol!"
+Магистр,Magister,Büyük Usta,Gran Maestro,Grão-Mestre,Großmeister,Grand Maître,Gran Maestro,Arcymistrz,Магістр,Mahaguru,Grootmeester
+Ты магистр!,You are a magister!,Sen Büyük Ustasın!,¡Eres Gran Maestro!,Você é Grão-Mestre!,Du bist Großmeister!,Tu es Grand Maître !,Sei Gran Maestro!,Jesteś arcymistrzem!,Ти магістр!,Kamu Mahaguru!,Je bent grootmeester!
+ТЫ — МАГИСТР!,YOU ARE A MAGISTER!,SEN BÜYÜK USTASIN!,¡ERES GRAN MAESTRO!,VOCÊ É GRÃO-MESTRE!,DU BIST GROSSMEISTER!,TU ES GRAND MAÎTRE !,SEI GRAN MAESTRO!,JESTEŚ ARCYMISTRZEM!,ТИ — МАГІСТР!,KAMU MAHAGURU!,JE BENT GROOTMEESTER!
++%d за звание магистра,+%d for the magister title,Büyük Usta unvanı için +%d,+%d por el título de Gran Maestro,+%d pelo título de Grão-Mestre,+%d für den Großmeister-Titel,+%d pour le titre de Grand Maître,+%d per il titolo di Gran Maestro,+%d za tytuł arcymistrza,+%d за звання магістра,+%d untuk gelar Mahaguru,+%d voor de titel grootmeester
+Ты — магистр!,You are a magister!,Sen Büyük Ustasın!,¡Eres Gran Maestro!,Você é Grão-Mestre!,Du bist Großmeister!,Tu es Grand Maître !,Sei Gran Maestro!,Jesteś arcymistrzem!,Ти — магістр!,Kamu Mahaguru!,Je bent grootmeester!
+10 минут квадратов и корней! Награда ждёт тебя в зале славы,10 minutes of squares and roots! Your award is waiting in the hall of fame,10 dakika kareler ve kökler! Ödülün şöhret salonunda seni bekliyor,¡10 minutos de cuadrados y raíces! Tu premio te espera en el salón de la fama,10 minutos de quadrados e raízes! Seu prêmio espera no salão da fama,10 Minuten Quadrate und Wurzeln! Deine Belohnung wartet in der Ruhmeshalle,10 minutes de carrés et de racines ! Ta récompense t’attend au panthéon,10 minuti di quadrati e radici! Il tuo premio ti aspetta nella sala della fama,10 minut kwadratów i pierwiastków! Nagroda czeka w sali sławy,10 хвилин квадратів і коренів! Нагорода чекає на тебе в залі слави,10 menit kuadrat dan akar! Hadiahmu menunggu di aula ketenaran,10 minuten kwadraten en wortels! Je prijs wacht in de eregalerij
+Испытание магистра,Magister trial,Büyük Usta denemesi,Prueba del Gran Maestro,Desafio do Grão-Mestre,Großmeister-Prüfung,Épreuve du Grand Maître,Prova del Gran Maestro,Próba arcymistrza,Випробування магістра,Ujian Mahaguru,Grootmeesterproef
+Квадрат,Square,Kare,Cuadrado,Quadrado,Quadrat,Carré,Quadrato,Kwadrat,Квадрат,Kuadrat,Kwadraat
+Корень,Root,Kök,Raíz,Raiz,Wurzel,Racine,Radice,Pierwiastek,Корінь,Akar,Wortel
+Число умножаем само на себя: квадрат 3 на 3 — это 9 клеток,A number times itself: a 3 by 3 square is 9 cells,Sayıyı kendisiyle çarparız: 3'e 3 kare 9 kutudur,Un número por sí mismo: un cuadrado de 3 por 3 tiene 9 casillas,Um número vezes ele mesmo: um quadrado de 3 por 3 tem 9 casas,Eine Zahl mal sich selbst: ein Quadrat 3 mal 3 hat 9 Kästchen,Un nombre multiplié par lui-même : un carré de 3 sur 3 fait 9 cases,Un numero per se stesso: un quadrato 3 per 3 ha 9 caselle,Liczbę mnożymy przez nią samą: kwadrat 3 na 3 to 9 kratek,Число множимо саме на себе: квадрат 3 на 3 — це 9 клітинок,Angka dikali dirinya sendiri: persegi 3 kali 3 berisi 9 kotak,Een getal keer zichzelf: een vierkant van 3 bij 3 heeft 9 vakjes
+Наоборот: из 9 клеток вышел квадрат — его сторона 3,The other way round: 9 cells make a square — its side is 3,Tersine: 9 kutudan bir kare oldu — kenarı 3,Al revés: con 9 casillas se forma un cuadrado de lado 3,Ao contrário: 9 casas formam um quadrado de lado 3,Umgekehrt: aus 9 Kästchen wird ein Quadrat mit der Seite 3,À l’envers : 9 cases forment un carré de côté 3,Al contrario: 9 caselle formano un quadrato di lato 3,Na odwrót: z 9 kratek powstał kwadrat — jego bok to 3,Навпаки: з 9 клітинок вийшов квадрат — його сторона 3,Sebaliknya: 9 kotak membentuk persegi dengan sisi 3,Andersom: 9 vakjes vormen een vierkant met zijde 3
 "• Таймер идёт назад: продержись 10 минут.
 • Каждые 2 минуты прилетает дирижабль — сбей его броню ответами. Если ранен, после него вылетит сердечко.
 • Примеры всё сложнее: до 16² = 256 и корня из 256.
 • Выдержишь — кубок магистра встанет в зале славы!","• The timer runs backwards: hold out for 10 minutes.
 • Every 2 minutes an airship arrives — knock off its armor with answers. If you are hurt, a heart flies out after it.
 • Examples get harder: up to 16² = 256 and the root of 256.
-• Make it — and the magister cup takes its place in the hall of fame!"
-Плюс и минус,Plus and minus
-Умножение и деление,Multiplication and division
-Числа до 20 — считай через десяток,Numbers up to 20 — count through ten
-"Таблицы на 2, 3, 4 и 5","Tables of 2, 3, 4 and 5"
+• Make it — and the magister cup takes its place in the hall of fame!","• Sayaç geri sayıyor: 10 dakika dayan.
+• Her 2 dakikada bir zeplin gelir — cevaplarınla zırhını düşür. Yaralıysan ardından bir kalp çıkar.
+• İşlemler gittikçe zorlaşır: 16² = 256'ya ve 256'nın köküne kadar.
+• Dayanırsan Büyük Usta kupası şöhret salonunda yerini alır!","• El reloj va hacia atrás: aguanta 10 minutos.
+• Cada 2 minutos llega un dirigible: quítale el blindaje con tus respuestas. Si estás herido, después saldrá un corazón.
+• Los ejercicios se complican: hasta 16² = 256 y la raíz de 256.
+• ¡Si lo logras, la copa del Gran Maestro irá al salón de la fama!","• O relógio corre para trás: aguente 10 minutos.
+• A cada 2 minutos chega um dirigível — arranque a armadura dele com respostas. Se estiver ferido, depois sai um coração.
+• As contas ficam mais difíceis: até 16² = 256 e a raiz de 256.
+• Se conseguir, a taça do Grão-Mestre vai para o salão da fama!","• Die Uhr läuft rückwärts: halte 10 Minuten durch.
+• Alle 2 Minuten kommt ein Luftschiff — schlag ihm mit Antworten die Panzerung ab. Bist du verletzt, fliegt danach ein Herz heraus.
+• Die Aufgaben werden immer schwerer: bis 16² = 256 und die Wurzel aus 256.
+• Schaffst du es, kommt der Großmeister-Pokal in die Ruhmeshalle!","• Le chrono tourne à l’envers : tiens 10 minutes.
+• Toutes les 2 minutes arrive un dirigeable — arrache son blindage avec tes réponses. Si tu es blessé, un cœur sortira ensuite.
+• Les calculs deviennent plus durs : jusqu’à 16² = 256 et la racine de 256.
+• Si tu tiens, la coupe du Grand Maître ira au panthéon !","• Il timer va all’indietro: resisti 10 minuti.
+• Ogni 2 minuti arriva un dirigibile — staccagli la corazza con le risposte. Se sei ferito, dopo uscirà un cuore.
+• I calcoli diventano più difficili: fino a 16² = 256 e alla radice di 256.
+• Se resisti, la coppa del Gran Maestro andrà nella sala della fama!","• Zegar liczy w dół: wytrzymaj 10 minut.
+• Co 2 minuty przylatuje sterowiec — zbij jego pancerz odpowiedziami. Jeśli jesteś ranny, potem wyleci serduszko.
+• Przykłady są coraz trudniejsze: aż do 16² = 256 i pierwiastka z 256.
+• Wytrzymasz — puchar arcymistrza stanie w sali sławy!","• Таймер іде назад: протримайся 10 хвилин.
+• Кожні 2 хвилини прилітає дирижабль — збий його броню відповідями. Якщо поранений, після нього вилетить сердечко.
+• Приклади дедалі складніші: до 16² = 256 і кореня з 256.
+• Витримаєш — кубок магістра стане в залі слави!","• Waktu berjalan mundur: bertahan 10 menit.
+• Setiap 2 menit datang kapal udara — rontokkan bajanya dengan jawaban. Kalau kamu terluka, setelahnya keluar sebuah hati.
+• Soal makin sulit: sampai 16² = 256 dan akar dari 256.
+• Kalau berhasil, piala Mahaguru akan ada di aula ketenaran!","• De klok loopt terug: hou 10 minuten vol.
+• Elke 2 minuten komt er een luchtschip — sla zijn pantser eraf met antwoorden. Ben je gewond, dan komt er daarna een hartje uit.
+• De sommen worden steeds moeilijker: tot 16² = 256 en de wortel uit 256.
+• Hou je het vol, dan komt de grootmeesterbeker in de eregalerij!"
+Плюс и минус,Plus and minus,Artı ve eksi,Suma y resta,Mais e menos,Plus und Minus,Plus et moins,Più e meno,Plus i minus,Плюс і мінус,Tambah dan kurang,Plus en min
+Умножение и деление,Multiplication and division,Çarpma ve bölme,Multiplicación y división,Multiplicação e divisão,Mal und Geteilt,Multiplication et division,Moltiplicazione e divisione,Mnożenie i dzielenie,Множення й ділення,Perkalian dan pembagian,Keer en delen
+Числа до 20 — считай через десяток,Numbers up to 20 — count through ten,20'ye kadar sayılar — onluğu geçerek say,Números hasta 20: pasa por la decena,Números até 20 — conte passando pela dezena,Zahlen bis 20 — rechne über den Zehner,Nombres jusqu’à 20 — passe par la dizaine,Numeri fino a 20 — passa per la decina,Liczby do 20 — licz przez dziesiątkę,Числа до 20 — рахуй через десяток,Bilangan sampai 20 — hitung melewati puluhan,Getallen tot 20 — reken via het tiental
+"Таблицы на 2, 3, 4 и 5","Tables of 2, 3, 4 and 5","2, 3, 4 ve 5 çarpım tabloları","Tablas del 2, 3, 4 y 5","Tabuadas do 2, 3, 4 e 5","Einmaleins mit 2, 3, 4 und 5","Tables de 2, 3, 4 et 5","Tabelline del 2, 3, 4 e 5","Tabliczka mnożenia przez 2, 3, 4 i 5","Таблиці на 2, 3, 4 і 5","Perkalian 2, 3, 4, dan 5","Tafels van 2, 3, 4 en 5"
 "• Таймер идёт назад: продержись 10 минут.
 • Каждые 2 минуты прилетает дирижабль — сбей его броню ответами. Если ранен, после него вылетит сердечко.
 • Все четыре действия, и с каждой минутой примеры сложнее.
 • Выдержишь — кубок магистра встанет в зале славы!","• The timer runs backwards: hold out for 10 minutes.
 • Every 2 minutes an airship arrives — knock off its armor with answers. If you are hurt, a heart flies out after it.
 • All four operations, and the examples get harder every minute.
-• Make it — and the magister cup takes its place in the hall of fame!"
+• Make it — and the magister cup takes its place in the hall of fame!","• Sayaç geri sayıyor: 10 dakika dayan.
+• Her 2 dakikada bir zeplin gelir — cevaplarınla zırhını düşür. Yaralıysan ardından bir kalp çıkar.
+• Dört işlemin hepsi var ve işlemler her dakika zorlaşır.
+• Dayanırsan Büyük Usta kupası şöhret salonunda yerini alır!","• El reloj va hacia atrás: aguanta 10 minutos.
+• Cada 2 minutos llega un dirigible: quítale el blindaje con tus respuestas. Si estás herido, después saldrá un corazón.
+• Las cuatro operaciones, y cada minuto los ejercicios son más difíciles.
+• ¡Si lo logras, la copa del Gran Maestro irá al salón de la fama!","• O relógio corre para trás: aguente 10 minutos.
+• A cada 2 minutos chega um dirigível — arranque a armadura dele com respostas. Se estiver ferido, depois sai um coração.
+• As quatro operações, e a cada minuto as contas ficam mais difíceis.
+• Se conseguir, a taça do Grão-Mestre vai para o salão da fama!","• Die Uhr läuft rückwärts: halte 10 Minuten durch.
+• Alle 2 Minuten kommt ein Luftschiff — schlag ihm mit Antworten die Panzerung ab. Bist du verletzt, fliegt danach ein Herz heraus.
+• Alle vier Rechenarten, und jede Minute werden die Aufgaben schwerer.
+• Schaffst du es, kommt der Großmeister-Pokal in die Ruhmeshalle!","• Le chrono tourne à l’envers : tiens 10 minutes.
+• Toutes les 2 minutes arrive un dirigeable — arrache son blindage avec tes réponses. Si tu es blessé, un cœur sortira ensuite.
+• Les quatre opérations, et chaque minute les calculs sont plus durs.
+• Si tu tiens, la coupe du Grand Maître ira au panthéon !","• Il timer va all’indietro: resisti 10 minuti.
+• Ogni 2 minuti arriva un dirigibile — staccagli la corazza con le risposte. Se sei ferito, dopo uscirà un cuore.
+• Tutte e quattro le operazioni, e ogni minuto i calcoli diventano più difficili.
+• Se resisti, la coppa del Gran Maestro andrà nella sala della fama!","• Zegar liczy w dół: wytrzymaj 10 minut.
+• Co 2 minuty przylatuje sterowiec — zbij jego pancerz odpowiedziami. Jeśli jesteś ranny, potem wyleci serduszko.
+• Wszystkie cztery działania, a z każdą minutą przykłady są trudniejsze.
+• Wytrzymasz — puchar arcymistrza stanie w sali sławy!","• Таймер іде назад: протримайся 10 хвилин.
+• Кожні 2 хвилини прилітає дирижабль — збий його броню відповідями. Якщо поранений, після нього вилетить сердечко.
+• Усі чотири дії, і з кожною хвилиною приклади складніші.
+• Витримаєш — кубок магістра стане в залі слави!","• Waktu berjalan mundur: bertahan 10 menit.
+• Setiap 2 menit datang kapal udara — rontokkan bajanya dengan jawaban. Kalau kamu terluka, setelahnya keluar sebuah hati.
+• Keempat operasi hitung, dan setiap menit soalnya makin sulit.
+• Kalau berhasil, piala Mahaguru akan ada di aula ketenaran!","• De klok loopt terug: hou 10 minuten vol.
+• Elke 2 minuten komt er een luchtschip — sla zijn pantser eraf met antwoorden. Ben je gewond, dan komt er daarna een hartje uit.
+• Alle vier de bewerkingen, en elke minuut worden de sommen moeilijker.
+• Hou je het vol, dan komt de grootmeesterbeker in de eregalerij!"
 "Монеток хватает на обновку!
 Загляни в магазин","You have enough coins for something new!
-Visit the shop"
+Visit the shop","Yeni bir şey için yeterli paran var!
+Mağazaya göz at","¡Tienes monedas para algo nuevo!
+Echa un vistazo a la tienda","Você tem moedas para algo novo!
+Dê uma olhada na loja","Du hast genug Münzen für etwas Neues!
+Schau in den Laden","Tu as assez de pièces pour une nouveauté !
+Va voir la boutique","Hai abbastanza monete per una novità!
+Dai un’occhiata al negozio","Masz dość monet na coś nowego!
+Zajrzyj do sklepu","Монеток вистачає на обновку!
+Зазирни в магазин","Koinmu cukup untuk sesuatu yang baru!
+Mampir ke toko","Je hebt genoeg munten voor iets nieuws!
+Kijk eens in de winkel"
 "Нажми на товар —
 самолёт сразу его примерит!","Tap an item —
-your plane tries it on right away!"
+your plane tries it on right away!","Bir eşyaya dokun —
+uçağın hemen dener!","Toca un objeto:
+¡tu avión se lo prueba al momento!","Toque em um item —
+seu avião experimenta na hora!","Tippe auf etwas —
+dein Flugzeug probiert es sofort an!","Touche un objet —
+ton avion l’essaie tout de suite !","Tocca un oggetto —
+il tuo aereo lo prova subito!","Dotknij przedmiotu —
+samolot od razu go przymierzy!","Натисни на товар —
+літак одразу його приміряє!","Ketuk barangnya —
+pesawatmu langsung mencobanya!","Tik op een voorwerp —
+je vliegtuig past het meteen!"
 "А здесь — шлейфы
 за самолётом","And here are trails
-behind your plane"
-Примерь шлейф!,Try on a trail!
+behind your plane","Burada da uçağın
+arkasındaki izler var","Y aquí están las estelas
+detrás del avión","E aqui ficam os rastros
+atrás do avião","Und hier sind die Spuren
+hinter dem Flugzeug","Et ici, ce sont les traînées
+derrière l’avion","E qui ci sono le scie
+dietro l’aereo","A tutaj są smugi
+za samolotem","А тут — шлейфи
+за літаком","Dan di sini ada jejak
+di belakang pesawat","En hier zijn de sporen
+achter het vliegtuig"
+Примерь шлейф!,Try on a trail!,Bir iz dene!,¡Pruébate una estela!,Experimente um rastro!,Probier eine Spur aus!,Essaie une traînée !,Prova una scia!,Przymierz smugę!,Приміряй шлейф!,Coba sebuah jejak!,Pas een spoor!
 "А тут — обложки
 для главного меню","And here are covers
-for the main menu"
-"Посмотри, как красиво!",Look how pretty!
+for the main menu","Burada da ana menü
+kapakları var","Y aquí, las portadas
+del menú principal","E aqui ficam as capas
+do menu principal","Und hier sind die Titelbilder
+fürs Hauptmenü","Et ici, ce sont les fonds
+du menu principal","E qui ci sono gli sfondi
+del menu principale","A tutaj są okładki
+do głównego menu","А тут — обкладинки
+для головного меню","Dan di sini ada sampul
+untuk menu utama","En hier zijn de achtergronden
+voor het hoofdmenu"
+"Посмотри, как красиво!",Look how pretty!,Bak ne güzel!,¡Mira qué bonito!,Olha que lindo!,"Schau, wie schön!",Regarde comme c’est beau !,Guarda che bello!,"Zobacz, jak ładnie!","Подивись, як гарно!","Lihat, bagus sekali!",Kijk eens hoe mooi!
 "Понравилось — купи за монетки!
 Или копи на что-то особенное.","Like it? Buy it with coins!
-Or save up for something special."
-Бой на рекорд времени,Time record battle
-3 сердца,3 hearts
-Ошибка или упущенный верный шарик — минус сердце,A mistake or a missed right balloon costs a heart
-Секундомер,Stopwatch
-"Считает, сколько ты продержишься — без лимита","Counts how long you last, no time limit"
-Новый рекорд,New record
-Монетка и печать в ежедневную серию,A coin and a stamp for the daily series
+Or save up for something special.","Beğendin mi? Paralarla al!
+Ya da özel bir şey için biriktir.","¿Te gusta? ¡Cómpralo con monedas!
+O ahorra para algo especial.","Gostou? Compre com moedas!
+Ou guarde para algo especial.","Gefällt’s dir? Kauf es mit Münzen!
+Oder spar für etwas Besonderes.","Ça te plaît ? Achète-le avec des pièces !
+Ou économise pour quelque chose de spécial.","Ti piace? Compralo con le monete!
+Oppure risparmia per qualcosa di speciale.","Podoba się? Kup za monety!
+Albo odkładaj na coś wyjątkowego.","Сподобалося — купи за монетки!
+Або збирай на щось особливе.","Suka? Beli dengan koin!
+Atau tabung untuk sesuatu yang istimewa.","Vind je het leuk? Koop het met munten!
+Of spaar voor iets speciaals."
+Бой на рекорд времени,Time record battle,Süre rekoru savaşı,Batalla por el récord de tiempo,Batalha pelo recorde de tempo,Kampf um den Zeitrekord,Combat record de temps,Battaglia per il record di tempo,Bitwa o rekord czasu,Бій на рекорд часу,Pertarungan rekor waktu,Gevecht om het tijdrecord
+3 сердца,3 hearts,3 kalp,3 corazones,3 corações,3 Herzen,3 cœurs,3 cuori,3 serca,3 серця,3 hati,3 harten
+Ошибка или упущенный верный шарик — минус сердце,A mistake or a missed right balloon costs a heart,Hata ya da kaçırılan doğru balon — bir kalp eksilir,Un error o un globo correcto perdido cuesta un corazón,Um erro ou um balão certo perdido custa um coração,Ein Fehler oder ein verpasster richtiger Ballon kostet ein Herz,Une erreur ou un bon ballon raté coûte un cœur,Un errore o un palloncino giusto perso costa un cuore,Błąd albo przepuszczony dobry balonik — minus serce,Помилка або пропущена правильна кулька — мінус серце,Salah jawab atau balon benar yang terlewat — kurang satu hati,Een fout of een gemiste goede ballon kost een hart
+Секундомер,Stopwatch,Kronometre,Cronómetro,Cronômetro,Stoppuhr,Chronomètre,Cronometro,Stoper,Секундомір,Stopwatch,Stopwatch
+"Считает, сколько ты продержишься — без лимита","Counts how long you last, no time limit",Ne kadar dayandığını sayar — süre sınırı yok,"Cuenta cuánto aguantas, sin límite de tiempo",Conta quanto tempo você aguenta — sem limite,"Zählt, wie lange du durchhältst — ohne Zeitlimit",Compte combien de temps tu tiens — sans limite,Conta quanto resisti — senza limite di tempo,"Liczy, jak długo wytrzymasz — bez limitu czasu","Рахує, скільки ти протримаєшся, — без ліміту",Menghitung berapa lama kamu bertahan — tanpa batas waktu,Telt hoe lang je het volhoudt — zonder tijdslimiet
+Новый рекорд,New record,Yeni rekor,Nuevo récord,Novo recorde,Neuer Rekord,Nouveau record,Nuovo record,Nowy rekord,Новий рекорд,Rekor baru,Nieuw record
+Монетка и печать в ежедневную серию,A coin and a stamp for the daily series,Günlük seriye bir para ve bir damga,Una moneda y un sello para la racha diaria,Uma moeda e um carimbo para a sequência diária,Eine Münze und ein Stempel für die tägliche Serie,Une pièce et un tampon pour la série du jour,Una moneta e un timbro per la serie del giorno,Moneta i pieczątka do codziennej serii,Монетка й печатка в щоденну серію,Satu koin dan satu stempel untuk rangkaian harian,Een munt en een stempel voor de dagelijkse reeks
 "• Каждые 30 секунд примеры сложнее, а шарики быстрее.
 • Каждые 2 минуты прилетает дирижабль — сбей его броню ответами.
 • Раз в 5 минут прилетает шарик с сердцем — поймай, если ранен.
 • Бой идёт, пока у тебя есть сердца. Побей свой рекорд!","• Every 30 seconds the examples get harder and the balloons faster.
 • Every 2 minutes an airship arrives — knock off its armor with answers.
 • Every 5 minutes a heart balloon flies in — catch it if you are hurt.
-• The battle lasts while you have hearts. Beat your record!"
+• The battle lasts while you have hearts. Beat your record!","• Her 30 saniyede işlemler zorlaşır, balonlar hızlanır.
+• Her 2 dakikada bir zeplin gelir — cevaplarınla zırhını düşür.
+• 5 dakikada bir kalpli balon gelir — yaralıysan yakala.
+• Savaş, kalplerin oldukça sürer. Rekorunu kır!","• Cada 30 segundos los ejercicios son más difíciles y los globos más rápidos.
+• Cada 2 minutos llega un dirigible: quítale el blindaje con tus respuestas.
+• Cada 5 minutos llega un globo con corazón: atrápalo si estás herido.
+• La batalla dura mientras tengas corazones. ¡Supera tu récord!","• A cada 30 segundos as contas ficam mais difíceis e os balões mais rápidos.
+• A cada 2 minutos chega um dirigível — arranque a armadura dele com respostas.
+• A cada 5 minutos vem um balão com coração — pegue se estiver ferido.
+• A batalha dura enquanto você tiver corações. Bata seu recorde!","• Alle 30 Sekunden werden die Aufgaben schwerer und die Ballons schneller.
+• Alle 2 Minuten kommt ein Luftschiff — schlag ihm mit Antworten die Panzerung ab.
+• Alle 5 Minuten kommt ein Herzballon — fang ihn, wenn du verletzt bist.
+• Der Kampf dauert, solange du Herzen hast. Schlag deinen Rekord!","• Toutes les 30 secondes les calculs sont plus durs et les ballons plus rapides.
+• Toutes les 2 minutes arrive un dirigeable — arrache son blindage avec tes réponses.
+• Toutes les 5 minutes arrive un ballon-cœur — attrape-le si tu es blessé.
+• Le combat dure tant qu’il te reste des cœurs. Bats ton record !","• Ogni 30 secondi i calcoli diventano più difficili e i palloncini più veloci.
+• Ogni 2 minuti arriva un dirigibile — staccagli la corazza con le risposte.
+• Ogni 5 minuti arriva un palloncino con il cuore — prendilo se sei ferito.
+• La battaglia dura finché hai cuori. Batti il tuo record!","• Co 30 sekund przykłady są trudniejsze, a baloniki szybsze.
+• Co 2 minuty przylatuje sterowiec — zbij jego pancerz odpowiedziami.
+• Raz na 5 minut przylatuje balonik z serduszkiem — złap go, jeśli jesteś ranny.
+• Bitwa trwa, dopóki masz serca. Pobij swój rekord!","• Кожні 30 секунд приклади складніші, а кульки швидші.
+• Кожні 2 хвилини прилітає дирижабль — збий його броню відповідями.
+• Раз на 5 хвилин прилітає кулька із сердечком — злови, якщо поранений.
+• Бій триває, поки в тебе є серця. Побий свій рекорд!","• Setiap 30 detik soal makin sulit dan balon makin cepat.
+• Setiap 2 menit datang kapal udara — rontokkan bajanya dengan jawaban.
+• Setiap 5 menit datang balon berisi hati — tangkap kalau kamu terluka.
+• Pertarungan berlangsung selama kamu masih punya hati. Pecahkan rekormu!","• Elke 30 seconden worden de sommen moeilijker en de ballonnen sneller.
+• Elke 2 minuten komt er een luchtschip — sla zijn pantser eraf met antwoorden.
+• Elke 5 minuten komt er een hartjesballon — vang hem als je gewond bent.
+• Het gevecht duurt zolang je harten hebt. Verbeter je record!"
 "Загляни в зал славы —
 там твои трудные примеры","Visit the hall of fame —
-your tricky examples are there"
+your tricky examples are there","Şöhret salonuna göz at —
+zor işlemlerin orada","Visita el salón de la fama:
+ahí están tus ejercicios difíciles","Dê uma olhada no salão da fama —
+suas contas difíceis estão lá","Schau in die Ruhmeshalle —
+dort sind deine kniffligen Aufgaben","Va voir le panthéon —
+tes calculs difficiles y sont","Dai un’occhiata alla sala della fama —
+ci sono i tuoi calcoli difficili","Zajrzyj do sali sławy —
+są tam twoje trudne przykłady","Зазирни в залу слави —
+там твої складні приклади","Mampir ke aula ketenaran —
+soal-soal sulitmu ada di sana","Kijk eens in de eregalerij —
+daar staan je lastige sommen"
 "Здесь примеры, в которых ты ошибался.
 Нажми на табло!","Here are the examples you got wrong.
-Tap the board!"
+Tap the board!","Burada hata yaptığın işlemler var.
+Panoya dokun!","Aquí están los ejercicios en los que te equivocaste.
+¡Toca el panel!","Aqui estão as contas em que você errou.
+Toque no painel!","Hier sind die Aufgaben, bei denen du Fehler gemacht hast.
+Tippe auf die Tafel!","Voici les calculs où tu t’es trompé.
+Touche le tableau !","Qui ci sono i calcoli che hai sbagliato.
+Tocca il tabellone!","Tu są przykłady, w których się pomyliłeś.
+Dotknij tablicy!","Тут приклади, у яких ти помилявся.
+Натисни на табло!","Ini soal-soal yang pernah kamu salah.
+Ketuk papannya!","Hier staan de sommen die je fout had.
+Tik op het bord!"
 "Эти примеры игра будет давать
 в первую очередь — пока не запомнишь!","The game will give you these first —
-until you remember them!"
-+%d за экзамен,+%d for the exam
-+%d за экзамен и купленный самолёт,+%d for the exam and the plane you bought
+until you remember them!","Oyun bu işlemleri önce verecek —
+ezberleyene kadar!","El juego te dará primero estos ejercicios,
+¡hasta que te los sepas!","O jogo vai dar estas contas primeiro —
+até você decorar!","Diese Aufgaben gibt dir das Spiel zuerst —
+bis du sie kannst!","Le jeu te donnera ces calculs en premier —
+jusqu’à ce que tu les retiennes !","Il gioco ti darà prima questi calcoli —
+finché non li impari!","Gra będzie dawać te przykłady najpierw —
+aż je zapamiętasz!","Ці приклади гра даватиме
+насамперед — поки не запам’ятаєш!","Permainan akan memberi soal-soal ini dulu —
+sampai kamu hafal!","Het spel geeft je deze sommen eerst —
+tot je ze kent!"
++%d за экзамен,+%d for the exam,Sınav için +%d,+%d por el examen,+%d pela prova,+%d für die Prüfung,+%d pour l’examen,+%d per l’esame,+%d za egzamin,+%d за іспит,+%d untuk ujian,+%d voor het examen
++%d за экзамен и купленный самолёт,+%d for the exam and the plane you bought,Sınav ve satın aldığın uçak için +%d,+%d por el examen y el avión que compraste,+%d pela prova e pelo avião que você comprou,+%d für die Prüfung und das gekaufte Flugzeug,+%d pour l’examen et l’avion acheté,+%d per l’esame e l’aereo comprato,+%d za egzamin i kupiony samolot,+%d за іспит і куплений літак,+%d untuk ujian dan pesawat yang kamu beli,+%d voor het examen en het gekochte vliegtuig

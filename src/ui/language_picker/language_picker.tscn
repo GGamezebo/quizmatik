@@ -6,26 +6,132 @@
 [ext_resource type="PackedScene" path="res://src/ui/language_picker/language_flag.tscn" id="4_flag"]
 [ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_ru.svg" id="5_ru"]
 [ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_en.svg" id="6_en"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_tr.svg" id="7_tr"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_es.svg" id="8_es"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_pt.svg" id="9_pt"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_de.svg" id="10_de"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_fr.svg" id="11_fr"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_it.svg" id="12_it"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_pl.svg" id="13_pl"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_uk.svg" id="14_uk"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_id.svg" id="15_id"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/flag_nl.svg" id="16_nl"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/globe.svg" id="17_globe"]
+[ext_resource type="PackedScene" path="res://src/ui/language_picker/language_overlay.tscn" id="18_overlay"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="19_font"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="20_shadow"]
+[ext_resource type="Texture2D" path="res://src/ui/language_picker/chevron_down.svg" id="21_chevron"]
 
-[node name="LanguagePicker" type="HBoxContainer"]
-offset_right = 112.0
-offset_bottom = 46.0
-theme_override_constants/separation = 8
-alignment = 1
+[sub_resource type="LabelSettings" id="LabelSettings_row"]
+font = ExtResource("19_font")
+font_size = 22
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_current"]
+font = ExtResource("19_font")
+font_size = 22
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
+shader = ExtResource("20_shadow")
+shader_parameter/shadow_offset = Vector2(-2, 4)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
+shader_parameter/shadow_blur = 1.5
+
+[node name="LanguagePicker" type="HBoxContainer" node_paths=PackedStringArray("inline_flags", "current_button", "current_flag", "current_name", "overlay")]
+custom_minimum_size = Vector2(0, 52)
+theme_override_constants/separation = 12
 script = ExtResource("1_picker")
 user_settings = ExtResource("2_settings")
 platform_services = ExtResource("3_platform")
+flags = Dictionary[String, Texture2D]({
+"de": ExtResource("10_de"),
+"en": ExtResource("6_en"),
+"es": ExtResource("8_es"),
+"fr": ExtResource("11_fr"),
+"id": ExtResource("15_id"),
+"it": ExtResource("12_it"),
+"nl": ExtResource("16_nl"),
+"pl": ExtResource("13_pl"),
+"pt": ExtResource("9_pt"),
+"ru": ExtResource("5_ru"),
+"tr": ExtResource("7_tr"),
+"uk": ExtResource("14_uk")
+})
+flag_scene = ExtResource("4_flag")
+inline_flags = NodePath("InlineFlags")
+current_button = NodePath("CurrentButton")
+current_flag = NodePath("CurrentButton/HBox/Flag")
+current_name = NodePath("CurrentButton/HBox/Name")
+overlay = NodePath("Overlay")
 
-[node name="Ru" parent="." instance=ExtResource("4_flag")]
+[node name="Globe" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_sticker")
+custom_minimum_size = Vector2(36, 36)
 layout_mode = 2
-tooltip_text = "Русский"
-auto_translate_mode = 2
-texture_normal = ExtResource("5_ru")
-language = "ru"
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("17_globe")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="En" parent="." instance=ExtResource("4_flag")]
+[node name="Title" type="Label" parent="."]
 layout_mode = 2
-tooltip_text = "English"
+size_flags_horizontal = 3
+text = "Язык"
+label_settings = SubResource("LabelSettings_row")
+vertical_alignment = 1
+
+[node name="InlineFlags" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+alignment = 2
+
+[node name="CurrentButton" type="Button" parent="."]
+custom_minimum_size = Vector2(270, 52)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+mouse_default_cursor_shape = 2
+
+[node name="HBox" type="HBoxContainer" parent="CurrentButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_right = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Flag" type="TextureRect" parent="CurrentButton/HBox"]
+custom_minimum_size = Vector2(50, 35)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("5_ru")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="CurrentButton/HBox"]
 auto_translate_mode = 2
-texture_normal = ExtResource("6_en")
-language = "en"
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Русский"
+label_settings = SubResource("LabelSettings_current")
+vertical_alignment = 1
+text_overrun_behavior = 3
+
+[node name="Arrow" type="TextureRect" parent="CurrentButton/HBox"]
+custom_minimum_size = Vector2(22, 16)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("21_chevron")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Overlay" parent="." instance=ExtResource("18_overlay")]

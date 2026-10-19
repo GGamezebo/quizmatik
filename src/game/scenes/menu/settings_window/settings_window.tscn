@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="14_menu_back"]
 [ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="15_daily"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
-[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="16_font"]
 [ext_resource type="PackedScene" path="res://src/ui/language_picker/language_picker.tscn" id="17_language_picker"]
 [ext_resource type="PackedScene" path="res://src/ui/purchase_offer_button/purchase_offer_button.tscn" id="18_purchase_offer"]
 
@@ -21,11 +20,6 @@ shader = ExtResource("8_shadow")
 shader_parameter/shadow_offset = Vector2(-4, 8)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
 shader_parameter/shadow_blur = 2.0
-
-[sub_resource type="LabelSettings" id="LabelSettings_row"]
-font = ExtResource("16_font")
-font_size = 22
-font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font = ExtResource("7_title_font")
@@ -132,22 +126,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 8
 
-[node name="RowLanguage" type="HBoxContainer" parent="CenterContainer/Content/SettingsMargin/SettingsList"]
-custom_minimum_size = Vector2(0, 46)
+[node name="RowLanguage" parent="CenterContainer/Content/SettingsMargin/SettingsList" instance=ExtResource("17_language_picker")]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 16
-
-[node name="Title" type="Label" parent="CenterContainer/Content/SettingsMargin/SettingsList/RowLanguage"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Язык"
-label_settings = SubResource("LabelSettings_row")
-vertical_alignment = 1
-
-[node name="LanguagePicker" parent="CenterContainer/Content/SettingsMargin/SettingsList/RowLanguage" instance=ExtResource("17_language_picker")]
-layout_mode = 2
-size_flags_vertical = 4
 
 [node name="RowMusicToggle" parent="CenterContainer/Content/SettingsMargin/SettingsList" unique_id=1728022517 instance=ExtResource("10_toggle_row")]
 
