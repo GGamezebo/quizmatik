@@ -160,6 +160,17 @@ class LevelsProgress:
 			levels.containers[DEFAULT_CONTAINER_ID] = ContainerProgress.new()
 		return levels
 
+	## Any level or exam earned at least one star (a fresh pilot → false).
+	func has_any_stars() -> bool:
+		for container_id in containers:
+			var container: ContainerProgress = containers[container_id]
+			if container.exam_passed:
+				return true
+			for level_id in container.completed_levels:
+				if container.completed_levels[level_id].stars > 0:
+					return true
+		return false
+
 	func ensure_container(container_id: String) -> ContainerProgress:
 		if not containers.has(container_id):
 			containers[container_id] = ContainerProgress.new()

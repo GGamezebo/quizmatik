@@ -17,6 +17,8 @@ extends Control
 @export var create_card: BaseButton
 @export var create_overlay: ProfileCreateOverlay
 @export var delete_dialog: ConfirmDialog
+## Switching a pilot with stars to / from EASY (other examples) suggests a new pilot instead.
+@export var difficulty_change_overlay: DifficultyChangeOverlay
 @export var profile_card_scene: PackedScene
 @export var root_events: RootEvents
 ## Equipped look on the ID photo: paint, frame (`polaroid` panel style), sticker.
@@ -49,6 +51,9 @@ func _ready() -> void:
 		difficulty_picker.ev_changed.connect(_on_difficulty_changed)
 	if create_overlay:
 		create_overlay.ev_submitted.connect(_on_overlay_submitted)
+	if difficulty_change_overlay:
+		difficulty_change_overlay.ev_create_pressed.connect(_on_change_create_pressed)
+		difficulty_change_overlay.ev_keep_pressed.connect(_apply_difficulty)
 	if delete_dialog:
 		delete_dialog.ev_confirmed.connect(_on_delete_confirmed)
 		delete_dialog.ev_canceled.connect(_on_delete_canceled)
@@ -67,6 +72,8 @@ func on_window_enter() -> void:
 func on_window_exit() -> void:
 	if create_overlay:
 		create_overlay.close()
+	if difficulty_change_overlay:
+		difficulty_change_overlay.close()
 
 
 func _profiles() -> ProfileController:
@@ -184,6 +191,21 @@ func _on_card_pressed(card: ProfileCard) -> void:
 
 
 func _on_difficulty_changed(difficulty: StringName) -> void:
+	var live := _live()
+	var current: StringName = BattleDifficulty.sanitize(StringName(live.difficulty if live != null else ""))
+	var grade_changes: bool = (current == BattleDifficulty.EASY) != (difficulty == BattleDifficulty.EASY)
+	if difficulty_change_overlay != null and grade_changes and live != null and live.levels.has_any_stars():
+		# Picker stays on the current difficulty until the player decides in the overlay.
+		difficulty_picker.set_value(current)
+		var profiles := _profiles()
+		difficulty_change_overlay.open(current, difficulty, profiles == null or profiles.can_create())
+		return
+	_apply_difficulty(difficulty)
+
+
+func _apply_difficulty(difficulty: StringName) -> void:
+	if difficulty_picker:
+		difficulty_picker.set_value(difficulty)
 	var profiles := _profiles()
 	if profiles != null:
 		profiles.set_difficulty(difficulty)
@@ -199,6 +221,14 @@ func _on_create_pressed() -> void:
 	var profiles := _profiles()
 	if profiles != null:
 		create_overlay.configure(profiles.unique_name(""), BattleDifficulty.NORMAL)
+
+
+## New pilot for the new grade: the usual create overlay, prefilled with that difficulty.
+func _on_change_create_pressed(difficulty: StringName) -> void:
+	_on_create_pressed()
+	if create_overlay != null:
+		var profiles := _profiles()
+		create_overlay.configure(profiles.unique_name("") if profiles != null else "", difficulty)
 
 
 func _on_edit_pressed() -> void:

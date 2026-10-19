@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c8qm5n2k7xwfd" path="res://src/ui/confirm_dialog/confirm_dialog.tscn" id="12_confirm"]
 [ext_resource type="PackedScene" uid="uid://c8profilecreateov" path="res://src/ui/profile_create_overlay/profile_create_overlay.tscn" id="13_overlay"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/profile_window/profile_card.tscn" id="14_card"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/profile_window/difficulty_change_overlay.tscn" id="64_difficulty_change"]
 [ext_resource type="Texture2D" uid="uid://cyg5jcu3u4kvb" path="res://src/game/scenes/menu/ui/icon_achievements.png" id="15_cup"]
 [ext_resource type="Texture2D" path="res://src/features/plane/planes_atlas_spaced.png" id="16_plane"]
 [ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="17_gold"]
@@ -343,7 +344,7 @@ font = ExtResource("5_font")
 font_size = 18
 font_color = Color(0.165, 0.2, 0.251, 0.8)
 
-[node name="ProfileWindow" type="Control" node_paths=PackedStringArray("name_label", "gold_label", "trophy_button", "photo", "plane_preview", "plane_name_label", "difficulty_picker", "edit_button", "delete_button", "profiles_grid", "profiles_count_label", "create_card", "create_overlay", "delete_dialog", "polaroid", "sticker")]
+[node name="ProfileWindow" type="Control" node_paths=PackedStringArray("name_label", "gold_label", "trophy_button", "photo", "plane_preview", "plane_name_label", "difficulty_picker", "edit_button", "delete_button", "profiles_grid", "profiles_count_label", "create_card", "create_overlay", "delete_dialog", "difficulty_change_overlay", "polaroid", "sticker")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -370,6 +371,7 @@ profiles_count_label = NodePath("Body/Pilots/Header/Count")
 create_card = NodePath("Body/Pilots/Grid/NewPilot")
 create_overlay = NodePath("CreateOverlay")
 delete_dialog = NodePath("DeleteDialog")
+difficulty_change_overlay = NodePath("DifficultyChangeOverlay")
 profile_card_scene = ExtResource("14_card")
 root_events = ExtResource("3_root")
 
@@ -759,3 +761,5 @@ target = NodePath("../Body/IdCard/VBox/Margin/VBox/PlaneButton")
 [node name="CreateOverlay" parent="." instance=ExtResource("13_overlay")]
 
 [node name="DeleteDialog" parent="." instance=ExtResource("12_confirm")]
+
+[node name="DifficultyChangeOverlay" parent="." instance=ExtResource("64_difficulty_change")]
