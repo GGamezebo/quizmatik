@@ -12,6 +12,14 @@ signal ev_changed(difficulty: StringName)
 var value: StringName = BattleDifficulty.NORMAL
 
 
+## Cards sit edge to edge: opt out of the host's hover pop (on touch it sticks and overlaps neighbours).
+## `_enter_tree` runs before any `HoverScaleBinder._ready` binds the subtree.
+func _enter_tree() -> void:
+	for button in [easy_button, normal_button, hard_button]:
+		if button != null:
+			button.set_meta(HoverScaleButton.META_BOUND, true)
+
+
 func _ready() -> void:
 	_wire(easy_button, BattleDifficulty.EASY)
 	_wire(normal_button, BattleDifficulty.NORMAL)
