@@ -3,7 +3,8 @@
 Run: python tools/generate_app_icon.py
 Writes assets/app_icon/: icon_512.png (main / web / desktop), adaptive_fg_432.png,
 adaptive_bg_432.png, adaptive_mono_432.png, icon_192.png, icon_180.png, icon_144.png,
-splash.png (boot splash). Plane sprite = starter column of
+splash.png (Godot boot splash, big: stretch Keep), splash_android.png (Android 12+ launch
+icon: main icon shrunk into the 2/3 safe circle). Plane sprite = starter column of
 src/features/plane/planes_atlas_spaced.png.
 """
 import math
@@ -186,6 +187,23 @@ def rounded(img, radius_frac=0.22, border=14):
     return out
 
 
+# Launchers show the central 72/108 of the adaptive canvas cut to their own mask: the icon art
+# (no frame, the mask is the shape) fills exactly that square; the sky background covers the rest.
+ADAPTIVE_ART_FRAC = 72 / 108
+
+# Android 12+ masks the launch icon to a circle of 2/3 of its canvas; a rounded square
+# (corner radius 0.22) fits that circle when its side <= ~0.54 of the canvas.
+ANDROID_SPLASH_FRAC = 0.52
+
+
+def padded(img, frac):
+    """img scaled to frac of the canvas, centered on transparent S x S."""
+    n = int(S * frac)
+    out = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    out.paste(img.resize((n, n), Image.LANCZOS), ((S - n) // 2, (S - n) // 2))
+    return out
+
+
 def save(img, name, size):
     os.makedirs(OUT, exist_ok=True)
     img.resize((size, size), Image.LANCZOS).save(os.path.join(OUT, name), optimize=True)
@@ -202,9 +220,11 @@ def main():
     save(main_icon, "icon_192.png", 192)
     save(main_icon, "icon_180.png", 180)
     save(main_icon, "icon_144.png", 144)
-    save(main_icon, "splash.png", 320)
+    save(padded(main_icon, 0.9), "splash.png", 1024)
+    save(padded(main_icon, ANDROID_SPLASH_FRAC), "splash_android.png", 432)
 
-    save(fg_adaptive, "adaptive_fg_432.png", 432)
+    # launcher: unframed art edge to edge, the launcher mask gives the shape
+    save(padded(Image.alpha_composite(bg, fg_main), ADAPTIVE_ART_FRAC), "adaptive_fg_432.png", 432)
     save(bg, "adaptive_bg_432.png", 432)
     mono = Image.new("RGBA", (S, S), (255, 255, 255, 0))
     mono.putalpha(fg_adaptive.getchannel("A").point(lambda v: 255 if v > 40 else 0))
