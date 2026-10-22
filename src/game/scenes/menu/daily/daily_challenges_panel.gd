@@ -5,6 +5,8 @@ extends Control
 ## New stamps since the card was last shown slam in (sound / vibration via `RootEvents`). 5/5 → the stamps
 ## glow and melt, «ЗОЛОТОЙ ПОЛЁТ» takes their place and the whole scroll breathes = one big button
 ## (once per UTC day; the cycle's last day = the long flight). Battle = `GoldenFlightScenario`.
+## New stamps wait while the card is hidden (menu remounted straight into the level grid after a battle):
+## they slam in only when the main menu window shows again.
 
 @export var daily_controller: DailyChallengesController
 @export var slots_row: HBoxContainer
@@ -42,6 +44,8 @@ var _event_listener = EventListener.new()
 var _pulse_tween: Tween
 ## Series animation running: refreshes (language switch, signals) must not cut it.
 var _celebrating: bool = false
+## First frame after mount: the menu may still open the level grid over this window (deferred).
+var _mounting: bool = true
 
 
 func _ready() -> void:
@@ -52,8 +56,20 @@ func _ready() -> void:
 		_event_listener.add(daily_controller.ev_daily_changed, refresh)
 	if scroll_button != null:
 		_event_listener.add(scroll_button.pressed, _on_flight_pressed)
+	_event_listener.add(visibility_changed, _on_visibility_changed)
 	refresh()
 	call_deferred("_fit_slot_sizes")
+	# Next frame, after the menu's deferred level-grid open (`menu.gd` `_open_level_select`).
+	get_tree().process_frame.connect(_on_first_frame, CONNECT_ONE_SHOT)
+
+
+func _on_first_frame() -> void:
+	call_deferred("_on_mounted")
+
+
+func _on_mounted() -> void:
+	_mounting = false
+	refresh()
 
 
 func refresh() -> void:
@@ -67,12 +83,27 @@ func refresh() -> void:
 		return
 	var completed: int = daily_controller.get_completed_count()
 	var animate_from: int = _seen_completed if _seen_completed >= 0 and completed > _seen_completed else completed
+	if animate_from < completed and (_mounting or not is_visible_in_tree()):
+		_hold_new_stamps(animate_from, completed)
+		return
 	_seen_completed = completed
 	var can_fly: bool = daily_controller.can_start_bonus_flight() and golden_flight_config != null
 	if animate_from < completed:
 		_play_new_stamps(animate_from, completed, can_fly)
 	else:
 		_show_state(can_fly)
+
+
+## Not seen yet: keep the new stamps off the paper until the card is on screen.
+func _hold_new_stamps(from: int, to: int) -> void:
+	_show_state(false)
+	for index in range(from, mini(to, _slots.size())):
+		_slots[index].set_shown(false)
+
+
+func _on_visibility_changed() -> void:
+	if is_visible_in_tree() and not _mounting:
+		refresh()
 
 
 func _notification(what: int) -> void:
