@@ -12,7 +12,7 @@
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="9_theme"]
 [ext_resource type="PackedScene" uid="uid://dfuy8tacmwqma" path="res://src/game/scenes/menu/training_room_window/ui/training_op_column.tscn" id="10_col"]
 [ext_resource type="PackedScene" uid="uid://dfu0abvkawqma" path="res://src/game/scenes/menu/training_room_window/ui/training_option_button.tscn" id="11_opt"]
-[ext_resource type="PackedScene" uid="uid://clanc5hb5o15m" path="res://src/game/scenes/menu/training_room_window/ui/training_stepper.tscn" id="12_stepper"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/training_room_window/ui/training_range_picker.tscn" id="12_picker"]
 [ext_resource type="Texture2D" uid="uid://c15dt2ao0kw4b" path="res://assets/ui/icons/btn_restart.png" id="13_reset"]
 [ext_resource type="Texture2D" uid="uid://baq6fntk2payd" path="res://src/game/scenes/menu/ui/btn_check.png" id="14_start"]
 [ext_resource type="Script" uid="uid://f6odaxaw13hf" path="res://src/ui/buttons/hover_scale_button.gd" id="15_hover"]
@@ -32,9 +32,9 @@ shader_parameter/shadow_blur = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
 content_margin_left = 16.0
-content_margin_top = 14.0
+content_margin_top = 12.0
 content_margin_right = 16.0
-content_margin_bottom = 14.0
+content_margin_bottom = 12.0
 bg_color = Color(0.97, 0.94, 0.88, 0.92)
 border_width_left = 1
 border_width_top = 1
@@ -46,7 +46,7 @@ corner_radius_top_right = 18
 corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
 
-[node name="TrainingRoomWindow" type="Control" node_paths=PackedStringArray("col_addition", "col_subtraction", "col_multiplication", "col_division", "difficulty_hint", "difficulty_easy", "difficulty_normal", "difficulty_hard", "timed_toggle", "custom_range_row", "custom_min_stepper", "custom_max_stepper", "reset_button", "start_battle_button")]
+[node name="TrainingRoomWindow" type="Control" node_paths=PackedStringArray("col_addition", "col_subtraction", "col_multiplication", "col_division", "mul_range_picker", "div_range_picker", "difficulty_hint", "difficulty_easy", "difficulty_normal", "difficulty_hard", "timed_toggle", "reset_button", "start_battle_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,14 +60,13 @@ col_addition = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard
 col_subtraction = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColSubtraction")
 col_multiplication = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColMultiplication")
 col_division = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColDivision")
+mul_range_picker = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColMultiplication/RangePicker")
+div_range_picker = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColDivision/RangePicker")
 difficulty_hint = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffHint")
 difficulty_easy = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/Easy")
 difficulty_normal = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/Normal")
 difficulty_hard = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/Hard")
 timed_toggle = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/TimedToggle")
-custom_range_row = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow")
-custom_min_stepper = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow/MinStepper")
-custom_max_stepper = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow/MaxStepper")
 reset_button = NodePath("CenterContainer/Stack/ActionsRow/ResetButton")
 start_battle_button = NodePath("CenterContainer/Stack/ActionsRow/StartPractice")
 
@@ -89,18 +88,40 @@ grow_vertical = 2
 
 [node name="Stack" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 8
 alignment = 1
 
-[node name="TitleVBox" type="VBoxContainer" parent="CenterContainer/Stack"]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="TitleStack" type="Control" parent="CenterContainer/Stack/TitleVBox"]
-custom_minimum_size = Vector2(0, 52)
+[node name="Panel" type="Control" parent="CenterContainer/Stack"]
+custom_minimum_size = Vector2(1100, 604)
 layout_mode = 2
 
-[node name="TitleFill" type="Label" parent="CenterContainer/Stack/TitleVBox/TitleStack"]
+[node name="Frame" type="NinePatchRect" parent="CenterContainer/Stack/Panel"]
+material = SubResource("ShaderMaterial_sticker")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_frame")
+patch_margin_left = 70
+patch_margin_top = 60
+patch_margin_right = 70
+patch_margin_bottom = 60
+
+[node name="TitleStack" type="Control" parent="CenterContainer/Stack/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -260.0
+offset_top = 16.0
+offset_right = 260.0
+offset_bottom = 66.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="TitleFill" type="Label" parent="CenterContainer/Stack/Panel/TitleStack"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -118,7 +139,7 @@ text = "ПРАКТИКА"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TitleBanner" type="Label" parent="CenterContainer/Stack/TitleVBox/TitleStack"]
+[node name="TitleBanner" type="Label" parent="CenterContainer/Stack/Panel/TitleStack"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -135,32 +156,6 @@ text = "ПРАКТИКА"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Subtitle" type="Label" parent="CenterContainer/Stack/TitleVBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38, 0.42, 0.48, 1)
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 15
-text = "Настрой практику под себя и улучшай навыки"
-horizontal_alignment = 1
-
-[node name="Panel" type="Control" parent="CenterContainer/Stack"]
-custom_minimum_size = Vector2(980, 520)
-layout_mode = 2
-
-[node name="Frame" type="NinePatchRect" parent="CenterContainer/Stack/Panel"]
-material = SubResource("ShaderMaterial_sticker")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_frame")
-patch_margin_left = 70
-patch_margin_top = 60
-patch_margin_right = 70
-patch_margin_bottom = 60
-
 [node name="BodyMargin" type="MarginContainer" parent="CenterContainer/Stack/Panel"]
 layout_mode = 1
 anchors_preset = 15
@@ -169,9 +164,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 28
+theme_override_constants/margin_top = 70
 theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 28
+theme_override_constants/margin_bottom = 24
 
 [node name="MainVBox" type="VBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin"]
 layout_mode = 2
@@ -186,7 +181,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
 [node name="OpsVBox" type="VBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="OpsTitle" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox"]
 layout_mode = 2
@@ -210,7 +205,15 @@ layout_mode = 2
 [node name="ColMultiplication" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
 layout_mode = 2
 
+[node name="RangePicker" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColMultiplication" instance=ExtResource("12_picker")]
+visible = false
+layout_mode = 2
+
 [node name="ColDivision" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
+layout_mode = 2
+
+[node name="RangePicker" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColDivision" instance=ExtResource("12_picker")]
+visible = false
 layout_mode = 2
 
 [node name="DiffCard" type="PanelContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox"]
@@ -221,84 +224,44 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="DiffTitle" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 16
-text = "✦  СЛОЖНОСТЬ  ✦"
-horizontal_alignment = 1
-
 [node name="DiffHint" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.38, 0.42, 0.48, 1)
 theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 15
 text = "Средний темп, стандартное время на пример"
 horizontal_alignment = 1
 
 [node name="DiffRow" type="HBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox"]
 layout_mode = 2
 theme_override_constants/separation = 12
-alignment = 1
 
 [node name="Easy" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
-custom_minimum_size = Vector2(160, 44)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 caption = "ЛЕГКО"
 option_id = &"easy"
 
 [node name="Normal" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
-custom_minimum_size = Vector2(160, 44)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 caption = "НОРМАЛЬНО"
 option_id = &"normal"
 
 [node name="Hard" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
-custom_minimum_size = Vector2(160, 44)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 caption = "СЛОЖНО"
 option_id = &"hard"
 
 [node name="TimedToggle" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
-custom_minimum_size = Vector2(170, 44)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
-theme_override_constants/icon_max_width = 26
+theme_override_constants/icon_max_width = 28
 icon = ExtResource("20_clock")
 caption = "НА ВРЕМЯ"
 option_id = &"timed"
 is_switch = true
-
-[node name="CustomRangeRow" type="HBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox"]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 10
-alignment = 1
-
-[node name="CustomLabel" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 14
-text = "Свой диапазон:"
-
-[node name="MinCaption" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 14
-text = "мин"
-
-[node name="MinStepper" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow" instance=ExtResource("12_stepper")]
-layout_mode = 2
-
-[node name="MaxCaption" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 14
-text = "макс"
-
-[node name="MaxStepper" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/CustomRangeRow" instance=ExtResource("12_stepper")]
-layout_mode = 2
 
 [node name="ActionsRow" type="HBoxContainer" parent="CenterContainer/Stack"]
 layout_mode = 2
@@ -307,7 +270,7 @@ alignment = 1
 
 [node name="ResetButton" type="TextureButton" parent="CenterContainer/Stack/ActionsRow"]
 material = SubResource("ShaderMaterial_action")
-custom_minimum_size = Vector2(112, 112)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 focus_mode = 0
@@ -318,7 +281,7 @@ script = ExtResource("15_hover")
 
 [node name="StartPractice" type="TextureButton" parent="CenterContainer/Stack/ActionsRow"]
 material = SubResource("ShaderMaterial_action")
-custom_minimum_size = Vector2(112, 112)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 focus_mode = 0

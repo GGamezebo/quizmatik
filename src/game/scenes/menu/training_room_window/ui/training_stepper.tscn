@@ -4,76 +4,104 @@
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_step_btn"]
-bg_color = Color(0.96, 0.93, 0.87, 1)
-border_color = Color(0.165, 0.2, 0.251, 0.16)
+content_margin_left = 6.0
+content_margin_top = 0.0
+content_margin_right = 6.0
+content_margin_bottom = 2.0
+bg_color = Color(0.98, 0.95, 0.9, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-content_margin_left = 6
-content_margin_top = 2
-content_margin_right = 6
-content_margin_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.18)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_step_btn_pressed"]
+content_margin_left = 6.0
+content_margin_top = 0.0
+content_margin_right = 6.0
+content_margin_bottom = 2.0
+bg_color = Color(0.878, 0.82, 0.702, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.165, 0.2, 0.251, 0.22)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_value"]
-bg_color = Color(0.99, 0.97, 0.94, 1)
-border_color = Color(0.165, 0.2, 0.251, 0.12)
+content_margin_left = 4.0
+content_margin_top = 2.0
+content_margin_right = 4.0
+content_margin_bottom = 2.0
+bg_color = Color(1, 0.99, 0.97, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-content_margin_left = 10
-content_margin_top = 4
-content_margin_right = 10
-content_margin_bottom = 4
+border_color = Color(0.165, 0.2, 0.251, 0.12)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
-[node name="TrainingStepper" type="HBoxContainer" node_paths=PackedStringArray("minus_button", "value_label", "plus_button")]
-layout_mode = 2
-theme_override_constants/separation = 6
+[node name="TrainingStepper" type="HBoxContainer" node_paths=PackedStringArray("minus_button", "value_label", "plus_button", "repeat_timer")]
+theme_override_constants/separation = 4
 script = ExtResource("1_script")
 minus_button = NodePath("Minus")
 value_label = NodePath("Value")
 plus_button = NodePath("Plus")
+repeat_timer = NodePath("RepeatTimer")
 
 [node name="Minus" type="Button" parent="."]
-custom_minimum_size = Vector2(34, 34)
+custom_minimum_size = Vector2(48, 40)
 layout_mode = 2
+focus_mode = 0
 theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_hover_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_pressed_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_step_btn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_step_btn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_step_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_step_btn_pressed")
 theme_override_styles/focus = SubResource("StyleBoxFlat_step_btn")
 text = "−"
 
 [node name="Value" type="Label" parent="."]
-custom_minimum_size = Vector2(52, 34)
+custom_minimum_size = Vector2(46, 40)
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_value")
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Plus" type="Button" parent="."]
-custom_minimum_size = Vector2(34, 34)
+custom_minimum_size = Vector2(48, 40)
 layout_mode = 2
+focus_mode = 0
 theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_hover_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_pressed_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 20
+theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_step_btn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_step_btn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_step_btn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_step_btn_pressed")
 theme_override_styles/focus = SubResource("StyleBoxFlat_step_btn")
 text = "+"
+
+[node name="RepeatTimer" type="Timer" parent="."]
+one_shot = true
