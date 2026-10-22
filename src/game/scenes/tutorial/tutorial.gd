@@ -92,6 +92,10 @@ func deinit() -> void:
 
 
 func on_event(event_name: String, _data: Dictionary) -> void:
+	# Battle left / remounted without an FSM state change (pause → exit): drop in-battle hints + dim.
+	if event_name in ["ev.exit_game", "ev.start_game", "ev.open_menu"]:
+		battle_coach.stop()
+		battle_tips.stop()
 	match event_name:
 		"ev.open_menu":
 			_in_menu = true
