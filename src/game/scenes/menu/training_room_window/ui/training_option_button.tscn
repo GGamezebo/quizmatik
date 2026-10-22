@@ -4,8 +4,8 @@
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
 
 [node name="TrainingOptionButton" type="Button"]
-custom_minimum_size = Vector2(0, 40)
+custom_minimum_size = Vector2(0, 48)
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 17
 script = ExtResource("1_script")

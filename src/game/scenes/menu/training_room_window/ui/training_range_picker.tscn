@@ -1,0 +1,67 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/training_room_window/ui/training_range_picker.gd" id="1_script"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/training_room_window/ui/training_stepper.tscn" id="3_stepper"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_picker"]
+content_margin_left = 6.0
+content_margin_top = 5.0
+content_margin_right = 6.0
+content_margin_bottom = 5.0
+bg_color = Color(0.87, 0.92, 0.8, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.45, 0.58, 0.38, 0.55)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[node name="TrainingRangePicker" type="PanelContainer" node_paths=PackedStringArray("min_stepper", "max_stepper")]
+theme_override_styles/panel = SubResource("StyleBoxFlat_picker")
+script = ExtResource("1_script")
+min_stepper = NodePath("Rows/MinRow/MinStepper")
+max_stepper = NodePath("Rows/MaxRow/MaxStepper")
+
+[node name="Rows" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="MinRow" type="HBoxContainer" parent="Rows"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="MinCaption" type="Label" parent="Rows/MinRow"]
+custom_minimum_size = Vector2(42, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.32, 0.2, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 15
+text = "мин"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MinStepper" parent="Rows/MinRow" instance=ExtResource("3_stepper")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MaxRow" type="HBoxContainer" parent="Rows"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="MaxCaption" type="Label" parent="Rows/MaxRow"]
+custom_minimum_size = Vector2(42, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.22, 0.32, 0.2, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 15
+text = "макс"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MaxStepper" parent="Rows/MaxRow" instance=ExtResource("3_stepper")]
+layout_mode = 2
+size_flags_horizontal = 3

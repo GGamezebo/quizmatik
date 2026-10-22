@@ -20,6 +20,8 @@ const MUL_DIV_OPTIONS: Array = [
 	{"id": &"custom", "caption": "Выбери сам", "min": -1, "max": -1},
 ]
 
+const DEFAULT_CUSTOM_RANGE := Vector2i(1, 15)
+
 const DIFFICULTY_COPY: Dictionary = {
 	&"easy": "Спокойный темп, больше времени на пример",
 	&"normal": "Средний темп; со второй половины — примеры с пропуском",
@@ -42,9 +44,9 @@ const DIFFICULTY_COPY: Dictionary = {
 @export var timed_toggle: TrainingOptionButton
 @export var timed_practice_sec: float = 60.0
 @export_group("Custom range")
-@export var custom_range_row: Control
-@export var custom_min_stepper: TrainingStepper
-@export var custom_max_stepper: TrainingStepper
+## «Выбери сам» pickers under the × / ÷ columns; shown only while that column picks `custom`.
+@export var mul_range_picker: TrainingRangePicker
+@export var div_range_picker: TrainingRangePicker
 @export_group("Question types")
 ## Share of `? + 3 = 7` questions per practice difficulty (practice only; campaign uses level `.tres`).
 @export var missing_operand_chance_by_difficulty: Dictionary = {"easy": 0.0, "normal": 0.3, "hard": 0.4}
@@ -65,8 +67,10 @@ var _op_ids: Dictionary = {
 }
 var _difficulty: StringName = &"normal"
 var _timed: bool = false
-var _custom_min: int = 1
-var _custom_max: int = 15
+var _custom_ranges: Dictionary = {
+	&"multiplication": DEFAULT_CUSTOM_RANGE,
+	&"division": DEFAULT_CUSTOM_RANGE,
+}
 var _syncing: bool = false
 var _difficulty_base: GameConfig
 
@@ -150,36 +154,19 @@ func _on_timed_toggled(is_on: bool) -> void:
 
 
 func _bind_custom_range() -> void:
-	if custom_min_stepper != null:
-		custom_min_stepper.step = 1.0
-		custom_min_stepper.min_value = 1.0
-		custom_min_stepper.max_value = 100.0
-		custom_min_stepper.decimals = 0
-		custom_min_stepper.value_changed.connect(func(v: float):
-			if _syncing:
-				return
-			_custom_min = int(v)
-			if _custom_max < _custom_min:
-				_custom_max = _custom_min
-				if custom_max_stepper != null:
-					custom_max_stepper.set_value(_custom_max)
-			_on_ui_changed()
-		)
-	if custom_max_stepper != null:
-		custom_max_stepper.step = 1.0
-		custom_max_stepper.min_value = 1.0
-		custom_max_stepper.max_value = 100.0
-		custom_max_stepper.decimals = 0
-		custom_max_stepper.value_changed.connect(func(v: float):
-			if _syncing:
-				return
-			_custom_max = int(v)
-			if _custom_min > _custom_max:
-				_custom_min = _custom_max
-				if custom_min_stepper != null:
-					custom_min_stepper.set_value(_custom_min)
-			_on_ui_changed()
-		)
+	_wire_range_picker(mul_range_picker, &"multiplication")
+	_wire_range_picker(div_range_picker, &"division")
+
+
+func _wire_range_picker(picker: TrainingRangePicker, key: StringName) -> void:
+	if picker == null:
+		return
+	picker.range_changed.connect(func(min_value: int, max_value: int):
+		if _syncing:
+			return
+		_custom_ranges[key] = Vector2i(min_value, max_value)
+		_on_ui_changed()
+	)
 
 
 func _on_ui_changed() -> void:
@@ -203,10 +190,10 @@ func _sync_ui() -> void:
 	_set_difficulty_buttons(_difficulty)
 	if timed_toggle != null:
 		timed_toggle.set_selected(_timed)
-	if custom_min_stepper != null:
-		custom_min_stepper.set_value(_custom_min)
-	if custom_max_stepper != null:
-		custom_max_stepper.set_value(_custom_max)
+	if mul_range_picker != null:
+		mul_range_picker.set_range(_custom_ranges[&"multiplication"].x, _custom_ranges[&"multiplication"].y)
+	if div_range_picker != null:
+		div_range_picker.set_range(_custom_ranges[&"division"].x, _custom_ranges[&"division"].y)
 	_refresh_custom_range_visibility()
 	_refresh_difficulty_hint()
 	_syncing = false
@@ -235,12 +222,10 @@ func _refresh_difficulty_hint() -> void:
 
 
 func _refresh_custom_range_visibility() -> void:
-	var need_custom: bool = (
-		_op_ids[&"multiplication"] == &"custom"
-		or _op_ids[&"division"] == &"custom"
-	)
-	if custom_range_row != null:
-		custom_range_row.visible = need_custom
+	if mul_range_picker != null:
+		mul_range_picker.visible = _op_ids[&"multiplication"] == &"custom"
+	if div_range_picker != null:
+		div_range_picker.visible = _op_ids[&"division"] == &"custom"
 
 
 func _range_for_op(key: StringName) -> Vector2i:
@@ -248,7 +233,8 @@ func _range_for_op(key: StringName) -> Vector2i:
 	if id == &"off":
 		return Vector2i(0, 0)
 	if id == &"custom":
-		return Vector2i(_custom_min, maxi(_custom_min, _custom_max))
+		var custom: Vector2i = _custom_ranges.get(key, DEFAULT_CUSTOM_RANGE)
+		return Vector2i(custom.x, maxi(custom.x, custom.y))
 	var table: Array = ADD_SUB_OPTIONS if key == &"addition" or key == &"subtraction" else MUL_DIV_OPTIONS
 	for entry in table:
 		if entry["id"] == id:
@@ -325,8 +311,10 @@ func _on_reset_setting_pressed() -> void:
 	}
 	_difficulty = &"normal"
 	_timed = false
-	_custom_min = 1
-	_custom_max = 15
+	_custom_ranges = {
+		&"multiplication": DEFAULT_CUSTOM_RANGE,
+		&"division": DEFAULT_CUSTOM_RANGE,
+	}
 	_sync_ui()
 	_apply_to_config()
 	_save_all()
@@ -367,8 +355,14 @@ func _load_ui_presets() -> void:
 	_op_ids[&"division"] = StringName(str(data.get("division", "off")))
 	_difficulty = StringName(str(data.get("difficulty", "normal")))
 	_timed = bool(data.get("timed", false))
-	_custom_min = int(data.get("custom_min", 1))
-	_custom_max = int(data.get("custom_max", 15))
+	# Old saves kept one shared custom range (`custom_min` / `custom_max`) for × and ÷.
+	var shared := Vector2i(
+		int(data.get("custom_min", DEFAULT_CUSTOM_RANGE.x)),
+		int(data.get("custom_max", DEFAULT_CUSTOM_RANGE.y)))
+	for key: StringName in [&"multiplication", &"division"]:
+		_custom_ranges[key] = Vector2i(
+			int(data.get(String(key) + "_custom_min", shared.x)),
+			int(data.get(String(key) + "_custom_max", shared.y)))
 
 
 func _save_all() -> void:
@@ -380,6 +374,8 @@ func _save_all() -> void:
 		"division": String(_op_ids[&"division"]),
 		"difficulty": String(_difficulty),
 		"timed": _timed,
-		"custom_min": _custom_min,
-		"custom_max": _custom_max,
+		"multiplication_custom_min": _custom_ranges[&"multiplication"].x,
+		"multiplication_custom_max": _custom_ranges[&"multiplication"].y,
+		"division_custom_min": _custom_ranges[&"division"].x,
+		"division_custom_max": _custom_ranges[&"division"].y,
 	})

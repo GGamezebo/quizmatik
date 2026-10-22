@@ -6,7 +6,7 @@
 
 [node name="TrainingOpColumn" type="VBoxContainer" node_paths=PackedStringArray("title_label", "options_box")]
 size_flags_horizontal = 3
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 script = ExtResource("1_script")
 title_label = NodePath("Title")
 options_box = NodePath("Options")
@@ -16,7 +16,7 @@ option_button_scene = ExtResource("3_opt")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 16
 text = "ОПЕРАЦИЯ"
 horizontal_alignment = 1
 
