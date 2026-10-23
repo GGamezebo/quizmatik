@@ -147,8 +147,16 @@ var endless_best_sec: int = 0
 @export_category("Boss")
 ## Chance of the boss airship after the last regular answer (exam = 1; 0 = never). Ignored on timed levels.
 @export_range(0.0, 1.0, 0.05) var boss_chance: float = 0.0
+## Timed battles only: chance that the boss comes once the time is up (0 = never); `boss_chance` is ignored there.
+@export_range(0.0, 1.0, 0.05) var timed_boss_chance: float = 0.0
 ## Correct answers needed to knock all armor plates off the boss.
 @export_range(1, 12) var boss_armor: int = 3
+## Above `boss_armor` → armor rolled per battle in `boss_armor`..`boss_armor_max` (0 = fixed).
+@export_range(0, 12) var boss_armor_max: int = 0
+## Chance that the boss is the royal one (on top of `boss_royal`); its armor rolls in the royal range below.
+@export_range(0.0, 1.0, 0.05) var boss_royal_chance: float = 0.0
+@export_range(1, 12) var boss_royal_armor_min: int = 4
+@export_range(1, 12) var boss_royal_armor_max: int = 6
 ## After the last plate the boss gets angry and creeps toward the plane: shots needed to bring it down.
 ## 0 = no angry phase (the last plate brings it down).
 @export_range(0, 60) var boss_rage_hits: int = 15

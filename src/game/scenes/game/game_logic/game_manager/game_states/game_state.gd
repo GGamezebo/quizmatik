@@ -54,7 +54,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_bonus = BonusController.new(game_config, area, bonus_scene, game_manager.owner)
 	_heart = HeartController.new(game_config, area, heart_scene, game_manager.owner)
 	var boss_packed: PackedScene = exam_boss_scene if game_config.boss_royal and exam_boss_scene != null else boss_scene
-	_boss = BossController.new(game_config, area, boss_packed, game_manager.owner)
+	_boss = BossController.new(game_config, area, boss_packed, game_manager.owner, exam_boss_scene)
 	_time_limit = BattleTimeLimit.new(game_config.time_limit_sec)
 	_endless = EndlessDirector.new(game_config)
 	_golden = GoldenFlightController.new(game_config, area, bonus_scene, golden_choice_scene, game_manager.owner, game_manager.get_tree())
@@ -276,8 +276,14 @@ func _apply_damage() -> void:
 
 
 ## Timed end; golden flight first waits for the final pick (`GoldenFlightController.ev_finished`).
+## A rolled boss (`timed_boss_chance`) flies in first: the balloons pop, no new round until it is in place.
 func _on_time_expired() -> void:
 	if not _golden.is_active():
+		if _boss.is_waiting():
+			_round_controller.hold_rounds()
+			_round_controller.kill_all_answers()
+			_boss.start()
+			return
 		_end_game()
 		return
 	_round_controller.finish()
