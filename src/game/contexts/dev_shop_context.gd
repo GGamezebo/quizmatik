@@ -10,6 +10,8 @@ const AD_SEC := 0.6
 
 var _model: String = ""
 var _listener: EventListener = EventListener.new()
+## Model play also answers rating like `GooglePlayContext` (real Play Core calls on a phone).
+var _rating: PlayRating = PlayRating.new()
 var _is_alive: bool = true
 
 
@@ -23,6 +25,9 @@ func _enter() -> void:
 	if _model == "play":
 		services.set_content_locked(true)
 		services.set_offer(PlatformServices.OFFER_FULL_VERSION, "$2.99")
+		_listener.add(services.ev_request_review, _rating.request_review)
+		_listener.add(services.ev_request_rate_page, _rating.open_store_page)
+		services.set_rate(true)
 	else:
 		services.set_ads(true, true)
 		services.set_offer(PlatformServices.OFFER_NO_ADS, "199 ₽")
@@ -36,6 +41,7 @@ func deinit() -> void:
 		services.set_ads(false, false)
 		services.set_offer(&"", "")
 		services.set_content_locked(false)
+		services.set_rate(false)
 	super.deinit()
 
 

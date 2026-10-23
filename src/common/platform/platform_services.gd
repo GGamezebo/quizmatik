@@ -28,6 +28,12 @@ extends Resource
 ## Game → platform: store this envelope in the cloud (fire and forget; failures retried by the next push).
 @warning_ignore("unused_signal") signal ev_request_cloud_push(json: String)
 
+## Game → store: the store's own in-app review sheet. The store decides whether it shows (quota), no answer;
+## never from a button (nothing may happen) — buttons use `ev_request_rate_page`.
+@warning_ignore("unused_signal") signal ev_request_review
+## Game → store: open the game's store page to rate it (button).
+@warning_ignore("unused_signal") signal ev_request_rate_page
+
 ## Offer kinds (one paid offer per store).
 const OFFER_NO_ADS := &"no_ads"
 const OFFER_FULL_VERSION := &"full_version"
@@ -48,6 +54,8 @@ var offer_price: String = ""
 ## true only while a freemium store reports the full version NOT owned → paid valleys locked.
 ## Default false: no store / store unreachable → everything open.
 var is_content_locked: bool = false
+## true while a store context answers `ev_request_review` / `ev_request_rate_page`.
+var can_rate: bool = false
 
 
 ## Called only by platform contexts (on SDK ready / on deinit).
@@ -56,6 +64,14 @@ func set_ads(interstitial: bool, rewarded: bool) -> void:
 		return
 	can_interstitial = interstitial
 	can_rewarded = rewarded
+	ev_caps_changed.emit()
+
+
+## Called only by store platform contexts (`GooglePlayContext`, fake `DevShopContext`; on enter / deinit).
+func set_rate(enabled: bool) -> void:
+	if can_rate == enabled:
+		return
+	can_rate = enabled
 	ev_caps_changed.emit()
 
 
