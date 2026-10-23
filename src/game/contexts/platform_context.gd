@@ -26,8 +26,8 @@ func _enter() -> void:
 	pass
 
 
-func open_child(event_name: String) -> void:
-	add_event(event_name, data)
+func open_child(event_name: String, extra: Dictionary = {}) -> void:
+	add_event(event_name, data.merged(extra))
 
 
 ## Opens the store's `*Shop` child (ads + purchases). The single monetization kill switch:

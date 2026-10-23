@@ -68,7 +68,8 @@
 								"states": {
 									"RuStoreShop": { "context": "RuStoreShopContext", "enter": ["ev.open_shop"] }
 								}
-							}
+							},
+							"AndroidDevShop": { "context": "DevShopContext", "enter": ["ev.open_dev_shop"] }
 						}
 					},
 					"Desktop": {

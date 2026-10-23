@@ -1,9 +1,10 @@
 class_name DevShopContext
 extends PlatformContext
 
-## `Platform/Desktop/DevShop` (editor only, `--dev-shop=yandex|play`): fake store answering PlatformServices
-## like YandexShop / GooglePlayShop — ads «play» for a moment and always reward, purchase always succeeds.
-## Never in exports (DesktopContext opens it only with feature `editor`).
+## Fake store answering PlatformServices like YandexShop / GooglePlayShop — ads «play» for a moment and
+## always reward, purchase always succeeds (until restart). `Platform/Desktop/DevShop`: editor only,
+## `--dev-shop=yandex|play`. `Platform/Android/AndroidDevShop`: export feature `dev_shop` (preset `Android-Test-Shop`),
+## model play. Never in release presets.
 
 const AD_SEC := 0.6
 

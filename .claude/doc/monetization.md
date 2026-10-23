@@ -77,11 +77,14 @@
 | `Web` | тестеры (itch.io / GitHub Pages) | нет |
 | `Web-Yandex-Test` | тестеры в черновике Яндекса (SDK работает) | нет (`no_monetization`) |
 | `Android-Test` | тестеры Android (`com.quizmatic.app.test`) | нет |
+| `Android-Test-Shop` | проверить покупку на своём телефоне (`com.quizmatic.app.testshop`, «Jet Math Shop Test») | заглушка Play: платные долины, окно покупки; «покупка» всегда успешна и держится до перезапуска |
 | `Web-Yandex` | релиз Яндекс | есть |
 | `Android` | релиз Google Play | есть |
 | `Android-RuStore` | релиз RuStore (APK, фича `rustore`) | есть |
 
 Отключить монетизацию в любой сборке: добавить `no_monetization` в Custom Features пресета.
+
+Проверка на телефоне без Google Play — пресет `Android-Test-Shop` (фича `dev_shop`): та же заглушка, что `--dev-shop=play` в редакторе. Не для релиза и не для тестеров.
 
 Проверка в редакторе без магазина: Project Settings → Run → Main Run Args: `-- --dev-shop=yandex` или `-- --dev-shop=play` — поднимется фейковый магазин (реклама «длится» 0.6 с, покупка всегда успешна).
 
