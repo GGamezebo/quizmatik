@@ -6,6 +6,7 @@ extends Node
 ## In battle (GameEvents): boss fly-in crossfades to boss_music; timed level's last seconds speed the
 ## music up; win / lose fades it out so the stingers are heard before the result theme.
 ## Endless battle: boss down → back to the battle theme; a new record plays the win theme.
+## `ev_celebration_music(true)` (purchase thank-you) → celebration theme, `false` → what played before.
 
 @export var root_events: RootEvents
 @export var game_events: GameEvents
@@ -16,6 +17,8 @@ extends Node
 @export var boss_music: AudioStream
 @export var win_music: AudioStream
 @export var lose_music: AudioStream
+## Overlay celebration theme; empty → win_music.
+@export var celebration_music: AudioStream
 @export var background_volume_db: float = -7.69
 @export var result_volume_db: float = -5.0
 
@@ -34,6 +37,9 @@ var _faded: bool = false
 var _tween: Tween = null
 ## Theme of the running battle (boss down → back to it).
 var _battle_stream: AudioStream = null
+## What played before `ev_celebration_music(true)` (null = no celebration running).
+var _resume_stream: AudioStream = null
+var _resume_is_result: bool = false
 
 
 func _ready() -> void:
@@ -41,6 +47,7 @@ func _ready() -> void:
 		_listener.add(root_events.ev_exit_game, _on_exit_game)
 		_listener.add(root_events.ev_return_to_menu, _on_return_to_menu)
 		_listener.add(root_events.ev_start_game, _on_start_game)
+		_listener.add(root_events.ev_celebration_music, _on_celebration_music)
 	if game_events:
 		_listener.add(game_events.ev_boss_appeared, _on_boss_appeared)
 		_listener.add(game_events.ev_boss_defeated, _on_boss_defeated)
@@ -55,7 +62,7 @@ func _exit_tree() -> void:
 
 
 func _prepare_loops() -> void:
-	for stream in [win_music, lose_music, background_music, battle_music, exam_music, boss_music]:
+	for stream in [win_music, lose_music, background_music, battle_music, exam_music, boss_music, celebration_music]:
 		_enable_loop(stream)
 
 
@@ -75,10 +82,12 @@ func _on_exit_game(data: Dictionary = {}) -> void:
 
 
 func _on_return_to_menu(_data: Dictionary = {}) -> void:
+	_resume_stream = null
 	_play_loop(background_music)
 
 
 func _on_start_game(data: Dictionary = {}) -> void:
+	_resume_stream = null
 	var battle_info = data.get("battle_info")
 	if battle_info is GameConfig.BattleInfo and battle_info.is_exam and exam_music:
 		_battle_stream = exam_music
@@ -87,6 +96,25 @@ func _on_start_game(data: Dictionary = {}) -> void:
 	else:
 		_battle_stream = background_music
 	_play_loop(_battle_stream)
+
+
+func _on_celebration_music(is_on: bool) -> void:
+	if music_player == null:
+		return
+	if is_on:
+		if _resume_stream == null:
+			_resume_stream = music_player.stream
+			_resume_is_result = _playing_result
+		_play_result(celebration_music if celebration_music else win_music)
+		return
+	if _resume_stream == null:
+		return
+	var stream := _resume_stream
+	_resume_stream = null
+	if _resume_is_result:
+		_play_result(stream)
+	else:
+		_play_loop(stream)
 
 
 func _on_boss_appeared(_armor: int) -> void:

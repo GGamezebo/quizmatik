@@ -18,3 +18,5 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_daily_stamp_landed(completes_series: bool)
 ## Menu daily card: the stamps turned into «ЗОЛОТОЙ ПОЛЁТ» → SFX / vibration.
 @warning_ignore("unused_signal") signal ev_daily_series_shown
+## Overlay celebration (thank-you after a purchase) on / off → MusicController joyful theme, then back.
+@warning_ignore("unused_signal") signal ev_celebration_music(is_on: bool)

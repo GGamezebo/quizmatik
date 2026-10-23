@@ -250,7 +250,49 @@ font_color = Color(0.165, 0.2, 0.251, 1)
 font_size = 26
 font_color = Color(0.165, 0.2, 0.251, 1)
 
-[node name="PaywallDialog" type="CanvasLayer" node_paths=PackedStringArray("progress", "screen", "title_label", "message_label", "status_label", "buy_button", "close_button", "scroll", "scroll_fade", "valley_box", "valley_art", "valley_name_label", "valley_info_label", "progress_box", "progress_header", "time_tile", "solved_tile", "levels_tile", "accuracy_tile", "facts_box", "fact_chips", "unlocks_box", "valley_cards", "offer_page", "thanks_page", "thanks_label", "rate_button", "rate_hint", "play_button")]
+[sub_resource type="Gradient" id="Gradient_confetti"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_confetti"]
+gradient = SubResource("Gradient_confetti")
+width = 10
+height = 16
+
+[sub_resource type="Gradient" id="Gradient_spark"]
+offsets = PackedFloat32Array(0, 0.45, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.85, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_spark"]
+gradient = SubResource("Gradient_spark")
+width = 18
+height = 18
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="Curve" id="Curve_confetti_twist"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.125, -1), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(0.375, -1), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(0.625, -1), 0.0, 0.0, 0, 0, Vector2(0.75, 1), 0.0, 0.0, 0, 0, Vector2(0.875, -1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 9
+
+[sub_resource type="Curve" id="Curve_confetti_y"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_spark_scale"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.3), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_party_colors"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8)
+colors = PackedColorArray(0.941, 0.788, 0.29, 1, 0.91, 0.353, 0.353, 1, 0.22, 0.6, 0.35, 1, 0.341, 0.553, 0.851, 1, 0.71, 0.455, 0.843, 1)
+
+[sub_resource type="Gradient" id="Gradient_party_fade"]
+offsets = PackedFloat32Array(0, 0.75, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="PaywallDialog" type="CanvasLayer" node_paths=PackedStringArray("progress", "screen", "title_label", "message_label", "status_label", "buy_button", "close_button", "scroll", "scroll_fade", "valley_box", "valley_art", "valley_name_label", "valley_info_label", "progress_box", "progress_header", "time_tile", "solved_tile", "levels_tile", "accuracy_tile", "facts_box", "fact_chips", "unlocks_box", "valley_cards", "offer_page", "thanks_page", "thanks_label", "rate_button", "rate_hint", "play_button", "thanks_stamp", "celebration_bursts")]
 layer = 20
 visible = false
 script = ExtResource("1_script")
@@ -287,6 +329,8 @@ thanks_label = NodePath("Screen/CenterContainer/Panel/Thanks/Bought")
 rate_button = NodePath("Screen/CenterContainer/Panel/Thanks/Buttons/Rate")
 rate_hint = NodePath("Screen/CenterContainer/Panel/Thanks/RateHint")
 play_button = NodePath("Screen/CenterContainer/Panel/Thanks/Buttons/Play")
+thanks_stamp = NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/Stamp")
+celebration_bursts = [NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/ConfettiLeft"), NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/ConfettiRight"), NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/FireworkLeft"), NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/FireworkRight")]
 
 [node name="ProgressController" parent="." instance=ExtResource("9_progress")]
 
@@ -436,6 +480,7 @@ autowrap_mode = 3
 
 [node name="Progress" type="PanelContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_section")
 
 [node name="VBox" type="VBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress"]
@@ -740,14 +785,126 @@ layout_mode = 2
 theme_override_constants/separation = 18
 alignment = 1
 
-[node name="Stamp" type="TextureRect" parent="Screen/CenterContainer/Panel/Thanks"]
+[node name="StampBox" type="Control" parent="Screen/CenterContainer/Panel/Thanks"]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
+
+[node name="Stamp" type="TextureRect" parent="Screen/CenterContainer/Panel/Thanks/StampBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(75, 75)
+mouse_filter = 2
 texture = ExtResource("19_stamp_heart")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="ConfettiLeft" type="CPUParticles2D" parent="Screen/CenterContainer/Panel/Thanks/StampBox"]
+position = Vector2(-20, 100)
+emitting = false
+amount = 56
+lifetime = 1.7
+one_shot = true
+explosiveness = 0.92
+randomness = 0.3
+texture = SubResource("GradientTexture2D_confetti")
+emission_shape = 1
+emission_sphere_radius = 10.0
+direction = Vector2(-1, -0.9)
+spread = 30.0
+gravity = Vector2(0, 650)
+initial_velocity_min = 280.0
+initial_velocity_max = 520.0
+angular_velocity_min = -420.0
+angular_velocity_max = 420.0
+damping_min = 20.0
+damping_max = 50.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.6
+scale_amount_max = 1.1
+split_scale = true
+scale_curve_x = SubResource("Curve_confetti_twist")
+scale_curve_y = SubResource("Curve_confetti_y")
+color_ramp = SubResource("Gradient_party_fade")
+color_initial_ramp = SubResource("Gradient_party_colors")
+
+[node name="ConfettiRight" type="CPUParticles2D" parent="Screen/CenterContainer/Panel/Thanks/StampBox"]
+position = Vector2(170, 100)
+emitting = false
+amount = 56
+lifetime = 1.7
+one_shot = true
+explosiveness = 0.92
+randomness = 0.3
+texture = SubResource("GradientTexture2D_confetti")
+emission_shape = 1
+emission_sphere_radius = 10.0
+direction = Vector2(1, -0.9)
+spread = 30.0
+gravity = Vector2(0, 650)
+initial_velocity_min = 280.0
+initial_velocity_max = 520.0
+angular_velocity_min = -420.0
+angular_velocity_max = 420.0
+damping_min = 20.0
+damping_max = 50.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.6
+scale_amount_max = 1.1
+split_scale = true
+scale_curve_x = SubResource("Curve_confetti_twist")
+scale_curve_y = SubResource("Curve_confetti_y")
+color_ramp = SubResource("Gradient_party_fade")
+color_initial_ramp = SubResource("Gradient_party_colors")
+
+[node name="FireworkLeft" type="CPUParticles2D" parent="Screen/CenterContainer/Panel/Thanks/StampBox"]
+position = Vector2(-230, 20)
+emitting = false
+amount = 50
+lifetime = 1.1
+one_shot = true
+explosiveness = 1.0
+texture = SubResource("GradientTexture2D_spark")
+direction = Vector2(0, -1)
+spread = 180.0
+gravity = Vector2(0, 140)
+initial_velocity_min = 190.0
+initial_velocity_max = 280.0
+damping_min = 70.0
+damping_max = 110.0
+scale_amount_min = 0.8
+scale_amount_max = 1.3
+scale_amount_curve = SubResource("Curve_spark_scale")
+color_ramp = SubResource("Gradient_party_fade")
+color_initial_ramp = SubResource("Gradient_party_colors")
+
+[node name="FireworkRight" type="CPUParticles2D" parent="Screen/CenterContainer/Panel/Thanks/StampBox"]
+position = Vector2(380, 20)
+emitting = false
+amount = 50
+lifetime = 1.1
+one_shot = true
+explosiveness = 1.0
+texture = SubResource("GradientTexture2D_spark")
+direction = Vector2(0, -1)
+spread = 180.0
+gravity = Vector2(0, 140)
+initial_velocity_min = 190.0
+initial_velocity_max = 280.0
+damping_min = 70.0
+damping_max = 110.0
+scale_amount_min = 0.8
+scale_amount_max = 1.3
+scale_amount_curve = SubResource("Curve_spark_scale")
+color_ramp = SubResource("Gradient_party_fade")
+color_initial_ramp = SubResource("Gradient_party_colors")
 
 [node name="Title" type="Label" parent="Screen/CenterContainer/Panel/Thanks"]
 layout_mode = 2

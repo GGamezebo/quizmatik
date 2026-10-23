@@ -9,6 +9,8 @@ extends IScene
 const STATE_PATH: String = "user://monetization.json"
 
 @export var platform_services: PlatformServices
+## Only for `ev_celebration_music` while the purchase thank-you page is up.
+@export var root_events: RootEvents
 @export var offer_board: OfferBoard
 @export var profile_controller: ProfileController
 @export var paywall_dialog: PaywallDialog
@@ -45,10 +47,12 @@ func initialize(_data: Dictionary) -> void:
 	_listener.add(offer_board.ev_paywall_requested, _on_paywall_requested)
 	_listener.add(paywall_dialog.ev_buy_pressed, _on_buy_pressed)
 	_listener.add(paywall_dialog.ev_rate_pressed, platform_services.ev_request_rate_page.emit)
+	_listener.add(paywall_dialog.ev_thanks_shown, root_events.ev_celebration_music.emit)
 	_listener.add(parental_gate.ev_passed, _on_gate_passed)
 	_publish()
 
 func deinit() -> void:
+	paywall_dialog.close()
 	_listener.deinit()
 	offer_board.publish(false, &"", "", false)
 	super.deinit()
