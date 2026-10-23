@@ -5,11 +5,13 @@ extends CanvasLayer
 ## (time, solved, levels, first-try %, weak examples — hidden for a fresh pilot) and, for `unlock_kinds`,
 ## what the purchase opens (paid valleys, record battle, magister trial, perks); price + «Купить» stay
 ## pinned under the scroll. Buy → owner runs the parental gate + purchase and reports back via
-## `set_waiting` / `show_result`; success → thank-you page («Оценить игру» → `ev_rate_pressed`).
+## `set_waiting` / `show_result`; success → thank-you page («Оценить игру» → `ev_rate_pressed`) with
+## confetti / firework bursts around the heart and `ev_thanks_shown(true)` (owner → joyful music), off on close.
 ## Opened from a valley → that valley on top (art, name, what is inside) for the kid.
 
 signal ev_buy_pressed
 signal ev_rate_pressed
+signal ev_thanks_shown(is_shown: bool)
 
 @export var progress: ProgressController
 @export var levels_config: LevelsConfig
@@ -51,6 +53,13 @@ signal ev_rate_pressed
 @export var rate_button: Button
 @export var rate_hint: Label
 @export var play_button: Button
+## Heart stamp: pops in when the page shows.
+@export var thanks_stamp: Control
+@export_group("Celebration")
+## One-shot emitters fired in turn (confetti cannons beside the heart, firework bursts above), `burst_rounds` times.
+@export var celebration_bursts: Array[CPUParticles2D] = []
+@export var burst_interval_sec: float = 0.45
+@export var burst_rounds: int = 3
 
 const FADE_DURATION: float = 0.2
 const FACTS_SHOWN: int = 4
@@ -73,6 +82,10 @@ const VALLEY_INFO_PLANE := "20 уровней, экзамен и новый са
 const VALLEY_INFO_TROPHY := "20 уровней, экзамен и кубок!"
 
 var _kind: StringName = &""
+var _celebration_tween: Tween
+## Finger that went down outside the scroll (title, footer, sky): its drag scrolls once it is over the
+## scroll. Drags that start inside belong to the ScrollContainer itself (it only reacts to its own press).
+var _outside_touch: int = -1
 
 
 func _ready() -> void:
@@ -84,6 +97,19 @@ func _ready() -> void:
 	var bar := scroll.get_v_scroll_bar()
 	bar.value_changed.connect(_update_fade.unbind(1))
 	bar.changed.connect(_update_fade)
+
+
+func _input(event: InputEvent) -> void:
+	if not visible or not offer_page.visible:
+		return
+	if event is InputEventScreenTouch:
+		if event.pressed:
+			_outside_touch = -1 if scroll.get_global_rect().has_point(event.position) else event.index
+		elif event.index == _outside_touch:
+			_outside_touch = -1
+	elif event is InputEventScreenDrag and event.index == _outside_touch:
+		if scroll.get_global_rect().has_point(event.position):
+			scroll.scroll_vertical -= roundi(event.relative.y)
 
 
 ## `container_id` = valley the player tapped ("" = none: settings / parents button).
@@ -101,8 +127,8 @@ func open(kind: StringName, price: String, container_id: String = "") -> void:
 	buy_button.text = tr("Купить за %s") % price if not price.is_empty() else "Купить"
 	status_label.text = ""
 	set_waiting(false)
+	_set_thanks(false)
 	offer_page.show()
-	thanks_page.hide()
 	scroll.scroll_vertical = 0
 	screen.modulate.a = 0.0
 	show()
@@ -110,6 +136,7 @@ func open(kind: StringName, price: String, container_id: String = "") -> void:
 
 
 func close() -> void:
+	_set_thanks(false)
 	hide()
 
 
@@ -130,9 +157,7 @@ func show_result(is_success: bool, can_rate: bool = false) -> void:
 	rate_button.visible = can_rate
 	rate_hint.visible = can_rate
 	offer_page.hide()
-	thanks_page.modulate.a = 0.0
-	thanks_page.show()
-	create_tween().tween_property(thanks_page, "modulate:a", 1.0, FADE_DURATION * 2.0)
+	_set_thanks(true)
 
 
 ## Store accepted the payment but has not settled it (cash / slow card): no second «Купить».
@@ -140,6 +165,28 @@ func show_pending() -> void:
 	set_waiting(false)
 	buy_button.disabled = true
 	status_label.text = "Оплата ещё обрабатывается. Покупка откроется сама, как только магазин её подтвердит."
+
+
+func _set_thanks(is_shown: bool) -> void:
+	if thanks_page.visible == is_shown:
+		return
+	thanks_page.visible = is_shown
+	if _celebration_tween != null:
+		_celebration_tween.kill()
+	for particles in celebration_bursts:
+		particles.emitting = false
+	ev_thanks_shown.emit(is_shown)
+	if not is_shown:
+		return
+	thanks_page.modulate.a = 0.0
+	create_tween().tween_property(thanks_page, "modulate:a", 1.0, FADE_DURATION * 2.0)
+	thanks_stamp.scale = Vector2(0.4, 0.4)
+	create_tween().tween_property(thanks_stamp, "scale", Vector2.ONE, 0.5) 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_celebration_tween = create_tween()
+	for round_index in burst_rounds:
+		for particles in celebration_bursts:
+			_celebration_tween.tween_callback(particles.restart)
+			_celebration_tween.tween_interval(burst_interval_sec)
 
 
 func _pdata() -> PData:
