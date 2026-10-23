@@ -8,7 +8,7 @@ signal range_changed(min_value: int, max_value: int)
 @export var min_stepper: TrainingStepper
 @export var max_stepper: TrainingStepper
 @export var limit_min: int = 1
-@export var limit_max: int = 100
+@export var limit_max: int = 20
 
 var _min: int = 1
 var _max: int = 15

@@ -190,13 +190,19 @@ func _sync_ui() -> void:
 	_set_difficulty_buttons(_difficulty)
 	if timed_toggle != null:
 		timed_toggle.set_selected(_timed)
-	if mul_range_picker != null:
-		mul_range_picker.set_range(_custom_ranges[&"multiplication"].x, _custom_ranges[&"multiplication"].y)
-	if div_range_picker != null:
-		div_range_picker.set_range(_custom_ranges[&"division"].x, _custom_ranges[&"division"].y)
+	_sync_range_picker(mul_range_picker, &"multiplication")
+	_sync_range_picker(div_range_picker, &"division")
 	_refresh_custom_range_visibility()
 	_refresh_difficulty_hint()
 	_syncing = false
+
+
+## Picker clamps to its limits; read back so an old save over the limit (e.g. 1–50) can't reach battle.
+func _sync_range_picker(picker: TrainingRangePicker, key: StringName) -> void:
+	if picker == null:
+		return
+	picker.set_range(_custom_ranges[key].x, _custom_ranges[key].y)
+	_custom_ranges[key] = picker.get_range()
 
 
 func _set_difficulty_buttons(id: StringName) -> void:
