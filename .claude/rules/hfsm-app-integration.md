@@ -48,8 +48,8 @@ paths:
 
 ## Controls intro (parallel state)
 
-- `App/ControlsIntro` scene `controls_intro` (`scenes/controls_intro/controls_intro.tscn`, sync load); AppRoot `initialize` emits `ev.open_controls_intro` once per app session
-- First battle `ev_countdown_entered` → used up: tutorial `first_flight` pending → skip; else hold countdown + overlay; tap/key → release + `ev.close_controls_intro`
+- `App/ControlsIntro` scene `controls_intro` (`scenes/controls_intro/controls_intro.tscn`, sync load); AppRoot `initialize` emits `ev.open_controls_intro` once per app session, again on `ev_profiles_changed` when the active pilot id changed and `!is_first_flight_done()` (already open → HFSM ignores)
+- Next battle `ev_countdown_entered` → used up: hold countdown + overlay (tutorial first flight too); tap/key → release + `ev.close_controls_intro`
 
 ## Menu UI
 
