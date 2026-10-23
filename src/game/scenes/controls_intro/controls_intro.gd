@@ -1,16 +1,13 @@
 extends IScene
 
 ## Controls intro context — HFSM state `App/ControlsIntro` (parallel to Menu/Battle), opened by AppRoot
-## once per app session. First battle of the session: holds the countdown (`GameEvents.ev_hold_countdown`)
-## and shows how to play — touch: left half drag = move, right half tap = shoot; keys: arrows + space / click.
-## Any tap / key → touch cards fly into the HUD corner hints (`HUD/TouchHints`), keys card fades; countdown
-## resumes; the state closes itself (`ev.close_controls_intro`). Skipped (still used up) while the tutorial
-## coaches the first flight. The battle knows nothing about it — only shared `GameEvents`.
+## once per app session and for a new pilot's first flight. Next battle: holds the countdown
+## (`GameEvents.ev_hold_countdown`) and shows how to play — touch: left half drag = move, right half tap =
+## shoot; keys: arrows + space / click. Any tap / key → touch cards fly into the HUD corner hints
+## (`HUD/TouchHints`), keys card fades; countdown resumes; the state closes itself (`ev.close_controls_intro`).
+## The battle knows nothing about it — only shared `GameEvents`.
 
 @export var game_events: GameEvents
-@export var progress: ProgressController
-## Tutorial chapter whose battle already teaches the controls — no intro until it's done.
-@export var coached_step_id: String = "first_flight"
 
 @export_group("Nodes")
 @export var overlay: CanvasLayer
@@ -84,19 +81,9 @@ func _on_countdown_entered() -> void:
 	if _used:
 		return
 	_used = true
-	if _is_coached():
-		_close()
-		return
 	_holding = true
 	game_events.ev_hold_countdown.emit(true)
 	_show()
-
-
-func _is_coached() -> bool:
-	return (
-		progress != null and not progress.is_tutorial_completed()
-		and not progress.is_tutorial_step_done(coached_step_id)
-	)
 
 
 func _show() -> void:

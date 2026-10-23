@@ -12,6 +12,8 @@ extends IScene
 @export var first_run_overlay: ProfileCreateOverlay
 
 var _listener: EventListener = EventListener.new()
+## Pilot the controls intro was last opened for (new pilot on first flight → open it again).
+var _intro_profile_id: String = ""
 
 
 func initialize(_data: Dictionary) -> void:
@@ -31,6 +33,7 @@ func initialize(_data: Dictionary) -> void:
 	_maybe_open_first_profile()
 	_sync_tutorial()
 	# Once per app session: «how to play» before the first battle (closes itself).
+	_intro_profile_id = profile_controller.active_profile_id()
 	add_event("ev.open_controls_intro")
 
 func deinit() -> void:
@@ -58,6 +61,18 @@ func _on_profiles_changed() -> void:
 		first_run_overlay.close()
 	_maybe_open_first_profile()
 	_sync_tutorial()
+	_sync_controls_intro()
+
+
+## Another pilot (new one, or switched to) still before the first flight → «how to play» again before
+## that battle. Already open and unused → HFSM ignores the repeated enter event.
+func _sync_controls_intro() -> void:
+	var profile_id: String = profile_controller.active_profile_id()
+	if profile_id.is_empty() or profile_id == _intro_profile_id:
+		return
+	_intro_profile_id = profile_id
+	if not progress_controller.is_first_flight_done():
+		add_event("ev.open_controls_intro")
 
 
 ## Tutorial is a parallel HFSM state: open for a profile that hasn't finished it (or has a late
@@ -157,3 +172,7 @@ func _apply_battle_result(data: Dictionary) -> void:
 			root_events.ev_show_celebration.emit(CelebrationSplash.KIND_MASTER, {})
 		elif not next_container_id.is_empty():
 			root_events.ev_show_celebration.emit(CelebrationSplash.KIND_VALLEY, {"container_id": next_container_id})
+		elif not String(celebration.get("open_next_container_id", "")).is_empty():
+			root_events.ev_show_celebration.emit(
+				CelebrationSplash.KIND_VALLEY_OFFER, {"container_id": celebration["open_next_container_id"]}
+			)
