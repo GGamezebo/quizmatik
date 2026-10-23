@@ -21,3 +21,6 @@ mono_crash.*.json
 *export/
 web/
 tools/__pycache__/generate_levels.cpython-312.pyc
+
+# Store videos live in a separate repo (GGamezebo/quizmatik-store, Git LFS) nested here
+store/videos/
