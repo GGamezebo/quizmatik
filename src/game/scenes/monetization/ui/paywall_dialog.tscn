@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://hghugnctmjyn" path="res://src/game/scenes/menu/levels/ui/btn_back.png" id="3_back"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="4_shadow"]
 [ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="5_title_font"]
+[ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="6_levels"]
+[ext_resource type="Texture2D" path="res://assets/ui/backgrounds/valleys/valley_subtraction.png" id="7_valley"]
 
 [sub_resource type="Gradient" id="Gradient_overlay"]
 colors = PackedColorArray(0.12, 0.1, 0.08, 0.5, 0.953, 0.902, 0.784, 0.12)
@@ -41,8 +43,39 @@ font_size = 48
 font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_message"]
-font_size = 26
+font_size = 24
 font_color = Color(0.28, 0.32, 0.38, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_art_mask"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_art_border"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0.15, 0.12, 0.08, 0.3)
+shadow_size = 3
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="LabelSettings" id="LabelSettings_valley_name"]
+font = ExtResource("5_title_font")
+font_size = 32
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_valley_info"]
+font_size = 22
+font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_status"]
 font_size = 22
@@ -54,7 +87,7 @@ shader_parameter/shadow_offset = Vector2(-4, 8)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
 shader_parameter/shadow_blur = 2.0
 
-[node name="PaywallDialog" type="CanvasLayer" node_paths=PackedStringArray("screen", "title_label", "message_label", "status_label", "buy_button", "close_button")]
+[node name="PaywallDialog" type="CanvasLayer" node_paths=PackedStringArray("screen", "title_label", "message_label", "status_label", "buy_button", "close_button", "valley_box", "valley_art", "valley_name_label", "valley_info_label")]
 layer = 20
 visible = false
 script = ExtResource("1_script")
@@ -64,6 +97,11 @@ message_label = NodePath("Screen/CenterContainer/Panel/VBox/Message")
 status_label = NodePath("Screen/CenterContainer/Panel/VBox/Status")
 buy_button = NodePath("Screen/CenterContainer/Panel/VBox/Buttons/Buy")
 close_button = NodePath("Screen/CenterContainer/Panel/VBox/Buttons/Close")
+valley_box = NodePath("Screen/CenterContainer/Panel/VBox/Valley")
+valley_art = NodePath("Screen/CenterContainer/Panel/VBox/Valley/ArtFrame/Mask/Art")
+valley_name_label = NodePath("Screen/CenterContainer/Panel/VBox/Valley/Info/Name")
+valley_info_label = NodePath("Screen/CenterContainer/Panel/VBox/Valley/Info/Contents")
+levels_config = ExtResource("6_levels")
 
 [node name="Screen" type="Control" parent="."]
 layout_mode = 3
@@ -95,13 +133,13 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="Screen/CenterContainer"]
-custom_minimum_size = Vector2(660, 0)
+custom_minimum_size = Vector2(720, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
 [node name="VBox" type="VBoxContainer" parent="Screen/CenterContainer/Panel"]
 layout_mode = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 18
 alignment = 1
 
 [node name="Title" type="Label" parent="Screen/CenterContainer/Panel/VBox"]
@@ -110,10 +148,73 @@ text = "Полная версия"
 label_settings = SubResource("LabelSettings_title")
 horizontal_alignment = 1
 
-[node name="Message" type="Label" parent="Screen/CenterContainer/Panel/VBox"]
-custom_minimum_size = Vector2(560, 0)
+[node name="Valley" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
 layout_mode = 2
-text = "Для родителей: ещё 4 долины — вычитание, умножение, деление и смешанные примеры, 80 уровней. Без рекламы и подписок. Одна покупка — навсегда."
+mouse_filter = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="ArtFrame" type="Control" parent="Screen/CenterContainer/Panel/VBox/Valley"]
+custom_minimum_size = Vector2(220, 132)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Mask" type="Panel" parent="Screen/CenterContainer/Panel/VBox/Valley/ArtFrame"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_art_mask")
+
+[node name="Art" type="TextureRect" parent="Screen/CenterContainer/Panel/VBox/Valley/ArtFrame/Mask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("7_valley")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Border" type="Panel" parent="Screen/CenterContainer/Panel/VBox/Valley/ArtFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_art_border")
+
+[node name="Info" type="VBoxContainer" parent="Screen/CenterContainer/Panel/VBox/Valley"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Name" type="Label" parent="Screen/CenterContainer/Panel/VBox/Valley/Info"]
+layout_mode = 2
+text = "Долина Вычитания"
+label_settings = SubResource("LabelSettings_valley_name")
+autowrap_mode = 3
+
+[node name="Contents" type="Label" parent="Screen/CenterContainer/Panel/VBox/Valley/Info"]
+layout_mode = 2
+text = "20 уровней, экзамен и новый самолёт!"
+label_settings = SubResource("LabelSettings_valley_info")
+autowrap_mode = 3
+
+[node name="Message" type="Label" parent="Screen/CenterContainer/Panel/VBox"]
+custom_minimum_size = Vector2(620, 0)
+layout_mode = 2
+text = "Для родителей: открывает все долины — вычитание, умножение, деление и смешанные примеры. Без рекламы и подписок. Одна покупка — навсегда."
 label_settings = SubResource("LabelSettings_message")
 horizontal_alignment = 1
 autowrap_mode = 3

@@ -66,6 +66,7 @@
 [ext_resource type="Script" path="res://core/lib/pulse/ui_pulse.gd" id="87_ui_pulse"]
 [ext_resource type="Script" path="res://src/game/scenes/menu/ui/shop_pulse.gd" id="88_shop_pulse"]
 [ext_resource type="Script" path="res://src/game/scenes/menu/ui/awards_pulse.gd" id="90_awards_pulse"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/parents_window/parents_window.tscn" id="91_parents"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
 colors = PackedColorArray(0.165, 0.2, 0.251, 0.5, 0.953, 0.902, 0.784, 0.06)
@@ -136,6 +137,15 @@ target_window = NodePath("../../SettingsWindow")
 [node name="SettingsWindowBack" type="Node" parent="UI/StackWindowController" unique_id=226461502 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
 button = NodePath("../../SettingsWindow/MenuWindowBack/Back")
+
+[node name="ParentsWindowOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
+script = ExtResource("4_haj1v")
+button = NodePath("../../SettingsWindow/CenterContainer/Content/BottomButtons/Parents")
+target_window = NodePath("../../ParentsWindow")
+
+[node name="ParentsWindowBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button")]
+script = ExtResource("4_back")
+button = NodePath("../../ParentsWindow/Content/Card/MenuWindowBack/Back")
 
 [node name="TrophyRoomOpen" type="Node" parent="UI/StackWindowController" unique_id=551433926 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
@@ -693,6 +703,10 @@ visible = false
 
 [node name="TrophyRoomWindow" parent="UI" unique_id=965242045 instance=ExtResource("21_trophy")]
 visible = false
+
+[node name="ParentsWindow" parent="UI" node_paths=PackedStringArray("windows_stack_manager") instance=ExtResource("91_parents")]
+visible = false
+windows_stack_manager = NodePath("../StackWindowController")
 
 [node name="ProfileWindow" parent="UI" instance=ExtResource("21_profile")]
 visible = false

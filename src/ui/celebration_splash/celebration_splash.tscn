@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="8_coin"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/trophies/trophy_mix.png" id="9_trophy"]
 [ext_resource type="Resource" path="res://src/common/monetization/offer_board.tres" id="10_offer_board"]
+[ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="11_pdata"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/trophies/trophy_magister.svg" id="20_magister"]
 
 [sub_resource type="Gradient" id="Gradient_kcyx7"]
@@ -103,6 +104,7 @@ art_rect = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxC
 confirm_button = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Confirm")
 buy_button = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Buy")
 offer_board = ExtResource("10_offer_board")
+pdata = ExtResource("11_pdata")
 levels_config = ExtResource("6_levels")
 gold_art = ExtResource("8_coin")
 master_art = ExtResource("9_trophy")

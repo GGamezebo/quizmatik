@@ -160,19 +160,31 @@ text = "Вибрация"
 [node name="Title" parent="CenterContainer/Content/SettingsMargin/SettingsList/RowVibrationIntensity" index="0"]
 text = "Мощность вибрации"
 
-[node name="PurchaseOffer" parent="CenterContainer/Content" instance=ExtResource("18_purchase_offer")]
+[node name="BottomButtons" type="HBoxContainer" parent="CenterContainer/Content"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -150.0
+offset_left = -300.0
 offset_top = 10.0
-offset_right = 150.0
+offset_right = 300.0
 offset_bottom = 74.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Parents" type="Button" parent="CenterContainer/Content/BottomButtons"]
+custom_minimum_size = Vector2(280, 64)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 24
+text = "Для родителей"
+
+[node name="PurchaseOffer" parent="CenterContainer/Content/BottomButtons" instance=ExtResource("18_purchase_offer")]
+layout_mode = 2
 placement = &"settings"
 
 [node name="MenuWindowBack" parent="." unique_id=767459829 instance=ExtResource("14_menu_back")]
