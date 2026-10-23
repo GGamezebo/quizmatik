@@ -342,6 +342,11 @@ class StatisticsData:
 		stats.endless_best_sec = int(d.get("endless_best_sec", 0))
 		return stats
 
+	## Share of questions answered right on the first try, 0..100; -1 = none answered yet.
+	func first_try_percent() -> int:
+		var answered := facts_correct + facts_wrong
+		return roundi(100.0 * facts_correct / answered) if answered > 0 else -1
+
 
 class DailyData:
 	var utc_day: String = ""

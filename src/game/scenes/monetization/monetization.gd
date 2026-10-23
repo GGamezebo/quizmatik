@@ -3,7 +3,8 @@ extends IScene
 ## `App/Monetization`: game-side ad / purchase rules, platform-agnostic. Mounted only by a store context
 ## (`*Shop` under App/Platform) → tester builds (no store or feature `no_monetization`) never load it.
 ## Bridges OfferBoard (host UI hooks) ↔ PlatformServices (store): interstitial pacing, rewarded gold
-## with a per-device daily limit, paywall + parental gate. F6 alone = defaults, nothing for sale.
+## with a per-device daily limit, paywall + parental gate (thank-you page «Оценить игру» → store page).
+## F6 alone = defaults, nothing for sale.
 
 const STATE_PATH: String = "user://monetization.json"
 
@@ -43,6 +44,7 @@ func initialize(_data: Dictionary) -> void:
 	_listener.add(offer_board.ev_rewarded_gold_requested, _on_rewarded_requested)
 	_listener.add(offer_board.ev_paywall_requested, _on_paywall_requested)
 	_listener.add(paywall_dialog.ev_buy_pressed, _on_buy_pressed)
+	_listener.add(paywall_dialog.ev_rate_pressed, platform_services.ev_request_rate_page.emit)
 	_listener.add(parental_gate.ev_passed, _on_gate_passed)
 	_publish()
 
@@ -134,7 +136,7 @@ func _on_purchase_result(is_success: bool) -> void:
 	if not _is_purchasing:
 		return
 	_is_purchasing = false
-	paywall_dialog.show_result(is_success)
+	paywall_dialog.show_result(is_success, platform_services.can_rate)
 
 func _on_purchase_pending() -> void:
 	if not _is_purchasing:
