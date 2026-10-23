@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" path="res://src/features/boss/art/variants/royal_bronze.svg" id="v_bronze"]
 
 [node name="BossExamAirship" instance=ExtResource("1_base")]
-rage_stop_x = 600.0
+rage_stop_x = 650.0
 hover_inset_x = 260.0
 body_variants = Array[Texture2D]([ExtResource("2_body"), ExtResource("v_violet"), ExtResource("v_navy"), ExtResource("v_pine"), ExtResource("v_bronze")])
 
