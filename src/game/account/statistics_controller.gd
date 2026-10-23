@@ -17,6 +17,7 @@ func _ready() -> void:
 	_listener.add(game_events.ev_shoot, _on_shoot)
 	_listener.add(game_events.ev_correct_answer, _on_correct_answer)
 	_listener.add(game_events.ev_mistake, _on_mistake)
+	_listener.add(game_events.ev_fact_answered, _on_fact_answered)
 
 func _exit_tree() -> void:
 	_finish_game_session()
@@ -67,6 +68,12 @@ func _on_correct_answer() -> void:
 
 func _on_mistake() -> void:
 	_stats().total_mistakes += 1
+
+func _on_fact_answered(_fact_key: String, is_correct: bool) -> void:
+	if is_correct:
+		_stats().facts_correct += 1
+	else:
+		_stats().facts_wrong += 1
 
 func _on_exit_game(data: Dictionary) -> void:
 	if not data.has("score"):

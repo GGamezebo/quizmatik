@@ -11,7 +11,7 @@ signal ev_pressed
 @export var progress_label: Label
 @export var lock_overlay: Control
 @export var hit_button: BaseButton
-## «Полная версия» tag for valleys sold by the store (shown via `set_paywalled`).
+## «🔑 Полная версия» ribbon for valleys sold by the store (shown via `set_paywalled`).
 @export var paywall_badge: Control
 
 var _container_id: String = ""
@@ -72,18 +72,13 @@ func initialize(
 		hit_button.disabled = not is_unlocked
 
 
-## Store sells this valley (OfferBoard): locked look + badge; the tap opens the paywall (carousel decides).
+## Store sells this valley (OfferBoard): ribbon only — the art stays in color (an adventure waiting, not a
+## ban); the grey + lock look stays for valleys closed by progress. Tap opens the paywall (carousel decides).
 func set_paywalled(is_paywalled: bool) -> void:
 	if paywall_badge != null:
 		paywall_badge.visible = is_paywalled
-	if not is_paywalled:
-		return
-	if lock_overlay != null:
-		lock_overlay.visible = true
-	if progress_label != null:
+	if is_paywalled and progress_label != null:
 		progress_label.visible = false
-	if art_rect != null:
-		art_rect.modulate = Color(0.72, 0.72, 0.72, 1.0)
 
 
 func get_container_id() -> String:

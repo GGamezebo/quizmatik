@@ -302,6 +302,9 @@ class StatisticsData:
 	var total_scores: int = 0
 	var total_stars: int = 0
 	var total_mistakes: int = 0
+	## Questions answered right / wrong on the first try (`GameEvents.ev_fact_answered`; rams never count).
+	var facts_correct: int = 0
+	var facts_wrong: int = 0
 	## Best endless survival time, whole seconds (0 = never played).
 	var endless_best_sec: int = 0
 
@@ -317,6 +320,8 @@ class StatisticsData:
 			"total_scores": total_scores,
 			"total_stars": total_stars,
 			"total_mistakes": total_mistakes,
+			"facts_correct": facts_correct,
+			"facts_wrong": facts_wrong,
 			"endless_best_sec": endless_best_sec,
 		}
 
@@ -332,6 +337,8 @@ class StatisticsData:
 		stats.total_scores = int(d.get("total_scores", 0))
 		stats.total_stars = int(d.get("total_stars", 0))
 		stats.total_mistakes = int(d.get("total_mistakes", 0))
+		stats.facts_correct = int(d.get("facts_correct", 0))
+		stats.facts_wrong = int(d.get("facts_wrong", 0))
 		stats.endless_best_sec = int(d.get("endless_best_sec", 0))
 		return stats
 

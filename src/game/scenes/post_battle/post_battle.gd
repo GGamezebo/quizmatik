@@ -290,7 +290,7 @@ func _resolve_auto_level_select_container(is_win: bool) -> String:
 		return ""
 	if not progress.is_container_unlocked(next_container_id):
 		return ""
-	if offer_board != null and offer_board.is_container_paywalled(next_container_id):
+	if offer_board != null and offer_board.is_container_paywalled(next_container_id, StringName(progress.pdata.difficulty)):
 		return ""
 	if progress.get_level_stars(next_container_id, 1) > 0:
 		return ""

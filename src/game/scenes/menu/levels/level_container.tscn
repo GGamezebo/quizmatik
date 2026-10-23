@@ -8,6 +8,7 @@
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="7_font"]
 [ext_resource type="FontVariation" uid="uid://dyt157qapui8s" path="res://core/theme/title_font.tres" id="8_title_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/menu/levels/ui/full_version_key.svg" id="9_key"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p01tg"]
 shader = ExtResource("6_shadow")
@@ -203,15 +204,30 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -90.0
+offset_left = -110.0
 offset_top = 22.0
-offset_right = 90.0
+offset_right = 110.0
 offset_bottom = 54.0
 grow_horizontal = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_badge")
 
-[node name="Label" type="Label" parent="Card/PaywallBadge"]
+[node name="Row" type="HBoxContainer" parent="Card/PaywallBadge"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="Key" type="TextureRect" parent="Card/PaywallBadge/Row"]
+custom_minimum_size = Vector2(38, 22)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("9_key")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Card/PaywallBadge/Row"]
 layout_mode = 2
 text = "Полная версия"
 label_settings = SubResource("LabelSettings_badge")

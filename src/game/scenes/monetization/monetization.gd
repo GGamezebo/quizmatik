@@ -12,6 +12,9 @@ const STATE_PATH: String = "user://monetization.json"
 @export var profile_controller: ProfileController
 @export var paywall_dialog: PaywallDialog
 @export var parental_gate: ParentalGate
+## Placements whose host is already behind its own parental gate («Для родителей» window) → «Купить» goes
+## straight to the store, no second example.
+@export var gated_placements: Array[StringName] = [&"parents"]
 @export_group("Interstitial")
 ## Session battles before the first interstitial (kids' first minutes stay ad-free).
 @export var interstitial_min_battles: int = 3
@@ -26,6 +29,7 @@ var _last_interstitial_msec: int = -1
 var _pending_placement: StringName = &""
 var _pending_gold: int = 0
 var _is_purchasing: bool = false
+var _paywall_placement: StringName = &""
 var _rewarded_day: String = ""
 var _rewarded_count: int = 0
 
@@ -109,12 +113,16 @@ func _rewarded_left() -> int:
 
 # --- Purchase: paywall → parental gate → store ---
 
-func _on_paywall_requested(_placement: StringName) -> void:
+func _on_paywall_requested(placement: StringName, container_id: String) -> void:
 	if platform_services.offer_kind.is_empty():
 		return
-	paywall_dialog.open(platform_services.offer_kind, platform_services.offer_price)
+	_paywall_placement = placement
+	paywall_dialog.open(platform_services.offer_kind, platform_services.offer_price, container_id)
 
 func _on_buy_pressed() -> void:
+	if gated_placements.has(_paywall_placement):
+		_on_gate_passed()
+		return
 	parental_gate.open()
 
 func _on_gate_passed() -> void:

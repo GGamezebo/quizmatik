@@ -1,0 +1,63 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/parents_window/ui/parents_stat_tile.gd" id="1_script"]
+[ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="2_title_font"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="3_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tile"]
+content_margin_left = 12.0
+content_margin_top = 6.0
+content_margin_right = 12.0
+content_margin_bottom = 6.0
+bg_color = Color(0.985, 0.955, 0.885, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0.15, 0.12, 0.08, 0.25)
+shadow_size = 3
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="LabelSettings" id="LabelSettings_value"]
+font = ExtResource("2_title_font")
+font_size = 34
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_caption"]
+font = ExtResource("3_font")
+font_size = 16
+font_color = Color(0.36, 0.4, 0.46, 1)
+
+[node name="ParentsStatTile" type="PanelContainer" node_paths=PackedStringArray("value_label", "caption_label")]
+custom_minimum_size = Vector2(0, 104)
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tile")
+script = ExtResource("1_script")
+value_label = NodePath("VBox/Value")
+caption_label = NodePath("VBox/Caption")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Value" type="Label" parent="VBox"]
+layout_mode = 2
+auto_translate_mode = 2
+text = "1234"
+label_settings = SubResource("LabelSettings_value")
+horizontal_alignment = 1
+
+[node name="Caption" type="Label" parent="VBox"]
+layout_mode = 2
+text = "Решено примеров"
+label_settings = SubResource("LabelSettings_caption")
+horizontal_alignment = 1
+autowrap_mode = 3

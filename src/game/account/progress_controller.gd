@@ -290,6 +290,14 @@ func are_all_regular_levels_completed(container_id: String) -> bool:
 			return false
 	return true
 
+## Levels of the valley (exam included) with at least one star (carousel «12 / 20», parents window).
+func completed_levels_count(container_id: String) -> int:
+	var count := 0
+	for level in levels_config.find_container_in_config(container_id).get("levels", []):
+		if get_level_stars(container_id, int(level["level_id"])) >= 1:
+			count += 1
+	return count
+
 func get_level_stars(container_id: String, level_id: int) -> int:
 	if not pdata.levels.containers.has(container_id):
 		return 0
@@ -384,6 +392,8 @@ func pass_exam(container_id: String, stars: int) -> Dictionary:
 		"first_exam_pass": true,
 		"container_id": container_id,
 		"next_container_id": next_id if opens_next else "",
+		# Next valley open already (HARD): AppRoot offers it only while the store sells it.
+		"open_next_container_id": "" if opens_next else next_id,
 		"all_exams_passed": are_all_valley_exams_passed(),
 	}
 	if not unlocked_plane_id.is_empty():

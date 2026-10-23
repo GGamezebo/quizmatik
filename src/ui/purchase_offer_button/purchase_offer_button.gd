@@ -34,4 +34,4 @@ func _refresh() -> void:
 
 
 func _on_pressed() -> void:
-	offer_board.ev_paywall_requested.emit(placement)
+	offer_board.ev_paywall_requested.emit(placement, "")

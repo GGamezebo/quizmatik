@@ -10,11 +10,17 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_rewarded_gold_requested(placement: StringName, amount: int)
 ## Monetization → host: `granted` = gold given (0 = not watched / limit / error).
 @warning_ignore("unused_signal") signal ev_rewarded_gold_finished(placement: StringName, granted: int)
-## Host → Monetization: open the paywall (paid valley tap, settings button).
-@warning_ignore("unused_signal") signal ev_paywall_requested(placement: StringName)
+## Host → Monetization: open the paywall (paid valley tap, settings button). `container_id` = the valley
+## the player wants (paywall shows it), "" = none.
+@warning_ignore("unused_signal") signal ev_paywall_requested(placement: StringName, container_id: String)
 
 ## Valleys that stay free when the store sells the full version.
 @export var free_container_ids: Array[String] = ["addition"]
+## Profile difficulty → valleys also free on it. HARD (grade 3-4) passes addition with one exam,
+## so its own grade valley stays free too.
+@export var extra_free_by_difficulty: Dictionary[StringName, PackedStringArray] = {
+	BattleDifficulty.HARD: PackedStringArray(["multiplication"]),
+}
 @export var min_rewarded_gold: int = 1
 @export var max_rewarded_gold: int = 5
 
@@ -30,8 +36,12 @@ func rewarded_gold(earned: int) -> int:
 	return clampi(earned, min_rewarded_gold, max_rewarded_gold)
 
 
-func is_container_paywalled(container_id: String) -> bool:
-	return is_content_locked and not free_container_ids.has(container_id)
+## `difficulty` = the active profile's `PData.difficulty`.
+func is_container_paywalled(container_id: String, difficulty: StringName) -> bool:
+	if not is_content_locked or free_container_ids.has(container_id):
+		return false
+	var extra: PackedStringArray = extra_free_by_difficulty.get(BattleDifficulty.sanitize(difficulty), PackedStringArray())
+	return not extra.has(container_id)
 
 
 ## Called only by `App/Monetization`.

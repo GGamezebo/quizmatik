@@ -43,6 +43,12 @@ func open() -> void:
 	create_tween().tween_property(screen, "modulate:a", 1.0, FADE_DURATION)
 
 
+## Host leaves (window closed under the gate): hide without `ev_passed` / `ev_canceled`.
+func close() -> void:
+	set_process(false)
+	hide()
+
+
 func _process(_delta: float) -> void:
 	if _is_cooling_down():
 		_show_cooldown()

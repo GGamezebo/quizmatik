@@ -53,7 +53,7 @@ func _update_window() -> void:
 		var container_instance: LevelContainer = level_container_scene.instantiate()
 		var is_unlocked: bool = progress.is_container_unlocked(container_id)
 		var container: Dictionary = levelsConfig.find_container_in_config(container_id)
-		var completed_count := _count_completed_levels(container_id)
+		var completed_count := progress.completed_levels_count(container_id)
 		var total_count := _total_levels(container)
 		var exam_level_id := levelsConfig.get_exam_level_id(container_id)
 		var exam_stars := 0
@@ -82,23 +82,6 @@ func _update_window() -> void:
 	_update_background_for_index(start_index)
 
 
-func _count_completed_levels(container_id: String) -> int:
-	var container_config: Dictionary = levelsConfig.find_container_in_config(container_id)
-	if container_config.is_empty():
-		return 0
-
-	var completed: Dictionary = {}
-	if progress.pdata.levels.containers.has(container_id):
-		completed = progress.pdata.levels.containers[container_id].completed_levels
-
-	var count := 0
-	for level in container_config["levels"]:
-		var level_id: int = level["level_id"]
-		if completed.has(level_id) and completed[level_id].stars >= 1:
-			count += 1
-	return count
-
-
 func _total_levels(container: Dictionary) -> int:
 	var levels_list: Variant = container.get("levels", [])
 	if levels_list is Array:
@@ -111,7 +94,7 @@ func _on_pack_activated(index: int) -> void:
 		return
 	var container_id := _container_ids[index]
 	if _is_paywalled(container_id):
-		offer_board.ev_paywall_requested.emit(&"valley")
+		offer_board.ev_paywall_requested.emit(&"valley", container_id)
 		return
 	if not progress.is_container_unlocked(container_id):
 		return
@@ -132,7 +115,7 @@ func open_level_select(container_id: String) -> void:
 
 
 func _is_paywalled(container_id: String) -> bool:
-	return offer_board != null and offer_board.is_container_paywalled(container_id)
+	return offer_board != null and offer_board.is_container_paywalled(container_id, StringName(progress.pdata.difficulty))
 
 
 ## Purchase / store state changed while the carousel is open → redraw locks.
