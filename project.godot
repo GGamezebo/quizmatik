@@ -47,7 +47,7 @@ project/assembly_name="quizmatic"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/GodotSavesAddon/plugin.cfg", "res://addons/github_copilot/plugin.cfg", "res://addons/hfsm_editor/plugin.cfg", "res://addons/GodotGooglePlayBilling/plugin.cfg", "res://addons/godot_mcp/plugin.cfg")
+enabled=PackedStringArray("res://addons/GodotSavesAddon/plugin.cfg", "res://addons/github_copilot/plugin.cfg", "res://addons/hfsm_editor/plugin.cfg", "res://addons/GodotGooglePlayBilling/plugin.cfg", "res://addons/godot_mcp/plugin.cfg", "res://addons/play_review_deps/plugin.cfg")
 
 [global]
 

@@ -8,9 +8,10 @@
 [ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="5_title_font"]
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="6_levels"]
 [ext_resource type="Texture2D" path="res://assets/ui/backgrounds/valleys/valley_subtraction.png" id="7_valley"]
+[ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="8_sky"]
 
 [sub_resource type="Gradient" id="Gradient_overlay"]
-colors = PackedColorArray(0.12, 0.1, 0.08, 0.5, 0.953, 0.902, 0.784, 0.12)
+colors = PackedColorArray(0.12, 0.1, 0.08, 0.45, 0.12, 0.1, 0.08, 0.25)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_overlay"]
 gradient = SubResource("Gradient_overlay")
@@ -114,6 +115,10 @@ theme = ExtResource("theme_ui")
 
 [node name="HoverScaleBinder" type="Node" parent="Screen"]
 script = ExtResource("2_hover_binder")
+
+[node name="Background" parent="Screen" instance=ExtResource("8_sky")]
+sky_scroll_speed = 0.015
+idle_color_amount = 0.08
 
 [node name="Overlay" type="TextureRect" parent="Screen"]
 layout_mode = 1

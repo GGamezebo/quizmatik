@@ -19,6 +19,8 @@
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/parents_window/ui/parents_valley_row.tscn" id="16_valley_row"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/trophy_room_window/hard_fact_row.tscn" id="17_fact_row"]
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="18_progress"]
+[ext_resource type="Resource" path="res://src/common/platform/platform_services.tres" id="19_services"]
+[ext_resource type="Texture2D" uid="uid://clq8x5grir3ri" path="res://assets/ui/icons/star_filled.png" id="20_star"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("8_shadow")
@@ -62,7 +64,7 @@ font = ExtResource("9_font")
 font_size = 18
 font_color = Color(0.36, 0.4, 0.46, 1)
 
-[node name="ParentsWindow" type="Control" node_paths=PackedStringArray("progress", "parental_gate", "content", "pilot_label", "solved_tile", "accuracy_tile", "time_tile", "exams_tile", "valley_rows", "fact_rows", "facts_hint", "facts_empty")]
+[node name="ParentsWindow" type="Control" node_paths=PackedStringArray("progress", "parental_gate", "content", "pilot_label", "solved_tile", "accuracy_tile", "time_tile", "exams_tile", "valley_rows", "fact_rows", "facts_hint", "facts_empty", "rate_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -75,6 +77,7 @@ pdata = ExtResource("2_pdata")
 progress = NodePath("ProgressController")
 levels_config = ExtResource("3_levels")
 offer_board = ExtResource("4_board")
+platform_services = ExtResource("19_services")
 parental_gate = NodePath("ParentalGate")
 content = NodePath("Content")
 pilot_label = NodePath("Content/Card/Pilot")
@@ -88,6 +91,7 @@ fact_rows = NodePath("Content/Card/Margin/VBox/Columns/Facts/VBox/Rows")
 fact_row_scene = ExtResource("17_fact_row")
 facts_hint = NodePath("Content/Card/Margin/VBox/Columns/Facts/VBox/Hint")
 facts_empty = NodePath("Content/Card/Margin/VBox/Columns/Facts/VBox/Empty")
+rate_button = NodePath("Content/Card/BottomButtons/Rate")
 
 [node name="ProgressController" parent="." instance=ExtResource("18_progress")]
 
@@ -276,19 +280,34 @@ theme_override_constants/margin_bottom = 16
 [node name="Back" parent="Content/Card/MenuWindowBack" index="0"]
 custom_minimum_size = Vector2(86, 86)
 
-[node name="PurchaseOffer" parent="Content/Card" instance=ExtResource("13_purchase_offer")]
+[node name="BottomButtons" type="HBoxContainer" parent="Content/Card"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -150.0
+offset_left = -320.0
 offset_top = -94.0
-offset_right = 150.0
+offset_right = 320.0
 offset_bottom = -30.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Rate" type="Button" parent="Content/Card/BottomButtons"]
+visible = false
+custom_minimum_size = Vector2(280, 64)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 32
+theme_override_font_sizes/font_size = 24
+text = "Оценить игру"
+icon = ExtResource("20_star")
+
+[node name="PurchaseOffer" parent="Content/Card/BottomButtons" instance=ExtResource("13_purchase_offer")]
+layout_mode = 2
 offer_board = ExtResource("4_board")
 placement = &"parents"
 

@@ -2,13 +2,16 @@ extends Control
 
 ## «Для родителей»: the active pilot's report behind a parental gate — examples solved, first-try accuracy,
 ## time, exams, valley progress, weak examples — plus the store offer (`PurchaseOfferButton` placement
-## `parents`: Monetization skips its own gate for it). Opened from Settings via the window stack; the gate
-## runs on every entry, content stays hidden until it is passed.
+## `parents`: Monetization skips its own gate for it) and store rating (`PlatformServices.can_rate`): button
+## «Оценить игру» → store page; once per app session, when the pilot has real progress, the store's in-app
+## review sheet a moment after the report shows (the parent holds the phone here, not the child).
+## Opened from Settings via the window stack; the gate runs on every entry, content hidden until passed.
 
 @export var pdata: PData
 @export var progress: ProgressController
 @export var levels_config: LevelsConfig
 @export var offer_board: OfferBoard
+@export var platform_services: PlatformServices
 @export var windows_stack_manager: WindowStackManager
 @export var parental_gate: ParentalGate
 ## Everything behind the gate (frame, report, offer, back).
@@ -27,8 +30,17 @@ extends Control
 @export var fact_row_scene: PackedScene
 @export var facts_hint: Label
 @export var facts_empty: Label
+@export_group("Rating")
+@export var rate_button: Button
+## Ask the store's review sheet only after this much: an exam passed or this many problems solved.
+@export var review_min_solved: int = 100
+@export var review_delay_sec: float = 1.5
 
 const FACTS_SHOWN: int = 5
+
+var _listener: EventListener = EventListener.new()
+## In-app review asked this app session (the store also keeps its own quota).
+static var _review_asked: bool = false
 ## Profile difficulty → grade line (same captions as `DifficultyPicker`).
 const GRADE_TEXTS: Dictionary = {
 	BattleDifficulty.EASY: "1 класс",
@@ -40,7 +52,17 @@ const GRADE_TEXTS: Dictionary = {
 func _ready() -> void:
 	parental_gate.ev_passed.connect(_on_gate_passed)
 	parental_gate.ev_canceled.connect(_on_gate_canceled)
+	if offer_board != null:
+		_listener.add(offer_board.ev_changed, _on_offers_changed)
+	if platform_services != null:
+		_listener.add(platform_services.ev_caps_changed, _refresh_rate_button)
+	rate_button.pressed.connect(_on_rate_pressed)
+	_refresh_rate_button()
 	content.hide()
+
+
+func _exit_tree() -> void:
+	_listener.deinit()
 
 
 func on_window_enter() -> void:
@@ -56,6 +78,35 @@ func on_window_exit() -> void:
 func _on_gate_passed() -> void:
 	_rebuild()
 	content.show()
+	_maybe_request_review()
+
+
+## Bought here (or the store answered late) → paid tags off without leaving the report.
+func _on_offers_changed() -> void:
+	if content.visible:
+		_rebuild()
+
+
+func _refresh_rate_button() -> void:
+	rate_button.visible = platform_services != null and platform_services.can_rate
+
+
+func _on_rate_pressed() -> void:
+	platform_services.ev_request_rate_page.emit()
+
+
+func _maybe_request_review() -> void:
+	if _review_asked or platform_services == null or not platform_services.can_rate:
+		return
+	var exams := progress.passed_valley_exams_count() if progress != null else 0
+	if exams < 1 and _live_pdata().statistics.total_answers < review_min_solved:
+		return
+	_review_asked = true
+	await get_tree().create_timer(review_delay_sec).timeout
+	if content.visible and is_visible_in_tree():
+		platform_services.ev_request_review.emit()
+	else:
+		_review_asked = false
 
 
 func _on_gate_canceled() -> void:
