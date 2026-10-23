@@ -53,8 +53,17 @@ const DIFFICULTY_COPY: Dictionary = {
 ## Share of `questions_count` answered before they start (normal: second half only).
 @export var missing_operand_start_by_difficulty: Dictionary = {"easy": 0.0, "normal": 0.5, "hard": 0.0}
 @export_group("Boss")
-## Chance of the boss airship after the last question (never in «НА ВРЕМЯ»; armor / rage hits from `config`).
-@export_range(0.0, 1.0, 0.05) var practice_boss_chance: float = 0.25
+## Chance of the boss airship after the last question; «НА ВРЕМЯ» uses `practice_timed_boss_chance`
+## (the boss comes when the time is up). Rage hits from `config`.
+@export_range(0.0, 1.0, 0.05) var practice_boss_chance: float = 0.33
+@export_range(0.0, 1.0, 0.05) var practice_timed_boss_chance: float = 0.5
+## Armor (= correct answers to bring it down) rolled per battle.
+@export_range(1, 12) var practice_boss_armor_min: int = 2
+@export_range(1, 12) var practice_boss_armor_max: int = 6
+## Share of royal bosses among the bosses, with their own armor range.
+@export_range(0.0, 1.0, 0.05) var practice_royal_chance: float = 0.2
+@export_range(1, 12) var practice_royal_armor_min: int = 4
+@export_range(1, 12) var practice_royal_armor_max: int = 6
 @export_group("Actions")
 @export var reset_button: BaseButton
 @export var start_battle_button: BaseButton
@@ -306,6 +315,12 @@ func _apply_difficulty_to_config() -> void:
 	config.early_exam_answer_speed_multiplier = 1.0
 	config.time_limit_sec = timed_practice_sec if _timed else 0.0
 	config.boss_chance = practice_boss_chance
+	config.timed_boss_chance = practice_timed_boss_chance
+	config.boss_armor = practice_boss_armor_min
+	config.boss_armor_max = practice_boss_armor_max
+	config.boss_royal_chance = practice_royal_chance
+	config.boss_royal_armor_min = practice_royal_armor_min
+	config.boss_royal_armor_max = practice_royal_armor_max
 
 
 func _on_reset_setting_pressed() -> void:

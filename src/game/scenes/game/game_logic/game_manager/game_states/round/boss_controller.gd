@@ -2,7 +2,7 @@ class_name BossController
 extends RefCounted
 
 ## Boss airship (`features/boss`) after the last regular answer: rolled once from `GameConfig.boss_chance`
-## (exam = 1, never on timed levels). Flies in (`ev_appeared`) → rounds resume (`ev_ready`); every correct
+## (exam = 1; timed battles: `timed_boss_chance`, the boss then comes when the time is up). Flies in (`ev_appeared`) → rounds resume (`ev_ready`); every correct
 ## answer then knocks off one armor plate (`ev_hit`); armor 0 → it gets angry (`ev_enraged`) and creeps
 ## toward the plane; shots on its hull (`shoot`, `ev_shot`) bring it down (`ev_defeated` → battle won).
 ## Staged battles (endless, magister): never rolled — `arm()` + `start()` on `EndlessDirector.ev_boss_due`, again
@@ -27,14 +27,29 @@ var _phase: Phase = Phase.NONE
 var _boss: BossAirship = null
 
 
-func _init(game_config: GameConfig, area: GameArea, scene: PackedScene, spawn_parent: Node) -> void:
+func _init(
+	game_config: GameConfig,
+	area: GameArea,
+	scene: PackedScene,
+	spawn_parent: Node,
+	royal_scene: PackedScene = null
+) -> void:
 	_area = area
 	_scene = scene
 	_spawn_parent = spawn_parent
-	_armor = game_config.boss_armor
+	_armor = _roll_armor(game_config.boss_armor, game_config.boss_armor_max)
 	_rage_hits = 0 if game_config.endless else maxi(game_config.boss_rage_hits, 0)
-	if scene != null and _armor > 0 and not game_config.is_timed() and not game_config.endless 			and randf() < game_config.boss_chance:
+	if royal_scene != null and not game_config.endless and game_config.boss_royal_chance > 0.0 \
+			and randf() < game_config.boss_royal_chance:
+		_scene = royal_scene
+		_armor = _roll_armor(game_config.boss_royal_armor_min, game_config.boss_royal_armor_max)
+	var chance: float = game_config.timed_boss_chance if game_config.is_timed() else game_config.boss_chance
+	if _scene != null and _armor > 0 and not game_config.endless and randf() < chance:
 		_phase = Phase.WAITING
+
+
+static func _roll_armor(armor_min: int, armor_max: int) -> int:
+	return randi_range(armor_min, armor_max) if armor_max > armor_min else armor_min
 
 
 ## Boss node stays (hovering over a lost battle); the scene frees it.
