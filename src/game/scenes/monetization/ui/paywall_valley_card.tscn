@@ -1,0 +1,96 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/monetization/ui/paywall_valley_card.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/ui/backgrounds/valleys/valley_division.png" id="2_valley"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_art_mask"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_art_border"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0.15, 0.12, 0.08, 0.3)
+shadow_size = 3
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="LabelSettings" id="LabelSettings_name"]
+font_size = 21
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_info"]
+font_size = 16
+font_color = Color(0.36, 0.4, 0.46, 1)
+
+[node name="PaywallValleyCard" type="VBoxContainer" node_paths=PackedStringArray("art_rect", "name_label", "info_label")]
+custom_minimum_size = Vector2(240, 0)
+mouse_filter = 2
+theme_override_constants/separation = 6
+script = ExtResource("1_script")
+art_rect = NodePath("ArtFrame/Mask/Art")
+name_label = NodePath("Name")
+info_label = NodePath("Info")
+
+[node name="ArtFrame" type="Control" parent="."]
+custom_minimum_size = Vector2(240, 135)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Mask" type="Panel" parent="ArtFrame"]
+clip_children = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_art_mask")
+
+[node name="Art" type="TextureRect" parent="ArtFrame/Mask"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_valley")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Border" type="Panel" parent="ArtFrame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_art_border")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+text = "Долина Деления"
+label_settings = SubResource("LabelSettings_name")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Info" type="Label" parent="."]
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+text = "20 уровней, экзамен и новый самолёт!"
+label_settings = SubResource("LabelSettings_info")
+horizontal_alignment = 1
+autowrap_mode = 3

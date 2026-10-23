@@ -31,6 +31,16 @@ static func format_duration(seconds: float) -> String:
 	return _tr("%dс") % secs
 
 
+## Whole minutes for parents: «1 ч 05 мин» / «12 мин» (seconds mean nothing in a report).
+static func format_hours_minutes(seconds: float) -> String:
+	var minutes: int = maxi(0, int(seconds / 60.0))
+	@warning_ignore("integer_division")
+	var hours: int = minutes / 60
+	if hours > 0:
+		return _tr("%d ч %02d мин") % [hours, minutes % 60]
+	return _tr("%d мин") % minutes
+
+
 ## Stopwatch look «m:ss», from an hour «h:mm:ss» (endless time in HUD, post-battle, menu, trophy room).
 static func format_clock(seconds: int) -> String:
 	var total: int = maxi(0, seconds)

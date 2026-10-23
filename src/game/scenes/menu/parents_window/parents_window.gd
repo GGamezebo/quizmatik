@@ -133,9 +133,9 @@ func _rebuild() -> void:
 func _rebuild_stats(live: PData) -> void:
 	var stats := live.statistics
 	solved_tile.set_value(str(stats.total_answers))
-	var answered := stats.facts_correct + stats.facts_wrong
-	accuracy_tile.set_value("%d%%" % roundi(100.0 * stats.facts_correct / answered) if answered > 0 else "—")
-	time_tile.set_value(_format_hours_minutes(stats.battle_total_time))
+	var percent := stats.first_try_percent()
+	accuracy_tile.set_value("%d%%" % percent if percent >= 0 else "—")
+	time_tile.set_value(ProgressStatistics.format_hours_minutes(stats.battle_total_time))
 	var exams := progress.passed_valley_exams_count() if progress != null else 0
 	exams_tile.set_value(tr("%d из %d") % [exams, levels_config.levels.get("containers", []).size()])
 
@@ -173,13 +173,3 @@ func _rebuild_facts(live: PData) -> void:
 		fact_rows.add_child(row)
 	facts_hint.visible = not keys.is_empty()
 	facts_empty.visible = keys.is_empty()
-
-
-## Whole minutes: «1 ч 05 мин» / «12 мин» (seconds mean nothing in a parent's report).
-func _format_hours_minutes(seconds: float) -> String:
-	var minutes: int = int(seconds / 60.0)
-	@warning_ignore("integer_division")
-	var hours: int = minutes / 60
-	if hours > 0:
-		return tr("%d ч %02d мин") % [hours, minutes % 60]
-	return tr("%d мин") % minutes

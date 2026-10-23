@@ -9,6 +9,17 @@
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="6_levels"]
 [ext_resource type="Texture2D" path="res://assets/ui/backgrounds/valleys/valley_subtraction.png" id="7_valley"]
 [ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="8_sky"]
+[ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="9_progress"]
+[ext_resource type="Resource" path="res://src/common/monetization/offer_board.tres" id="10_board"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/monetization/ui/paywall_stat_tile.tscn" id="11_tile"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/monetization/ui/paywall_fact_chip.tscn" id="12_chip"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/monetization/ui/paywall_valley_card.tscn" id="13_valley_card"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/stopwatch.png" id="14_stopwatch"]
+[ext_resource type="Texture2D" path="res://assets/ui/stamps/stamp_star.png" id="15_stamp_star"]
+[ext_resource type="Texture2D" uid="uid://clq8x5grir3ri" path="res://assets/ui/icons/star_filled.png" id="16_star"]
+[ext_resource type="Texture2D" path="res://assets/ui/stamps/stamp_sun.png" id="17_stamp_sun"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/magister_cap.svg" id="18_cap"]
+[ext_resource type="Texture2D" path="res://assets/ui/stamps/stamp_heart.png" id="19_stamp_heart"]
 
 [sub_resource type="Gradient" id="Gradient_overlay"]
 colors = PackedColorArray(0.12, 0.1, 0.08, 0.45, 0.12, 0.1, 0.08, 0.25)
@@ -21,11 +32,11 @@ fill_from = Vector2(0.5, 0)
 fill_to = Vector2(0.5, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-content_margin_left = 44.0
-content_margin_top = 36.0
-content_margin_right = 44.0
-content_margin_bottom = 32.0
-bg_color = Color(0.953, 0.902, 0.784, 0.98)
+content_margin_left = 36.0
+content_margin_top = 22.0
+content_margin_right = 30.0
+content_margin_bottom = 20.0
+bg_color = Color(0.953, 0.902, 0.784, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
@@ -40,12 +51,18 @@ shadow_size = 18
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font = ExtResource("5_title_font")
-font_size = 48
+font_size = 46
 font_color = Color(0.165, 0.2, 0.251, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_message"]
-font_size = 24
-font_color = Color(0.28, 0.32, 0.38, 1)
+[sub_resource type="Gradient" id="Gradient_fade"]
+colors = PackedColorArray(0.953, 0.902, 0.784, 0, 0.953, 0.902, 0.784, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fade"]
+gradient = SubResource("Gradient_fade")
+width = 8
+height = 64
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_art_mask"]
 bg_color = Color(1, 1, 1, 1)
@@ -78,8 +95,76 @@ font_color = Color(0.165, 0.2, 0.251, 1)
 font_size = 22
 font_color = Color(0.165, 0.2, 0.251, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_status"]
+[sub_resource type="LabelSettings" id="LabelSettings_message"]
+font_size = 24
+font_color = Color(0.28, 0.32, 0.38, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_section"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 24.0
+content_margin_bottom = 20.0
+bg_color = Color(0.985, 0.955, 0.885, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.55)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="LabelSettings" id="LabelSettings_section_title"]
+font = ExtResource("5_title_font")
+font_size = 32
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_note"]
+font_size = 20
+font_color = Color(0.36, 0.4, 0.46, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_subheader"]
 font_size = 22
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mode"]
+content_margin_left = 18.0
+content_margin_top = 14.0
+content_margin_right = 18.0
+content_margin_bottom = 14.0
+bg_color = Color(1, 0.94, 0.78, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0.15, 0.12, 0.08, 0.25)
+shadow_size = 3
+shadow_offset = Vector2(-2, 4)
+
+[sub_resource type="LabelSettings" id="LabelSettings_mode_title"]
+font_size = 24
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_mode_text"]
+font_size = 18
+font_color = Color(0.32, 0.36, 0.42, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_perk"]
+font_size = 20
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_closing"]
+font_size = 24
+font_color = Color(0.22, 0.44, 0.28, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_status"]
+font_size = 20
 font_color = Color(0.22, 0.44, 0.28, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_close"]
@@ -88,21 +173,122 @@ shader_parameter/shadow_offset = Vector2(-4, 8)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
 shader_parameter/shadow_blur = 2.0
 
-[node name="PaywallDialog" type="CanvasLayer" node_paths=PackedStringArray("screen", "title_label", "message_label", "status_label", "buy_button", "close_button", "valley_box", "valley_art", "valley_name_label", "valley_info_label")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cta"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+bg_color = Color(0.43, 0.7, 0.34, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 10
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+shadow_color = Color(0.15, 0.12, 0.08, 0.22)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cta_hover"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+bg_color = Color(0.5, 0.77, 0.4, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 10
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+shadow_color = Color(0.15, 0.12, 0.08, 0.28)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cta_pressed"]
+content_margin_left = 20.0
+content_margin_top = 16.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+bg_color = Color(0.37, 0.62, 0.29, 1)
+border_width_left = 4
+border_width_top = 10
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.12, 0.14, 0.18, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cta_disabled"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+bg_color = Color(0.88, 0.85, 0.78, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 10
+border_color = Color(0.165, 0.2, 0.251, 0.45)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_thanks_title"]
+font = ExtResource("5_title_font")
+font_size = 60
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_thanks_bought"]
+font_size = 26
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[node name="PaywallDialog" type="CanvasLayer" node_paths=PackedStringArray("progress", "screen", "title_label", "message_label", "status_label", "buy_button", "close_button", "scroll", "scroll_fade", "valley_box", "valley_art", "valley_name_label", "valley_info_label", "progress_box", "progress_header", "time_tile", "solved_tile", "levels_tile", "accuracy_tile", "facts_box", "fact_chips", "unlocks_box", "valley_cards", "offer_page", "thanks_page", "thanks_label", "rate_button", "rate_hint", "play_button")]
 layer = 20
 visible = false
 script = ExtResource("1_script")
-screen = NodePath("Screen")
-title_label = NodePath("Screen/CenterContainer/Panel/VBox/Title")
-message_label = NodePath("Screen/CenterContainer/Panel/VBox/Message")
-status_label = NodePath("Screen/CenterContainer/Panel/VBox/Status")
-buy_button = NodePath("Screen/CenterContainer/Panel/VBox/Buttons/Buy")
-close_button = NodePath("Screen/CenterContainer/Panel/VBox/Buttons/Close")
-valley_box = NodePath("Screen/CenterContainer/Panel/VBox/Valley")
-valley_art = NodePath("Screen/CenterContainer/Panel/VBox/Valley/ArtFrame/Mask/Art")
-valley_name_label = NodePath("Screen/CenterContainer/Panel/VBox/Valley/Info/Name")
-valley_info_label = NodePath("Screen/CenterContainer/Panel/VBox/Valley/Info/Contents")
+progress = NodePath("ProgressController")
 levels_config = ExtResource("6_levels")
+offer_board = ExtResource("10_board")
+screen = NodePath("Screen")
+title_label = NodePath("Screen/CenterContainer/Panel/Offer/Title")
+message_label = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Message")
+status_label = NodePath("Screen/CenterContainer/Panel/Offer/Footer/Status")
+buy_button = NodePath("Screen/CenterContainer/Panel/Offer/Footer/Buy")
+close_button = NodePath("Screen/CenterContainer/Panel/Offer/Footer/Close")
+scroll = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll")
+scroll_fade = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Fade")
+valley_box = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Valley")
+valley_art = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Valley/ArtFrame/Mask/Art")
+valley_name_label = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Valley/Info/Name")
+valley_info_label = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Valley/Info/Contents")
+progress_box = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress")
+progress_header = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Header")
+time_tile = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Tiles/Time")
+solved_tile = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Tiles/Solved")
+levels_tile = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Tiles/Levels")
+accuracy_tile = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Tiles/Accuracy")
+facts_box = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Facts")
+fact_chips = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Facts/Chips")
+fact_chip_scene = ExtResource("12_chip")
+unlocks_box = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks")
+valley_cards = NodePath("Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Valleys")
+valley_card_scene = ExtResource("13_valley_card")
+offer_page = NodePath("Screen/CenterContainer/Panel/Offer")
+thanks_page = NodePath("Screen/CenterContainer/Panel/Thanks")
+thanks_label = NodePath("Screen/CenterContainer/Panel/Thanks/Bought")
+rate_button = NodePath("Screen/CenterContainer/Panel/Thanks/Buttons/Rate")
+rate_hint = NodePath("Screen/CenterContainer/Panel/Thanks/RateHint")
+play_button = NodePath("Screen/CenterContainer/Panel/Thanks/Buttons/Play")
+
+[node name="ProgressController" parent="." instance=ExtResource("9_progress")]
 
 [node name="Screen" type="Control" parent="."]
 layout_mode = 3
@@ -138,33 +324,58 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="Screen/CenterContainer"]
-custom_minimum_size = Vector2(720, 0)
+custom_minimum_size = Vector2(1180, 680)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="VBox" type="VBoxContainer" parent="Screen/CenterContainer/Panel"]
+[node name="Offer" type="VBoxContainer" parent="Screen/CenterContainer/Panel"]
 layout_mode = 2
-theme_override_constants/separation = 18
-alignment = 1
+theme_override_constants/separation = 8
 
-[node name="Title" type="Label" parent="Screen/CenterContainer/Panel/VBox"]
+[node name="Title" type="Label" parent="Screen/CenterContainer/Panel/Offer"]
 layout_mode = 2
 text = "Полная версия"
 label_settings = SubResource("LabelSettings_title")
 horizontal_alignment = 1
 
-[node name="Valley" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
+[node name="ScrollBox" type="Control" parent="Screen/CenterContainer/Panel/Offer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Scroll" type="ScrollContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="Margin" type="MarginContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 40
+
+[node name="Content" type="VBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 24
+
+[node name="Valley" type="HBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 22
 alignment = 1
 
-[node name="ArtFrame" type="Control" parent="Screen/CenterContainer/Panel/VBox/Valley"]
-custom_minimum_size = Vector2(220, 132)
+[node name="ArtFrame" type="Control" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Valley"]
+custom_minimum_size = Vector2(240, 135)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Mask" type="Panel" parent="Screen/CenterContainer/Panel/VBox/Valley/ArtFrame"]
+[node name="Mask" type="Panel" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Valley/ArtFrame"]
 clip_children = 1
 layout_mode = 1
 anchors_preset = 15
@@ -175,7 +386,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_art_mask")
 
-[node name="Art" type="TextureRect" parent="Screen/CenterContainer/Panel/VBox/Valley/ArtFrame/Mask"]
+[node name="Art" type="TextureRect" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Valley/ArtFrame/Mask"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -187,7 +398,7 @@ texture = ExtResource("7_valley")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Border" type="Panel" parent="Screen/CenterContainer/Panel/VBox/Valley/ArtFrame"]
+[node name="Border" type="Panel" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Valley/ArtFrame"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -197,59 +408,402 @@ grow_vertical = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_art_border")
 
-[node name="Info" type="VBoxContainer" parent="Screen/CenterContainer/Panel/VBox/Valley"]
-custom_minimum_size = Vector2(380, 0)
+[node name="Info" type="VBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Valley"]
+custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 theme_override_constants/separation = 8
 
-[node name="Name" type="Label" parent="Screen/CenterContainer/Panel/VBox/Valley/Info"]
+[node name="Name" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Valley/Info"]
 layout_mode = 2
 text = "Долина Вычитания"
 label_settings = SubResource("LabelSettings_valley_name")
 autowrap_mode = 3
 
-[node name="Contents" type="Label" parent="Screen/CenterContainer/Panel/VBox/Valley/Info"]
+[node name="Contents" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Valley/Info"]
 layout_mode = 2
 text = "20 уровней, экзамен и новый самолёт!"
 label_settings = SubResource("LabelSettings_valley_info")
 autowrap_mode = 3
 
-[node name="Message" type="Label" parent="Screen/CenterContainer/Panel/VBox"]
-custom_minimum_size = Vector2(620, 0)
+[node name="Message" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content"]
 layout_mode = 2
-text = "Для родителей: открывает все долины — вычитание, умножение, деление и смешанные примеры. Без рекламы и подписок. Одна покупка — навсегда."
+text = "Ребёнок учится считать, играя. Полная версия открывает всю игру — от сложения до смешанных примеров."
 label_settings = SubResource("LabelSettings_message")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Status" type="Label" parent="Screen/CenterContainer/Panel/VBox"]
-custom_minimum_size = Vector2(0, 30)
+[node name="Progress" type="PanelContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content"]
 layout_mode = 2
-label_settings = SubResource("LabelSettings_status")
+theme_override_styles/panel = SubResource("StyleBoxFlat_section")
+
+[node name="VBox" type="VBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Header" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox"]
+layout_mode = 2
+auto_translate_mode = 2
+text = "Успехи пилота «Маша»"
+label_settings = SubResource("LabelSettings_section_title")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Buttons" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
+[node name="Intro" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 28
+text = "Вот что уже получилось — играючи и с удовольствием:"
+label_settings = SubResource("LabelSettings_note")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Tiles" type="HBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="Time" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Tiles" instance=ExtResource("11_tile")]
+layout_mode = 2
+caption = "Время за решением"
+icon = ExtResource("14_stopwatch")
+
+[node name="Solved" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Tiles" instance=ExtResource("11_tile")]
+layout_mode = 2
+caption = "Решено примеров"
+icon = ExtResource("15_stamp_star")
+
+[node name="Levels" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Tiles" instance=ExtResource("11_tile")]
+layout_mode = 2
+caption = "Пройдено уровней"
+icon = ExtResource("16_star")
+
+[node name="Accuracy" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Tiles" instance=ExtResource("11_tile")]
+layout_mode = 2
+caption = "Верно с первой попытки"
+icon = ExtResource("17_stamp_sun")
+
+[node name="Facts" type="VBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Facts"]
+layout_mode = 2
+text = "Над чем ещё стоит поработать:"
+label_settings = SubResource("LabelSettings_subheader")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Chips" type="HFlowContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Facts"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 10
 alignment = 1
 
-[node name="Close" type="TextureButton" parent="Screen/CenterContainer/Panel/VBox/Buttons"]
-material = SubResource("ShaderMaterial_close")
-custom_minimum_size = Vector2(96, 96)
+[node name="Hint" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Progress/VBox/Facts"]
 layout_mode = 2
+text = "Игра запоминает трудные примеры и чаще даёт их в полётах, пока они не начнут получаться."
+label_settings = SubResource("LabelSettings_note")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Unlocks" type="VBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 18
+
+[node name="Header" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks"]
+layout_mode = 2
+text = "Что откроет полная версия"
+label_settings = SubResource("LabelSettings_section_title")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Valleys" type="HBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 22
+alignment = 1
+
+[node name="Modes" type="HBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 18
+
+[node name="Endless" type="PanelContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Modes"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mode")
+
+[node name="Row" type="HBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Modes/Endless"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="TextureRect" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Modes/Endless/Row"]
+custom_minimum_size = Vector2(88, 88)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("14_stopwatch")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texts" type="VBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Modes/Endless/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Title" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Modes/Endless/Row/Texts"]
+layout_mode = 2
+text = "Бой на рекорд времени"
+label_settings = SubResource("LabelSettings_mode_title")
+autowrap_mode = 3
+
+[node name="Text" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Modes/Endless/Row/Texts"]
+layout_mode = 2
+text = "Шарики летят всё быстрее — сколько продержится ребёнок? Отличная тренировка скорости счёта."
+label_settings = SubResource("LabelSettings_mode_text")
+autowrap_mode = 3
+
+[node name="Magister" type="PanelContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Modes"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mode")
+
+[node name="Row" type="HBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Modes/Magister"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Icon" type="TextureRect" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Modes/Magister/Row"]
+custom_minimum_size = Vector2(88, 88)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("18_cap")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texts" type="VBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Modes/Magister/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Title" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Modes/Magister/Row/Texts"]
+layout_mode = 2
+text = "Испытание магистра"
+label_settings = SubResource("LabelSettings_mode_title")
+autowrap_mode = 3
+
+[node name="Text" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Modes/Magister/Row/Texts"]
+layout_mode = 2
+text = "Финал для тех, кто сдал все экзамены: 10 минут испытания, звание магистра и кубок в зале славы."
+label_settings = SubResource("LabelSettings_mode_text")
+autowrap_mode = 3
+
+[node name="Perks" type="HBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 36
+alignment = 1
+
+[node name="Forever" type="HBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Perks"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Perks/Forever"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("16_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Perks/Forever"]
+layout_mode = 2
+text = "Одна покупка — навсегда"
+label_settings = SubResource("LabelSettings_perk")
+
+[node name="NoAds" type="HBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Perks"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Perks/NoAds"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("16_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Perks/NoAds"]
+layout_mode = 2
+text = "Без рекламы и подписок"
+label_settings = SubResource("LabelSettings_perk")
+
+[node name="AllPilots" type="HBoxContainer" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Perks"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Icon" type="TextureRect" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Perks/AllPilots"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("16_star")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content/Unlocks/Perks/AllPilots"]
+layout_mode = 2
+text = "Для всех пилотов в игре"
+label_settings = SubResource("LabelSettings_perk")
+
+[node name="Closing" type="Label" parent="Screen/CenterContainer/Panel/Offer/ScrollBox/Scroll/Margin/Content"]
+layout_mode = 2
+text = "Счёт становится приключением — пусть ребёнок и дальше учится с удовольствием!"
+label_settings = SubResource("LabelSettings_closing")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Fade" type="TextureRect" parent="Screen/CenterContainer/Panel/Offer/ScrollBox"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+offset_right = -26.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_fade")
+expand_mode = 1
+
+[node name="Footer" type="HBoxContainer" parent="Screen/CenterContainer/Panel/Offer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Close" type="TextureButton" parent="Screen/CenterContainer/Panel/Offer/Footer"]
+material = SubResource("ShaderMaterial_close")
+custom_minimum_size = Vector2(88, 88)
+layout_mode = 2
+size_flags_vertical = 4
 focus_mode = 0
 texture_filter = 1
 texture_normal = ExtResource("3_back")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Buy" type="Button" parent="Screen/CenterContainer/Panel/VBox/Buttons"]
-custom_minimum_size = Vector2(340, 84)
+[node name="Status" type="Label" parent="Screen/CenterContainer/Panel/Offer/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+label_settings = SubResource("LabelSettings_status")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Buy" type="Button" parent="Screen/CenterContainer/Panel/Offer/Footer"]
+custom_minimum_size = Vector2(420, 88)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
-theme_override_font_sizes/font_size = 30
-text = "Купить"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.165, 0.2, 0.251, 0.6)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_cta")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cta_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cta_pressed")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_cta_disabled")
+text = "Купить за $2.99"
+
+[node name="Thanks" type="VBoxContainer" parent="Screen/CenterContainer/Panel"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Stamp" type="TextureRect" parent="Screen/CenterContainer/Panel/Thanks"]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+texture = ExtResource("19_stamp_heart")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Screen/CenterContainer/Panel/Thanks"]
+layout_mode = 2
+text = "Спасибо!"
+label_settings = SubResource("LabelSettings_thanks_title")
+horizontal_alignment = 1
+
+[node name="Bought" type="Label" parent="Screen/CenterContainer/Panel/Thanks"]
+custom_minimum_size = Vector2(860, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Полная версия открыта навсегда: все долины, бой на рекорд времени и испытание магистра."
+label_settings = SubResource("LabelSettings_thanks_bought")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Care" type="Label" parent="Screen/CenterContainer/Panel/Thanks"]
+custom_minimum_size = Vector2(860, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Вы помогаете ребёнку полюбить математику — это настоящая забота. Спасибо, что вы с нами!"
+label_settings = SubResource("LabelSettings_message")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Screen/CenterContainer/Panel/Thanks"]
+layout_mode = 2
+theme_override_constants/separation = 28
+alignment = 1
+
+[node name="Rate" type="Button" parent="Screen/CenterContainer/Panel/Thanks/Buttons"]
+custom_minimum_size = Vector2(320, 84)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 36
+theme_override_font_sizes/font_size = 28
+text = "Оценить игру"
+icon = ExtResource("16_star")
+
+[node name="Play" type="Button" parent="Screen/CenterContainer/Panel/Thanks/Buttons"]
+custom_minimum_size = Vector2(320, 84)
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_cta")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cta_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cta_pressed")
+text = "Играть!"
+
+[node name="RateHint" type="Label" parent="Screen/CenterContainer/Panel/Thanks"]
+layout_mode = 2
+text = "Ваша оценка помогает другим родителям найти игру."
+label_settings = SubResource("LabelSettings_note")
+horizontal_alignment = 1
+autowrap_mode = 3
