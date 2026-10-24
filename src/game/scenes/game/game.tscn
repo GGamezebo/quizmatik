@@ -64,6 +64,10 @@
 [ext_resource type="PackedScene" uid="uid://bnbookbg01quiz" path="res://src/ui/backgrounds/notebook/notebook_background.tscn" id="64_bg_school"]
 [ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="65_bg_forest"]
 [ext_resource type="PackedScene" uid="uid://bnskybg01quiz" path="res://src/ui/backgrounds/notebook_sky/notebook_sky_background.tscn" id="66_bg_forest_pencil"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/space/space_background.tscn" id="67_bg_space"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/school_dreams/school_dreams_background.tscn" id="68_bg_school_dreams"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/balloon_world/balloon_world_background.tscn" id="69_bg_balloon_world"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/candy_kingdom/candy_kingdom_background.tscn" id="70_bg_candy_kingdom"]
 [ext_resource type="Script" path="res://src/game/scenes/game/ui/touch_hints.gd" id="70_touch_hints"]
 [ext_resource type="Script" path="res://src/game/scenes/game/ui/endless_record_plate.gd" id="73_record_plate"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/touch_hint_shoot.svg" id="71_hint_shoot"]
@@ -215,7 +219,7 @@ root_events = ExtResource("8_xkl2s")
 initable_components = [NodePath("GameArea"), NodePath("LineSelector"), NodePath("Player"), NodePath("GameManager"), NodePath("HUD"), NodePath("HUD/TimedIntro"), NodePath("HUD/EndlessRecordPlate"), NodePath("HUD/RightPanel/GoldenCoins")]
 pdata = ExtResource("62_pdata")
 cosmetics = ExtResource("63_cosmetics")
-rare_valley_backgrounds = Array[PackedScene]([ExtResource("64_bg_school"), ExtResource("65_bg_forest"), ExtResource("66_bg_forest_pencil")])
+rare_valley_backgrounds = Array[PackedScene]([ExtResource("64_bg_school"), ExtResource("65_bg_forest"), ExtResource("66_bg_forest_pencil"), ExtResource("67_bg_space"), ExtResource("68_bg_school_dreams"), ExtResource("69_bg_balloon_world"), ExtResource("70_bg_candy_kingdom")])
 
 [node name="GameArea" type="Node2D" parent="." unique_id=1652487391]
 script = ExtResource("3_5eju7")

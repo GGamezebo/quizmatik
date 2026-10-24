@@ -4,8 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://bnbookbg01quiz" path="res://src/ui/backgrounds/notebook/notebook_background.tscn" id="2_notebook"]
 [ext_resource type="PackedScene" uid="uid://bclassky01quiz" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="3_classic"]
 [ext_resource type="PackedScene" uid="uid://bnskybg01quiz" path="res://src/ui/backgrounds/notebook_sky/notebook_sky_background.tscn" id="4_notebook_sky"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/space/space_background.tscn" id="5_space"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/school_dreams/school_dreams_background.tscn" id="6_school_dreams"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/balloon_world/balloon_world_background.tscn" id="7_balloon_world"]
+[ext_resource type="PackedScene" path="res://src/ui/backgrounds/candy_kingdom/candy_kingdom_background.tscn" id="8_candy_kingdom"]
 
 [node name="BackgroundHost" type="Node2D"]
 script = ExtResource("1_host")
-variants = Array[PackedScene]([ExtResource("2_notebook"), ExtResource("3_classic"), ExtResource("4_notebook_sky")])
+variants = Array[PackedScene]([ExtResource("2_notebook"), ExtResource("3_classic"), ExtResource("4_notebook_sky"), ExtResource("5_space"), ExtResource("6_school_dreams"), ExtResource("7_balloon_world"), ExtResource("8_candy_kingdom")])
 pick_random = true
