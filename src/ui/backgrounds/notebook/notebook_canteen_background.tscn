@@ -1,7 +1,0 @@
-[gd_scene format=3]
-
-[ext_resource type="PackedScene" uid="uid://bnbookbg01quiz" path="res://src/ui/backgrounds/notebook/notebook_background.tscn" id="1_base"]
-[ext_resource type="Texture2D" path="res://src/ui/backgrounds/notebook/sketches/09_canteen_chaos.jpg" id="2_sketch"]
-
-[node name="NotebookCanteenBackground" instance=ExtResource("1_base")]
-sky_textures = Array[Texture2D]([ExtResource("2_sketch")])
