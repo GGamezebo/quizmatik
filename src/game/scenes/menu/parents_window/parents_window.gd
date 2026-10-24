@@ -5,6 +5,8 @@ extends Control
 ## `parents`: Monetization skips its own gate for it) and store rating (`PlatformServices.can_rate`): button
 ## «Оценить игру» → store page; once per app session, when the pilot has real progress, the store's in-app
 ## review sheet a moment after the report shows (the parent holds the phone here, not the child).
+## «Поделиться» (`PlatformServices.can_share`) → share sheet with a line about the pilot's progress + store link;
+## never rewarded, only here behind the gate.
 ## Opened from Settings via the window stack; the gate runs on every entry, content hidden until passed.
 
 @export var pdata: PData
@@ -35,8 +37,15 @@ extends Control
 ## Ask the store's review sheet only after this much: an exam passed or this many problems solved.
 @export var review_min_solved: int = 100
 @export var review_delay_sec: float = 1.5
+@export_group("Share")
+@export var share_button: Button
 
 const FACTS_SHOWN: int = 5
+const SHARE_PLACEMENT := &"parents"
+## Parent → friend (Russian source, `tr`): `%s` = game title, `%d` = problems solved.
+const SHARE_TEXT := "Мой ребёнок тренирует счёт в игре «%s» — летает на самолётике и решает примеры. Попробуйте и вы!"
+const SHARE_TEXT_SOLVED := "Мой ребёнок тренирует счёт в игре «%s» — летает на самолётике и решает примеры. Уже решено примеров: %d. Попробуйте и вы!"
+const GAME_TITLE := "Улётная математика"
 
 var _listener: EventListener = EventListener.new()
 ## In-app review asked this app session (the store also keeps its own quota).
@@ -55,9 +64,10 @@ func _ready() -> void:
 	if offer_board != null:
 		_listener.add(offer_board.ev_changed, _on_offers_changed)
 	if platform_services != null:
-		_listener.add(platform_services.ev_caps_changed, _refresh_rate_button)
+		_listener.add(platform_services.ev_caps_changed, _refresh_store_buttons)
 	rate_button.pressed.connect(_on_rate_pressed)
-	_refresh_rate_button()
+	share_button.pressed.connect(_on_share_pressed)
+	_refresh_store_buttons()
 	content.hide()
 
 
@@ -87,12 +97,19 @@ func _on_offers_changed() -> void:
 		_rebuild()
 
 
-func _refresh_rate_button() -> void:
+func _refresh_store_buttons() -> void:
 	rate_button.visible = platform_services != null and platform_services.can_rate
+	share_button.visible = platform_services != null and platform_services.can_share
 
 
 func _on_rate_pressed() -> void:
 	platform_services.ev_request_rate_page.emit()
+
+
+func _on_share_pressed() -> void:
+	var solved := _live_pdata().statistics.total_answers
+	var text := tr(SHARE_TEXT_SOLVED) % [tr(GAME_TITLE), solved] if solved > 0 else tr(SHARE_TEXT) % tr(GAME_TITLE)
+	platform_services.ev_request_share.emit(SHARE_PLACEMENT, text)
 
 
 func _maybe_request_review() -> void:

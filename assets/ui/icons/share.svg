@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!-- Share: three linked dots — colored-pencil fill + graphite ink edge (notebook look). -->
+  <!-- Links -->
+  <path d="M74 128 L182 62" stroke="#2A3340" stroke-width="14" stroke-linecap="round"/>
+  <path d="M74 128 L182 194" stroke="#2A3340" stroke-width="14" stroke-linecap="round"/>
+  <!-- Dots -->
+  <circle cx="70" cy="128" r="38" fill="#4F8FD9" stroke="#2A3340" stroke-width="10"/>
+  <circle cx="186" cy="60" r="38" fill="#5DBB63" stroke="#2A3340" stroke-width="10"/>
+  <circle cx="186" cy="196" r="38" fill="#F2A33A" stroke="#2A3340" stroke-width="10"/>
+  <!-- Pencil highlights -->
+  <g stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" opacity="0.55" fill="none">
+    <path d="M52 112 Q58 102 70 100"/>
+    <path d="M168 44 Q174 34 186 32"/>
+    <path d="M168 180 Q174 170 186 168"/>
+  </g>
+</svg>

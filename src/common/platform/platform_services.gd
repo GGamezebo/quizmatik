@@ -33,6 +33,10 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_request_review
 ## Game → store: open the game's store page to rate it (button).
 @warning_ignore("unused_signal") signal ev_request_rate_page
+## Game → platform: system share sheet with `text` + the game's store link (`placement` tags the link for
+## store acquisition reports). No answer, never rewarded; only from behind a parental gate (parents
+## report, purchase thank-you page).
+@warning_ignore("unused_signal") signal ev_request_share(placement: StringName, text: String)
 
 ## Offer kinds (one paid offer per store).
 const OFFER_NO_ADS := &"no_ads"
@@ -56,6 +60,9 @@ var offer_price: String = ""
 var is_content_locked: bool = false
 ## true while a store context answers `ev_request_review` / `ev_request_rate_page`.
 var can_rate: bool = false
+## true while a platform context answers `ev_request_share` (store build with a public page to link).
+## Default false: portals / desktop / tester builds → no share button.
+var can_share: bool = false
 
 
 ## Called only by platform contexts (on SDK ready / on deinit).
@@ -72,6 +79,14 @@ func set_rate(enabled: bool) -> void:
 	if can_rate == enabled:
 		return
 	can_rate = enabled
+	ev_caps_changed.emit()
+
+
+## Called only by store platform contexts (`GooglePlayContext`, `RuStoreContext`, fake `DevShopContext`).
+func set_share(enabled: bool) -> void:
+	if can_share == enabled:
+		return
+	can_share = enabled
 	ev_caps_changed.emit()
 
 

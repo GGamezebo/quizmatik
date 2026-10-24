@@ -5,12 +5,14 @@ extends CanvasLayer
 ## (time, solved, levels, first-try %, weak examples — hidden for a fresh pilot) and, for `unlock_kinds`,
 ## what the purchase opens (paid valleys, record battle, magister trial, perks); price + «Купить» stay
 ## pinned under the scroll. Buy → owner runs the parental gate + purchase and reports back via
-## `set_waiting` / `show_result`; success → thank-you page («Оценить игру» → `ev_rate_pressed`) with
+## `set_waiting` / `show_result`; success → thank-you page («Оценить игру» → `ev_rate_pressed`, «Поделиться» →
+## `ev_share_pressed(text)` with a ready parent → friend line) with
 ## confetti / firework bursts around the heart and `ev_thanks_shown(true)` (owner → joyful music), off on close.
 ## Opened from a valley → that valley on top (art, name, what is inside) for the kid.
 
 signal ev_buy_pressed
 signal ev_rate_pressed
+signal ev_share_pressed(text: String)
 signal ev_thanks_shown(is_shown: bool)
 
 @export var progress: ProgressController
@@ -52,6 +54,7 @@ signal ev_thanks_shown(is_shown: bool)
 @export var thanks_label: Label
 @export var rate_button: Button
 @export var rate_hint: Label
+@export var share_button: Button
 @export var play_button: Button
 ## Heart stamp: pops in when the page shows.
 @export var thanks_stamp: Control
@@ -80,6 +83,9 @@ const PROGRESS_HEADER := "Успехи пилота «%s»"
 ## What a valley holds: its exam gives a plane, the last one a trophy.
 const VALLEY_INFO_PLANE := "20 уровней, экзамен и новый самолёт!"
 const VALLEY_INFO_TROPHY := "20 уровней, экзамен и кубок!"
+## Parent → friend (Russian source, `tr`): `%s` = game title.
+const SHARE_TEXT := "Мой ребёнок тренирует счёт в игре «%s» — летает на самолётике и решает примеры. Попробуйте и вы!"
+const GAME_TITLE := "Улётная математика"
 
 var _kind: StringName = &""
 var _celebration_tween: Tween
@@ -93,6 +99,7 @@ func _ready() -> void:
 	buy_button.pressed.connect(ev_buy_pressed.emit)
 	close_button.pressed.connect(close)
 	rate_button.pressed.connect(ev_rate_pressed.emit)
+	share_button.pressed.connect(func() -> void: ev_share_pressed.emit(tr(SHARE_TEXT) % tr(GAME_TITLE)))
 	play_button.pressed.connect(close)
 	var bar := scroll.get_v_scroll_bar()
 	bar.value_changed.connect(_update_fade.unbind(1))
@@ -147,8 +154,9 @@ func set_waiting(is_waiting: bool) -> void:
 		status_label.text = "Подождите…"
 
 
-## `can_rate` = the store can show its rating page → «Оценить игру» on the thank-you page.
-func show_result(is_success: bool, can_rate: bool = false) -> void:
+## `can_rate` = the store can show its rating page → «Оценить игру» on the thank-you page;
+## `can_share` = the platform can open a share sheet → «Поделиться».
+func show_result(is_success: bool, can_rate: bool = false, can_share: bool = false) -> void:
 	set_waiting(false)
 	if not is_success:
 		status_label.text = "Покупка не завершена. Попробуйте ещё раз."
@@ -156,6 +164,7 @@ func show_result(is_success: bool, can_rate: bool = false) -> void:
 	thanks_label.text = TEXTS[_kind][2]
 	rate_button.visible = can_rate
 	rate_hint.visible = can_rate
+	share_button.visible = can_share
 	offer_page.hide()
 	_set_thanks(true)
 

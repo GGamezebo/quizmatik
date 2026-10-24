@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://dvnnrqop6w6sc" path="res://src/game/account/progress_controller.tscn" id="18_progress"]
 [ext_resource type="Resource" path="res://src/common/platform/platform_services.tres" id="19_services"]
 [ext_resource type="Texture2D" uid="uid://clq8x5grir3ri" path="res://assets/ui/icons/star_filled.png" id="20_star"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/share.svg" id="21_share"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("8_shadow")
@@ -64,7 +65,7 @@ font = ExtResource("9_font")
 font_size = 18
 font_color = Color(0.36, 0.4, 0.46, 1)
 
-[node name="ParentsWindow" type="Control" node_paths=PackedStringArray("progress", "parental_gate", "content", "pilot_label", "solved_tile", "accuracy_tile", "time_tile", "exams_tile", "valley_rows", "fact_rows", "facts_hint", "facts_empty", "rate_button")]
+[node name="ParentsWindow" type="Control" node_paths=PackedStringArray("progress", "parental_gate", "content", "pilot_label", "solved_tile", "accuracy_tile", "time_tile", "exams_tile", "valley_rows", "fact_rows", "facts_hint", "facts_empty", "rate_button", "share_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -92,6 +93,7 @@ fact_row_scene = ExtResource("17_fact_row")
 facts_hint = NodePath("Content/Card/Margin/VBox/Columns/Facts/VBox/Hint")
 facts_empty = NodePath("Content/Card/Margin/VBox/Columns/Facts/VBox/Empty")
 rate_button = NodePath("Content/Card/BottomButtons/Rate")
+share_button = NodePath("Content/Card/BottomButtons/Share")
 
 [node name="ProgressController" parent="." instance=ExtResource("18_progress")]
 
@@ -305,6 +307,16 @@ theme_override_constants/icon_max_width = 32
 theme_override_font_sizes/font_size = 24
 text = "Оценить игру"
 icon = ExtResource("20_star")
+
+[node name="Share" type="Button" parent="Content/Card/BottomButtons"]
+visible = false
+custom_minimum_size = Vector2(240, 64)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 32
+theme_override_font_sizes/font_size = 24
+text = "Поделиться"
+icon = ExtResource("21_share")
 
 [node name="PurchaseOffer" parent="Content/Card/BottomButtons" instance=ExtResource("13_purchase_offer")]
 layout_mode = 2

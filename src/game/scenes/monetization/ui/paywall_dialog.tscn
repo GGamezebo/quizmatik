@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" path="res://assets/ui/stamps/stamp_sun.png" id="17_stamp_sun"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/magister_cap.svg" id="18_cap"]
 [ext_resource type="Texture2D" path="res://assets/ui/stamps/stamp_heart.png" id="19_stamp_heart"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/share.svg" id="20_share"]
 
 [sub_resource type="Gradient" id="Gradient_overlay"]
 colors = PackedColorArray(0.12, 0.1, 0.08, 0.45, 0.12, 0.1, 0.08, 0.25)
@@ -292,7 +293,7 @@ colors = PackedColorArray(0.941, 0.788, 0.29, 1, 0.91, 0.353, 0.353, 1, 0.22, 0.
 offsets = PackedFloat32Array(0, 0.75, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 
-[node name="PaywallDialog" type="CanvasLayer" node_paths=PackedStringArray("progress", "screen", "title_label", "message_label", "status_label", "buy_button", "close_button", "scroll", "scroll_fade", "valley_box", "valley_art", "valley_name_label", "valley_info_label", "progress_box", "progress_header", "time_tile", "solved_tile", "levels_tile", "accuracy_tile", "facts_box", "fact_chips", "unlocks_box", "valley_cards", "offer_page", "thanks_page", "thanks_label", "rate_button", "rate_hint", "play_button", "thanks_stamp", "celebration_bursts")]
+[node name="PaywallDialog" type="CanvasLayer" node_paths=PackedStringArray("progress", "screen", "title_label", "message_label", "status_label", "buy_button", "close_button", "scroll", "scroll_fade", "valley_box", "valley_art", "valley_name_label", "valley_info_label", "progress_box", "progress_header", "time_tile", "solved_tile", "levels_tile", "accuracy_tile", "facts_box", "fact_chips", "unlocks_box", "valley_cards", "offer_page", "thanks_page", "thanks_label", "rate_button", "rate_hint", "share_button", "play_button", "thanks_stamp", "celebration_bursts")]
 layer = 20
 visible = false
 script = ExtResource("1_script")
@@ -328,6 +329,7 @@ thanks_page = NodePath("Screen/CenterContainer/Panel/Thanks")
 thanks_label = NodePath("Screen/CenterContainer/Panel/Thanks/Bought")
 rate_button = NodePath("Screen/CenterContainer/Panel/Thanks/Buttons/Rate")
 rate_hint = NodePath("Screen/CenterContainer/Panel/Thanks/RateHint")
+share_button = NodePath("Screen/CenterContainer/Panel/Thanks/Buttons/Share")
 play_button = NodePath("Screen/CenterContainer/Panel/Thanks/Buttons/Play")
 thanks_stamp = NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/Stamp")
 celebration_bursts = [NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/ConfettiLeft"), NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/ConfettiRight"), NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/FireworkLeft"), NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/FireworkRight")]
@@ -943,6 +945,15 @@ theme_override_constants/icon_max_width = 36
 theme_override_font_sizes/font_size = 28
 text = "Оценить игру"
 icon = ExtResource("16_star")
+
+[node name="Share" type="Button" parent="Screen/CenterContainer/Panel/Thanks/Buttons"]
+custom_minimum_size = Vector2(320, 84)
+layout_mode = 2
+focus_mode = 0
+theme_override_constants/icon_max_width = 36
+theme_override_font_sizes/font_size = 28
+text = "Поделиться"
+icon = ExtResource("20_share")
 
 [node name="Play" type="Button" parent="Screen/CenterContainer/Panel/Thanks/Buttons"]
 custom_minimum_size = Vector2(320, 84)

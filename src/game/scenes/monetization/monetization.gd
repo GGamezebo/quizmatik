@@ -3,7 +3,8 @@ extends IScene
 ## `App/Monetization`: game-side ad / purchase rules, platform-agnostic. Mounted only by a store context
 ## (`*Shop` under App/Platform) → tester builds (no store or feature `no_monetization`) never load it.
 ## Bridges OfferBoard (host UI hooks) ↔ PlatformServices (store): interstitial pacing, rewarded gold
-## with a per-device daily limit, paywall + parental gate (thank-you page «Оценить игру» → store page).
+## with a per-device daily limit, paywall + parental gate (thank-you page «Оценить игру» → store page,
+## «Поделиться» → share sheet, placement `thanks`).
 ## F6 alone = defaults, nothing for sale.
 
 const STATE_PATH: String = "user://monetization.json"
@@ -18,6 +19,8 @@ const STATE_PATH: String = "user://monetization.json"
 ## Placements whose host is already behind its own parental gate («Для родителей» window) → «Купить» goes
 ## straight to the store, no second example.
 @export var gated_placements: Array[StringName] = [&"parents"]
+## Share placement of the thank-you page (tags the store link).
+@export var share_placement: StringName = &"thanks"
 @export_group("Interstitial")
 ## Session battles before the first interstitial (kids' first minutes stay ad-free).
 @export var interstitial_min_battles: int = 3
@@ -47,6 +50,7 @@ func initialize(_data: Dictionary) -> void:
 	_listener.add(offer_board.ev_paywall_requested, _on_paywall_requested)
 	_listener.add(paywall_dialog.ev_buy_pressed, _on_buy_pressed)
 	_listener.add(paywall_dialog.ev_rate_pressed, platform_services.ev_request_rate_page.emit)
+	_listener.add(paywall_dialog.ev_share_pressed, _on_share_pressed)
 	_listener.add(paywall_dialog.ev_thanks_shown, root_events.ev_celebration_music.emit)
 	_listener.add(parental_gate.ev_passed, _on_gate_passed)
 	_publish()
@@ -140,7 +144,10 @@ func _on_purchase_result(is_success: bool) -> void:
 	if not _is_purchasing:
 		return
 	_is_purchasing = false
-	paywall_dialog.show_result(is_success, platform_services.can_rate)
+	paywall_dialog.show_result(is_success, platform_services.can_rate, platform_services.can_share)
+
+func _on_share_pressed(text: String) -> void:
+	platform_services.ev_request_share.emit(share_placement, text)
 
 func _on_purchase_pending() -> void:
 	if not _is_purchasing:

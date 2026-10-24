@@ -10,8 +10,9 @@ const AD_SEC := 0.6
 
 var _model: String = ""
 var _listener: EventListener = EventListener.new()
-## Model play also answers rating like `GooglePlayContext` (real Play Core calls on a phone).
+## Model play also answers rating + share like `GooglePlayContext` (real Play Core / share sheet on a phone).
 var _rating: PlayRating = PlayRating.new()
+var _share: AndroidShare = AndroidShare.new()
 var _is_alive: bool = true
 
 
@@ -28,6 +29,8 @@ func _enter() -> void:
 		_listener.add(services.ev_request_review, _rating.request_review)
 		_listener.add(services.ev_request_rate_page, _rating.open_store_page)
 		services.set_rate(true)
+		_listener.add(services.ev_request_share, _on_share)
+		services.set_share(true)
 	else:
 		services.set_ads(true, true)
 		services.set_offer(PlatformServices.OFFER_NO_ADS, "199 ₽")
@@ -42,6 +45,7 @@ func deinit() -> void:
 		services.set_offer(&"", "")
 		services.set_content_locked(false)
 		services.set_rate(false)
+		services.set_share(false)
 	super.deinit()
 
 
@@ -61,6 +65,10 @@ func _on_purchase() -> void:
 		services.set_ads(false, true)
 	services.set_offer(&"", "")
 	services.ev_purchase_result.emit(true)
+
+
+func _on_share(placement: StringName, text: String) -> void:
+	_share.share(text, AndroidShare.tagged_url(GooglePlayContext.SHARE_URL, placement))
 
 
 ## Same pause contract as a real ad: hidden → pause + mute, then resume and answer.
