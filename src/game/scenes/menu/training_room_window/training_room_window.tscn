@@ -56,19 +56,19 @@ grow_vertical = 2
 theme = ExtResource("9_theme")
 script = ExtResource("1_script")
 config = ExtResource("2_config")
-col_addition = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColAddition")
-col_subtraction = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColSubtraction")
-col_multiplication = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColMultiplication")
-col_division = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColDivision")
-mul_range_picker = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColMultiplication/RangePicker")
-div_range_picker = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColDivision/RangePicker")
-difficulty_hint = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffHint")
-difficulty_easy = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/Easy")
-difficulty_normal = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/Normal")
-difficulty_hard = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/Hard")
-timed_toggle = NodePath("CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow/TimedToggle")
-reset_button = NodePath("CenterContainer/Stack/ActionsRow/ResetButton")
-start_battle_button = NodePath("CenterContainer/Stack/ActionsRow/StartPractice")
+col_addition = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColAddition")
+col_subtraction = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColSubtraction")
+col_multiplication = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColMultiplication")
+col_division = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColDivision")
+mul_range_picker = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColMultiplication/RangePicker")
+div_range_picker = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColDivision/RangePicker")
+difficulty_hint = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/DiffCard/DiffVBox/DiffHint")
+difficulty_easy = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/DiffCard/DiffVBox/DiffRow/Easy")
+difficulty_normal = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/DiffCard/DiffVBox/DiffRow/Normal")
+difficulty_hard = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/DiffCard/DiffVBox/DiffRow/Hard")
+timed_toggle = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/DiffCard/DiffVBox/DiffRow/TimedToggle")
+reset_button = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/ResetButton")
+start_battle_button = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/StartPractice")
 
 [node name="DailyChallengesController" parent="." instance=ExtResource("8_daily")]
 
@@ -86,16 +86,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Stack" type="VBoxContainer" parent="CenterContainer"]
-layout_mode = 2
-theme_override_constants/separation = 8
-alignment = 1
-
-[node name="Panel" type="Control" parent="CenterContainer/Stack"]
-custom_minimum_size = Vector2(1100, 604)
+[node name="Panel" type="Control" parent="CenterContainer"]
+custom_minimum_size = Vector2(1200, 704)
 layout_mode = 2
 
-[node name="Frame" type="NinePatchRect" parent="CenterContainer/Stack/Panel"]
+[node name="Frame" type="NinePatchRect" parent="CenterContainer/Panel"]
 material = SubResource("ShaderMaterial_sticker")
 layout_mode = 1
 anchors_preset = 15
@@ -109,19 +104,19 @@ patch_margin_top = 60
 patch_margin_right = 70
 patch_margin_bottom = 60
 
-[node name="TitleStack" type="Control" parent="CenterContainer/Stack/Panel"]
+[node name="TitleStack" type="Control" parent="CenterContainer/Panel"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -260.0
-offset_top = 16.0
+offset_top = 14.0
 offset_right = 260.0
-offset_bottom = 66.0
+offset_bottom = 64.0
 grow_horizontal = 2
 mouse_filter = 2
 
-[node name="TitleFill" type="Label" parent="CenterContainer/Stack/Panel/TitleStack"]
+[node name="TitleFill" type="Label" parent="CenterContainer/Panel/TitleStack"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -139,7 +134,7 @@ text = "ПРАКТИКА"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TitleBanner" type="Label" parent="CenterContainer/Stack/Panel/TitleStack"]
+[node name="TitleBanner" type="Label" parent="CenterContainer/Panel/TitleStack"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -156,34 +151,34 @@ text = "ПРАКТИКА"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BodyMargin" type="MarginContainer" parent="CenterContainer/Stack/Panel"]
+[node name="BodyMargin" type="MarginContainer" parent="CenterContainer/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 70
-theme_override_constants/margin_right = 40
-theme_override_constants/margin_bottom = 24
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 66
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 22
 
-[node name="MainVBox" type="VBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin"]
+[node name="MainVBox" type="VBoxContainer" parent="CenterContainer/Panel/BodyMargin"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
-[node name="OpsCard" type="PanelContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox"]
+[node name="OpsCard" type="PanelContainer" parent="CenterContainer/Panel/BodyMargin/MainVBox"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
-[node name="OpsVBox" type="VBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard"]
+[node name="OpsVBox" type="VBoxContainer" parent="CenterContainer/Panel/BodyMargin/MainVBox/OpsCard"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="OpsTitle" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox"]
+[node name="OpsTitle" type="Label" parent="CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_fonts/font = ExtResource("4_font")
@@ -191,71 +186,88 @@ theme_override_font_sizes/font_size = 16
 text = "✦  МАТЕМАТИЧЕСКИЕ ДЕЙСТВИЯ  ✦"
 horizontal_alignment = 1
 
-[node name="OpsRow" type="HBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox"]
+[node name="OpsRow" type="HBoxContainer" parent="CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 12
+theme_override_constants/separation = 14
 
-[node name="ColAddition" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
+[node name="ColAddition" parent="CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
 layout_mode = 2
 
-[node name="ColSubtraction" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
+[node name="ColSubtraction" parent="CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
 layout_mode = 2
 
-[node name="ColMultiplication" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
+[node name="ColMultiplication" parent="CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
 layout_mode = 2
 
-[node name="RangePicker" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColMultiplication" instance=ExtResource("12_picker")]
+[node name="RangePicker" parent="CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColMultiplication" instance=ExtResource("12_picker")]
 visible = false
 layout_mode = 2
 
-[node name="ColDivision" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
+[node name="ColDivision" parent="CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow" instance=ExtResource("10_col")]
 layout_mode = 2
 
-[node name="RangePicker" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColDivision" instance=ExtResource("12_picker")]
+[node name="RangePicker" parent="CenterContainer/Panel/BodyMargin/MainVBox/OpsCard/OpsVBox/OpsRow/ColDivision" instance=ExtResource("12_picker")]
 visible = false
 layout_mode = 2
 
-[node name="DiffCard" type="PanelContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox"]
+[node name="BottomRow" type="HBoxContainer" parent="CenterContainer/Panel/BodyMargin/MainVBox"]
 layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="MenuWindowBack" parent="CenterContainer/Panel/BodyMargin/MainVBox/BottomRow" instance=ExtResource("7_menu_back")]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="DiffCard" type="PanelContainer" parent="CenterContainer/Panel/BodyMargin/MainVBox/BottomRow"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
-[node name="DiffVBox" type="VBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard"]
+[node name="DiffVBox" type="VBoxContainer" parent="CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/DiffCard"]
 layout_mode = 2
 theme_override_constants/separation = 8
+alignment = 1
 
-[node name="DiffHint" type="Label" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox"]
+[node name="DiffHint" type="Label" parent="CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/DiffCard/DiffVBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.38, 0.42, 0.48, 1)
 theme_override_fonts/font = ExtResource("4_font")
 theme_override_font_sizes/font_size = 15
 text = "Средний темп, стандартное время на пример"
 horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="DiffRow" type="HBoxContainer" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox"]
+[node name="DiffRow" type="HBoxContainer" parent="CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/DiffCard/DiffVBox"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
-[node name="Easy" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
-custom_minimum_size = Vector2(0, 54)
+[node name="Easy" parent="CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
+custom_minimum_size = Vector2(0, 64)
+autowrap_mode = 3
 layout_mode = 2
 caption = "ЛЕГКО"
 option_id = &"easy"
 
-[node name="Normal" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
-custom_minimum_size = Vector2(0, 54)
+[node name="Normal" parent="CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
+custom_minimum_size = Vector2(0, 64)
+autowrap_mode = 3
 layout_mode = 2
 caption = "НОРМАЛЬНО"
 option_id = &"normal"
 
-[node name="Hard" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
-custom_minimum_size = Vector2(0, 54)
+[node name="Hard" parent="CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
+custom_minimum_size = Vector2(0, 64)
+autowrap_mode = 3
 layout_mode = 2
 caption = "СЛОЖНО"
 option_id = &"hard"
 
-[node name="TimedToggle" parent="CenterContainer/Stack/Panel/BodyMargin/MainVBox/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
-custom_minimum_size = Vector2(0, 54)
+[node name="TimedToggle" parent="CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/DiffCard/DiffVBox/DiffRow" instance=ExtResource("11_opt")]
+custom_minimum_size = Vector2(0, 64)
+autowrap_mode = 3
 layout_mode = 2
 theme_override_constants/icon_max_width = 28
 icon = ExtResource("20_clock")
@@ -263,31 +275,24 @@ caption = "НА ВРЕМЯ"
 option_id = &"timed"
 is_switch = true
 
-[node name="ActionsRow" type="HBoxContainer" parent="CenterContainer/Stack"]
-layout_mode = 2
-theme_override_constants/separation = 28
-alignment = 1
-
-[node name="ResetButton" type="TextureButton" parent="CenterContainer/Stack/ActionsRow"]
+[node name="ResetButton" type="TextureButton" parent="CenterContainer/Panel/BodyMargin/MainVBox/BottomRow"]
 material = SubResource("ShaderMaterial_action")
-custom_minimum_size = Vector2(96, 96)
+custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_vertical = 4
 focus_mode = 0
 texture_normal = ExtResource("13_reset")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("15_hover")
 
-[node name="StartPractice" type="TextureButton" parent="CenterContainer/Stack/ActionsRow"]
+[node name="StartPractice" type="TextureButton" parent="CenterContainer/Panel/BodyMargin/MainVBox/BottomRow"]
 material = SubResource("ShaderMaterial_action")
-custom_minimum_size = Vector2(96, 96)
+custom_minimum_size = Vector2(140, 140)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_vertical = 4
 focus_mode = 0
 texture_normal = ExtResource("14_start")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("15_hover")
-
-[node name="MenuWindowBack" parent="." instance=ExtResource("7_menu_back")]

@@ -13,6 +13,9 @@ signal ev_closed
 @export var row_scene: PackedScene
 
 const FADE_DURATION: float = 0.22
+const LAYOUT_SETTLE_FRAMES: int = 2
+
+var _fade: Tween
 
 
 func _ready() -> void:
@@ -34,8 +37,15 @@ func open(rows: Array) -> void:
 	scroll.scroll_vertical = 0
 	screen.modulate.a = 0.0
 	show()
-	var tween := create_tween()
-	tween.tween_property(screen, "modulate:a", 1.0, FADE_DURATION).set_ease(Tween.EASE_OUT)
+	# New rows + the autowrapped subtitle take a couple of frames to lay out — stay transparent till then.
+	for i in LAYOUT_SETTLE_FRAMES:
+		await get_tree().process_frame
+	if not visible:
+		return
+	if _fade != null:
+		_fade.kill()
+	_fade = create_tween()
+	_fade.tween_property(screen, "modulate:a", 1.0, FADE_DURATION).set_ease(Tween.EASE_OUT)
 
 
 func close() -> void:

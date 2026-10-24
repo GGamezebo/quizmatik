@@ -1,0 +1,283 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/menu/parents_window/share_card/share_card.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="2_theme"]
+[ext_resource type="Texture2D" uid="uid://l1t3vjwornqv" path="res://assets/ui/backgrounds/bg_gameplay_sky.png" id="3_paper"]
+[ext_resource type="Texture2D" uid="uid://cgi6ugex10qhf" path="res://assets/app_icon/icon_192.png" id="4_icon"]
+[ext_resource type="FontVariation" uid="uid://dyt157qapui8s" path="res://core/theme/title_font.tres" id="5_title_font"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="6_font"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="7_shadow"]
+[ext_resource type="Shader" uid="uid://073gb852m3cw" path="res://src/features/plane/plane_body.gdshader" id="8_body"]
+[ext_resource type="Texture2D" path="res://src/features/plane/planes_atlas_spaced.png" id="9_plane"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/parents_window/share_card/share_card_valley.tscn" id="10_valley"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header"]
+content_margin_left = 26.0
+content_margin_top = 14.0
+content_margin_right = 34.0
+content_margin_bottom = 14.0
+bg_color = Color(0.985, 0.955, 0.885, 0.95)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 0.8)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_icon"]
+shader = ExtResource("7_shadow")
+shader_parameter/shadow_offset = Vector2(-3, 6)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.3)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("5_title_font")
+font_size = 64
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tagline"]
+font = ExtResource("6_font")
+font_size = 34
+font_color = Color(0.36, 0.4, 0.46, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_plane"]
+resource_local_to_scene = true
+shader = ExtResource("8_body")
+shader_parameter/shadow_offset = Vector2(-8, 16)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.3)
+shader_parameter/shadow_blur = 3.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_plane"]
+atlas = ExtResource("9_plane")
+region = Rect2(0, 0, 288, 108)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tile"]
+content_margin_left = 12.0
+content_margin_top = 10.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.985, 0.955, 0.885, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 0.8)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 4
+shadow_offset = Vector2(-3, 6)
+
+[sub_resource type="LabelSettings" id="LabelSettings_value"]
+font = ExtResource("6_font")
+font_size = 52
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_caption"]
+font = ExtResource("6_font")
+font_size = 28
+font_color = Color(0.36, 0.4, 0.46, 1)
+
+[node name="ShareCard" type="Control" node_paths=PackedStringArray("plane_rect", "solved_label", "levels_label", "time_label", "valley_row")]
+custom_minimum_size = Vector2(1080, 1080)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1080.0
+offset_bottom = 1080.0
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("1_script")
+plane_rect = NodePath("Margin/VBox/PlaneBox/Plane")
+solved_label = NodePath("Margin/VBox/Stats/Solved/VBox/Value")
+levels_label = NodePath("Margin/VBox/Stats/Levels/VBox/Value")
+time_label = NodePath("Margin/VBox/Stats/Time/VBox/Value")
+valley_row = NodePath("Margin/VBox/Valleys")
+valley_scene = ExtResource("10_valley")
+
+[node name="Paper" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_paper")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Veil" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.953, 0.902, 0.784, 0.22)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 44
+theme_override_constants/margin_top = 44
+theme_override_constants/margin_right = 44
+theme_override_constants/margin_bottom = 40
+
+[node name="VBox" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 22
+
+[node name="Header" type="PanelContainer" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_header")
+
+[node name="HBox" type="HBoxContainer" parent="Margin/VBox/Header"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 24
+
+[node name="Icon" type="TextureRect" parent="Margin/VBox/Header/HBox"]
+material = SubResource("ShaderMaterial_icon")
+custom_minimum_size = Vector2(124, 124)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texts" type="VBoxContainer" parent="Margin/VBox/Header/HBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Title" type="Label" parent="Margin/VBox/Header/HBox/Texts"]
+layout_mode = 2
+text = "Улётная математика"
+label_settings = SubResource("LabelSettings_title")
+
+[node name="Tagline" type="Label" parent="Margin/VBox/Header/HBox/Texts"]
+layout_mode = 2
+text = "Учим счёт, играя!"
+label_settings = SubResource("LabelSettings_tagline")
+
+[node name="PlaneBox" type="Control" parent="Margin/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Plane" type="TextureRect" parent="Margin/VBox/PlaneBox"]
+material = SubResource("ShaderMaterial_plane")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = -126.0
+offset_right = 336.0
+offset_bottom = 126.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.07
+pivot_offset = Vector2(336, 126)
+mouse_filter = 2
+texture = SubResource("AtlasTexture_plane")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Stats" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="Solved" type="PanelContainer" parent="Margin/VBox/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tile")
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/Stats/Solved"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Value" type="Label" parent="Margin/VBox/Stats/Solved/VBox"]
+layout_mode = 2
+text = "1240"
+label_settings = SubResource("LabelSettings_value")
+horizontal_alignment = 1
+
+[node name="Caption" type="Label" parent="Margin/VBox/Stats/Solved/VBox"]
+layout_mode = 2
+text = "примеров решено"
+label_settings = SubResource("LabelSettings_caption")
+horizontal_alignment = 1
+
+[node name="Levels" type="PanelContainer" parent="Margin/VBox/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tile")
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/Stats/Levels"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Value" type="Label" parent="Margin/VBox/Stats/Levels/VBox"]
+layout_mode = 2
+text = "37"
+label_settings = SubResource("LabelSettings_value")
+horizontal_alignment = 1
+
+[node name="Caption" type="Label" parent="Margin/VBox/Stats/Levels/VBox"]
+layout_mode = 2
+text = "уровней пройдено"
+label_settings = SubResource("LabelSettings_caption")
+horizontal_alignment = 1
+
+[node name="Time" type="PanelContainer" parent="Margin/VBox/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tile")
+
+[node name="VBox" type="VBoxContainer" parent="Margin/VBox/Stats/Time"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Value" type="Label" parent="Margin/VBox/Stats/Time/VBox"]
+layout_mode = 2
+text = "3 ч 20 мин"
+label_settings = SubResource("LabelSettings_value")
+horizontal_alignment = 1
+
+[node name="Caption" type="Label" parent="Margin/VBox/Stats/Time/VBox"]
+layout_mode = 2
+text = "в полётах"
+label_settings = SubResource("LabelSettings_caption")
+horizontal_alignment = 1
+
+[node name="Valleys" type="HBoxContainer" parent="Margin/VBox"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+alignment = 1

@@ -22,6 +22,8 @@
 [ext_resource type="Resource" path="res://src/common/platform/platform_services.tres" id="19_services"]
 [ext_resource type="Texture2D" uid="uid://clq8x5grir3ri" path="res://assets/ui/icons/star_filled.png" id="20_star"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/share.svg" id="21_share"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/parents_window/share_card/share_card.tscn" id="22_share_card"]
+[ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="23_catalog"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("8_shadow")
@@ -65,7 +67,7 @@ font = ExtResource("9_font")
 font_size = 18
 font_color = Color(0.36, 0.4, 0.46, 1)
 
-[node name="ParentsWindow" type="Control" node_paths=PackedStringArray("progress", "parental_gate", "content", "pilot_label", "solved_tile", "accuracy_tile", "time_tile", "exams_tile", "valley_rows", "fact_rows", "facts_hint", "facts_empty", "rate_button", "share_button")]
+[node name="ParentsWindow" type="Control" node_paths=PackedStringArray("progress", "parental_gate", "content", "pilot_label", "solved_tile", "accuracy_tile", "time_tile", "exams_tile", "valley_rows", "fact_rows", "facts_hint", "facts_empty", "rate_button", "share_button", "share_viewport", "share_card")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -94,6 +96,9 @@ facts_hint = NodePath("Content/Card/Margin/VBox/Columns/Facts/VBox/Hint")
 facts_empty = NodePath("Content/Card/Margin/VBox/Columns/Facts/VBox/Empty")
 rate_button = NodePath("Content/Card/BottomButtons/Rate")
 share_button = NodePath("Content/Card/BottomButtons/Share")
+share_viewport = NodePath("ShareViewport")
+share_card = NodePath("ShareViewport/ShareCard")
+cosmetics = ExtResource("23_catalog")
 
 [node name="ProgressController" parent="." instance=ExtResource("18_progress")]
 
@@ -324,3 +329,12 @@ offer_board = ExtResource("4_board")
 placement = &"parents"
 
 [node name="ParentalGate" parent="." instance=ExtResource("14_gate")]
+
+[node name="ShareViewport" type="SubViewport" parent="."]
+disable_3d = true
+handle_input_locally = false
+gui_disable_input = true
+size = Vector2i(1080, 1080)
+render_target_update_mode = 0
+
+[node name="ShareCard" parent="ShareViewport" instance=ExtResource("22_share_card")]

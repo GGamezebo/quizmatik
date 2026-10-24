@@ -67,8 +67,8 @@ func _on_purchase() -> void:
 	services.ev_purchase_result.emit(true)
 
 
-func _on_share(placement: StringName, text: String) -> void:
-	_share.share(text, AndroidShare.tagged_url(GooglePlayContext.SHARE_URL, placement))
+func _on_share(placement: StringName, text: String, image_path: String) -> void:
+	_share.share(text, AndroidShare.tagged_url(GooglePlayContext.SHARE_URL, placement), image_path)
 
 
 ## Same pause contract as a real ad: hidden → pause + mute, then resume and answer.

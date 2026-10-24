@@ -5,7 +5,8 @@ extends Control
 ## `parents`: Monetization skips its own gate for it) and store rating (`PlatformServices.can_rate`): button
 ## «Оценить игру» → store page; once per app session, when the pilot has real progress, the store's in-app
 ## review sheet a moment after the report shows (the parent holds the phone here, not the child).
-## «Поделиться» (`PlatformServices.can_share`) → share sheet with a line about the pilot's progress + store link;
+## «Поделиться» (`PlatformServices.can_share`) → share sheet with a line about the pilot's progress + store link
+## and, once the pilot has solved something, the `ShareCard` picture rendered off-screen in `share_viewport`;
 ## never rewarded, only here behind the gate.
 ## Opened from Settings via the window stack; the gate runs on every entry, content hidden until passed.
 
@@ -39,6 +40,11 @@ extends Control
 @export var review_delay_sec: float = 1.5
 @export_group("Share")
 @export var share_button: Button
+## Hidden SubViewport (update disabled) holding `share_card`; rendered once per press.
+@export var share_viewport: SubViewport
+@export var share_card: ShareCard
+## Equipped paint on the card's plane.
+@export var cosmetics: CosmeticCatalog
 
 const FACTS_SHOWN: int = 5
 const SHARE_PLACEMENT := &"parents"
@@ -46,6 +52,7 @@ const SHARE_PLACEMENT := &"parents"
 const SHARE_TEXT := "Мой ребёнок тренирует счёт в игре «%s» — летает на самолётике и решает примеры. Попробуйте и вы!"
 const SHARE_TEXT_SOLVED := "Мой ребёнок тренирует счёт в игре «%s» — летает на самолётике и решает примеры. Уже решено примеров: %d. Попробуйте и вы!"
 const GAME_TITLE := "Улётная математика"
+const SHARE_IMAGE_PATH := "user://share/share_card.png"
 
 var _listener: EventListener = EventListener.new()
 ## In-app review asked this app session (the store also keeps its own quota).
@@ -107,9 +114,44 @@ func _on_rate_pressed() -> void:
 
 
 func _on_share_pressed() -> void:
-	var solved := _live_pdata().statistics.total_answers
-	var text := tr(SHARE_TEXT_SOLVED) % [tr(GAME_TITLE), solved] if solved > 0 else tr(SHARE_TEXT) % tr(GAME_TITLE)
-	platform_services.ev_request_share.emit(SHARE_PLACEMENT, text)
+	var live := _live_pdata()
+	var solved := live.statistics.total_answers
+	if solved <= 0:
+		platform_services.ev_request_share.emit(SHARE_PLACEMENT, tr(SHARE_TEXT) % tr(GAME_TITLE), "")
+		return
+	if share_viewport == null or share_card == null:
+		push_warning("ParentsWindow: share card nodes not wired, sharing text only")
+		platform_services.ev_request_share.emit(SHARE_PLACEMENT, tr(SHARE_TEXT_SOLVED) % [tr(GAME_TITLE), solved], "")
+		return
+	share_button.disabled = true
+	_fill_share_card(live)
+	var image_error: Error = await ViewportSnapshot.save_png(share_viewport, SHARE_IMAGE_PATH)
+	share_button.disabled = false
+	if image_error != OK:
+		push_warning("ParentsWindow: share card not rendered (%s)" % error_string(image_error))
+	platform_services.ev_request_share.emit(SHARE_PLACEMENT, tr(SHARE_TEXT_SOLVED) % [tr(GAME_TITLE), solved],
+		SHARE_IMAGE_PATH if image_error == OK else "")
+
+
+func _fill_share_card(live: PData) -> void:
+	var paint: PaintItem = null
+	if cosmetics != null:
+		paint = cosmetics.equipped_item(CosmeticItem.Slot.PAINT, live.cosmetics.equipped) as PaintItem
+	var levels_done := 0
+	var valleys: Array = levels_config.levels.get("containers", [])
+	for container_data in valleys:
+		levels_done += progress.completed_levels_count(String(container_data.get("container_id", ""))) if progress != null else 0
+	share_card.setup(live.equipped_plane_id, paint, live.statistics.total_answers, levels_done,
+		ProgressStatistics.format_hours_minutes(live.statistics.battle_total_time))
+	for container_data in valleys:
+		var container_id := String(container_data.get("container_id", ""))
+		var exam_id := levels_config.get_exam_level_id(container_id)
+		share_card.add_valley(
+			container_id,
+			progress.completed_levels_count(container_id) if progress != null else 0,
+			(container_data.get("levels", []) as Array).size(),
+			progress.get_level_stars(container_id, exam_id) if progress != null and exam_id > 0 else 0,
+		)
 
 
 func _maybe_request_review() -> void:

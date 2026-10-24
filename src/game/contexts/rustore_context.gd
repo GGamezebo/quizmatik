@@ -28,5 +28,5 @@ func deinit() -> void:
 	super.deinit()
 
 
-func _on_share(placement: StringName, text: String) -> void:
-	_share.share(text, AndroidShare.tagged_url(SHARE_URL, placement))
+func _on_share(placement: StringName, text: String, image_path: String) -> void:
+	_share.share(text, AndroidShare.tagged_url(SHARE_URL, placement), image_path)

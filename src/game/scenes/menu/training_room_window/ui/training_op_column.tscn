@@ -16,7 +16,7 @@ option_button_scene = ExtResource("3_opt")
 layout_mode = 2
 theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 17
 text = "ОПЕРАЦИЯ"
 horizontal_alignment = 1
 

@@ -4,7 +4,8 @@ Run: python tools/generate_app_icon.py
 Writes assets/app_icon/: icon_512.png (main / web / desktop), adaptive_fg_432.png,
 adaptive_bg_432.png, adaptive_mono_432.png, icon_192.png, icon_180.png, icon_144.png,
 splash.png (Godot boot splash, big: stretch Keep), splash_android.png (Android 12+ launch
-icon: main icon shrunk into the 2/3 safe circle). Plane sprite = starter column of
+icon: main icon shrunk into the 2/3 safe circle); store/banners/play_icon_512.png (Play listing:
+unframed art, opaque full square, Play rounds it itself). Plane sprite = starter column of
 src/features/plane/planes_atlas_spaced.png.
 """
 import math
@@ -204,6 +205,12 @@ def padded(img, frac):
     return out
 
 
+STORE_OUT = os.path.join(ROOT, "store", "banners")
+# Play Store applies its own rounded mask to the 512 icon: submit the unframed art, opaque full square.
+def play_store_icon(art):
+    return art.resize((512, 512), Image.LANCZOS)
+
+
 def save(img, name, size):
     os.makedirs(OUT, exist_ok=True)
     img.resize((size, size), Image.LANCZOS).save(os.path.join(OUT, name), optimize=True)
@@ -230,6 +237,7 @@ def main():
     mono.putalpha(fg_adaptive.getchannel("A").point(lambda v: 255 if v > 40 else 0))
     mono = Image.merge("RGBA", (*(Image.new("L", (S, S), 255),) * 3, mono.getchannel("A")))
     save(mono, "adaptive_mono_432.png", 432)
+    play_store_icon(Image.alpha_composite(bg, fg_main)).save(os.path.join(STORE_OUT, "play_icon_512.png"), optimize=True)
     print("ok ->", OUT)
 
 
