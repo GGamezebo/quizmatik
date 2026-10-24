@@ -2,7 +2,7 @@ class_name ParentalGate
 extends CanvasLayer
 
 ## «Только для взрослых» check before purchases / external links (Google Families, Apple Kids).
-## Two-digit × two-digit product (11–19: still above the 7–10 y.o. curriculum, fine in an adult's head)
+## Two-digit × two-digit product (12–16: still above the 7–10 y.o. curriculum, fine in an adult's head)
 ## with 4 close choices. Wrong answer locks the answers for `retry_cooldown_sec` (survives close / reopen),
 ## then a new example — no fast guessing.
 
@@ -14,8 +14,8 @@ signal ev_canceled
 @export var question_label: Label
 @export var answer_buttons: Array[Button] = []
 @export var cancel_button: BaseButton
-@export var factor_min: int = 11
-@export var factor_max: int = 19
+@export var factor_min: int = 12
+@export var factor_max: int = 16
 @export var retry_cooldown_sec: float = 30.0
 
 const FADE_DURATION: float = 0.18
