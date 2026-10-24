@@ -36,8 +36,8 @@ signal ev_destroyed
 ## Physics layer bits the hitbox gets while angry (5 = shot targets; never the answers' layer 3).
 @export_flags_2d_physics var rage_hitbox_layer: int = 16
 ## Freezes once its center is this far right of the play area's left edge: hull nose (~220 px left of center)
-## stops just short of the plane nose (~370 px global).
-@export var rage_stop_x: float = 610.0
+## stops just short of the plane nose (~405 px global).
+@export var rage_stop_x: float = 645.0
 ## Average creep speed toward the plane, px/s (eases out: slows down as it closes in).
 @export var rage_speed: float = 45.0
 ## Pause (growl + shake) before it starts creeping.

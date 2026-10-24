@@ -224,7 +224,7 @@ script = ExtResource("3_5eju7")
 script = ExtResource("3_yr17v")
 
 [node name="AirPlane" parent="Player" unique_id=216453935 instance=ExtResource("4_3f67i")]
-position = Vector2(250, 361)
+position = Vector2(285, 361)
 dead_animation_time = 3.0
 
 [node name="GameManager" type="Node" parent="." unique_id=1898191257 node_paths=PackedStringArray("states")]
