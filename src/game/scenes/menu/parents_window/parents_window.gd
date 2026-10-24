@@ -55,6 +55,8 @@ const GAME_TITLE := "Улётная математика"
 const SHARE_IMAGE_PATH := "user://share/share_card.png"
 
 var _listener: EventListener = EventListener.new()
+## Share card is being rendered: ignore repeat presses (never `disabled` — its theme style is a plain box).
+var _is_sharing: bool = false
 ## In-app review asked this app session (the store also keeps its own quota).
 static var _review_asked: bool = false
 ## Profile difficulty → grade line (same captions as `DifficultyPicker`).
@@ -123,10 +125,12 @@ func _on_share_pressed() -> void:
 		push_warning("ParentsWindow: share card nodes not wired, sharing text only")
 		platform_services.ev_request_share.emit(SHARE_PLACEMENT, tr(SHARE_TEXT_SOLVED) % [tr(GAME_TITLE), solved], "")
 		return
-	share_button.disabled = true
+	if _is_sharing:
+		return
+	_is_sharing = true
 	_fill_share_card(live)
 	var image_error: Error = await ViewportSnapshot.save_png(share_viewport, SHARE_IMAGE_PATH)
-	share_button.disabled = false
+	_is_sharing = false
 	if image_error != OK:
 		push_warning("ParentsWindow: share card not rendered (%s)" % error_string(image_error))
 	platform_services.ev_request_share.emit(SHARE_PLACEMENT, tr(SHARE_TEXT_SOLVED) % [tr(GAME_TITLE), solved],
