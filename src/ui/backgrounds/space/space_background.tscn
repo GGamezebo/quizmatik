@@ -1,0 +1,35 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://bih4q7fqq6kw3" path="res://src/ui/backgrounds/background_base.gd" id="1_base"]
+
+[ext_resource type="Texture2D" path="res://src/ui/backgrounds/space/bg_space.png" id="4_bg"]
+
+[ext_resource type="Shader" uid="uid://dbory75vd2otg" path="res://src/ui/backgrounds/sky_scroll.gdshader" id="6_shader"]
+
+[ext_resource type="PackedScene" path="res://src/features/ink_blot/ink_blot.tscn" id="7_ink"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skyscroll"]
+resource_local_to_scene = true
+shader = ExtResource("6_shader")
+shader_parameter/scroll_offset = 0.0
+shader_parameter/color_amount = 0.0
+shader_parameter/subdue = 0.82
+shader_parameter/paper_tint = Vector3(0.953, 0.902, 0.784)
+shader_parameter/mirror_seamless = true
+
+[node name="SpaceBackground" type="Node2D"]
+script = ExtResource("1_base")
+mirror_seamless = true
+ink_blot_scene = ExtResource("7_ink")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_skyscroll")
+offset_right = 1280.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_bg")
+expand_mode = 1
+
+[node name="InkLayer" type="Node2D" parent="."]
