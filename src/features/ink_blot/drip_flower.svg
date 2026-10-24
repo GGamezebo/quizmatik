@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Solid white flower drip; colored at runtime by ink_tint.gdshader (shot look «Цветочки»). -->
+  <g fill="#FFFFFF" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round">
+    <circle cx="64" cy="26" r="21"/>
+    <circle cx="100" cy="52" r="21"/>
+    <circle cx="86" cy="94" r="21"/>
+    <circle cx="42" cy="94" r="21"/>
+    <circle cx="28" cy="52" r="21"/>
+    <circle cx="64" cy="64" r="24"/>
+  </g>
+</svg>

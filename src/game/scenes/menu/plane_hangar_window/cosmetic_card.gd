@@ -29,9 +29,10 @@ func setup(new_item: CosmeticItem, plane_id: String, owned: bool, equipped: bool
 	item = new_item
 	name_label.text = item.title
 	plane_preview.visible = item is PaintItem
-	swatch.visible = item is TrailItem or item is ShotItem
+	var empty_sticker := CosmeticSwatch.is_empty_sticker(item)
+	swatch.visible = item is TrailItem or item is ShotItem or empty_sticker
 	frame_panel.visible = item is FrameItem
-	icon_rect.visible = item is StickerItem or item is CoverItem
+	icon_rect.visible = (item is StickerItem or item is CoverItem) and not empty_sticker
 	if item is PaintItem:
 		PlaneCatalog.apply_preview(plane_preview, plane_id, item as PaintItem)
 	elif swatch.visible:
@@ -43,6 +44,8 @@ func setup(new_item: CosmeticItem, plane_id: String, owned: bool, equipped: bool
 		PlaneCatalog.apply_preview(frame_photo, plane_id)
 	else:
 		icon_rect.texture = item.icon
+		# Covers fill the card (cropped 16:9 art), stickers stay whole.
+		icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED if item is CoverItem else TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	set_state(owned, equipped)
 
 

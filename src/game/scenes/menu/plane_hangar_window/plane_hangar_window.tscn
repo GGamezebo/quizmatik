@@ -25,6 +25,10 @@
 [ext_resource type="Shader" path="res://src/features/plane/plane_body.gdshader" id="68_body"]
 [ext_resource type="Texture2D" path="res://src/features/plane/planes_atlas_spaced.png" id="69_plane"]
 [ext_resource type="PackedScene" path="res://src/ui/rewarded_gold_button/rewarded_gold_button.tscn" id="70_rewarded"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/plane_hangar_window/page_dot.tscn" id="71_dot"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/chevron_left.svg" id="72_chev_l"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/chevron_right.svg" id="73_chev_r"]
+[ext_resource type="Script" path="res://core/lib/swipe/swipe_detector.gd" id="74_swipe"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("8_shadow")
@@ -48,7 +52,7 @@ font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_item"]
 font = ExtResource("5_font")
-font_size = 24
+font_size = 28
 font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_preview"]
@@ -337,7 +341,7 @@ size_flags_vertical = 3
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="PaintPage" type="HBoxContainer" parent="Center/Content" node_paths=PackedStringArray("category_buttons", "grid", "item_anchor", "flyer_view", "flyer", "shot_swatch", "photo_box", "photo_frame", "photo", "photo_sticker", "cover_icon", "item_name", "action_button")]
+[node name="PaintPage" type="HBoxContainer" parent="Center/Content" node_paths=PackedStringArray("category_buttons", "grid", "item_anchor", "page_area", "swipe", "prev_button", "next_button", "dots_container", "flyer_view", "flyer", "shot_swatch", "photo_box", "photo_frame", "photo", "photo_sticker", "cover_icon", "item_name", "action_button")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -354,7 +358,13 @@ pdata = ExtResource("63_pdata")
 catalog = ExtResource("64_catalog")
 card_scene = ExtResource("65_card")
 category_buttons = [NodePath("Right/Slots/Paint"), NodePath("Right/Slots/Trail"), NodePath("Right/Slots/Shot"), NodePath("Right/Slots/Sticker"), NodePath("Right/Slots/Frame"), NodePath("Right/Slots/Cover")]
-grid = NodePath("Right/Scroll/Grid")
+grid = NodePath("Right/PageArea/Grid")
+page_area = NodePath("Right/PageArea")
+swipe = NodePath("SwipeDetector")
+prev_button = NodePath("Right/Nav/Prev")
+next_button = NodePath("Right/Nav/Next")
+dots_container = NodePath("Right/Nav/Dots")
+dot_scene = ExtResource("71_dot")
 item_anchor = NodePath("../../../ShopItemAnchor")
 flyer_view = NodePath("Preview/VBox/Stage/FlyerView")
 flyer = NodePath("Preview/VBox/Stage/FlyerView/Viewport/PlaneFlyer")
@@ -369,7 +379,7 @@ action_button = NodePath("Preview/VBox/Action")
 coin_icon = ExtResource("12_gold")
 
 [node name="Preview" type="PanelContainer" parent="Center/Content/PaintPage"]
-custom_minimum_size = Vector2(400, 350)
+custom_minimum_size = Vector2(330, 0)
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_preview")
@@ -380,7 +390,7 @@ theme_override_constants/separation = 10
 
 [node name="Stage" type="Panel" parent="Center/Content/PaintPage/Preview/VBox"]
 clip_contents = true
-custom_minimum_size = Vector2(0, 200)
+custom_minimum_size = Vector2(0, 236)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -403,8 +413,8 @@ size = Vector2i(376, 206)
 render_target_update_mode = 4
 
 [node name="PlaneFlyer" parent="Center/Content/PaintPage/Preview/VBox/Stage/FlyerView/Viewport" instance=ExtResource("66_flyer")]
-position = Vector2(212, 100)
-scale = Vector2(0.75, 0.75)
+position = Vector2(190, 104)
+scale = Vector2(0.72, 0.72)
 hover_amplitude = 10.0
 
 [node name="ShotSwatch" type="Control" parent="Center/Content/PaintPage/Preview/VBox/Stage"]
@@ -434,14 +444,14 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="Polaroid" type="PanelContainer" parent="Center/Content/PaintPage/Preview/VBox/Stage/PhotoBox"]
-custom_minimum_size = Vector2(240, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_polaroid")
 
 [node name="Photo" type="TextureRect" parent="Center/Content/PaintPage/Preview/VBox/Stage/PhotoBox/Polaroid"]
 material = SubResource("ShaderMaterial_photo")
-custom_minimum_size = Vector2(0, 130)
+custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("69_plane")
@@ -484,7 +494,7 @@ label_settings = SubResource("LabelSettings_item")
 horizontal_alignment = 1
 
 [node name="Action" type="Button" parent="Center/Content/PaintPage/Preview/VBox"]
-custom_minimum_size = Vector2(0, 68)
+custom_minimum_size = Vector2(0, 76)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
@@ -493,7 +503,7 @@ theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
 theme_override_colors/font_disabled_color = Color(0.165, 0.2, 0.251, 0.6)
 theme_override_constants/icon_max_width = 30
 theme_override_fonts/font = ExtResource("5_font")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_cta")
 theme_override_styles/hover = SubResource("StyleBoxFlat_cta_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cta_pressed")
@@ -506,14 +516,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
-[node name="Slots" type="GridContainer" parent="Center/Content/PaintPage/Right"]
+[node name="Slots" type="HBoxContainer" parent="Center/Content/PaintPage/Right"]
 layout_mode = 2
-theme_override_constants/h_separation = 10
-theme_override_constants/v_separation = 8
-columns = 3
+theme_override_constants/separation = 8
 
 [node name="Paint" type="Button" parent="Center/Content/PaintPage/Right/Slots"]
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_font")
@@ -523,7 +531,7 @@ button_group = SubResource("ButtonGroup_slots")
 text = "Узор"
 
 [node name="Trail" type="Button" parent="Center/Content/PaintPage/Right/Slots"]
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_font")
@@ -533,7 +541,7 @@ button_group = SubResource("ButtonGroup_slots")
 text = "Шлейф"
 
 [node name="Shot" type="Button" parent="Center/Content/PaintPage/Right/Slots"]
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_font")
@@ -543,7 +551,7 @@ button_group = SubResource("ButtonGroup_slots")
 text = "Выстрел"
 
 [node name="Sticker" type="Button" parent="Center/Content/PaintPage/Right/Slots"]
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_font")
@@ -553,7 +561,7 @@ button_group = SubResource("ButtonGroup_slots")
 text = "Наклейка"
 
 [node name="Frame" type="Button" parent="Center/Content/PaintPage/Right/Slots"]
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_font")
@@ -563,7 +571,7 @@ button_group = SubResource("ButtonGroup_slots")
 text = "Рамка"
 
 [node name="Cover" type="Button" parent="Center/Content/PaintPage/Right/Slots"]
-custom_minimum_size = Vector2(0, 52)
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_font")
@@ -572,17 +580,52 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_slots")
 text = "Обложка"
 
-[node name="Scroll" type="ScrollContainer" parent="Center/Content/PaintPage/Right"]
+[node name="PageArea" type="Control" parent="Center/Content/PaintPage/Right"]
+clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
-horizontal_scroll_mode = 0
+mouse_filter = 1
 
-[node name="Grid" type="GridContainer" parent="Center/Content/PaintPage/Right/Scroll"]
+[node name="Grid" type="GridContainer" parent="Center/Content/PaintPage/Right/PageArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+columns = 3
+
+[node name="Nav" type="HBoxContainer" parent="Center/Content/PaintPage/Right"]
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
-size_flags_horizontal = 6
-theme_override_constants/h_separation = 12
-theme_override_constants/v_separation = 12
-columns = 4
+theme_override_constants/separation = 12
+
+[node name="Prev" type="Button" parent="Center/Content/PaintPage/Right/Nav"]
+custom_minimum_size = Vector2(110, 56)
+layout_mode = 2
+theme_override_constants/icon_max_width = 30
+icon = ExtResource("72_chev_l")
+icon_alignment = 1
+
+[node name="Dots" type="HBoxContainer" parent="Center/Content/PaintPage/Right/Nav"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Next" type="Button" parent="Center/Content/PaintPage/Right/Nav"]
+custom_minimum_size = Vector2(110, 56)
+layout_mode = 2
+theme_override_constants/icon_max_width = 30
+icon = ExtResource("73_chev_r")
+icon_alignment = 1
+
+[node name="SwipeDetector" type="Node" parent="Center/Content/PaintPage" node_paths=PackedStringArray("area")]
+script = ExtResource("74_swipe")
+area = NodePath("../Right/PageArea")
 
 [node name="BuyAnchor" type="Node" parent="."]
 script = ExtResource("60_ui_anchor")
