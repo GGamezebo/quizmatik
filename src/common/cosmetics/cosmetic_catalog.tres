@@ -38,14 +38,6 @@
 [ext_resource type="Texture2D" uid="uid://dcqgqisgon0k4" path="res://assets/ui/icons/stopwatch.png" id="35_r"]
 [ext_resource type="Texture2D" uid="uid://cti6l1qnong1o" path="res://assets/ui/icons/magister_cap.svg" id="36_r"]
 [ext_resource type="Texture2D" uid="uid://ca0dm5vhpchjx" path="res://assets/ui/icons/clock.svg" id="37_r"]
-[ext_resource type="PackedScene" path="res://src/ui/backgrounds/notebook/notebook_sleepy_background.tscn" id="38_r"]
-[ext_resource type="Texture2D" uid="uid://ba07b2kojr6uf" path="res://src/ui/backgrounds/notebook/sketches/01_sleepy_desk.jpg" id="39_r"]
-[ext_resource type="PackedScene" path="res://src/ui/backgrounds/notebook/notebook_erasers_background.tscn" id="40_r"]
-[ext_resource type="Texture2D" uid="uid://cpy7ccorf6rpk" path="res://src/ui/backgrounds/notebook/sketches/06_eraser_war.jpg" id="41_r"]
-[ext_resource type="PackedScene" path="res://src/ui/backgrounds/notebook/notebook_bell_background.tscn" id="42_r"]
-[ext_resource type="Texture2D" uid="uid://duseg5h8cwlmw" path="res://src/ui/backgrounds/notebook/sketches/07_late_to_school.jpg" id="43_r"]
-[ext_resource type="PackedScene" path="res://src/ui/backgrounds/notebook/notebook_canteen_background.tscn" id="44_r"]
-[ext_resource type="Texture2D" uid="uid://b2a0khtmxa8wq" path="res://src/ui/backgrounds/notebook/sketches/09_canteen_chaos.jpg" id="45_r"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_plain"]
 content_margin_left = 10.0
@@ -897,38 +889,6 @@ title = "Чернильная"
 gold_cost = 5
 style = SubResource("StyleBoxFlat_ink")
 
-[sub_resource type="Resource" id="Resource_221"]
-script = ExtResource("13_r")
-id = "cover_sleepy"
-title = "Сонный урок"
-gold_cost = 5
-scene = ExtResource("38_r")
-icon = ExtResource("39_r")
-
-[sub_resource type="Resource" id="Resource_222"]
-script = ExtResource("13_r")
-id = "cover_erasers"
-title = "Ластики"
-gold_cost = 5
-scene = ExtResource("40_r")
-icon = ExtResource("41_r")
-
-[sub_resource type="Resource" id="Resource_223"]
-script = ExtResource("13_r")
-id = "cover_bell"
-title = "Звонок!"
-gold_cost = 5
-scene = ExtResource("42_r")
-icon = ExtResource("43_r")
-
-[sub_resource type="Resource" id="Resource_224"]
-script = ExtResource("13_r")
-id = "cover_canteen"
-title = "Буфет"
-gold_cost = 5
-scene = ExtResource("44_r")
-icon = ExtResource("45_r")
-
 [resource]
 script = ExtResource("28_r")
-items = Array[CosmeticItem]([SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_201"), SubResource("Resource_4"), SubResource("Resource_202"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_203"), SubResource("Resource_7"), SubResource("Resource_204"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_205"), SubResource("Resource_101"), SubResource("Resource_206"), SubResource("Resource_13"), SubResource("Resource_207"), SubResource("Resource_102"), SubResource("Resource_208"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_103"), SubResource("Resource_209"), SubResource("Resource_210"), SubResource("Resource_18"), SubResource("Resource_211"), SubResource("Resource_19"), SubResource("Resource_104"), SubResource("Resource_212"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_213"), SubResource("Resource_105"), SubResource("Resource_214"), SubResource("Resource_215"), SubResource("Resource_106"), SubResource("Resource_216"), SubResource("Resource_27"), SubResource("Resource_29"), SubResource("Resource_31"), SubResource("Resource_33"), SubResource("Resource_107"), SubResource("Resource_108"), SubResource("Resource_217"), SubResource("Resource_218"), SubResource("Resource_219"), SubResource("Resource_220"), SubResource("Resource_109"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_221"), SubResource("Resource_222"), SubResource("Resource_223"), SubResource("Resource_224"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43")])
+items = Array[CosmeticItem]([SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_201"), SubResource("Resource_4"), SubResource("Resource_202"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_203"), SubResource("Resource_7"), SubResource("Resource_204"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_205"), SubResource("Resource_101"), SubResource("Resource_206"), SubResource("Resource_13"), SubResource("Resource_207"), SubResource("Resource_102"), SubResource("Resource_208"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_103"), SubResource("Resource_209"), SubResource("Resource_210"), SubResource("Resource_18"), SubResource("Resource_211"), SubResource("Resource_19"), SubResource("Resource_104"), SubResource("Resource_212"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_213"), SubResource("Resource_105"), SubResource("Resource_214"), SubResource("Resource_215"), SubResource("Resource_106"), SubResource("Resource_216"), SubResource("Resource_27"), SubResource("Resource_29"), SubResource("Resource_31"), SubResource("Resource_33"), SubResource("Resource_107"), SubResource("Resource_108"), SubResource("Resource_217"), SubResource("Resource_218"), SubResource("Resource_219"), SubResource("Resource_220"), SubResource("Resource_109"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43")])
