@@ -147,7 +147,7 @@ func _on_purchase_result(is_success: bool) -> void:
 	paywall_dialog.show_result(is_success, platform_services.can_rate, platform_services.can_share)
 
 func _on_share_pressed(text: String) -> void:
-	platform_services.ev_request_share.emit(share_placement, text)
+	platform_services.ev_request_share.emit(share_placement, text, "")
 
 func _on_purchase_pending() -> void:
 	if not _is_purchasing:

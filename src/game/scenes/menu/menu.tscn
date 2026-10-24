@@ -89,7 +89,7 @@ levels_choice_window = NodePath("UI/LevelsWindow")
 training_room_config = ExtResource("6_vp6ju")
 training_lab_config = ExtResource("6_lab_cfg")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start")
-training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/Stack/ActionsRow/StartPractice")
+training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/StartPractice")
 training_lab_start_button = NodePath("UI/TrainingRoomLabWindow/CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/StartPractice")
 exit_button = NodePath("UI/MainMenuWindow/ExitMargin/Exit")
 
@@ -118,7 +118,7 @@ target_window = NodePath("../../TrainingRoomWindow")
 
 [node name="TrainingRoomBack" type="Node" parent="UI/StackWindowController" unique_id=545675404 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
-button = NodePath("../../TrainingRoomWindow/MenuWindowBack/Back")
+button = NodePath("../../TrainingRoomWindow/CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/MenuWindowBack/Back")
 
 [node name="TrainingRoomLabOpen" type="Node" parent="UI/StackWindowController" unique_id=1342848865 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")

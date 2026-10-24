@@ -80,7 +80,7 @@ Export never packs: `concepts/`, `store/`, `tools/`, `bin/`, `.cursor/`, `.claud
 - Scenes **compose/spawn** features; they do not reimplement feature logic.
 
 ### `core/` — project-agnostic
-- May be reused in any Godot project: FSM, `EventListener`, shackers, window stack, ResourceUtils, `UiPulse` (`core/lib/pulse/`: looping pulse, `set_active`, pivot follows resizes; target = inner icon or a plain wrapper `Control` around the button, never a hover-scaled button itself; a pulsing button always pulses whole — wrap it, never pulse only its icon), etc.
+- May be reused in any Godot project: FSM, `EventListener`, shackers, window stack, ResourceUtils, `ViewportSnapshot` (`core/lib/viewport_snapshot/`: hidden SubViewport → PNG once), `UiPulse` (`core/lib/pulse/`: looping pulse, `set_active`, pivot follows resizes; target = inner icon or a plain wrapper `Control` around the button, never a hover-scaled button itself; a pulsing button always pulses whole — wrap it, never pulse only its icon), etc.
 - **Must not** depend on `src/` (no `GameConfig`, contexts, features, quiz types, project scenes).
 - If code needs Quizmatik types → it belongs in `src/`, not `core/`.
 

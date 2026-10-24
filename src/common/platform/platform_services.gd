@@ -34,9 +34,9 @@ extends Resource
 ## Game → store: open the game's store page to rate it (button).
 @warning_ignore("unused_signal") signal ev_request_rate_page
 ## Game → platform: system share sheet with `text` + the game's store link (`placement` tags the link for
-## store acquisition reports). No answer, never rewarded; only from behind a parental gate (parents
-## report, purchase thank-you page).
-@warning_ignore("unused_signal") signal ev_request_share(placement: StringName, text: String)
+## store acquisition reports); `image_path` = `user://` PNG to attach ("" = text only; attach failed → text).
+## No answer, never rewarded; only from behind a parental gate (parents report, purchase thank-you page).
+@warning_ignore("unused_signal") signal ev_request_share(placement: StringName, text: String, image_path: String)
 
 ## Offer kinds (one paid offer per store).
 const OFFER_NO_ADS := &"no_ads"
