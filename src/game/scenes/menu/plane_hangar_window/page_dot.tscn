@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://cnegahp1oscak" path="res://src/game/scenes/menu/levels/pack_page_dot.tscn" id="1_dot"]
+
+[node name="PageDot" instance=ExtResource("1_dot")]
+idle_color = Color(0.165, 0.2, 0.251, 0.22)
+current_color = Color(0.37, 0.62, 0.29, 1)
+outline_color = Color(0.165, 0.2, 0.251, 0.55)
+outline_width = 2
+idle_diameter = 16.0
+current_diameter = 24.0

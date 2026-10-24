@@ -103,21 +103,23 @@ corner_radius_bottom_left = 6
 
 [sub_resource type="LabelSettings" id="LabelSettings_name"]
 font = ExtResource("2_font")
-font_size = 17
+font_size = 21
 font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_cost"]
 font = ExtResource("2_font")
-font_size = 18
+font_size = 22
 font_color = Color(0.72, 0.52, 0.12, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_status"]
 font = ExtResource("2_font")
-font_size = 15
+font_size = 18
 font_color = Color(0.3, 0.52, 0.24, 1)
 
 [node name="CosmeticCard" type="Button" node_paths=PackedStringArray("plane_preview", "swatch", "icon_rect", "frame_panel", "frame_photo", "name_label", "cost_row", "cost_label", "status_label")]
-custom_minimum_size = Vector2(152, 164)
+custom_minimum_size = Vector2(228, 160)
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
 theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_selected")
@@ -150,7 +152,7 @@ mouse_filter = 2
 theme_override_constants/separation = 4
 
 [node name="Preview" type="Control" parent="VBox"]
-custom_minimum_size = Vector2(0, 76)
+custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
@@ -202,7 +204,7 @@ mouse_filter = 2
 
 [node name="Frame" type="PanelContainer" parent="VBox/Preview/FrameCenter"]
 visible = false
-custom_minimum_size = Vector2(96, 70)
+custom_minimum_size = Vector2(120, 80)
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_frame")
@@ -223,14 +225,14 @@ horizontal_alignment = 1
 text_overrun_behavior = 3
 
 [node name="CostRow" type="HBoxContainer" parent="VBox"]
-custom_minimum_size = Vector2(0, 26)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 6
 alignment = 1
 
 [node name="CoinIcon" type="TextureRect" parent="VBox/CostRow"]
-custom_minimum_size = Vector2(22, 22)
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("4_coin")
@@ -245,7 +247,7 @@ vertical_alignment = 1
 
 [node name="Status" type="Label" parent="VBox"]
 visible = false
-custom_minimum_size = Vector2(0, 26)
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 text = "есть"
 label_settings = SubResource("LabelSettings_status")

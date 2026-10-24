@@ -1,7 +1,8 @@
 class_name CosmeticSwatch
 extends Control
 
-## Tiny preview drawing for trail / shot items (dots in the item's style, ink drips in its colors).
+## Tiny preview drawing for trail / shot items (dots in the item's style, ink drips in its colors);
+## the «no sticker» item gets the crossed-out circle.
 
 @export var sample_count: int = 7
 
@@ -18,6 +19,13 @@ func _draw() -> void:
 		_draw_trail(_item as TrailItem)
 	elif _item is ShotItem:
 		_draw_shot(_item as ShotItem)
+	elif is_empty_sticker(_item):
+		_draw_none()
+
+
+## «No sticker» item: nothing to draw, the card shows the crossed-out circle instead.
+static func is_empty_sticker(item: CosmeticItem) -> bool:
+	return item is StickerItem and (item as StickerItem).texture == null
 
 
 func _draw_trail(trail: TrailItem) -> void:
