@@ -9,8 +9,9 @@
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="6_font"]
 [ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
 [ext_resource type="Texture2D" uid="uid://ca0dm5vhpchjx" path="res://assets/ui/icons/clock.svg" id="7_clock"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/chase.svg" id="7_chase"]
 
-[node name="Level" type="Button" node_paths=PackedStringArray("text_lable", "stars", "stamp_rect", "exam_icon", "exam_cap", "exam_title", "exam_hint", "exam_header", "next_badge", "lock_icon", "inner_frame", "timed_icon")]
+[node name="Level" type="Button" node_paths=PackedStringArray("text_lable", "stars", "stamp_rect", "exam_icon", "exam_cap", "exam_title", "exam_hint", "exam_header", "next_badge", "lock_icon", "inner_frame", "timed_icon", "chase_icon")]
 custom_minimum_size = Vector2(100, 100)
 offset_right = 100.0
 offset_bottom = 100.0
@@ -33,6 +34,7 @@ next_badge = NodePath("NextBadge")
 lock_icon = NodePath("LockIcon")
 inner_frame = NodePath("InnerFrame")
 timed_icon = NodePath("TimedIcon")
+chase_icon = NodePath("ChaseIcon")
 
 [node name="InnerFrame" type="Panel" parent="."]
 z_index = 0
@@ -102,6 +104,21 @@ rotation = -0.12
 pivot_offset = Vector2(12, 12)
 mouse_filter = 2
 texture = ExtResource("7_clock")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ChaseIcon" type="TextureRect" parent="."]
+visible = false
+z_index = 2
+layout_mode = 1
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 31.0
+offset_bottom = 31.0
+rotation = -0.12
+pivot_offset = Vector2(12, 12)
+mouse_filter = 2
+texture = ExtResource("7_chase")
 expand_mode = 1
 stretch_mode = 5
 

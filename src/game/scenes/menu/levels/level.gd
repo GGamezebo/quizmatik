@@ -29,6 +29,8 @@ const TILE_SIZE := Vector2(100, 100)
 @export var lock_icon: TextureRect
 @export var inner_frame: Panel
 @export var timed_icon: TextureRect
+## Chase level mark, same corner / size as the clock (a level is never both).
+@export var chase_icon: TextureRect
 
 var is_exam: bool = false
 var level_id: int = 0
@@ -90,6 +92,11 @@ func set_params(is_unlocked: bool, stars_count: int) -> void:
 func set_timed(is_timed: bool) -> void:
 	if timed_icon:
 		timed_icon.visible = is_timed and not is_exam
+
+
+func set_chase(is_chase: bool) -> void:
+	if chase_icon:
+		chase_icon.visible = is_chase and not is_exam
 
 
 func set_as_next(is_next: bool) -> void:
