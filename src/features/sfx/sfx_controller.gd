@@ -57,6 +57,8 @@ func _ready() -> void:
 		_listener.add(game_events.ev_boss_hit, _on_boss_hit)
 		_listener.add(game_events.ev_boss_enraged, _on_boss_enraged)
 		_listener.add(game_events.ev_boss_shot, _on_boss_shot)
+		_listener.add(game_events.ev_chase_started, _on_chase_started)
+		_listener.add(game_events.ev_chase_danger, _on_chase_danger)
 		_listener.add(game_events.ev_win, _on_win)
 		_listener.add(game_events.ev_lose, _on_lose)
 		_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
@@ -151,6 +153,16 @@ func _on_boss_appeared(_armor: int) -> void:
 		play(boss_appear, -2.0)
 	else:
 		play(battle_start, -2.0, 0.0, 0.7)
+
+## Chase level: the airships fly in — same horn as the boss fly-in.
+func _on_chase_started() -> void:
+	_on_boss_appeared(0)
+
+
+## Chase level: they closed in — the angry growl.
+func _on_chase_danger(close: bool) -> void:
+	if close:
+		_on_boss_enraged(0)
 
 
 func _on_boss_hit(_armor_left: int) -> void:

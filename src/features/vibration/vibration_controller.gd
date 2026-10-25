@@ -84,6 +84,8 @@ func _ready() -> void:
 		_listener.add(game_events.ev_boss_hit, _on_boss_hit)
 		_listener.add(game_events.ev_boss_enraged, _on_boss_enraged)
 		_listener.add(game_events.ev_boss_shot, _on_boss_shot)
+		_listener.add(game_events.ev_chase_started, _on_chase_started)
+		_listener.add(game_events.ev_chase_danger, _on_chase_danger)
 		_listener.add(game_events.ev_win, _on_win)
 		_listener.add(game_events.ev_lose, _on_lose)
 		_listener.add(game_events.ev_game_state_changed, _on_game_state_changed)
@@ -185,6 +187,15 @@ func _on_health_restored() -> void:
 func _on_boss_appeared(_armor: int) -> void:
 	var amp: float = boss_appear_amplitude
 	_play_pattern([0.0, 0.3, 0.3, 0.3], boss_appear_pulse_ms, [amp * 0.5, amp * 0.7, amp * 0.85, amp])
+
+## Chase level: the airships fly in / close in — the boss fly-in rumble.
+func _on_chase_started() -> void:
+	_on_boss_appeared(0)
+
+
+func _on_chase_danger(close: bool) -> void:
+	if close:
+		_on_boss_appeared(0)
 
 
 func _on_boss_hit(_armor_left: int) -> void:

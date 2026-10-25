@@ -29,6 +29,7 @@ var _boss: BossController
 var _time_limit: BattleTimeLimit
 var _endless: EndlessDirector
 var _golden: GoldenFlightController
+var _chase: ChaseController
 var __components: Array[Variant] = []
 var _answers_paused: bool = false
 ## Question already reported as a mistake — a later correct hit (after the hint) isn't "known".
@@ -58,6 +59,8 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_time_limit = BattleTimeLimit.new(game_config.time_limit_sec)
 	_endless = EndlessDirector.new(game_config)
 	_golden = GoldenFlightController.new(game_config, area, bonus_scene, golden_choice_scene, game_manager.owner, game_manager.get_tree())
+	# Chase level: royal chief + two regular airships behind the plane (same art as the boss fight).
+	_chase = ChaseController.new(game_config, area, air_plane, player, exam_boss_scene, boss_scene, game_manager.owner)
 		
 	__components.append_array([
 		answer_spawner,
@@ -68,6 +71,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 		_time_limit,
 		_endless,
 		_golden,
+		_chase,
 	])
 	
 	_round_controller.ev_answers_spawned.connect(_on_answers_spawned)
@@ -89,6 +93,10 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_endless.ev_tick.connect(_on_endless_tick)
 	_endless.ev_boss_due.connect(_on_endless_boss_due)
 	_endless.ev_heart_due.connect(_on_endless_heart_due)
+	_chase.ev_started.connect(game_events.ev_chase_started.emit)
+	_chase.ev_caught.connect(_on_chase_caught)
+	_chase.ev_danger.connect(game_events.ev_chase_danger.emit)
+	_chase.ev_drain.connect(game_events.ev_chase_drain.emit)
 	event_listener.add(game_events.ev_pause_answers, _on_pause_answers)
 	event_listener.add(game_events.ev_explosion, _on_explosion)
 	event_listener.add(game_events.ev_target_shot, _boss.shoot)
@@ -96,6 +104,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	event_listener.add(area.boundary_changed, _on_area_resized)
 	
 	_round_controller.start()
+	_chase.start()
 
 func leave(_event_data: Dictionary) -> void:
 	event_listener.clear()
@@ -112,6 +121,7 @@ func leave(_event_data: Dictionary) -> void:
 	_time_limit = null
 	_endless = null
 	_golden = null
+	_chase = null
 	_missed_question = null
 
 func _process(delta: float) -> void:
@@ -121,6 +131,8 @@ func _process(delta: float) -> void:
 		_endless.update(delta)
 	if _golden:
 		_golden.update(delta)
+	if _chase:
+		_chase.update(delta)
 	if _round_controller:
 		_round_controller.update_answer_acceleration(player.acceleration)
 		_bonus.update_acceleration(player.acceleration)
@@ -129,6 +141,7 @@ func _process(delta: float) -> void:
 
 func _on_answers_spawned(options: Array[Answer]) -> void:
 	_boss.release_answers(options)
+	_chase.release_answers(options)
 	_apply_answers_paused(options)
 	var question := _round_controller.question
 	game_events.ev_answers_spawned.emit(options.duplicate(), question.correct_answer, area.getLines().duplicate(), question.missing_operand)
@@ -157,6 +170,8 @@ func _on_pause_answers(paused: bool) -> void:
 		_endless.set_paused(paused)
 	if _golden:
 		_golden.set_paused(paused)
+	if _chase:
+		_chase.set_paused(paused)
 
 
 func _apply_answers_paused(options: Array[Answer]) -> void:
@@ -324,7 +339,14 @@ func _report_fact(is_correct: bool) -> void:
 		_missed_question = question
 	game_events.ev_fact_answered.emit(question.fact_key, is_correct)
 
+## Chase level: the chief airship reached the plane — the battle is lost (crash in `EndGameState`).
+func _on_chase_caught() -> void:
+	player.health = 0
+	_end_game()
+
+
 func _end_game() -> void:
+	_chase.finish(player.health > 0)
 	_round_controller.stop()
 	add_event(FSMGameEvents.END_GAME)
 
