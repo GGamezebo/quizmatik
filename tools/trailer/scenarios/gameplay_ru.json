@@ -1,0 +1,11 @@
+{
+  "out": "store/videos/ru/quizmatik_gameplay_28s_1080p.mp4",
+  "takes": ["python tools/trailer/record.py battle bin/trailer/battle_ru.avi --seed 7 --locale ru"],
+  "segments": [
+    {"src": "bin/trailer/battle_ru.avi", "from": 0.0, "to": 28.0, "audio": "source", "captions": [
+      {"kind": "title", "title": "Улётная математика", "px": 120, "y": 740, "sub": "Реши пример — сбей правильный шарик!", "sub_px": 56, "at": [0, 2.35]},
+      {"kind": "panel", "title": "Улётная математика", "px": 120, "y": 420, "box": [260, 250, 1660, 780],
+       "lines": [{"text": "Учимся считать, играя!", "y": 640, "px": 64}], "at": [26.1, 28.0]}
+    ]}
+  ]
+}

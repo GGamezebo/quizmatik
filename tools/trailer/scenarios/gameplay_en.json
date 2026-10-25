@@ -1,0 +1,11 @@
+{
+  "out": "store/videos/en/jetmath_gameplay_28s_1080p.mp4",
+  "takes": ["python tools/trailer/record.py battle bin/trailer/battle_en.avi --seed 7 --locale en"],
+  "segments": [
+    {"src": "bin/trailer/battle_en.avi", "from": 0.0, "to": 28.0, "audio": "source", "captions": [
+      {"kind": "title", "title": "Jet Math", "px": 190, "y": 740, "sub": "Solve it — pop the right balloon!", "sub_px": 56, "at": [0, 2.35]},
+      {"kind": "panel", "title": "Jet Math", "px": 190, "y": 420, "box": [260, 250, 1660, 780],
+       "lines": [{"text": "Learn to count by playing!", "y": 640, "px": 64}], "at": [26.1, 28.0]}
+    ]}
+  ]
+}
