@@ -259,6 +259,8 @@ func _stop() -> void:
 
 func die_animation() -> void:
 	_disable()
+	if trail != null:
+		trail.stop()
 	_play_one_shot(crash_sound)
 	
 	var tween = create_tween()
