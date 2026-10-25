@@ -3,7 +3,10 @@ extends SceneTree
 ## Trailer take: battle scene alone + app-root music/SFX, a bot plays it (InputMap actions only).
 ## Run via `tools/trailer/record.py battle ...` (Movie Maker). Never loaded by the game.
 ## Env: TRAILER_SEED, TRAILER_LOCALE, TRAILER_VALLEY, TRAILER_PLANE, TRAILER_PAINT, TRAILER_TRAIL,
-## TRAILER_SHOT, TRAILER_BATTLE (JSON: GameConfig property → value, merged over BATTLE_DEFAULTS).
+## TRAILER_SHOT, TRAILER_BATTLE (JSON: GameConfig property → value, merged over BATTLE_DEFAULTS),
+## TRAILER_EXPERT (valley id → that valley's expert trial via `ExpertScenario`; the bot shoots both hidden numbers in order),
+## TRAILER_PAIR_MISS (1 → every 2nd expert round the bot shoots a wrong second number),
+## TRAILER_COACH (1 → in-memory pilot with that valley's exam passed + the tutorial context: coached first expert round).
 
 const GAME_SCENE := "res://src/game/scenes/game/game.tscn"
 ## Short showcase battle: 3 questions → royal boss (2 plates, 3 rage shots) ≈ 28 s at seed 7.
@@ -36,6 +39,12 @@ var last_shot: float = -10.0
 var tap_frames: int = 0
 var done_at: float = -1.0
 var react_delay: float = 0.35
+## Expert round: hidden numbers in order and how many are already shot.
+var pair_targets: Array = []
+var pair_index: int = 0
+var pair_rounds: int = 0
+## Kept referenced: the tutorial context reads this live profile.
+var pdata: PData
 
 
 func _initialize() -> void:
@@ -47,14 +56,29 @@ func _initialize() -> void:
 
 	var cfg: GameConfig = load("res://src/game/scenes/game/game_config.tres")
 	var overrides: Dictionary = BATTLE_DEFAULTS.duplicate()
+	var user_overrides: Dictionary = {}
 	if _env("TRAILER_BATTLE", "") != "":
-		overrides.merge(JSON.parse_string(_env("TRAILER_BATTLE", "")), true)
+		user_overrides = JSON.parse_string(_env("TRAILER_BATTLE", ""))
+		overrides.merge(user_overrides, true)
 	for key in overrides:
 		cfg.set(key, overrides[key])
+	if _env("TRAILER_EXPERT", "") != "":
+		var expert: GameConfig = ExpertScenario.build(load("res://src/game/scenes/menu/expert/expert_game_config.tres"),
+			load("res://src/common/levels/levels_config.tres"), _env("TRAILER_EXPERT", ""), BattleDifficulty.NORMAL)
+		ResourceUtils.update_resource(cfg, expert)
+		for key in user_overrides:
+			cfg.set(key, user_overrides[key])
 
 	var events: GameEvents = load("res://src/game/scenes/game/game_events.tres")
 	root_events = load("res://src/game/scenes/app_root/root_events.tres")
 	events.ev_answers_spawned.connect(_on_answers_spawned)
+	events.ev_pair_spawned.connect(func(_answers: Array, pair: Array, _lanes: Array) -> void:
+		pair_targets = pair
+		pair_index = 0)
+	events.ev_pair_pick.connect(func(slot: int, _value: int, _from: Vector2) -> void: pair_index = slot + 1)
+	events.ev_pair_result.connect(func(_ok: bool, _solution: String) -> void: pair_rounds += 1)
+	if _env("TRAILER_COACH", "") != "":
+		_mount_tutorial()
 	# GameState re-applies the equipped plane on entering states → re-apply the showcase look.
 	events.ev_game_state_changed.connect(func(_a, _b): _apply_look.call_deferred())
 	root_events.ev_exit_game.connect(func(_d = {}): done_at = t)
@@ -96,6 +120,7 @@ func _apply_look() -> void:
 
 func _on_answers_spawned(_answers: Array, correct_value: int, _lanes: Array, _missing: bool) -> void:
 	target_value = correct_value
+	pair_targets = []
 	spawned_at = t
 	react_delay = randf_range(0.12, 0.3)
 
@@ -108,7 +133,7 @@ func _process(delta: float) -> bool:
 	if tap_frames > 0:
 		tap_frames -= 1
 		if tap_frames == 0:
-			Input.action_release("shoot")
+			_press_shoot(false)
 	if done_at >= 0.0 and t - done_at > TAIL_SEC:
 		return true
 	if plane == null or not is_instance_valid(plane) or not plane.is_processing():
@@ -133,7 +158,7 @@ func _process(delta: float) -> bool:
 		if t - last_shot > cadence and target.global_position.x > plane.global_position.x + 150.0:
 			if not (target is Answer) or (target as Answer).is_hittable():
 				last_shot = t
-				Input.action_press("shoot")
+				_press_shoot(true)
 				tap_frames = 2
 	return false
 
@@ -157,7 +182,16 @@ func _find_target() -> Node2D:
 			continue
 		if ans is BonusBalloon:
 			return ans
-		if ans.value == target_value and not (ans is HeartBalloon):
+		var wanted: int = target_value
+		if not pair_targets.is_empty():
+			if pair_index >= pair_targets.size():
+				return null
+			wanted = pair_targets[pair_index]
+			if pair_index == 1 and _env("TRAILER_PAIR_MISS", "") != "" and pair_rounds % 2 == 1:
+				if ans.value != pair_targets[0] and ans.value != pair_targets[1]:
+					best = ans
+				continue
+		if ans.value == wanted and not (ans is HeartBalloon):
 			best = ans
 	return best
 
@@ -169,6 +203,27 @@ func _all_answers(node: Node) -> Array:
 			out.append(c)
 		out.append_array(_all_answers(c))
 	return out
+
+
+## As an input event (not only the action state): overlays listening in `_input` (tutorial «Понятно!») get it too.
+func _press_shoot(pressed: bool) -> void:
+	var event := InputEventAction.new()
+	event.action = &"shoot"
+	event.pressed = pressed
+	Input.parse_input_event(event)
+
+
+## Coach take: a pilot past the base tutorial with the expert valley's exam passed; tutorial context like AppRoot mounts it.
+func _mount_tutorial() -> void:
+	pdata = load("res://src/game/account/persistent_data.tres")
+	pdata.state.tutorial_completed = true
+	for step in [ProgressController.SHOP_TOUR_STEP, ProgressController.MISTAKES_INTRO_STEP, ProgressController.ENDLESS_INTRO_STEP]:
+		pdata.state.tutorial_steps[step] = true
+	pdata.state.tutorial_steps.erase(ProgressController.EXPERT_INTRO_STEP)
+	pdata.levels.ensure_container(_env("TRAILER_EXPERT", "multiplication")).exam_passed = true
+	var tutorial: Node = (load("res://src/game/scenes/tutorial/tutorial.tscn") as PackedScene).instantiate()
+	root.add_child(tutorial)
+	tutorial.initialize({})
 
 
 func _release_move() -> void:

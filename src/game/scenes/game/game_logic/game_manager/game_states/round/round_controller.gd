@@ -4,7 +4,7 @@ extends RefCounted
 signal ev_answers_spawned(options: Array[Answer])
 ## New round: question set, answers spawn after a short delay.
 signal ev_round_started(score: int, answer_speed: float)
-## The round's correct balloon flew off-screen unanswered.
+## The round's correct balloon (expert: one of the hidden pair) flew off-screen unanswered — once per question.
 signal ev_correct_missed
 
 var options: Array[Answer] = []
@@ -21,6 +21,7 @@ var _is_active: bool = false
 ## Boss fly-in / fall: answered rounds don't start a new one until `release_rounds`.
 var _held: bool = false
 var _ev_question_changed_callback: Signal
+var _missed_question: QuizQuestion.Question = null
 
 func _init(
 	game_config: GameConfig,
@@ -126,8 +127,12 @@ func _clear_answers() -> void:
 		option.queue_free()
 	options.clear()
 
+## Popped balloons (an expert first pick) still drift while fading — only live ones count.
 func _on_answer_escaped(answer: Answer) -> void:
-	if _is_active and question != null and answer.value == question.correct_answer:
+	if not _is_active or question == null or question == _missed_question or not answer.is_hittable():
+		return
+	if question.is_key_value(answer.value):
+		_missed_question = question
 		ev_correct_missed.emit()
 
 func _on_answer_killed(answer: Answer) -> void:

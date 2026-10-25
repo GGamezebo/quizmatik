@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://src/ui/spotlight_dim/spotlight_dim.tscn" id="11_dim"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="12_root_events"]
 [ext_resource type="Script" path="res://src/game/scenes/tutorial/battle_tips.gd" id="13_tips"]
+[ext_resource type="Script" path="res://src/game/scenes/tutorial/expert_coach.gd" id="15_expert_coach"]
 [ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="14_catalog"]
 
 [sub_resource type="Resource" id="Step_level"]
@@ -153,13 +154,14 @@ points_up = true
 button_text = "Понятно!"
 layer = 12
 
-[node name="Tutorial" type="Node" node_paths=PackedStringArray("progress", "menu_pointer", "battle_coach", "battle_tips", "overlay")]
+[node name="Tutorial" type="Node" node_paths=PackedStringArray("progress", "menu_pointer", "battle_coach", "battle_tips", "expert_coach", "overlay")]
 script = ExtResource("1_tutorial")
 root_events = ExtResource("12_root_events")
 progress = NodePath("ProgressController")
 menu_pointer = NodePath("MenuPointer")
 battle_coach = NodePath("BattleCoach")
 battle_tips = NodePath("BattleTips")
+expert_coach = NodePath("ExpertCoach")
 first_flight_steps = Array[ExtResource("6_step")]([SubResource("Step_level"), SubResource("Step_pack"), SubResource("Step_start")])
 daily_stamp_steps = Array[ExtResource("6_step")]([SubResource("Step_daily")])
 plane_shop_steps = Array[ExtResource("6_step")]([SubResource("Step_buy"), SubResource("Step_profile_plane"), SubResource("Step_profile")])
@@ -258,3 +260,12 @@ script = ExtResource("13_tips")
 game_events = ExtResource("9_game_events")
 anchors = ExtResource("7_anchors")
 hint = NodePath("../Overlay/Root/TipHint")
+
+[node name="ExpertCoach" type="Node" parent="." node_paths=PackedStringArray("dim", "goal_hint", "coach_hint", "feedback_hint")]
+script = ExtResource("15_expert_coach")
+game_events = ExtResource("9_game_events")
+anchors = ExtResource("7_anchors")
+dim = NodePath("../Overlay/Root/BattleDim")
+goal_hint = NodePath("../Overlay/Root/GoalHint")
+coach_hint = NodePath("../Overlay/Root/CoachHint")
+feedback_hint = NodePath("../Overlay/Root/FeedbackHint")

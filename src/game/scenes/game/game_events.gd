@@ -37,6 +37,12 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_chase_drain(edge_x: float, duration: float)
 ## Chase level: the airships closed in (`true`, tense music / growl) or fell back (`false`).
 @warning_ignore("unused_signal") signal ev_chase_danger(close: bool)
+## Info: expert «? + ? = 9» round on screen — `pair` = the hidden operands in order, `lanes` as in `ev_answers_spawned`.
+@warning_ignore("unused_signal") signal ev_pair_spawned(answers: Array, pair: Array, lanes: Array)
+## Expert round: a shot balloon's number flies into blank `slot` (0 / 1) of the question from `from_global`.
+@warning_ignore("unused_signal") signal ev_pair_pick(slot: int, value: int, from_global: Vector2)
+## Expert round decided: `correct`, or not — `solution` = the solved example to show instead.
+@warning_ignore("unused_signal") signal ev_pair_result(correct: bool, solution: String)
 ## Golden flight time is up: no more questions, pick one of the choice balloons.
 @warning_ignore("unused_signal") signal ev_golden_choice
 @warning_ignore("unused_signal") signal ev_win

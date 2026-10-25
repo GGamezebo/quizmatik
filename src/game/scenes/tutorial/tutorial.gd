@@ -20,6 +20,8 @@ extends IScene
 ##   While it waits to arm, the context stays open idle (AppRoot: `is_shop_tour_pending`).
 ## - mistakes_intro: first weak example recorded (`is_mistakes_intro_pending`) → menu hall-of-fame button →
 ##   hard facts board (press) → facts overlay: «the game practices these first» (confirm).
+## - expert_intro: an expert trial opened (`is_expert_intro_pending`) — its first «? + ? = N» round is coached in battle
+##   (`ExpertCoach`); armed alongside any chapter, the context stays open idle until it is done.
 ## Late chapters show only when no base chapter is ready (no other menu hint); order = priority.
 ## Tours (shop_tour, mistakes_intro): entry steps = way in, tour steps one at a time (press advances;
 ## earlier steps stay as fallback when the player backs out; confirm = done).
@@ -38,6 +40,7 @@ const SHOP_TOUR_ARMED := "shop_tour_armed"
 @export var menu_pointer: AnchorPointer
 @export var battle_coach: BattleCoach
 @export var battle_tips: BattleTips
+@export var expert_coach: ExpertCoach
 ## Hint layer; a step's `layer` lifts it above menu overlays while shown.
 @export var overlay: CanvasLayer
 
@@ -69,6 +72,8 @@ func _ready() -> void:
 	battle_coach.ev_goal_reached.connect(_on_goal_reached)
 	battle_coach.ev_finished.connect(_refresh)
 	battle_tips.ev_tip_shown.connect(progress.complete_tutorial_step)
+	expert_coach.ev_goal_reached.connect(progress.complete_tutorial_step.bind(ProgressController.EXPERT_INTRO_STEP))
+	expert_coach.ev_finished.connect(_refresh)
 	menu_pointer.ev_step_confirmed.connect(_on_step_confirmed)
 	menu_pointer.ev_target_pressed.connect(_on_target_pressed)
 	menu_pointer.ev_step_changed.connect(_on_step_changed)
@@ -87,6 +92,7 @@ func deinit() -> void:
 	_listener.deinit()
 	menu_pointer.set_enabled(false)
 	battle_coach.arm(false)
+	expert_coach.arm(false)
 	battle_tips.stop()
 	super.deinit()
 
@@ -95,6 +101,7 @@ func on_event(event_name: String, _data: Dictionary) -> void:
 	# Battle left / remounted without an FSM state change (pause → exit): drop in-battle hints + dim.
 	if event_name in ["ev.exit_game", "ev.start_game", "ev.open_menu"]:
 		battle_coach.stop()
+		expert_coach.stop()
 		battle_tips.stop()
 	match event_name:
 		"ev.open_menu":
@@ -121,12 +128,14 @@ func _refresh() -> void:
 		progress.complete_tutorial_step(CHAPTER_FIRST_FLIGHT)
 	var chapter := _pending_chapter()
 	var tips := _pending_tips()
+	var expert_pending := progress.is_expert_intro_pending()
 	if chapter.is_empty() and tips.is_empty():
-		if not progress.is_shop_tour_pending():
+		if not progress.is_shop_tour_pending() and not expert_pending:
 			_finish_tutorial()
 			return
-		## Only the shop tour is left and it isn't armed yet — stay open, show nothing.
+		## Only the shop tour (not armed yet) / the expert round is left — stay open, show nothing in menu.
 		progress.complete_tutorial()
+	expert_coach.arm(expert_pending)
 	if chapter != _chapter:
 		_tour_index = 0
 	_chapter = chapter
@@ -262,6 +271,7 @@ func _finish_tutorial() -> void:
 	_finished = true
 	menu_pointer.set_enabled(false)
 	battle_coach.arm(false)
+	expert_coach.arm(false)
 	battle_tips.stop()
 	progress.complete_tutorial()
 	add_event("ev.close_tutorial")

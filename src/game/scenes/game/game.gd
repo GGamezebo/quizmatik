@@ -38,8 +38,10 @@ func initialize(_data: Dictionary) -> void:
 	_apply_equipped_plane()
 	_apply_cosmetics()
 
-	# Campaign / valley record: tie battle background to the valley (rarely a school / forest instead).
+	# Campaign / valley record / expert trial: tie battle background to the valley (rarely a school / forest instead).
 	var valley_id: String = battle_info.container_id if battle_info != null else game_config.endless_valley_id
+	if valley_id.is_empty():
+		valley_id = game_config.expert_valley_id
 	if not valley_id.is_empty():
 		var bg_host: BackgroundHost = get_node_or_null("HUD/Background") as BackgroundHost
 		if bg_host != null:

@@ -30,6 +30,10 @@ var _time_limit: BattleTimeLimit
 var _endless: EndlessDirector
 var _golden: GoldenFlightController
 var _chase: ChaseController
+var _pair: PairAnswerController
+## Expert miss: seconds the solved example stays on the banner before the next question.
+const PAIR_SOLUTION_SEC: float = 2.4
+
 var __components: Array[Variant] = []
 var _answers_paused: bool = false
 ## Question already reported as a mistake — a later correct hit (after the hint) isn't "known".
@@ -61,6 +65,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_golden = GoldenFlightController.new(game_config, area, bonus_scene, golden_choice_scene, game_manager.owner, game_manager.get_tree())
 	# Chase level: royal chief + two regular airships behind the plane (same art as the boss fight).
 	_chase = ChaseController.new(game_config, area, air_plane, player, exam_boss_scene, boss_scene, game_manager.owner)
+	_pair = PairAnswerController.new(game_config)
 		
 	__components.append_array([
 		answer_spawner,
@@ -72,6 +77,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 		_endless,
 		_golden,
 		_chase,
+		_pair,
 	])
 	
 	_round_controller.ev_answers_spawned.connect(_on_answers_spawned)
@@ -122,6 +128,7 @@ func leave(_event_data: Dictionary) -> void:
 	_endless = null
 	_golden = null
 	_chase = null
+	_pair = null
 	_missed_question = null
 
 func _process(delta: float) -> void:
@@ -145,6 +152,8 @@ func _on_answers_spawned(options: Array[Answer]) -> void:
 	_apply_answers_paused(options)
 	var question := _round_controller.question
 	game_events.ev_answers_spawned.emit(options.duplicate(), question.correct_answer, area.getLines().duplicate(), question.missing_operand)
+	if _pair.is_active() and not question.pair.is_empty():
+		game_events.ev_pair_spawned.emit(options.duplicate(), question.pair.duplicate(), area.getLines().duplicate())
 
 
 func _on_area_resized(new_rect: Rect2) -> void:
@@ -183,6 +192,9 @@ func _apply_answers_paused(options: Array[Answer]) -> void:
 func _on_explosion(answer: Answer, _hit_point: Vector2) -> void:
 	if _golden.try_collect(answer) or _bonus.try_collect(answer) or _heart.try_collect(answer):
 		return
+	if _pair.is_active():
+		_on_pair_hit(answer)
+		return
 	var action: CombatResolver.HitAction = CombatResolver.resolve(answer, _round_controller.question, false)
 	_apply_combat(action, answer)
 
@@ -190,6 +202,8 @@ func _on_air_plane_collided(collided_plane: AirPlane, answer: Answer) -> void:
 	if _golden.try_collect(answer) or _bonus.try_collect(answer) or _heart.try_collect(answer):
 		return
 	var action: CombatResolver.HitAction = CombatResolver.resolve(answer, _round_controller.question, true)
+	if _pair.is_active():
+		action = CombatResolver.HitAction.WRONG_COLLISION  # expert rounds: a ram never picks a number
 	if action == CombatResolver.HitAction.WRONG_COLLISION:
 		Explosion.spawn_attached(explosion_scene, answer, collided_plane.get_contact_point_with(answer))
 	_apply_combat(action, answer)
@@ -220,7 +234,56 @@ func _apply_combat(action: CombatResolver.HitAction, answer: Answer) -> void:
 					return
 				answer.fail()
 				_round_controller.kill_all_answers(answer)
+				_fail_pair_round()
 				_apply_damage()
+
+## Expert round: the first hit fills the left blank, the second decides (any pair that solves the example).
+func _on_pair_hit(answer: Answer) -> void:
+	if not _round_controller.has_answer(answer):
+		return
+	var question: QuizQuestion.Question = _round_controller.question
+	var hit: PairAnswerController.Hit = _pair.pick(question, answer.value)
+	if hit != PairAnswerController.Hit.IGNORED:
+		answer.hide_number()
+	match hit:
+		PairAnswerController.Hit.PICKED:
+			game_events.ev_pair_pick.emit(0, answer.value, answer.global_position)
+			answer.take_damage(true)
+		PairAnswerController.Hit.SOLVED:
+			game_events.ev_pair_pick.emit(1, answer.value, answer.global_position)
+			game_events.ev_pair_result.emit(true, question.pair_solution)
+			game_events.ev_correct_answer.emit()
+			_report_fact(true)
+			answer.right()
+			_on_correct(answer)
+		PairAnswerController.Hit.WRONG:
+			game_events.ev_pair_pick.emit(1, answer.value, answer.global_position)
+			game_events.ev_pair_result.emit(false, question.pair_solution)
+			game_events.ev_mistake.emit()
+			_report_fact(false)
+			answer.fail()
+			_hold_for_solution()
+			_round_controller.kill_all_answers(answer)
+			_apply_damage()
+
+
+## Expert round lost without a second pick (ram, balloon flew away): the banner shows the solution.
+func _fail_pair_round() -> void:
+	if not _pair.is_active() or _round_controller == null or _round_controller.question == null:
+		return
+	_pair.cancel(_round_controller.question)
+	game_events.ev_pair_result.emit(false, _round_controller.question.pair_solution)
+	_hold_for_solution()
+
+
+## The next question waits a moment: the banner shows the solved example first.
+func _hold_for_solution() -> void:
+	_round_controller.hold_rounds()
+	game_manager.get_tree().create_timer(PAIR_SOLUTION_SEC, false).timeout.connect(func() -> void:
+		if _round_controller != null:
+			_round_controller.release_rounds()
+	)
+
 
 ## Last regular answer → boss fly-in (if rolled) instead of the win; during the fight a hit knocks off armor.
 func _on_correct(answer: Answer) -> void:
@@ -272,6 +335,7 @@ func _on_correct_missed() -> void:
 	if game_config.golden_flight or (not game_config.is_timed() and not game_config.endless):
 		return
 	game_events.ev_mistake.emit()
+	_fail_pair_round()
 	_round_controller.kill_all_answers()
 	_apply_damage()
 

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <!-- Expert badge (level grid entry, hall-of-fame cup, celebration): teal rosette with ribbon tails,
+       gold medal and a cream star; colored-pencil fills + graphite ink edge, white die-cut sticker rim. -->
+  <g id="rim" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="18" stroke-linejoin="round">
+    <path d="M92 150 L66 236 L88 222 L100 246 L124 160 Z"/>
+    <path d="M164 150 L190 236 L168 222 L156 246 L132 160 Z"/>
+    <path d="M128.0 38.0 Q143.2 22.0 151.9 42.2 Q171.7 32.3 173.0 54.4 Q194.9 51.8 188.6 73.0 Q210.1 78.1 196.9 95.8 Q215.4 108.0 196.9 120.2 Q210.1 137.9 188.6 143.0 Q194.9 164.2 173.0 161.6 Q171.7 183.7 151.9 173.8 Q143.2 194.0 128.0 178.0 Q112.8 194.0 104.1 173.8 Q84.3 183.7 83.0 161.6 Q61.1 164.2 67.4 143.0 Q45.9 137.9 59.1 120.2 Q40.6 108.0 59.1 95.8 Q45.9 78.1 67.4 73.0 Q61.1 51.8 83.0 54.4 Q84.3 32.3 104.1 42.2 Q112.8 22.0 128.0 38.0 Z"/>
+  </g>
+  <g stroke="#2A3340" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M92 150 L66 236 L88 222 L100 246 L124 160 Z" fill="#D9534F"/>
+    <path d="M164 150 L190 236 L168 222 L156 246 L132 160 Z" fill="#4F7BC9"/>
+    <path d="M128.0 38.0 Q143.2 22.0 151.9 42.2 Q171.7 32.3 173.0 54.4 Q194.9 51.8 188.6 73.0 Q210.1 78.1 196.9 95.8 Q215.4 108.0 196.9 120.2 Q210.1 137.9 188.6 143.0 Q194.9 164.2 173.0 161.6 Q171.7 183.7 151.9 173.8 Q143.2 194.0 128.0 178.0 Q112.8 194.0 104.1 173.8 Q84.3 183.7 83.0 161.6 Q61.1 164.2 67.4 143.0 Q45.9 137.9 59.1 120.2 Q40.6 108.0 59.1 95.8 Q45.9 78.1 67.4 73.0 Q61.1 51.8 83.0 54.4 Q84.3 32.3 104.1 42.2 Q112.8 22.0 128.0 38.0 Z" fill="#3E9AA8"/>
+    <circle cx="128" cy="108" r="58" fill="#F2C14E"/>
+    <circle cx="128" cy="108" r="46" fill="none" stroke="#C98F1E" stroke-width="4" stroke-dasharray="3 7"/>
+    <path d="M128.0 68.0 L138.0 94.2 L166.0 95.6 L144.2 113.3 L151.5 140.4 L128.0 125.0 L104.5 140.4 L111.8 113.3 L90.0 95.6 L118.0 94.2 Z" fill="#FFF6DC"/>
+  </g>
+  <g fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity="0.85">
+    <path d="M96 78 Q104 66 118 62"/>
+    <path d="M78 174 L84 196" stroke="#F3B3B0"/>
+    <path d="M178 174 L172 196" stroke="#A9C1EC"/>
+  </g>
+  <g fill="#FFFFFF" stroke="#2A3340" stroke-width="3" stroke-linejoin="round">
+    <path d="M206 40 L211 52 L223 57 L211 62 L206 74 L201 62 L189 57 L201 52 Z"/>
+    <path d="M44 66 L47 74 L55 77 L47 80 L44 88 L41 80 L33 77 L41 74 Z"/>
+  </g>
+</svg>

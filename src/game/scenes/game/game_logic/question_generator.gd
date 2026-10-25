@@ -10,6 +10,20 @@ class Question:
 	var fact_key: String = ""
 	## `? + 3 = 7` / `4 + ? = 7` — the answer is a hidden operand, not the result.
 	var missing_operand: bool = false
+	## Expert `? + ? = 9`: both hidden operands in order (`correct_answer` = the first); empty = one answer.
+	var pair: Array[int] = []
+	var pair_operation: int = 0
+	var pair_result: int = 0
+	## The solved example («4 + 5 = 9») shown after a miss.
+	var pair_solution: String = ""
+
+	## Expert pair: `first ⊕ second` gives the result (order matters for − and ÷).
+	func is_pair_solution(first: int, second: int) -> bool:
+		return QuizQuestion.pair_solves(pair_operation, first, second, pair_result)
+
+	## A balloon this round can't do without: the answer, or one of the hidden pair.
+	func is_key_value(value: int) -> bool:
+		return value == correct_answer or value in pair
 
 
 ## Random operand pairs tried per question before falling back to the last one.
@@ -31,7 +45,121 @@ static func generate_question(gameConfig: GameConfig, score: int = 0, avoid_fact
 			picked = _pick_random(gameConfig, active_operations.pick_random())
 			if avoid_fact_key.is_empty() or _fact_key_of(picked) != avoid_fact_key:
 				break
+	if gameConfig.hidden_pair:
+		return _generate_pair(gameConfig, active_operations, picked)
 	return _build_question(gameConfig, score, picked[0], picked[1], picked[2])
+
+
+## Expert `? ⊕ ? = r`: re-picks until the pair reads well (two different operands; × / ÷ by 1 only as a last resort).
+static func _generate_pair(gameConfig: GameConfig, active_operations: Array[int], picked: Array) -> Question:
+	var fallback: Question = null
+	for attempt in PICK_ATTEMPTS:
+		var question: Question = _build_pair_question(gameConfig, picked[0], picked[1], picked[2])
+		if question != null:
+			var trivial: bool = question.pair[1] == 1 and question.pair_operation in [
+				GameConfig.Operations.MULTIPLICATION, GameConfig.Operations.DIVISION]
+			if question.pair[0] != question.pair[1] and not trivial:
+				return question
+			if fallback == null or fallback.pair[0] == fallback.pair[1]:
+				fallback = question
+		picked = _pick_random(gameConfig, active_operations.pick_random())
+	if fallback != null:
+		return fallback
+	return _build_question(gameConfig, 0, picked[0], picked[1], picked[2])
+
+
+## Same raw operands as `_build_question` (division: divisor, quotient); null for ops without a pair (², √) or a 0 result.
+static func _build_pair_question(gameConfig: GameConfig, operation: int, a: int, b: int) -> Question:
+	var left: int = a
+	var right: int = b
+	var sign: String
+	match operation:
+		GameConfig.Operations.ADDITION, GameConfig.Operations.MULTIPLICATION:
+			if randi() % 2 == 0:
+				left = b
+				right = a
+			sign = "+" if operation == GameConfig.Operations.ADDITION else "x"
+		GameConfig.Operations.SUBTRACTION:
+			left = maxi(a, b)
+			right = mini(a, b)
+			sign = "-"
+		GameConfig.Operations.DIVISION:
+			right = maxi(a, 1)
+			left = right * b
+			sign = "/"
+		_:
+			return null
+	var q := Question.new()
+	q.pair_operation = operation
+	match operation:
+		GameConfig.Operations.ADDITION:
+			q.pair_result = left + right
+			q.fact_key = MathFact.make_key(MathFact.FAMILY_ADD, left, right)
+		GameConfig.Operations.SUBTRACTION:
+			q.pair_result = left - right
+			q.fact_key = MathFact.make_key(MathFact.FAMILY_ADD, left - right, right)
+		GameConfig.Operations.MULTIPLICATION:
+			q.pair_result = left * right
+			q.fact_key = MathFact.make_key(MathFact.FAMILY_MUL, left, right)
+		GameConfig.Operations.DIVISION:
+			q.pair_result = b
+			q.fact_key = MathFact.make_key(MathFact.FAMILY_MUL, right, b)
+	if q.pair_result <= 0 or left <= 0 or right <= 0:
+		return null
+	q.pair = [left, right]
+	q.correct_answer = left
+	q.text = "? %s ? = %d" % [sign, q.pair_result]
+	q.pair_solution = "%d %s %d = %d" % [left, sign, right, q.pair_result]
+	q.options = _pair_options(operation, left, right, q.pair_result, gameConfig.answer_lines_count)
+	return q
+
+
+## The pair + near numbers (±1..3 of both; ÷: dividend ± divisor) that make no other solving pair with any option.
+static func _pair_options(operation: int, left: int, right: int, result: int, count: int) -> Array:
+	var options: Array = [left, right]
+	var candidates: Array[int] = []
+	for base in [left, right]:
+		for offset in [-1, 1, -2, 2, -3, 3]:
+			candidates.append(base + offset)
+	if operation == GameConfig.Operations.DIVISION:
+		candidates.append_array([left - right, left + right])
+	candidates.shuffle()
+	for candidate in candidates:
+		if options.size() >= count:
+			break
+		if _pair_option_fits(operation, candidate, options, result):
+			options.append(candidate)
+	var extra: int = maxi(left, right) + 4
+	while options.size() < count:
+		if _pair_option_fits(operation, extra, options, result):
+			options.append(extra)
+		extra += 1
+	options.shuffle()
+	return options
+
+
+static func _pair_option_fits(operation: int, candidate: int, options: Array, result: int) -> bool:
+	if candidate < 1 or candidate in options:
+		return false
+	for option in options:
+		if pair_solves(operation, option, candidate, result) or pair_solves(operation, candidate, option, result):
+			return false
+	return true
+
+
+## `first ⊕ second == result` (÷ without remainder).
+@warning_ignore("integer_division")
+static func pair_solves(operation: int, first: int, second: int, result: int) -> bool:
+	match operation:
+		GameConfig.Operations.ADDITION:
+			return first + second == result
+		GameConfig.Operations.SUBTRACTION:
+			return first - second == result
+		GameConfig.Operations.MULTIPLICATION:
+			return first * second == result
+		GameConfig.Operations.DIVISION:
+			return second != 0 and first % second == 0 and first / second == result
+	return false
 
 
 ## `[operation, a, b]` from the op's operand ranges that passes `_fits` (last try otherwise).

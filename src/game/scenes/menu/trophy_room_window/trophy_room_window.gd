@@ -80,9 +80,10 @@ func _rebuild_trophies() -> void:
 			_total_levels(container_id),
 		)
 		slot.set_record(_valley_record(container_id))
+		slot.set_expert(progress != null and progress.is_expert(container_id))
 		trophies_list.add_child(slot)
-	# Magister cup: hidden until every valley trophy is on the shelf; pulses with rules on tap until earned.
-	if magister_trophy != null and progress != null and progress.are_all_valley_trophies_unlocked():
+	# Magister cup: hidden until the magister trial opens (every expert trial passed); pulses with rules on tap until earned.
+	if magister_trophy != null and progress != null and progress.is_magister_unlocked():
 		var earned: bool = progress.is_magister()
 		var magister_slot: TrophySlot = trophy_slot_scene.instantiate() as TrophySlot
 		magister_slot.initialize_award(magister_name, magister_trophy, earned, not earned and magister_rules != null)

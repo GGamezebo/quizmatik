@@ -16,6 +16,8 @@ const _LOCKED_TROPHY_EXTRA_DOWN := 3.0
 ## Shelf tag under the cup: the valley record battle time (keeps its place while hidden — cups stay aligned).
 @export var record_tag: Control
 @export var record_label: Label
+## Expert badge pinned on the cup's foot once the valley expert trial is passed.
+@export var expert_badge: Control
 @export var pulse_period: float = 1.2
 
 
@@ -77,6 +79,11 @@ func set_record(seconds: int) -> void:
 	record_tag.modulate.a = 1.0 if seconds >= 0 else 0.0
 	if record_label and seconds >= 0:
 		record_label.text = ProgressStatistics.format_clock(seconds) if seconds > 0 else "—"
+
+
+func set_expert(earned: bool) -> void:
+	if expert_badge:
+		expert_badge.visible = earned
 
 
 func _pulse() -> void:

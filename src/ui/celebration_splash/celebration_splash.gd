@@ -13,6 +13,8 @@ const KIND_DAILY_GOLD := "daily_gold"
 const KIND_MASTER := "master"
 ## Magister trial survived (first time).
 const KIND_MAGISTER := "magister"
+## Valley expert trial survived (first time); payload `container_id`.
+const KIND_EXPERT := "expert"
 const FADE_DURATION: float = 0.22
 
 @export var root_events: RootEvents
@@ -33,6 +35,8 @@ const FADE_DURATION: float = 0.22
 @export var master_art: Texture2D
 ## Magister award art (hall-of-fame trophy).
 @export var magister_art: Texture2D
+## Expert badge (level grid entry, hall-of-fame cups).
+@export var expert_art: Texture2D
 ## Flying ribbons — emitted only during the master celebration.
 @export var ribbons: CPUParticles2D
 
@@ -109,6 +113,8 @@ func _present(kind: String, payload: Dictionary) -> void:
 			_present_master()
 		KIND_MAGISTER:
 			_present_magister()
+		KIND_EXPERT:
+			_present_expert(String(payload.get("container_id", "")))
 		_:
 			_busy = false
 			_try_show_next()
@@ -161,6 +167,14 @@ func _present_magister() -> void:
 	title_label.text = "Ты — магистр!"
 	message_label.text = "10 минут квадратов и корней! Награда ждёт тебя в зале славы"
 	art_rect.texture = magister_art
+	art_rect.modulate = Color.WHITE
+	_set_ribbons(true)
+
+
+func _present_expert(container_id: String) -> void:
+	title_label.text = "Ты — эксперт!"
+	message_label.text = tr("5 минут в «%s»! Значок эксперта уже на кубке в зале славы") % tr(_container_name(container_id))
+	art_rect.texture = expert_art
 	art_rect.modulate = Color.WHITE
 	_set_ribbons(true)
 

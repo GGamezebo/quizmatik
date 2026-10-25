@@ -505,7 +505,7 @@ offset_transform_position = Vector2(40, 0)
 texture = ExtResource("29_question_banner")
 region_rect = Rect2(0, 0, 640, 224)
 
-[node name="Question" type="Label" parent="HUD/QuestionBanner" unique_id=1842566219]
+[node name="Question" type="Label" parent="HUD/QuestionBanner" unique_id=1842566219 node_paths=PackedStringArray("pair_fly_labels")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -524,6 +524,39 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("14_wlohk")
 game_events = ExtResource("7_7ifmk")
+pair_fly_labels = [NodePath("../PairFly0"), NodePath("../PairFly1")]
+
+[node name="PairFly0" type="Label" parent="HUD/QuestionBanner" unique_id=1842566230]
+visible = false
+top_level = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 77.0
+mouse_filter = 2
+theme = ExtResource("theme_ui")
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_outline_color = Color(0.98, 0.95, 0.9, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 56
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PairFly1" type="Label" parent="HUD/QuestionBanner" unique_id=1842566231]
+visible = false
+top_level = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 77.0
+mouse_filter = 2
+theme = ExtResource("theme_ui")
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_outline_color = Color(0.98, 0.95, 0.9, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 56
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="BossBar" type="PanelContainer" parent="HUD" node_paths=PackedStringArray("pips", "title", "rage_bar")]
 visible = false

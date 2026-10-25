@@ -85,6 +85,7 @@ func _sync_tutorial() -> void:
 			or progress_controller.is_endless_intro_pending()
 			or progress_controller.is_shop_tour_pending()
 			or progress_controller.is_mistakes_intro_pending()
+			or progress_controller.is_expert_intro_pending()
 		)
 	)
 	add_event("ev.open_tutorial" if needs_tutorial else "ev.close_tutorial")
@@ -120,6 +121,8 @@ func _on_first_profile_submitted(display_name: String, difficulty: StringName) -
 const ENDLESS_RECORD_GOLD: int = 1
 ## Magister trial survived the first time (with the hall-of-fame award).
 const MAGISTER_GOLD: int = 25
+## Valley expert trial survived the first time (badge on the valley cup), same as the magister.
+const EXPERT_GOLD: int = 25
 
 func _apply_battle_result(data: Dictionary) -> void:
 	var is_win: bool = data['is_win']
@@ -142,6 +145,11 @@ func _apply_battle_result(data: Dictionary) -> void:
 		profile_controller.add_gold(MAGISTER_GOLD)
 		data["magister_gold"] = MAGISTER_GOLD
 		root_events.ev_show_celebration.emit(CelebrationSplash.KIND_MAGISTER, {})
+	var expert_valley_id := String(data.get("expert_valley_id", ""))
+	if not expert_valley_id.is_empty() and progress_controller.unlock_expert(expert_valley_id):
+		profile_controller.add_gold(EXPERT_GOLD)
+		data["expert_gold"] = EXPERT_GOLD
+		root_events.ev_show_celebration.emit(CelebrationSplash.KIND_EXPERT, {"container_id": expert_valley_id})
 	var daily_result: Dictionary = daily_challenges_controller.register_win()
 	var celebration: Dictionary = {}
 	if battle_info:

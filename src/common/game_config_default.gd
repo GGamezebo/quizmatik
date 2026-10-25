@@ -155,6 +155,14 @@ var endless_best_sec: int = 0
 ## Chance the battle becomes a chase (practice), rolled once at battle start by `roll_chase()`.
 @export_range(0.0, 1.0, 0.05) var chase_chance: float = 0.0
 
+@export_category("Expert")
+## Both operands hidden «? + ? = 9» (expert trial): two shots fill the blanks in order, the verdict comes with
+## the second (`PairAnswerController`); any balloon pair that solves it counts (the options keep exactly one).
+@export var hidden_pair: bool = false
+## Expert trial of this valley (level grid badge, `ExpertScenario`): surviving the timer = the expert award
+## (`ProgressController.unlock_expert`); valley art in battle / post-battle. Empty = not an expert trial.
+@export var expert_valley_id: String = ""
+
 @export_category("Magister")
 ## Magister trial (menu cap, all valleys open): surviving the timer = the magister award.
 @export var magister: bool = false
@@ -202,9 +210,10 @@ func is_timed() -> bool:
 	return time_limit_sec > 0.0
 
 
-## Chase only fits a regular «answer N questions» battle: never timed, staged (endless, magister) or golden flight.
+## Chase only fits a regular «answer N questions» battle: never timed, staged (endless, magister, expert), golden flight
+## or two-blank questions.
 func can_chase() -> bool:
-	return not is_timed() and not is_staged() and not golden_flight
+	return not is_timed() and not is_staged() and not golden_flight and not hidden_pair
 
 
 ## Battle start: `chase_chance` may turn a regular battle into a chase.

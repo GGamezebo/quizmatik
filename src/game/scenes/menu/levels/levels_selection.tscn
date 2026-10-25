@@ -20,8 +20,9 @@
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/levels/exam_slot.tscn" id="62_exam_slot"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/levels/hard_skip_overlay.tscn" id="63_hard_skip"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/endless/valley_endless_entry.tscn" id="64_valley_record"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/expert/expert_entry.tscn" id="65_expert"]
 
-[node name="LevelsSelection" type="Control" node_paths=PackedStringArray("grid_container", "progress", "back_button", "early_exam_dialog", "background_host", "next_level_anchor", "hard_skip_overlay", "record_entry")]
+[node name="LevelsSelection" type="Control" node_paths=PackedStringArray("grid_container", "progress", "back_button", "early_exam_dialog", "background_host", "next_level_anchor", "hard_skip_overlay", "record_entry", "expert_entry")]
 z_index = 100
 layout_mode = 3
 anchors_preset = 15
@@ -44,6 +45,7 @@ hard_skip_overlay = NodePath("HardSkipOverlay")
 background_host = NodePath("Background")
 next_level_anchor = NodePath("NextLevelAnchor")
 record_entry = NodePath("ValleyEndlessEntry")
+expert_entry = NodePath("ExpertEntry")
 
 [node name="EarlyExamDialog" parent="." instance=ExtResource("6_confirm")]
 
@@ -99,6 +101,21 @@ anchor_bottom = 0.5
 offset_left = -510.0
 offset_top = -80.0
 offset_right = -330.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+progress = NodePath("../ProgressController")
+
+[node name="ExpertEntry" parent="." node_paths=PackedStringArray("progress") instance=ExtResource("65_expert")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 330.0
+offset_top = -80.0
+offset_right = 510.0
 offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2

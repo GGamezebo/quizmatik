@@ -18,6 +18,8 @@ extends Control
 @export var skip_offer_container_ids: Array[String] = ["addition", "subtraction"]
 ## Valley record clock left of the grid (shown once the valley exam is passed).
 @export var record_entry: ValleyEndlessEntry
+## Valley expert badge right of the grid, mirroring the clock (shown once the valley exam is passed).
+@export var expert_entry: ExpertEntry
 
 var _pending_battle_info: GameConfig.BattleInfo = null
 
@@ -28,6 +30,8 @@ func initialize(_container_id: String) -> void:
 	_populate_levels_grid()
 	if record_entry != null:
 		record_entry.set_valley(container_id)
+	if expert_entry != null:
+		expert_entry.set_valley(container_id)
 	_offer_hard_skip()
 
 

@@ -14,6 +14,10 @@ const SHOP_TOUR_STEP := "shop_tour"
 const MISTAKES_INTRO_STEP := "mistakes_intro"
 ## `PData.trophies` id of the magister award (survived the magister trial).
 const MAGISTER_TROPHY := "magister"
+## `PData.trophies` id prefix of a valley expert award (`expert_trophy(container_id)`).
+const EXPERT_TROPHY_PREFIX := "expert:"
+## Tutorial chapter id of the coached first expert round (`ExpertCoach`).
+const EXPERT_INTRO_STEP := "expert_intro"
 ## `PData.state.tutorial_steps` flag: the magister rules were read and the first trial started.
 const MAGISTER_RULES_STEP := "magister_rules"
 ## `PData.state.tutorial_steps` flag: the endless rules were read and the first endless battle started.
@@ -105,6 +109,7 @@ func complete_all_containers() -> void:
 		var container_id := str(container_data.get("container_id", ""))
 		pdata.levels.ensure_container(container_id).unlocked = true
 		pass_exam(container_id, 3)
+		pdata.trophies.unlock(expert_trophy(container_id))
 	save()
 
 
@@ -166,7 +171,47 @@ func is_shop_tour_pending() -> bool:
 func is_endless_intro_pending() -> bool:
 	return is_endless_unlocked() and not is_tutorial_step_done(ENDLESS_INTRO_STEP)
 
-## Every valley exam passed (menu magister cap → magister trial).
+static func expert_trophy(container_id: String) -> String:
+	return EXPERT_TROPHY_PREFIX + container_id
+
+## Valley expert trial (level grid badge): open once the valley exam is passed.
+func is_expert_unlocked(container_id: String) -> bool:
+	return is_valley_exam_completed(container_id)
+
+func is_expert(container_id: String) -> bool:
+	return pdata.trophies.is_unlocked(expert_trophy(container_id))
+
+## Expert trial survived; true only the first time (award + gold + celebration).
+func unlock_expert(container_id: String) -> bool:
+	if container_id.is_empty() or not pdata.trophies.unlock(expert_trophy(container_id)):
+		return false
+	save()
+	return true
+
+## Every valley expert trial passed — the magister trial opens.
+func are_all_experts_passed() -> bool:
+	var containers: Array = levels_config.levels.get("containers", [])
+	if containers.is_empty():
+		return false
+	for container_data in containers:
+		if not is_expert(str(container_data.get("container_id", ""))):
+			return false
+	return true
+
+## Some expert trial open but its coached first round not done yet (keeps the tutorial context open).
+func is_expert_intro_pending() -> bool:
+	if is_tutorial_step_done(EXPERT_INTRO_STEP):
+		return false
+	for container_data in levels_config.levels.get("containers", []):
+		if is_expert_unlocked(str(container_data.get("container_id", ""))):
+			return true
+	return false
+
+## Magister trial open (menu cap, hall-of-fame slot): every expert trial passed; old magisters keep it.
+func is_magister_unlocked() -> bool:
+	return are_all_experts_passed() or is_magister()
+
+## Every valley exam passed (all-valleys celebration).
 func are_all_valley_exams_passed() -> bool:
 	var containers: Array = levels_config.levels.get("containers", [])
 	return not containers.is_empty() and passed_valley_exams_count() >= containers.size()
