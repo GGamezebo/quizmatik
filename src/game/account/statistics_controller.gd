@@ -84,5 +84,5 @@ func _on_exit_game(data: Dictionary) -> void:
 	if data.get("is_win", false):
 		stats.total_wins += 1
 	if data.has("endless_sec"):
-		stats.endless_best_sec = maxi(stats.endless_best_sec, int(data["endless_sec"]))
+		stats.record_endless(String(data.get("endless_valley_id", "")), int(data["endless_sec"]))
 	_save()

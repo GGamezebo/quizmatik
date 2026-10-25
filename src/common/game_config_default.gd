@@ -120,7 +120,10 @@ var review_facts: Dictionary = {}
 ## and staying there — never fully colored.
 @export_range(0.0, 1.0, 0.05) var endless_paint_max: float = 0.75
 @export var endless_paint_sec: float = 120.0
-## Runtime: active profile's best endless time before this battle (`game.gd` from `PData.statistics`).
+## Valley record battle (level grid clock, one operation — `ValleyRecordScenario`): own record per valley
+## (`PData.StatisticsData.endless_best`) and the valley art. Empty = main-menu endless record.
+@export var endless_valley_id: String = ""
+## Runtime: active profile's best time of this record before the battle (`game.gd` from `PData.statistics`).
 var endless_best_sec: int = 0
 
 @export_category("Bonus")

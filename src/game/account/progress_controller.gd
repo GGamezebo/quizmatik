@@ -120,6 +120,10 @@ func passed_valley_exams_count() -> int:
 func is_endless_unlocked() -> bool:
 	return passed_valley_exams_count() >= ENDLESS_UNLOCK_EXAMS
 
+## Valley record battle (level grid clock): the valley has one (`LevelsConfig.get_record_operation`) and its exam is passed.
+func is_valley_record_unlocked(container_id: String) -> bool:
+	return levels_config.get_record_operation(container_id) != 0 and is_valley_exam_completed(container_id)
+
 ## Profile on EASY (grade 1): menu modes pick their `easy_*` config / rules card.
 func is_easy_difficulty() -> bool:
 	return pdata != null and BattleDifficulty.sanitize(StringName(pdata.difficulty)) == BattleDifficulty.EASY

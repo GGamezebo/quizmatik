@@ -18,6 +18,8 @@ extends IScene
 @export var stamps_row: Control
 @export var endless_row: Control
 @export var endless_record_label: Label
+## Record battles: when the next coin comes (next whole minute of the record).
+@export var endless_next_coin_label: Label
 @export var stamp_textures: Array[Texture2D] = []
 @export var stamp_empty: Texture2D
 @export_group("Buttons")
@@ -37,6 +39,7 @@ extends IScene
 @export var endless_record_format: String = "Рекорд: %s"
 @export var endless_previous_format: String = "Прежний рекорд: %s"
 @export var endless_first_text: String = "Первый рекорд!"
+@export var endless_next_coin_format: String = "Следующая монетка: %s"
 @export_group("Golden flight texts")
 @export var golden_title: String = "ЗОЛОТОЙ ПОЛЁТ!"
 @export_group("Magister texts")
@@ -70,6 +73,7 @@ static func build_result_data(
 		data["endless_sec"] = player.survived_sec
 		data["endless_best_before"] = game_config.endless_best_sec
 		data["is_record"] = player.survived_sec > game_config.endless_best_sec
+		data["endless_valley_id"] = game_config.endless_valley_id
 	return data
 
 
@@ -139,12 +143,22 @@ func deinit() -> void:
 func _apply_valley_background() -> void:
 	if background_host == null:
 		return
+	var valley_id: String = _valley_id()
 	var packed: PackedScene = null
-	if _game_config != null and _game_config.battle_info != null:
-		packed = ValleyBackgroundArt.get_scene(_game_config.battle_info.container_id)
+	if not valley_id.is_empty():
+		packed = ValleyBackgroundArt.get_scene(valley_id)
 	else:
 		packed = ValleyBackgroundArt.pick_random_scene()
 	background_host.force_variant(packed)
+
+
+## Valley of this battle: campaign level or valley record battle; "" = training / menu modes.
+func _valley_id() -> String:
+	if _game_config == null:
+		return ""
+	if _game_config.battle_info != null:
+		return _game_config.battle_info.container_id
+	return _game_config.endless_valley_id
 
 
 func _update_results(is_win: bool, score: int, max_score: int, stars_count: int) -> void:
@@ -184,6 +198,9 @@ func _show_endless(data: Dictionary) -> void:
 		endless_record_label.text = tr(endless_previous_format) % ProgressStatistics.format_clock(best_before)
 	else:
 		endless_record_label.text = endless_first_text
+	if endless_next_coin_label:
+		var next_coin: int = ProgressStatistics.next_record_coin_sec(maxi(seconds, best_before))
+		endless_next_coin_label.text = tr(endless_next_coin_format) % ProgressStatistics.format_clock(next_coin)
 
 
 func _show_stamps(count: int) -> void:
@@ -272,10 +289,9 @@ func _resolve_next_battle_info(is_win: bool) -> GameConfig.BattleInfo:
 	return GameConfig.BattleInfo.new(battle_info.container_id, next_level_id, is_exam)
 
 
+## Back to the valley's level grid (campaign level or its record clock); "" = main menu.
 func _resolve_menu_level_select_container() -> String:
-	if _game_config == null or _game_config.battle_info == null:
-		return ""
-	return _game_config.battle_info.container_id
+	return _valley_id()
 
 
 func _resolve_auto_level_select_container(is_win: bool) -> String:

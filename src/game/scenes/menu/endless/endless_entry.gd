@@ -1,3 +1,4 @@
+class_name EndlessEntry
 extends Control
 
 ## Main-menu clock (left side): shown once endless is unlocked
@@ -5,6 +6,7 @@ extends Control
 ## Caption under it = the profile's best endless time. `pulse` (UiPulse) runs while shown.
 ## First battle: `rules_overlay` (endless rules) with a start button; its start marks
 ## `ProgressController.ENDLESS_RULES_STEP` and launches the battle.
+## Other record battles (valley clocks, `ValleyEndlessEntry`) override `_is_unlocked` / `_best_sec` / `_battle_config`.
 
 @export var root_events: RootEvents
 @export var progress: ProgressController
@@ -43,9 +45,9 @@ func _notification(what: int) -> void:
 
 
 func _refresh() -> void:
-	var unlocked: bool = progress != null and progress.is_endless_unlocked()
+	var unlocked: bool = progress != null and _is_unlocked()
 	button.visible = unlocked
-	var best: int = progress.pdata.statistics.endless_best_sec if progress != null else 0
+	var best: int = _best_sec() if progress != null else 0
 	best_label.visible = unlocked and best > 0
 	if best_label.visible:
 		best_label.text = tr(best_format) % ProgressStatistics.format_clock(best)
@@ -66,6 +68,17 @@ func _on_rules_start() -> void:
 
 
 func _start() -> void:
+	root_events.ev_start_game.emit({"custom_battle": _battle_config()})
+
+
+func _is_unlocked() -> bool:
+	return progress.is_endless_unlocked()
+
+
+func _best_sec() -> int:
+	return progress.pdata.statistics.endless_best_sec
+
+
+func _battle_config() -> GameConfig:
 	var easy: bool = easy_endless_config != null and progress != null and progress.is_easy_difficulty()
-	var config: GameConfig = easy_endless_config if easy else endless_config
-	root_events.ev_start_game.emit({"custom_battle": config})
+	return easy_endless_config if easy else endless_config
