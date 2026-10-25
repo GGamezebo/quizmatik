@@ -307,6 +307,8 @@ class StatisticsData:
 	var facts_wrong: int = 0
 	## Best endless survival time, whole seconds (0 = never played).
 	var endless_best_sec: int = 0
+	## Valley record battles: `container_id` → best time, whole seconds (missing = never played).
+	var valley_endless_best_sec: Dictionary[String, int] = {}
 
 	func to_dict() -> Dictionary:
 		return {
@@ -323,6 +325,7 @@ class StatisticsData:
 			"facts_correct": facts_correct,
 			"facts_wrong": facts_wrong,
 			"endless_best_sec": endless_best_sec,
+			"valley_endless_best_sec": valley_endless_best_sec.duplicate(),
 		}
 
 	static func from_dict(d: Dictionary) -> StatisticsData:
@@ -340,7 +343,23 @@ class StatisticsData:
 		stats.facts_correct = int(d.get("facts_correct", 0))
 		stats.facts_wrong = int(d.get("facts_wrong", 0))
 		stats.endless_best_sec = int(d.get("endless_best_sec", 0))
+		var valley_raw: Variant = d.get("valley_endless_best_sec", {})
+		if valley_raw is Dictionary:
+			for valley_id in valley_raw as Dictionary:
+				stats.valley_endless_best_sec[String(valley_id)] = int(valley_raw[valley_id])
 		return stats
+
+	## Best time of a record battle: `valley_id` empty = main-menu endless, else that valley's record.
+	func endless_best(valley_id: String) -> int:
+		if valley_id.is_empty():
+			return endless_best_sec
+		return valley_endless_best_sec.get(valley_id, 0)
+
+	func record_endless(valley_id: String, seconds: int) -> void:
+		if valley_id.is_empty():
+			endless_best_sec = maxi(endless_best_sec, seconds)
+		elif seconds > endless_best(valley_id):
+			valley_endless_best_sec[valley_id] = seconds
 
 	## Share of questions answered right on the first try, 0..100; -1 = none answered yet.
 	func first_try_percent() -> int:

@@ -91,8 +91,12 @@ func _sync_tutorial() -> void:
 
 
 func _apply_endless_record(data: Dictionary) -> void:
-	profile_controller.add_gold(ENDLESS_RECORD_GOLD)
-	data["record_gold"] = ENDLESS_RECORD_GOLD
+	var minutes: int = ProgressStatistics.record_new_minutes(
+		int(data.get("endless_sec", 0)), int(data.get("endless_best_before", 0))
+	)
+	if minutes > 0:
+		profile_controller.add_gold(ENDLESS_RECORD_GOLD * minutes)
+		data["record_gold"] = ENDLESS_RECORD_GOLD * minutes
 	if bool(daily_challenges_controller.register_win().get("gold_awarded", false)):
 		root_events.ev_show_celebration.emit(CelebrationSplash.KIND_DAILY_GOLD, {})
 
@@ -111,7 +115,8 @@ func _on_first_profile_submitted(display_name: String, difficulty: StringName) -
 		return
 	profile_controller.create_profile(display_name, difficulty)
 
-## Endless battle: each new time record = +gold and one daily slot (the mode is never "won").
+## Record battles (menu endless, valley clocks): each new record = one daily slot (the mode is never "won")
+## + this gold per new whole record minute (`ProgressStatistics.record_new_minutes`: 2:45 → 3:00+ = +1).
 const ENDLESS_RECORD_GOLD: int = 1
 ## Magister trial survived the first time (with the hall-of-fame award).
 const MAGISTER_GOLD: int = 25

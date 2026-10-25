@@ -211,7 +211,7 @@ horizontal_alignment = 1
 
 [node name="Note" type="Label" parent="Screen/CenterContainer/Panel/VBox/Cards/Record"]
 layout_mode = 2
-text = "Монетка и печать в ежедневную серию"
+text = "Печать в ежедневную серию, а новая минута рекорда — монетка"
 label_settings = SubResource("LabelSettings_note")
 horizontal_alignment = 1
 autowrap_mode = 3

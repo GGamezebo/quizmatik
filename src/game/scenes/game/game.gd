@@ -33,15 +33,16 @@ func initialize(_data: Dictionary) -> void:
 	game_config.battle_info = battle_info
 	var review_facts: Variant = _data.get("review_facts", {})
 	game_config.review_facts = review_facts if review_facts is Dictionary else {}
-	game_config.endless_best_sec = pdata.statistics.endless_best_sec if pdata != null else 0
+	game_config.endless_best_sec = pdata.statistics.endless_best(game_config.endless_valley_id) if pdata != null else 0
 	_apply_equipped_plane()
 	_apply_cosmetics()
 
-	# Campaign: tie battle background to selected valley (rarely a school / forest instead).
-	if battle_info != null:
+	# Campaign / valley record: tie battle background to the valley (rarely a school / forest instead).
+	var valley_id: String = battle_info.container_id if battle_info != null else game_config.endless_valley_id
+	if not valley_id.is_empty():
 		var bg_host: BackgroundHost = get_node_or_null("HUD/Background") as BackgroundHost
 		if bg_host != null:
-			var packed: PackedScene = ValleyBackgroundArt.get_scene(battle_info.container_id)
+			var packed: PackedScene = ValleyBackgroundArt.get_scene(valley_id)
 			if not rare_valley_backgrounds.is_empty() and randf() < rare_valley_background_chance:
 				packed = rare_valley_backgrounds.pick_random()
 			bg_host.force_variant(packed)

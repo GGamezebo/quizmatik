@@ -13,6 +13,9 @@ const _LOCKED_TROPHY_EXTRA_DOWN := 3.0
 ## Invisible tap target over the cup; shown only with `initialize_award(..., with_hint = true)`.
 @export var hint_button: BaseButton
 @export var pulse_scale: float = 1.12
+## Shelf tag under the cup: the valley record battle time (keeps its place while hidden — cups stay aligned).
+@export var record_tag: Control
+@export var record_label: Label
 @export var pulse_period: float = 1.2
 
 
@@ -65,6 +68,15 @@ func initialize_award(award_name: String, award_texture: Texture2D, is_unlocked:
 			hint_button.pressed.connect(ev_hint_pressed.emit)
 	if with_hint and trophy_rect:
 		_pulse.call_deferred()
+
+
+## Valley record battle best time on the shelf tag; `seconds` < 0 = no record battle here (tag hidden).
+func set_record(seconds: int) -> void:
+	if record_tag == null:
+		return
+	record_tag.modulate.a = 1.0 if seconds >= 0 else 0.0
+	if record_label and seconds >= 0:
+		record_label.text = ProgressStatistics.format_clock(seconds) if seconds > 0 else "—"
 
 
 func _pulse() -> void:

@@ -767,7 +767,7 @@ Of spaar voor iets speciaals."
 Секундомер,Stopwatch,Kronometre,Cronómetro,Cronômetro,Stoppuhr,Chronomètre,Cronometro,Stoper,Секундомір,Stopwatch,Stopwatch
 "Считает, сколько ты продержишься — без лимита","Counts how long you last, no time limit",Ne kadar dayandığını sayar — süre sınırı yok,"Cuenta cuánto aguantas, sin límite de tiempo",Conta quanto tempo você aguenta — sem limite,"Zählt, wie lange du durchhältst — ohne Zeitlimit",Compte combien de temps tu tiens — sans limite,Conta quanto resisti — senza limite di tempo,"Liczy, jak długo wytrzymasz — bez limitu czasu","Рахує, скільки ти протримаєшся, — без ліміту",Menghitung berapa lama kamu bertahan — tanpa batas waktu,Telt hoe lang je het volhoudt — zonder tijdslimiet
 Новый рекорд,New record,Yeni rekor,Nuevo récord,Novo recorde,Neuer Rekord,Nouveau record,Nuovo record,Nowy rekord,Новий рекорд,Rekor baru,Nieuw record
-Монетка и печать в ежедневную серию,A coin and a stamp for the daily series,Günlük seriye bir para ve bir damga,Una moneda y un sello para la racha diaria,Uma moeda e um carimbo para a sequência diária,Eine Münze und ein Stempel für die tägliche Serie,Une pièce et un tampon pour la série du jour,Una moneta e un timbro per la serie del giorno,Moneta i pieczątka do codziennej serii,Монетка й печатка в щоденну серію,Satu koin dan satu stempel untuk rangkaian harian,Een munt en een stempel voor de dagelijkse reeks
+"Печать в ежедневную серию, а новая минута рекорда — монетка","A stamp for the daily series, and a coin for every new record minute","Günlük seriye bir damga, rekorun her yeni dakikasına bir para",Un sello para la racha diaria y una moneda por cada nuevo minuto de récord,Um carimbo para a sequência diária e uma moeda a cada novo minuto de recorde,Ein Stempel für die tägliche Serie und eine Münze für jede neue Rekordminute,Un tampon pour la série du jour et une pièce pour chaque nouvelle minute de record,Un timbro per la serie del giorno e una moneta per ogni nuovo minuto di record,Pieczątka do codziennej serii i moneta za każdą nową minutę rekordu,"Печатка в щоденну серію, а нова хвилина рекорду — монетка",Satu stempel untuk rangkaian harian dan satu koin untuk setiap menit rekor baru,Een stempel voor de dagelijkse reeks en een munt voor elke nieuwe recordminuut
 "• Каждые 30 секунд примеры сложнее, а шарики быстрее.
 • Каждые 2 минуты прилетает дирижабль — сбей его броню ответами.
 • Раз в 5 минут прилетает шарик с сердцем — поймай, если ранен.
@@ -926,3 +926,33 @@ tot je ze kent!"
 Страна фантазий,Dreamland,Hayal Ülkesi,País de fantasía,Terra da fantasia,Fantasieland,Pays imaginaire,Paese della fantasia,Kraina fantazji,Країна фантазій,Negeri khayalan,Fantasieland
 Мир шаров,Balloon World,Balon Dünyası,Mundo de globos,Mundo dos balões,Ballonwelt,Monde des ballons,Mondo dei palloncini,Świat balonów,Світ кульок,Dunia Balon,Ballonnenwereld
 Сладкое королевство,Candy Kingdom,Şeker Krallığı,Reino de dulces,Reino doce,Zuckerreich,Royaume sucré,Regno dolce,Słodkie królestwo,Солодке королівство,Kerajaan Permen,Snoepkoninkrijk
+Следующая монетка: %s,Next coin: %s,Sonraki para: %s,Siguiente moneda: %s,Próxima moeda: %s,Nächste Münze: %s,Prochaine pièce : %s,Prossima moneta: %s,Następna moneta: %s,Наступна монетка: %s,Koin berikutnya: %s,Volgende munt: %s
+Бой на рекорд времени: %s,Time record battle: %s,Süre rekoru savaşı: %s,Batalla por el récord de tiempo: %s,Batalha pelo recorde de tempo: %s,Kampf um den Zeitrekord: %s,Combat record de temps : %s,Battaglia per il record di tempo: %s,Bitwa o rekord czasu: %s,Бій на рекорд часу: %s,Pertarungan rekor waktu: %s,Gevecht om het tijdrecord: %s
+НОВЫЙ РЕЖИМ!,NEW MODE!,YENİ MOD!,¡NUEVO MODO!,NOVO MODO!,NEUER MODUS!,NOUVEAU MODE !,NUOVA MODALITÀ!,NOWY TRYB!,НОВИЙ РЕЖИМ!,MODE BARU!,NIEUWE MODUS!
+Часы ждут слева от уровней. Каждая новая минута рекорда — монетка!,The clock waits to the left of the levels. Every new minute of your record earns a coin!,"Saat, seviyelerin solunda seni bekliyor. Rekorunun her yeni dakikası bir para!",El reloj te espera a la izquierda de los niveles. ¡Cada nuevo minuto de récord da una moneda!,O relógio espera à esquerda das fases. Cada novo minuto de recorde vale uma moeda!,Die Uhr wartet links neben den Leveln. Jede neue Rekordminute bringt eine Münze!,L’horloge t’attend à gauche des niveaux. Chaque nouvelle minute de record rapporte une pièce !,L’orologio ti aspetta a sinistra dei livelli. Ogni nuovo minuto di record vale una moneta!,Zegar czeka po lewej stronie poziomów. Każda nowa minuta rekordu to moneta!,Годинник чекає ліворуч від рівнів. Кожна нова хвилина рекорду — монетка!,Jam menunggu di kiri level. Setiap menit baru rekormu dapat satu koin!,De klok wacht links van de levels. Elke nieuwe recordminuut levert een munt op!
+"Ты сдал экзамен в «%s»!
+Кубок сохранён в профиле.","You passed the %s exam!
+The trophy is saved in your profile.","“%s” sınavını geçtin!
+Kupa profiline kaydedildi.","¡Aprobaste el examen de «%s»!
+La copa está guardada en tu perfil.","Você passou na prova de “%s”!
+A taça está guardada no seu perfil.","Du hast die Prüfung im „%s“ bestanden!
+Der Pokal ist in deinem Profil gespeichert.","Tu as réussi l’examen de la « %s » !
+La coupe est enregistrée dans ton profil.","Hai superato l’esame della «%s»!
+La coppa è salvata nel tuo profilo.","Egzamin zdany: „%s”!
+Puchar jest zapisany w profilu.","Ти склав іспит у «%s»!
+Кубок збережено в профілі.","Kamu lulus ujian di “%s”!
+Piala disimpan di profilmu.","Je hebt het examen van de ‘%s’ gehaald!
+De beker staat in je profiel."
+"Ты сдал экзамен в «%s»!
+Все долины покорены! Кубок сохранён в профиле.","You passed the %s exam!
+Every valley is conquered! The trophy is saved in your profile.","“%s” sınavını geçtin!
+Tüm vadiler fethedildi! Kupa profiline kaydedildi.","¡Aprobaste el examen de «%s»!
+¡Has conquistado todos los valles! La copa está guardada en tu perfil.","Você passou na prova de “%s”!
+Todos os vales foram conquistados! A taça está guardada no seu perfil.","Du hast die Prüfung im „%s“ bestanden!
+Alle Täler sind erobert! Der Pokal ist in deinem Profil gespeichert.","Tu as réussi l’examen de la « %s » !
+Toutes les vallées sont conquises ! La coupe est enregistrée dans ton profil.","Hai superato l’esame della «%s»!
+Hai conquistato tutte le valli! La coppa è salvata nel tuo profilo.","Egzamin zdany: „%s”!
+Wszystkie doliny zdobyte! Puchar jest zapisany w profilu.","Ти склав іспит у «%s»!
+Усі долини підкорено! Кубок збережено в профілі.","Kamu lulus ujian di “%s”!
+Semua lembah sudah ditaklukkan! Piala disimpan di profilmu.","Je hebt het examen van de ‘%s’ gehaald!
+Alle valleien zijn veroverd! De beker staat in je profiel."

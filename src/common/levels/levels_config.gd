@@ -6,6 +6,8 @@ extends Resource
 ## Grade-1 level set per valley (`tools/generate_levels.py` EASY_VALLEYS).
 const EASY_FOLDER := "easy"
 const EASY_CONFIG_KEY := "easy_config"
+## Container key: the one `GameConfig.Operations` flag of the valley record battle (mix has none).
+const RECORD_OPERATION_KEY := "record_operation"
 
 var _containers_by_id: Dictionary = {}
 
@@ -14,6 +16,7 @@ var levels = {
 		{
 			"container_id": "addition",
 			"name": "Долина Сложения",
+			"record_operation": GameConfig.Operations.ADDITION,
 			"unlock_condition": {
 				"name": "is_unlocked_by_default",
 				"args": [],
@@ -44,6 +47,7 @@ var levels = {
 		{
 			"container_id": "subtraction",
 			"name": "Долина Вычитания",
+			"record_operation": GameConfig.Operations.SUBTRACTION,
 			"unlock_condition": {
 				"name": "is_unlocked_by_exam",
 				"args": ["addition"],
@@ -74,6 +78,7 @@ var levels = {
 		{
 			"container_id": "multiplication",
 			"name": "Долина Умножения",
+			"record_operation": GameConfig.Operations.MULTIPLICATION,
 			"unlock_condition": {
 				"name": "is_unlocked_by_exam",
 				"args": ["subtraction"],
@@ -104,6 +109,7 @@ var levels = {
 		{
 			"container_id": "division",
 			"name": "Долина Деления",
+			"record_operation": GameConfig.Operations.DIVISION,
 			"unlock_condition": {
 				"name": "is_unlocked_by_exam",
 				"args": ["multiplication"],
@@ -225,6 +231,10 @@ func get_next_container_id(container_id: String) -> String:
 				return str(containers[i + 1].get("container_id", ""))
 			return ""
 	return ""
+
+## Valley record battle (level grid clock, opens with the exam): its only operation; 0 = the valley has none.
+func get_record_operation(container_id: String) -> int:
+	return int(find_container_in_config(container_id).get(RECORD_OPERATION_KEY, 0))
 
 ## Exam `level_id` of the valley (last level); -1 when it has none.
 func get_exam_level_id(container_id: String) -> int:

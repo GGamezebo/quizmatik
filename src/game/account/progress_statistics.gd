@@ -53,5 +53,21 @@ static func format_clock(seconds: int) -> String:
 	return "%d:%02d" % [minutes, total % 60]
 
 
+## Record battles (menu endless, valley clocks) pay per new whole minute of the record: 2:45 → 3:00+ = 1.
+const RECORD_MINUTE_SEC := 60
+
+
+## New whole record minutes reached by `seconds` over the previous best `best_before` (0 = no coin).
+static func record_new_minutes(seconds: int, best_before: int) -> int:
+	@warning_ignore("integer_division")
+	return maxi(0, seconds / RECORD_MINUTE_SEC - maxi(0, best_before) / RECORD_MINUTE_SEC)
+
+
+## Record time that pays the next coin after a best of `best` seconds (the next whole minute).
+static func next_record_coin_sec(best: int) -> int:
+	@warning_ignore("integer_division")
+	return (maxi(0, best) / RECORD_MINUTE_SEC + 1) * RECORD_MINUTE_SEC
+
+
 static func _tr(message: String) -> String:
 	return String(TranslationServer.translate(message))

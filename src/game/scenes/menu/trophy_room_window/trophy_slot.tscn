@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/trophy_room_window/trophy_slot.gd" id="1_script"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="3_shadow"]
+[ext_resource type="Texture2D" uid="uid://dcqgqisgon0k4" path="res://assets/ui/icons/stopwatch.png" id="4_stopwatch"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("3_shadow")
@@ -19,7 +20,27 @@ font_color = Color(0.86, 0.52, 0.14, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
 
-[node name="TrophySlot" type="VBoxContainer" node_paths=PackedStringArray("pedestal_rect", "trophy_rect", "name_label", "progress_label", "hint_button")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_record_tag"]
+content_margin_left = 6.0
+content_margin_top = 1.0
+content_margin_right = 9.0
+content_margin_bottom = 1.0
+bg_color = Color(0.98, 0.95, 0.86, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_record"]
+font_size = 16
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[node name="TrophySlot" type="VBoxContainer" node_paths=PackedStringArray("pedestal_rect", "trophy_rect", "name_label", "progress_label", "hint_button", "record_tag", "record_label")]
 custom_minimum_size = Vector2(104, 0)
 theme_override_constants/separation = 0
 alignment = 1
@@ -29,6 +50,8 @@ trophy_rect = NodePath("CupArea/Trophy")
 name_label = NodePath("Name")
 progress_label = NodePath("Progress")
 hint_button = NodePath("CupArea/HintButton")
+record_tag = NodePath("RecordTag")
+record_label = NodePath("RecordTag/Row/Time")
 
 [node name="Name" type="Label" parent="."]
 clip_contents = true
@@ -94,8 +117,38 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_hit")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_hit")
 
 [node name="Progress" type="Label" parent="."]
+visible = false
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 text = "0/17"
 label_settings = SubResource("LabelSettings_progress")
 horizontal_alignment = 1
+
+[node name="RecordTag" type="PanelContainer" parent="."]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_record_tag")
+
+[node name="Row" type="HBoxContainer" parent="RecordTag"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 3
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="RecordTag/Row"]
+custom_minimum_size = Vector2(22, 20)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("4_stopwatch")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Time" type="Label" parent="RecordTag/Row"]
+layout_mode = 2
+text = "2:45"
+label_settings = SubResource("LabelSettings_record")
+vertical_alignment = 1

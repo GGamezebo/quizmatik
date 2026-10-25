@@ -79,6 +79,7 @@ func _rebuild_trophies() -> void:
 			_count_completed_levels(container_id),
 			_total_levels(container_id),
 		)
+		slot.set_record(_valley_record(container_id))
 		trophies_list.add_child(slot)
 	# Magister cup: hidden until every valley trophy is on the shelf; pulses with rules on tap until earned.
 	if magister_trophy != null and progress != null and progress.are_all_valley_trophies_unlocked():
@@ -87,6 +88,14 @@ func _rebuild_trophies() -> void:
 		magister_slot.initialize_award(magister_name, magister_trophy, earned, not earned and magister_rules != null)
 		magister_slot.ev_hint_pressed.connect(_on_magister_hint_pressed)
 		trophies_list.add_child(magister_slot)
+
+
+## Valley record battle best (shelf tag); -1 = the valley has none or its exam isn't passed yet.
+func _valley_record(container_id: String) -> int:
+	var live := _live_pdata()
+	if progress == null or live == null or not progress.is_valley_record_unlocked(container_id):
+		return -1
+	return live.statistics.endless_best(container_id)
 
 
 func _is_exam_completed_fallback(container_id: String) -> bool:
