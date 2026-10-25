@@ -22,5 +22,4 @@ result_ranges = {
 2: Vector2i(2, 9)
 }
 carry_mode = 2
-bonus_gold_chance = 0.35
-boss_chance = 0.25
+chase = true

@@ -64,6 +64,9 @@ const DIFFICULTY_COPY: Dictionary = {
 @export_range(0.0, 1.0, 0.05) var practice_royal_chance: float = 0.2
 @export_range(1, 12) var practice_royal_armor_min: int = 4
 @export_range(1, 12) var practice_royal_armor_max: int = 6
+@export_group("Chase")
+## Chance a non-timed practice battle is a chase (no boss then); rolled per battle start (`GameConfig.roll_chase`).
+@export_range(0.0, 1.0, 0.05) var practice_chase_chance: float = 0.25
 @export_group("Actions")
 @export var reset_button: BaseButton
 @export var start_battle_button: BaseButton
@@ -321,6 +324,8 @@ func _apply_difficulty_to_config() -> void:
 	config.boss_royal_chance = practice_royal_chance
 	config.boss_royal_armor_min = practice_royal_armor_min
 	config.boss_royal_armor_max = practice_royal_armor_max
+	config.chase = false
+	config.chase_chance = 0.0 if _timed else practice_chase_chance
 
 
 func _on_reset_setting_pressed() -> void:

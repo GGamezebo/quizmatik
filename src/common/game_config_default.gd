@@ -152,6 +152,8 @@ var endless_best_sec: int = 0
 @export var chase_answer_px: float = 550.0
 ## The chasers settle this many answer steps behind the plane after flying in.
 @export var chase_head_start: float = 1.3
+## Chance the battle becomes a chase (practice), rolled once at battle start by `roll_chase()`.
+@export_range(0.0, 1.0, 0.05) var chase_chance: float = 0.0
 
 @export_category("Magister")
 ## Magister trial (menu cap, all valleys open): surviving the timer = the magister award.
@@ -198,6 +200,17 @@ func is_staged() -> bool:
 
 func is_timed() -> bool:
 	return time_limit_sec > 0.0
+
+
+## Chase only fits a regular «answer N questions» battle: never timed, staged (endless, magister) or golden flight.
+func can_chase() -> bool:
+	return not is_timed() and not is_staged() and not golden_flight
+
+
+## Battle start: `chase_chance` may turn a regular battle into a chase.
+func roll_chase() -> void:
+	if not chase and chase_chance > 0.0 and can_chase() and randf() < chase_chance:
+		chase = true
 
 
 ## Endless: difficulty of `step` (0 = start): examples from `endless_stages`, speed from the curve.

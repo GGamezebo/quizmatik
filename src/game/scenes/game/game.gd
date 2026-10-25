@@ -29,6 +29,7 @@ func initialize(_data: Dictionary) -> void:
 		
 	if scenario:
 		_load_game_scenario(scenario)
+	game_config.roll_chase()
 		
 	game_config.battle_info = battle_info
 	var review_facts: Variant = _data.get("review_facts", {})

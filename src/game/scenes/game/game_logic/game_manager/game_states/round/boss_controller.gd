@@ -44,7 +44,8 @@ func _init(
 		_scene = royal_scene
 		_armor = _roll_armor(game_config.boss_royal_armor_min, game_config.boss_royal_armor_max)
 	var chance: float = game_config.timed_boss_chance if game_config.is_timed() else game_config.boss_chance
-	if _scene != null and _armor > 0 and not game_config.endless and randf() < chance:
+	# Chase battles never end with a boss.
+	if _scene != null and _armor > 0 and not game_config.endless and not game_config.chase and randf() < chance:
 		_phase = Phase.WAITING
 
 
