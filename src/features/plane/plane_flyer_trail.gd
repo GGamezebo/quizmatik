@@ -58,6 +58,17 @@ func clear() -> void:
 	queue_redraw()
 
 
+## Owner is gone (crash): no more points, the line fades out and is removed.
+func stop(fade_sec: float = 0.35) -> void:
+	source = null
+	var tween := create_tween()
+	tween.tween_property(self, "modulate:a", 0.0, fade_sec)
+	tween.tween_callback(func() -> void:
+		clear()
+		modulate.a = 1.0
+	)
+
+
 func _process(delta: float) -> void:
 	if _has_source():
 		# Sampled in `_draw`: tweens move the owner after `_process`, sampling here lags a frame
