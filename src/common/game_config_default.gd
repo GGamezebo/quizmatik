@@ -149,7 +149,7 @@ var endless_best_sec: int = 0
 ## (last one = there → win); the chief airship touching the plane = lost (`ChaseController`).
 @export var chase: bool = false
 ## One correct answer buys the time a balloon needs to fly this far at `answer_speed` (pace follows difficulty).
-@export var chase_answer_px: float = 550.0
+@export var chase_answer_px: float = 1100.0
 ## The chasers settle this many answer steps behind the plane after flying in.
 @export var chase_head_start: float = 1.3
 ## Chance the battle becomes a chase (practice), rolled once at battle start by `roll_chase()`.
