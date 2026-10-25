@@ -44,8 +44,12 @@ extends IScene
 @export var golden_title: String = "ЗОЛОТОЙ ПОЛЁТ!"
 @export_group("Magister texts")
 @export var magister_title: String = "ТЫ — МАГИСТР!"
+@export_group("Expert texts")
+@export var expert_title: String = "ТЫ — ЭКСПЕРТ!"
 
 var _next_battle_info: GameConfig.BattleInfo = null
+## The magister / expert coin row is for the expert award.
+var _expert_gold_line: bool = false
 var _pending_auto_container: String = ""
 var _listener: EventListener = EventListener.new()
 
@@ -69,6 +73,8 @@ static func build_result_data(
 		data["golden_gold"] = player.bonus_gold
 	if game_config.magister:
 		data["magister"] = true
+	if not game_config.expert_valley_id.is_empty():
+		data["expert_valley_id"] = game_config.expert_valley_id
 	if game_config.endless:
 		data["endless_sec"] = player.survived_sec
 		data["endless_best_before"] = game_config.endless_best_sec
@@ -90,12 +96,15 @@ func initialize(data: Dictionary) -> void:
 	_show_endless(data)
 	var record_gold: int = int(data.get("record_gold", 0))
 	var golden_gold: int = int(data.get("golden_gold", 0))
+	# Magister and expert gold share the row (one kind per battle).
 	var magister_gold: int = int(data.get("magister_gold", 0))
+	var expert_gold: int = int(data.get("expert_gold", 0))
+	_expert_gold_line = expert_gold > 0
 	var exam_gold: int = int(data.get("exam_gold", 0))
-	_show_level_gold(int(data.get("level_gold", 0)), record_gold, golden_gold, magister_gold,
+	_show_level_gold(int(data.get("level_gold", 0)), record_gold, golden_gold, magister_gold + expert_gold,
 			exam_gold, bool(data.get("plane_refund", false)), bool(data.get("skipped_levels", false)))
 	_show_bonus_gold(int(data.get("bonus_gold", 0)))
-	var earned_gold: int = int(data.get("level_gold", 0)) + int(data.get("bonus_gold", 0)) + record_gold + golden_gold 			+ magister_gold + exam_gold
+	var earned_gold: int = int(data.get("level_gold", 0)) + int(data.get("bonus_gold", 0)) + record_gold + golden_gold 			+ magister_gold + expert_gold + exam_gold
 	if gold_lines:
 		gold_lines.visible = earned_gold > 0
 	if rewarded_gold_button:
@@ -112,6 +121,11 @@ func initialize(data: Dictionary) -> void:
 	if _game_config != null and _game_config.magister:
 		if is_win:
 			title_label.text = magister_title
+		if stamps_row:
+			stamps_row.visible = false
+	if _game_config != null and not _game_config.expert_valley_id.is_empty():
+		if is_win:
+			title_label.text = expert_title
 		if stamps_row:
 			stamps_row.visible = false
 
@@ -136,6 +150,7 @@ func deinit() -> void:
 		root_events.ev_celebration_unhold.emit()
 	_listener.deinit()
 	_game_config = null
+	_expert_gold_line = false
 	_next_battle_info = null
 	_pending_auto_container = ""
 
@@ -152,12 +167,14 @@ func _apply_valley_background() -> void:
 	background_host.force_variant(packed)
 
 
-## Valley of this battle: campaign level or valley record battle; "" = training / menu modes.
+## Valley of this battle: campaign level, valley record battle or expert trial; "" = training / menu modes.
 func _valley_id() -> String:
 	if _game_config == null:
 		return ""
 	if _game_config.battle_info != null:
 		return _game_config.battle_info.container_id
+	if not _game_config.expert_valley_id.is_empty():
+		return _game_config.expert_valley_id
 	return _game_config.endless_valley_id
 
 
@@ -234,7 +251,7 @@ func _show_level_gold(amount: int, record_amount: int = 0, golden_amount: int = 
 	elif exam_amount > 0:
 		gold_label.text = tr("+%d за экзамен и купленный самолёт" if plane_refund else "+%d за экзамен") % exam_amount
 	elif magister_amount > 0:
-		gold_label.text = tr("+%d за звание магистра") % magister_amount
+		gold_label.text = tr("+%d за звание эксперта" if _expert_gold_line else "+%d за звание магистра") % magister_amount
 	elif golden_amount > 0:
 		gold_label.text = tr("+%d за золотой полёт") % golden_amount
 	elif record_amount > 0:

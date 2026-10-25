@@ -47,6 +47,7 @@ def main() -> None:
     p.add_argument("--trail", default="trail_rainbow")
     p.add_argument("--shot", default="shot_rainbow")
     p.add_argument("--battle", default="", help='JSON GameConfig overrides, e.g. {"questions_count":5}')
+    p.add_argument("--expert", default="", help="valley id: record that valley's expert trial («? + ? = N»)")
     p.add_argument("--tap-at", default="", help="trophy: seconds before the finger taps")
     p.add_argument("--end-at", default="", help="trophy: take length in seconds")
     a = p.parse_args()
@@ -65,7 +66,7 @@ def main() -> None:
     env.update({
         "TRAILER_SEED": str(a.seed), "TRAILER_LOCALE": a.locale, "TRAILER_VALLEY": a.valley,
         "TRAILER_PLANE": a.plane, "TRAILER_PAINT": a.paint, "TRAILER_TRAIL": a.trail,
-        "TRAILER_SHOT": a.shot, "TRAILER_BATTLE": a.battle,
+        "TRAILER_SHOT": a.shot, "TRAILER_BATTLE": a.battle, "TRAILER_EXPERT": a.expert,
         "TRAILER_TAP_AT": a.tap_at, "TRAILER_END_AT": a.end_at,
     })
     w, h = a.size.lower().split("x")

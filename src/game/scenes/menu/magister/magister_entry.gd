@@ -1,7 +1,7 @@
 extends Control
 
-## Main-menu magister cap (right of the daily scroll, mirrors the endless clock): shown once every valley exam is passed
-## (`ProgressController.are_all_valley_exams_passed`); pulses while shown; starts the magister trial
+## Main-menu magister cap (right of the daily scroll, mirrors the endless clock): shown once every valley expert trial is
+## passed (`ProgressController.is_magister_unlocked`); pulses while shown; starts the magister trial
 ## (`magister_config`: 10 min countdown, squares / roots, boss every 2 min). Caption turns golden after the award.
 ## First trial: `rules_overlay` (squares, roots, rules) with a start button; its start marks
 ## `ProgressController.MAGISTER_RULES_STEP` and launches the battle.
@@ -49,7 +49,7 @@ func _notification(what: int) -> void:
 
 
 func _refresh() -> void:
-	var unlocked: bool = progress != null and progress.are_all_valley_exams_passed()
+	var unlocked: bool = progress != null and progress.is_magister_unlocked()
 	button.visible = unlocked
 	var done: bool = unlocked and progress.is_magister()
 	if caption:

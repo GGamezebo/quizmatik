@@ -353,6 +353,12 @@ func fail() -> void:
 	label.label_settings.font_color = wrong_color
 
 
+## The number left the balloon (expert pick: it flies into the question) — the pop shows no label.
+func hide_number() -> void:
+	if label:
+		label.visible = false
+
+
 func show_hint() -> void:
 	if _sprite:
 		_sprite.modulate = Color(1.35, 1.2, 0.45)

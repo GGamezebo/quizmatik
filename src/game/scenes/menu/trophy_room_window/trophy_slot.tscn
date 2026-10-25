@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://src/game/scenes/menu/trophy_room_window/trophy_slot.gd" id="1_script"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="3_shadow"]
 [ext_resource type="Texture2D" uid="uid://dcqgqisgon0k4" path="res://assets/ui/icons/stopwatch.png" id="4_stopwatch"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/expert_badge.svg" id="5_expert"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("3_shadow")
@@ -40,7 +41,7 @@ corner_radius_bottom_left = 10
 font_size = 16
 font_color = Color(0.165, 0.2, 0.251, 1)
 
-[node name="TrophySlot" type="VBoxContainer" node_paths=PackedStringArray("pedestal_rect", "trophy_rect", "name_label", "progress_label", "hint_button", "record_tag", "record_label")]
+[node name="TrophySlot" type="VBoxContainer" node_paths=PackedStringArray("pedestal_rect", "trophy_rect", "name_label", "progress_label", "hint_button", "record_tag", "record_label", "expert_badge")]
 custom_minimum_size = Vector2(104, 0)
 theme_override_constants/separation = 0
 alignment = 1
@@ -52,6 +53,7 @@ progress_label = NodePath("Progress")
 hint_button = NodePath("CupArea/HintButton")
 record_tag = NodePath("RecordTag")
 record_label = NodePath("RecordTag/Row/Time")
+expert_badge = NodePath("CupArea/ExpertBadge")
 
 [node name="Name" type="Label" parent="."]
 clip_contents = true
@@ -99,6 +101,27 @@ offset_bottom = -21.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ExpertBadge" type="TextureRect" parent="CupArea"]
+visible = false
+z_index = 2
+material = SubResource("ShaderMaterial_sticker")
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -44.0
+offset_top = -58.0
+offset_right = 2.0
+offset_bottom = -12.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("5_expert")
 expand_mode = 1
 stretch_mode = 5
 

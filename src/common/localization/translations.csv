@@ -956,3 +956,49 @@ Wszystkie doliny zdobyte! Puchar jest zapisany w profilu.","Ти склав іс
 Усі долини підкорено! Кубок збережено в профілі.","Kamu lulus ujian di “%s”!
 Semua lembah sudah ditaklukkan! Piala disimpan di profilmu.","Je hebt het examen van de ‘%s’ gehaald!
 Alle valleien zijn veroverd! De beker staat in je profiel."
+Эксперт,Expert,Uzman,Experto,Especialista,Experte,Expert,Esperto,Ekspert,Експерт,Ahli,Expert
+Ты эксперт!,You are an expert!,Sen bir uzmansın!,¡Eres experto!,Você é especialista!,Du bist Experte!,Tu es expert !,Sei un esperto!,Jesteś ekspertem!,Ти експерт!,Kamu ahli!,Je bent een expert!
+ТЫ — ЭКСПЕРТ!,YOU ARE AN EXPERT!,SEN BİR UZMANSIN!,¡ERES EXPERTO!,VOCÊ É ESPECIALISTA!,DU BIST EXPERTE!,TU ES EXPERT !,SEI UN ESPERTO!,JESTEŚ EKSPERTEM!,ТИ — ЕКСПЕРТ!,KAMU AHLI!,JE BENT EEN EXPERT!
+Ты — эксперт!,You are an expert!,Sen bir uzmansın!,¡Eres experto!,Você é especialista!,Du bist Experte!,Tu es expert !,Sei un esperto!,Jesteś ekspertem!,Ти — експерт!,Kamu ahli!,Je bent een expert!
++%d за звание эксперта,+%d for the expert title,Uzman unvanı için +%d,+%d por el título de experto,+%d pelo título de especialista,+%d für den Experten-Titel,+%d pour le titre d’expert,+%d per il titolo di esperto,+%d za tytuł eksperta,+%d за звання експерта,+%d untuk gelar ahli,+%d voor de titel expert
+5 минут в «%s»! Значок эксперта уже на кубке в зале славы,5 minutes in “%s”! The expert badge is on your cup in the hall of fame,“%s” içinde 5 dakika! Uzman rozeti şöhret salonundaki kupanda,¡5 minutos en «%s»! La insignia de experto ya está en tu copa del salón de la fama,5 minutos em “%s”! O emblema de especialista já está na sua taça no salão da fama,5 Minuten in „%s“! Das Experten-Abzeichen hängt schon an deinem Pokal in der Ruhmeshalle,5 minutes dans « %s » ! Le badge d’expert est déjà sur ta coupe dans la salle de gloire,5 minuti in «%s»! Il distintivo di esperto è già sulla tua coppa nella sala della gloria,5 minut w „%s”! Odznaka eksperta jest już na twoim pucharze w sali sławy,5 хвилин у «%s»! Значок експерта вже на кубку в залі слави,5 menit di “%s”! Lencana ahli sudah ada di pialamu di aula kejayaan,5 minuten in ‘%s’! De expertbadge hangt al aan je beker in de eregalerij
+"Испытание эксперта! Спрятались два числа.
+Сбей два шарика: сначала первое, потом второе","Expert trial! Two numbers are hiding.
+Shoot two balloons: the first one, then the second","Uzman denemesi! İki sayı saklandı.
+İki balon vur: önce birinciyi, sonra ikinciyi","¡Prueba de experto! Se esconden dos números.
+Revienta dos globos: primero el primero, luego el segundo","Desafio do especialista! Dois números se esconderam.
+Estoure dois balões: primeiro o primeiro, depois o segundo","Experten-Prüfung! Zwei Zahlen haben sich versteckt.
+Triff zwei Ballons: erst die erste, dann die zweite","Épreuve d’expert ! Deux nombres se cachent.
+Touche deux ballons : d’abord le premier, puis le second","Prova dell’esperto! Si nascondono due numeri.
+Colpisci due palloncini: prima il primo, poi il secondo","Próba eksperta! Schowały się dwie liczby.
+Zestrzel dwa baloniki: najpierw pierwszą, potem drugą","Випробування експерта! Сховалися два числа.
+Збий дві кульки: спочатку перше, потім друге","Ujian ahli! Dua angka bersembunyi.
+Tembak dua balon: yang pertama, lalu yang kedua","Expertproef! Er verstoppen zich twee getallen.
+Raak twee ballonnen: eerst het eerste, dan het tweede"
+"Первое число — %d.
+Встань напротив шарика и стреляй!","The first number is %d.
+Line up with the balloon and shoot!","Birinci sayı %d.
+Balonun karşısına geç ve ateş et!","El primer número es %d.
+¡Ponte frente al globo y dispara!","O primeiro número é %d.
+Fique na frente do balão e atire!","Die erste Zahl ist %d.
+Flieg vor den Ballon und schieß!","Le premier nombre est %d.
+Place-toi face au ballon et tire !","Il primo numero è %d.
+Mettiti davanti al palloncino e spara!","Pierwsza liczba to %d.
+Ustaw się naprzeciw balonika i strzelaj!","Перше число — %d.
+Стань навпроти кульки й стріляй!","Angka pertama adalah %d.
+Sejajarkan dengan balon dan tembak!","Het eerste getal is %d.
+Ga voor de ballon staan en schiet!"
+"Теперь второе число — %d.
+Стреляй!","Now the second number, %d.
+Shoot!","Şimdi ikinci sayı, %d.
+Ateş et!","Ahora el segundo número, %d.
+¡Dispara!","Agora o segundo número, %d.
+Atire!","Jetzt die zweite Zahl, %d.
+Schieß!","Maintenant le second nombre, %d.
+Tire !","Ora il secondo numero, %d.
+Spara!","Teraz druga liczba, %d.
+Strzelaj!","Тепер друге число — %d.
+Стріляй!","Sekarang angka kedua, %d.
+Tembak!","Nu het tweede getal, %d.
+Schiet!"
+Пример решён! Дальше — сам,Problem solved! Now on your own,İşlem çözüldü! Şimdi sıra sende,¡Resuelto! Ahora tú solo,Conta resolvida! Agora é com você,Gelöst! Jetzt allein weiter,Calcul résolu ! À toi de jouer seul,Risolto! Ora vai da solo,Rozwiązane! Dalej sam,Приклад розв’язано! Далі — сам,Soal selesai! Sekarang sendiri,Opgelost! Nu zelf verder
