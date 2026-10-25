@@ -31,6 +31,8 @@ EXAM_BOSS_ARMOR = 6  # every plate slot = max HP
 EXAM_BOSS_RAGE_HITS = 20
 EXAM_QUESTIONS = 15
 EXAM_STAGE_SCORES = (4, 8, 12)
+# Chase levels (`GameConfig.chase`, both sets): balloons stand still, airships chase the plane; no boss / bonus balloon.
+CHASE_LEVELS = {"addition": {3}}
 
 
 def op(a, b=None, res=None):
@@ -430,10 +432,11 @@ def ops_fields(ops: dict, carry: int) -> dict:
     }
 
 
-def level_fields(valley: dict, level_id: int) -> dict:
+def level_fields(valley: dict, level_id: int, valley_id: str = "") -> dict:
     """Ordered GameConfig fields for a level (defaults omitted)."""
     params = valley[level_id]
     is_exam = level_id == EXAM_LEVEL
+    is_chase = level_id in CHASE_LEVELS.get(valley_id, set())
     fields = {}
     if is_exam:
         stages = params
@@ -471,10 +474,12 @@ def level_fields(valley: dict, level_id: int) -> dict:
             fields["missing_operand_start_progress"] = start
     if level_id in TIMED_LEVELS:
         fields["time_limit_sec"] = TIMED_LEVELS[level_id]
-    bonus = bonus_gold_chance(level_id)
+    if is_chase:
+        fields["chase"] = True
+    bonus = 0.0 if is_chase else bonus_gold_chance(level_id)
     if bonus > 0.0:
         fields["bonus_gold_chance"] = bonus
-    boss = boss_chance(level_id)
+    boss = 0.0 if is_chase else boss_chance(level_id)
     if boss > 0.0:
         fields["boss_chance"] = boss
         if is_exam:
@@ -495,7 +500,7 @@ def existing_uid(path: str) -> str:
     return match.group(1) if match else ""
 
 
-def make_tres(valley: dict, level_id: int, uid: str) -> str:
+def make_tres(valley: dict, level_id: int, uid: str, valley_id: str = "") -> str:
     uid_attr = f' uid="{uid}"' if uid else ""
     lines = [
         f'[gd_resource type="Resource" script_class="GameConfig" format=3{uid_attr}]',
@@ -505,7 +510,7 @@ def make_tres(valley: dict, level_id: int, uid: str) -> str:
         "[resource]",
         'script = ExtResource("1_script")',
     ]
-    for key, value in level_fields(valley, level_id).items():
+    for key, value in level_fields(valley, level_id, valley_id).items():
         lines.append(f"{key} = {gd(value)}")
     return "\n".join(lines) + "\n"
 
@@ -515,7 +520,7 @@ def write_valley(valley_id: str, valley: dict, folder: str) -> int:
     os.makedirs(folder, exist_ok=True)
     for level_id in range(1, LEVEL_COUNT + 1):
         path = os.path.join(folder, f"level_{level_id}.tres")
-        content = make_tres(valley, level_id, existing_uid(path))
+        content = make_tres(valley, level_id, existing_uid(path), valley_id)
         with open(path, "w", encoding="utf-8", newline="\n") as file:
             file.write(content)
     return LEVEL_COUNT

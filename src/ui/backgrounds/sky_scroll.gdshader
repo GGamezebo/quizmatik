@@ -14,6 +14,10 @@ uniform sampler2D next_texture : source_color, hint_default_white;
 // Aspect "cover" crop (set by BackgroundBase on resize): uv = UV * cover_scale + cover_offset.
 uniform vec2 cover_scale = vec2(1.0);
 uniform vec2 cover_offset = vec2(0.0);
+// Chase level: left of drain_edge (screen share 0..1) the world fades back to washed graphite,
+// soft over ±drain_softness. Default -1 = off.
+uniform float drain_edge = -1.0;
+uniform float drain_softness = 0.1;
 
 void fragment() {
 	vec2 uv = UV * cover_scale + cover_offset;
@@ -35,6 +39,7 @@ void fragment() {
 	}
 	float gray = dot(col.rgb, vec3(0.299, 0.587, 0.114));
 	float t = clamp(color_amount, 0.0, 1.0);
+	t *= smoothstep(drain_edge - drain_softness, drain_edge + drain_softness, UV.x);
 	vec3 rgb = mix(vec3(gray), col.rgb, t);
 	float s = clamp(subdue, 0.0, 1.0) * (1.0 - t);
 	float luma = dot(rgb, vec3(0.299, 0.587, 0.114));

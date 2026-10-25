@@ -6,6 +6,7 @@ extends Node2D
 ## creeps slowly up to the plane (stops just short of its nose at `rage_stop_x`) and takes `rage_hits` shots
 ## on its `hitbox` (`take_shot`) before going down in flames. The rage is pure shooting fun, no threat.
 ## Plates = editor-placed slots; `initialize(armor)` shows an evenly spread subset.
+## Chase level: `setup_chaser(variant)` instead — no fly-in / fight, the battle moves it (`ChaseController`).
 
 ## Reached the hover point — the fight can start.
 signal ev_entered
@@ -64,6 +65,14 @@ signal ev_destroyed
 @export var tether_knot_offset: float = 66.0
 @export var tether_sag: float = 26.0
 
+@export_group("Chase")
+## Hull nose x in `visual` space (art faces left) — the point that touches the plane when chasing.
+@export var nose_x: float = -225.0
+## Hull tint while a chaser is close to the plane (`set_menacing`).
+@export var menace_tint: Color = Color(1.0, 0.7, 0.66)
+## Restless shake kept up while menacing.
+@export var menace_shake: float = 0.22
+
 @export_group("Layout")
 ## Hover point = this far left of the play area's right edge, vertically centered.
 @export var hover_inset_x: float = 230.0
@@ -98,6 +107,10 @@ var _spark_tween: Tween
 var _flash_tween: Tween
 ## Live strings: Line2D → balloon it holds.
 var _strings: Dictionary = {}
+## Chase level: hull color index into `body_variants` (-1 = random) and the close-in look.
+var _variant: int = -1
+var _menacing: bool = false
+var _tint_tween: Tween
 
 
 func initialize(armor: int, play_area: Rect2, rage_shots: int) -> void:
@@ -108,10 +121,32 @@ func initialize(armor: int, play_area: Rect2, rage_shots: int) -> void:
 	_pick_plates()
 
 
+## Chase level: one of the chasers, `variant` = hull color (index into `body_variants`). Call before adding it.
+func setup_chaser(variant: int) -> void:
+	_variant = variant
+	_time = randf() * TAU
+
+
+## Distance from the origin to the hull nose (px, any facing; parent unscaled).
+func get_nose_reach() -> float:
+	var visual_scale: float = visual.scale.x if visual else 1.0
+	return absf(nose_x * visual_scale * scale.x)
+
+
+## Chasing: closed in on the plane — reddish hull, fast propeller, restless shake (`false` = calm again).
+func set_menacing(on: bool) -> void:
+	if _menacing == on:
+		return
+	_menacing = on
+	if on:
+		_shake = 1.0
+	_tween_tint(menace_tint if on else Color.WHITE, 0.35)
+
+
 func _ready() -> void:
 	var sprite := body as Sprite2D
 	if sprite and not body_variants.is_empty():
-		sprite.texture = body_variants.pick_random()
+		sprite.texture = body_variants[_variant % body_variants.size()] if _variant >= 0 else body_variants.pick_random()
 	if spark:
 		spark.visible = false
 	if hitbox:
@@ -128,11 +163,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_time += delta
 	if propeller:
-		propeller.scale.y = cos(_time * propeller_speed * (2.0 if _raging else 1.0))
+		propeller.scale.y = cos(_time * propeller_speed * (2.0 if _raging or _menacing else 1.0))
 	_update_strings()
 	if visual == null or _falling:
 		return
-	_shake = move_toward(_shake, 0.0, delta * 3.0)
+	_shake = move_toward(_shake, menace_shake if _menacing else 0.0, delta * 3.0)
 	var jitter := Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * shake_strength * _shake
 	var bob: float = sin(_time * bob_speed) * bob_strength
 	var sway: float = sway_degrees
@@ -291,9 +326,7 @@ func _enrage() -> void:
 	_shake = 1.0
 	if hitbox:
 		hitbox.collision_layer = rage_hitbox_layer
-	if body and body.material is ShaderMaterial:
-		var mat := body.material as ShaderMaterial
-		create_tween().tween_method(func(c: Color) -> void: mat.set_shader_parameter("sprite_tint", c), Color.WHITE, rage_tint, 0.4)
+	_tween_tint(rage_tint, 0.4)
 	ev_enraged.emit(rage_hits)
 	var stop_x: float = _play_area.position.x + rage_stop_x
 	var distance: float = maxf(position.x - stop_x, 0.0)
@@ -302,6 +335,19 @@ func _enrage() -> void:
 	_rage_tween.tween_property(self, "position:x", stop_x, distance / maxf(rage_speed, 1.0))		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	# Arrived: one more angry shudder, then it just hangs there.
 	_rage_tween.tween_property(self, "_shake", 0.8, 0.05)
+
+
+## Hull shader `sprite_tint` from its current value to `to`.
+func _tween_tint(to: Color, duration: float) -> void:
+	if body == null or not body.material is ShaderMaterial:
+		return
+	var mat := body.material as ShaderMaterial
+	var from: Variant = mat.get_shader_parameter("sprite_tint")
+	if _tint_tween:
+		_tint_tween.kill()
+	_tint_tween = create_tween()
+	_tint_tween.tween_method(func(c: Color) -> void: mat.set_shader_parameter("sprite_tint", c),
+		from if from is Color else Color.WHITE, to, duration)
 
 
 func _drop_plate(plate: Node2D) -> void:

@@ -10,6 +10,7 @@ const COLOR_AMOUNT_PARAM := &"color_amount"
 const MIRROR_SEAMLESS_PARAM := &"mirror_seamless"
 const COVER_SCALE_PARAM := &"cover_scale"
 const COVER_OFFSET_PARAM := &"cover_offset"
+const DRAIN_EDGE_PARAM := &"drain_edge"
 
 ## Sky drift in texture widths per second. 0 keeps the sky static (e.g. post battle).
 @export_range(0.0, 0.2, 0.001) var sky_scroll_speed: float = 0.0
@@ -26,6 +27,7 @@ const COVER_OFFSET_PARAM := &"cover_offset"
 ## instead of score — one step every `paint_time_step_sec`, fully colored at 0.
 ## Endless battle: one step per difficulty stage (`ev_endless_time`) up to `GameConfig.endless_paint_max`
 ## at `endless_paint_sec`, then stays (never full).
+## Chase level (`game_config.chase`): fully colored from the start; `ev_chase_drain` grays out the left part.
 @export var game_events: GameEvents
 @export_range(1.0, 30.0, 0.5) var paint_time_step_sec: float = 5.0
 ## Menu: paint fills in with completed daily slots (0..DAILY_SLOT_COUNT).
@@ -52,6 +54,7 @@ var _next_sky: Texture2D = null
 var _color_amount: float = 0.0
 var _color_target: float = 0.0
 var _paint_tween: Tween = null
+var _drain_tween: Tween = null
 
 
 func _ready() -> void:
@@ -126,6 +129,8 @@ func _bind_paint_score() -> void:
 		game_events.ev_time_left.connect(_on_time_left)
 	if game_events != null and not game_events.ev_endless_time.is_connected(_on_endless_time):
 		game_events.ev_endless_time.connect(_on_endless_time)
+	if game_events != null and not game_events.ev_chase_drain.is_connected(_on_chase_drain):
+		game_events.ev_chase_drain.connect(_on_chase_drain)
 	_set_color_target_from_score(player.score)
 	_color_amount = _color_target
 	_apply_color_amount()
@@ -136,6 +141,8 @@ func _exit_tree() -> void:
 		game_events.ev_time_left.disconnect(_on_time_left)
 	if game_events != null and game_events.ev_endless_time.is_connected(_on_endless_time):
 		game_events.ev_endless_time.disconnect(_on_endless_time)
+	if game_events != null and game_events.ev_chase_drain.is_connected(_on_chase_drain):
+		game_events.ev_chase_drain.disconnect(_on_chase_drain)
 	if game_config != null and game_config.changed.is_connected(_on_game_config_changed):
 		game_config.changed.disconnect(_on_game_config_changed)
 
@@ -220,6 +227,26 @@ func _on_endless_time(seconds: int) -> void:
 	_tween_paint_to_target()
 
 
+## Chase: gray left of `edge_x` (screen px); `duration` > 0 eases there (battle end: color back / all gray).
+func _on_chase_drain(edge_x: float, duration: float) -> void:
+	if _sky_material == null or _sky.size.x <= 0.0:
+		return
+	var edge: float = edge_x / _sky.size.x
+	if _drain_tween != null and _drain_tween.is_valid():
+		_drain_tween.kill()
+	if duration <= 0.0:
+		_sky_material.set_shader_parameter(DRAIN_EDGE_PARAM, edge)
+		return
+	var from: Variant = _sky_material.get_shader_parameter(DRAIN_EDGE_PARAM)
+	_drain_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	_drain_tween.tween_method(
+		func(value: float) -> void: _sky_material.set_shader_parameter(DRAIN_EDGE_PARAM, value),
+		float(from) if from != null else edge,
+		edge,
+		duration,
+	)
+
+
 func _is_time_painted() -> bool:
 	return game_config != null and (game_config.is_timed() or game_config.endless)
 
@@ -230,6 +257,9 @@ func _on_daily_changed() -> void:
 
 
 func _set_color_target_from_score(score: int) -> void:
+	if game_config != null and game_config.chase:
+		_color_target = 1.0
+		return
 	if _is_time_painted():
 		_color_target = 0.0
 		return

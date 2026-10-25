@@ -31,6 +31,12 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_target_shot(target: Area2D, hit_point: Vector2)
 ## Boss fell off-screen — the battle is won right after.
 @warning_ignore("unused_signal") signal ev_boss_defeated
+## Chase level: the airships fly in from the left.
+@warning_ignore("unused_signal") signal ev_chase_started
+## Chase level: the world is gray left of `edge_x` (screen px), reached over `duration` (0 = at once).
+@warning_ignore("unused_signal") signal ev_chase_drain(edge_x: float, duration: float)
+## Chase level: the airships closed in (`true`, tense music / growl) or fell back (`false`).
+@warning_ignore("unused_signal") signal ev_chase_danger(close: bool)
 ## Golden flight time is up: no more questions, pick one of the choice balloons.
 @warning_ignore("unused_signal") signal ev_golden_choice
 @warning_ignore("unused_signal") signal ev_win

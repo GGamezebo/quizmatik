@@ -143,6 +143,16 @@ var endless_best_sec: int = 0
 ## Hidden gold of the final choice balloons (one per lane, shuffled).
 @export var golden_choice_gold: Array[int] = [1, 2, 3, 4]
 
+@export_category("Chase")
+## Chase level: answers slide in and stand still; three airships chase the plane from the left and the
+## world drains to gray behind them. Each correct answer moves the plane a step toward the screen middle
+## (last one = there → win); the chief airship touching the plane = lost (`ChaseController`).
+@export var chase: bool = false
+## One correct answer buys the time a balloon needs to fly this far at `answer_speed` (pace follows difficulty).
+@export var chase_answer_px: float = 550.0
+## The chasers settle this many answer steps behind the plane after flying in.
+@export var chase_head_start: float = 1.3
+
 @export_category("Magister")
 ## Magister trial (menu cap, all valleys open): surviving the timer = the magister award.
 @export var magister: bool = false

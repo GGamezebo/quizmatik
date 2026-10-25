@@ -6,6 +6,8 @@ extends Node
 ## In battle (GameEvents): boss fly-in crossfades to boss_music; timed level's last seconds speed the
 ## music up; win / lose fades it out so the stingers are heard before the result theme.
 ## Endless battle: boss down → back to the battle theme; a new record plays the win theme.
+## Chase level: airships close in (`ev_chase_danger(true)`) → `chase_music` (empty = boss_music); fell back →
+## the battle theme resumes where it stopped.
 ## `ev_celebration_music(true)` (purchase thank-you) → celebration theme, `false` → what played before.
 
 @export var root_events: RootEvents
@@ -15,6 +17,8 @@ extends Node
 @export var battle_music: AudioStream
 @export var exam_music: AudioStream
 @export var boss_music: AudioStream
+## Tense theme while the chase airships are close; empty → boss_music.
+@export var chase_music: AudioStream
 @export var win_music: AudioStream
 @export var lose_music: AudioStream
 ## Overlay celebration theme; empty → win_music.
@@ -37,6 +41,8 @@ var _faded: bool = false
 var _tween: Tween = null
 ## Theme of the running battle (boss down → back to it).
 var _battle_stream: AudioStream = null
+## Chase: where the battle theme stopped when the tense one took over.
+var _battle_resume_sec: float = 0.0
 ## What played before `ev_celebration_music(true)` (null = no celebration running).
 var _resume_stream: AudioStream = null
 var _resume_is_result: bool = false
@@ -52,6 +58,7 @@ func _ready() -> void:
 		_listener.add(game_events.ev_boss_appeared, _on_boss_appeared)
 		_listener.add(game_events.ev_boss_defeated, _on_boss_defeated)
 		_listener.add(game_events.ev_time_left, _on_time_left)
+		_listener.add(game_events.ev_chase_danger, _on_chase_danger)
 		_listener.add(game_events.ev_win, _fade_out)
 		_listener.add(game_events.ev_lose, _fade_out)
 	_prepare_loops()
@@ -62,7 +69,7 @@ func _exit_tree() -> void:
 
 
 func _prepare_loops() -> void:
-	for stream in [win_music, lose_music, background_music, battle_music, exam_music, boss_music, celebration_music]:
+	for stream in [win_music, lose_music, background_music, battle_music, exam_music, boss_music, chase_music, celebration_music]:
 		_enable_loop(stream)
 
 
@@ -136,6 +143,28 @@ func _on_boss_defeated() -> void:
 	_tween.tween_callback(_play_loop.bind(_battle_stream))
 
 
+func _on_chase_danger(close: bool) -> void:
+	if music_player == null or _playing_result or _faded or _battle_stream == null:
+		return
+	var tense: AudioStream = chase_music if chase_music else boss_music
+	if tense == null:
+		return
+	var from_sec: float = 0.0
+	if close:
+		if music_player.stream == tense:
+			return
+		_battle_resume_sec = music_player.get_playback_position() if music_player.stream == _battle_stream else 0.0
+	else:
+		if music_player.stream == _battle_stream:
+			return
+		tense = _battle_stream
+		from_sec = _battle_resume_sec
+	_kill_tween()
+	_tween = create_tween()
+	_tween.tween_property(music_player, "volume_db", _SILENT_DB, boss_fade_sec)
+	_tween.tween_callback(_play_loop.bind(tense, from_sec))
+
+
 func _on_time_left(seconds: int) -> void:
 	if music_player and seconds > 0 and seconds <= hurry_seconds:
 		music_player.pitch_scale = hurry_pitch
@@ -163,7 +192,7 @@ func _play_result(stream: AudioStream) -> void:
 	music_player.play()
 
 
-func _play_loop(stream: AudioStream) -> void:
+func _play_loop(stream: AudioStream, from_sec: float = 0.0) -> void:
 	if music_player == null:
 		return
 	_kill_tween()
@@ -180,7 +209,7 @@ func _play_loop(stream: AudioStream) -> void:
 		music_player.stream = stream
 	music_player.pitch_scale = 1.0
 	music_player.volume_db = background_volume_db
-	music_player.play()
+	music_player.play(from_sec)
 
 
 func _kill_tween() -> void:
