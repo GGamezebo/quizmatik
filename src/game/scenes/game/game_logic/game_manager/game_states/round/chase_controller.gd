@@ -110,7 +110,7 @@ func _init(
 	_chief_scene = chief_scene if chief_scene != null else wing_scene
 	_wing_scene = wing_scene if wing_scene != null else chief_scene
 	_spawn_parent = spawn_parent
-	_active = game_config.chase and _chief_scene != null
+	_active = game_config.chase and game_config.can_chase() and _chief_scene != null
 
 
 ## Airships stay where they are (retreating / over the crashed plane); the scene frees them.

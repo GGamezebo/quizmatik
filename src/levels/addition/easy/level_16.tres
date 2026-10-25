@@ -25,5 +25,4 @@ result_ranges = {
 1: Vector2i(2, 18)
 }
 missing_operand_chance = 0.5
-bonus_gold_chance = 0.35
-boss_chance = 0.25
+chase = true

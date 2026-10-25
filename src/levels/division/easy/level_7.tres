@@ -18,5 +18,4 @@ operation_ranges = {
 second_operand_ranges = {
 8: Vector2i(2, 10)
 }
-bonus_gold_chance = 0.35
-boss_chance = 0.25
+chase = true

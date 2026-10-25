@@ -32,7 +32,7 @@ EXAM_BOSS_RAGE_HITS = 20
 EXAM_QUESTIONS = 15
 EXAM_STAGE_SCORES = (4, 8, 12)
 # Chase levels (`GameConfig.chase`, both sets): balloons stand still, airships chase the plane; no boss / bonus balloon.
-CHASE_LEVELS = {"addition": {3}}
+CHASE_LEVELS = {valley: {3, 7, 13, 16, 19} for valley in ("addition", "subtraction", "multiplication", "division", "mix")}
 
 
 def op(a, b=None, res=None):
