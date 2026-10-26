@@ -7,8 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://bkifyl0m7qp2" path="res://src/game/scenes/menu/ui/menu_circle_button.tscn" id="5_circle_btn"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/expert_badge.svg" id="6_badge"]
 [ext_resource type="Script" path="res://core/lib/pulse/ui_pulse.gd" id="7_ui_pulse"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/expert/expert_rules_overlay.tscn" id="8_rules"]
 
-[node name="ExpertEntry" type="VBoxContainer" node_paths=PackedStringArray("button", "caption", "pulse")]
+[node name="ExpertEntry" type="VBoxContainer" node_paths=PackedStringArray("rules_overlay", "button", "caption", "pulse")]
 custom_minimum_size = Vector2(180, 0)
 offset_right = 180.0
 offset_bottom = 200.0
@@ -17,6 +18,7 @@ theme_override_constants/separation = 2
 script = ExtResource("1_script")
 root_events = ExtResource("3_root_events")
 expert_config = ExtResource("4_cfg")
+rules_overlay = NodePath("RulesOverlay")
 button = NodePath("BadgeBox/Badge")
 caption = NodePath("Caption")
 pulse = NodePath("Pulse")
@@ -59,3 +61,5 @@ theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 24
 text = "Эксперт"
 horizontal_alignment = 1
+
+[node name="RulesOverlay" parent="." instance=ExtResource("8_rules")]

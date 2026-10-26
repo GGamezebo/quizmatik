@@ -22,6 +22,8 @@ const EXPERT_INTRO_STEP := "expert_intro"
 const MAGISTER_RULES_STEP := "magister_rules"
 ## `PData.state.tutorial_steps` flag: the endless rules were read and the first endless battle started.
 const ENDLESS_RULES_STEP := "endless_rules"
+## `PData.state.tutorial_steps` flag: the expert rules were read and the first expert trial started (any valley).
+const EXPERT_RULES_STEP := "expert_rules"
 ## Award id of the opened endless record scroll in the hall of fame (`award_ids`).
 const ENDLESS_AWARD := "endless_record"
 ## Tutorial chapter id of the coached first battle (= tutorial `CHAPTER_FIRST_FLIGHT`).

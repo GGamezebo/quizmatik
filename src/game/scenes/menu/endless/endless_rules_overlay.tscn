@@ -22,10 +22,10 @@ fill_from = Vector2(0.5, 0)
 fill_to = Vector2(0.5, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-content_margin_left = 36.0
-content_margin_top = 16.0
-content_margin_right = 36.0
-content_margin_bottom = 12.0
+content_margin_left = 44.0
+content_margin_top = 22.0
+content_margin_right = 44.0
+content_margin_bottom = 18.0
 bg_color = Color(0.953, 0.902, 0.784, 0.97)
 border_width_left = 3
 border_width_top = 3
@@ -41,21 +41,21 @@ shadow_size = 18
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font = ExtResource("5_title_font")
-font_size = 36
+font_size = 48
 font_color = Color(0.165, 0.2, 0.251, 1)
 outline_size = 0
 shadow_size = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_heading"]
-font_size = 24
+font_size = 30
 font_color = Color(0.66, 0.42, 0.06, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_note"]
-font_size = 16
+font_size = 20
 font_color = Color(0.28, 0.32, 0.38, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_rules"]
-font_size = 18
+font_size = 24
 font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_button"]
@@ -105,14 +105,14 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="Panel" type="PanelContainer" parent="Screen/CenterContainer"]
-custom_minimum_size = Vector2(780, 0)
+custom_minimum_size = Vector2(1000, 0)
 layout_mode = 2
 mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
 [node name="VBox" type="VBoxContainer" parent="Screen/CenterContainer/Panel"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 10
 
 [node name="TitleRow" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
 layout_mode = 2
@@ -120,7 +120,7 @@ theme_override_constants/separation = 12
 alignment = 1
 
 [node name="Stopwatch" type="TextureRect" parent="Screen/CenterContainer/Panel/VBox/TitleRow"]
-custom_minimum_size = Vector2(60, 52)
+custom_minimum_size = Vector2(80, 70)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("8_stopwatch")
@@ -135,16 +135,16 @@ vertical_alignment = 1
 
 [node name="Cards" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 24
 alignment = 1
 
 [node name="Hearts" type="VBoxContainer" parent="Screen/CenterContainer/Panel/VBox/Cards"]
-custom_minimum_size = Vector2(228, 0)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="Icon" type="TextureRect" parent="Screen/CenterContainer/Panel/VBox/Cards/Hearts"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 84)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("9_heart")
@@ -165,12 +165,12 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="Clock" type="VBoxContainer" parent="Screen/CenterContainer/Panel/VBox/Cards"]
-custom_minimum_size = Vector2(228, 0)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="Icon" type="TextureRect" parent="Screen/CenterContainer/Panel/VBox/Cards/Clock"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 84)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("8_stopwatch")
@@ -191,12 +191,12 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="Record" type="VBoxContainer" parent="Screen/CenterContainer/Panel/VBox/Cards"]
-custom_minimum_size = Vector2(228, 0)
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="Icon" type="TextureRect" parent="Screen/CenterContainer/Panel/VBox/Cards/Record"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 84)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("10_coin")
@@ -227,12 +227,12 @@ autowrap_mode = 3
 
 [node name="Buttons" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 56
 alignment = 1
 
 [node name="Close" type="TextureButton" parent="Screen/CenterContainer/Panel/VBox/Buttons"]
 material = SubResource("ShaderMaterial_button")
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(140, 140)
 layout_mode = 2
 texture_filter = 1
 texture_normal = ExtResource("3_back")
@@ -241,7 +241,7 @@ stretch_mode = 5
 
 [node name="Start" type="TextureButton" parent="Screen/CenterContainer/Panel/VBox/Buttons"]
 material = SubResource("ShaderMaterial_button")
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(140, 140)
 layout_mode = 2
 texture_filter = 1
 texture_normal = ExtResource("6_check")

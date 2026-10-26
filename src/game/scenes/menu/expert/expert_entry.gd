@@ -5,10 +5,13 @@ extends Control
 ## exam is passed (`ProgressController.is_expert_unlocked`); the whole badge pulses until the trial is passed, then the
 ## caption turns golden. Starts `ExpertScenario.build(expert_config, …)`: 5 min of «? ⊕ ? = N» through the valley's
 ## levels. The first battle is coached by the tutorial context (`ExpertCoach`). The grid calls `set_valley`.
+## First expert trial (any valley): `rules_overlay` with a start button; its start marks
+## `ProgressController.EXPERT_RULES_STEP` and launches the battle.
 
 @export var root_events: RootEvents
 @export var progress: ProgressController
 @export var expert_config: GameConfig
+@export var rules_overlay: RulesOverlay
 @export var button: BaseButton
 @export var caption: Label
 @export var caption_text: String = "Эксперт"
@@ -24,6 +27,8 @@ var _caption_color: Color
 
 func _ready() -> void:
 	button.pressed.connect(_on_pressed)
+	if rules_overlay:
+		rules_overlay.ev_start_pressed.connect(_on_rules_start)
 	visibility_changed.connect(_refresh)
 	if caption:
 		_caption_color = caption.get_theme_color("font_color")
@@ -59,6 +64,18 @@ func _refresh() -> void:
 
 
 func _on_pressed() -> void:
+	if rules_overlay != null and not progress.is_tutorial_step_done(ProgressController.EXPERT_RULES_STEP):
+		rules_overlay.open(true)
+		return
+	_start()
+
+
+func _on_rules_start() -> void:
+	progress.complete_tutorial_step(ProgressController.EXPERT_RULES_STEP)
+	_start()
+
+
+func _start() -> void:
 	var difficulty := StringName(progress.pdata.difficulty)
 	var config: GameConfig = ExpertScenario.build(expert_config, progress.levels_config, _valley_id, difficulty)
 	root_events.ev_start_game.emit({"custom_battle": config})

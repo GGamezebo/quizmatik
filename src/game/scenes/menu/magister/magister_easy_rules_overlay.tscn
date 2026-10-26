@@ -21,9 +21,9 @@ fill_from = Vector2(0.5, 0)
 fill_to = Vector2(0.5, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-content_margin_left = 36.0
+content_margin_left = 44.0
 content_margin_top = 16.0
-content_margin_right = 36.0
+content_margin_right = 44.0
 content_margin_bottom = 12.0
 bg_color = Color(0.953, 0.902, 0.784, 0.97)
 border_width_left = 3
@@ -40,21 +40,21 @@ shadow_size = 18
 
 [sub_resource type="LabelSettings" id="LabelSettings_title"]
 font = ExtResource("5_title_font")
-font_size = 36
+font_size = 48
 font_color = Color(0.165, 0.2, 0.251, 1)
 outline_size = 0
 shadow_size = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_heading"]
-font_size = 24
+font_size = 30
 font_color = Color(0.42, 0.27, 0.66, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_note"]
-font_size = 16
+font_size = 20
 font_color = Color(0.28, 0.32, 0.38, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_rules"]
-font_size = 18
+font_size = 22
 font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_button"]
@@ -104,7 +104,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="Panel" type="PanelContainer" parent="Screen/CenterContainer"]
-custom_minimum_size = Vector2(760, 0)
+custom_minimum_size = Vector2(1000, 0)
 layout_mode = 2
 mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
@@ -119,7 +119,7 @@ theme_override_constants/separation = 12
 alignment = 1
 
 [node name="Cap" type="TextureRect" parent="Screen/CenterContainer/Panel/VBox/TitleRow"]
-custom_minimum_size = Vector2(52, 52)
+custom_minimum_size = Vector2(70, 70)
 layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("8_cap")
@@ -134,11 +134,11 @@ vertical_alignment = 1
 
 [node name="Columns" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 28
+theme_override_constants/separation = 48
 alignment = 1
 
 [node name="PlusMinus" type="VBoxContainer" parent="Screen/CenterContainer/Panel/VBox/Columns"]
-custom_minimum_size = Vector2(330, 0)
+custom_minimum_size = Vector2(440, 0)
 layout_mode = 2
 theme_override_constants/separation = 6
 
@@ -149,10 +149,10 @@ label_settings = SubResource("LabelSettings_heading")
 horizontal_alignment = 1
 
 [node name="Example" type="Label" parent="Screen/CenterContainer/Panel/VBox/Columns/PlusMinus"]
-custom_minimum_size = Vector2(0, 46)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 36
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("7_math_label")
@@ -166,7 +166,7 @@ horizontal_alignment = 1
 autowrap_mode = 3
 
 [node name="TimesDivide" type="VBoxContainer" parent="Screen/CenterContainer/Panel/VBox/Columns"]
-custom_minimum_size = Vector2(330, 0)
+custom_minimum_size = Vector2(440, 0)
 layout_mode = 2
 theme_override_constants/separation = 6
 
@@ -177,10 +177,10 @@ label_settings = SubResource("LabelSettings_heading")
 horizontal_alignment = 1
 
 [node name="Example" type="Label" parent="Screen/CenterContainer/Panel/VBox/Columns/TimesDivide"]
-custom_minimum_size = Vector2(0, 46)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 36
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("7_math_label")
@@ -204,12 +204,12 @@ autowrap_mode = 3
 
 [node name="Buttons" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
 layout_mode = 2
-theme_override_constants/separation = 40
+theme_override_constants/separation = 56
 alignment = 1
 
 [node name="Close" type="TextureButton" parent="Screen/CenterContainer/Panel/VBox/Buttons"]
 material = SubResource("ShaderMaterial_button")
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(130, 130)
 layout_mode = 2
 texture_filter = 1
 texture_normal = ExtResource("3_back")
@@ -218,7 +218,7 @@ stretch_mode = 5
 
 [node name="Start" type="TextureButton" parent="Screen/CenterContainer/Panel/VBox/Buttons"]
 material = SubResource("ShaderMaterial_button")
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(130, 130)
 layout_mode = 2
 texture_filter = 1
 texture_normal = ExtResource("6_check")
