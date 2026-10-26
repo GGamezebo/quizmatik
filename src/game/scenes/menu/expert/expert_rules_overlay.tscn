@@ -1,0 +1,251 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/rules_overlay/rules_overlay.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="theme_ui"]
+[ext_resource type="Script" path="res://src/ui/buttons/hover_scale_binder.gd" id="2_hover_binder"]
+[ext_resource type="Texture2D" uid="uid://hghugnctmjyn" path="res://src/game/scenes/menu/levels/ui/btn_back.png" id="3_back"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="4_shadow"]
+[ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="5_title_font"]
+[ext_resource type="Texture2D" uid="uid://baq6fntk2payd" path="res://src/game/scenes/menu/ui/btn_check.png" id="6_check"]
+[ext_resource type="Script" uid="uid://bwetrhabfokij" path="res://src/ui/math_label/math_label.gd" id="7_math_label"]
+[ext_resource type="Texture2D" uid="uid://c0vg8jnqkj2p8" path="res://assets/ui/icons/expert_badge.svg" id="8_badge"]
+[ext_resource type="Texture2D" uid="uid://lq6oiqxogefy" path="res://assets/ui/icons/heart.png" id="9_heart"]
+[ext_resource type="Texture2D" uid="uid://ca0dm5vhpchjx" path="res://assets/ui/icons/clock.svg" id="10_clock"]
+
+[sub_resource type="Gradient" id="Gradient_overlay"]
+colors = PackedColorArray(0.12, 0.1, 0.08, 0.55, 0.953, 0.902, 0.784, 0.15)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_overlay"]
+gradient = SubResource("Gradient_overlay")
+width = 1280
+height = 720
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 44.0
+content_margin_top = 22.0
+content_margin_right = 44.0
+content_margin_bottom = 18.0
+bg_color = Color(0.953, 0.902, 0.784, 0.97)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+shadow_color = Color(0.15, 0.12, 0.08, 0.28)
+shadow_size = 18
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("5_title_font")
+font_size = 48
+font_color = Color(0.165, 0.2, 0.251, 1)
+outline_size = 0
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_heading"]
+font_size = 30
+font_color = Color(0.15, 0.47, 0.53, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_note"]
+font_size = 20
+font_color = Color(0.28, 0.32, 0.38, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rules"]
+font_size = 24
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_button"]
+shader = ExtResource("4_shadow")
+shader_parameter/shadow_offset = Vector2(-4, 8)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
+shader_parameter/shadow_blur = 2.0
+
+[node name="ExpertRulesOverlay" type="CanvasLayer" node_paths=PackedStringArray("screen", "dim", "close_button", "start_button")]
+layer = 10
+visible = false
+script = ExtResource("1_script")
+screen = NodePath("Screen")
+dim = NodePath("Screen/Dim")
+close_button = NodePath("Screen/CenterContainer/Panel/VBox/Buttons/Close")
+start_button = NodePath("Screen/CenterContainer/Panel/VBox/Buttons/Start")
+
+[node name="Screen" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("theme_ui")
+
+[node name="HoverScaleBinder" type="Node" parent="Screen"]
+script = ExtResource("2_hover_binder")
+
+[node name="Dim" type="TextureRect" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_overlay")
+expand_mode = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Screen/CenterContainer"]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Screen/CenterContainer/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleRow" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Badge" type="TextureRect" parent="Screen/CenterContainer/Panel/VBox/TitleRow"]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("8_badge")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Screen/CenterContainer/Panel/VBox/TitleRow"]
+layout_mode = 2
+text = "Испытание эксперта"
+label_settings = SubResource("LabelSettings_title")
+vertical_alignment = 1
+
+[node name="Cards" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="Pair" type="VBoxContainer" parent="Screen/CenterContainer/Panel/VBox/Cards"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Example" type="Label" parent="Screen/CenterContainer/Panel/VBox/Cards/Pair"]
+custom_minimum_size = Vector2(0, 84)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_font_sizes/font_size = 44
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("7_math_label")
+math_text = "? + ? = 9"
+
+[node name="Heading" type="Label" parent="Screen/CenterContainer/Panel/VBox/Cards/Pair"]
+layout_mode = 2
+text = "Два числа"
+label_settings = SubResource("LabelSettings_heading")
+horizontal_alignment = 1
+
+[node name="Note" type="Label" parent="Screen/CenterContainer/Panel/VBox/Cards/Pair"]
+layout_mode = 2
+text = "Сбей по очереди два шарика, которые вместе дают ответ"
+label_settings = SubResource("LabelSettings_note")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Hearts" type="VBoxContainer" parent="Screen/CenterContainer/Panel/VBox/Cards"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Screen/CenterContainer/Panel/VBox/Cards/Hearts"]
+custom_minimum_size = Vector2(0, 84)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("9_heart")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Heading" type="Label" parent="Screen/CenterContainer/Panel/VBox/Cards/Hearts"]
+layout_mode = 2
+text = "3 сердца"
+label_settings = SubResource("LabelSettings_heading")
+horizontal_alignment = 1
+
+[node name="Note" type="Label" parent="Screen/CenterContainer/Panel/VBox/Cards/Hearts"]
+layout_mode = 2
+text = "Неверная пара или упущенный шарик — минус сердце"
+label_settings = SubResource("LabelSettings_note")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Timer" type="VBoxContainer" parent="Screen/CenterContainer/Panel/VBox/Cards"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Screen/CenterContainer/Panel/VBox/Cards/Timer"]
+custom_minimum_size = Vector2(0, 84)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("10_clock")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Heading" type="Label" parent="Screen/CenterContainer/Panel/VBox/Cards/Timer"]
+layout_mode = 2
+text = "5 минут"
+label_settings = SubResource("LabelSettings_heading")
+horizontal_alignment = 1
+
+[node name="Note" type="Label" parent="Screen/CenterContainer/Panel/VBox/Cards/Timer"]
+layout_mode = 2
+text = "Таймер идёт назад — продержись до нуля"
+label_settings = SubResource("LabelSettings_note")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Rules" type="Label" parent="Screen/CenterContainer/Panel/VBox"]
+layout_mode = 2
+text = "• Каждые 30 секунд примеры сложнее, а шарики быстрее.
+• Раз в минуту прилетает шарик с сердцем — поймай, если ранен.
+• Выдержишь — станешь экспертом долины и получишь монеты!"
+label_settings = SubResource("LabelSettings_rules")
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="Screen/CenterContainer/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 56
+alignment = 1
+
+[node name="Close" type="TextureButton" parent="Screen/CenterContainer/Panel/VBox/Buttons"]
+material = SubResource("ShaderMaterial_button")
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+texture_filter = 1
+texture_normal = ExtResource("3_back")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Start" type="TextureButton" parent="Screen/CenterContainer/Panel/VBox/Buttons"]
+material = SubResource("ShaderMaterial_button")
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+texture_filter = 1
+texture_normal = ExtResource("6_check")
+ignore_texture_size = true
+stretch_mode = 5

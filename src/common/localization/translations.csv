@@ -1002,3 +1002,34 @@ Strzelaj!","Тепер друге число — %d.
 Tembak!","Nu het tweede getal, %d.
 Schiet!"
 Пример решён! Дальше — сам,Problem solved! Now on your own,İşlem çözüldü! Şimdi sıra sende,¡Resuelto! Ahora tú solo,Conta resolvida! Agora é com você,Gelöst! Jetzt allein weiter,Calcul résolu ! À toi de jouer seul,Risolto! Ora vai da solo,Rozwiązane! Dalej sam,Приклад розв’язано! Далі — сам,Soal selesai! Sekarang sendiri,Opgelost! Nu zelf verder
+Испытание эксперта,Expert trial,Uzman denemesi,Prueba de experto,Desafio do especialista,Experten-Prüfung,Épreuve d’expert,Prova dell’esperto,Próba eksperta,Випробування експерта,Ujian ahli,Expertproef
+Два числа,Two numbers,İki sayı,Dos números,Dois números,Zwei Zahlen,Deux nombres,Due numeri,Dwie liczby,Два числа,Dua angka,Twee getallen
+"Сбей по очереди два шарика, которые вместе дают ответ",Shoot two balloons one after another that make the answer together,Birlikte cevabı veren iki balonu sırayla vur,Revienta uno tras otro dos globos que juntos dan la respuesta,Estoure um depois do outro dois balões que juntos dão a resposta,"Triff nacheinander zwei Ballons, die zusammen die Antwort ergeben",Touche l’un après l’autre deux ballons qui donnent ensemble la réponse,Colpisci uno dopo l’altro due palloncini che insieme danno la risposta,"Zestrzel po kolei dwa baloniki, które razem dają wynik","Збий по черзі дві кульки, які разом дають відповідь",Tembak dua balon bergantian yang bersama-sama menghasilkan jawabannya,Raak na elkaar twee ballonnen die samen het antwoord geven
+Неверная пара или упущенный шарик — минус сердце,A wrong pair or a missed balloon costs a heart,Yanlış çift ya da kaçırılan balon — bir kalp eksilir,Una pareja equivocada o un globo perdido cuesta un corazón,Um par errado ou um balão perdido custa um coração,Ein falsches Paar oder ein verpasster Ballon kostet ein Herz,Une mauvaise paire ou un ballon raté coûte un cœur,Una coppia sbagliata o un palloncino perso costa un cuore,Zła para albo przepuszczony balonik — minus serce,Неправильна пара або пропущена кулька — мінус серце,Pasangan salah atau balon yang terlewat — kurang satu hati,Een fout paar of een gemiste ballon kost een hart
+5 минут,5 minutes,5 dakika,5 minutos,5 minutos,5 Minuten,5 minutes,5 minuti,5 minut,5 хвилин,5 menit,5 minuten
+Таймер идёт назад — продержись до нуля,The timer runs backwards — hold out until zero,Sayaç geriye doğru işler — sıfıra kadar dayan,El temporizador va hacia atrás: aguanta hasta cero,O cronômetro corre para trás — aguente até o zero,Der Timer läuft rückwärts — halte bis null durch,Le minuteur tourne à l’envers — tiens jusqu’à zéro,Il timer va all’indietro — resisti fino a zero,Zegar odlicza w dół — wytrzymaj do zera,Таймер іде назад — протримайся до нуля,Waktu berjalan mundur — bertahanlah sampai nol,De timer loopt terug — hou vol tot nul
+"• Каждые 30 секунд примеры сложнее, а шарики быстрее.
+• Раз в минуту прилетает шарик с сердцем — поймай, если ранен.
+• Выдержишь — станешь экспертом долины и получишь монеты!","• Every 30 seconds the examples get harder and the balloons faster.
+• Once a minute a heart balloon flies in — catch it if you are hurt.
+• Make it — and you become the valley expert and get coins!","• Her 30 saniyede işlemler zorlaşır, balonlar hızlanır.
+• Dakikada bir kalpli balon gelir — yaralıysan yakala.
+• Dayanırsan vadinin uzmanı olur, para kazanırsın!","• Cada 30 segundos los ejercicios son más difíciles y los globos más rápidos.
+• Una vez por minuto llega un globo con corazón: atrápalo si estás herido.
+• ¡Si aguantas, serás experto del valle y ganarás monedas!","• A cada 30 segundos as contas ficam mais difíceis e os balões mais rápidos.
+• Uma vez por minuto vem um balão com coração — pegue se estiver ferido.
+• Aguente firme — e vire especialista do vale e ganhe moedas!","• Alle 30 Sekunden werden die Aufgaben schwerer und die Ballons schneller.
+• Einmal pro Minute kommt ein Herzballon — fang ihn, wenn du verletzt bist.
+• Hältst du durch, wirst du Experte des Tals und bekommst Münzen!","• Toutes les 30 secondes les calculs sont plus durs et les ballons plus rapides.
+• Une fois par minute arrive un ballon-cœur — attrape-le si tu es blessé.
+• Tiens bon — tu deviens expert de la vallée et gagnes des pièces !","• Ogni 30 secondi i calcoli diventano più difficili e i palloncini più veloci.
+• Una volta al minuto arriva un palloncino con il cuore — prendilo se sei ferito.
+• Resisti — e diventi esperto della valle e ricevi monete!","• Co 30 sekund przykłady są trudniejsze, a baloniki szybsze.
+• Raz na minutę przylatuje balonik z serduszkiem — złap go, jeśli jesteś ranny.
+• Wytrzymasz — zostaniesz ekspertem doliny i dostaniesz monety!","• Кожні 30 секунд приклади складніші, а кульки швидші.
+• Раз на хвилину прилітає кулька із сердечком — злови, якщо поранений.
+• Витримаєш — станеш експертом долини й отримаєш монети!","• Setiap 30 detik soal makin sulit dan balon makin cepat.
+• Sekali semenit datang balon berisi hati — tangkap kalau kamu terluka.
+• Bertahanlah — kamu jadi ahli lembah ini dan dapat koin!","• Elke 30 seconden worden de sommen moeilijker en de ballonnen sneller.
+• Eén keer per minuut komt er een hartjesballon — vang hem als je gewond bent.
+• Hou vol — dan word je expert van de vallei en krijg je munten!"
