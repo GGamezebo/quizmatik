@@ -136,8 +136,6 @@ func _process(delta: float) -> void:
 		_time_limit.update(delta)
 	if _endless:
 		_endless.update(delta)
-	if _golden:
-		_golden.update(delta)
 	if _chase:
 		_chase.update(delta)
 	if _round_controller:
