@@ -19,7 +19,6 @@ static func build(template: GameConfig, progress: ProgressController, time_sec: 
 		config = template.duplicate(true)
 	config.golden_flight = true
 	config.golden_coin_speed_mult = template.golden_coin_speed_mult
-	config.golden_coin_gap_sec = template.golden_coin_gap_sec
 	config.golden_choice_gold = template.golden_choice_gold.duplicate()
 	config.time_limit_sec = time_sec
 	config.health = template.health

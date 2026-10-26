@@ -1,10 +1,11 @@
 class_name GoldenFlightController
 extends RefCounted
 
-## «Золотой полёт» (`GameConfig.golden_flight`): a correct answer releases a fast coin balloon in another
-## lane (at most one per `golden_coin_gap_sec`); catching it (shot or ram) = +1 gold. Time up →
-## `start_choice()`: one standing golden balloon per lane with hidden gold (`golden_choice_gold`);
-## the first one hit is revealed, the rest show what they held → `ev_finished`. Hits never reach combat.
+## «Золотой полёт» (`GameConfig.golden_flight`): every correct answer releases a fast coin balloon in another
+## lane; catching it (shot or ram) = +1 gold. Time up → `start_choice()`: one standing golden balloon per lane
+## with hidden gold (`golden_choice_gold`); coins already flying keep going (drawn above the choices);
+## the first one hit is revealed, the rest show what they held → `ev_finished` once no coin is left.
+## Hits never reach combat.
 
 signal ev_collected(amount: int)
 signal ev_choice_started
@@ -18,6 +19,8 @@ const CHOICE_STOP_INSET_X: float = 300.0
 ## Lets the last answers fade out first.
 const CHOICE_DELAY_SEC: float = 1.1
 const REVEAL_SEC: float = 2.4
+## Coin balloons fly over the standing choice balloons of the same lane.
+const COIN_Z_INDEX: int = 1
 
 var _area: GameArea
 var _coin_scene: PackedScene
@@ -26,10 +29,7 @@ var _spawn_parent: Node
 var _tree: SceneTree
 var _active: bool = false
 var _speed_mult: float = 1.0
-var _gap_sec: float = 5.0
 var _choice_gold: Array[int] = []
-## Seconds since the last coin balloon (starts open: the first correct answer may release one).
-var _since_coin: float = INF
 var _coins: Array[BonusBalloon] = []
 var _choices: Array[GoldenChoiceBalloon] = []
 var _picked: bool = false
@@ -44,7 +44,6 @@ func _init(game_config: GameConfig, area: GameArea, coin_scene: PackedScene, cho
 	_tree = tree
 	_active = game_config.golden_flight and coin_scene != null
 	_speed_mult = game_config.golden_coin_speed_mult
-	_gap_sec = game_config.golden_coin_gap_sec
 	_choice_gold = game_config.golden_choice_gold.duplicate()
 
 
@@ -67,11 +66,6 @@ func is_active() -> bool:
 	return _active
 
 
-func update(delta: float) -> void:
-	if _active and not _paused:
-		_since_coin += delta
-
-
 func set_paused(paused: bool) -> void:
 	_paused = paused
 	for balloon in _coins:
@@ -85,9 +79,9 @@ func update_acceleration(acceleration: float) -> void:
 			balloon.set_acceleration(acceleration)
 
 
-## Correct answer popped in `from_lane` → maybe a coin balloon in another lane.
+## Correct answer popped in `from_lane` → a coin balloon in another lane.
 func on_correct(from_lane: int, answer_speed: float) -> void:
-	if not _active or not _choices.is_empty() or _since_coin < _gap_sec:
+	if not _active or not _choices.is_empty():
 		return
 	var lines: Array[Rect2] = _area.getLines()
 	if lines.is_empty():
@@ -104,9 +98,9 @@ func on_correct(from_lane: int, answer_speed: float) -> void:
 		answer_speed * _speed_mult, _area.gameplay_area, lines[lane].size.y)
 	balloon.lane_index = lane
 	balloon.frozen = _paused
+	balloon.z_index = COIN_Z_INDEX
 	balloon.ev_killed.connect(_on_coin_gone)
 	_coins.append(balloon)
-	_since_coin = 0.0
 	_spawn_parent.add_child.call_deferred(balloon)
 
 
@@ -165,5 +159,8 @@ func _pick(picked: GoldenChoiceBalloon) -> void:
 		if balloon != picked and is_instance_valid(balloon):
 			balloon.reveal(false)
 	await _tree.create_timer(REVEAL_SEC, false).timeout
+	# Coins still in the air finish their flight (caught or gone) before the battle ends.
+	while _active and not _coins.is_empty():
+		await _tree.process_frame
 	if _active:
 		ev_finished.emit()
