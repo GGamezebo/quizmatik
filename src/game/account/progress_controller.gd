@@ -114,6 +114,15 @@ func complete_all_containers() -> void:
 		pdata.trophies.unlock(expert_trophy(container_id))
 	save()
 
+## Dev lab: forget tutorial flags `step_ids` so their hints show again; `reopen` also un-completes the tutorial
+## (base chapters and battle tips run only before `complete_tutorial`).
+func reset_tutorial_steps(step_ids: Array[String], reopen: bool = false) -> void:
+	for step_id in step_ids:
+		pdata.state.tutorial_steps.erase(step_id)
+	if reopen:
+		pdata.state.tutorial_completed = false
+	save()
+
 ## Dev lab: one valley's expert trial survived — valley open, exam passed (3 stars) if not yet, expert trophy.
 func complete_expert(container_id: String) -> void:
 	pdata.levels.ensure_container(container_id).unlocked = true

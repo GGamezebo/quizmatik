@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://dnb4x6dyrbrg2" path="res://src/game/scenes/menu/training_room_window/ui/icon_shuffle.png" id="18_icon_shuffle"]
 [ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="20_gold"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="21_root_events"]
+[ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="22_catalog"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("6_shadow")
@@ -79,7 +80,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons", "expert_buttons")]
+[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons", "expert_buttons", "hint_buttons")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -124,6 +125,9 @@ exam_container_ids = Array[String](["addition", "subtraction", "multiplication",
 expert_buttons = [NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertAddition"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertSubtraction"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertMultiplication"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertDivision"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertMix")]
 expert_container_ids = Array[String](["addition", "subtraction", "multiplication", "division", "mix"])
 root_events = ExtResource("21_root_events")
+hint_buttons = [NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid/HintDaily"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid/HintPlane"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid/HintShop"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid/HintMistakes"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid/HintEndless"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid/HintExpert"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid/HintMagister"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid/HintBattle")]
+hint_ids = Array[String](["daily_stamp", "plane_shop", "shop_tour", "mistakes_intro", "endless_intro", "expert_intro", "magister_rules", "battle_tips"])
+cosmetic_catalog = ExtResource("22_catalog")
 
 [node name="DailyChallengesController" parent="." unique_id=341384884 instance=ExtResource("8_daily")]
 
@@ -745,30 +749,83 @@ theme_override_font_sizes/font_size = 15
 text = "Высокая"
 horizontal_alignment = 1
 
-[node name="HelpPanel" type="PanelContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox" unique_id=893993601]
+[node name="HintsPanel" type="PanelContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_side")
 
-[node name="HelpVBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HelpPanel" unique_id=403606074]
+[node name="HintsVBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="HelpTitle" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HelpPanel/HelpVBox" unique_id=400533812]
+[node name="HintsTitle" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_font")
 theme_override_font_sizes/font_size = 16
-text = "Как это работает?"
+text = "Подсказки"
+tooltip_text = "Кнопка сбрасывает подсказку и создаёт её условие; видно после закрытия лаборатории"
+mouse_filter = 0
 
-[node name="HelpText" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HelpPanel/HelpVBox" unique_id=1407240183]
+[node name="Grid" type="GridContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.38, 0.42, 0.48, 1)
-theme_override_fonts/font = ExtResource("4_font")
-theme_override_font_sizes/font_size = 13
-text = "• Больше здоровья — больше шансов на ошибку
-• Меньше времени — выше темп
-• Диапазон чисел задаёт сложность примеров
-• Округление ускоряет ответы после серии верных"
-autowrap_mode = 3
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 3
+
+[node name="HintDaily" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Ежедневная серия: объяснение штампов (пустая серия → +1 победа сегодня)"
+caption_text = "Серия"
+
+[node name="HintPlane" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "«Купи самолёт»: профиль → ангар (не хватает золота → доплатит до цены)"
+caption_text = "Самолёт"
+
+[node name="HintShop" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Тур по магазину (не хватает золота → доплатит до самой дешёвой вещи)"
+caption_text = "Магазин"
+
+[node name="HintMistakes" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Зал славы → трудные примеры (пусто → добавит 7 × 8)"
+caption_text = "Ошибки"
+
+[node name="HintEndless" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Часы рекорда в меню + карточка правил (меньше 4 экзаменов → сдаст)"
+caption_text = "Рекорд"
+
+[node name="HintExpert" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Правила эксперта + первый раунд с подсказками (нет экзамена → сдаст первый)"
+caption_text = "Эксперт"
+
+[node name="HintMagister" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Правила магистра (шапка закрыта → пройдёт всех экспертов)"
+caption_text = "Магистр"
+
+[node name="HintBattle" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/HintsPanel/HintsVBox/Grid" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Советы в бою: «? + 3 = 7», босс, злой босс"
+caption_text = "В бою"
 
 [node name="GoldRow" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox"]
 layout_mode = 2
