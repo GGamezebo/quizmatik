@@ -19,7 +19,6 @@ extends Node2D
 @export var paint_from_daily: bool = false
 @export var daily_controller: DailyChallengesController
 @export_range(0.15, 2.0, 0.05) var paint_tween_seconds: float = 0.65
-@export_range(1.0, 5.0, 0.1) var paint_curve_power: float = 2.8
 @export_range(0.0, 1.0, 0.01) var idle_color_amount: float = 0.1
 @export_range(0.0, 1.0, 0.05) var crossfade_seconds: float = 0.35
 @export var ink_blot_scene: PackedScene
@@ -120,7 +119,6 @@ func _create_variant(packed: PackedScene) -> BackgroundBase:
 		"paint_from_daily": paint_from_daily,
 		"daily_controller": daily_controller,
 		"paint_tween_seconds": paint_tween_seconds,
-		"paint_curve_power": paint_curve_power,
 		"idle_color_amount": idle_color_amount,
 		"ink_blot_scene": ink_blot_scene,
 		"max_ink_blots": max_ink_blots,
