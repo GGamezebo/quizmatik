@@ -68,6 +68,8 @@ func _update_window() -> void:
 			exam_stars,
 		)
 		container_instance.set_paywalled(_is_paywalled(container_id))
+		container_instance.set_record(progress.pdata.statistics.endless_best(container_id))
+		container_instance.set_expert(progress.is_expert(container_id))
 		if is_unlocked:
 			progress.mark_container_seen(container_id)
 		carousel.add_pack(container_instance)

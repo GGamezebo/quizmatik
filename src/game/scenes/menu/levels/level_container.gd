@@ -13,6 +13,11 @@ signal ev_pressed
 @export var hit_button: BaseButton
 ## «🔑 Полная версия» ribbon for valleys sold by the store (shown via `set_paywalled`).
 @export var paywall_badge: Control
+## Stopwatch tag on the art's bottom edge: best valley record time (`set_record`).
+@export var record_tag: Control
+@export var record_label: Label
+## Expert rosette sticker pinned on the art's top-left corner (`set_expert`).
+@export var expert_badge: Control
 
 var _container_id: String = ""
 
@@ -79,6 +84,19 @@ func set_paywalled(is_paywalled: bool) -> void:
 		paywall_badge.visible = is_paywalled
 	if is_paywalled and progress_label != null:
 		progress_label.visible = false
+
+
+## Valley record battle best time; `seconds` <= 0 = never flown (tag hidden).
+func set_record(seconds: int) -> void:
+	if record_tag != null:
+		record_tag.visible = seconds > 0
+	if record_label != null and seconds > 0:
+		record_label.text = ProgressStatistics.format_clock(seconds)
+
+
+func set_expert(earned: bool) -> void:
+	if expert_badge != null:
+		expert_badge.visible = earned
 
 
 func get_container_id() -> String:
