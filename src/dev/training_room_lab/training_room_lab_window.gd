@@ -47,6 +47,9 @@ const GRANT_GOLD_BIG := 10
 ## «Экзамен:» row — one button per valley (same order as `exam_container_ids`) passes that exam at once.
 @export var exam_buttons: Array[BaseButton] = []
 @export var exam_container_ids: Array[String] = []
+## «Эксперт:» row — one button per valley (same order as `expert_container_ids`) passes that expert trial at once.
+@export var expert_buttons: Array[BaseButton] = []
+@export var expert_container_ids: Array[String] = []
 @export var root_events: RootEvents
 
 
@@ -113,6 +116,8 @@ func _bind_controls() -> void:
 		wipe_keep_tutorial_button.pressed.connect(_on_wipe_progress_pressed.bind(true))
 	for index in mini(exam_buttons.size(), exam_container_ids.size()):
 		exam_buttons[index].pressed.connect(_on_exam_pressed.bind(exam_container_ids[index]))
+	for index in mini(expert_buttons.size(), expert_container_ids.size()):
+		expert_buttons[index].pressed.connect(_on_expert_pressed.bind(expert_container_ids[index]))
 	if grant_gold_button != null:
 		grant_gold_button.pressed.connect(_on_grant_gold_pressed.bind(GRANT_GOLD))
 	if grant_gold_big_button != null:
@@ -314,6 +319,16 @@ func _on_exam_pressed(container_id: String) -> void:
 	if progress == null:
 		return
 	progress.pass_exam(container_id, 3)
+	_notify_progress_changed()
+
+
+## Marks the expert trial of `container_id` survived at once (valley opened, exam passed first if needed;
+## trophy and badges, no gold / celebration).
+func _on_expert_pressed(container_id: String) -> void:
+	var progress := ProgressController.find_in_tree(get_tree())
+	if progress == null:
+		return
+	progress.complete_expert(container_id)
 	_notify_progress_changed()
 
 

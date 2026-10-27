@@ -79,7 +79,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons")]
+[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons", "expert_buttons")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -121,6 +121,8 @@ complete_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/
 wipe_keep_tutorial_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/WipeRow/WipeKeepTutorialButton")
 exam_buttons = [NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamAddition"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamSubtraction"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamMultiplication"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamDivision"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamMix")]
 exam_container_ids = Array[String](["addition", "subtraction", "multiplication", "division", "mix"])
+expert_buttons = [NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertAddition"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertSubtraction"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertMultiplication"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertDivision"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertMix")]
+expert_container_ids = Array[String](["addition", "subtraction", "multiplication", "division", "mix"])
 root_events = ExtResource("21_root_events")
 
 [node name="DailyChallengesController" parent="." unique_id=341384884 instance=ExtResource("8_daily")]
@@ -838,6 +840,47 @@ size_flags_horizontal = 3
 caption_text = "÷"
 
 [node name="ExamMix" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(36, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "±"
+
+[node name="ExpertRow" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="ExpertLabel" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+text = "Эксперт:"
+vertical_alignment = 1
+
+[node name="ExpertAddition" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(36, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "+"
+
+[node name="ExpertSubtraction" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(36, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "−"
+
+[node name="ExpertMultiplication" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(36, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "×"
+
+[node name="ExpertDivision" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(36, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "÷"
+
+[node name="ExpertMix" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow" instance=ExtResource("11_action")]
 custom_minimum_size = Vector2(36, 34)
 layout_mode = 2
 size_flags_horizontal = 3
