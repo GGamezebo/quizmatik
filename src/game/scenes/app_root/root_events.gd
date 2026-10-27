@@ -20,3 +20,5 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_daily_series_shown
 ## Overlay celebration (thank-you after a purchase) on / off → MusicController joyful theme, then back.
 @warning_ignore("unused_signal") signal ev_celebration_music(is_on: bool)
+## Tutorial: while on, the post-battle menu button goes to the main menu (not the valley level grid).
+@warning_ignore("unused_signal") signal ev_post_battle_exit_home(is_on: bool)

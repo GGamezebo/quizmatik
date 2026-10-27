@@ -51,6 +51,8 @@ var _next_battle_info: GameConfig.BattleInfo = null
 ## The magister / expert coin row is for the expert award.
 var _expert_gold_line: bool = false
 var _pending_auto_container: String = ""
+## `RootEvents.ev_post_battle_exit_home`: the menu button skips the valley grid.
+var _exit_home: bool = false
 var _listener: EventListener = EventListener.new()
 
 
@@ -132,6 +134,8 @@ func initialize(data: Dictionary) -> void:
 	_listener.add(menu_button.pressed, _on_menu)
 	_listener.add(repeat_button.pressed, _on_repeat)
 	_listener.add(next_level_button.pressed, _on_next_level)
+	if root_events != null:
+		_listener.add(root_events.ev_post_battle_exit_home, _on_exit_home)
 
 	var celebration: Dictionary = data.get("exam_celebration", {})
 	if is_win and not celebration.is_empty() and celebration.get("first_exam_pass", false):
@@ -153,6 +157,7 @@ func deinit() -> void:
 	_expert_gold_line = false
 	_next_battle_info = null
 	_pending_auto_container = ""
+	_exit_home = false
 
 
 func _apply_valley_background() -> void:
@@ -355,8 +360,12 @@ func _on_exam_victory_confirmed() -> void:
 		_return_to_level_select(container_id)
 
 
+func _on_exit_home(is_on: bool) -> void:
+	_exit_home = is_on
+
+
 func _on_menu() -> void:
-	var container_id: String = _resolve_menu_level_select_container()
+	var container_id: String = "" if _exit_home else _resolve_menu_level_select_container()
 	if container_id.is_empty():
 		root_events.ev_return_to_menu.emit({})
 	else:
