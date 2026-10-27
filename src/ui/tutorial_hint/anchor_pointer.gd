@@ -46,6 +46,8 @@ func current_step() -> AnchorPointerStep:
 func _process(_delta: float) -> void:
 	for step in steps:
 		var control := registry.get_visible(step.anchor_id)
+		if control == null and not step.fallback_anchor_id.is_empty():
+			control = registry.get_visible(step.fallback_anchor_id)
 		if control != null:
 			_show(step, control)
 			return

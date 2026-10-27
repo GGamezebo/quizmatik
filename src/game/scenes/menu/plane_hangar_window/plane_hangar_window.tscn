@@ -643,11 +643,11 @@ registry = ExtResource("61_tutorial_anchors")
 anchor_id = "shop.slot.trail"
 target = NodePath("../Center/Content/PaintPage/Right/Slots/Trail")
 
-[node name="ShopCoverAnchor" type="Node" parent="." node_paths=PackedStringArray("target")]
+[node name="ShopShotAnchor" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("60_ui_anchor")
 registry = ExtResource("61_tutorial_anchors")
-anchor_id = "shop.slot.cover"
-target = NodePath("../Center/Content/PaintPage/Right/Slots/Cover")
+anchor_id = "shop.slot.shot"
+target = NodePath("../Center/Content/PaintPage/Right/Slots/Shot")
 
 [node name="ShopBuyAnchor" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("60_ui_anchor")

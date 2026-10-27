@@ -110,16 +110,17 @@ text = "Примерь шлейф!"
 anchor_point = Vector2(0.5, 0.95)
 points_up = true
 
-[sub_resource type="Resource" id="Step_tour_cover"]
+[sub_resource type="Resource" id="Step_tour_shot"]
 script = ExtResource("6_step")
-anchor_id = "shop.slot.cover"
-text = "А тут — обложки
-для главного меню"
+anchor_id = "shop.slot.shot"
+text = "А тут — выстрелы
+цветными кляксами"
 anchor_point = Vector2(0.5, 0.05)
 
 [sub_resource type="Resource" id="Step_tour_item3"]
 script = ExtResource("6_step")
-anchor_id = "shop.item"
+anchor_id = "shop.item.shot_violet"
+fallback_anchor_id = "shop.item"
 text = "Посмотри, как красиво!"
 anchor_point = Vector2(0.5, 0.95)
 points_up = true
@@ -167,7 +168,7 @@ daily_stamp_steps = Array[ExtResource("6_step")]([SubResource("Step_daily")])
 plane_shop_steps = Array[ExtResource("6_step")]([SubResource("Step_buy"), SubResource("Step_profile_plane"), SubResource("Step_profile")])
 endless_intro_steps = Array[ExtResource("6_step")]([SubResource("Step_endless")])
 shop_entry_step = SubResource("Step_shop_entry")
-shop_tour_steps = Array[ExtResource("6_step")]([SubResource("Step_tour_item1"), SubResource("Step_tour_trail"), SubResource("Step_tour_item2"), SubResource("Step_tour_cover"), SubResource("Step_tour_item3"), SubResource("Step_tour_buy")])
+shop_tour_steps = Array[ExtResource("6_step")]([SubResource("Step_tour_item1"), SubResource("Step_tour_trail"), SubResource("Step_tour_item2"), SubResource("Step_tour_shot"), SubResource("Step_tour_item3"), SubResource("Step_tour_buy")])
 cosmetic_catalog = ExtResource("14_catalog")
 overlay = NodePath("Overlay")
 mistakes_entry_steps = Array[ExtResource("6_step")]([SubResource("Step_mistakes_entry")])

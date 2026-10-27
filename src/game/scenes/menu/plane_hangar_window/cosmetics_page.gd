@@ -12,6 +12,7 @@ extends Control
 @export var category_buttons: Array[Button] = []
 @export var grid: GridContainer
 ## Marks one card worth trying on (not selected; affordable first) for overlays (tutorial shop tour).
+## Every not-selected card of the page is also marked as `<anchor_id>.<item id>` (a step can name one item).
 @export var item_anchor: UiAnchor
 @export_group("Pager")
 ## Cards per page = grid columns × rows.
@@ -47,6 +48,8 @@ var _cards: Array[CosmeticCard] = []
 var _dots: Array[Control] = []
 var _card_group: ButtonGroup = ButtonGroup.new()
 var _slide_tween: Tween = null
+## Per-item card anchors registered for this page: anchor id → card.
+var _card_anchors: Dictionary[String, Control] = {}
 
 
 func _ready() -> void:
@@ -61,6 +64,10 @@ func _ready() -> void:
 	if swipe:
 		swipe.ev_swiped.connect(_on_swiped)
 		swipe.ev_pressed.connect(_on_press_started)
+
+
+func _exit_tree() -> void:
+	_clear_card_anchors()
 
 
 func refresh() -> void:
@@ -179,12 +186,14 @@ func _rebuild_cards() -> void:
 func _mark_item_anchor(page_items: Array[CosmeticItem]) -> void:
 	if item_anchor == null:
 		return
+	_clear_card_anchors()
 	var best := -1
 	var best_rank := -1
 	for index in page_items.size():
 		var item := page_items[index]
 		if item == _selected:
 			continue
+		_mark_card("%s.%s" % [item_anchor.anchor_id, item.id], _cards[index])
 		var rank := 0
 		if not _is_owned(item):
 			rank = 2 if item.gold_cost <= pdata.gold else 1
@@ -192,6 +201,20 @@ func _mark_item_anchor(page_items: Array[CosmeticItem]) -> void:
 			best_rank = rank
 			best = index
 	item_anchor.set_target(_cards[best] if best >= 0 else null)
+
+
+func _mark_card(anchor_id: String, card: Control) -> void:
+	if item_anchor.registry == null:
+		return
+	item_anchor.registry.register(anchor_id, card)
+	_card_anchors[anchor_id] = card
+
+
+func _clear_card_anchors() -> void:
+	if item_anchor != null and item_anchor.registry != null:
+		for anchor_id in _card_anchors:
+			item_anchor.registry.unregister(anchor_id, _card_anchors[anchor_id])
+	_card_anchors.clear()
 
 
 func _update_pager() -> void:
