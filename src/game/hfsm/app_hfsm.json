@@ -88,7 +88,7 @@
 				"leave": ["ev.open_post_battle", "ev.start_game"]
 			},
 			"PostBattle": {
-				"scene": { "id": "post_battle", "on_event": "ev.open_post_battle", "keep_loaded": true },
+				"scene": { "id": "post_battle", "loading_screen": true, "on_event": "ev.open_post_battle", "keep_loaded": true },
 				"enter": ["ev.exit_game"],
 				"leave": ["ev.open_menu", "ev.start_game"]
 			},
