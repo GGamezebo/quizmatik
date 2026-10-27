@@ -324,6 +324,7 @@ func _apply_difficulty_to_config() -> void:
 	config.boss_royal_chance = practice_royal_chance
 	config.boss_royal_armor_min = practice_royal_armor_min
 	config.boss_royal_armor_max = practice_royal_armor_max
+	BattleDifficulty.scale_boss_armor(config, _difficulty)
 	config.chase = false
 	config.chase_chance = 0.0 if _timed else practice_chase_chance
 
