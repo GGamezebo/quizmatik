@@ -4,11 +4,12 @@ extends CanvasLayer
 ## The store's single offer, written for the parent: big scrolling card with the active pilot's progress
 ## (time, solved, levels, first-try %, weak examples — hidden for a fresh pilot) and, for `unlock_kinds`,
 ## what the purchase opens (paid valleys, record battle, magister trial, perks); price + «Купить» stay
-## pinned under the scroll. Buy → owner runs the parental gate + purchase and reports back via
+## pinned under the scroll. The owner opens it only after the parental gate (the kid never sees it);
+## Buy → owner runs the purchase and reports back via
 ## `set_waiting` / `show_result`; success → thank-you page («Оценить игру» → `ev_rate_pressed`, «Поделиться» →
 ## `ev_share_pressed(text)` with a ready parent → friend line) with
 ## confetti / firework bursts around the heart and `ev_thanks_shown(true)` (owner → joyful music), off on close.
-## Opened from a valley → that valley on top (art, name, what is inside) for the kid.
+## Opened from a valley → that valley on top (art, name, what is inside).
 
 signal ev_buy_pressed
 signal ev_rate_pressed

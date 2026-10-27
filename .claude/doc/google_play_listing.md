@@ -1,6 +1,6 @@
 # Google Play: страница игры на 12 языках
 
-Обновлено: 2026-10-18. Тексты ниже готовы к копированию в Play Console. Лимиты Play: название до 30 символов, краткое описание до 80, полное до 4000; все тексты в них укладываются (проверено скриптом).
+Обновлено: 2026-10-27 («сбивай / shoot» → «лопай / pop» в ru, en, es, id — для оценки Teacher Approved). Тексты ниже готовы к копированию в Play Console. Лимиты Play: название до 30 символов, краткое описание до 80, полное до 4000; все тексты в них укладываются (проверено скриптом).
 
 ## Как работает «хитрость»
 
@@ -28,11 +28,11 @@
 
 **Название:** Улётная математика для детей
 
-**Краткое описание:** Веди бумажный самолёт и сбивай шарик с правильным ответом! Для 7–10 лет.
+**Краткое описание:** Веди бумажный самолёт и лопай шарик с правильным ответом! Для 7–10 лет.
 
 **Полное описание:**
 
-Улётная математика превращает счёт в аркадный полёт. Наверху появляется пример, навстречу летят шарики с числами, а ты ведёшь карандашный самолёт и сбиваешь шарик с правильным ответом.
+Улётная математика превращает счёт в аркадный полёт. Наверху появляется пример, навстречу летят шарики с числами, а ты ведёшь карандашный самолёт и лопаешь шарик с правильным ответом.
 
 • 5 нарисованных долин: сложение, вычитание, умножение, деление и всё вместе
 • 100 уровней, которые усложняются шаг за шагом; в конце каждой долины — экзамен и кубок
@@ -57,7 +57,7 @@
 
 **Full description:**
 
-Jet Math turns math practice into an arcade flight. A problem appears at the top, balloons with numbers float toward you, and you steer your pencil plane to shoot the one with the right answer.
+Jet Math turns math practice into an arcade flight. A problem appears at the top, balloons with numbers float toward you, and you steer your pencil plane to pop the one with the right answer.
 
 • 5 painted valleys: addition, subtraction, multiplication, division and a mix of all four
 • 100 levels that get harder step by step; every valley ends with an exam and a trophy
@@ -107,7 +107,7 @@ Toplama Vadisi, alıştırma modu ve günlük görevler ücretsizdir. Diğer 4 v
 
 **Descripción completa:**
 
-Jet Math convierte la práctica de matemáticas en un vuelo arcade. Arriba aparece un ejercicio, los globos con números vuelan hacia ti y tú diriges tu avión de lápiz para disparar al que tiene la respuesta correcta.
+Jet Math convierte la práctica de matemáticas en un vuelo arcade. Arriba aparece un ejercicio, los globos con números vuelan hacia ti y tú diriges tu avión de lápiz para reventar el que tiene la respuesta correcta.
 
 • 5 valles ilustrados: suma, resta, multiplicación, división y una mezcla de todo
 • 100 niveles que se complican paso a paso; cada valle termina con un examen y una copa
@@ -278,11 +278,11 @@ Jet Math перетворює рахунок на аркадний політ. �
 
 **Judul:** Jet Math: Matematika Anak
 
-**Deskripsi singkat:** Terbangkan pesawat kertas dan tembak balon berisi jawaban yang benar! Usia 7–10.
+**Deskripsi singkat:** Terbangkan pesawat kertas dan pecahkan balon yang benar! Usia 7–10.
 
 **Deskripsi lengkap:**
 
-Jet Math mengubah latihan matematika menjadi penerbangan arkade. Soal muncul di atas, balon-balon berisi angka terbang ke arahmu, dan kamu mengarahkan pesawat pensilmu untuk menembak balon dengan jawaban yang benar.
+Jet Math mengubah latihan matematika menjadi penerbangan arkade. Soal muncul di atas, balon-balon berisi angka terbang ke arahmu, dan kamu mengarahkan pesawat pensilmu untuk memecahkan balon dengan jawaban yang benar.
 
 • 5 lembah bergambar: penjumlahan, pengurangan, perkalian, pembagian, dan campuran semuanya
 • 100 level yang makin sulit secara bertahap; setiap lembah diakhiri ujian dan piala
