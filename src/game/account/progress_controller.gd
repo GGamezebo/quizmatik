@@ -114,6 +114,14 @@ func complete_all_containers() -> void:
 		pdata.trophies.unlock(expert_trophy(container_id))
 	save()
 
+## Dev lab: one valley's expert trial survived — valley open, exam passed (3 stars) if not yet, expert trophy.
+func complete_expert(container_id: String) -> void:
+	pdata.levels.ensure_container(container_id).unlocked = true
+	if not is_valley_exam_completed(container_id):
+		pass_exam(container_id, 3)
+	pdata.trophies.unlock(expert_trophy(container_id))
+	save()
+
 
 ## Valley exams passed (any stars), any valleys.
 func passed_valley_exams_count() -> int:
