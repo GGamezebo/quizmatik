@@ -9,7 +9,9 @@ extends IScene
 ## Chapters (in order, flags in `PData.state.tutorial_steps`):
 ## - first_flight: menu → valley → level 1 → coached first hit (`BattleCoach`)
 ## - daily_stamp: after the first daily stamp — explain 5 wins a day = a coin (confirm button)
-## - plane_shop: first time a new plane is affordable — lead to profile → hangar → buy
+## - plane_shop: first time a new plane is affordable — lead to profile → hangar → buy; ready right after
+##   a battle → the post-battle menu button first (`home_exit_step`: that exit goes to the main menu).
+##   Once ready it goes before a pending daily_stamp.
 ## Battle tips (`BattleTips.TIPS`, same flags, after first_flight, any order): first `? + 3 = 7`,
 ## first boss, first angry boss. Tutorial closes only when chapters and tips are all done.
 ## Late chapter (not gated by `tutorial_completed`; AppRoot reopens the context for it):
@@ -49,6 +51,8 @@ const SHOP_TOUR_ARMED := "shop_tour_armed"
 @export var first_flight_steps: Array[AnchorPointerStep] = []
 @export var daily_stamp_steps: Array[AnchorPointerStep] = []
 @export var plane_shop_steps: Array[AnchorPointerStep] = []
+## Post-battle menu button (in `plane_shop_steps`): while shown, that exit leads to the main menu.
+@export var home_exit_step: AnchorPointerStep
 @export var endless_intro_steps: Array[AnchorPointerStep] = []
 ## Main-menu shop button (shown while the hangar is closed).
 @export var shop_entry_step: AnchorPointerStep
@@ -64,6 +68,7 @@ const SHOP_TOUR_ARMED := "shop_tour_armed"
 var _listener: EventListener = EventListener.new()
 var _chapter: String = ""
 var _in_menu: bool = true
+var _in_post_battle: bool = false
 var _finished: bool = false
 var _tour_index: int = 0
 var _overlay_layer: int = 0
@@ -107,13 +112,16 @@ func on_event(event_name: String, _data: Dictionary) -> void:
 	match event_name:
 		"ev.open_menu":
 			_in_menu = true
+			_in_post_battle = false
 		"ev.start_game":
 			## Only the clock is clickable under the endless hint → pressing it = got it.
 			if _chapter == CHAPTER_ENDLESS_INTRO and menu_pointer.current_step() != null:
 				progress.complete_tutorial_step(CHAPTER_ENDLESS_INTRO)
 			_in_menu = false
+			_in_post_battle = false
 		"ev.exit_game":
 			_in_menu = false
+			_in_post_battle = true
 			# Safety net: a won battle always ends the first flight (never stuck on «level 1» hints).
 			if bool(_data.get("is_win", false)) and not progress.is_tutorial_step_done(CHAPTER_FIRST_FLIGHT):
 				progress.complete_tutorial_step(CHAPTER_FIRST_FLIGHT)
@@ -150,10 +158,12 @@ func _refresh() -> void:
 		steps = _steps_for(chapter)
 	if menu_pointer.steps != steps:
 		menu_pointer.set_steps(steps)
-	menu_pointer.set_enabled(_in_menu and not steps.is_empty())
+	## Post-battle: only steps on its anchors show (menu ones are unmounted there).
+	menu_pointer.set_enabled((_in_menu or _in_post_battle) and not steps.is_empty())
 
 
 ## Ready base chapter → else a due late chapter → else the waiting base chapter (shows nothing).
+## A ready plane_shop goes before daily_stamp (a flawless first flight brings both the stamp and a coin).
 func _pending_chapter() -> String:
 	var base := ""
 	if not progress.is_tutorial_completed():
@@ -161,6 +171,9 @@ func _pending_chapter() -> String:
 			if not progress.is_tutorial_step_done(chapter):
 				base = chapter
 				break
+		if base == CHAPTER_DAILY_STAMP and not progress.is_tutorial_step_done(CHAPTER_PLANE_SHOP) \
+				and _is_chapter_ready(CHAPTER_PLANE_SHOP):
+			base = CHAPTER_PLANE_SHOP
 	if not base.is_empty() and _is_chapter_ready(base):
 		return base
 	if base != CHAPTER_FIRST_FLIGHT:
@@ -307,6 +320,7 @@ func _advance_tour() -> void:
 func _on_step_changed(step: AnchorPointerStep) -> void:
 	if overlay != null:
 		overlay.layer = step.layer if step != null and step.layer > 0 else _overlay_layer
+	root_events.ev_post_battle_exit_home.emit(step != null and step == home_exit_step)
 
 
 func _on_celebration(kind: String, _payload: Dictionary) -> void:

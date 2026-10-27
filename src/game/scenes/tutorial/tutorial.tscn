@@ -70,6 +70,13 @@ text = "Хватает монеток на новый самолёт!
 anchor_point = Vector2(0.5, 0.95)
 points_up = true
 
+[sub_resource type="Resource" id="Step_home_exit"]
+script = ExtResource("6_step")
+anchor_id = "post_battle.menu"
+text = "Хватает на новый самолёт!
+Пойдём в меню — купим его"
+anchor_point = Vector2(0.5, 0.05)
+
 [sub_resource type="Resource" id="Step_endless"]
 script = ExtResource("6_step")
 anchor_id = "menu.endless"
@@ -165,7 +172,8 @@ battle_tips = NodePath("BattleTips")
 expert_coach = NodePath("ExpertCoach")
 first_flight_steps = Array[ExtResource("6_step")]([SubResource("Step_level"), SubResource("Step_pack"), SubResource("Step_start")])
 daily_stamp_steps = Array[ExtResource("6_step")]([SubResource("Step_daily")])
-plane_shop_steps = Array[ExtResource("6_step")]([SubResource("Step_buy"), SubResource("Step_profile_plane"), SubResource("Step_profile")])
+plane_shop_steps = Array[ExtResource("6_step")]([SubResource("Step_buy"), SubResource("Step_profile_plane"), SubResource("Step_profile"), SubResource("Step_home_exit")])
+home_exit_step = SubResource("Step_home_exit")
 endless_intro_steps = Array[ExtResource("6_step")]([SubResource("Step_endless")])
 shop_entry_step = SubResource("Step_shop_entry")
 shop_tour_steps = Array[ExtResource("6_step")]([SubResource("Step_tour_item1"), SubResource("Step_tour_trail"), SubResource("Step_tour_item2"), SubResource("Step_tour_shot"), SubResource("Step_tour_item3"), SubResource("Step_tour_buy")])
