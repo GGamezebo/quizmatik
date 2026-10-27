@@ -15,6 +15,12 @@ const REVIEW_LIMIT: int = 10
 var _listener: EventListener = EventListener.new()
 
 
+static func find_in_tree(tree: SceneTree) -> MistakesController:
+	if tree == null:
+		return null
+	return tree.root.find_child("MistakesController", true, false) as MistakesController
+
+
 func _ready() -> void:
 	_listener.add(game_events.ev_fact_answered, _on_fact_answered)
 
@@ -44,6 +50,12 @@ func _on_fact_answered(fact_key: String, is_correct: bool) -> void:
 		else:
 			mistakes.weights[fact_key] = weight
 		return
+	add_miss(fact_key)
+
+
+## One wrong answer on `fact_key` (battle; the dev lab seeds the hard facts board with it).
+func add_miss(fact_key: String) -> void:
+	var mistakes: PData.MistakesData = pdata.mistakes
 	mistakes.weights[fact_key] = mini(mistakes.weights.get(fact_key, 0) + MISS_WEIGHT, MAX_WEIGHT)
 	mistakes.misses[fact_key] = mistakes.misses.get(fact_key, 0) + 1
 	_trim(mistakes, fact_key)

@@ -13,6 +13,12 @@ const STREAK_CYCLE: int = 5
 @export var root_events: RootEvents
 
 
+static func find_in_tree(tree: SceneTree) -> DailyChallengesController:
+	if tree == null:
+		return null
+	return tree.root.find_child("DailyChallengesController", true, false) as DailyChallengesController
+
+
 func _ready() -> void:
 	_ensure_today()
 	if root_events != null:

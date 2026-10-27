@@ -1,3 +1,4 @@
+class_name TutorialContext
 extends IScene
 
 ## First-run tutorial context — HFSM state `App/Tutorial` (parallel to Menu/Battle).

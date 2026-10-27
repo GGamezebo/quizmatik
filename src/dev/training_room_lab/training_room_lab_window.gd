@@ -7,6 +7,8 @@ const SAVE_PATH := "user://training_lab_settings.json"
 const GRANT_GOLD := 1
 ## Bigger grant for testing cosmetics purchases.
 const GRANT_GOLD_BIG := 10
+## «Подсказки» id of the three in-battle tips (`BattleTips.TIPS`); other ids = tutorial flags.
+const HINT_BATTLE_TIPS := "battle_tips"
 
 @export var config: GameConfig
 @export_group("Steppers")
@@ -51,6 +53,12 @@ const GRANT_GOLD_BIG := 10
 @export var expert_buttons: Array[BaseButton] = []
 @export var expert_container_ids: Array[String] = []
 @export var root_events: RootEvents
+@export_group("Tutorial hints")
+## «Подсказки» panel — one button per hint (same order as `hint_ids`; ids in `_on_hint_pressed`).
+@export var hint_buttons: Array[BaseButton] = []
+@export var hint_ids: Array[String] = []
+## Look items: the shop tour needs gold for the cheapest one not owned.
+@export var cosmetic_catalog: CosmeticCatalog
 
 
 var _wipe_keep_tutorial: bool = false
@@ -118,6 +126,8 @@ func _bind_controls() -> void:
 		exam_buttons[index].pressed.connect(_on_exam_pressed.bind(exam_container_ids[index]))
 	for index in mini(expert_buttons.size(), expert_container_ids.size()):
 		expert_buttons[index].pressed.connect(_on_expert_pressed.bind(expert_container_ids[index]))
+	for index in mini(hint_buttons.size(), hint_ids.size()):
+		hint_buttons[index].pressed.connect(_on_hint_pressed.bind(hint_ids[index]))
 	if grant_gold_button != null:
 		grant_gold_button.pressed.connect(_on_grant_gold_pressed.bind(GRANT_GOLD))
 	if grant_gold_big_button != null:
@@ -330,6 +340,90 @@ func _on_expert_pressed(container_id: String) -> void:
 		return
 	progress.complete_expert(container_id)
 	_notify_progress_changed()
+
+
+## Shows tutorial hint `hint_id` again: forgets it was shown and makes its trigger true at once
+## (a daily stamp, gold, a weak example, passed exams / experts). Close the lab to see it.
+func _on_hint_pressed(hint_id: String) -> void:
+	var progress := ProgressController.find_in_tree(get_tree())
+	var profiles := ProfileController.find_in_tree(get_tree())
+	if progress == null or profiles == null or not profiles.has_profiles():
+		return
+	var pdata := progress.pdata
+	match hint_id:
+		TutorialContext.CHAPTER_DAILY_STAMP:
+			_replay_base_hints(progress, [hint_id])
+			var daily := DailyChallengesController.find_in_tree(get_tree())
+			if daily != null and daily.get_completed_count() == 0:
+				daily.register_win()
+		TutorialContext.CHAPTER_PLANE_SHOP:
+			_replay_base_hints(progress, [hint_id])
+			_top_up_gold(profiles, pdata, _cheapest_locked_plane_cost(pdata))
+		HINT_BATTLE_TIPS:
+			_replay_base_hints(progress, BattleTips.TIPS)
+		ProgressController.SHOP_TOUR_STEP:
+			progress.reset_tutorial_steps([hint_id])
+			progress.complete_tutorial_step(TutorialContext.SHOP_TOUR_ARMED)
+			_top_up_gold(profiles, pdata, _cheapest_cosmetic_cost(pdata))
+		ProgressController.MISTAKES_INTRO_STEP:
+			progress.reset_tutorial_steps([hint_id])
+			var mistakes := MistakesController.find_in_tree(get_tree())
+			if mistakes != null and pdata.mistakes.weights.is_empty():
+				mistakes.add_miss(MathFact.make_key(MathFact.FAMILY_MUL, 7, 8))
+		ProgressController.ENDLESS_INTRO_STEP:
+			progress.reset_tutorial_steps([hint_id, ProgressController.ENDLESS_RULES_STEP])
+			for container_id in exam_container_ids:
+				if progress.is_endless_unlocked():
+					break
+				if not progress.is_valley_exam_completed(container_id):
+					progress.pass_exam(container_id, 3)
+		ProgressController.EXPERT_INTRO_STEP:
+			progress.reset_tutorial_steps([hint_id, ProgressController.EXPERT_RULES_STEP])
+			if not progress.is_expert_intro_pending() and not exam_container_ids.is_empty():
+				progress.pass_exam(exam_container_ids[0], 3)
+		ProgressController.MAGISTER_RULES_STEP:
+			progress.reset_tutorial_steps([hint_id])
+			if not progress.is_magister_unlocked():
+				for container_id in expert_container_ids:
+					progress.complete_expert(container_id)
+		_:
+			push_warning("Training lab: unknown hint id %s" % hint_id)
+			return
+	_notify_progress_changed()
+
+
+## Base chapters and battle tips run only while the tutorial is open: reopen it with every other one
+## marked done, so only `step_ids` show.
+func _replay_base_hints(progress: ProgressController, step_ids: Array[String]) -> void:
+	for step_id: String in TutorialContext.CHAPTERS + BattleTips.TIPS:
+		progress.complete_tutorial_step(step_id)
+	progress.reset_tutorial_steps(step_ids, true)
+
+
+func _top_up_gold(profiles: ProfileController, pdata: PData, cost: int) -> void:
+	if cost > pdata.gold:
+		profiles.add_gold(cost - pdata.gold)
+
+
+## Cheapest plane the pilot doesn't own (0 = all owned).
+func _cheapest_locked_plane_cost(pdata: PData) -> int:
+	var best := 0
+	for plane_id in PlaneCatalog.ORDER:
+		var cost := int(PlaneCatalog.get_def(plane_id).get("gold_cost", 0))
+		if cost > 0 and not pdata.unlocked_planes.has(plane_id) and (best == 0 or cost < best):
+			best = cost
+	return best
+
+
+## Cheapest paid look item the pilot doesn't own (0 = none).
+func _cheapest_cosmetic_cost(pdata: PData) -> int:
+	var best := 0
+	if cosmetic_catalog == null:
+		return best
+	for item in cosmetic_catalog.items:
+		if item != null and item.gold_cost > 0 and not pdata.cosmetics.owned.has(item.id) and (best == 0 or item.gold_cost < best):
+			best = item.gold_cost
+	return best
 
 
 ## Lab edits bypass battles: the same signal a profile switch sends makes AppRoot / tutorial / menu
