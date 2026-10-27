@@ -42,13 +42,14 @@ func initialize(_data: Dictionary) -> void:
 	var valley_id: String = battle_info.container_id if battle_info != null else game_config.endless_valley_id
 	if valley_id.is_empty():
 		valley_id = game_config.expert_valley_id
-	if not valley_id.is_empty():
-		var bg_host: BackgroundHost = get_node_or_null("HUD/Background") as BackgroundHost
-		if bg_host != null:
+	var bg_host: BackgroundHost = get_node_or_null("HUD/Background") as BackgroundHost
+	if bg_host != null:
+		if not valley_id.is_empty():
 			var packed: PackedScene = ValleyBackgroundArt.get_scene(valley_id)
 			if not rare_valley_backgrounds.is_empty() and randf() < rare_valley_background_chance:
 				packed = rare_valley_backgrounds.pick_random()
 			bg_host.force_variant(packed)
+		game_config.background_scene = bg_host.get_active_packed()
 	
 	for component in initable_components:
 		component.initialize(game_config)

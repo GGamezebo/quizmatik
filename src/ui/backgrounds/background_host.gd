@@ -77,6 +77,10 @@ func get_active() -> BackgroundBase:
 	return _active
 
 
+func get_active_packed() -> PackedScene:
+	return _active_packed
+
+
 func spawn_ink_blot(global_pos: Vector2, style: ShotItem = null) -> void:
 	if _active != null:
 		_active.spawn_ink_blot(global_pos, style)
