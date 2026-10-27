@@ -88,7 +88,7 @@ static func build_result_data(
 func initialize(data: Dictionary) -> void:
 	if data.has("game_config"):
 		_game_config = data["game_config"]
-	_apply_valley_background()
+	_apply_background()
 
 	var is_win: bool = data.get("is_win", false)
 	var score: int = data.get("score", 0)
@@ -160,12 +160,15 @@ func deinit() -> void:
 	_exit_home = false
 
 
-func _apply_valley_background() -> void:
+## Same sky as the battle that just ended; isolated run / no battle info → valley or random valley.
+func _apply_background() -> void:
 	if background_host == null:
 		return
 	var valley_id: String = _valley_id()
 	var packed: PackedScene = null
-	if not valley_id.is_empty():
+	if _game_config != null and _game_config.background_scene != null:
+		packed = _game_config.background_scene
+	elif not valley_id.is_empty():
 		packed = ValleyBackgroundArt.get_scene(valley_id)
 	else:
 		packed = ValleyBackgroundArt.pick_random_scene()

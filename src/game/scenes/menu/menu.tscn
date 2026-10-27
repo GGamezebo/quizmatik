@@ -80,12 +80,15 @@ shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
 
-[node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "levels_choice_window", "start_button", "training_room_start_button", "training_lab_start_button", "exit_button")]
+[node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "levels_choice_window", "shared_background", "window_backgrounds", "opaque_windows", "start_button", "training_room_start_button", "training_lab_start_button", "exit_button")]
 script = ExtResource("1_5oxuo")
 root_events = ExtResource("2_35kkh")
 menu_events = ExtResource("3_k2ump")
 windows_stack_manager = NodePath("UI/StackWindowController")
 levels_choice_window = NodePath("UI/LevelsWindow")
+shared_background = NodePath("UI/MenuBackground")
+window_backgrounds = [NodePath("UI/ProfileWindow/Background"), NodePath("UI/SettingsWindow/Background"), NodePath("UI/ParentsWindow/Background"), NodePath("UI/TrainingRoomWindow/Background"), NodePath("UI/TrainingRoomLabWindow/Background"), NodePath("UI/PlaneHangarWindow/Background")]
+opaque_windows = [NodePath("UI/LevelsWindow"), NodePath("UI/TrophyRoomWindow")]
 training_room_config = ExtResource("6_vp6ju")
 training_lab_config = ExtResource("6_lab_cfg")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start")
@@ -188,6 +191,21 @@ target_window = NodePath("../../TrophyRoomWindow")
 script = ExtResource("4_back")
 button = NodePath("../../LevelsWindow/LevelsSelection/MenuWindowBack/Back")
 
+[node name="MenuCover" type="Node" parent="UI" node_paths=PackedStringArray("host")]
+script = ExtResource("70_cover")
+host = NodePath("../MenuBackground")
+pdata = ExtResource("71_pdata")
+catalog = ExtResource("72_catalog")
+root_events = ExtResource("2_35kkh")
+
+[node name="MenuBackground" parent="UI" unique_id=1217069396 node_paths=PackedStringArray("daily_controller") instance=ExtResource("6_levels_bg_host")]
+variants = Array[PackedScene]([ExtResource("6_kcyx7")])
+pick_random = false
+sky_scroll_speed = 0.015
+paint_from_daily = true
+daily_controller = NodePath("../MainMenuWindow/CenterContainer/VBoxContainer/DailyChallengesPanel/DailyChallengesController")
+idle_color_amount = 0.08
+
 [node name="MainMenuWindow" type="Control" parent="UI" unique_id=1158717007]
 layout_mode = 3
 anchors_preset = 15
@@ -197,21 +215,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 theme = ExtResource("theme_ui")
-
-[node name="MenuCover" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("host")]
-script = ExtResource("70_cover")
-host = NodePath("../Background")
-pdata = ExtResource("71_pdata")
-catalog = ExtResource("72_catalog")
-root_events = ExtResource("2_35kkh")
-
-[node name="Background" parent="UI/MainMenuWindow" unique_id=1217069396 node_paths=PackedStringArray("daily_controller") instance=ExtResource("6_levels_bg_host")]
-variants = Array[PackedScene]([ExtResource("6_kcyx7")])
-pick_random = false
-sky_scroll_speed = 0.015
-paint_from_daily = true
-daily_controller = NodePath("../CenterContainer/VBoxContainer/DailyChallengesPanel/DailyChallengesController")
-idle_color_amount = 0.08
 
 [node name="TextureRect" type="TextureRect" parent="UI/MainMenuWindow" unique_id=855634049]
 visible = false
