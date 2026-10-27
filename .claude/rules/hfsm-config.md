@@ -24,7 +24,7 @@ paths:
 - `on_event` optional — HFSM event fired right after scene `initialize(data)`
 - `keep_loaded` optional (default `false`) — PackedScene of this id stays cached for the session
 - `preload` optional — scene ids (from paths) to load ahead while this state is active: under its loading screen if any, else after mount (Web: each load blocks a frame → prefer states with `loading_screen`)
-- App: Menu `preload: ["game"]`; Battle `keep_loaded` + `preload: ["post_battle"]`; PostBattle `keep_loaded`
+- App: Menu `preload: ["game"]`; Battle `keep_loaded` + `preload: ["post_battle"]`; PostBattle `keep_loaded`; `loading_screen` on Menu, Battle, PostBattle (Battle stays mounted under the overlay until PostBattle's `on_event` `ev.open_post_battle` makes it leave)
 - HFSM auto-mounts on enter / releases on leave; forwards events to scene `on_event`
 
 ## Events
