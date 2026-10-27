@@ -35,8 +35,6 @@ const DRAIN_EDGE_PARAM := &"drain_edge"
 @export var daily_controller: DailyChallengesController
 ## Seconds to ease color after each correct answer / daily change.
 @export_range(0.15, 2.0, 0.05) var paint_tween_seconds: float = 0.65
-## Ease-in power for paint clarity: 1 = linear; higher = stays soft longer, pops at the end.
-@export_range(1.0, 5.0, 0.1) var paint_curve_power: float = 2.8
 ## Clarity when not driven by score/dailies — keep soft so UI stays readable.
 @export_range(0.0, 1.0, 0.01) var idle_color_amount: float = 0.1
 ## Fountain-pen ink stains left while shots fly (battle). Safe empty default for menu.
@@ -105,8 +103,6 @@ func apply_host_config(config: Dictionary) -> void:
 		daily_controller = config["daily_controller"]
 	if config.has("paint_tween_seconds"):
 		paint_tween_seconds = config["paint_tween_seconds"]
-	if config.has("paint_curve_power"):
-		paint_curve_power = config["paint_curve_power"]
 	if config.has("idle_color_amount"):
 		idle_color_amount = config["idle_color_amount"]
 	if config.has("ink_blot_scene") and config["ink_blot_scene"] != null:
@@ -266,8 +262,7 @@ func _set_color_target_from_score(score: int) -> void:
 	if game_config == null or game_config.questions_count <= 0:
 		_color_target = 1.0 if score > 0 else 0.0
 		return
-	var linear := clampf(float(score) / float(game_config.questions_count), 0.0, 1.0)
-	_color_target = pow(linear, paint_curve_power)
+	_color_target = clampf(float(score) / float(game_config.questions_count), 0.0, 1.0)
 
 
 func _set_color_target_from_daily() -> void:
@@ -279,10 +274,8 @@ func _set_color_target_from_daily() -> void:
 		0.0,
 		1.0,
 	)
-	if is_zero_approx(linear):
-		_color_target = idle_color_amount
-		return
-	_color_target = pow(linear, paint_curve_power)
+	# Linear from the idle floor: each slot adds the same share, never grayer than idle.
+	_color_target = lerpf(idle_color_amount, 1.0, linear)
 
 
 func _tween_paint_to_target() -> void:
@@ -290,6 +283,7 @@ func _tween_paint_to_target() -> void:
 		return
 	if _paint_tween != null and _paint_tween.is_valid():
 		_paint_tween.kill()
+	# Ease only smooths one step; the step sizes themselves stay linear.
 	_paint_tween = create_tween()
 	_paint_tween.set_ease(Tween.EASE_OUT)
 	_paint_tween.set_trans(Tween.TRANS_SINE)
