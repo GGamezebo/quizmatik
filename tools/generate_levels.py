@@ -83,7 +83,7 @@ ADDITION = {
     ],
 }
 
-# --- Subtraction: within 10 → through ten → within 100; act 4 mixes + and − -------------------
+# --- Subtraction: within 10 → through ten → within 100; only − (never mix in +) ----------------
 S_2D_1D = {SUB: op((20, 99), (2, 9))}
 S_2D_2D = {SUB: op((30, 99), (10, 59), (5, 89))}
 
@@ -105,13 +105,13 @@ SUBTRACTION = {
     15: lvl(21, 8, {SUB: op((30, 99), (11, 59), (5, 88))}, CARRY_REQUIRED, intro=True),
     16: lvl(18, 9, S_2D_2D),
     17: lvl(14, 0, S_2D_1D),
-    18: lvl(16, 10, {ADD: op((10, 79), (2, 29), (12, 100)), SUB: op((20, 99), (2, 29), (5, 97))}),
-    19: lvl(17, 10, {**A_2D_2D, **S_2D_2D}),
+    18: lvl(16, 10, {SUB: op((20, 99), (2, 29), (5, 97))}),
+    19: lvl(17, 10, S_2D_2D),
     20: [
         stage(12, {SUB: op((2, 10), (1, 9), (1, 9))}),
         stage(14, {SUB: op((11, 18), (2, 9), (2, 9))}, CARRY_REQUIRED),
         stage(15, S_2D_1D),
-        stage(17, {**A_2D_2D, **S_2D_2D}),
+        stage(17, S_2D_2D),
     ],
 }
 
@@ -144,14 +144,14 @@ def table_valley(operation, slow):
         16: (
             lvl(t(15), 9, full, missing=0.5, missing_start=0.0)
             if operation == MUL
-            else lvl(t(14), 9, {**table(MUL, (2, 9), (2, 9)), **full})
+            else lvl(t(14), 9, full)
         ),
         17: lvl(t(13), 0, full),
         18: lvl(t(14), 10, table(operation, (6, 9), (6, 9))),
         19: (
             lvl(t(13), 10, table(operation, (2, 10), (2, 10)))
             if operation == MUL
-            else lvl(t(13), 10, {**table(MUL, (2, 10), (2, 10)), **table(DIV, (2, 10), (2, 10))}, missing=0.4)
+            else lvl(t(13), 10, table(DIV, (2, 10), (2, 10)), missing=0.4)
         ),
         20: [
             stage(t(12), table(operation, (2, 5))),
@@ -247,13 +247,13 @@ SUBTRACTION_EASY = {
     15: lvl(13, 9, S_20_CROSS, CARRY_REQUIRED),
     16: lvl(15, 9, S_E20, missing=0.5, missing_start=0.0),
     17: lvl(13, 0, {SUB: op((2, 18), (1, 9), (1, 17))}),
-    18: lvl(14, 10, {**A_E20, **S_E20}),
-    19: lvl(12, 10, {**A_E20, **S_E20}),
+    18: lvl(14, 10, S_E20),
+    19: lvl(12, 10, S_E20),
     20: [
         stage(12, {SUB: op((2, 10), (1, 9), (1, 9))}),
         stage(13, S_TEEN, CARRY_NONE),
         stage(14, S_20_CROSS, CARRY_REQUIRED),
-        stage(13, {**A_E20, **S_E20}),
+        stage(13, S_E20),
     ],
 }
 
@@ -284,14 +284,14 @@ def table_valley_easy(operation, slow):
         16: (
             lvl(t(15), 9, ones_tens, missing=0.5, missing_start=0.0)
             if operation == MUL
-            else lvl(t(14), 9, {**table(MUL, (1, 5), (1, 10)), **small})
+            else lvl(t(14), 9, small)
         ),
         17: lvl(t(12), 0, ones_tens),
         18: lvl(t(12), 10, ones_tens_rev),
         19: (
             lvl(t(12), 10, ones_tens)
             if operation == MUL
-            else lvl(t(12), 10, {**table(MUL, (1, 10), (1, 5)), **ones_tens_rev}, missing=0.4)
+            else lvl(t(12), 10, ones_tens_rev, missing=0.4)
         ),
         20: [
             stage(t(12), table(operation, (2, 3))),

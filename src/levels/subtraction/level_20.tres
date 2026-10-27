@@ -42,17 +42,14 @@ generate_number_round_ranges = {
 "carry_mode": 0
 },
 12: {
-"allowed_operations": 3,
+"allowed_operations": 2,
 "operation_ranges": {
-1: Vector2i(10, 79),
 2: Vector2i(30, 99)
 },
 "second_operand_ranges": {
-1: Vector2i(10, 49),
 2: Vector2i(10, 59)
 },
 "result_ranges": {
-1: Vector2i(20, 100),
 2: Vector2i(5, 89)
 },
 "carry_mode": 0
