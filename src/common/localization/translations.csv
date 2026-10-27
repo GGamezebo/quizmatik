@@ -362,80 +362,6 @@ Naar het menu om het te kopen"
 ОК,OK,TAMAM,OK,OK,OK,OK,OK,OK,ОК,OK,OK
 Заголовок,Title,Başlık,Título,Título,Überschrift,Titre,Titolo,Tytuł,Заголовок,Judul,Titel
 Текст сообщения,Message text,Mesaj metni,Texto del mensaje,Texto da mensagem,Nachrichtentext,Texte du message,Testo del messaggio,Treść wiadomości,Текст повідомлення,Teks pesan,Berichttekst
-"Ты сдал экзамен в «%s»!
-
-Поздравляем — все долины покорены!
-
-Кубок сохранён в профиле.","You passed the %s exam!
-
-Congratulations — every valley is conquered!
-
-The trophy is saved in your profile.","“%s” sınavını geçtin!
-
-Tebrikler — tüm vadiler fethedildi!
-
-Kupa profiline kaydedildi.","¡Aprobaste el examen de «%s»!
-
-¡Felicidades: has conquistado todos los valles!
-
-La copa está guardada en tu perfil.","Você passou na prova de “%s”!
-
-Parabéns — todos os vales foram conquistados!
-
-A taça está guardada no seu perfil.","Du hast die Prüfung im „%s“ bestanden!
-
-Glückwunsch — alle Täler sind erobert!
-
-Der Pokal ist in deinem Profil gespeichert.","Tu as réussi l’examen de la « %s » !
-
-Félicitations — toutes les vallées sont conquises !
-
-La coupe est enregistrée dans ton profil.","Hai superato l’esame della «%s»!
-
-Complimenti — hai conquistato tutte le valli!
-
-La coppa è salvata nel tuo profilo.","Egzamin zdany: „%s”!
-
-Gratulacje — wszystkie doliny zdobyte!
-
-Puchar jest zapisany w profilu.","Ти склав іспит у «%s»!
-
-Вітаємо — усі долини підкорено!
-
-Кубок збережено в профілі.","Kamu lulus ujian di “%s”!
-
-Selamat — semua lembah sudah ditaklukkan!
-
-Piala disimpan di profilmu.","Je hebt het examen van de ‘%s’ gehaald!
-
-Gefeliciteerd — alle valleien zijn veroverd!
-
-De beker staat in je profiel."
-"Ты сдал экзамен в «%s»!
-
-Кубок сохранён в профиле.","You passed the %s exam!
-
-The trophy is saved in your profile.","“%s” sınavını geçtin!
-
-Kupa profiline kaydedildi.","¡Aprobaste el examen de «%s»!
-
-La copa está guardada en tu perfil.","Você passou na prova de “%s”!
-
-A taça está guardada no seu perfil.","Du hast die Prüfung im „%s“ bestanden!
-
-Der Pokal ist in deinem Profil gespeichert.","Tu as réussi l’examen de la « %s » !
-
-La coupe est enregistrée dans ton profil.","Hai superato l’esame della «%s»!
-
-La coppa è salvata nel tuo profilo.","Egzamin zdany: „%s”!
-
-Puchar jest zapisany w profilu.","Ти склав іспит у «%s»!
-
-Кубок збережено в профілі.","Kamu lulus ujian di “%s”!
-
-Piala disimpan di profilmu.","Je hebt het examen van de ‘%s’ gehaald!
-
-De beker staat in je profiel."
 Заводим мотор…,Starting the engine…,Motoru çalıştırıyoruz…,Arrancando el motor…,Ligando o motor…,Motor wird gestartet…,On démarre le moteur…,Accendiamo il motore…,Odpalamy silnik…,Заводимо мотор…,Menyalakan mesin…,Motor starten…
 Проверяем крылья…,Checking the wings…,Kanatları kontrol ediyoruz…,Revisando las alas…,Checando as asas…,Flügel werden geprüft…,On vérifie les ailes…,Controlliamo le ali…,Sprawdzamy skrzydła…,Перевіряємо крила…,Memeriksa sayap…,Vleugels controleren…
 Взлетаем!,Takeoff!,Kalkış!,¡Despegamos!,Decolar!,Abheben!,Décollage !,Decollo!,Startujemy!,Злітаємо!,Lepas landas!,Opstijgen!
@@ -938,9 +864,9 @@ tot je ze kent!"
 Мир шаров,Balloon World,Balon Dünyası,Mundo de globos,Mundo dos balões,Ballonwelt,Monde des ballons,Mondo dei palloncini,Świat balonów,Світ кульок,Dunia Balon,Ballonnenwereld
 Сладкое королевство,Candy Kingdom,Şeker Krallığı,Reino de dulces,Reino doce,Zuckerreich,Royaume sucré,Regno dolce,Słodkie królestwo,Солодке королівство,Kerajaan Permen,Snoepkoninkrijk
 Следующая монетка: %s,Next coin: %s,Sonraki para: %s,Siguiente moneda: %s,Próxima moeda: %s,Nächste Münze: %s,Prochaine pièce : %s,Prossima moneta: %s,Następna moneta: %s,Наступна монетка: %s,Koin berikutnya: %s,Volgende munt: %s
-Бой на рекорд времени: %s,Time record battle: %s,Süre rekoru savaşı: %s,Batalla por el récord de tiempo: %s,Batalha pelo recorde de tempo: %s,Kampf um den Zeitrekord: %s,Combat record de temps : %s,Battaglia per il record di tempo: %s,Bitwa o rekord czasu: %s,Бій на рекорд часу: %s,Pertarungan rekor waktu: %s,Gevecht om het tijdrecord: %s
 НОВЫЙ РЕЖИМ!,NEW MODE!,YENİ MOD!,¡NUEVO MODO!,NOVO MODO!,NEUER MODUS!,NOUVEAU MODE !,NUOVA MODALITÀ!,NOWY TRYB!,НОВИЙ РЕЖИМ!,MODE BARU!,NIEUWE MODUS!
-Часы ждут слева от уровней. Каждая новая минута рекорда — монетка!,The clock waits to the left of the levels. Every new minute of your record earns a coin!,"Saat, seviyelerin solunda seni bekliyor. Rekorunun her yeni dakikası bir para!",El reloj te espera a la izquierda de los niveles. ¡Cada nuevo minuto de récord da una moneda!,O relógio espera à esquerda das fases. Cada novo minuto de recorde vale uma moeda!,Die Uhr wartet links neben den Leveln. Jede neue Rekordminute bringt eine Münze!,L’horloge t’attend à gauche des niveaux. Chaque nouvelle minute de record rapporte une pièce !,L’orologio ti aspetta a sinistra dei livelli. Ogni nuovo minuto di record vale una moneta!,Zegar czeka po lewej stronie poziomów. Każda nowa minuta rekordu to moneta!,Годинник чекає ліворуч від рівнів. Кожна нова хвилина рекорду — монетка!,Jam menunggu di kiri level. Setiap menit baru rekormu dapat satu koin!,De klok wacht links van de levels. Elke nieuwe recordminuut levert een munt op!
+НОВЫЕ РЕЖИМЫ!,NEW MODES!,YENİ MODLAR!,¡NUEVOS MODOS!,NOVOS MODOS!,NEUE MODI!,NOUVEAUX MODES !,NUOVE MODALITÀ!,NOWE TRYBY!,НОВІ РЕЖИМИ!,MODE-MODE BARU!,NIEUWE MODI!
+СЕСТЬ В САМОЛЁТ,HOP IN!,UÇAĞA BİN!,¡SUBE AL AVIÓN!,ENTRE NO AVIÃO!,EINSTEIGEN!,MONTE À BORD !,SALI A BORDO!,WSIADAJ!,СІСТИ В ЛІТАК,NAIK PESAWAT!,STAP IN!
 "Ты сдал экзамен в «%s»!
 Кубок сохранён в профиле.","You passed the %s exam!
 The trophy is saved in your profile.","“%s” sınavını geçtin!

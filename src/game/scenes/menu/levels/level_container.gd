@@ -18,13 +18,18 @@ signal ev_pressed
 @export var record_label: Label
 ## Expert rosette sticker pinned on the art's top-left corner (`set_expert`).
 @export var expert_badge: Control
+## Expert trial open but not passed yet (drawn without the sticker shader — it ignores modulate).
+@export var expert_open_modulate: Color = Color(1, 1, 1, 0.5)
 
 var _container_id: String = ""
+var _expert_material: Material
 
 
 func _ready() -> void:
 	if hit_button != null:
 		hit_button.pressed.connect(_on_hit_pressed)
+	if expert_badge != null:
+		_expert_material = expert_badge.material
 
 
 func initialize(
@@ -86,17 +91,21 @@ func set_paywalled(is_paywalled: bool) -> void:
 		progress_label.visible = false
 
 
-## Valley record battle best time; `seconds` <= 0 = never flown (tag hidden).
+## Valley record battle best time: < 0 = no record battle open (tag hidden), 0 = open but never flown («—»).
 func set_record(seconds: int) -> void:
 	if record_tag != null:
-		record_tag.visible = seconds > 0
-	if record_label != null and seconds > 0:
-		record_label.text = ProgressStatistics.format_clock(seconds)
+		record_tag.visible = seconds >= 0
+	if record_label != null and seconds >= 0:
+		record_label.text = ProgressStatistics.format_clock(seconds) if seconds > 0 else "—"
 
 
-func set_expert(earned: bool) -> void:
-	if expert_badge != null:
-		expert_badge.visible = earned
+## Expert trial: hidden until open; open → faded, not stuck on yet (`expert_open_modulate`), passed → sticker.
+func set_expert(unlocked: bool, earned: bool) -> void:
+	if expert_badge == null:
+		return
+	expert_badge.visible = unlocked or earned
+	expert_badge.material = _expert_material if earned else null
+	expert_badge.modulate = Color.WHITE if earned else expert_open_modulate
 
 
 func get_container_id() -> String:
