@@ -185,7 +185,3 @@ func _apply_battle_result(data: Dictionary) -> void:
 			root_events.ev_show_celebration.emit(CelebrationSplash.KIND_MASTER, {})
 		elif not next_container_id.is_empty():
 			root_events.ev_show_celebration.emit(CelebrationSplash.KIND_VALLEY, {"container_id": next_container_id})
-		elif not String(celebration.get("open_next_container_id", "")).is_empty():
-			root_events.ev_show_celebration.emit(
-				CelebrationSplash.KIND_VALLEY_OFFER, {"container_id": celebration["open_next_container_id"]}
-			)

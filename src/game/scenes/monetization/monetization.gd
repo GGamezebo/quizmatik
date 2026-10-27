@@ -3,8 +3,9 @@ extends IScene
 ## `App/Monetization`: game-side ad / purchase rules, platform-agnostic. Mounted only by a store context
 ## (`*Shop` under App/Platform) → tester builds (no store or feature `no_monetization`) never load it.
 ## Bridges OfferBoard (host UI hooks) ↔ PlatformServices (store): interstitial pacing, rewarded gold
-## with a per-device daily limit, paywall + parental gate (thank-you page «Оценить игру» → store page,
-## «Поделиться» → share sheet, placement `thanks`).
+## with a per-device daily limit, parental gate → paywall: the kid never sees a price or «Купить»
+## (Families policy, Teacher Approved); thank-you page «Оценить игру» → store page, «Поделиться» → share
+## sheet, placement `thanks`.
 ## F6 alone = defaults, nothing for sale.
 
 const STATE_PATH: String = "user://monetization.json"
@@ -16,8 +17,8 @@ const STATE_PATH: String = "user://monetization.json"
 @export var profile_controller: ProfileController
 @export var paywall_dialog: PaywallDialog
 @export var parental_gate: ParentalGate
-## Placements whose host is already behind its own parental gate («Для родителей» window) → «Купить» goes
-## straight to the store, no second example.
+## Placements whose host is already behind its own parental gate («Для родителей» window) → the paywall
+## opens without a second example.
 @export var gated_placements: Array[StringName] = [&"parents"]
 ## Share placement of the thank-you page (tags the store link).
 @export var share_placement: StringName = &"thanks"
@@ -35,7 +36,8 @@ var _last_interstitial_msec: int = -1
 var _pending_placement: StringName = &""
 var _pending_gold: int = 0
 var _is_purchasing: bool = false
-var _paywall_placement: StringName = &""
+## Valley the paywall shows once the gate is passed ("" = none).
+var _paywall_container_id: String = ""
 var _rewarded_day: String = ""
 var _rewarded_count: int = 0
 
@@ -56,6 +58,7 @@ func initialize(_data: Dictionary) -> void:
 	_publish()
 
 func deinit() -> void:
+	parental_gate.close()
 	paywall_dialog.close()
 	_listener.deinit()
 	offer_board.publish(false, &"", "", false)
@@ -121,21 +124,27 @@ func _rewarded_left() -> int:
 	return maxi(0, rewarded_daily_limit - _rewarded_count)
 
 
-# --- Purchase: paywall → parental gate → store ---
+# --- Purchase: parental gate → paywall → store ---
 
 func _on_paywall_requested(placement: StringName, container_id: String) -> void:
 	if platform_services.offer_kind.is_empty():
 		return
-	_paywall_placement = placement
-	paywall_dialog.open(platform_services.offer_kind, platform_services.offer_price, container_id)
-
-func _on_buy_pressed() -> void:
-	if gated_placements.has(_paywall_placement):
-		_on_gate_passed()
+	_paywall_container_id = container_id
+	if gated_placements.has(placement):
+		_open_paywall()
 		return
 	parental_gate.open()
 
 func _on_gate_passed() -> void:
+	_open_paywall()
+
+func _open_paywall() -> void:
+	# The offer may be gone while the gate was up (purchase restored, store down).
+	if platform_services.offer_kind.is_empty():
+		return
+	paywall_dialog.open(platform_services.offer_kind, platform_services.offer_price, _paywall_container_id)
+
+func _on_buy_pressed() -> void:
 	_is_purchasing = true
 	paywall_dialog.set_waiting(true)
 	platform_services.ev_request_purchase.emit()

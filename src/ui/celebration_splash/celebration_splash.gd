@@ -3,11 +3,10 @@ extends CanvasLayer
 
 ## Queued full-screen celebrations: valley unlock, new plane, daily gold, math master (last valley), magister.
 ## Not on the window stack. Hold while exam trophy dialog is up.
-## Valley sold by the store (OfferBoard paywall) → «waits in the full version» + buy button → paywall.
+## Valley sold by the store (OfferBoard paywall) → no splash: never a kid-facing purchase call
+## (Families policy, Teacher Approved).
 
 const KIND_VALLEY := "valley"
-## Next valley was open already (HARD): shown as «Новая долина ждёт!» only while the store sells it, else skipped.
-const KIND_VALLEY_OFFER := "valley_offer"
 const KIND_PLANE := "plane"
 const KIND_DAILY_GOLD := "daily_gold"
 const KIND_MASTER := "master"
@@ -23,8 +22,7 @@ const FADE_DURATION: float = 0.22
 @export var message_label: Label
 @export var art_rect: TextureRect
 @export var confirm_button: BaseButton
-## Shown only for a paywalled valley; press → `OfferBoard.ev_paywall_requested`.
-@export var buy_button: BaseButton
+## Paywalled valleys get no unlock splash.
 @export var offer_board: OfferBoard
 ## Live active profile: its difficulty decides which valleys the store sells.
 @export var pdata: PData
@@ -41,8 +39,6 @@ const FADE_DURATION: float = 0.22
 @export var ribbons: CPUParticles2D
 
 var _queue: Array[Dictionary] = []
-## Valley on screen (the buy button opens the paywall for it).
-var _valley_id: String = ""
 var _busy: bool = false
 var _held: bool = false
 var _listener: EventListener = EventListener.new()
@@ -53,9 +49,6 @@ func _ready() -> void:
 	layer = 15
 	if confirm_button:
 		confirm_button.pressed.connect(_on_confirm_pressed)
-	if buy_button:
-		buy_button.hide()
-		buy_button.pressed.connect(_on_buy_pressed)
 	if root_events != null:
 		_listener.add(root_events.ev_show_celebration, _on_show_celebration)
 		_listener.add(root_events.ev_celebration_hold, _on_hold)
@@ -93,18 +86,14 @@ func _try_show_next() -> void:
 
 func _present(kind: String, payload: Dictionary) -> void:
 	_busy = true
-	if buy_button:
-		buy_button.hide()
 	match kind:
 		KIND_VALLEY:
-			_present_valley(String(payload.get("container_id", "")))
-		KIND_VALLEY_OFFER:
-			var offer_id := String(payload.get("container_id", ""))
-			if not _is_paywalled(offer_id):
+			var container_id := String(payload.get("container_id", ""))
+			if _is_paywalled(container_id):
 				_busy = false
 				_try_show_next()
 				return
-			_present_valley(offer_id)
+			_present_valley(container_id)
 		KIND_PLANE:
 			_present_plane(String(payload.get("plane_id", PlaneCatalog.STARTER_ID)))
 		KIND_DAILY_GOLD:
@@ -127,15 +116,6 @@ func _present(kind: String, payload: Dictionary) -> void:
 
 func _present_valley(container_id: String) -> void:
 	art_rect.texture = LevelPackArt.get_art(container_id)
-	_valley_id = container_id
-	if _is_paywalled(container_id):
-		title_label.text = "Новая долина ждёт!"
-		message_label.text = tr("«%s» — в полной версии. Покажи родителям!") % tr(_container_name(container_id))
-		# In color like the carousel card: an adventure waiting, not a ban.
-		art_rect.modulate = Color.WHITE
-		if buy_button:
-			buy_button.show()
-		return
 	title_label.text = "Долина открыта"
 	message_label.text = _container_name(container_id)
 	art_rect.modulate = Color.WHITE
@@ -206,8 +186,3 @@ func _on_confirm_pressed() -> void:
 	_set_ribbons(false)
 	_busy = false
 	_try_show_next()
-
-
-func _on_buy_pressed() -> void:
-	_on_confirm_pressed()
-	offer_board.ev_paywall_requested.emit(&"valley_splash", _valley_id)

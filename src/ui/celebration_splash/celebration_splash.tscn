@@ -93,7 +93,7 @@ shader_parameter/shadow_offset = Vector2(-4, 8)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
 shader_parameter/shadow_blur = 2.0
 
-[node name="CelebrationSplash" type="CanvasLayer" node_paths=PackedStringArray("screen", "title_label", "message_label", "art_rect", "confirm_button", "buy_button", "ribbons")]
+[node name="CelebrationSplash" type="CanvasLayer" node_paths=PackedStringArray("screen", "title_label", "message_label", "art_rect", "confirm_button", "ribbons")]
 layer = 15
 visible = false
 script = ExtResource("1_script")
@@ -103,7 +103,6 @@ title_label = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VB
 message_label = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Message")
 art_rect = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Art")
 confirm_button = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Confirm")
-buy_button = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Buy")
 offer_board = ExtResource("10_offer_board")
 pdata = ExtResource("11_pdata")
 levels_config = ExtResource("6_levels")
@@ -196,15 +195,6 @@ autowrap_mode = 3
 layout_mode = 2
 theme_override_constants/separation = 36
 alignment = 1
-
-[node name="Buy" type="Button" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons"]
-visible = false
-custom_minimum_size = Vector2(300, 84)
-layout_mode = 2
-size_flags_vertical = 4
-focus_mode = 0
-theme_override_font_sizes/font_size = 28
-text = "Полная версия"
 
 [node name="Confirm" type="TextureButton" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons"]
 material = SubResource("ShaderMaterial_confirm")

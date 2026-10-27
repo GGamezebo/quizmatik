@@ -460,8 +460,6 @@ func pass_exam(container_id: String, stars: int) -> Dictionary:
 		"first_exam_pass": true,
 		"container_id": container_id,
 		"next_container_id": next_id if opens_next else "",
-		# Next valley open already (HARD): AppRoot offers it only while the store sells it.
-		"open_next_container_id": "" if opens_next else next_id,
 		"all_exams_passed": are_all_valley_exams_passed(),
 	}
 	if not unlocked_plane_id.is_empty():
