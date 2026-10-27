@@ -9,6 +9,7 @@
 [ext_resource type="Resource" uid="uid://u571j6g52gih" path="res://src/common/levels/levels_config.tres" id="6_levels"]
 [ext_resource type="Texture2D" uid="uid://dcqgqisgon0k4" path="res://assets/ui/icons/stopwatch.png" id="7_stopwatch"]
 [ext_resource type="Shader" path="res://src/ui/exam_victory_dialog/sun_rays.gdshader" id="8_rays"]
+[ext_resource type="Texture2D" uid="uid://c0vg8jnqkj2p8" path="res://assets/ui/icons/expert_badge.svg" id="9_badge"]
 
 [sub_resource type="Gradient" id="Gradient_kcyx7"]
 colors = PackedColorArray(0.165, 0.2, 0.251, 0.55, 0.953, 0.902, 0.784, 0.08)
@@ -82,12 +83,8 @@ outline_size = 0
 shadow_size = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_record_name"]
-font_size = 24
+font_size = 23
 font_color = Color(0.165, 0.2, 0.251, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_record_hint"]
-font_size = 19
-font_color = Color(0.45, 0.3, 0.12, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rays"]
 shader = ExtResource("8_rays")
@@ -126,7 +123,7 @@ shader_parameter/shadow_offset = Vector2(-4, 8)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
 shader_parameter/shadow_blur = 2.0
 
-[node name="ExamVictoryDialog" type="CanvasLayer" node_paths=PackedStringArray("screen", "title_label", "message_label", "trophy_rect", "confirm_button", "record_card", "record_name_label", "record_icon", "record_confetti")]
+[node name="ExamVictoryDialog" type="CanvasLayer" node_paths=PackedStringArray("screen", "title_label", "message_label", "trophy_rect", "confirm_button", "modes_card", "modes_heading", "record_mode", "mode_icons", "mode_confetti")]
 layer = 10
 visible = false
 script = ExtResource("1_script")
@@ -136,10 +133,11 @@ message_label = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/
 trophy_rect = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Trophy")
 confirm_button = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Confirm")
 levels_config = ExtResource("6_levels")
-record_card = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard")
-record_name_label = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard/Row/Texts/Name")
-record_icon = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard/Row/IconBox/Stopwatch")
-record_confetti = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard/Row/IconBox/Confetti")
+modes_card = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard")
+modes_heading = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Heading")
+record_mode = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Record")
+mode_icons = [NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Record/IconBox/Stopwatch"), NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Expert/IconBox/Badge")]
+mode_confetti = [NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Record/IconBox/Confetti"), NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Expert/IconBox/Confetti")]
 
 [node name="Screen" type="Control" parent="."]
 layout_mode = 3
@@ -221,42 +219,59 @@ label_settings = SubResource("LabelSettings_message")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="RecordCard" type="PanelContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="ModesCard" type="PanelContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_record")
 
-[node name="Row" type="HBoxContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard"]
+[node name="VBox" type="VBoxContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 4
 
-[node name="IconBox" type="Control" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard/Row"]
-custom_minimum_size = Vector2(104, 104)
+[node name="Heading" type="Label" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox"]
+layout_mode = 2
+text = "НОВЫЕ РЕЖИМЫ!"
+label_settings = SubResource("LabelSettings_record_heading")
+horizontal_alignment = 1
+
+[node name="Modes" type="HBoxContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 26
+alignment = 1
+
+[node name="Record" type="HBoxContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="IconBox" type="Control" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Record"]
+custom_minimum_size = Vector2(88, 88)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 
-[node name="Rays" type="ColorRect" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard/Row/IconBox"]
+[node name="Rays" type="ColorRect" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Record/IconBox"]
 material = SubResource("ShaderMaterial_rays")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -18.0
-offset_top = -18.0
-offset_right = 18.0
-offset_bottom = 18.0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Confetti" type="CPUParticles2D" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard/Row/IconBox"]
-position = Vector2(52, 52)
+[node name="Confetti" type="CPUParticles2D" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Record/IconBox"]
+position = Vector2(44, 44)
 emitting = false
-amount = 40
+amount = 30
 lifetime = 1.6
 one_shot = true
 explosiveness = 0.95
@@ -277,7 +292,7 @@ scale_amount_max = 1.2
 color_ramp = SubResource("Gradient_confetti_fade")
 color_initial_ramp = SubResource("Gradient_confetti_colors")
 
-[node name="Stopwatch" type="TextureRect" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard/Row/IconBox"]
+[node name="Stopwatch" type="TextureRect" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Record/IconBox"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -293,29 +308,85 @@ texture = ExtResource("7_stopwatch")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Texts" type="VBoxContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard/Row"]
+[node name="Name" type="Label" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Record"]
+custom_minimum_size = Vector2(190, 0)
 layout_mode = 2
 size_flags_vertical = 4
-mouse_filter = 2
-theme_override_constants/separation = 2
-
-[node name="Heading" type="Label" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard/Row/Texts"]
-layout_mode = 2
-text = "НОВЫЙ РЕЖИМ!"
-label_settings = SubResource("LabelSettings_record_heading")
-
-[node name="Name" type="Label" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard/Row/Texts"]
-custom_minimum_size = Vector2(500, 0)
-layout_mode = 2
-text = "Бой на рекорд времени: Сложение"
+text = "Бой на рекорд времени"
 label_settings = SubResource("LabelSettings_record_name")
 autowrap_mode = 3
 
-[node name="Hint" type="Label" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/RecordCard/Row/Texts"]
-custom_minimum_size = Vector2(500, 0)
+[node name="Expert" type="HBoxContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes"]
 layout_mode = 2
-text = "Часы ждут слева от уровней. Каждая новая минута рекорда — монетка!"
-label_settings = SubResource("LabelSettings_record_hint")
+mouse_filter = 2
+theme_override_constants/separation = 10
+
+[node name="IconBox" type="Control" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Expert"]
+custom_minimum_size = Vector2(88, 88)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Rays" type="ColorRect" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Expert/IconBox"]
+material = SubResource("ShaderMaterial_rays")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Confetti" type="CPUParticles2D" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Expert/IconBox"]
+position = Vector2(44, 44)
+emitting = false
+amount = 30
+lifetime = 1.6
+one_shot = true
+explosiveness = 0.95
+texture = SubResource("GradientTexture2D_confetti")
+direction = Vector2(0, -1)
+spread = 70.0
+gravity = Vector2(0, 520)
+initial_velocity_min = 220.0
+initial_velocity_max = 380.0
+angular_velocity_min = -360.0
+angular_velocity_max = 360.0
+angle_min = -180.0
+angle_max = 180.0
+damping_min = 10.0
+damping_max = 30.0
+scale_amount_min = 0.7
+scale_amount_max = 1.2
+color_ramp = SubResource("Gradient_confetti_fade")
+color_initial_ramp = SubResource("Gradient_confetti_colors")
+
+[node name="Badge" type="TextureRect" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Expert/IconBox"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("9_badge")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/ModesCard/VBox/Modes/Expert"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "Испытание эксперта"
+label_settings = SubResource("LabelSettings_record_name")
 autowrap_mode = 3
 
 [node name="Buttons" type="HBoxContainer" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]

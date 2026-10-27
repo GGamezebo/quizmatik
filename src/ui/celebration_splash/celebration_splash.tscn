@@ -87,13 +87,65 @@ shadow_size = 0
 font_size = 26
 font_color = Color(0.28, 0.32, 0.38, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_board"]
+content_margin_left = 30.0
+content_margin_top = 10.0
+content_margin_right = 30.0
+content_margin_bottom = 16.0
+bg_color = Color(0.43, 0.7, 0.34, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 10
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+shadow_color = Color(0.15, 0.12, 0.08, 0.22)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_board_hover"]
+content_margin_left = 30.0
+content_margin_top = 10.0
+content_margin_right = 30.0
+content_margin_bottom = 16.0
+bg_color = Color(0.5, 0.77, 0.4, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 10
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+shadow_color = Color(0.15, 0.12, 0.08, 0.28)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_board_pressed"]
+content_margin_left = 30.0
+content_margin_top = 16.0
+content_margin_right = 30.0
+content_margin_bottom = 10.0
+bg_color = Color(0.37, 0.62, 0.29, 1)
+border_width_left = 4
+border_width_top = 10
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.12, 0.14, 0.18, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_confirm"]
 shader = ExtResource("4_shadow")
 shader_parameter/shadow_offset = Vector2(-4, 8)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.4)
 shader_parameter/shadow_blur = 2.0
 
-[node name="CelebrationSplash" type="CanvasLayer" node_paths=PackedStringArray("screen", "title_label", "message_label", "art_rect", "confirm_button", "ribbons")]
+[node name="CelebrationSplash" type="CanvasLayer" node_paths=PackedStringArray("screen", "title_label", "message_label", "art_rect", "confirm_button", "board_button", "ribbons")]
 layer = 15
 visible = false
 script = ExtResource("1_script")
@@ -103,6 +155,7 @@ title_label = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VB
 message_label = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Message")
 art_rect = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Art")
 confirm_button = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Confirm")
+board_button = NodePath("Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons/Board")
 offer_board = ExtResource("10_offer_board")
 pdata = ExtResource("11_pdata")
 levels_config = ExtResource("6_levels")
@@ -195,6 +248,22 @@ autowrap_mode = 3
 layout_mode = 2
 theme_override_constants/separation = 36
 alignment = 1
+
+[node name="Board" type="Button" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons"]
+visible = false
+custom_minimum_size = Vector2(0, 92)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_board")
+theme_override_styles/hover = SubResource("StyleBoxFlat_board_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_board_pressed")
+text = "СЕСТЬ В САМОЛЁТ"
 
 [node name="Confirm" type="TextureButton" parent="Screen/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/Buttons"]
 material = SubResource("ShaderMaterial_confirm")

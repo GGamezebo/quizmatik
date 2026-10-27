@@ -10,6 +10,8 @@ extends IScene
 @export var mistakes_controller: MistakesController
 @export var music_player: AudioStreamPlayer
 @export var first_run_overlay: ProfileCreateOverlay
+## «Сесть в самолёт» on the new-plane splash → equip it.
+@export var celebration_splash: CelebrationSplash
 
 var _listener: EventListener = EventListener.new()
 ## Pilot the controls intro was last opened for (new pilot on first flight → open it again).
@@ -21,7 +23,9 @@ func initialize(_data: Dictionary) -> void:
 	_listener.add(root_events.ev_exit_game, _on_ev_exit_game)
 	_listener.add(root_events.ev_return_to_menu, _on_ev_return_to_menu)
 	_listener.add(root_events.ev_profiles_changed, _on_profiles_changed)
-	
+	if celebration_splash != null:
+		_listener.add(celebration_splash.ev_board_plane, _on_board_plane)
+
 	# Platform branch is picked inside App/Platform (PlatformRouterContext), never here.
 	add_event("ev.open_platform", {
 		"music_player": music_player,
@@ -54,6 +58,9 @@ func _on_ev_exit_game(data: Dictionary = {}) -> void:
 func _on_ev_return_to_menu(data: Dictionary = {}) -> void:
 	_sync_tutorial()
 	add_event("ev.open_menu", data)
+
+func _on_board_plane(plane_id: String) -> void:
+	profile_controller.equip_plane(plane_id)
 
 func _on_profiles_changed() -> void:
 	# Cloud save arrived while «Кто будет пилотом?» was open → the profile already exists.

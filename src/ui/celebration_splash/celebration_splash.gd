@@ -16,12 +16,17 @@ const KIND_MAGISTER := "magister"
 const KIND_EXPERT := "expert"
 const FADE_DURATION: float = 0.22
 
+## «Сесть в самолёт» on a new plane: the owner equips it (ProfileController), the splash moves on.
+signal ev_board_plane(plane_id: String)
+
 @export var root_events: RootEvents
 @export var screen: Control
 @export var title_label: Label
 @export var message_label: Label
 @export var art_rect: TextureRect
 @export var confirm_button: BaseButton
+## New plane not worn yet (an exam gift; a bought one is worn at once) → shown beside the confirm button.
+@export var board_button: BaseButton
 ## Paywalled valleys get no unlock splash.
 @export var offer_board: OfferBoard
 ## Live active profile: its difficulty decides which valleys the store sells.
@@ -39,6 +44,7 @@ const FADE_DURATION: float = 0.22
 @export var ribbons: CPUParticles2D
 
 var _queue: Array[Dictionary] = []
+var _plane_id: String = ""
 var _busy: bool = false
 var _held: bool = false
 var _listener: EventListener = EventListener.new()
@@ -49,6 +55,8 @@ func _ready() -> void:
 	layer = 15
 	if confirm_button:
 		confirm_button.pressed.connect(_on_confirm_pressed)
+	if board_button:
+		board_button.pressed.connect(_on_board_pressed)
 	if root_events != null:
 		_listener.add(root_events.ev_show_celebration, _on_show_celebration)
 		_listener.add(root_events.ev_celebration_hold, _on_hold)
@@ -86,6 +94,9 @@ func _try_show_next() -> void:
 
 func _present(kind: String, payload: Dictionary) -> void:
 	_busy = true
+	_plane_id = ""
+	if board_button:
+		board_button.visible = false
 	match kind:
 		KIND_VALLEY:
 			var container_id := String(payload.get("container_id", ""))
@@ -126,6 +137,9 @@ func _present_plane(plane_id: String) -> void:
 	title_label.text = "У тебя новый самолёт!"
 	message_label.text = String(def.get("name", ""))
 	PlaneCatalog.apply_preview(art_rect, plane_id)
+	_plane_id = plane_id
+	if board_button:
+		board_button.visible = pdata != null and pdata.equipped_plane_id != plane_id
 
 
 func _present_daily_gold() -> void:
@@ -179,6 +193,12 @@ func _container_name(container_id: String) -> String:
 		return container_id
 	var container: Dictionary = levels_config.find_container_in_config(container_id)
 	return String(container.get("name", container_id))
+
+
+func _on_board_pressed() -> void:
+	if not _plane_id.is_empty():
+		ev_board_plane.emit(_plane_id)
+	_on_confirm_pressed()
 
 
 func _on_confirm_pressed() -> void:

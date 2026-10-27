@@ -9,20 +9,24 @@ signal ev_confirmed
 @export var trophy_rect: TextureRect
 @export var confirm_button: BaseButton
 @export var levels_config: LevelsConfig
-@export_group("New record mode")
-## «НОВЫЙ РЕЖИМ!» card: the valley opened its record battle (`LevelsConfig.get_record_operation`).
-@export var record_card: Control
-@export var record_name_label: Label
-@export var record_name_format: String = "Бой на рекорд времени: %s"
-## Wobbles while the card is shown.
-@export var record_icon: Control
-## One burst when the card pops in.
-@export var record_confetti: CPUParticles2D
-@export var record_pop_delay: float = 0.45
+@export_group("New modes")
+## «НОВЫЕ РЕЖИМЫ!» card: icon + name per mode the exam opened — the valley record battle
+## (`LevelsConfig.get_record_operation`) and the expert trial (every first exam pass, `ProgressController.is_expert_unlocked`).
+@export var modes_card: Control
+@export var modes_heading: Label
+@export var heading_one: String = "НОВЫЙ РЕЖИМ!"
+@export var heading_many: String = "НОВЫЕ РЕЖИМЫ!"
+## Hidden for a valley without a record battle (mix); the expert trial always shows.
+@export var record_mode: Control
+## Wobble while the card is shown (hidden modes skipped).
+@export var mode_icons: Array[Control] = []
+## One burst each when the card pops in.
+@export var mode_confetti: Array[CPUParticles2D] = []
+@export var modes_pop_delay: float = 0.45
 
 const FADE_DURATION: float = 0.22
 
-var _record_tweens: Array[Tween] = []
+var _mode_tweens: Array[Tween] = []
 
 
 func _ready() -> void:
@@ -43,20 +47,14 @@ func open(celebration: Dictionary) -> void:
 		trophy_rect.visible = trophy != null
 
 	# HARD opens valleys in any order: «all conquered» only once every exam is passed.
-	# With the record card below, the lines go without blank rows (the dialog must fit the screen).
+	# The modes card is always below → lines go without blank rows (the dialog must fit the screen).
 	var all_passed: bool = bool(celebration.get("all_exams_passed", next_container_id.is_empty()))
-	if all_passed and has_record:
+	if all_passed:
 		message_label.text = tr("Ты сдал экзамен в «%s»!\nВсе долины покорены! Кубок сохранён в профиле.") % valley_name
-	elif all_passed:
-		message_label.text = tr(
-			"Ты сдал экзамен в «%s»!\n\nПоздравляем — все долины покорены!\n\nКубок сохранён в профиле."
-		) % valley_name
-	elif has_record:
-		message_label.text = tr("Ты сдал экзамен в «%s»!\nКубок сохранён в профиле.") % valley_name
 	else:
-		message_label.text = tr("Ты сдал экзамен в «%s»!\n\nКубок сохранён в профиле.") % valley_name
+		message_label.text = tr("Ты сдал экзамен в «%s»!\nКубок сохранён в профиле.") % valley_name
 
-	_show_record_card(has_record, container_id)
+	_show_modes_card(has_record)
 
 	screen.modulate.a = 0.0
 	show()
@@ -65,55 +63,68 @@ func open(celebration: Dictionary) -> void:
 
 
 func close() -> void:
-	_stop_record_tweens()
+	_stop_mode_tweens()
 	hide()
 
 
-func _show_record_card(has_record: bool, container_id: String) -> void:
-	_stop_record_tweens()
-	if record_card == null:
+func _show_modes_card(has_record: bool) -> void:
+	_stop_mode_tweens()
+	if modes_card == null:
 		return
-	record_card.visible = has_record
-	if not has_record:
-		return
-	if record_name_label:
-		record_name_label.text = tr(record_name_format) % tr(ValleyTrophyArt.get_short_name(container_id))
+	modes_card.visible = true
+	if record_mode:
+		record_mode.visible = has_record
+	if modes_heading:
+		modes_heading.text = heading_many if has_record else heading_one
 	# Keeps its place in the layout while hidden, then pops in after the dialog fades.
-	record_card.modulate.a = 0.0
+	modes_card.modulate.a = 0.0
 	var tween := create_tween()
-	tween.tween_interval(record_pop_delay)
-	tween.tween_callback(_pop_record_card)
-	_record_tweens.append(tween)
+	tween.tween_interval(modes_pop_delay)
+	tween.tween_callback(_pop_modes_card)
+	_mode_tweens.append(tween)
 
 
-func _pop_record_card() -> void:
-	record_card.pivot_offset = record_card.size * 0.5
-	record_card.scale = Vector2(0.4, 0.4)
+func _pop_modes_card() -> void:
+	modes_card.pivot_offset = modes_card.size * 0.5
+	modes_card.scale = Vector2(0.4, 0.4)
 	var pop := create_tween().set_parallel()
-	pop.tween_property(record_card, "modulate:a", 1.0, 0.15)
-	pop.tween_property(record_card, "scale", Vector2.ONE, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	_record_tweens.append(pop)
-	if record_confetti:
-		record_confetti.restart()
-	if record_icon:
-		record_icon.pivot_offset = record_icon.size * Vector2(0.5, 0.6)
-		var wobble := create_tween().set_loops().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-		wobble.tween_property(record_icon, "rotation", 0.14, 0.45)
-		wobble.tween_property(record_icon, "rotation", -0.14, 0.9)
-		wobble.tween_property(record_icon, "rotation", 0.0, 0.45)
-		wobble.tween_interval(0.6)
-		_record_tweens.append(wobble)
+	pop.tween_property(modes_card, "modulate:a", 1.0, 0.15)
+	pop.tween_property(modes_card, "scale", Vector2.ONE, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_mode_tweens.append(pop)
+	for confetti in mode_confetti:
+		if confetti and confetti.is_visible_in_tree():
+			confetti.restart()
+	var rest_first := false
+	for icon in mode_icons:
+		if icon and icon.is_visible_in_tree():
+			_wobble(icon, rest_first)
+			rest_first = not rest_first
 
 
-func _stop_record_tweens() -> void:
-	for tween in _record_tweens:
+## Neighbours swing in turn: the second one rests first.
+func _wobble(icon: Control, rest_first: bool) -> void:
+	icon.pivot_offset = icon.size * Vector2(0.5, 0.6)
+	var wobble := create_tween().set_loops().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	if rest_first:
+		wobble.tween_interval(0.9)
+	wobble.tween_property(icon, "rotation", 0.14, 0.45)
+	wobble.tween_property(icon, "rotation", -0.14, 0.9)
+	wobble.tween_property(icon, "rotation", 0.0, 0.45)
+	if not rest_first:
+		wobble.tween_interval(0.9)
+	_mode_tweens.append(wobble)
+
+
+func _stop_mode_tweens() -> void:
+	for tween in _mode_tweens:
 		if tween.is_valid():
 			tween.kill()
-	_record_tweens.clear()
-	if record_icon:
-		record_icon.rotation = 0.0
-	if record_card:
-		record_card.scale = Vector2.ONE
+	_mode_tweens.clear()
+	for icon in mode_icons:
+		if icon:
+			icon.rotation = 0.0
+	if modes_card:
+		modes_card.scale = Vector2.ONE
 
 
 func _container_name(container_id: String) -> String:
