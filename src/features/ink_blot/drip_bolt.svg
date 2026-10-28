@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Solid white lightning drip; colored at runtime by ink_tint.gdshader (shot look shot_bolt). -->
+  <path d="M76 6 L26 70 L58 70 L44 122 L104 50 L70 50 L90 6 Z"
+        fill="#FFFFFF" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round"/>
+</svg>

@@ -3,7 +3,7 @@ extends CosmeticItem
 
 ## Line behind the plane (`PlaneFlyerTrail`), battle and showcases.
 
-enum Style { NONE, DOTS, CRAYON, DASH, RAINBOW }
+enum Style { NONE, DOTS, CRAYON, DASH, RAINBOW, SIGNS }
 
 @export var style: Style = Style.NONE
 ## Extra colors cycle per dot (colored pencils). Empty → `color` only.
@@ -11,6 +11,8 @@ enum Style { NONE, DOTS, CRAYON, DASH, RAINBOW }
 @export var palette: PackedColorArray = PackedColorArray()
 @export_range(1.0, 16.0, 0.5) var width: float = 4.0
 @export_range(6.0, 60.0, 1.0) var spacing: float = 22.0
+## `SIGNS` only: glyphs cycled per dot (`TrailGlyph`: + − × ÷ = ★), same index as `palette`.
+@export var signs: String = ""
 
 
 func get_slot() -> CosmeticItem.Slot:

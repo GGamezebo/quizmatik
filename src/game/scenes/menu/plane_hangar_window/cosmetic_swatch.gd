@@ -33,20 +33,24 @@ func _draw_trail(trail: TrailItem) -> void:
 		_draw_none()
 		return
 	var y := size.y * 0.5
-	var step := size.x / float(sample_count + 1)
-	for i in sample_count:
+	# Signs are wide: fewer, bigger samples stay readable on a card.
+	var count := mini(sample_count, 5) if trail.style == TrailItem.Style.SIGNS else sample_count
+	var step := size.x / float(count + 1)
+	for i in count:
 		var point := Vector2(step * (i + 1), y)
 		var color := trail.color
 		if trail.style == TrailItem.Style.RAINBOW:
-			color = Color.from_hsv(float(i) / float(sample_count), 0.6, 0.95, color.a)
+			color = Color.from_hsv(float(i) / float(count), 0.6, 0.95, color.a)
 		elif not trail.palette.is_empty():
 			color = trail.palette[i % trail.palette.size()]
-		color.a *= 0.4 + 0.6 * float(i) / float(sample_count)
+		color.a *= 0.4 + 0.6 * float(i) / float(count)
 		var radius := minf(trail.width, size.y * 0.3)
 		match trail.style:
 			TrailItem.Style.DASH:
 				if i % 2 == 0:
 					draw_line(point, point + Vector2(step, 0.0), color, radius, true)
+			TrailItem.Style.SIGNS:
+				TrailGlyph.draw(self, TrailGlyph.pick(trail.signs, i), point, minf(radius, step * 0.42), color, TrailGlyph.tilt(i))
 			TrailItem.Style.CRAYON:
 				for k in 3:
 					var offset := Vector2.from_angle(float(i * 7 + k * 13) / 17.0 * TAU) * radius * 0.45
@@ -69,7 +73,8 @@ func _draw_shot(shot: ShotItem) -> void:
 			color.a = maxf(color.a, 0.75)
 		if shot.drip_texture != null:
 			var side := size.y * 0.42
-			draw_texture_rect(shot.drip_texture, Rect2(center - Vector2(side, side) * 0.5, Vector2(side, side)), false, color)
+			var rect := Rect2(center - Vector2(side, side) * 0.5, Vector2(side, side))
+			draw_texture_rect_region(shot.drip_texture, rect, shot.drip_region(i), color)
 		else:
 			var radius := size.y * rng.randf_range(0.11, 0.18)
 			draw_circle(center, radius, color)

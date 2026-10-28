@@ -25,8 +25,8 @@ func setup(local_pos: Vector2, style: ShotItem = null) -> void:
 	frame = randi() % (hframes * vframes)
 	var s := randf_range(scale_min, scale_max)
 	if style != null and style.drip_texture != null:
-		# Shaped drips (stars, hearts) stay readable: slight tilt, no squash.
-		rotation = randf_range(-0.35, 0.35)
+		# Shaped drips (stars, hearts, signs) stay readable: slight tilt, no squash.
+		rotation = randf_range(-style.drip_tilt, style.drip_tilt)
 		scale = Vector2(s, s)
 	else:
 		rotation = randf_range(-PI, PI)

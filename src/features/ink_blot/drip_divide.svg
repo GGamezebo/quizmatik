@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Solid white divide drip; colored at runtime by ink_tint.gdshader (shot look shot_divide). -->
+  <path d="M18 64 H110" fill="none" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round"/>
+  <circle cx="64" cy="24" r="15" fill="#FFFFFF"/>
+  <circle cx="64" cy="104" r="15" fill="#FFFFFF"/>
+</svg>
