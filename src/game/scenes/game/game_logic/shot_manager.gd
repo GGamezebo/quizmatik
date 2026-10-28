@@ -36,6 +36,8 @@ func _on_air_plane_ev_shoot(position: Vector2) -> void:
 		shot.speed *= air_plane.shot_speed_mult
 		if _style != null:
 			shot.modulate = _style.shot_tint
+			if _style.drip_spacing > 0.0:
+				shot.ink_spacing = _style.drip_spacing
 		shot.ev_explosion.connect(_on_explosion)
 		shot.ev_target_hit.connect(_on_target_hit)
 		shot.ev_ink_drip.connect(_on_ink_drip)

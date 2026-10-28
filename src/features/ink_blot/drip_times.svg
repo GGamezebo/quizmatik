@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Solid white times drip; colored at runtime by ink_tint.gdshader (shot look shot_times). -->
+  <path d="M31 31 L97 97 M97 31 L31 97" fill="none" stroke="#FFFFFF" stroke-width="28" stroke-linecap="round"/>
+</svg>

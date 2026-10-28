@@ -3,7 +3,7 @@ extends CosmeticItem
 
 ## Procedural pattern over the plane body (`plane_body.gdshader`). Outline + sticker edge stay.
 
-enum Pattern { NONE, STRIPES, DOTS, CHECKER, STARS, ZIGZAG, WATERCOLOR, RAINBOW }
+enum Pattern { NONE, STRIPES, DOTS, CHECKER, STARS, ZIGZAG, WATERCOLOR, RAINBOW, MATH, TIGER, GIRAFFE, DIAMONDS, SCALES, GALAXY }
 
 @export var pattern: Pattern = Pattern.NONE
 ## Alpha 0 = plane keeps its own color there.

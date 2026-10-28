@@ -26,6 +26,9 @@ func update(delta: float) -> void:
 	offset = _position_shaker.get_pos_offset()
 	scale = _base_scale + _scale_shaker.get_scale_offset()
 	rotation = _base_rotation + _rotationShacker.get_rotation_offset()
+	var body_material := material as ShaderMaterial
+	if body_material:
+		body_material.set_shader_parameter("paint_offset", offset)
 	
 	if flame_animation:
 		flame_animation.offset = offset

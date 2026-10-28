@@ -47,6 +47,12 @@
 [ext_resource type="Texture2D" uid="uid://c47hobkw610il" path="res://src/ui/backgrounds/balloon_world/bg_balloon_world.png" id="55_r"]
 [ext_resource type="PackedScene" path="res://src/ui/backgrounds/candy_kingdom/candy_kingdom_background.tscn" id="56_r"]
 [ext_resource type="Texture2D" uid="uid://dngn7e2kbhh4s" path="res://src/ui/backgrounds/candy_kingdom/bg_candy_kingdom.png" id="57_r"]
+[ext_resource type="Texture2D" uid="uid://bi4bfiv86mr1k" path="res://src/features/ink_blot/drip_plus.svg" id="60_r"]
+[ext_resource type="Texture2D" uid="uid://dox6pt3ak48ex" path="res://src/features/ink_blot/drip_minus.svg" id="61_r"]
+[ext_resource type="Texture2D" uid="uid://bigl5msoifc5l" path="res://src/features/ink_blot/drip_times.svg" id="62_r"]
+[ext_resource type="Texture2D" uid="uid://cvg5p56wnm2lh" path="res://src/features/ink_blot/drip_divide.svg" id="63_r"]
+[ext_resource type="Texture2D" uid="uid://b2r4lgqdkhrjq" path="res://src/features/ink_blot/drip_signs.svg" id="64_r"]
+[ext_resource type="Texture2D" uid="uid://c0hj8cppbdkf8" path="res://src/features/ink_blot/drip_bolt.svg" id="65_r"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_plain"]
 content_margin_left = 10.0
@@ -930,6 +936,223 @@ gold_cost = 8
 scene = ExtResource("56_r")
 icon = ExtResource("57_r")
 
+[sub_resource type="Resource" id="Resource_401"]
+script = ExtResource("1_r")
+id = "paint_diamonds"
+title = "Ромбики"
+gold_cost = 6
+pattern = 11
+color_a = Color(0.74, 0.62, 0.96, 1)
+color_b = Color(0.55, 0.87, 0.77, 1)
+cell_px = 18
+strength = 0.8
+
+[sub_resource type="Resource" id="Resource_402"]
+script = ExtResource("1_r")
+id = "paint_chalkboard"
+title = "Школьная доска"
+gold_cost = 8
+pattern = 8
+color_a = Color(0.22, 0.42, 0.36, 1)
+color_b = Color(0.98, 0.97, 0.9, 1)
+cell_px = 22
+strength = 0.9
+
+[sub_resource type="Resource" id="Resource_403"]
+script = ExtResource("1_r")
+id = "paint_tiger"
+title = "Тигр"
+gold_cost = 8
+pattern = 9
+color_a = Color(1, 0.6, 0.2, 1)
+color_b = Color(0.2, 0.15, 0.13, 1)
+cell_px = 16
+strength = 0.9
+
+[sub_resource type="Resource" id="Resource_404"]
+script = ExtResource("1_r")
+id = "paint_giraffe"
+title = "Жираф"
+gold_cost = 8
+pattern = 10
+color_a = Color(1, 0.93, 0.74, 1)
+color_b = Color(0.86, 0.5, 0.2, 1)
+cell_px = 22
+strength = 0.9
+
+[sub_resource type="Resource" id="Resource_405"]
+script = ExtResource("1_r")
+id = "paint_dragon"
+title = "Дракон"
+gold_cost = 10
+pattern = 12
+color_a = Color(0.45, 0.82, 0.52, 1)
+color_b = Color(0.1, 0.42, 0.4, 1)
+cell_px = 16
+strength = 0.9
+
+[sub_resource type="Resource" id="Resource_406"]
+script = ExtResource("1_r")
+id = "paint_galaxy"
+title = "Галактика"
+gold_cost = 20
+pattern = 13
+color_a = Color(0.27, 0.26, 0.66, 1)
+color_b = Color(0.9, 0.45, 0.88, 1)
+cell_px = 30
+strength = 0.95
+
+[sub_resource type="Resource" id="Resource_411"]
+script = ExtResource("2_r")
+id = "trail_plus"
+title = "Плюсики"
+gold_cost = 5
+style = 5
+color = Color(0.3, 0.68, 0.36, 0.9)
+palette = PackedColorArray(0.3, 0.68, 0.36, 0.9, 0.52, 0.78, 0.3, 0.9)
+width = 13
+spacing = 42
+signs = "+"
+
+[sub_resource type="Resource" id="Resource_412"]
+script = ExtResource("2_r")
+id = "trail_minus"
+title = "Минусики"
+gold_cost = 5
+style = 5
+color = Color(0.24, 0.55, 0.9, 0.9)
+palette = PackedColorArray(0.24, 0.55, 0.9, 0.9, 0.2, 0.7, 0.78, 0.9)
+width = 13
+spacing = 42
+signs = "−"
+
+[sub_resource type="Resource" id="Resource_413"]
+script = ExtResource("2_r")
+id = "trail_times"
+title = "Крестики"
+gold_cost = 5
+style = 5
+color = Color(0.95, 0.52, 0.18, 0.9)
+palette = PackedColorArray(0.95, 0.52, 0.18, 0.9, 0.93, 0.36, 0.34, 0.9)
+width = 13
+spacing = 42
+signs = "×"
+
+[sub_resource type="Resource" id="Resource_414"]
+script = ExtResource("2_r")
+id = "trail_divide"
+title = "Делилки"
+gold_cost = 5
+style = 5
+color = Color(0.56, 0.36, 0.84, 0.9)
+palette = PackedColorArray(0.56, 0.36, 0.84, 0.9, 0.84, 0.42, 0.72, 0.9)
+width = 13
+spacing = 42
+signs = "÷"
+
+[sub_resource type="Resource" id="Resource_415"]
+script = ExtResource("2_r")
+id = "trail_starfall"
+title = "Звездопад"
+gold_cost = 8
+style = 5
+color = Color(1, 0.8, 0.25, 0.9)
+palette = PackedColorArray(1, 0.8, 0.25, 0.9, 1, 0.58, 0.62, 0.9, 0.78, 0.6, 1, 0.9, 0.55, 0.78, 1, 0.9)
+width = 13
+spacing = 42
+signs = "★"
+
+[sub_resource type="Resource" id="Resource_416"]
+script = ExtResource("2_r")
+id = "trail_arithmetic"
+title = "Арифметика"
+gold_cost = 20
+style = 5
+color = Color(0.3, 0.68, 0.36, 0.9)
+palette = PackedColorArray(0.3, 0.68, 0.36, 0.9, 0.24, 0.55, 0.9, 0.9, 0.95, 0.52, 0.18, 0.9, 0.56, 0.36, 0.84, 0.9)
+width = 13
+spacing = 42
+signs = "+−×÷"
+
+[sub_resource type="Resource" id="Resource_421"]
+script = ExtResource("4_r")
+id = "shot_plus"
+title = "Плюсики"
+gold_cost = 5
+ink_colors = PackedColorArray(0.3, 0.68, 0.36, 0.92, 0.52, 0.78, 0.3, 0.9)
+drip_texture = ExtResource("60_r")
+drip_scale_min = 0.26
+drip_scale_max = 0.34
+drip_tilt = 0.15
+drip_spacing = 46
+shot_tint = Color(0.75, 1, 0.75, 1)
+
+[sub_resource type="Resource" id="Resource_422"]
+script = ExtResource("4_r")
+id = "shot_minus"
+title = "Минусики"
+gold_cost = 5
+ink_colors = PackedColorArray(0.24, 0.55, 0.9, 0.92, 0.2, 0.7, 0.78, 0.9)
+drip_texture = ExtResource("61_r")
+drip_scale_min = 0.26
+drip_scale_max = 0.34
+drip_tilt = 0.15
+drip_spacing = 46
+shot_tint = Color(0.75, 0.9, 1, 1)
+
+[sub_resource type="Resource" id="Resource_423"]
+script = ExtResource("4_r")
+id = "shot_times"
+title = "Крестики"
+gold_cost = 5
+ink_colors = PackedColorArray(0.95, 0.52, 0.18, 0.92, 0.93, 0.36, 0.34, 0.9)
+drip_texture = ExtResource("62_r")
+drip_scale_min = 0.26
+drip_scale_max = 0.34
+drip_tilt = 0.15
+drip_spacing = 46
+shot_tint = Color(1, 0.82, 0.68, 1)
+
+[sub_resource type="Resource" id="Resource_424"]
+script = ExtResource("4_r")
+id = "shot_divide"
+title = "Делилки"
+gold_cost = 5
+ink_colors = PackedColorArray(0.56, 0.36, 0.84, 0.92, 0.84, 0.42, 0.72, 0.9)
+drip_texture = ExtResource("63_r")
+drip_scale_min = 0.26
+drip_scale_max = 0.34
+drip_tilt = 0.15
+drip_spacing = 46
+shot_tint = Color(0.88, 0.75, 1, 1)
+
+[sub_resource type="Resource" id="Resource_425"]
+script = ExtResource("4_r")
+id = "shot_bolt"
+title = "Молнии"
+gold_cost = 8
+ink_colors = PackedColorArray(1, 0.8, 0.15, 0.95, 1, 0.9, 0.4, 0.92, 0.35, 0.72, 1, 0.9)
+drip_texture = ExtResource("65_r")
+drip_scale_min = 0.3
+drip_scale_max = 0.44
+drip_tilt = 0.3
+drip_spacing = 40
+shot_tint = Color(1, 0.95, 0.65, 1)
+
+[sub_resource type="Resource" id="Resource_426"]
+script = ExtResource("4_r")
+id = "shot_arithmetic"
+title = "Арифметика"
+gold_cost = 20
+ink_colors = PackedColorArray(0.3, 0.68, 0.36, 0.92, 0.24, 0.55, 0.9, 0.92, 0.95, 0.52, 0.18, 0.92, 0.56, 0.36, 0.84, 0.92)
+drip_texture = ExtResource("64_r")
+drip_frames = Vector2i(4, 1)
+drip_scale_min = 0.26
+drip_scale_max = 0.34
+drip_tilt = 0.15
+drip_spacing = 46
+shot_tint = Color(1, 1, 1, 1)
+
 [resource]
 script = ExtResource("28_r")
-items = Array[CosmeticItem]([SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_201"), SubResource("Resource_4"), SubResource("Resource_202"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_203"), SubResource("Resource_7"), SubResource("Resource_204"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_205"), SubResource("Resource_101"), SubResource("Resource_206"), SubResource("Resource_13"), SubResource("Resource_207"), SubResource("Resource_102"), SubResource("Resource_208"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_103"), SubResource("Resource_209"), SubResource("Resource_210"), SubResource("Resource_18"), SubResource("Resource_211"), SubResource("Resource_19"), SubResource("Resource_104"), SubResource("Resource_212"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_213"), SubResource("Resource_105"), SubResource("Resource_214"), SubResource("Resource_215"), SubResource("Resource_106"), SubResource("Resource_216"), SubResource("Resource_27"), SubResource("Resource_29"), SubResource("Resource_31"), SubResource("Resource_33"), SubResource("Resource_107"), SubResource("Resource_108"), SubResource("Resource_217"), SubResource("Resource_218"), SubResource("Resource_219"), SubResource("Resource_220"), SubResource("Resource_109"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_301"), SubResource("Resource_302"), SubResource("Resource_303"), SubResource("Resource_304"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43")])
+items = Array[CosmeticItem]([SubResource("Resource_1"), SubResource("Resource_2"), SubResource("Resource_3"), SubResource("Resource_201"), SubResource("Resource_4"), SubResource("Resource_202"), SubResource("Resource_5"), SubResource("Resource_6"), SubResource("Resource_203"), SubResource("Resource_401"), SubResource("Resource_402"), SubResource("Resource_403"), SubResource("Resource_404"), SubResource("Resource_7"), SubResource("Resource_204"), SubResource("Resource_405"), SubResource("Resource_406"), SubResource("Resource_8"), SubResource("Resource_9"), SubResource("Resource_10"), SubResource("Resource_411"), SubResource("Resource_412"), SubResource("Resource_413"), SubResource("Resource_414"), SubResource("Resource_11"), SubResource("Resource_12"), SubResource("Resource_205"), SubResource("Resource_101"), SubResource("Resource_206"), SubResource("Resource_13"), SubResource("Resource_207"), SubResource("Resource_415"), SubResource("Resource_102"), SubResource("Resource_208"), SubResource("Resource_416"), SubResource("Resource_14"), SubResource("Resource_15"), SubResource("Resource_16"), SubResource("Resource_17"), SubResource("Resource_103"), SubResource("Resource_209"), SubResource("Resource_210"), SubResource("Resource_421"), SubResource("Resource_422"), SubResource("Resource_423"), SubResource("Resource_424"), SubResource("Resource_18"), SubResource("Resource_211"), SubResource("Resource_19"), SubResource("Resource_425"), SubResource("Resource_104"), SubResource("Resource_212"), SubResource("Resource_426"), SubResource("Resource_20"), SubResource("Resource_21"), SubResource("Resource_22"), SubResource("Resource_23"), SubResource("Resource_24"), SubResource("Resource_25"), SubResource("Resource_26"), SubResource("Resource_213"), SubResource("Resource_105"), SubResource("Resource_214"), SubResource("Resource_215"), SubResource("Resource_106"), SubResource("Resource_216"), SubResource("Resource_27"), SubResource("Resource_29"), SubResource("Resource_31"), SubResource("Resource_33"), SubResource("Resource_107"), SubResource("Resource_108"), SubResource("Resource_217"), SubResource("Resource_218"), SubResource("Resource_219"), SubResource("Resource_220"), SubResource("Resource_109"), SubResource("Resource_35"), SubResource("Resource_36"), SubResource("Resource_37"), SubResource("Resource_38"), SubResource("Resource_301"), SubResource("Resource_302"), SubResource("Resource_303"), SubResource("Resource_304"), SubResource("Resource_39"), SubResource("Resource_40"), SubResource("Resource_41"), SubResource("Resource_42"), SubResource("Resource_43")])

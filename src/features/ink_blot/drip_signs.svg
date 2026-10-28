@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="128" viewBox="0 0 512 128">
+  <!-- Sheet of 4 white sign drips (plus, minus, times, divide), ShotItem.drip_frames = (4, 1);
+       colored at runtime by ink_tint.gdshader (shot look shot_arithmetic). -->
+  <g fill="none" stroke="#FFFFFF" stroke-linecap="round">
+    <path d="M64 18 V110 M18 64 H110" stroke-width="28"/>
+    <path d="M146 64 H238" stroke-width="30"/>
+    <path d="M287 31 L353 97 M353 31 L287 97" stroke-width="28"/>
+    <path d="M402 64 H494" stroke-width="24"/>
+  </g>
+  <circle cx="448" cy="24" r="15" fill="#FFFFFF"/>
+  <circle cx="448" cy="104" r="15" fill="#FFFFFF"/>
+</svg>
