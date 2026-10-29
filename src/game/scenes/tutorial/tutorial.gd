@@ -8,7 +8,7 @@ extends IScene
 ##
 ## Chapters (in order, flags in `PData.state.tutorial_steps`):
 ## - first_flight: menu → valley → level 1 → coached first hit (`BattleCoach`)
-## - daily_stamp: after the first daily stamp — explain 5 wins a day = a coin (confirm button)
+## - daily_stamp: after the first daily stamp — explain 5 stamps a day = bonus level (confirm button)
 ## - plane_shop: first time a new plane is affordable — lead to profile → hangar → buy; ready right after
 ##   a battle → the post-battle menu button first (`home_exit_step`: that exit goes to the main menu).
 ##   Once ready it goes before a pending daily_stamp.
