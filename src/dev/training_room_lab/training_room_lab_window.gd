@@ -46,6 +46,8 @@ const FLIGHT_HINT_LEVEL := 4
 @export var grant_gold_big_button: BaseButton
 ## One daily stamp. The card is under the lab, so the slam plays after it closes.
 @export var grant_stamp_button: BaseButton
+## Rolls the daily day forward so the sky can fade.
+@export var advance_day_button: BaseButton
 @export var unlock_valleys_button: BaseButton
 @export var complete_valleys_button: BaseButton
 ## Wipes progress like «СБРОСИТЬ ПРОГРЕСС» but keeps the active pilot and its tutorial flags.
@@ -140,6 +142,8 @@ func _bind_controls() -> void:
 		grant_gold_big_button.pressed.connect(_on_grant_gold_pressed.bind(GRANT_GOLD_BIG))
 	if grant_stamp_button != null:
 		grant_stamp_button.pressed.connect(_on_grant_stamp_pressed)
+	if advance_day_button != null:
+		advance_day_button.pressed.connect(_on_advance_day_pressed)
 
 
 func _connect_stepper(
@@ -321,6 +325,15 @@ func _on_grant_stamp_pressed() -> void:
 	if daily == null:
 		return
 	daily.register_win()
+	_notify_progress_changed()
+
+
+## One UTC day forward: stamps clear, and a finished flight's full sky fades back.
+func _on_advance_day_pressed() -> void:
+	var daily := DailyChallengesController.find_in_tree(get_tree())
+	if daily == null:
+		return
+	daily.debug_advance_day()
 	_notify_progress_changed()
 
 

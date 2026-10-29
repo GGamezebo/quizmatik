@@ -385,6 +385,8 @@ class DailyData:
 	var cycle_sets: int = 0
 	## Menu ceremony still to play: -1 none, 0..3 pop that pip, 4 coin then clear, 5 stamps only.
 	var pending_set_reveal: int = -1
+	## UTC day a golden flight was finished. The sky stays fully colored until the next day.
+	var last_flight_day: String = ""
 
 	func to_dict() -> Dictionary:
 		var result := {
@@ -395,6 +397,7 @@ class DailyData:
 			"streak_days": streak_days,
 			"last_complete_day": last_complete_day,
 			"pending_set_reveal": pending_set_reveal,
+			"last_flight_day": last_flight_day,
 		}
 		# -1 means "not migrated yet"; writing 0 would freeze a fresh load before `_ensure_today`.
 		if cycle_sets >= 0:
@@ -408,6 +411,7 @@ class DailyData:
 		daily.bonus_flight_played = bool(d.get("bonus_flight_played", false))
 		daily.streak_days = maxi(int(d.get("streak_days", 0)), 0)
 		daily.last_complete_day = String(d.get("last_complete_day", ""))
+		daily.last_flight_day = String(d.get("last_flight_day", ""))
 		daily.cycle_sets = clampi(int(d.get("cycle_sets", -1)), -1, 4)
 		daily.pending_set_reveal = clampi(int(d.get("pending_set_reveal", -1)), -1, 5)
 		var raw: Variant = d.get("slots", [])

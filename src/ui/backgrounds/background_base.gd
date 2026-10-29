@@ -53,6 +53,7 @@ var _color_amount: float = 0.0
 var _color_target: float = 0.0
 var _paint_tween: Tween = null
 var _drain_tween: Tween = null
+var _held_daily: DailyChallengesController = null
 
 
 func _ready() -> void:
@@ -185,7 +186,7 @@ func _process(delta: float) -> void:
 
 
 func _on_score_changed(new_score: int) -> void:
-	if _is_time_painted():
+	if _is_time_painted() or _holds_full_sky():
 		return
 	_set_color_target_from_score(new_score)
 	_tween_paint_to_target()
@@ -198,7 +199,7 @@ func _on_game_config_changed() -> void:
 
 ## Timed battle: whole `paint_time_step_sec` steps of elapsed time; 0 left → full color.
 func _on_time_left(seconds_left: int) -> void:
-	if not paint_from_score or not game_config.is_timed():
+	if not paint_from_score or not game_config.is_timed() or _holds_full_sky():
 		return
 	var limit: float = game_config.time_limit_sec
 	var elapsed: float = maxf(limit - float(seconds_left), 0.0)
@@ -211,7 +212,7 @@ func _on_time_left(seconds_left: int) -> void:
 
 
 func _on_endless_time(seconds: int) -> void:
-	if not paint_from_score or game_config == null or not game_config.endless:
+	if not paint_from_score or game_config == null or not game_config.endless or _holds_full_sky():
 		return
 	var step_sec: float = maxf(game_config.endless_step_sec, 1.0)
 	var stepped: float = floorf(float(seconds) / step_sec) * step_sec
@@ -256,6 +257,10 @@ func _set_color_target_from_score(score: int) -> void:
 	if game_config != null and game_config.chase:
 		_color_target = 1.0
 		return
+	# A finished golden flight keeps every later battle fully colored until the next day.
+	if _holds_full_sky():
+		_color_target = 1.0
+		return
 	if _is_time_painted():
 		_color_target = 0.0
 		return
@@ -269,13 +274,15 @@ func _set_color_target_from_daily() -> void:
 	if daily_controller == null:
 		_color_target = idle_color_amount
 		return
-	var linear := clampf(
-		float(daily_controller.get_completed_count()) / float(PData.DAILY_SLOT_COUNT),
-		0.0,
-		1.0,
-	)
 	# Linear from the idle floor: each slot adds the same share, never grayer than idle.
-	_color_target = lerpf(idle_color_amount, 1.0, linear)
+	# A finished flight today reports 1 until the next UTC day, stamps or not.
+	_color_target = lerpf(idle_color_amount, 1.0, daily_controller.get_sky_fill())
+
+
+func _holds_full_sky() -> bool:
+	if _held_daily == null or not is_instance_valid(_held_daily):
+		_held_daily = daily_controller if daily_controller != null else _find_daily_controller()
+	return _held_daily != null and _held_daily.holds_full_sky()
 
 
 func _tween_paint_to_target() -> void:

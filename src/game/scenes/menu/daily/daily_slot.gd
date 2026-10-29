@@ -122,8 +122,11 @@ func reveal_empty(delay: float) -> void:
 func set_shown(shown: bool) -> void:
 	if mark == null:
 		return
+	if _tween != null and _tween.is_valid():
+		_tween.kill()
 	mark.scale = Vector2.ONE
 	mark.rotation = 0.0
+	mark.pivot_offset = mark.size * 0.5
 	mark.modulate = Color(1, 1, 1, 1.0 if shown else 0.0)
 
 
