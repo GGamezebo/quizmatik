@@ -15,6 +15,8 @@
 [ext_resource type="Script" path="res://src/game/scenes/tutorial/battle_tips.gd" id="13_tips"]
 [ext_resource type="Script" path="res://src/game/scenes/tutorial/expert_coach.gd" id="15_expert_coach"]
 [ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="14_catalog"]
+[ext_resource type="Script" path="res://src/game/scenes/tutorial/flight_mode_coach.gd" id="16_flight_coach"]
+[ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="17_settings"]
 
 [sub_resource type="Resource" id="Step_level"]
 script = ExtResource("6_step")
@@ -161,7 +163,7 @@ points_up = true
 button_text = "Понятно!"
 layer = 12
 
-[node name="Tutorial" type="Node" node_paths=PackedStringArray("progress", "menu_pointer", "battle_coach", "battle_tips", "expert_coach", "overlay")]
+[node name="Tutorial" type="Node" node_paths=PackedStringArray("progress", "menu_pointer", "battle_coach", "battle_tips", "expert_coach", "flight_mode_coach", "overlay")]
 script = ExtResource("1_tutorial")
 root_events = ExtResource("12_root_events")
 progress = NodePath("ProgressController")
@@ -169,6 +171,7 @@ menu_pointer = NodePath("MenuPointer")
 battle_coach = NodePath("BattleCoach")
 battle_tips = NodePath("BattleTips")
 expert_coach = NodePath("ExpertCoach")
+flight_mode_coach = NodePath("FlightModeCoach")
 first_flight_steps = Array[ExtResource("6_step")]([SubResource("Step_level"), SubResource("Step_pack"), SubResource("Step_start")])
 daily_stamp_steps = Array[ExtResource("6_step")]([SubResource("Step_daily")])
 plane_shop_steps = Array[ExtResource("6_step")]([SubResource("Step_buy"), SubResource("Step_profile_plane"), SubResource("Step_profile"), SubResource("Step_home_exit")])
@@ -223,6 +226,13 @@ points_up = true
 bubble_width = 420.0
 style = ExtResource("10_hint_style")
 
+[node name="ModeHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
+z_index = 10
+layout_mode = 0
+points_up = true
+bubble_width = 520.0
+style = ExtResource("10_hint_style")
+
 [node name="CoachHint" parent="Overlay/Root" instance=ExtResource("3_hint")]
 z_index = 10
 layout_mode = 1
@@ -274,6 +284,17 @@ script = ExtResource("15_expert_coach")
 game_events = ExtResource("9_game_events")
 anchors = ExtResource("7_anchors")
 dim = NodePath("../Overlay/Root/BattleDim")
+goal_hint = NodePath("../Overlay/Root/GoalHint")
+coach_hint = NodePath("../Overlay/Root/CoachHint")
+feedback_hint = NodePath("../Overlay/Root/FeedbackHint")
+
+[node name="FlightModeCoach" type="Node" parent="." node_paths=PackedStringArray("dim", "button_hint", "goal_hint", "coach_hint", "feedback_hint")]
+script = ExtResource("16_flight_coach")
+game_events = ExtResource("9_game_events")
+user_settings = ExtResource("17_settings")
+anchors = ExtResource("7_anchors")
+dim = NodePath("../Overlay/Root/BattleDim")
+button_hint = NodePath("../Overlay/Root/ModeHint")
 goal_hint = NodePath("../Overlay/Root/GoalHint")
 coach_hint = NodePath("../Overlay/Root/CoachHint")
 feedback_hint = NodePath("../Overlay/Root/FeedbackHint")

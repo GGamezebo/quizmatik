@@ -9,6 +9,8 @@ const GRANT_GOLD := 1
 const GRANT_GOLD_BIG := 10
 ## «Подсказки» id of the three in-battle tips (`BattleTips.TIPS`); other ids = tutorial flags.
 const HINT_BATTLE_TIPS := "battle_tips"
+## Must match `FlightModeCoach.level_id` in `tutorial.tscn`.
+const FLIGHT_HINT_LEVEL := 4
 
 @export var config: GameConfig
 @export_group("Steppers")
@@ -59,6 +61,8 @@ const HINT_BATTLE_TIPS := "battle_tips"
 @export var hint_ids: Array[String] = []
 ## Look items: the shop tour needs gold for the cheapest one not owned.
 @export var cosmetic_catalog: CosmeticCatalog
+## The flight-mode hint needs free flight on.
+@export var user_settings: UserSettings
 
 
 var _wipe_keep_tutorial: bool = false
@@ -386,6 +390,12 @@ func _on_hint_pressed(hint_id: String) -> void:
 			if not progress.is_magister_unlocked():
 				for container_id in expert_container_ids:
 					progress.complete_expert(container_id)
+		ProgressController.FLIGHT_MODE_INTRO_STEP:
+			progress.reset_tutorial_steps([hint_id])
+			if user_settings != null and user_settings.movement_mode != AirPlane.MovementMode.DIRECT:
+				user_settings.movement_mode = AirPlane.MovementMode.DIRECT
+				user_settings.save()
+			_open_first_valley_level(progress, FLIGHT_HINT_LEVEL)
 		_:
 			push_warning("Training lab: unknown hint id %s" % hint_id)
 			return
@@ -398,6 +408,18 @@ func _replay_base_hints(progress: ProgressController, step_ids: Array[String]) -
 	for step_id: String in TutorialContext.CHAPTERS + BattleTips.TIPS:
 		progress.complete_tutorial_step(step_id)
 	progress.reset_tutorial_steps(step_ids, true)
+
+
+## Locked → every earlier level of the first valley gets one star.
+func _open_first_valley_level(progress: ProgressController, level_id: int) -> void:
+	if exam_container_ids.is_empty():
+		return
+	var container_id := exam_container_ids[0]
+	if progress.is_level_unlocked(container_id, level_id):
+		return
+	for earlier_level in range(1, level_id):
+		if progress.get_level_stars(container_id, earlier_level) < 1:
+			progress.pass_level(container_id, earlier_level, 1)
 
 
 func _top_up_gold(profiles: ProfileController, pdata: PData, cost: int) -> void:
