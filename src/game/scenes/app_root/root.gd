@@ -83,7 +83,7 @@ func _sync_controls_intro() -> void:
 
 
 ## Tutorial is a parallel HFSM state: open for a profile that hasn't finished it (or has a late
-## chapter due / awaited — endless intro, shop tour, mistakes intro), close otherwise.
+## chapter due / awaited — endless intro, shop tour, mistakes intro, expert / flight-mode rounds), close otherwise.
 func _sync_tutorial() -> void:
 	var needs_tutorial: bool = (
 		profile_controller != null and profile_controller.has_profiles()
@@ -93,6 +93,7 @@ func _sync_tutorial() -> void:
 			or progress_controller.is_shop_tour_pending()
 			or progress_controller.is_mistakes_intro_pending()
 			or progress_controller.is_expert_intro_pending()
+			or progress_controller.is_flight_mode_intro_pending()
 		)
 	)
 	add_event("ev.open_tutorial" if needs_tutorial else "ev.close_tutorial")

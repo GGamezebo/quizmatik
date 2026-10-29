@@ -18,6 +18,8 @@ const MAGISTER_TROPHY := "magister"
 const EXPERT_TROPHY_PREFIX := "expert:"
 ## Tutorial chapter id of the coached first expert round (`ExpertCoach`).
 const EXPERT_INTRO_STEP := "expert_intro"
+## Tutorial chapter id of the coached lanes flight mode round (`FlightModeCoach`, campaign level 4, once).
+const FLIGHT_MODE_INTRO_STEP := "flight_mode_intro"
 ## `PData.state.tutorial_steps` flag: the magister rules were read and the first trial started.
 const MAGISTER_RULES_STEP := "magister_rules"
 ## `PData.state.tutorial_steps` flag: the endless rules were read and the first endless battle started.
@@ -189,6 +191,10 @@ func is_shop_tour_pending() -> bool:
 ## Endless open but its menu intro (tutorial chapter `ENDLESS_INTRO_STEP`) not shown yet.
 func is_endless_intro_pending() -> bool:
 	return is_endless_unlocked() and not is_tutorial_step_done(ENDLESS_INTRO_STEP)
+
+## Lanes flight mode not shown yet (the tutorial context waits for campaign level 4).
+func is_flight_mode_intro_pending() -> bool:
+	return not is_tutorial_step_done(FLIGHT_MODE_INTRO_STEP)
 
 static func expert_trophy(container_id: String) -> String:
 	return EXPERT_TROPHY_PREFIX + container_id

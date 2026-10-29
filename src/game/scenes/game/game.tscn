@@ -873,4 +873,10 @@ registry = ExtResource("61_tutorial_anchors")
 anchor_id = "battle.boss"
 target = NodePath("../BossBar")
 
+[node name="MovementModeAnchor" type="Node" parent="HUD" node_paths=PackedStringArray("target")]
+script = ExtResource("60_ui_anchor")
+registry = ExtResource("61_tutorial_anchors")
+anchor_id = "battle.movement_mode"
+target = NodePath("../TopLeftPanel/HBox/MovementMode")
+
 [connection signal="ev_question_changed" from="GameManager/GameState" to="HUD/QuestionBanner/Question" method="_on_game_state_ev_question_changed"]

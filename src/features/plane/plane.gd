@@ -395,6 +395,8 @@ class DiscreteMovementComponent extends IMovementComponent:
 		current_line_index = 0
 		target_y = owner.global_position.y
 		_update_current_line_index_by_distance()
+		if not owner.discrete_positions.is_empty():
+			target_y = owner.discrete_positions[current_line_index]
 
 	func update(delta: float) -> void:
 		if owner._uses_touch_controls() and owner.has_movement_touch():
