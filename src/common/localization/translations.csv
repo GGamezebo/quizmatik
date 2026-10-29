@@ -105,7 +105,7 @@ keys,en,tr,es,pt,de,fr,it,pl,uk,id,nl
 Ошибок пока нет — так держать!,No mistakes yet — keep it up!,Henüz hata yok — böyle devam!,Aún no hay errores. ¡Sigue así!,Nenhum erro ainda — continue assim!,Noch keine Fehler — weiter so!,Pas encore d’erreurs — continue comme ça !,Ancora nessun errore — continua così!,Na razie bez błędów — tak trzymaj!,Помилок поки немає — так тримати!,Belum ada yang salah — terus begitu!,Nog geen fouten — ga zo door!
 ДОСТИЖЕНИЯ,ACHIEVEMENTS,BAŞARILAR,LOGROS,CONQUISTAS,ERFOLGE,SUCCÈS,TRAGUARDI,OSIĄGNIĘCIA,ДОСЯГНЕННЯ,PENCAPAIAN,PRESTATIES
 СТАТИСТИКА,STATISTICS,İSTATİSTİK,ESTADÍSTICAS,ESTATÍSTICAS,STATISTIK,STATISTIQUES,STATISTICHE,STATYSTYKI,СТАТИСТИКА,STATISTIK,STATISTIEKEN
-ТРУДНЫЕ ПРИМЕРЫ — НАЖМИ ДЛЯ СПИСКА,TRICKY PROBLEMS — TAP FOR THE LIST,ZOR İŞLEMLER — LİSTE İÇİN DOKUN,EJERCICIOS DIFÍCILES — TOCA PARA VER LA LISTA,CONTAS DIFÍCEIS — TOQUE PARA VER A LISTA,KNIFFLIGE AUFGABEN — TIPPEN FÜR DIE LISTE,CALCULS DIFFICILES — TOUCHE POUR LA LISTE,CALCOLI DIFFICILI — TOCCA PER LA LISTA,"TRUDNE PRZYKŁADY — DOTKNIJ, BY ZOBACZYĆ LISTĘ",СКЛАДНІ ПРИКЛАДИ — НАТИСНИ ДЛЯ СПИСКУ,SOAL SULIT — KETUK UNTUK DAFTAR,LASTIGE SOMMEN — TIK VOOR DE LIJST
+ТРУДНЫЕ ПРИМЕРЫ — НАЖМИ ДЛЯ СПИСКА,TRICKY PROBLEMS — TAP FOR THE LIST,ZOR İŞLEMLER — LİSTE İÇİN DOKUN,EJERCICIOS DIFÍCILES — TOCA PARA VER LA LISTA,CONTAS DIFÍCEIS — TOQUE PARA VER A LISTA,KNIFFLIGE AUFGABEN — TIPPEN FÜR DIE LISTE,CALCULS DIFFICILES — TOUCHE POUR LA LISTE,CALCOLI DIFFICILI — TOCCA PER LA LISTA,TRUDNE PRZYKŁADY — OTWÓRZ LISTĘ,СКЛАДНІ ПРИКЛАДИ — НАТИСНИ ДЛЯ СПИСКУ,SOAL SULIT — KETUK UNTUK DAFTAR,LASTIGE SOMMEN — TIK VOOR DE LIJST
 СЕРИЯ ×3,STREAK ×3,SERİ ×3,RACHA ×3,SEQUÊNCIA ×3,SERIE ×3,SÉRIE ×3,SERIE ×3,SERIA ×3,СЕРІЯ ×3,BERUNTUN ×3,REEKS ×3
 СЕРИЯ ×%d,STREAK ×%d,SERİ ×%d,RACHA ×%d,SEQUÊNCIA ×%d,SERIE ×%d,SÉRIE ×%d,SERIE ×%d,SERIA ×%d,СЕРІЯ ×%d,BERUNTUN ×%d,REEKS ×%d
 ДИРИЖАБЛЬ,AIRSHIP,ZEPLİN,DIRIGIBLE,DIRIGÍVEL,LUFTSCHIFF,DIRIGEABLE,DIRIGIBILE,STEROWIEC,ДИРИЖАБЛЬ,KAPAL UDARA,LUCHTSCHIP
@@ -484,6 +484,10 @@ klik — schieten!"
 +%d за золотой полёт,+%d for the golden flight,Altın uçuş için +%d,+%d por el vuelo dorado,+%d pelo voo dourado,+%d für den Goldflug,+%d pour le vol doré,+%d per il volo d’oro,+%d za złoty lot,+%d за золотий політ,+%d untuk terbang emas,+%d voor de gouden vlucht
 Лови монетки: %d %s!,Catch the coins: %d %s!,Paraları yakala: %d %s!,¡Atrapa las monedas: %d %s!,Pegue as moedas: %d %s!,Fang die Münzen: %d %s!,Attrape les pièces : %d %s !,Prendi le monete: %d %s!,Łap monety: %d %s!,Лови монетки: %d %s!,Tangkap koin: %d %s!,Vang de munten: %d %s!
 Большой полёт: %d %s!,Big flight: %d %s!,Büyük uçuş: %d %s!,¡Gran vuelo: %d %s!,Grande voo: %d %s!,Großer Flug: %d %s!,Grand vol : %d %s !,Grande volo: %d %s!,Wielki lot: %d %s!,Великий політ: %d %s!,Terbang besar: %d %s!,Grote vlucht: %d %s!
+Молодец!,Well done!,Aferin!,¡Muy bien!,Muito bem!,Super!,Bravo !,Bravo!,Brawo!,Молодець!,Hebat!,Goed zo!
+Серия собрана!,Set complete!,Seri tamam!,¡Serie completa!,Série completa!,Serie geschafft!,Série complète !,Serie completa!,Seria zebrana!,Серію зібрано!,Seri selesai!,Reeks voltooid!
+Круг завершён!,Cycle complete!,Döngü tamam!,¡Ciclo completo!,Ciclo completo!,Zyklus geschafft!,Cycle terminé !,Ciclo completato!,Cykl ukończony!,Коло завершено!,Siklus selesai!,Cyclus voltooid!
+Всё сначала!,Back to the start!,Yeniden başlıyoruz!,¡Otra vez desde el principio!,Tudo de novo!,Nochmal von vorn!,On recommence !,Si ricomincia!,Od nowa!,Все спочатку!,Dari awal lagi!,Opnieuw!
 минута,minute,dakika,minuto,minuto,Minute,minute,minuto,minuta,хвилина,menit,minuut
 минуты,minutes,dakika,minutos,minutos,Minuten,minutes,minuti,minuty,хвилини,menit,minuten
 минут,minutes,dakika,minutos,minutos,Minuten,minutes,minuti,minut,хвилин,menit,minuten
@@ -493,6 +497,7 @@ klik — schieten!"
 Золотой полёт: %d %s!,Golden flight: %d %s!,Altın uçuş: %d %s!,¡Vuelo dorado: %d %s!,Voo dourado: %d %s!,Goldflug: %d %s!,Vol doré : %d %s !,Volo d’oro: %d %s!,Złoty lot: %d %s!,Золотий політ: %d %s!,Terbang emas: %d %s!,Gouden vlucht: %d %s!
 Выбери шарик!,Pick a balloon!,Bir balon seç!,¡Elige un globo!,Escolha um balão!,Wähle einen Ballon!,Choisis un ballon !,Scegli un palloncino!,Wybierz balonik!,Вибери кульку!,Pilih balon!,Kies een ballon!
 ЗОЛОТОЙ ПОЛЁТ!,GOLDEN FLIGHT!,ALTIN UÇUŞ!,¡VUELO DORADO!,VOO DOURADO!,GOLDFLUG!,VOL DORÉ !,VOLO D’ORO!,ZŁOTY LOT!,ЗОЛОТИЙ ПОЛІТ!,TERBANG EMAS!,GOUDEN VLUCHT!
+Долетел до солнца!,You reached the sun!,Güneşe kadar uçtun!,¡Llegaste hasta el sol!,Você chegou até o sol!,Du bist bis zur Sonne geflogen!,Tu as atteint le soleil !,Sei arrivato fino al sole!,Doleciałeś do słońca!,Долетів до сонця!,Kamu sampai ke matahari!,Je vloog tot aan de zon!
 "Открылся бой на рекорд!
 Отвечай, пока есть сердечки —
 шарики летят всё быстрее.

@@ -44,6 +44,8 @@ const FLIGHT_HINT_LEVEL := 4
 @export var wipe_dialog: ConfirmDialog
 @export var grant_gold_button: BaseButton
 @export var grant_gold_big_button: BaseButton
+## One daily stamp. The card is under the lab, so the slam plays after it closes.
+@export var grant_stamp_button: BaseButton
 @export var unlock_valleys_button: BaseButton
 @export var complete_valleys_button: BaseButton
 ## Wipes progress like «СБРОСИТЬ ПРОГРЕСС» but keeps the active pilot and its tutorial flags.
@@ -136,6 +138,8 @@ func _bind_controls() -> void:
 		grant_gold_button.pressed.connect(_on_grant_gold_pressed.bind(GRANT_GOLD))
 	if grant_gold_big_button != null:
 		grant_gold_big_button.pressed.connect(_on_grant_gold_pressed.bind(GRANT_GOLD_BIG))
+	if grant_stamp_button != null:
+		grant_stamp_button.pressed.connect(_on_grant_stamp_pressed)
 
 
 func _connect_stepper(
@@ -308,6 +312,15 @@ func _on_grant_gold_pressed(amount: int) -> void:
 	if profiles == null or not profiles.has_profiles():
 		return
 	profiles.add_gold(amount)
+	_notify_progress_changed()
+
+
+## One daily win-slot. Five presses open the golden flight; the slam plays when the lab closes.
+func _on_grant_stamp_pressed() -> void:
+	var daily := DailyChallengesController.find_in_tree(get_tree())
+	if daily == null:
+		return
+	daily.register_win()
 	_notify_progress_changed()
 
 

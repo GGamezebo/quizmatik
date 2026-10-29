@@ -135,6 +135,14 @@ class ContainerProgress:
 			completed_levels[level_id] = LevelEntry.new()
 		return completed_levels[level_id]
 
+	func has_stars() -> bool:
+		if exam_passed:
+			return true
+		for level_id in completed_levels:
+			if completed_levels[level_id].stars > 0:
+				return true
+		return false
+
 
 class LevelsProgress:
 	const DEFAULT_CONTAINER_ID: String = "addition"
@@ -163,12 +171,8 @@ class LevelsProgress:
 	## Any level or exam earned at least one star (a fresh pilot → false).
 	func has_any_stars() -> bool:
 		for container_id in containers:
-			var container: ContainerProgress = containers[container_id]
-			if container.exam_passed:
+			if containers[container_id].has_stars():
 				return true
-			for level_id in container.completed_levels:
-				if container.completed_levels[level_id].stars > 0:
-					return true
 		return false
 
 	func ensure_container(container_id: String) -> ContainerProgress:
@@ -377,16 +381,25 @@ class DailyData:
 	var streak_days: int = 0
 	## Last UTC day the slots were completed ("" = never).
 	var last_complete_day: String = ""
+	## Completed flights in the current 5-set cycle (0..4). -1 = not in the save yet (migrate).
+	var cycle_sets: int = 0
+	## Menu ceremony still to play: -1 none, 0..3 pop that pip, 4 coin then clear, 5 stamps only.
+	var pending_set_reveal: int = -1
 
 	func to_dict() -> Dictionary:
-		return {
+		var result := {
 			"utc_day": utc_day,
 			"slots": slots.duplicate(),
 			"reward_claimed": reward_claimed,
 			"bonus_flight_played": bonus_flight_played,
 			"streak_days": streak_days,
 			"last_complete_day": last_complete_day,
+			"pending_set_reveal": pending_set_reveal,
 		}
+		# -1 means "not migrated yet"; writing 0 would freeze a fresh load before `_ensure_today`.
+		if cycle_sets >= 0:
+			result["cycle_sets"] = cycle_sets
+		return result
 
 	static func from_dict(d: Dictionary) -> DailyData:
 		var daily := DailyData.new()
@@ -395,6 +408,8 @@ class DailyData:
 		daily.bonus_flight_played = bool(d.get("bonus_flight_played", false))
 		daily.streak_days = maxi(int(d.get("streak_days", 0)), 0)
 		daily.last_complete_day = String(d.get("last_complete_day", ""))
+		daily.cycle_sets = clampi(int(d.get("cycle_sets", -1)), -1, 4)
+		daily.pending_set_reveal = clampi(int(d.get("pending_set_reveal", -1)), -1, 5)
 		var raw: Variant = d.get("slots", [])
 		if raw is Array:
 			var source: Array = raw

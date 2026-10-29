@@ -86,20 +86,41 @@ func post_battle(battle_info: GameConfig.BattleInfo, stars: int) -> Dictionary:
 		return {"level_gold": level_gold}
 	return {}
 
-## HARD (grade 3-4) opens every valley while the profile stays on HARD (computed, never saved).
+## Grade shortcut, computed, never saved (another difficulty locks it again).
+## HARD (grade 3–4): every valley. NORMAL (grade 2–3): multiplication, the same way.
 func is_container_unlocked(container_id: String) -> bool:
-	if is_hard_difficulty() and not levels_config.find_container_in_config(container_id).is_empty():
+	if _grade_opens(container_id):
 		return true
-	var progress := pdata.levels.containers.get(container_id) as PData.ContainerProgress
-	if progress != null and progress.unlocked:
+	return is_campaign_unlocked(container_id)
+
+## Opened by the exam chain or the dev-lab flag. Grade shortcuts are not included.
+func is_campaign_unlocked(container_id: String) -> bool:
+	var container := pdata.levels.containers.get(container_id) as PData.ContainerProgress
+	if container != null and container.unlocked:
 		return true
-	var container_config = levels_config.find_container_in_config(container_id)
-	if container_config:
-		var unlock_condition = container_config["unlock_condition"]
-		var condition_func_name = unlock_condition["name"]
-		var condition_args = unlock_condition["args"]
-		return conditions.call(condition_func_name, pdata, condition_args)
-	return false
+	var container_config: Dictionary = levels_config.find_container_in_config(container_id)
+	if container_config.is_empty():
+		return false
+	var unlock_condition: Dictionary = container_config["unlock_condition"]
+	return conditions.call(unlock_condition["name"], pdata, unlock_condition["args"])
+
+func valley_has_stars(container_id: String) -> bool:
+	if pdata == null:
+		return false
+	var container := pdata.levels.containers.get(container_id) as PData.ContainerProgress
+	return container != null and container.has_stars()
+
+## HARD opens every valley; NORMAL (grade 2–3) opens multiplication before the subtraction exam.
+func _grade_opens(container_id: String) -> bool:
+	if levels_config == null or levels_config.find_container_in_config(container_id).is_empty():
+		return false
+	if is_hard_difficulty():
+		return true
+	return (
+		container_id == "multiplication"
+		and pdata != null
+		and BattleDifficulty.sanitize(StringName(pdata.difficulty)) == BattleDifficulty.NORMAL
+	)
 
 ## Dev lab: open every valley without its unlock exam; levels inside stay sequential.
 func unlock_all_containers() -> void:

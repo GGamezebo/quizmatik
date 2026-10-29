@@ -80,7 +80,7 @@ corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hit"]
 
-[node name="DailyChallengesPanel" type="Control" node_paths=PackedStringArray("daily_controller", "slots_row", "title_label", "streak_label", "cycle_pips", "cycle_goal", "golden_state", "golden_subtitle", "scroll_button")]
+[node name="DailyChallengesPanel" type="Control" node_paths=PackedStringArray("daily_controller", "slots_row", "title_label", "streak_label", "cycle_pips", "cycle_goal", "golden_state", "golden_title", "golden_subtitle", "scroll_button")]
 custom_minimum_size = Vector2(660, 265)
 mouse_filter = 2
 theme = ExtResource("theme_ui")
@@ -98,6 +98,7 @@ pip_filled = SubResource("StyleBoxFlat_pip_filled")
 root_events = ExtResource("14_root_events")
 golden_flight_config = ExtResource("15_golden_cfg")
 golden_state = NodePath("GoldenState")
+golden_title = NodePath("GoldenState/HBox/Texts/Title")
 golden_subtitle = NodePath("GoldenState/HBox/Texts/Subtitle")
 scroll_button = NodePath("ScrollButton")
 

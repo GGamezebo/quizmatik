@@ -141,7 +141,7 @@ func _apply_battle_result(data: Dictionary) -> void:
 	var bonus_gold: int = int(data.get("bonus_gold", 0))
 	if bonus_gold > 0:
 		profile_controller.add_gold(bonus_gold)
-	# Daily «Золотой полёт»: caught coin balloons + final pick, also on a HUD exit.
+	# Daily «Золотой полёт»: coins only when the flight finished. HUD quit omits them.
 	var golden_gold: int = int(data.get("golden_gold", 0))
 	if golden_gold > 0:
 		profile_controller.add_gold(golden_gold)
@@ -158,7 +158,10 @@ func _apply_battle_result(data: Dictionary) -> void:
 		profile_controller.add_gold(EXPERT_GOLD)
 		data["expert_gold"] = EXPERT_GOLD
 		root_events.ev_show_celebration.emit(CelebrationSplash.KIND_EXPERT, {"container_id": expert_valley_id})
-	var daily_result: Dictionary = daily_challenges_controller.register_win()
+	# The golden flight is the reward for a full set — it must not fill the next set's first stamp.
+	var daily_result := {"slot_filled": false, "gold_awarded": false}
+	if not game_config.golden_flight:
+		daily_result = daily_challenges_controller.register_win()
 	var celebration: Dictionary = {}
 	if battle_info:
 		celebration = progress_controller.post_battle(battle_info, stars)
