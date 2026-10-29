@@ -17,6 +17,9 @@
 [ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="14_catalog"]
 [ext_resource type="Script" path="res://src/game/scenes/tutorial/flight_mode_coach.gd" id="16_flight_coach"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="17_settings"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/touch_hint_move.svg" id="18_move"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/touch_hint_shoot.svg" id="19_shoot"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/hint_finger.svg" id="20_finger"]
 
 [sub_resource type="Resource" id="Step_level"]
 script = ExtResource("6_step")
@@ -272,6 +275,9 @@ dim = NodePath("../Overlay/Root/BattleDim")
 goal_hint = NodePath("../Overlay/Root/GoalHint")
 coach_hint = NodePath("../Overlay/Root/CoachHint")
 feedback_hint = NodePath("../Overlay/Root/FeedbackHint")
+move_gesture = ExtResource("18_move")
+shoot_gesture = ExtResource("19_shoot")
+finger_gesture = ExtResource("20_finger")
 
 [node name="BattleTips" type="Node" parent="." node_paths=PackedStringArray("hint")]
 script = ExtResource("13_tips")

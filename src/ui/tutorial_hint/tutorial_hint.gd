@@ -51,10 +51,28 @@ const SCREEN_MARGIN := 8.0
 @export var arrow_outline: Line2D
 @export var label: Label
 @export var button: Button
+## Optional gesture row. `GESTURE_MOVE` slides the finger; `GESTURE_SHOOT` taps it. Hidden otherwise.
+@export var gestures: Control
+@export var gesture_move: TextureRect
+@export var gesture_finger_move: TextureRect
+@export var gesture_shoot: TextureRect
+@export var gesture_finger_shoot: TextureRect
+
+const GESTURE_NONE := 0
+const GESTURE_MOVE := 1
+const GESTURE_SHOOT := 2
+const _FINGER_TRAVEL := 22.0
 
 var _active: bool = false
 var _bob_tween: Tween
 var _pop_tween: Tween
+var _gesture_tween: Tween
+var _gesture_mode: int = GESTURE_NONE
+var _homes_ready: bool = false
+var _move_finger_home := Vector2.ZERO
+var _shoot_finger_home := Vector2.ZERO
+## Unclamped bubble position from `_layout`; screen clamp must not stack on itself.
+var _bubble_home := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -70,6 +88,36 @@ func _ready() -> void:
 	_layout()
 	_active = active_on_ready
 	_apply_active()
+
+
+## Art for the gesture row. Does not show it — `set_gesture_mode` does.
+func set_gesture_art(move_texture: Texture2D, move_finger: Texture2D, shoot_texture: Texture2D, shoot_finger: Texture2D) -> void:
+	if gesture_move != null:
+		gesture_move.texture = move_texture
+	if gesture_finger_move != null:
+		gesture_finger_move.texture = move_finger
+	if gesture_shoot != null:
+		gesture_shoot.texture = shoot_texture
+	if gesture_finger_shoot != null:
+		gesture_finger_shoot.texture = shoot_finger
+
+
+## `GESTURE_NONE` hides the row. `GESTURE_MOVE` shows the finger sliding up and down.
+## `GESTURE_SHOOT` shows the finger tapping the shoot mark.
+func set_gesture_mode(mode: int) -> void:
+	if gestures == null or mode == _gesture_mode:
+		return
+	_gesture_mode = mode
+	_ensure_homes()
+	_stop_gesture_motion()
+	gesture_move.get_parent().visible = mode == GESTURE_MOVE
+	gesture_shoot.get_parent().visible = mode == GESTURE_SHOOT
+	gestures.visible = mode != GESTURE_NONE
+	if mode == GESTURE_MOVE:
+		_slide_finger()
+	elif mode == GESTURE_SHOOT:
+		_tap_finger()
+	_layout.call_deferred()
 
 
 func set_active(value: bool) -> void:
@@ -154,21 +202,83 @@ func _layout() -> void:
 	var mat := cloud.material as ShaderMaterial
 	if mat != null:
 		mat.set_shader_parameter("rect_size", bubble_size)
+	_bubble_home = bubble.position
 	_keep_bubble_on_screen()
 
 
-## Slide the bubble horizontally inside the viewport; the arrow stays on the target.
+## Slide the bubble inside the viewport. Arrow hints only shift sideways (the tip stays on the target);
+## a hint without an arrow also shifts up so a tall bubble is not cut off by the screen edge.
 func _keep_bubble_on_screen() -> void:
 	var width := bubble.size.x
 	var left := global_position.x - width / 2.0
-	var view_width := get_viewport_rect().size.x
+	var view_size := get_viewport_rect().size
 	var shift := 0.0
 	if left < SCREEN_MARGIN:
 		shift = SCREEN_MARGIN - left
-	elif left + width > view_width - SCREEN_MARGIN:
-		shift = view_width - SCREEN_MARGIN - (left + width)
+	elif left + width > view_size.x - SCREEN_MARGIN:
+		shift = view_size.x - SCREEN_MARGIN - (left + width)
 	bubble.position.x = -width / 2.0 + shift
+	bubble.position.y = _bubble_home.y
+	if not show_arrow:
+		var height := bubble.size.y
+		var top := global_position.y + _bubble_home.y
+		var shift_y := 0.0
+		if top < SCREEN_MARGIN:
+			shift_y = SCREEN_MARGIN - top
+		elif top + height > view_size.y - SCREEN_MARGIN:
+			shift_y = view_size.y - SCREEN_MARGIN - (top + height)
+		bubble.position.y = _bubble_home.y + shift_y
 	cloud.position = bubble.position
+
+
+func _ensure_homes() -> void:
+	if _homes_ready or gesture_finger_move == null:
+		return
+	_homes_ready = true
+	_move_finger_home = Vector2(gesture_finger_move.offset_left, gesture_finger_move.offset_top)
+	_shoot_finger_home = Vector2(gesture_finger_shoot.offset_left, gesture_finger_shoot.offset_top)
+
+
+func _slide_finger() -> void:
+	var finger := gesture_finger_move
+	finger.position = _move_finger_home
+	var y0 := _move_finger_home.y
+	_gesture_tween = create_tween().set_loops()
+	_gesture_tween.tween_property(finger, "position:y", y0 - _FINGER_TRAVEL, 0.45).set_trans(Tween.TRANS_SINE)
+	_gesture_tween.tween_property(finger, "position:y", y0 + _FINGER_TRAVEL, 0.9).set_trans(Tween.TRANS_SINE)
+	_gesture_tween.tween_property(finger, "position:y", y0, 0.45).set_trans(Tween.TRANS_SINE)
+
+
+func _tap_finger() -> void:
+	var finger := gesture_finger_shoot
+	var disc := gesture_shoot
+	finger.pivot_offset = _pivot_of(finger)
+	disc.pivot_offset = _pivot_of(disc)
+	_gesture_tween = create_tween().set_loops()
+	_gesture_tween.tween_property(finger, "scale", Vector2.ONE * 0.82, 0.1)
+	_gesture_tween.parallel().tween_property(disc, "scale", Vector2.ONE * 0.9, 0.1)
+	_gesture_tween.tween_property(finger, "scale", Vector2.ONE, 0.28).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_gesture_tween.parallel().tween_property(disc, "scale", Vector2.ONE, 0.28) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_gesture_tween.tween_interval(0.45)
+
+
+func _pivot_of(node: Control) -> Vector2:
+	var bounds := node.size if node.size != Vector2.ZERO else node.custom_minimum_size
+	return bounds * 0.5
+
+
+func _stop_gesture_motion() -> void:
+	if _gesture_tween and _gesture_tween.is_valid():
+		_gesture_tween.kill()
+	_gesture_tween = null
+	if gesture_finger_move:
+		gesture_finger_move.position = _move_finger_home
+	if gesture_finger_shoot:
+		gesture_finger_shoot.scale = Vector2.ONE
+		gesture_finger_shoot.position = _shoot_finger_home
+	if gesture_shoot:
+		gesture_shoot.scale = Vector2.ONE
 
 
 func _pop_in() -> void:
