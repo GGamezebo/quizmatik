@@ -141,6 +141,25 @@ func get_streak_days() -> int:
 	return pdata.daily.streak_days
 
 
+## 0..1 sky paint. A finished flight today stays fully colored until the next UTC day.
+func get_sky_fill() -> float:
+	_ensure_today()
+	if _flight_colored_today():
+		return 1.0
+	return clampf(float(pdata.daily.completed_count()) / float(PData.DAILY_SLOT_COUNT), 0.0, 1.0)
+
+
+## True after a golden flight was finished today, even once the stamps are cleared.
+func holds_full_sky() -> bool:
+	_ensure_today()
+	return _flight_colored_today()
+
+
+func _flight_colored_today() -> bool:
+	var daily: PData.DailyData = pdata.daily
+	return not daily.last_flight_day.is_empty() and daily.last_flight_day == daily.utc_day
+
+
 ## Filled marks of the 0..4 set strip (the coin is the 5th, lit by the panel when this is 4).
 func get_cycle_filled() -> int:
 	_ensure_today()
@@ -157,6 +176,15 @@ func is_big_flight_today() -> bool:
 func get_pending_set_reveal() -> int:
 	_ensure_today()
 	return pdata.daily.pending_set_reveal
+
+
+## Dev lab: pretend a UTC day passed. Stored daily dates step back, then the normal roll runs.
+func debug_advance_day() -> void:
+	_ensure_today()
+	var daily: PData.DailyData = pdata.daily
+	daily.utc_day = _previous_day_key(daily.utc_day)
+	daily.last_flight_day = _previous_day_key(daily.last_flight_day)
+	daily.last_complete_day = _previous_day_key(daily.last_complete_day)
 
 
 ## The card started the ceremony. Does not emit — a refresh would cut the animation.
@@ -192,6 +220,7 @@ func _bank_completed_set() -> void:
 		daily.pending_set_reveal = index
 	daily.slots = PData.DailyData.empty_slots()
 	daily.bonus_flight_played = false
+	daily.last_flight_day = daily.utc_day if not daily.utc_day.is_empty() else PData.utc_day_key()
 	# No signal: this runs while the battle scene is still up, and a repaint would flash the sky.
 	save()
 
@@ -258,3 +287,24 @@ static func _legacy_cycle_sets(daily: PData.DailyData) -> int:
 
 static func _yesterday_key() -> String:
 	return PData.utc_day_key(int(Time.get_unix_time_from_system()) - 86400)
+
+
+static func _previous_day_key(day: String) -> String:
+	if day.is_empty():
+		return ""
+	var bits: PackedStringArray = day.split("-")
+	if bits.size() != 3:
+		return day
+	var year := int(bits[0])
+	var month := int(bits[1])
+	var day_num := int(bits[2]) - 1
+	if day_num < 1:
+		month -= 1
+		if month < 1:
+			month = 12
+			year -= 1
+		var lengths: PackedInt32Array = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+		day_num = lengths[month - 1]
+		if month == 2 and (year % 400 == 0 or (year % 4 == 0 and year % 100 != 0)):
+			day_num = 29
+	return "%04d-%02d-%02d" % [year, month, day_num]

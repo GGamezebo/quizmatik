@@ -1,7 +1,7 @@
 class_name DailyChallengesPanel
 extends Control
 
-## Daily streak card for the main menu: today's 5 stamps, days-in-a-row + 5-set cycle strip in the header.
+## Daily streak card for the main menu: today's 5 stamps and the 5-set cycle strip in the header.
 ## New stamps since the card was last shown slam in (sound / vibration via `RootEvents`). 5/5 → the stamps
 ## glow and melt, «ЗОЛОТОЙ ПОЛЁТ» takes their place and the whole scroll breathes = one big button
 ## (the cycle's 5th set = the long flight). Battle = `GoldenFlightScenario`.
@@ -16,12 +16,14 @@ extends Control
 @export var title_label: Label
 ## Filled ink stamps assigned by slot index (cycles if fewer than slot count).
 @export var stamp_filled_variants: Array[Texture2D] = []
-@export var slot_size_max: float = 96.0
-@export var slot_size_min: float = 88.0
+@export var slot_size_max: float = 84.0
+@export var slot_size_min: float = 64.0
+## Scroll art is 660 wide. The stamp row stays this far in from each side, clear of the rolls.
+const SCROLL_ART_WIDTH := 660.0
+const PARCHMENT_INSET := 98.0
 @export var stamp_step_sec: float = 0.35
 @export_group("Streak")
-@export var streak_label: Label
-## Cycle days before the goal (the goal icon = last day).
+## Cycle sets before the goal (the goal icon = the long flight).
 @export var cycle_pips: Array[Panel] = []
 @export var cycle_goal: Control
 @export var pip_empty: StyleBox
@@ -128,9 +130,6 @@ func _exit_tree() -> void:
 
 
 func _refresh_streak() -> void:
-	var days: int = daily_controller.get_streak_days()
-	if streak_label:
-		streak_label.text = _days_in_row_text(days) if days > 0 else ""
 	var cycle_filled: int = daily_controller.get_cycle_filled()
 	# 4 pips filled → the coin (5th mark) is the long flight waiting ahead.
 	_apply_cycle(cycle_filled, cycle_filled >= DailyChallengesController.STREAK_CYCLE - 1)
@@ -443,22 +442,20 @@ func _build_slots() -> void:
 
 
 func _fit_slot_sizes() -> void:
-	if _slots.is_empty() or slots_row == null:
+	if _slots.is_empty() or slots_row == null or size.x <= 1.0:
 		return
 	var sep: float = float(slots_row.get_theme_constant("separation"))
 	var count: int = _slots.size()
-	var available: float = maxf(slots_row.size.x - sep * float(count - 1), slot_size_min * count)
-	var side: float = clampf(available / float(count), slot_size_min, slot_size_max)
+	var inset: float = PARCHMENT_INSET * size.x / SCROLL_ART_WIDTH
+	var gaps: float = sep * float(count - 1)
+	var paper_w: float = size.x - inset * 2.0
+	if paper_w <= gaps + 1.0:
+		return
+	var side: float = clampf((paper_w - gaps) / float(count), slot_size_min, slot_size_max)
 	var slot_size := Vector2(side, side)
 	for slot in _slots:
 		slot.custom_minimum_size = slot_size
 		slot.call_deferred("_fit_mark")
-
-
-## «1 день подряд», «2 дня подряд», «5 дней подряд» — form by the active language's plural rule.
-static func _days_in_row_text(days: int) -> String:
-	var format := GameLocale.plural(days, "%d день подряд", "%d дня подряд", "%d дней подряд")
-	return TranslationServer.translate(format) % days
 
 
 ## Key «минута» / «минуты» / «минут» for the active language's plural rule.
