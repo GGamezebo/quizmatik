@@ -42,6 +42,8 @@ extends IScene
 @export var endless_next_coin_format: String = "Следующая монетка: %s"
 @export_group("Golden flight texts")
 @export var golden_title: String = "ЗОЛОТОЙ ПОЛЁТ!"
+## Shown instead of the answer count when the flight is finished.
+@export var golden_congrats: String = "Долетел до солнца!"
 @export_group("Magister texts")
 @export var magister_title: String = "ТЫ — МАГИСТР!"
 @export_group("Expert texts")
@@ -70,8 +72,8 @@ static func build_result_data(
 		"stars": stars_count,
 		"bonus_gold": 0 if game_config.golden_flight else player.bonus_gold,
 	}
-	if game_config.golden_flight:
-		# Caught coin balloons + the final pick, kept on any exit.
+	if game_config.golden_flight and is_win:
+		# Caught coin balloons + the final pick. An early exit annuls the flight.
 		data["golden_gold"] = player.bonus_gold
 	if game_config.magister:
 		data["magister"] = true
@@ -112,14 +114,25 @@ func initialize(data: Dictionary) -> void:
 	if rewarded_gold_button:
 		rewarded_gold_button.setup(earned_gold)
 	_setup_next_level_button(is_win)
-	# Daily bonus battle is once a day: no «repeat».
+	# Daily bonus battle is once a day: no «repeat», and the answer count is never shown.
 	if _game_config != null and _game_config.golden_flight:
-		# Once a day: no «repeat»; hearts/stamps mean nothing there.
 		repeat_button.visible = false
 		call_deferred("_grab_button_focus", menu_button)
-		title_label.text = golden_title
 		if stamps_row:
 			stamps_row.visible = false
+		if is_win:
+			title_label.text = golden_title
+			score_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			score_label.text = golden_congrats
+		else:
+			score_label.visible = false
+		# Quit shows +0. A finished flight shows the coins actually caught.
+		if level_gold_row:
+			level_gold_row.visible = true
+		if gold_label:
+			gold_label.text = tr("+%d за золотой полёт") % golden_gold
+		if gold_lines:
+			gold_lines.visible = true
 	if _game_config != null and _game_config.magister:
 		if is_win:
 			title_label.text = magister_title

@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://heyte07h81jn" path="res://src/game/scenes/menu/training_room_window/ui/icon_play.png" id="17_icon_play"]
 [ext_resource type="Texture2D" uid="uid://dnb4x6dyrbrg2" path="res://src/game/scenes/menu/training_room_window/ui/icon_shuffle.png" id="18_icon_shuffle"]
 [ext_resource type="Texture2D" uid="uid://bunfw4e5cl1wi" path="res://assets/ui/icons/coin_gold.svg" id="20_gold"]
+[ext_resource type="Texture2D" uid="uid://b62kwj1wrreax" path="res://assets/ui/stamps/stamp_sun.png" id="24_stamp"]
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="21_root_events"]
 [ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="22_catalog"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="23_settings"]
@@ -81,7 +82,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons", "expert_buttons", "hint_buttons")]
+[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "grant_stamp_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons", "expert_buttons", "hint_buttons")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -118,6 +119,7 @@ wipe_progress_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/Con
 wipe_dialog = NodePath("WipeDialog")
 grant_gold_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow/GrantGoldButton")
 grant_gold_big_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow/GrantGoldBigButton")
+grant_stamp_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow/GrantStampButton")
 unlock_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ValleysRow/UnlockValleysButton")
 complete_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ValleysRow/CompleteValleysButton")
 wipe_keep_tutorial_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/WipeRow/WipeKeepTutorialButton")
@@ -853,6 +855,14 @@ layout_mode = 2
 size_flags_horizontal = 3
 icon_texture = ExtResource("20_gold")
 caption_text = "+10"
+
+[node name="GrantStampButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+icon_texture = ExtResource("24_stamp")
+caption_text = "печать"
+tooltip_text = "Одна печать серии. Закрой лабораторию — штамп встанет на свитке. Пять раз открывают золотой полёт"
 
 [node name="ValleysRow" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox"]
 layout_mode = 2

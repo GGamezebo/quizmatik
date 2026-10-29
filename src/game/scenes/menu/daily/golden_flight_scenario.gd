@@ -2,8 +2,9 @@ class_name GoldenFlightScenario
 extends RefCounted
 
 ## Builds the «Золотой полёт» battle: examples of the player's campaign frontier level (furthest
-## unlocked regular level of the latest unlocked valley) scaled by the profile difficulty, wrapped in
-## the golden-flight rules of `template` (no boss / bonus balloon, own time). No progress → `template` as is.
+## unlocked regular level of the latest valley they have reached) scaled by the profile difficulty,
+## wrapped in the golden-flight rules of `template` (no boss / bonus balloon, own time).
+## Nothing reached → `template` as is.
 
 
 static func build(template: GameConfig, progress: ProgressController, time_sec: float) -> GameConfig:
@@ -30,7 +31,9 @@ static func build(template: GameConfig, progress: ProgressController, time_sec: 
 	return config
 
 
-## `[container_id, level_id]` of the furthest unlocked regular level, `[]` without progress.
+## `[container_id, level_id]` of the furthest unlocked regular level in the latest valley the pilot
+## has reached (exam chain, or any star). A valley open only for the grade, with no stars yet,
+## does not pull the flight forward. `[]` when nothing is reached.
 static func find_frontier(progress: ProgressController) -> Array:
 	if progress == null or progress.levels_config == null:
 		return []
@@ -41,6 +44,8 @@ static func find_frontier(progress: ProgressController) -> Array:
 	for container: Dictionary in containers:
 		var container_id: String = container.get("container_id", "")
 		if not progress.is_container_unlocked(container_id):
+			continue
+		if not progress.is_campaign_unlocked(container_id) and not progress.valley_has_stars(container_id):
 			continue
 		var best: int = -1
 		for level: Dictionary in container.get("levels", []):
