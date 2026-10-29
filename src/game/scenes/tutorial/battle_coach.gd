@@ -5,8 +5,10 @@ extends Node
 ## listens `ev_answers_spawned` / `ev_plane_lane_changed` / `ev_correct_answer`,
 ## commands `ev_pause_answers` / `ev_lock_shoot`. No battle node refs are stored across rounds.
 ##
-## Stages: answers appear → PAUSE + MOVE (practice up/down, balloons frozen)
-## → AIM (correct balloon lit; shooting unlocked only in its lane, so the first shot is right) → DONE.
+## Stages: answers appear → PAUSE + MOVE (practice up/down, balloons frozen; touch scheme shows
+## a finger sliding up and down) → AIM (correct balloon lit; shooting unlocked only in its lane).
+## Touch, once the plane is lined up: the shoot finger appears and the dim opens the whole right
+## half, so a tap anywhere there fires. → DONE.
 ## Signals up: `ev_goal_reached` on the coached correct hit, `ev_finished` after the praise flash.
 
 signal ev_goal_reached
@@ -25,6 +27,9 @@ enum Stage { IDLE, WAIT_ANSWERS, MOVE, AIM, DONE }
 ## Main instruction (no arrow), bottom of the screen.
 @export var coach_hint: TutorialHint
 @export var feedback_hint: TutorialHint
+@export var move_gesture: Texture2D
+@export var shoot_gesture: Texture2D
+@export var finger_gesture: Texture2D
 
 @export_group("Texts")
 @export_multiline var move_text_touch: String = "Пауза! Сначала научимся летать.\nВеди пальцем по левой половине экрана вверх и вниз"
@@ -55,6 +60,7 @@ var _feedback_tween: Tween
 
 
 func _ready() -> void:
+	coach_hint.set_gesture_art(move_gesture, finger_gesture, shoot_gesture, finger_gesture)
 	_hide_hints()
 	feedback_hint.set_active(false)
 	set_process(false)
@@ -143,12 +149,14 @@ func _enter_move() -> void:
 	dim.set_rects([_plane_zone()])
 	dim.set_active(true)
 	coach_hint.text = move_text_touch if AirPlane.is_touch_scheme() else move_text_keys
+	coach_hint.set_gesture_mode(TutorialHint.GESTURE_MOVE if AirPlane.is_touch_scheme() else TutorialHint.GESTURE_NONE)
 	coach_hint.set_active(true)
 	set_process(true)
 
 
 func _enter_aim() -> void:
 	_stage = Stage.AIM
+	coach_hint.set_gesture_mode(TutorialHint.GESTURE_NONE)
 	coach_hint.set_active(false)
 	var banner := anchors.get_control(goal_anchor_id)
 	goal_hint.point_at(banner, Vector2(0.5, 1.0), true, goal_text)
@@ -159,6 +167,8 @@ func _enter_aim() -> void:
 
 func _aim_holes() -> Array[Rect2]:
 	var holes: Array[Rect2] = [_plane_zone(), _lane_rect(_correct_lane)]
+	if _is_aligned() and AirPlane.is_touch_scheme():
+		holes.append(_right_half())
 	var banner := anchors.get_control(goal_anchor_id)
 	if banner != null:
 		holes.append(banner.get_global_rect().grow(hole_margin))
@@ -166,15 +176,22 @@ func _aim_holes() -> Array[Rect2]:
 
 
 func _update_aim() -> void:
-	var aligned := _plane_lane == _correct_lane and _plane_centered
+	var aligned := _is_aligned()
 	game_events.ev_lock_shoot.emit(not aligned)
 	var message := aim_text
+	var gesture := TutorialHint.GESTURE_NONE
 	if aligned:
 		message = shoot_text_touch if AirPlane.is_touch_scheme() else shoot_text_keys
+		if AirPlane.is_touch_scheme():
+			gesture = TutorialHint.GESTURE_SHOOT
 	if coach_hint.text != message or not coach_hint.is_active():
 		coach_hint.set_active(false)
 		coach_hint.text = message
+		coach_hint.set_gesture_mode(gesture)
 		coach_hint.set_active(true)
+	else:
+		coach_hint.set_gesture_mode(gesture)
+	dim.set_rects(_aim_holes())
 
 
 func _process(delta: float) -> void:
@@ -207,6 +224,7 @@ func _on_correct_answer() -> void:
 
 func _hide_hints() -> void:
 	goal_hint.set_active(false)
+	coach_hint.set_gesture_mode(TutorialHint.GESTURE_NONE)
 	coach_hint.set_active(false)
 	dim.set_active(false)
 
@@ -217,6 +235,17 @@ func _plane_zone() -> Rect2:
 	var bottom: Rect2 = _lanes[_lanes.size() - 1]
 	var half := dim.get_viewport_rect().size.x * AirPlane.SCREEN_SPLIT_RATIO
 	return Rect2(0.0, top.position.y, half, bottom.end.y - top.position.y).grow(hole_margin)
+
+
+func _is_aligned() -> bool:
+	return _plane_lane == _correct_lane and _plane_centered
+
+
+## Whole right half — any tap there shoots, once the plane is on the correct lane.
+func _right_half() -> Rect2:
+	var size := dim.get_viewport_rect().size
+	var split := size.x * AirPlane.SCREEN_SPLIT_RATIO
+	return Rect2(split, 0.0, size.x - split, size.y)
 
 
 func _lane_rect(lane: int) -> Rect2:

@@ -13,7 +13,7 @@ content_margin_bottom = 26.0
 resource_local_to_scene = true
 shader = ExtResource("3_cloud")
 
-[node name="TutorialHint" type="Control" node_paths=PackedStringArray("body", "arrow", "bubble", "cloud", "arrow_outline", "label", "button")]
+[node name="TutorialHint" type="Control" node_paths=PackedStringArray("body", "arrow", "bubble", "cloud", "arrow_outline", "label", "button", "gestures", "gesture_move", "gesture_finger_move", "gesture_shoot", "gesture_finger_shoot")]
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
@@ -25,6 +25,11 @@ cloud = NodePath("Body/Cloud")
 arrow_outline = NodePath("Body/Arrow/Outline")
 label = NodePath("Body/Bubble/VBox/Label")
 button = NodePath("Body/Bubble/VBox/Button")
+gestures = NodePath("Body/Bubble/VBox/Gestures")
+gesture_move = NodePath("Body/Bubble/VBox/Gestures/MovePair/Move")
+gesture_finger_move = NodePath("Body/Bubble/VBox/Gestures/MovePair/Finger")
+gesture_shoot = NodePath("Body/Bubble/VBox/Gestures/ShootPair/Shoot")
+gesture_finger_shoot = NodePath("Body/Bubble/VBox/Gestures/ShootPair/Finger")
 
 [node name="Body" type="Control" parent="."]
 anchors_preset = 0
@@ -52,6 +57,61 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_bubble")
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 10
+
+[node name="Gestures" type="HBoxContainer" parent="Body/Bubble/VBox"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 28
+alignment = 1
+
+[node name="MovePair" type="Control" parent="Body/Bubble/VBox/Gestures"]
+custom_minimum_size = Vector2(86, 112)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Move" type="TextureRect" parent="Body/Bubble/VBox/Gestures/MovePair"]
+layout_mode = 0
+offset_top = 12.0
+offset_right = 44.0
+offset_bottom = 100.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Finger" type="TextureRect" parent="Body/Bubble/VBox/Gestures/MovePair"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 32.0
+offset_right = 84.0
+offset_bottom = 80.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ShootPair" type="Control" parent="Body/Bubble/VBox/Gestures"]
+custom_minimum_size = Vector2(108, 72)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Shoot" type="TextureRect" parent="Body/Bubble/VBox/Gestures/ShootPair"]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 64.0
+offset_bottom = 68.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Finger" type="TextureRect" parent="Body/Bubble/VBox/Gestures/ShootPair"]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 12.0
+offset_right = 104.0
+offset_bottom = 60.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Label" type="Label" parent="Body/Bubble/VBox"]
 custom_minimum_size = Vector2(300, 0)
