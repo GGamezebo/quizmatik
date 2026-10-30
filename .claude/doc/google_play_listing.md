@@ -1,6 +1,6 @@
 # Google Play: страница игры на 12 языках
 
-Обновлено: 2026-10-27 («сбивай / shoot» → «лопай / pop» в ru, en, es, id — для оценки Teacher Approved). Тексты ниже готовы к копированию в Play Console. Лимиты Play: название до 30 символов, краткое описание до 80, полное до 4000; все тексты в них укладываются (проверено скриптом).
+Обновлено: 2026-10-31 (абзац «Для родителей» во всех языках: бесплатны две долины по выбранному классу). 2026-10-27: «сбивай / shoot» → «лопай / pop» в ru, en, es, id — для оценки Teacher Approved. Тексты ниже готовы к копированию в Play Console. Лимиты Play: название до 30 символов, краткое описание до 80, полное до 4000; все тексты в них укладываются (проверено скриптом).
 
 ## Как работает «хитрость»
 
@@ -43,7 +43,7 @@
 • Три уровня сложности для 1–4 классов
 
 Для родителей
-Долина сложения, практика и ежедневные задания — бесплатно. Остальные 4 долины открываются одной разовой покупкой (за родительской проверкой). Без рекламы, подписок, чата и регистрации, без сбора личных данных.
+Бесплатно: две долины по программе выбранного класса, практика и ежедневные задания. Остальные долины открываются одной разовой покупкой (за родительской проверкой). Без рекламы, подписок, чата и регистрации, без сбора личных данных.
 
 Работает без интернета. Сделано для детей 7–10 лет.
 
@@ -68,7 +68,7 @@ Jet Math turns math practice into an arcade flight. A problem appears at the top
 • Three difficulty levels for grades 1–4
 
 For parents
-The Addition Valley, practice mode and daily challenges are free. The other 4 valleys unlock with a single one-time purchase (behind a parental check). No ads, no subscriptions, no chat, no sign-up, no personal data collected.
+Free: two valleys matched to the chosen grade, practice mode and daily challenges. The other valleys unlock with a single one-time purchase (behind a parental check). No ads, no subscriptions, no chat, no sign-up, no personal data collected.
 
 Works offline. Made for kids aged 7–10. Game languages: English, Russian, Turkish, Spanish, Portuguese, German, French, Italian, Polish, Ukrainian, Indonesian, Dutch.
 
@@ -93,7 +93,7 @@ Jet Math, matematik alıştırmasını eğlenceli bir uçuşa dönüştürür. Y
 • 1–4. sınıflar için üç zorluk seviyesi
 
 Ebeveynler için
-Toplama Vadisi, alıştırma modu ve günlük görevler ücretsizdir. Diğer 4 vadi tek seferlik bir satın alma ile açılır (ebeveyn kontrolüyle). Reklam, abonelik, sohbet ve kayıt yok; kişisel veri toplanmaz.
+Ücretsiz: seçilen sınıfa uygun iki vadi, alıştırma modu ve günlük görevler. Diğer vadiler tek seferlik bir satın alma ile açılır (ebeveyn kontrolüyle). Reklam, abonelik, sohbet ve kayıt yok; kişisel veri toplanmaz.
 
 İnternetsiz çalışır. 7–10 yaş çocuklar için yapıldı.
 
@@ -118,7 +118,7 @@ Jet Math convierte la práctica de matemáticas en un vuelo arcade. Arriba apare
 • Tres niveles de dificultad para 1.º–4.º de primaria
 
 Para padres
-El Valle de la Suma, el modo práctica y los retos diarios son gratis. Los otros 4 valles se desbloquean con una única compra (protegida por un control parental). Sin anuncios, sin suscripciones, sin chat, sin registro y sin recopilar datos personales.
+Gratis: dos valles según el curso elegido, el modo práctica y los retos diarios. Los demás valles se desbloquean con una única compra (protegida por un control parental). Sin anuncios, sin suscripciones, sin chat, sin registro y sin recopilar datos personales.
 
 Funciona sin internet. Hecho para niños de 7 a 10 años.
 
@@ -143,7 +143,7 @@ Jet Math transforma a prática de matemática em um voo de fliperama. Uma conta 
 • Três níveis de dificuldade do 1º ao 4º ano
 
 Para os pais
-O Vale da Adição, o modo prática e os desafios diários são grátis. Os outros 4 vales são liberados com uma única compra (protegida por verificação dos pais). Sem anúncios, sem assinaturas, sem chat, sem cadastro e sem coleta de dados pessoais.
+Grátis: dois vales de acordo com o ano escolar escolhido, o modo prática e os desafios diários. Os outros vales são liberados com uma única compra (protegida por verificação dos pais). Sem anúncios, sem assinaturas, sem chat, sem cadastro e sem coleta de dados pessoais.
 
 Funciona sem internet. Feito para crianças de 7 a 10 anos.
 
@@ -168,7 +168,7 @@ Jet Math macht aus dem Rechnenüben einen Arcade-Flug. Oben erscheint eine Aufga
 • Drei Schwierigkeitsstufen für die 1.–4. Klasse
 
 Für Eltern
-Das Plus-Tal, der Übungsmodus und die täglichen Aufgaben sind kostenlos. Die anderen 4 Täler werden mit einem einmaligen Kauf freigeschaltet (hinter einer Eltern-Abfrage). Keine Werbung, kein Abo, kein Chat, keine Anmeldung, keine Erhebung persönlicher Daten.
+Kostenlos: zwei Täler passend zur gewählten Klasse, der Übungsmodus und die täglichen Aufgaben. Die anderen Täler werden mit einem einmaligen Kauf freigeschaltet (hinter einer Eltern-Abfrage). Keine Werbung, kein Abo, kein Chat, keine Anmeldung, keine Erhebung persönlicher Daten.
 
 Funktioniert offline. Gemacht für Kinder von 7 bis 10 Jahren.
 
@@ -193,7 +193,7 @@ Jet Math transforme les exercices de maths en un vol d’arcade. Un calcul appar
 • Trois niveaux de difficulté, du CP au CM1
 
 Pour les parents
-La Vallée de l’Addition, le mode entraînement et les défis du jour sont gratuits. Les 4 autres vallées se débloquent avec un achat unique (protégé par un contrôle parental). Sans publicité, sans abonnement, sans chat, sans inscription et sans collecte de données personnelles.
+Gratuit : deux vallées adaptées à la classe choisie, le mode entraînement et les défis du jour. Les autres vallées se débloquent avec un achat unique (protégé par un contrôle parental). Sans publicité, sans abonnement, sans chat, sans inscription et sans collecte de données personnelles.
 
 Fonctionne hors ligne. Conçu pour les enfants de 7 à 10 ans.
 
@@ -218,7 +218,7 @@ Jet Math trasforma l’esercizio di matematica in un volo arcade. In alto compar
 • Tre livelli di difficoltà dalla 1ª alla 4ª elementare
 
 Per i genitori
-La Valle dell’Addizione, l’allenamento e le sfide del giorno sono gratis. Le altre 4 valli si sbloccano con un unico acquisto (protetto da un controllo per adulti). Niente pubblicità, abbonamenti, chat o registrazione, nessun dato personale raccolto.
+Gratis: due valli adatte alla classe scelta, l’allenamento e le sfide del giorno. Le altre valli si sbloccano con un unico acquisto (protetto da un controllo per adulti). Niente pubblicità, abbonamenti, chat o registrazione, nessun dato personale raccolto.
 
 Funziona offline. Pensato per bambini dai 7 ai 10 anni.
 
@@ -243,7 +243,7 @@ Jet Math zamienia ćwiczenie matematyki w zręcznościowy lot. U góry pojawia s
 • Trzy poziomy trudności dla klas 1–4
 
 Dla rodziców
-Dolina Dodawania, trening i codzienne zadania są za darmo. Pozostałe 4 doliny odblokowuje jeden jednorazowy zakup (zabezpieczony kontrolą rodzicielską). Bez reklam, subskrypcji, czatu i rejestracji, bez zbierania danych osobowych.
+Za darmo: dwie doliny dopasowane do wybranej klasy, trening i codzienne zadania. Pozostałe doliny odblokowuje jeden jednorazowy zakup (zabezpieczony kontrolą rodzicielską). Bez reklam, subskrypcji, czatu i rejestracji, bez zbierania danych osobowych.
 
 Działa bez internetu. Stworzone dla dzieci w wieku 7–10 lat.
 
@@ -268,7 +268,7 @@ Jet Math перетворює рахунок на аркадний політ. �
 • Три рівні складності для 1–4 класів
 
 Для батьків
-Долина Додавання, практика й щоденні завдання — безкоштовно. Решта 4 долини відкриваються однією разовою покупкою (за батьківською перевіркою). Без реклами, підписок, чату й реєстрації, без збору особистих даних.
+Безкоштовно: дві долини за програмою обраного класу, практика й щоденні завдання. Решта долин відкривається однією разовою покупкою (за батьківською перевіркою). Без реклами, підписок, чату й реєстрації, без збору особистих даних.
 
 Працює без інтернету. Створено для дітей 7–10 років.
 
@@ -293,7 +293,7 @@ Jet Math mengubah latihan matematika menjadi penerbangan arkade. Soal muncul di 
 • Tiga tingkat kesulitan untuk kelas 1–4
 
 Untuk orang tua
-Lembah Penjumlahan, mode latihan, dan tantangan harian gratis. 4 lembah lainnya terbuka dengan satu kali pembelian (dilindungi pemeriksaan orang tua). Tanpa iklan, tanpa langganan, tanpa obrolan, tanpa pendaftaran, tanpa pengumpulan data pribadi.
+Gratis: dua lembah sesuai kelas yang dipilih, mode latihan, dan tantangan harian. Lembah lainnya terbuka dengan satu kali pembelian (dilindungi pemeriksaan orang tua). Tanpa iklan, tanpa langganan, tanpa obrolan, tanpa pendaftaran, tanpa pengumpulan data pribadi.
 
 Bisa dimainkan tanpa internet. Dibuat untuk anak usia 7–10 tahun.
 
@@ -318,6 +318,6 @@ Jet Math maakt van rekenen oefenen een arcadevlucht. Bovenaan verschijnt een som
 • Drie moeilijkheidsniveaus voor groep 3 t/m 6
 
 Voor ouders
-De Optelvallei, de oefenmodus en de dagelijkse uitdagingen zijn gratis. De andere 4 valleien worden vrijgespeeld met één eenmalige aankoop (achter een oudercontrole). Geen reclame, geen abonnement, geen chat, geen account aanmaken en geen verzameling van persoonsgegevens.
+Gratis: twee valleien die passen bij de gekozen groep, de oefenmodus en de dagelijkse uitdagingen. De andere valleien worden vrijgespeeld met één eenmalige aankoop (achter een oudercontrole). Geen reclame, geen abonnement, geen chat, geen account aanmaken en geen verzameling van persoonsgegevens.
 
 Werkt offline. Gemaakt voor kinderen van 7 tot 10 jaar.
