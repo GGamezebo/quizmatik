@@ -4,9 +4,11 @@
 [ext_resource type="Texture2D" path="res://src/features/answer/pumpkins_atlas.png" id="2_atlas"]
 
 [node name="PumpkinAnswer" instance=ExtResource("1_base")]
+lane_fill_ratio = 1.0
 wind_bob_strength = 8.0
 wind_sway_degrees = 7.0
 wind_pulse_strength = 0.04
+label_body_offset = Vector2(0, 18)
 
 [node name="Sprite2D" parent="Visual" index="0"]
 texture = ExtResource("2_atlas")
