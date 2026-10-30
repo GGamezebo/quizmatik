@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="640" height="140" viewBox="0 0 640 140">
-  <!-- Halloween event banner (main menu event button): night sky card, moon, bats, jack-o'-lantern on the left;
+  <!-- Halloween 2027 event banner (main menu event button, EventWindow.banner of the 2027 run): night sky card, moon, bats, jack-o'-lantern on the left;
        text sits in the middle, the gift box pile on the right. Graphite ink frame, white sticker rim. -->
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">

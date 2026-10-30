@@ -12,9 +12,16 @@
 [ext_resource type="PackedScene" uid="uid://c8halloweenboss01" path="res://src/features/boss/boss_halloween_airship.tscn" id="10_boss"]
 [ext_resource type="PackedScene" uid="uid://c8halloweenwing01" path="res://src/features/boss/boss_halloween_wing.tscn" id="11_wing"]
 [ext_resource type="PackedScene" uid="uid://c8pumpkinanswer1" path="res://src/features/answer/pumpkin_answer.tscn" id="12_answer"]
-[ext_resource type="Texture2D" path="res://src/common/events/halloween/banner.svg" id="13_banner"]
+[ext_resource type="Texture2D" path="res://src/common/events/halloween/banner_moon_castle.png" id="13_banner"]
+[ext_resource type="Script" path="res://src/common/events/event_banner.gd" id="16_banner_script"]
 [ext_resource type="Texture2D" path="res://src/common/events/halloween/box_closed.svg" id="14_box_closed"]
 [ext_resource type="Texture2D" path="res://src/common/events/halloween/box_open.svg" id="15_box_open"]
+
+[sub_resource type="Resource" id="Banner_2026"]
+script = ExtResource("16_banner_script")
+art = ExtResource("13_banner")
+size = Vector2(672, 160)
+title_color = Color(1, 0.7, 0.3, 1)
 
 [resource]
 script = ExtResource("1_script")
@@ -28,7 +35,6 @@ wing_scene = ExtResource("11_wing")
 answer_scene = ExtResource("12_answer")
 chase_minutes_start = 1
 max_chase_minutes = 6
-banner_art = ExtResource("13_banner")
+banner = SubResource("Banner_2026")
 box_closed = ExtResource("14_box_closed")
 box_open = ExtResource("15_box_open")
-title_color = Color(0.98, 0.62, 0.22, 1)

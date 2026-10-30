@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://j8t78o2k12v1"
-path.s3tc="res://.godot/imported/banner.svg-d66ad80cafd002269316a92415e24ea6.s3tc.ctex"
-path.etc2="res://.godot/imported/banner.svg-d66ad80cafd002269316a92415e24ea6.etc2.ctex"
+path.s3tc="res://.godot/imported/banner_haunted_house.svg-d2a3a417b9bd0bd3ae82cf310dde7f17.s3tc.ctex"
+path.etc2="res://.godot/imported/banner_haunted_house.svg-d2a3a417b9bd0bd3ae82cf310dde7f17.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/common/events/halloween/banner.svg"
-dest_files=["res://.godot/imported/banner.svg-d66ad80cafd002269316a92415e24ea6.s3tc.ctex", "res://.godot/imported/banner.svg-d66ad80cafd002269316a92415e24ea6.etc2.ctex"]
+source_file="res://src/common/events/halloween/banner_haunted_house.svg"
+dest_files=["res://.godot/imported/banner_haunted_house.svg-d2a3a417b9bd0bd3ae82cf310dde7f17.s3tc.ctex", "res://.godot/imported/banner_haunted_house.svg-d2a3a417b9bd0bd3ae82cf310dde7f17.etc2.ctex"]
 
 [params]
 

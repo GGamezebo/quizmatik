@@ -59,6 +59,16 @@ func run_cover(window: EventWindow) -> CoverItem:
 	return event.cover if event != null else null
 
 
+## Menu button look of run `window`: its own `EventWindow.banner`, else its event's `banner`.
+func run_banner(window: EventWindow) -> EventBanner:
+	if window == null:
+		return null
+	if window.banner != null:
+		return window.banner
+	var event := get_event(window.event_id)
+	return event.banner if event != null else null
+
+
 ## Event background with id `item_id` (an event's `cover` or a run's own one); null = none.
 func find_cover(item_id: String) -> CoverItem:
 	for cover in _covers():

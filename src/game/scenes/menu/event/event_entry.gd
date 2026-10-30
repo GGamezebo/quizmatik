@@ -3,7 +3,7 @@ extends Control
 
 ## Main-menu seasonal event banner (between the CTA row and the daily scroll; `EventMenuLayout` tightens the column
 ## while it shows). Visible while `events` has a run open now (UTC, `EventCalendar`) and the first flight is done.
-## Look from the `SeasonalEvent`: banner art, title, box art. Days / hours left, re-read every `refresh_sec`
+## Look: the run's `EventBanner` (art, size, title color via `EventCalendar.run_banner`), the event's title and box art. Days / hours left, re-read every `refresh_sec`
 ## (the run ending while the menu is open hides the banner). Gift pile on the right: one box per box not opened yet;
 ## boxes opened by wins fly off when the banner shows again (held while hidden or mounting, like the daily stamps),
 ## then `EventsController.mark_boxes_shown`. Every box open → open box + «+N» (gold per win).
@@ -115,13 +115,17 @@ func _refresh() -> void:
 
 func _apply_look() -> void:
 	title_label.text = _event.title
-	var settings: LabelSettings = title_label.label_settings
-	if settings != null and settings.font_color != _event.title_color:
-		settings = settings.duplicate()
-		settings.font_color = _event.title_color
-		title_label.label_settings = settings
-	if _event.banner_art != null:
-		banner.texture = _event.banner_art
+	var look: EventBanner = events.calendar.run_banner(_window) if events.calendar != null else _event.banner
+	if look != null:
+		var settings: LabelSettings = title_label.label_settings
+		if settings != null and settings.font_color != look.title_color:
+			settings = settings.duplicate()
+			settings.font_color = look.title_color
+			title_label.label_settings = settings
+		if look.art != null:
+			banner.texture = look.art
+		custom_minimum_size = look.size
+		size = look.size
 	for box in boxes:
 		if _event.box_closed != null:
 			box.texture = _event.box_closed

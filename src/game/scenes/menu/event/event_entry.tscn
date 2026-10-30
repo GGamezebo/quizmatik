@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c8evententry0001"]
 
 [ext_resource type="Script" path="res://src/game/scenes/menu/event/event_entry.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://src/common/events/halloween/banner.svg" id="2_banner"]
+[ext_resource type="Texture2D" path="res://src/common/events/halloween/banner_moon_castle.png" id="2_banner"]
 [ext_resource type="Texture2D" path="res://src/common/events/halloween/box_closed.svg" id="3_box"]
 [ext_resource type="Texture2D" path="res://src/common/events/halloween/box_open.svg" id="4_box_open"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="5_shadow"]
@@ -61,11 +61,11 @@ outline_size = 6
 outline_color = Color(0.165, 0.2, 0.251, 1)
 
 [node name="EventEntry" type="Control" node_paths=PackedStringArray("events", "button", "banner", "title_label", "timer_label", "boxes", "done_box", "done_open_box", "done_label", "glow", "pulse")]
-custom_minimum_size = Vector2(640, 140)
+custom_minimum_size = Vector2(672, 160)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 640.0
-offset_bottom = 140.0
+offset_right = 672.0
+offset_bottom = 160.0
 size_flags_horizontal = 4
 mouse_filter = 2
 script = ExtResource("1_script")
@@ -180,14 +180,15 @@ label_settings = SubResource("LabelSettings_timer")
 
 [node name="Pile" type="Control" parent="Box/Button"]
 layout_mode = 1
-anchors_preset = 11
+anchors_preset = 6
 anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -198.0
-offset_top = 8.0
-offset_right = -20.0
-offset_bottom = -8.0
+anchor_bottom = 0.5
+offset_left = -208.0
+offset_top = -62.0
+offset_right = -30.0
+offset_bottom = 62.0
 grow_horizontal = 0
 grow_vertical = 2
 mouse_filter = 2

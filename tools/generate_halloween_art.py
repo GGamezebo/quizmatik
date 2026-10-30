@@ -3,6 +3,8 @@
     python tools/generate_halloween_art.py            # both
     python tools/generate_halloween_art.py pumpkins   # src/features/answer/pumpkins_atlas.png
     python tools/generate_halloween_art.py background # src/ui/backgrounds/halloween_2027/bg_haunted_house.png
+    python tools/generate_halloween_art.py banner     # src/common/events/halloween/banner_moon_castle.png (2026 menu
+                                                      #   banner, cut from the 2026 sky bg_moon_castle.png)
 
 Pumpkins: same layout as `balloons_atlas.png` (1280x720, 5x3 cells of 256x240, body centered where the
 balloon body is, so the answer number sits on it) and the same 15 hues in the same order (`Answer.BALLOON_TINTS`
@@ -429,12 +431,134 @@ def make_background() -> None:
 	print("wrote", os.path.relpath(BACKGROUND_OUT, ROOT))
 
 
+# --- 2026 menu banner (from the 2026 sky picture) ----------------------------------
+
+MOON_CASTLE_SKY = os.path.join(ROOT, "src", "ui", "backgrounds", "halloween", "bg_moon_castle.png")
+BANNER_2026_OUT = os.path.join(ROOT, "src", "common", "events", "halloween", "banner_moon_castle.png")
+# Frame of the menu CTA buttons («ПРИКЛЮЧЕНИЕ» / «ПРАКТИКА»): nine-patch, margins 70 / 60, picture inside the inner line.
+CTA_FRAME = os.path.join(ROOT, "src", "game", "scenes", "menu", "ui", "btn_cta_wide.png")
+CTA_PATCH_X, CTA_PATCH_Y = 70, 60
+# Inner line of that frame ends 23 px from every edge: the picture starts there.
+BANNER_INSET = 23
+# 2x of the on-screen banner (`EventBanner.size` 672x160).
+BANNER_SCALE = 2
+BANNER_W, BANNER_H = 672 * BANNER_SCALE, 160 * BANNER_SCALE
+
+
+def sparkle(draw: ImageDraw.ImageDraw, cx: float, cy: float, r: float) -> None:
+	"""Four-point star like the ones in the 2026 sky."""
+	k = r * 0.28
+	draw.polygon([(cx, cy - r), (cx + k, cy - k), (cx + r, cy), (cx + k, cy + k), (cx, cy + r), (cx - k, cy + k),
+		(cx - r, cy), (cx - k, cy - k)], fill=255)
+
+
+def cta_frame(w: int, h: int, scale: int) -> tuple[np.ndarray, np.ndarray]:
+	"""CTA button frame nine-patched to `w` x `h` (`scale` x the texture): RGBA 0..1 and the inside of its inner line."""
+	tex = Image.open(CTA_FRAME).convert("RGBA")
+	tex = tex.resize((tex.width * scale, tex.height * scale), Image.LANCZOS)
+	mx, my = CTA_PATCH_X * scale, CTA_PATCH_Y * scale
+	tw, th = tex.size
+	xs = [(0, mx, 0, mx), (mx, tw - mx, mx, w - mx), (tw - mx, tw, w - mx, w)]
+	ys = [(0, my, 0, my), (my, th - my, my, h - my), (th - my, th, h - my, h)]
+	out = Image.new("RGBA", (w, h))
+	for sx0, sx1, dx0, dx1 in xs:
+		for sy0, sy1, dy0, dy1 in ys:
+			out.paste(tex.crop((sx0, sy0, sx1, sy1)).resize((dx1 - dx0, dy1 - dy0), Image.LANCZOS), (dx0, dy0))
+	rgba = np.asarray(out, dtype=float) / 255.0
+	# Inside = paper reached from the middle without crossing a dark line.
+	walls = Image.fromarray((((rgba[..., 3] > 0.5) & (rgba[..., :3].mean(axis=2) > 0.5)) * 128).astype(np.uint8), "L").copy()
+	ImageDraw.floodfill(walls, (w // 2, h // 2), 255)
+	inside = (np.asarray(walls) == 255).astype(float)
+	return rgba, inside
+
+
+def make_banner_2026() -> None:
+	"""Menu event button of Halloween 2026: the moonlit castle of `bg_moon_castle.png` on the left, misty violet
+	night for the texts, lavender hills and fog along the bottom, a lit pumpkin; the frame of the menu CTA buttons."""
+	rng = np.random.default_rng(25102026)
+	s = BANNER_SCALE
+	h, w = BANNER_H, BANNER_W
+	inset = BANNER_INSET
+	src = Image.open(MOON_CASTLE_SKY).convert("RGB")
+	yy, xx = np.mgrid[0:h, 0:w].astype(float)
+	# Night sky = the picture's own sky, row by row (same rows as the castle cut below), so the cut melts in.
+	cut = (462, 52, 822, 420)
+	rows = np.asarray(src.crop((830, cut[1], 1060, cut[3])), dtype=float).mean(axis=1) / 255.0
+	rows = np.asarray(Image.fromarray((rows[:, None, :] * 255).astype(np.uint8)).resize((1, h - 2 * inset * s), Image.BILINEAR),
+		dtype=float)[:, 0, :] / 255.0
+	rows = np.stack([np.convolve(np.pad(rows[:, c], 30, mode="edge"), np.ones(61) / 61, "valid") for c in range(3)], 1)
+	rows = np.concatenate([np.repeat(rows[:1], inset * s, 0), rows, np.repeat(rows[-1:], inset * s, 0)])
+	sky = np.repeat(rows[:, None, :], w, 1)
+	sky = sky * (0.93 + 0.14 * fbm(h, w, 6.0, 4, rng)[..., None])
+	canvas = np.clip(sky, 0, 1)
+	# Where the moon of the castle cut sits: its glow spills over the sky.
+	ch = h - 2 * inset * s
+	cw = int(round((cut[2] - cut[0]) * ch / (cut[3] - cut[1])))
+	moon_x = inset * s + (718 - cut[0]) * cw / (cut[2] - cut[0])
+	moon_y = inset * s + (148 - cut[1]) * ch / (cut[3] - cut[1])
+	canvas = canvas + (np.array((0.80, 0.72, 0.84)) - canvas) * (glow(h, w, moon_x, moon_y, 120 * s) * 0.55)[..., None]
+	# Soft painted clouds behind the texts.
+	for cx, cy, rx, ry in ((460, 40, 110, 13), (612, 28, 60, 9), (540, 94, 80, 9)):
+		m = noisy_mask(ellipse_mask(h, w, cx * s, cy * s, rx * s, ry * s), rng, 0.7, 7.0, 10.0)
+		canvas = wash(canvas, m, (0.62, 0.55, 0.80), rng, bloom=0.2, edge=0.12, opacity=0.45, bloom_scale=8.0)
+	# Stars.
+	stars = layer(lambda d, ss: [sparkle(d, x * s * ss, y * s * ss, r * s * ss) for x, y, r in (
+		(214, 32, 3.6), (300, 30, 2.4), (402, 66, 3.0), (530, 60, 3.8), (640, 48, 2.6), (505, 31, 2.2),
+		(355, 40, 2.0), (634, 86, 2.4), (440, 33, 1.8), (590, 100, 2.0))], h, w, 0.6)
+	canvas = canvas + (np.array((1.0, 0.94, 0.74)) - canvas) * stars[..., None] * 0.9
+	# Far hills with little pines, as in the picture.
+	far = hill_mask(h, w, 127 * s, [(250 * s, 12 * s, 90 * s), (500 * s, 9 * s, 120 * s), (660 * s, 14 * s, 80 * s)], rng)
+	pines = layer(lambda d, ss: [d.polygon([((x - 6 * k) * s * ss, (y + 2) * s * ss), ((x - 3 * k) * s * ss, (y - 7 * k) * s * ss),
+		((x - 4.5 * k) * s * ss, (y - 7 * k) * s * ss), (x * s * ss, (y - 17 * k) * s * ss),
+		((x + 4.5 * k) * s * ss, (y - 7 * k) * s * ss), ((x + 3 * k) * s * ss, (y - 7 * k) * s * ss),
+		((x + 6 * k) * s * ss, (y + 2) * s * ss)], fill=255) for x, y, k in (
+		(176, 123, 1.0), (186, 125, 0.8), (232, 116, 1.1), (241, 119, 0.8), (300, 119, 0.9), (318, 121, 0.7),
+		(372, 123, 0.8), (478, 119, 0.9), (488, 122, 0.7))], h, w, 0.8)
+	canvas = wash(canvas, np.maximum(noisy_mask(far, rng, 0.25, 30.0, 1.5), pines), (0.50, 0.42, 0.68), rng,
+		bloom=0.15, edge=0.2, opacity=0.9)
+	near = hill_mask(h, w, 144 * s, [(140 * s, 14 * s, 110 * s), (400 * s, 7 * s, 140 * s), (615 * s, 9 * s, 90 * s)], rng)
+	canvas = wash(canvas, noisy_mask(near, rng, 0.25, 30.0, 2.0), (0.41, 0.34, 0.60), rng, bloom=0.18, edge=0.25)
+	fog = np.clip((yy - 107 * s) / (40 * s), 0, 1) * (0.35 + 0.4 * fbm(h, w, 5.0, 3, rng))
+	canvas = canvas + (np.array((0.86, 0.80, 0.94)) - canvas) * (fog * 0.4)[..., None]
+	# Castle on its hill under the full moon, cut from the picture, melting into the night on the right.
+	crop = src.crop(cut).resize((cw, ch), Image.LANCZOS)
+	piece = np.zeros((h, w, 3))
+	piece[inset * s:inset * s + ch, inset * s:inset * s + cw] = np.asarray(crop, dtype=float) / 255.0
+	d = np.sqrt(((xx - (inset * s + cw * 0.40)) / (cw * 0.62)) ** 2 + ((yy - h * 0.62) / (h * 0.85)) ** 2)
+	fade = np.clip((1.0 - d) / 0.32, 0, 1)
+	fade = np.clip(fade + (fbm(h, w, 10.0, 3, rng) - 0.5) * 0.45 * (fade > 0.02) * (fade < 0.98), 0, 1)
+	fade = blur(fade, 6) * (xx >= inset * s) * (xx < inset * s + cw)
+	canvas = canvas * (1 - fade[..., None]) + piece * fade[..., None]
+	# A lit jack-o'-lantern from the picture between the texts and the gift pile (soft oval cut).
+	pump = src.crop((22, 568, 172, 676))
+	pw = 64 * s
+	ph = int(round(pump.height * pw / pump.width))
+	pump = pump.resize((pw, ph), Image.LANCZOS)
+	px, py = 404 * s, h - inset * s - ph + 6 * s
+	piece = np.zeros((h, w, 3))
+	piece[py:py + ph, px:px + pw] = np.asarray(pump, dtype=float) / 255.0
+	pm = blur(ellipse_mask(h, w, px + pw * 0.5, py + ph * 0.6, pw * 0.4, ph * 0.42), 3)
+	canvas = canvas + (np.array((1.0, 0.75, 0.40)) - canvas) * (glow(h, w, px + pw * 0.5, py + ph * 0.6, 50 * s) * 0.22)[..., None]
+	canvas = canvas * (1 - pm[..., None]) + piece * pm[..., None]
+	# Calm, slightly darker night behind the title / subtitle.
+	shade = glow(h, w, 300 * s, 80 * s, 190 * s) * 0.22
+	canvas = canvas * (1 - shade[..., None])
+	# Frame of the menu CTA buttons; the night fills the inside of its inner line.
+	frame, inside = cta_frame(w, h, s)
+	rgb = frame[..., :3] * (1 - inside[..., None]) + np.clip(canvas, 0, 1) * inside[..., None]
+	out = np.dstack([rgb, frame[..., 3]])
+	Image.fromarray((out * 255).astype(np.uint8), "RGBA").save(BANNER_2026_OUT)
+	print("wrote", os.path.relpath(BANNER_2026_OUT, ROOT))
+
+
 def main() -> None:
-	what = sys.argv[1:] or ["pumpkins", "background"]
+	what = sys.argv[1:] or ["pumpkins", "background", "banner"]
 	if "pumpkins" in what:
 		make_pumpkins()
 	if "background" in what:
 		make_background()
+	if "banner" in what:
+		make_banner_2026()
 
 
 if __name__ == "__main__":

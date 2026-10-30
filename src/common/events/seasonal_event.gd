@@ -28,12 +28,11 @@ extends Resource
 @export var max_chase_minutes: int = 6
 
 @export_group("Look")
-## Menu banner art behind the title (left part = picture, right part = room for the boxes).
-@export var banner_art: Texture2D
+## Menu event button (art, size, title color); a run may bring its own (`EventWindow.banner`).
+@export var banner: EventBanner
 @export var box_closed: Texture2D
 ## Post-battle: the box this win opened.
 @export var box_open: Texture2D
-@export var title_color: Color = Color(0.93, 0.55, 0.16)
 
 
 func box_count() -> int:

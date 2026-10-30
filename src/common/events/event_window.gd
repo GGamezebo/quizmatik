@@ -14,6 +14,8 @@ const DAY_SEC: int = 86400
 @export var end_date: String = ""
 ## This run's own background (battle sky + last-box gift, on sale from this run's start); empty → the event's `cover`.
 @export var cover: CoverItem
+## This run's own menu button look; empty → the event's `banner`.
+@export var banner: EventBanner
 
 
 func start_unix() -> int:
