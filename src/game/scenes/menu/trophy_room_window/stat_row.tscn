@@ -37,11 +37,9 @@ label_settings = SubResource("LabelSettings_row_title")
 text_overrun_behavior = 3
 
 [node name="Value" type="Label" parent="."]
-clip_contents = true
 custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 text = "0"
 label_settings = SubResource("LabelSettings_row_value")
 horizontal_alignment = 2
-text_overrun_behavior = 3

@@ -29,6 +29,7 @@ func initialize(
 ) -> void:
 	if name_label:
 		name_label.text = ValleyTrophyArt.get_short_name(container_id)
+		_fit_name()
 	if progress_label:
 		if is_unlocked:
 			progress_label.text = "%d/%d" % [completed_count, total_count]
@@ -54,6 +55,7 @@ func initialize(
 func initialize_award(award_name: String, award_texture: Texture2D, is_unlocked: bool, with_hint: bool = false) -> void:
 	if name_label:
 		name_label.text = award_name
+		_fit_name()
 	if progress_label:
 		progress_label.text = "10:00" if is_unlocked else "—"
 	if trophy_rect:
@@ -84,6 +86,30 @@ func set_record(seconds: int) -> void:
 func set_expert(earned: bool) -> void:
 	if expert_badge:
 		expert_badge.visible = earned
+
+
+## Long locale names ("Vermenigvuldigen") stay on one line inside the 104px slot.
+func _fit_name() -> void:
+	if name_label == null or name_label.label_settings == null or name_label.text.is_empty():
+		return
+	var font := name_label.label_settings.font
+	if font == null:
+		font = name_label.get_theme_font(&"font")
+	if font == null:
+		return
+	var limit := name_label.custom_minimum_size.x
+	if limit <= 1.0:
+		limit = 104.0
+	var shown := tr(name_label.text)
+	var size := name_label.label_settings.font_size
+	var fitted := size
+	while fitted > 11 and font.get_string_size(shown, HORIZONTAL_ALIGNMENT_LEFT, -1, fitted).x > limit:
+		fitted -= 1
+	if fitted == size:
+		return
+	var settings := name_label.label_settings.duplicate() as LabelSettings
+	settings.font_size = fitted
+	name_label.label_settings = settings
 
 
 func _pulse() -> void:
