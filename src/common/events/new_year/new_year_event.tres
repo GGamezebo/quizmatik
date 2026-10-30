@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="SeasonalEvent" format=3 uid="uid://wf08yrbn4wi8"]
+
+[ext_resource type="Script" path="res://src/common/events/seasonal_event.gd" id="1_script"]
+[ext_resource type="Resource" uid="uid://bmqlwrmpemes2" path="res://src/common/events/new_year/paint_frost.tres" id="2_paint_frost"]
+[ext_resource type="Resource" uid="uid://baeva3p3hthj3" path="res://src/common/events/new_year/trail_snowflakes.tres" id="3_trail_snowflakes"]
+[ext_resource type="Resource" uid="uid://cjhkgryrqub0s" path="res://src/common/events/new_year/shot_snowflakes.tres" id="4_shot_snowflakes"]
+[ext_resource type="Resource" uid="uid://p5jhutv0cwch" path="res://src/common/events/new_year/paint_festive.tres" id="5_paint_festive"]
+[ext_resource type="Resource" uid="uid://b6b04xb51n8we" path="res://src/common/events/new_year/trail_fir_trees.tres" id="6_trail_fir_trees"]
+[ext_resource type="Resource" uid="uid://bk0rtqv7ssi03" path="res://src/common/events/new_year/shot_gifts.tres" id="7_shot_gifts"]
+[ext_resource type="Resource" uid="uid://d3l5x2dr8g6bq" path="res://src/common/events/new_year/cover_new_year.tres" id="8_cover"]
+[ext_resource type="Resource" uid="uid://cai8w2jbyjykx" path="res://src/common/events/new_year/new_year_battle.tres" id="9_battle"]
+[ext_resource type="PackedScene" uid="uid://daqf7005wf4ad" path="res://src/features/boss/boss_new_year_airship.tscn" id="10_boss"]
+[ext_resource type="PackedScene" uid="uid://2kqdhia7wmpa" path="res://src/features/boss/boss_new_year_wing.tscn" id="11_wing"]
+[ext_resource type="Texture2D" path="res://src/common/events/new_year/banner.png" id="13_banner"]
+[ext_resource type="Script" path="res://src/common/events/event_banner.gd" id="16_banner_script"]
+[ext_resource type="Texture2D" path="res://src/common/events/new_year/box_closed.svg" id="14_box_closed"]
+[ext_resource type="Texture2D" path="res://src/common/events/new_year/box_open.svg" id="15_box_open"]
+
+[sub_resource type="Resource" id="Banner_2026"]
+script = ExtResource("16_banner_script")
+art = ExtResource("13_banner")
+size = Vector2(672, 160)
+title_color = Color(1, 0.91, 0.67, 1)
+
+[resource]
+script = ExtResource("1_script")
+id = "new_year"
+title = "Новый год"
+gifts = Array[CosmeticItem]([ExtResource("2_paint_frost"), ExtResource("3_trail_snowflakes"), ExtResource("4_shot_snowflakes"), ExtResource("5_paint_festive"), ExtResource("6_trail_fir_trees"), ExtResource("7_shot_gifts")])
+cover = ExtResource("8_cover")
+battle_template = ExtResource("9_battle")
+boss_scene = ExtResource("10_boss")
+wing_scene = ExtResource("11_wing")
+chase_minutes_start = 1
+max_chase_minutes = 6
+banner = SubResource("Banner_2026")
+box_closed = ExtResource("14_box_closed")
+box_open = ExtResource("15_box_open")

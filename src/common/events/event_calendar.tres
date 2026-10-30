@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://src/common/events/event_banner.gd" id="5_banner_script"]
 [ext_resource type="Texture2D" path="res://src/common/events/halloween/banner_haunted_house.svg" id="6_banner_2027"]
 
+[ext_resource type="Resource" uid="uid://wf08yrbn4wi8" path="res://src/common/events/new_year/new_year_event.tres" id="7_new_year"]
+
 [sub_resource type="Resource" id="Banner_2027"]
 script = ExtResource("5_banner_script")
 art = ExtResource("6_banner_2027")
@@ -197,5 +199,5 @@ end_date = "2036-04-16"
 
 [resource]
 script = ExtResource("1_script")
-events = Array[SeasonalEvent]([ExtResource("3_halloween")])
+events = Array[SeasonalEvent]([ExtResource("3_halloween"), ExtResource("7_new_year")])
 windows = Array[EventWindow]([SubResource("Window_01"), SubResource("Window_02"), SubResource("Window_03"), SubResource("Window_04"), SubResource("Window_05"), SubResource("Window_06"), SubResource("Window_07"), SubResource("Window_08"), SubResource("Window_09"), SubResource("Window_10"), SubResource("Window_11"), SubResource("Window_12"), SubResource("Window_13"), SubResource("Window_14"), SubResource("Window_15"), SubResource("Window_16"), SubResource("Window_17"), SubResource("Window_18"), SubResource("Window_19"), SubResource("Window_20"), SubResource("Window_21"), SubResource("Window_22"), SubResource("Window_23"), SubResource("Window_24"), SubResource("Window_25"), SubResource("Window_26"), SubResource("Window_27"), SubResource("Window_28"), SubResource("Window_29"), SubResource("Window_30")])

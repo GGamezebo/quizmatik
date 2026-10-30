@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://2kqdhia7wmpa"]
+
+[ext_resource type="PackedScene" uid="uid://daqf7005wf4ad" path="res://src/features/boss/boss_new_year_airship.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/new_year_ice.svg" id="2_ice"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/new_year_berry.svg" id="3_berry"]
+
+[node name="BossNewYearWing" instance=ExtResource("1_base")]
+body_variants = Array[Texture2D]([ExtResource("2_ice"), ExtResource("3_berry")])

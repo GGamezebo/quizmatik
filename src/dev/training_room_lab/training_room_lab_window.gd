@@ -62,6 +62,7 @@ const FLIGHT_HINT_LEVEL := 4
 @export var event_win_button: BaseButton
 @export var event_reset_button: BaseButton
 @export var event_status_label: Label
+@export var event_picker: OptionButton
 ## «+30 с» button in timed / staged battles (`UserSettings.debug_time_skip`).
 @export var time_skip_check: CheckBox
 @export var root_events: RootEvents
@@ -146,6 +147,9 @@ func _bind_controls() -> void:
 		event_win_button.pressed.connect(_on_event_win_pressed)
 	if event_reset_button != null:
 		event_reset_button.pressed.connect(_on_event_reset_pressed)
+	if event_picker != null:
+		event_picker.item_selected.connect(_on_event_selected)
+		_refresh_event_picker()
 	if time_skip_check != null:
 		time_skip_check.button_pressed = user_settings != null and user_settings.debug_time_skip
 		time_skip_check.toggled.connect(_on_time_skip_toggled)
@@ -413,6 +417,48 @@ func _on_event_reset_pressed() -> void:
 
 
 ## «Сейчас: Хэллоуин (до 16.11) · побед 2 из 6» / no event running.
+func _refresh_event_picker() -> void:
+	if event_picker == null:
+		return
+	event_picker.clear()
+	event_picker.add_item("По календарю (реальные даты)")
+	event_picker.set_item_metadata(0, "")
+	var events := EventsController.find_in_tree(get_tree())
+	if events == null or events.calendar == null:
+		event_picker.disabled = true
+		return
+	event_picker.disabled = false
+	var calendar: EventCalendar = events.calendar
+	var runs: Array[EventWindow] = []
+	for window in calendar.windows:
+		if window != null and (window.end_unix() > EventCalendar.now_unix() or window == calendar.debug_window()):
+			runs.append(window)
+	runs.sort_custom(func(a: EventWindow, b: EventWindow) -> bool: return a.start_unix() < b.start_unix())
+	for window in runs:
+		var event := calendar.get_event(window.event_id)
+		var title: String = event.title if event != null else window.event_id
+		var label: String = "%s · %s — %s" % [title, window.start_date, window.end_date]
+		if window.contains(EventCalendar.now_unix()):
+			label += " · текущий"
+		if event == null:
+			label += " · нет контента"
+		var index: int = event_picker.item_count
+		event_picker.add_item(label)
+		event_picker.set_item_metadata(index, window.key())
+		event_picker.set_item_disabled(index, event == null)
+		if window == calendar.debug_window():
+			event_picker.select(index)
+
+
+func _on_event_selected(index: int) -> void:
+	var events := EventsController.find_in_tree(get_tree())
+	if events == null or events.calendar == null:
+		return
+	if events.calendar.set_debug_window(String(event_picker.get_item_metadata(index))):
+		_refresh_event_status()
+		_notify_progress_changed()
+
+
 func _refresh_event_status() -> void:
 	if event_status_label == null:
 		return

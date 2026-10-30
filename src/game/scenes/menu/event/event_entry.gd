@@ -96,7 +96,8 @@ func refresh() -> void:
 func _refresh() -> void:
 	_window = events.active_window() if events != null else null
 	_event = events.event_of(_window) if events != null else null
-	var shown: bool = _event != null and progress != null and progress.is_first_flight_done()
+	var preview: bool = events != null and events.calendar != null and events.calendar.debug_window() != null
+	var shown: bool = _event != null and (preview or (progress != null and progress.is_first_flight_done()))
 	visible = shown
 	if not shown:
 		_sync_motion()
@@ -137,7 +138,7 @@ func _apply_look() -> void:
 
 ## Days / hours (last day: hours / minutes) until the run ends.
 func _update_timer() -> void:
-	var left: int = maxi(_window.end_unix() - EventCalendar.now_unix(), 0)
+	var left: int = maxi(_window.end_unix() - events.calendar.current_unix(), 0)
 	@warning_ignore("integer_division")
 	var days: int = left / 86400
 	@warning_ignore("integer_division")

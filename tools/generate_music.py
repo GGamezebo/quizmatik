@@ -811,6 +811,42 @@ def halloween_theme() -> tuple[np.ndarray, float]:
 	return loop_only(lm, bars * 4 * beat, t60=2.1, wet_ratio=0.38)
 
 
+def new_year_theme() -> tuple[np.ndarray, float]:
+	"""Original 16-bar winter loop: music-box melody, bells, plucked arpeggios, light sleigh rhythm."""
+	global rng
+	rng = np.random.default_rng(25122026)
+	bpm = 116.0
+	beat = 60.0 / bpm
+	lm = Mix(16 * 4 * beat + TAIL_SEC, bpm)
+	progression = [("D", False), ("G", False), ("B", True), ("A", False),
+		("D", False), ("G", False), ("E", True), ("A", False)] * 2
+	melody = [
+		[("F#5", .5), ("A5", .5), ("D6", 1), ("A5", 1), ("F#5", 1)],
+		[("G5", 1), ("B5", .5), ("A5", .5), ("G5", 1), ("D5", 1)],
+		[("F#5", .5), ("B5", .5), ("D6", 1), ("C#6", 1), ("B5", 1)],
+		[("A5", 1.5), ("E5", .5), ("C#5", 1), ("-", 1)],
+		[("D5", .5), ("F#5", .5), ("A5", 1), ("F#5", .5), ("E5", .5), ("D5", 1)],
+		[("B5", 1), ("A5", .5), ("G5", .5), ("D6", 1), ("B5", 1)],
+		[("G5", .5), ("F#5", .5), ("E5", 1), ("B5", 1), ("G5", 1)],
+		[("E5", 1), ("C#5", 1), ("D5", 1.5), ("-", .5)],
+	]
+	def celesta(f, d):
+		return bell(f, music_box=True)
+	for bar, (root, minor) in enumerate(progression):
+		b, voicing, arp = chord(root, minor)
+		for note in voicing:
+			lm.add(_pad(hz(note), 4 * beat), lm.sec(bar), .075, pan=-.2, send=.5)
+		place_melody(lm, bar, melody[bar % 8], celesta, gain=.22, pan=.18, send=.4)
+		for i, idx in enumerate([0, 1, 2, 3, 4, 3, 2, 1]):
+			lm.add(_pluck(hz(arp[idx]), .4 * beat), lm.sec(bar, i * .5), .09, pan=-.4, send=.25)
+		for st in (0, 2):
+			lm.add(bass(hz(b), .7 * beat), lm.sec(bar, st), .3, send=.05)
+		_drum_bar(lm, bar, kicks=(0, 2), snares=(1, 3), clap_gain=.045, shaker_gain=.065)
+		if bar >= 8:
+			lm.add(bell(hz(arp[2] + 12), music_box=True), lm.sec(bar, 3.5), .065, pan=.5, send=.45)
+	return loop_only(lm, 16 * 4 * beat, t60=2.0, wet_ratio=.32)
+
+
 def main() -> None:
 	"""All themes, or only the files named on the command line (e.g. `halloween_music.ogg`)."""
 	themes = (
@@ -820,6 +856,7 @@ def main() -> None:
 		("exam_music.ogg", exam_theme, 4),
 		("boss_music.ogg", boss_theme, 4),
 		("halloween_music.ogg", halloween_theme, 4),
+		("new_year_music.ogg", new_year_theme, 4),
 	)
 	only = set(sys.argv[1:])
 	for name, fn, quality in themes:

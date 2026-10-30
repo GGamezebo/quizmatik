@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CoverItem" format=3 uid="uid://d3l5x2dr8g6bq"]
+
+[ext_resource type="Script" path="res://src/common/cosmetics/cover_item.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://d1lo56yi4ily4" path="res://src/ui/backgrounds/new_year/new_year_background.tscn" id="2_scene"]
+[ext_resource type="Texture2D" path="res://src/ui/backgrounds/new_year/bg_winter_village.svg" id="3_icon"]
+
+[resource]
+script = ExtResource("1_script")
+id = "cover_new_year"
+title = "Зимняя сказка"
+gold_cost = 50
+icon = ExtResource("3_icon")
+scene = ExtResource("2_scene")

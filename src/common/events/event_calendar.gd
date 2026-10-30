@@ -8,6 +8,29 @@ extends Resource
 @export var events: Array[SeasonalEvent] = []
 @export var windows: Array[EventWindow] = []
 
+## Editor-only preview, shared by calendar readers; never saved to the resource/profile.
+var _debug_window_key: String = ""
+
+
+func debug_window() -> EventWindow:
+	return find_window(_debug_window_key) if OS.has_feature("editor") else null
+
+
+func set_debug_window(key: String) -> bool:
+	if not OS.has_feature("editor"):
+		return false
+	var window := find_window(key)
+	if not key.is_empty() and (window == null or get_event(window.event_id) == null):
+		return false
+	_debug_window_key = key
+	return true
+
+
+## Preview uses a time inside the selected run; explicit historical queries stay real.
+func current_unix() -> int:
+	var window := debug_window()
+	return clampi(now_unix(), window.start_unix(), window.end_unix() - 1) if window != null else now_unix()
+
 
 ## UTC unix seconds now.
 static func now_unix() -> int:
@@ -16,6 +39,8 @@ static func now_unix() -> int:
 
 ## Run open at `unix` (-1 = now) whose event has content; null = no event.
 func active_window(unix: int = -1) -> EventWindow:
+	if unix < 0 and debug_window() != null:
+		return debug_window()
 	var at: int = now_unix() if unix < 0 else unix
 	for window in windows:
 		if window != null and window.contains(at) and get_event(window.event_id) != null:

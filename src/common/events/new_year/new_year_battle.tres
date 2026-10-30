@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="GameConfig" format=3 uid="uid://cai8w2jbyjykx"]
+
+[ext_resource type="Script" path="res://src/common/game_config_default.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+answer_lines_count = 4
+health = 3
+questions_count = 30
+allowed_operations = 1
+min_generate_number = 1
+max_generate_number = 9
+answer_speed = 60.0
+review_chance = 0.2
+streak_heal_every = 0
+time_limit_sec = 60.0
+endless_step_sec = 7.5
+endless_boss_every_sec = 0.0
+endless_speed_start = 60.0
+endless_speed_max = 84.0
+endless_speed_max_sec = 60.0
+endless_speed_curve = 1.0
+endless_heart_every_sec = 60.0
+chase = true
+timed_chase = true
+chase_answer_px = 1000.0
+chase_head_start = 1.3
+timed_boss_chance = 1.0
+boss_armor = 6
+boss_rage_hits = 15

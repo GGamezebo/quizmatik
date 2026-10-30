@@ -83,7 +83,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "grant_stamp_button", "advance_day_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons", "expert_buttons", "hint_buttons", "event_win_button", "event_reset_button", "event_status_label", "time_skip_check")]
+[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "grant_stamp_button", "advance_day_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons", "expert_buttons", "hint_buttons", "event_win_button", "event_reset_button", "event_status_label", "event_picker", "time_skip_check")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -129,6 +129,7 @@ exam_buttons = [NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBo
 exam_container_ids = Array[String](["addition", "subtraction", "multiplication", "division", "mix"])
 event_win_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/EventButtons/EventWin")
 event_reset_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/EventButtons/EventReset")
+event_picker = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/EventPicker")
 event_status_label = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/Header/Texts/Subtitle")
 time_skip_check = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/TimeSkip")
 expert_buttons = [NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertAddition"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertSubtraction"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertMultiplication"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertDivision"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertMix")]
@@ -720,6 +721,16 @@ theme_override_colors/font_color = Color(0.45, 0.48, 0.52, 1)
 theme_override_fonts/font = ExtResource("4_font")
 theme_override_font_sizes/font_size = 13
 text = "Сейчас: Хэллоуин"
+
+[node name="EventPicker" type="OptionButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 14
+text = "По календарю (реальные даты)"
+fit_to_longest_item = false
+clip_text = true
 
 [node name="EventButtons" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent"]
 layout_mode = 2
