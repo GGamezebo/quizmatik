@@ -17,7 +17,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
-TAKES = {"battle": HERE / "battle_autopilot.gd", "trophy": HERE / "trophy_room.gd"}
+TAKES = {
+    "battle": HERE / "battle_autopilot.gd",
+    "trophy": HERE / "trophy_room.gd",
+    "looks": HERE / "looks.gd",
+    "boards": HERE / "boards.gd",
+}
 DEFAULT_GODOT = Path("D:/Godot/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe")
 
 
@@ -47,6 +52,11 @@ def main() -> None:
     p.add_argument("--trail", default="trail_rainbow")
     p.add_argument("--shot", default="shot_rainbow")
     p.add_argument("--battle", default="", help='JSON GameConfig overrides, e.g. {"questions_count":5}')
+    p.add_argument("--battle-file", default="", help="JSON file of GameConfig overrides (instead of --battle)")
+    p.add_argument("--max-sec", default="", help="stop the take at this time (endless battles)")
+    p.add_argument("--mute-music", action="store_true", help="record SFX only; music is added in compose")
+    p.add_argument("--think", type=float, default=0.0, help="seconds the bot weaves lanes before the shot")
+    p.add_argument("--think-at", type=int, default=0, help="which answer wave gets --think (0 = first)")
     p.add_argument("--expert", default="", help="valley id: record that valley's expert trial («? + ? = N»)")
     p.add_argument("--tap-at", default="", help="trophy: seconds before the finger taps")
     p.add_argument("--end-at", default="", help="trophy: take length in seconds")
@@ -60,14 +70,23 @@ def main() -> None:
     if out.is_relative_to(ROOT / "bin" / "trailer") and not gdignore.exists():
         gdignore.touch()  # Godot must not import work PNGs/AVIs
 
-    if a.battle:
-        json.loads(a.battle)  # fail early on bad JSON
+    battle_json = a.battle
+    if a.battle_file:
+        battle_path = Path(a.battle_file)
+        if not battle_path.is_absolute():
+            battle_path = ROOT / battle_path
+        battle_json = battle_path.read_text(encoding="utf-8")
+    if battle_json:
+        json.loads(battle_json)  # fail early on bad JSON
     env = dict(os.environ)
     env.update({
         "TRAILER_SEED": str(a.seed), "TRAILER_LOCALE": a.locale, "TRAILER_VALLEY": a.valley,
         "TRAILER_PLANE": a.plane, "TRAILER_PAINT": a.paint, "TRAILER_TRAIL": a.trail,
-        "TRAILER_SHOT": a.shot, "TRAILER_BATTLE": a.battle, "TRAILER_EXPERT": a.expert,
+        "TRAILER_SHOT": a.shot, "TRAILER_BATTLE": battle_json, "TRAILER_EXPERT": a.expert,
         "TRAILER_TAP_AT": a.tap_at, "TRAILER_END_AT": a.end_at,
+        "TRAILER_MAX_SEC": a.max_sec, "TRAILER_MUTE_MUSIC": "1" if a.mute_music else "",
+        "TRAILER_THINK": "" if a.think <= 0 else str(a.think),
+        "TRAILER_THINK_AT": str(a.think_at),
     })
     w, h = a.size.lower().split("x")
     override = ROOT / "override.cfg"
@@ -84,7 +103,7 @@ def main() -> None:
         override.unlink(missing_ok=True)
     log = res.stdout + res.stderr
     for line in log.splitlines():
-        if "SCRIPT ERROR" in line or "recording movie" in line or "frames at" in line:
+        if any(key in line for key in ("SCRIPT ERROR", "Parse Error", "recording movie", "frames at", "TRAILER")):
             print(line)
     if res.returncode != 0 or not out.exists():
         print(log[-3000:])

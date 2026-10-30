@@ -1,0 +1,58 @@
+{
+  "out": "store/videos/en/jetmath_ad_30s_1080p.mp4",
+  "size": [1920, 1080],
+  "fps": 60,
+  "xfade": 0.2,
+  "fade_out": 0.4,
+  "audio_fade": 0.28,
+  "bed": true,
+  "music": "src/features/music/battle_music.ogg",
+  "music_volume": 0.42,
+  "sfx_volume": 1.0,
+  "voice_volume": 1.05,
+  "stinger": "bin/trailer/end_chord.wav",
+  "stinger_from_end": 1.35,
+  "stinger_volume": 0.55,
+  "voice_cues": [
+    {"id": "hook", "at": 0.12, "src": "bin/trailer/voice/en_1.wav"},
+    {"id": "play1", "at": 0.06, "src": "bin/trailer/voice/en_2.wav"},
+    {"id": "boss", "at": 0.10, "src": "bin/trailer/voice/en_3.wav"},
+    {"id": "looks", "at": 0.16, "src": "bin/trailer/voice/en_4.wav"},
+    {"id": "valleys", "at": 0.08, "src": "bin/trailer/voice/en_5.wav"},
+    {"id": "parents", "at": 0.12, "src": "bin/trailer/voice/en_6.wav"},
+    {"id": "end", "at": 0.18, "src": "bin/trailer/voice/en_7.wav"}
+  ],
+  "segments": [
+    {"id": "hook", "src": "bin/trailer/ad_hook_en.avi", "from": 2.15, "to": 5.20, "audio": "source",
+     "captions": [{"kind": "doodle", "text": "Math? Shoot!", "px": 132, "y": 990, "hop": true, "at": [0.05, 2.95]}]},
+
+    {"id": "play1", "src": "bin/trailer/ad_play_en.avi", "from": 3.50, "to": 5.15, "audio": "source", "transition": "wipeleft",
+     "captions": [{"kind": "doodle", "text": "+  −  ×  ÷", "px": 124, "y": 1005, "fade": 0, "at": [0.0, 1.65]}]},
+    {"id": "play2", "src": "bin/trailer/ad_playb_en.avi", "from": 5.90, "to": 7.55, "audio": "source", "transition": "hblur",
+     "captions": [{"kind": "doodle", "text": "+  −  ×  ÷", "px": 124, "y": 1005, "fade": 0, "at": [0.0, 1.65]}]},
+    {"id": "play3", "src": "bin/trailer/ad_play_en.avi", "from": 9.85, "to": 11.50, "audio": "source", "transition": "wipeleft",
+     "captions": [{"kind": "doodle", "text": "+  −  ×  ÷", "px": 124, "y": 1005, "fade": 0, "at": [0.0, 1.65]}]},
+
+    {"id": "boss", "src": "bin/trailer/ad_boss_en.avi", "from": 13.05, "to": 15.75, "audio": "source", "transition": "circleopen", "music_volume": 0.46,
+     "captions": [{"kind": "doodle", "text": "Beat the boss!", "px": 124, "y": 980, "hop": true, "at": [0.05, 2.6]}]},
+
+    {"id": "looks", "src": "bin/trailer/ad_looks_ru.avi", "from": 0.0, "to": 7.40, "speed": 1.8, "audio": "music", "transition": "hblur", "music_volume": 0.5,
+     "captions": [{"kind": "doodle", "text": "Build your plane!", "px": 112, "y": 88, "fade": 0, "hop": true, "at": [0.04, 4.11]}]},
+    {"id": "covers", "src": "bin/trailer/ad_looks_ru.avi", "from": 7.40, "to": 9.82, "speed": 1.2, "audio": "music", "transition": "hblur", "music_volume": 0.5,
+     "captions": [{"kind": "doodle", "text": "Build your plane!", "px": 112, "y": 88, "fade": 0, "at": [0.0, 2.02]}]},
+
+    {"id": "valleys", "src": "bin/trailer/ad_boards_en.avi", "from": 0.0, "to": 4.75, "speed": 1.55, "audio": "music", "transition": "wipeleft",
+     "captions": [{"kind": "doodle", "text": "5 valleys", "px": 130, "y": 108, "hop": true, "at": [0.02, 2.95]}]},
+    {"id": "trophy", "src": "bin/trailer/ad_boards_en.avi", "from": 10.30, "to": 11.35, "audio": "music", "transition": "fade"},
+
+    {"id": "parents", "src": "bin/trailer/ad_boards_en.avi", "from": 4.85, "to": 10.05, "audio": "music", "transition": "fade", "music_volume": 0.26,
+     "captions": [{"kind": "pill", "text": ["Mental math · ages 7–10", "Three levels · a report for parents"], "px": 48, "y": 1000, "at": [0.15, 5.05]}]},
+    {"id": "daily", "src": "bin/trailer/ad_boards_en.avi", "from": 14.40, "to": 17.73, "audio": "source", "transition": "fade", "music_volume": 0.28, "sfx_volume": 1.15},
+
+    {"id": "end", "src": "bin/trailer/ad_looks_ru.avi", "from": 9.82, "to": 12.55, "audio": "music", "transition": "circleopen", "music_volume": 0.62,
+     "captions": [
+       {"kind": "doodle", "text": "Jet Math", "px": 160, "y": 200, "hop": true, "at": [0.05, 2.7]},
+       {"kind": "pill", "text": "Math at jet speed. Ages 7–10.", "px": 52, "y": 980, "at": [0.15, 2.7]}
+     ]}
+  ]
+}

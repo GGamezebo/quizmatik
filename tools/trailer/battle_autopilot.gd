@@ -7,6 +7,7 @@ extends SceneTree
 ## TRAILER_EXPERT (valley id → that valley's expert trial via `ExpertScenario`; the bot shoots both hidden numbers in order),
 ## TRAILER_PAIR_MISS (1 → every 2nd expert round the bot shoots a wrong second number),
 ## TRAILER_COACH (1 → in-memory pilot with that valley's exam passed + the tutorial context: coached first expert round).
+## TRAILER_THINK (seconds) + TRAILER_THINK_AT (spawn index): that wave the bot weaves lanes, then shoots.
 
 const GAME_SCENE := "res://src/game/scenes/game/game.tscn"
 ## Short showcase battle: 3 questions → royal boss (2 plates, 3 rage shots) ≈ 28 s at seed 7.
@@ -39,6 +40,13 @@ var last_shot: float = -10.0
 var tap_frames: int = 0
 var done_at: float = -1.0
 var react_delay: float = 0.35
+var think_sec: float = 0.0
+var think_at: int = 0
+var spawn_i: int = 0
+var wander: bool = false
+var max_sec: float = 0.0
+## Re-applied on the first frame: `game.initialize` clears `review_facts` from the empty isolated payload.
+var _review_facts: Dictionary = {}
 ## Expert round: hidden numbers in order and how many are already shot.
 var pair_targets: Array = []
 var pair_index: int = 0
@@ -53,6 +61,13 @@ func _initialize() -> void:
 		TranslationServer.set_locale(_env("TRAILER_LOCALE", ""))
 	for i in AudioServer.bus_count:
 		AudioServer.set_bus_mute(i, false)
+	if _env("TRAILER_MUTE_MUSIC", "") == "1":
+		var music_bus := AudioServer.get_bus_index("Music")
+		if music_bus >= 0:
+			AudioServer.set_bus_mute(music_bus, true)
+	max_sec = float(_env("TRAILER_MAX_SEC", "0"))
+	think_sec = float(_env("TRAILER_THINK", "0"))
+	think_at = int(_env("TRAILER_THINK_AT", "0"))
 
 	var cfg: GameConfig = load("res://src/game/scenes/game/game_config.tres")
 	var overrides: Dictionary = BATTLE_DEFAULTS.duplicate()
@@ -60,6 +75,8 @@ func _initialize() -> void:
 	if _env("TRAILER_BATTLE", "") != "":
 		user_overrides = JSON.parse_string(_env("TRAILER_BATTLE", ""))
 		overrides.merge(user_overrides, true)
+		if user_overrides.has("review_facts") and user_overrides["review_facts"] is Dictionary:
+			_review_facts = user_overrides["review_facts"]
 	for key in overrides:
 		cfg.set(key, overrides[key])
 	if _env("TRAILER_EXPERT", "") != "":
@@ -122,12 +139,21 @@ func _on_answers_spawned(_answers: Array, correct_value: int, _lanes: Array, _mi
 	target_value = correct_value
 	pair_targets = []
 	spawned_at = t
-	react_delay = randf_range(0.12, 0.3)
+	wander = think_sec > 0.0 and spawn_i == think_at
+	react_delay = think_sec if wander else randf_range(0.12, 0.3)
+	spawn_i += 1
+	print("TRAILER spawn %d delay %.2f answer %d" % [spawn_i, react_delay, correct_value])
 
 
 func _process(delta: float) -> bool:
 	t += delta
 	frame_no += 1
+	if max_sec > 0.0 and t >= max_sec:
+		return true
+	if frame_no == 1 and not _review_facts.is_empty() and game != null:
+		var live: GameConfig = game.get("game_config")
+		if live != null:
+			live.review_facts = _review_facts
 	if frame_no == 3:
 		_apply_look()
 	if tap_frames > 0:
@@ -140,15 +166,25 @@ func _process(delta: float) -> bool:
 		_release_move()
 		return false
 
+	# Weave before a target exists: balloons are still off the right edge during the pause.
+	if wander and t - spawned_at < react_delay:
+		if t - spawned_at < react_delay - 0.45:
+			if fmod(t - spawned_at, 1.1) < 0.55:
+				Input.action_press("ui_up")
+				Input.action_release("ui_down")
+			else:
+				Input.action_press("ui_down")
+				Input.action_release("ui_up")
+		else:
+			_release_move()
+		return false
+
 	var target := _find_target()
 	if target == null:
 		_release_move()
 		return false
 
 	var dy: float = target.global_position.y - plane.global_position.y
-	if t - spawned_at < react_delay and not _is_boss(target):
-		_release_move()
-		return false
 	if absf(dy) > 9.0:
 		Input.action_press("ui_down" if dy > 0 else "ui_up")
 		Input.action_release("ui_up" if dy > 0 else "ui_down")

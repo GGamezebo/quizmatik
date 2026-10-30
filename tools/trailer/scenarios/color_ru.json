@@ -1,0 +1,68 @@
+{
+  "out": "store/videos/ru/color_30s_1080p.mp4",
+  "size": [1920, 1080],
+  "fps": 60,
+  "xfade": 0.18,
+  "fade_out": 0.35,
+  "audio_fade": 0.32,
+  "bed": true,
+  "music": "bin/trailer/ambient_bed.ogg",
+  "music_volume": 0.82,
+  "sfx_volume": 0.16,
+  "sfx_fx": "lowpass=f=1100,acompressor=threshold=0.22:ratio=6:attack=3:release=80:makeup=1",
+  "stinger": "bin/trailer/end_chord.wav",
+  "stinger_from_end": 1.15,
+  "stinger_volume": 0.16,
+  "segments": [
+    {"id": "hook", "src": "bin/trailer/color_hook_ru.avi", "from": 3.70, "to": 5.40, "audio": "source", "music_fade": 0.45,
+     "captions": [{"kind": "doodle", "text": "Реши — и раскрась небо!", "px": 84, "y": 1004, "hop": true, "fade": 0, "at": [0.22, 1.70]}]},
+    {"id": "hook_pop", "src": "bin/trailer/color_hook_ru.avi", "from": 5.40, "to": 6.82, "audio": "source", "xfade": 0.08, "music_fade": 0,
+     "captions": [{"kind": "doodle", "text": "Реши — и раскрась небо!", "px": 84, "y": 1004, "fade": 0, "at": [0.0, 1.42]}]},
+
+    {"id": "add", "src": "bin/trailer/color_add_ru.avi", "from": 4.20, "to": 5.55, "audio": "source", "transition": "circleopen",
+     "captions": [{"kind": "doodle", "text": "+   −   ×   ÷", "px": 92, "y": 1010, "hop": true, "fade": 0, "at": [0.0, 1.35]}]},
+    {"id": "sub", "src": "bin/trailer/color_sub_ru.avi", "from": 3.95, "to": 5.30, "audio": "source", "transition": "circleopen",
+     "captions": [{"kind": "doodle", "text": "+   −   ×   ÷", "px": 92, "y": 1010, "hop": true, "fade": 0, "at": [0.0, 1.35]}]},
+    {"id": "div", "src": "bin/trailer/color_div_ru.avi", "from": 3.75, "to": 5.10, "audio": "source", "transition": "circleopen",
+     "captions": [{"kind": "doodle", "text": "+   −   ×   ÷", "px": 92, "y": 1010, "hop": true, "fade": 0, "at": [0.0, 1.35]}]},
+    {"id": "mix", "src": "bin/trailer/color_mix_ru.avi", "from": 11.70, "to": 13.20, "audio": "source", "transition": "circleopen",
+     "captions": [{"kind": "doodle", "text": "+   −   ×   ÷", "px": 92, "y": 1010, "hop": true, "fade": 0, "at": [0.0, 1.50]}]},
+
+    {"id": "chase", "src": "bin/trailer/color_chase_ru.avi", "from": 5.45, "to": 7.95, "audio": "source", "transition": "fade",
+     "music_fade": 0,
+     "captions": [{"kind": "doodle", "text": "Не отдавай краски!", "px": 78, "y": 1030, "hop": true, "at": [0.08, 2.45]}]},
+
+    {"id": "boss", "src": "bin/trailer/color_boss_ru.avi", "from": 4.95, "to": 6.30, "audio": "source", "transition": "circleopen",
+     "music_fade": 0},
+    {"id": "plates", "src": "bin/trailer/color_boss_ru.avi", "from": 8.55, "to": 10.40, "audio": "source", "transition": "fade", "xfade": 0.12,
+     "music_fade": 0},
+    {"id": "rage", "src": "bin/trailer/color_boss_ru.avi", "from": 13.55, "to": 14.85, "speed": 0.62, "audio": "source", "transition": "fade", "xfade": 0.12,
+     "music_fade": 0,
+     "captions": [{"kind": "doodle", "text": "Одолей дирижабль!", "px": 72, "y": 1030, "fade": 0, "at": [0.12, 1.88]}]},
+    {"id": "fall", "src": "bin/trailer/color_boss_ru.avi", "from": 15.75, "to": 17.10, "audio": "source", "transition": "fade", "xfade": 0.12,
+     "music_fade": 0},
+    {"id": "fly", "src": "bin/trailer/color_boss_ru.avi", "from": 17.40, "to": 18.50, "audio": "source", "transition": "fade", "xfade": 0.12,
+     "music_fade": 0},
+
+    {"id": "looks", "src": "bin/trailer/color_looks_ru.avi", "from": 0.0, "to": 5.40, "speed": 1.85, "audio": "music", "transition": "hblur", "music_volume": 0.82,
+     "captions": [{"kind": "doodle", "text": "Собери свой самолёт!", "px": 84, "y": 96, "hop": true, "fade": 0, "at": [0.04, 2.88]}]},
+
+    {"id": "valleys", "src": "bin/trailer/color_boards_ru.avi", "from": 0.05, "to": 4.50, "speed": 2.20, "audio": "music", "transition": "wipeleft",
+     "captions": [{"kind": "doodle", "text": "5 долин · 100 уровней · экзамены и кубки", "px": 52, "y": 118, "hop": true, "fade": 0, "at": [0.02, 1.98]}]},
+    {"id": "hall", "src": "bin/trailer/color_boards_ru.avi", "from": 10.25, "to": 11.45, "audio": "music", "transition": "fade"},
+
+    {"id": "facts", "src": "bin/trailer/color_trophy_ru.avi", "from": 1.55, "to": 3.75, "audio": "music", "transition": "fade", "music_volume": 0.78,
+     "captions": [{"kind": "pill", "text": ["Трудные примеры игра повторяет,", "пока они не станут лёгкими"], "px": 40, "y": 1004, "fade": 0, "at": [0.12, 2.15]}]},
+    {"id": "again", "src": "bin/trailer/color_bright_ru.avi", "from": 12.55, "to": 14.05, "audio": "source", "transition": "circleopen", "music_volume": 0.78,
+     "captions": [{"kind": "pill", "text": ["Трудные примеры игра повторяет,", "пока они не станут лёгкими"], "px": 40, "y": 1004, "fade": 0, "at": [0.0, 1.48]}]},
+    {"id": "parents", "src": "bin/trailer/color_boards_ru.avi", "from": 5.15, "to": 7.45, "audio": "music", "transition": "fade", "music_volume": 0.74,
+     "captions": [{"kind": "pill", "text": "1–4 класс · три уровня сложности · отчёт для родителей", "px": 38, "y": 1022, "at": [0.12, 2.20]}]},
+
+    {"id": "end", "src": "bin/trailer/color_looks_ru.avi", "from": 5.55, "to": 7.80, "audio": "music", "transition": "circleopen",
+     "music_fade": 0, "music_volume": 0.9,
+     "captions": [
+       {"kind": "doodle", "text": "Улётная математика", "px": 100, "y": 168, "hop": true, "at": [0.06, 2.15]},
+       {"kind": "pill", "text": ["Каждый ответ — в цвет!", "Тренажёр счёта для 1–4 класса"], "px": 44, "y": 900, "at": [0.22, 2.15]}
+     ]}
+  ]
+}
