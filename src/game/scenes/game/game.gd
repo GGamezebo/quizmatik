@@ -72,8 +72,12 @@ func deinit() -> void:
 ## host's random pool on equal terms.
 func _pick_background(bg_host: BackgroundHost) -> PackedScene:
 	var event: SeasonalEvent = event_calendar.get_event(game_config.event_id) if event_calendar != null else null
-	if event != null and event.cover != null and event.cover.scene != null:
-		return event.cover.scene
+	var cover: CoverItem = event.cover if event != null else null
+	var run: EventWindow = event_calendar.find_window(game_config.event_key) if event != null else null
+	if run != null:
+		cover = event_calendar.run_cover(run)
+	if cover != null and cover.scene != null:
+		return cover.scene
 	var owned_events: Array[PackedScene] = []
 	if event_calendar != null and pdata != null:
 		owned_events = event_calendar.owned_backgrounds(pdata.cosmetics.owned)

@@ -12,6 +12,8 @@ const DAY_SEC: int = 86400
 @export var start_date: String = ""
 ## Last UTC day (inclusive), "YYYY-MM-DD".
 @export var end_date: String = ""
+## This run's own background (battle sky + last-box gift, on sale from this run's start); empty → the event's `cover`.
+@export var cover: CoverItem
 
 
 func start_unix() -> int:

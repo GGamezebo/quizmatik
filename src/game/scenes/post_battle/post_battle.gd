@@ -312,7 +312,8 @@ func _show_event(data: Dictionary, is_win: bool) -> void:
 	var gold: int = int(reward.get("gold", 0))
 	var box: int = int(reward.get("box", -1))
 	var gift: CosmeticItem = cosmetics.get_item(String(reward.get("gift_id", ""))) if cosmetics != null else null
-	var cover_gold: int = event.cover.gold_cost if bool(reward.get("cover_refund", false)) and event.cover != null else 0
+	var cover: CosmeticItem = cosmetics.get_item(String(reward.get("cover_id", ""))) if cosmetics != null else null
+	var cover_gold: int = cover.gold_cost if bool(reward.get("cover_refund", false)) and cover != null else 0
 	if box < 0 or gift == null or bool(reward.get("gift_refund", false)):
 		event_gift_coin.visible = true
 		_set_caption("+%d" % (gold - cover_gold), event_gold_color)

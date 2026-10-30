@@ -101,11 +101,12 @@ func register_win(key: String) -> Dictionary:
 		if not _grant(gift):
 			result["gift_refund"] = true
 			result["gold"] = gift.gold_cost
-	if won + 1 == event.box_count() and event.cover != null:
-		result["cover_id"] = event.cover.id
-		if not _grant(event.cover):
+	var cover: CoverItem = calendar.run_cover(window)
+	if won + 1 == event.box_count() and cover != null:
+		result["cover_id"] = cover.id
+		if not _grant(cover):
 			result["cover_refund"] = true
-			result["gold"] = int(result["gold"]) + event.cover.gold_cost
+			result["gold"] = int(result["gold"]) + cover.gold_cost
 	_save()
 	return result
 
@@ -115,9 +116,10 @@ func register_win(key: String) -> Dictionary:
 func reset_run(key: String) -> void:
 	pdata.events.wins.erase(key)
 	pdata.events.shown.erase(key)
-	var event := event_of(calendar.find_window(key) if calendar != null else null)
+	var window: EventWindow = calendar.find_window(key) if calendar != null else null
+	var event := event_of(window)
 	if event != null and cosmetics != null:
-		for item in event.gifts + [event.cover]:
+		for item in event.gifts + [calendar.run_cover(window)]:
 			cosmetics.revoke(item)
 	_save()
 

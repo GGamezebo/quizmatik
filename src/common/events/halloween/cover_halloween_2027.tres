@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CoverItem" format=3 uid="uid://b384u5pvd4alg"]
+
+[ext_resource type="Script" path="res://src/common/cosmetics/cover_item.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://c8halloweenbg2027" path="res://src/ui/backgrounds/halloween_2027/haunted_house_background.tscn" id="2_scene"]
+[ext_resource type="Texture2D" path="res://src/ui/backgrounds/halloween_2027/bg_haunted_house.png" id="3_icon"]
+
+[resource]
+script = ExtResource("1_script")
+id = "cover_halloween_2027"
+title = "Дом с привидением"
+gold_cost = 50
+icon = ExtResource("3_icon")
+scene = ExtResource("2_scene")

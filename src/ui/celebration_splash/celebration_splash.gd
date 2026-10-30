@@ -15,7 +15,7 @@ const KIND_MAGISTER := "magister"
 ## Valley expert trial survived (first time); payload `container_id`.
 const KIND_EXPERT := "expert"
 ## Seasonal event: the last gift box opened — the event background is yours (or its price, if bought);
-## payload = `EventsController.register_win` result (`event_id`, `cover_refund`).
+## payload = `EventsController.register_win` result (`cover_id`, `cover_refund`).
 const KIND_EVENT := "event"
 const FADE_DURATION: float = 0.22
 
@@ -191,8 +191,7 @@ func _present_expert(container_id: String) -> void:
 
 
 func _present_event(payload: Dictionary) -> void:
-	var event: SeasonalEvent = event_calendar.get_event(String(payload.get("event_id", ""))) if event_calendar != null else null
-	var cover: CoverItem = event.cover if event != null else null
+	var cover: CoverItem = event_calendar.find_cover(String(payload.get("cover_id", ""))) if event_calendar != null else null
 	var cover_title: String = tr(cover.title) if cover != null else ""
 	title_label.text = "Все коробки открыты!"
 	if bool(payload.get("cover_refund", false)):

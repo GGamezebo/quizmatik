@@ -2,7 +2,7 @@
 
     python tools/generate_halloween_art.py            # both
     python tools/generate_halloween_art.py pumpkins   # src/features/answer/pumpkins_atlas.png
-    python tools/generate_halloween_art.py background # src/ui/backgrounds/halloween/bg_halloween.png
+    python tools/generate_halloween_art.py background # src/ui/backgrounds/halloween_2027/bg_haunted_house.png
 
 Pumpkins: same layout as `balloons_atlas.png` (1280x720, 5x3 cells of 256x240, body centered where the
 balloon body is, so the answer number sits on it) and the same 15 hues in the same order (`Answer.BALLOON_TINTS`
@@ -21,7 +21,7 @@ from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PUMPKINS_OUT = os.path.join(ROOT, "src", "features", "answer", "pumpkins_atlas.png")
-BACKGROUND_OUT = os.path.join(ROOT, "src", "ui", "backgrounds", "halloween", "bg_halloween.png")
+BACKGROUND_OUT = os.path.join(ROOT, "src", "ui", "backgrounds", "halloween_2027", "bg_haunted_house.png")
 
 # Same hues / order as the balloons (`Answer.BALLOON_TINTS`), a bit richer for a painted pumpkin.
 HUES = [

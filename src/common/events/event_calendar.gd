@@ -49,9 +49,36 @@ func first_start(event_id: String) -> int:
 	return first
 
 
-## Shop sells the item at `unix` (-1 = now): not an event item, or its event has started at least once.
+## Background of run `window`: its own `EventWindow.cover`, else its event's `cover`.
+func run_cover(window: EventWindow) -> CoverItem:
+	if window == null:
+		return null
+	if window.cover != null:
+		return window.cover
+	var event := get_event(window.event_id)
+	return event.cover if event != null else null
+
+
+## Event background with id `item_id` (an event's `cover` or a run's own one); null = none.
+func find_cover(item_id: String) -> CoverItem:
+	for cover in _covers():
+		if cover.id == item_id:
+			return cover
+	return null
+
+
+## Shop sells the item at `unix` (-1 = now): not an event item, or its event has started at least once
+## (a run's own background: that run has started).
 func is_released(item_id: String, unix: int = -1) -> bool:
 	var at: int = now_unix() if unix < 0 else unix
+	var run_start: int = -1
+	for window in windows:
+		if window != null and window.cover != null and window.cover.id == item_id:
+			var start: int = window.start_unix()
+			if run_start < 0 or start < run_start:
+				run_start = start
+	if run_start >= 0:
+		return at >= run_start
 	for event in events:
 		if event != null and event.has_item(item_id):
 			var start: int = first_start(event.id)
@@ -62,7 +89,19 @@ func is_released(item_id: String, unix: int = -1) -> bool:
 ## Battle backgrounds of the event covers among `owned` item ids (borrowed now and then by regular battles).
 func owned_backgrounds(owned: Array) -> Array[PackedScene]:
 	var scenes: Array[PackedScene] = []
-	for event in events:
-		if event != null and event.cover != null and event.cover.scene != null and owned.has(event.cover.id):
-			scenes.append(event.cover.scene)
+	for cover in _covers():
+		if cover.scene != null and owned.has(cover.id):
+			scenes.append(cover.scene)
 	return scenes
+
+
+## Every event background once: events' `cover`, then runs' own ones.
+func _covers() -> Array[CoverItem]:
+	var covers: Array[CoverItem] = []
+	for event in events:
+		if event != null and event.cover != null and not covers.has(event.cover):
+			covers.append(event.cover)
+	for window in windows:
+		if window != null and window.cover != null and not covers.has(window.cover):
+			covers.append(window.cover)
+	return covers

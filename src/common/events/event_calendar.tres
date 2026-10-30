@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://src/common/events/event_calendar.gd" id="1_script"]
 [ext_resource type="Script" path="res://src/common/events/event_window.gd" id="2_window"]
 [ext_resource type="Resource" uid="uid://c8hwevent000001" path="res://src/common/events/halloween/halloween_event.tres" id="3_halloween"]
+[ext_resource type="Resource" uid="uid://c8hwcover202701" path="res://src/common/events/halloween/cover_halloween_2027.tres" id="4_cover_2027"]
 
 [sub_resource type="Resource" id="Window_01"]
 script = ExtResource("2_window")
@@ -27,6 +28,7 @@ script = ExtResource("2_window")
 event_id = "halloween"
 start_date = "2027-10-25"
 end_date = "2027-11-16"
+cover = ExtResource("4_cover_2027")
 
 [sub_resource type="Resource" id="Window_05"]
 script = ExtResource("2_window")

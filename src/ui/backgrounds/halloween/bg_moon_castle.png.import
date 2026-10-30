@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://eak17n68t30i"
-path.s3tc="res://.godot/imported/bg_halloween.png-1a64f294cc517ee9d0932f96142ab74b.s3tc.ctex"
-path.etc2="res://.godot/imported/bg_halloween.png-1a64f294cc517ee9d0932f96142ab74b.etc2.ctex"
+uid="uid://dehglwyxl7ruh"
+path.s3tc="res://.godot/imported/bg_moon_castle.png-260d2441960c2e3d9e020ebbd25acf26.s3tc.ctex"
+path.etc2="res://.godot/imported/bg_moon_castle.png-260d2441960c2e3d9e020ebbd25acf26.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://src/ui/backgrounds/halloween/bg_halloween.png"
-dest_files=["res://.godot/imported/bg_halloween.png-1a64f294cc517ee9d0932f96142ab74b.s3tc.ctex", "res://.godot/imported/bg_halloween.png-1a64f294cc517ee9d0932f96142ab74b.etc2.ctex"]
+source_file="res://src/ui/backgrounds/halloween/bg_moon_castle.png"
+dest_files=["res://.godot/imported/bg_moon_castle.png-260d2441960c2e3d9e020ebbd25acf26.s3tc.ctex", "res://.godot/imported/bg_moon_castle.png-260d2441960c2e3d9e020ebbd25acf26.etc2.ctex"]
 
 [params]
 
