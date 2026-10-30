@@ -10,8 +10,13 @@ uniform float shadow_blur : hint_range(0.0, 20.0) = 2.0;
 uniform vec4 sprite_tint : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 
 /// `PaintItem.Pattern`: 0 none, 1 stripes, 2 dots, 3 checker, 4 stars, 5 zigzag, 6 watercolor, 7 rainbow,
-/// 8 math signs, 9 tiger, 10 giraffe, 11 diamonds, 12 scales, 13 galaxy, 14 pumpkin faces, 15 spider webs.
+/// 8 math signs, 9 tiger, 10 giraffe, 11 diamonds, 12 scales, 13 galaxy, 14 pumpkin faces, 15 spider webs,
+/// 16 texture tile (`paint_texture`).
 uniform int paint_pattern = 0;
+/// Pattern 16: one tile per `paint_cell_px` square.
+uniform sampler2D paint_texture : source_color, repeat_enable, filter_linear;
+/// Pattern 16: true = the tile's own colors, false = white mask between color a / b.
+uniform bool paint_texture_colors = false;
 /// Alpha 0 = keep the plane's own color there.
 uniform vec4 paint_color_a : source_color = vec4(1.0, 1.0, 1.0, 0.0);
 uniform vec4 paint_color_b : source_color = vec4(1.0, 1.0, 1.0, 1.0);
@@ -198,6 +203,12 @@ vec4 pattern_color(vec2 px) {
 		float ring = abs(fract(ring_r / 0.1 + 0.5) - 0.5) * 0.1;
 		float thread = min(spoke, ring);
 		p = (1.0 - smoothstep(0.008, 0.02, thread)) * (1.0 - smoothstep(0.42, 0.47, r));
+	} else if (paint_pattern == 16) {
+		vec4 tile = texture(paint_texture, fract(q));
+		if (paint_texture_colors) {
+			return tile;
+		}
+		p = dot(tile.rgb, vec3(0.299, 0.587, 0.114)) * tile.a;
 	}
 	return mix(paint_color_a, paint_color_b, p);
 }

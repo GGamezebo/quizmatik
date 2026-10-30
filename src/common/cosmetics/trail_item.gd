@@ -13,6 +13,8 @@ enum Style { NONE, DOTS, CRAYON, DASH, RAINBOW, SIGNS }
 @export_range(6.0, 60.0, 1.0) var spacing: float = 22.0
 ## `SIGNS` only: glyphs cycled per dot (`TrailGlyph`: + − × ÷ = ★), same index as `palette`.
 @export var signs: String = ""
+## `SIGNS`: white silhouettes cycled per dot instead of `signs` (tinted like them) — new symbols need no code.
+@export var sign_textures: Array[Texture2D] = []
 
 
 func get_slot() -> CosmeticItem.Slot:

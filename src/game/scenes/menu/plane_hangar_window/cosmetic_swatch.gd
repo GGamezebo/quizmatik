@@ -50,7 +50,7 @@ func _draw_trail(trail: TrailItem) -> void:
 				if i % 2 == 0:
 					draw_line(point, point + Vector2(step, 0.0), color, radius, true)
 			TrailItem.Style.SIGNS:
-				TrailGlyph.draw(self, TrailGlyph.pick(trail.signs, i), point, minf(radius, step * 0.42), color, TrailGlyph.tilt(i))
+				TrailGlyph.draw_sign(self, trail.signs, trail.sign_textures, i, point, minf(radius, step * 0.42), color)
 			TrailItem.Style.CRAYON:
 				for k in 3:
 					var offset := Vector2.from_angle(float(i * 7 + k * 13) / 17.0 * TAU) * radius * 0.45

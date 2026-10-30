@@ -14,6 +14,8 @@ extends Node2D
 @export var palette: PackedColorArray = PackedColorArray()
 ## `SIGNS` style: glyphs cycled per dot (`TrailGlyph`).
 @export var signs: String = ""
+## `SIGNS` style: texture symbols instead of `signs` (`TrailItem.sign_textures`).
+@export var sign_textures: Array[Texture2D] = []
 ## Optional emitter followed every frame (keeps drawing while the owner stops processing,
 ## e.g. the battle plane's victory fly-off). Null → owner calls `push_point`.
 @export var source: Node2D
@@ -37,6 +39,7 @@ func apply_style(item: TrailItem) -> void:
 	color = item.color
 	palette = item.palette
 	signs = item.signs
+	sign_textures = item.sign_textures
 	dot_radius = item.width
 	dot_spacing = item.spacing
 	visible = style != TrailItem.Style.NONE
@@ -117,7 +120,7 @@ func _draw() -> void:
 				if index % 2 == 0 and i + 1 < count:
 					draw_line(point, _points[i + 1], dot_color, radius, true)
 			TrailItem.Style.SIGNS:
-				TrailGlyph.draw(self, TrailGlyph.pick(signs, index), point, radius, dot_color, TrailGlyph.tilt(index))
+				TrailGlyph.draw_sign(self, signs, sign_textures, index, point, radius, dot_color)
 			_:
 				draw_circle(point, radius, dot_color)
 

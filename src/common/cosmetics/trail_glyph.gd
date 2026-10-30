@@ -3,7 +3,7 @@ extends RefCounted
 
 ## Sign-shaped trail dots for `TrailItem.Style.SIGNS` (battle `PlaneFlyerTrail` + hangar `CosmeticSwatch`).
 ## Signs: `+` `−` `×` `÷` `=` `★`, Halloween `b` bat / `g` ghost; any other char → round dot. Each part is one flat polygon,
-## so see-through ink never darkens where two strokes would overlap.
+## so see-through ink never darkens where two strokes would overlap. `TrailItem.sign_textures` (white silhouettes) win over chars.
 
 ## Half stroke width, in sign radii.
 const STROKE: float = 0.25
@@ -23,6 +23,22 @@ static func pick(signs: String, index: int) -> String:
 ## Stable hand-drawn tilt of dot `index`; small enough that + never reads as ×.
 static func tilt(index: int) -> float:
 	return (float(posmod(index * 37, 13)) / 12.0 - 0.5) * 0.35
+
+
+## Dot `index` of a `SIGNS` trail: the next of `textures` if any, else the next char of `signs`; tilted by `tilt`.
+static func draw_sign(canvas: CanvasItem, signs: String, textures: Array[Texture2D], index: int, center: Vector2,
+		radius: float, color: Color) -> void:
+	if textures.is_empty():
+		draw(canvas, pick(signs, index), center, radius, color, tilt(index))
+		return
+	var texture: Texture2D = textures[posmod(index, textures.size())]
+	if texture == null:
+		return
+	var tex_size := texture.get_size()
+	var half := Vector2(radius, radius * tex_size.y / maxf(tex_size.x, 1.0))
+	canvas.draw_set_transform(center, tilt(index))
+	canvas.draw_texture_rect(texture, Rect2(-half, half * 2.0), false, color)
+	canvas.draw_set_transform(Vector2.ZERO)
 
 
 ## `radius` = half the sign width; `angle` tilts the whole sign.

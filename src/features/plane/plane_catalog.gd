@@ -159,3 +159,5 @@ static func apply_paint(material: Material, item: PaintItem) -> void:
 	mat.set_shader_parameter("paint_color_b", item.color_b)
 	mat.set_shader_parameter("paint_cell_px", item.cell_px)
 	mat.set_shader_parameter("paint_strength", item.strength)
+	mat.set_shader_parameter("paint_texture", item.pattern_texture)
+	mat.set_shader_parameter("paint_texture_colors", item.texture_colors)
