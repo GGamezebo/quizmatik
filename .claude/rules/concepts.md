@@ -4,11 +4,11 @@ description: concepts/ is AI style reference only — never used by the game or 
 
 # `concepts/` — AI style reference only
 
-`concepts/` exists so the AI can **look** at frames + `ART_DIRECTION.md` and **match** the notebook-pencil look. It is **not** part of the game or of development.
+`concepts/` exists so the AI can **look** at real game screenshots (`01_menu` / `02_battle` / `03_levels` / `04_post_battle.png`, `README.md`) and **match** the notebook-pencil look. It is **not** part of the game or of development.
 
 ## Must
 
-- Before changing menu/battle/UI look, **read** `concepts/ART_DIRECTION.md` and the relevant concept frames
+- Before changing menu/battle/UI look, **look** at the relevant screenshot in `concepts/`
 - Ship playable art only under `assets/` or colocated in `src/` (features / scenes / `src/ui/`)
 - Keep Godot blind to the folder: `concepts/.gdignore` + every export preset `exclude_filter` includes `concepts/*`
 

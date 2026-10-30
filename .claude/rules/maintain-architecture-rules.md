@@ -9,7 +9,7 @@ When a change alters structure, contracts, or placement conventions, update `.cl
 ## Update when
 
 - New/renamed folder under `src/`, `core/`, `tools/`
-- Visual art direction / UI look conventions (`concepts/ART_DIRECTION.md`; folder itself stays AI-only — `concepts.md`)
+- Visual art direction / UI look conventions (retake `concepts/` screenshots; folder stays AI-only — `concepts.md`)
 - New context, feature, event bus, or FSM state
 - Feature isolation or `core/` project-agnostic boundary changes
 - Scene-isolation / Resource-default / parent-override-via-events / component contract changes (`godot-paradigm.md`)

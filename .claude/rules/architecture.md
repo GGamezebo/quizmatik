@@ -48,7 +48,7 @@ See `godot-paradigm.md` (context scene, resource defaults, HFSM override, resour
 | `core/` | Project-agnostic code only (no Quizmatik types/scenes) |
 | `tools/` | Offline generators (e.g. levels) |
 | `assets/` | Runtime shared art — see layout below |
-| `concepts/` | AI style reference only (`ART_DIRECTION.md` + frames) — game and tools never use it; see `concepts.md` |
+| `concepts/` | AI style reference only (4 real-game screenshots + `README.md`) — game and tools never use it; see `concepts.md` |
 | `store/` | ALL store-page media (images, banners, screenshots, videos, trailers) → `screenshots/{ru,en,tr,es,pt,de,fr,it,pl,uk,id,nl}/` `banners/` `videos/{ru,en}/`; never put such media in `assets/`/`docs/`; `store/.gdignore`, never packed, never referenced by game; `store/videos/` = nested repo `GGamezebo/quizmatik-store` (LFS), gitignored in the game repo — commit videos there |
 | `docs/` | Public static pages for store listings (privacy policy → GitHub Pages); `docs/.gdignore`, never packed |
 | `src/dev/` | Editor/dev utilities — not the game entry. `training_room_lab/` = frozen snapshot of full practice UI (editor-only menu button) |

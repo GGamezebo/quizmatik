@@ -1,4 +1,4 @@
-"""Quizmatik app icon kit (offline). Notebook-pencil sticker look, see concepts/ART_DIRECTION.md.
+"""Quizmatik app icon kit (offline). Notebook-pencil sticker look, as in the game.
 
 Run: python tools/generate_app_icon.py
 Writes assets/app_icon/: icon_512.png (main / web / desktop), adaptive_fg_432.png,

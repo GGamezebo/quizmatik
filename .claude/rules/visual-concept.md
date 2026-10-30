@@ -1,5 +1,5 @@
 ---
-description: Follow concepts/ notebook-pencil art direction for UI and battle
+description: Match the notebook-pencil look of the real game (concepts/ screenshots) for UI and battle
 paths:
   - "src/game/scenes/**/*"
   - "src/ui/**/*"
@@ -9,7 +9,7 @@ paths:
 
 # Visual concept
 
-Before changing menu/battle look, **read** `concepts/ART_DIRECTION.md` (AI look-match only). Never wire or ship from `concepts/` — see `concepts.md`. Playable art lives under `assets/` or feature/UI folders in `src/`.
+Before changing menu/battle look, **look** at the real-game screenshots in `concepts/` (AI look-match only). Never wire or ship from `concepts/` — see `concepts.md`. Playable art lives under `assets/` or feature/UI folders in `src/`.
 
 Must match:
 
@@ -24,9 +24,7 @@ Must match:
 - **Battle:** horizontal flight (plane left → right), 4 lanes, round balloons, paper HUD language
 - **Boss airship:** `src/features/boss/art/*.svg` — slate envelope with grumpy face (nose left), red fins, brass riveted plates, white sticker rim + `sticker_drop_shadow`; hovers right behind balloons (`z_index -1`); exam chief = `exam_airship_body.svg` / `exam_armor_plate.svg` (faceted iron hull, ridge spikes, gold crown, slit eyes + teeth, angular gold plates; same canvas/anchors as regular art); hull color variants = `tools/generate_boss_variants.py` (curated palettes; recolors only hull/fins/pod, never ink/face/plates/crown) → `art/variants/{regular|royal}_*.svg`, listed in scene `BossAirship.body_variants`, one random per boss — edit palettes in the tool, never the variant SVGs; HUD chip under the question banner = cream panel + brass pips; chase level reuses both scenes as chasers facing right (`setup_chaser`, flipped, `set_menacing` = `menace_tint` + fast propeller) and drains the sky to graphite behind them
 
-AI look-match frames: `concepts/menu_notebook_modern_v3.png`, `concepts/battle_notebook_modern_v1.png`, `concepts/post_battle_notebook_concept_v3.png`, `concepts/levels_pack_notebook_concept_v1.png`, `concepts/levels_grid_adventure_ref.png`, `concepts/achievements_notebook_concept_v1.png`.  
-Proposal frames (NOT canon; use only if user asks for redesign): `concepts/redesign_v1/*.png`, gen `_build_concepts.py`; rationale `.claude/doc/redesign_v1.md`.  
-Pencil pack (look-match only, not a game kit): `concepts/notebook_pencil/` (`ui_pack/`).
+AI look-match frames = real game, 2026-10-30: `concepts/01_menu.png`, `02_battle.png`, `03_levels.png`, `04_post_battle.png`. Retake them after a big look change.
 
 - **Seasonal event (Halloween):** pumpkins atlas `features/answer/pumpkins_atlas.png` = `tools/generate_halloween_art.py` (procedural watercolor, deterministic; re-run, never hand-edit; also the 2027 sky `ui/backgrounds/halloween_2027/bg_haunted_house.png`); 2026 sky `ui/backgrounds/halloween/bg_moon_castle.png` = user-supplied picture (1080×720), never regenerate; 2026 menu banner `common/events/halloween/banner_moon_castle.png` (672×160 @2x, castle + moon cut from that sky, watercolor night inside the menu CTA frame `menu/ui/btn_cta_wide.png` nine-patched — same outline as «ПРАКТИКА») = same tool `banner`; 2027 banner `banner_haunted_house.svg` (night card, orange dashed rim); pumpkin airship `features/boss/art/halloween_*.svg` (same canvas / anchors as the regular boss; hull variants family «halloween» in `generate_boss_variants.py`, lead = orange `boss_halloween_airship.tscn`, wings = `boss_halloween_wing.tscn`); gift boxes `src/common/events/halloween/box_*.svg` (violet boxes + orange ribbon, same every year); paint patterns 14 pumpkin faces / 15 spider webs (`plane_body.gdshader`), trail glyphs `b` bat / `g` ghost (`TrailGlyph`), drips `drip_pumpkin` / `drip_candy`
 - **Gold:** the only gold glyph = `assets/ui/icons/coin_gold.svg` (hangar/profile counters, hangar price row, post-battle gold rows, daily-gold splash `gold_art`, lab grant, bonus balloon coin with white `silhouette.gdshader` outline). Never `stamp_sun` / text-only for gold
