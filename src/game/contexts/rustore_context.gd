@@ -2,7 +2,8 @@ class_name RuStoreContext
 extends PlatformContext
 
 ## `Platform/Android/RuStore`: RuStore build (export feature `rustore`, preset `Android-RuStore`) for players
-## in Russia, where Play Billing doesn't work. Purchases in child `RuStoreShop` (opened unless `no_monetization`).
+## in Russia, where Play Billing doesn't work. Release preset also has `no_monetization`, so `RuStoreShop`
+## stays closed: no ads, no purchases, every valley open. Shop code remains for a later paid build.
 ## No cloud save (save stays local). Russian-only UI.
 ## Share (`PlatformServices.can_share`): system share sheet with the RuStore page link via `AndroidShare`.
 
