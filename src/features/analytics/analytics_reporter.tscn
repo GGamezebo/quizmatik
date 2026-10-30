@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c8n3analytics01"]
+
+[ext_resource type="Script" path="res://src/features/analytics/analytics_reporter.gd" id="1_report"]
+[ext_resource type="Resource" path="res://src/common/platform/platform_services.tres" id="2_platform"]
+[ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="3_pdata"]
+
+[node name="AnalyticsReporter" type="Node"]
+script = ExtResource("1_report")
+platform_services = ExtResource("2_platform")
+pdata = ExtResource("3_pdata")

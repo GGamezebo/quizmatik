@@ -4,6 +4,9 @@ extends Node
 ## Buy / equip look items (`CosmeticCatalog`) for the active profile (`PData.cosmetics`, gold).
 ## Readers resolve equipped items themselves: `catalog.equipped_item(slot, pdata.cosmetics.equipped)`.
 
+## Bought with gold (`try_buy`), not gifted.
+signal ev_bought(item: CosmeticItem)
+
 @export var pdata: PData
 @export var catalog: CosmeticCatalog
 @export var root_events: RootEvents
@@ -41,6 +44,7 @@ func try_buy(item: CosmeticItem) -> bool:
 	pdata.cosmetics.owned.append(item.id)
 	pdata.cosmetics.equipped[CosmeticItem.slot_key(item.get_slot())] = item.id
 	_save()
+	ev_bought.emit(item)
 	return true
 
 

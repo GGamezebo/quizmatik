@@ -16,6 +16,8 @@ extends IScene
 @export var first_run_overlay: ProfileCreateOverlay
 ## «Сесть в самолёт» on the new-plane splash → equip it.
 @export var celebration_splash: CelebrationSplash
+## Anonymous goals → `PlatformServices.ev_track` (sent only where a platform context allows it).
+@export var analytics_reporter: AnalyticsReporter
 
 var _listener: EventListener = EventListener.new()
 ## Pilot the controls intro was last opened for (new pilot on first flight → open it again).
@@ -30,6 +32,9 @@ func initialize(_data: Dictionary) -> void:
 	if celebration_splash != null:
 		_listener.add(celebration_splash.ev_board_plane, _on_board_plane)
 		_listener.add(celebration_splash.ev_wear_item, _on_wear_item)
+	if analytics_reporter != null:
+		_listener.add(cosmetics_controller.ev_bought, analytics_reporter.report_item_bought)
+		_listener.add(profile_controller.ev_plane_bought, analytics_reporter.report_plane_bought)
 
 	# Platform branch is picked inside App/Platform (PlatformRouterContext), never here.
 	add_event("ev.open_platform", {
@@ -58,6 +63,8 @@ func _on_ev_start_game(data: Dictionary) -> void:
 
 func _on_ev_exit_game(data: Dictionary = {}) -> void:
 	_apply_battle_result(data)
+	if analytics_reporter != null:
+		analytics_reporter.report_battle(data)
 	add_event("ev.exit_game", data)
 
 func _on_ev_return_to_menu(data: Dictionary = {}) -> void:

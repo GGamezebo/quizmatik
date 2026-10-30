@@ -10,8 +10,11 @@ const SDK_PAUSE := "game_api_pause"
 ## UI languages offered on Yandex Games (declared in the Yandex console).
 const LANGUAGES: PackedStringArray = [GameLocale.RU, GameLocale.EN]
 const SDK_RESUME := "game_api_resume"
+## Yandex Metrica counter (metrika.yandex.ru, same id in the Yandex Games console); 0 = analytics off.
+const METRICA_COUNTER_ID: int = 0
 
 var _ysdk: JavaScriptObject = null
+var _metrica: YandexMetrica = null
 var _listener: EventListener = EventListener.new()
 var _is_alive: bool = true
 var _is_menu_opened: bool = false
@@ -25,6 +28,8 @@ var _on_resume_cb: JavaScriptObject = null
 func _enter() -> void:
 	if services != null:
 		services.set_languages(LANGUAGES)
+		_metrica = YandexMetrica.new(METRICA_COUNTER_ID)
+		_listener.add(services.ev_track, _metrica.reach_goal)
 	var ya_games: JavaScriptObject = JavaScriptBridge.get_interface("YaGames")
 	if ya_games == null:
 		push_warning("YandexContext: YaGames missing — Web-Yandex export must include /sdk.js")
@@ -46,6 +51,7 @@ func deinit() -> void:
 		services.set_language("")
 		services.set_languages([])
 	_ysdk = null
+	_metrica = null
 	_sdk_callbacks.clear()
 	super.deinit()
 

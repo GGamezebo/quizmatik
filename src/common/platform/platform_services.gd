@@ -38,6 +38,11 @@ extends Resource
 ## No answer, never rewarded; only from behind a parental gate (parents report, purchase thank-you page).
 @warning_ignore("unused_signal") signal ev_request_share(placement: StringName, text: String, image_path: String)
 
+## Game → platform: anonymous analytics event (no ids / names / free text — goal name + small enum / number
+## params). Fire and forget; only web portals that allow it send it (Yandex → Metrica), elsewhere nobody listens.
+## Never on Google Play (Teacher Approved / Data safety «no data collected»).
+@warning_ignore("unused_signal") signal ev_track(goal: StringName, params: Dictionary)
+
 ## Offer kinds (one paid offer per store).
 const OFFER_NO_ADS := &"no_ads"
 const OFFER_FULL_VERSION := &"full_version"

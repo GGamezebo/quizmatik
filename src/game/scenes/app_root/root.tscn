@@ -25,6 +25,7 @@
 [ext_resource type="Resource" path="res://src/common/platform/platform_services.tres" id="21_platform"]
 [ext_resource type="PackedScene" path="res://src/features/locale/locale_controller.tscn" id="22_locale"]
 [ext_resource type="PackedScene" path="res://src/game/account/events_controller.tscn" id="23_events"]
+[ext_resource type="PackedScene" uid="uid://c8n3analytics01" path="res://src/features/analytics/analytics_reporter.tscn" id="24_analytics"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -36,7 +37,7 @@ glow_blend_mode = 0
 
 [sub_resource type="Compositor" id="Compositor_1bvp3"]
 
-[node name="AppRoot" type="Node" unique_id=74498543 node_paths=PackedStringArray("progress_controller", "daily_challenges_controller", "profile_controller", "mistakes_controller", "events_controller", "cosmetics_controller", "music_player", "first_run_overlay", "celebration_splash")]
+[node name="AppRoot" type="Node" unique_id=74498543 node_paths=PackedStringArray("progress_controller", "daily_challenges_controller", "profile_controller", "mistakes_controller", "events_controller", "cosmetics_controller", "music_player", "first_run_overlay", "celebration_splash", "analytics_reporter")]
 script = ExtResource("1_main")
 root_events = ExtResource("8_dg77c")
 platform_services = ExtResource("21_platform")
@@ -49,6 +50,7 @@ cosmetics_controller = NodePath("Account/CosmeticsController")
 music_player = NodePath("MusicPlayer")
 first_run_overlay = NodePath("UI/FirstRunProfileOverlay")
 celebration_splash = NodePath("UI/CelebrationSplash")
+analytics_reporter = NodePath("AnalyticsReporter")
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="." unique_id=1055067511]
 resources = [PackedStringArray("levels"), [ExtResource("2_kek77")]]
@@ -100,6 +102,8 @@ game_events = ExtResource("10_game_events")
 [node name="AppPauseController" parent="." instance=ExtResource("19_pause")]
 
 [node name="LocaleController" parent="." instance=ExtResource("22_locale")]
+
+[node name="AnalyticsReporter" parent="." instance=ExtResource("24_analytics")]
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=205950014]
 stream = ExtResource("7_5vw27")

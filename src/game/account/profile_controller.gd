@@ -3,6 +3,8 @@ extends Node
 
 signal ev_profiles_changed
 signal ev_plane_unlocked(plane_id: String)
+## Bought with gold in the hangar (after `ev_plane_unlocked`); exam gifts do not emit it.
+signal ev_plane_bought(plane_id: String, cost: int)
 
 const MAX_PROFILES: int = 4
 const DEFAULT_NAME: String = "Пилот"
@@ -265,6 +267,7 @@ func try_buy_plane(plane_id: String) -> bool:
 	pdata.equipped_plane_id = plane_id
 	save()
 	ev_plane_unlocked.emit(plane_id)
+	ev_plane_bought.emit(plane_id, cost)
 	return true
 
 
