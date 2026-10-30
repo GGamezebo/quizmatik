@@ -10,7 +10,7 @@ uniform float shadow_blur : hint_range(0.0, 20.0) = 2.0;
 uniform vec4 sprite_tint : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 
 /// `PaintItem.Pattern`: 0 none, 1 stripes, 2 dots, 3 checker, 4 stars, 5 zigzag, 6 watercolor, 7 rainbow,
-/// 8 math signs, 9 tiger, 10 giraffe, 11 diamonds, 12 scales, 13 galaxy.
+/// 8 math signs, 9 tiger, 10 giraffe, 11 diamonds, 12 scales, 13 galaxy, 14 pumpkin faces, 15 spider webs.
 uniform int paint_pattern = 0;
 /// Alpha 0 = keep the plane's own color there.
 uniform vec4 paint_color_a : source_color = vec4(1.0, 1.0, 1.0, 0.0);
@@ -61,6 +61,19 @@ float sign_sdf(vec2 f, int kind) {
 		return min(box_sdf(g, vec2(0.28, 0.07), 0.07), dots);
 	}
 	return bar;
+}
+
+/// Equilateral triangle, apex up on screen (y grows down), `r` = half its side.
+float tri_sdf(vec2 p, float r) {
+	const float k = 1.7320508;
+	p.y = -p.y;
+	p.x = abs(p.x) - r;
+	p.y = p.y + r / k;
+	if (p.x + k * p.y > 0.0) {
+		p = vec2(p.x - k * p.y, -k * p.x - p.y) / 2.0;
+	}
+	p.x -= clamp(p.x, -2.0 * r, 0.0);
+	return -length(p) * sign(p.y);
 }
 
 float value_noise(vec2 p) {
@@ -164,6 +177,27 @@ vec4 pattern_color(vec2 px) {
 		vec2 star_f = fract(q * 2.0) - 0.5 - (hash2(star_cell) - 0.5) * 0.5;
 		float star = step(0.78, hash(star_cell)) * (1.0 - smoothstep(0.08, 0.2, length(star_f)));
 		return vec4(mix(sky, vec3(1.0, 0.98, 0.9), star), 1.0);
+	} else if (paint_pattern == 14) {
+		// Jack-o'-lantern faces on a staggered grid: triangle eyes + toothy grin (color b) carved into color a.
+		vec2 cell = q + vec2(0.5 * mod(floor(q.y), 2.0), 0.0);
+		vec2 f = fract(cell) - 0.5;
+		float eyes = min(tri_sdf(f - vec2(-0.15, -0.1), 0.09), tri_sdf(f - vec2(0.15, -0.1), 0.09));
+		float bowl = length((f - vec2(0.0, 0.03)) * vec2(1.0, 1.6)) - 0.34;
+		float teeth = 0.08 + abs(fract(f.x * 4.0 + 0.5) - 0.5) * 0.16 - f.y;
+		float mouth = max(bowl, teeth);
+		p = 1.0 - smoothstep(-0.015, 0.02, min(eyes, mouth));
+	} else if (paint_pattern == 15) {
+		// Spider webs: 8 spokes + octagon rings in a 2-cell tile (color b threads over color a).
+		vec2 f = fract(q * 0.5) - 0.5;
+		float r = length(f);
+		float a = atan(f.y, f.x);
+		float sector = 0.7853982;
+		float local = mod(a, sector) - sector * 0.5;
+		float spoke = r * abs(sin(a * 4.0)) * 0.25;
+		float ring_r = r * cos(local) / cos(sector * 0.5);
+		float ring = abs(fract(ring_r / 0.1 + 0.5) - 0.5) * 0.1;
+		float thread = min(spoke, ring);
+		p = (1.0 - smoothstep(0.008, 0.02, thread)) * (1.0 - smoothstep(0.42, 0.47, r));
 	}
 	return mix(paint_color_a, paint_color_b, p);
 }

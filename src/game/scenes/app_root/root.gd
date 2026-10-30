@@ -8,6 +8,10 @@ extends IScene
 @export var daily_challenges_controller: DailyChallengesController
 @export var profile_controller: ProfileController
 @export var mistakes_controller: MistakesController
+## Seasonal event gift boxes (won event battle → next box).
+@export var events_controller: EventsController
+## «НАДЕТЬ» on a gifted look item (celebration splash).
+@export var cosmetics_controller: CosmeticsController
 @export var music_player: AudioStreamPlayer
 @export var first_run_overlay: ProfileCreateOverlay
 ## «Сесть в самолёт» on the new-plane splash → equip it.
@@ -25,6 +29,7 @@ func initialize(_data: Dictionary) -> void:
 	_listener.add(root_events.ev_profiles_changed, _on_profiles_changed)
 	if celebration_splash != null:
 		_listener.add(celebration_splash.ev_board_plane, _on_board_plane)
+		_listener.add(celebration_splash.ev_wear_item, _on_wear_item)
 
 	# Platform branch is picked inside App/Platform (PlatformRouterContext), never here.
 	add_event("ev.open_platform", {
@@ -61,6 +66,10 @@ func _on_ev_return_to_menu(data: Dictionary = {}) -> void:
 
 func _on_board_plane(plane_id: String) -> void:
 	profile_controller.equip_plane(plane_id)
+
+func _on_wear_item(item_id: String) -> void:
+	if cosmetics_controller != null:
+		cosmetics_controller.equip_id(item_id)
 
 func _on_profiles_changed() -> void:
 	# Cloud save arrived while «Кто будет пилотом?» was open → the profile already exists.
@@ -132,6 +141,23 @@ const MAGISTER_GOLD: int = 25
 ## Valley expert trial survived the first time (badge on the valley cup), same as the magister.
 const EXPERT_GOLD: int = 25
 
+## Won seasonal event battle: the next gift box opens (`EventsController.register_win`); its gold (gift already owned,
+## every box open) is granted here → payload `event_reward` for the post-battle box row. Last box → splash.
+func _apply_event_win(data: Dictionary) -> void:
+	var event_key := String(data.get("event_key", ""))
+	if event_key.is_empty() or events_controller == null:
+		return
+	var reward: Dictionary = events_controller.register_win(event_key)
+	if reward.is_empty():
+		return
+	var event_gold: int = int(reward.get("gold", 0))
+	if event_gold > 0:
+		profile_controller.add_gold(event_gold)
+	data["event_reward"] = reward
+	if not String(reward.get("cover_id", "")).is_empty():
+		root_events.ev_show_celebration.emit(CelebrationSplash.KIND_EVENT, reward)
+
+
 func _apply_battle_result(data: Dictionary) -> void:
 	var is_win: bool = data['is_win']
 	var stars: int = data['stars']
@@ -149,6 +175,7 @@ func _apply_battle_result(data: Dictionary) -> void:
 		_apply_endless_record(data)
 	if not is_win:
 		return
+	_apply_event_win(data)
 	if bool(data.get("magister", false)) and progress_controller.unlock_magister():
 		profile_controller.add_gold(MAGISTER_GOLD)
 		data["magister_gold"] = MAGISTER_GOLD

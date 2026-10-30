@@ -48,6 +48,32 @@ extends IScene
 @export var magister_title: String = "ТЫ — МАГИСТР!"
 @export_group("Expert texts")
 @export var expert_title: String = "ТЫ — ЭКСПЕРТ!"
+@export_group("Seasonal event")
+## Event battle: no answer count; the stamps make way for the prize stage (opened box + the gift on turning rays,
+## or a big coin when it pays gold), the closed box on a loss.
+@export var event_row: Control
+@export var event_box: TextureRect
+## Prize spot (pops out of the box) and the rays behind it.
+@export var event_gift: Control
+@export var event_rays: CanvasItem
+## Gift look: paint on the plane photo, trail / shot swatch, cover art, big coin.
+@export var event_gift_plane: TextureRect
+@export var event_gift_swatch: CosmeticSwatch
+@export var event_gift_icon: TextureRect
+@export var event_gift_coin: TextureRect
+@export var event_caption: Label
+## «НАДЕТЬ» beside a freshly gifted item's name (gifts are not worn on their own); worn → «НАДЕТО».
+@export var event_wear_button: Button
+@export var event_note: Label
+## Extra coins line (the last box's cover was already bought).
+@export var event_coins: Control
+@export var event_coins_label: Label
+@export var event_name_color: Color = Color(0.22, 0.25, 0.3, 1)
+@export var event_gold_color: Color = Color(0.72, 0.52, 0.12, 1)
+@export var event_calendar: EventCalendar
+@export var cosmetics: CosmeticCatalog
+## Read-only copy: «repeat» rebuilds the event battle with the new chase length.
+@export var events: EventsController
 
 var _next_battle_info: GameConfig.BattleInfo = null
 ## The magister / expert coin row is for the expert award.
@@ -56,6 +82,9 @@ var _pending_auto_container: String = ""
 ## `RootEvents.ev_post_battle_exit_home`: the menu button skips the valley grid.
 var _exit_home: bool = false
 var _listener: EventListener = EventListener.new()
+## This win's gift the «НАДЕТЬ» button puts on (null = none: refund / no box / loss). The last box's cover is
+## shown and worn on its own splash (`CelebrationSplash.KIND_EVENT`), never here.
+var _gift_to_wear: CosmeticItem = null
 
 
 static func build_result_data(
@@ -79,6 +108,9 @@ static func build_result_data(
 		data["magister"] = true
 	if not game_config.expert_valley_id.is_empty():
 		data["expert_valley_id"] = game_config.expert_valley_id
+	if not game_config.event_key.is_empty():
+		data["event_id"] = game_config.event_id
+		data["event_key"] = game_config.event_key
 	if game_config.endless:
 		data["endless_sec"] = player.survived_sec
 		data["endless_best_before"] = game_config.endless_best_sec
@@ -105,10 +137,11 @@ func initialize(data: Dictionary) -> void:
 	var expert_gold: int = int(data.get("expert_gold", 0))
 	_expert_gold_line = expert_gold > 0
 	var exam_gold: int = int(data.get("exam_gold", 0))
+	var event_gold: int = int((data.get("event_reward", {}) as Dictionary).get("gold", 0))
 	_show_level_gold(int(data.get("level_gold", 0)), record_gold, golden_gold, magister_gold + expert_gold,
 			exam_gold, bool(data.get("plane_refund", false)), bool(data.get("skipped_levels", false)))
 	_show_bonus_gold(int(data.get("bonus_gold", 0)))
-	var earned_gold: int = int(data.get("level_gold", 0)) + int(data.get("bonus_gold", 0)) + record_gold + golden_gold 			+ magister_gold + expert_gold + exam_gold
+	var earned_gold: int = int(data.get("level_gold", 0)) + int(data.get("bonus_gold", 0)) + record_gold + golden_gold 			+ magister_gold + expert_gold + exam_gold + event_gold
 	if gold_lines:
 		gold_lines.visible = earned_gold > 0
 	if rewarded_gold_button:
@@ -143,12 +176,16 @@ func initialize(data: Dictionary) -> void:
 			title_label.text = expert_title
 		if stamps_row:
 			stamps_row.visible = false
+	_show_event(data, is_win)
 
 	_listener.add(menu_button.pressed, _on_menu)
 	_listener.add(repeat_button.pressed, _on_repeat)
 	_listener.add(next_level_button.pressed, _on_next_level)
 	if root_events != null:
 		_listener.add(root_events.ev_post_battle_exit_home, _on_exit_home)
+		_listener.add(root_events.ev_profiles_changed, _sync_wear_buttons)
+	if event_wear_button != null:
+		_listener.add(event_wear_button.pressed, _on_wear_pressed)
 
 	var celebration: Dictionary = data.get("exam_celebration", {})
 	if is_win and not celebration.is_empty() and celebration.get("first_exam_pass", false):
@@ -168,6 +205,7 @@ func deinit() -> void:
 	_listener.deinit()
 	_game_config = null
 	_expert_gold_line = false
+	_gift_to_wear = null
 	_next_battle_info = null
 	_pending_auto_container = ""
 	_exit_home = false
@@ -205,6 +243,7 @@ func _update_results(is_win: bool, score: int, max_score: int, stars_count: int)
 	title_settings.font_color = Color(0.22, 0.44, 0.28, 1.0) if is_win else Color(0.70, 0.28, 0.26, 1.0)
 	title_label.label_settings = title_settings
 
+	score_label.visible = true
 	if max_score > 0:
 		score_label.text = "%d / %d" % [score, max_score]
 	else:
@@ -239,6 +278,126 @@ func _show_endless(data: Dictionary) -> void:
 	if endless_next_coin_label:
 		var next_coin: int = ProgressStatistics.next_record_coin_sec(maxi(seconds, best_before))
 		endless_next_coin_label.text = tr(endless_next_coin_format) % ProgressStatistics.format_clock(next_coin)
+
+
+## Event battle: the answer count is hidden; the prize pops out of the opened box — the gift (its name, «Коробка N из M»)
+## or a big coin with «+N» (gift already owned / every box open; no explanation). The last box's cover: a note,
+## or a coin line when it was already bought. A loss shows the closed box.
+func _show_event(data: Dictionary, is_win: bool) -> void:
+	var event_id: String = String(data.get("event_id", ""))
+	var event: SeasonalEvent = null
+	if event_calendar != null and not event_id.is_empty():
+		event = event_calendar.get_event(event_id)
+	if event_row:
+		event_row.visible = event != null
+	if event == null:
+		return
+	score_label.visible = false
+	if stamps_row:
+		stamps_row.visible = false
+	var reward: Dictionary = data.get("event_reward", {})
+	var opened: bool = is_win and not reward.is_empty()
+	event_box.texture = event.box_open if opened else event.box_closed
+	for node: CanvasItem in [event_gift_plane, event_gift_swatch, event_gift_icon, event_gift_coin]:
+		node.visible = false
+	event_gift.visible = opened
+	event_note.visible = false
+	event_coins.visible = false
+	_gift_to_wear = null
+	_sync_wear_buttons()
+	if not opened:
+		_set_caption("Победи — и коробка откроется!", event_name_color)
+		_pop_prize.call_deferred(false)
+		return
+	var gold: int = int(reward.get("gold", 0))
+	var box: int = int(reward.get("box", -1))
+	var gift: CosmeticItem = cosmetics.get_item(String(reward.get("gift_id", ""))) if cosmetics != null else null
+	var cover_gold: int = event.cover.gold_cost if bool(reward.get("cover_refund", false)) and event.cover != null else 0
+	if box < 0 or gift == null or bool(reward.get("gift_refund", false)):
+		event_gift_coin.visible = true
+		_set_caption("+%d" % (gold - cover_gold), event_gold_color)
+	else:
+		_show_gift(gift)
+		_set_caption(tr(gift.title), event_name_color)
+		_gift_to_wear = gift
+	if box >= 0:
+		event_note.visible = true
+		event_note.text = tr("Коробка %d из %d") % [box + 1, event.box_count()]
+	if cover_gold > 0:
+		event_coins.visible = true
+		event_coins_label.text = "+%d" % cover_gold
+	_sync_wear_buttons()
+	_pop_prize.call_deferred(true)
+
+
+## Gift buttons follow what the pilot wears (pressed here, on the splash or in the shop).
+func _sync_wear_buttons() -> void:
+	var controller: CosmeticsController = CosmeticsController.find_in_tree(get_tree()) if is_inside_tree() else null
+	_sync_wear(event_wear_button, _gift_to_wear, controller)
+
+
+func _sync_wear(button: Button, item: CosmeticItem, controller: CosmeticsController) -> void:
+	if button == null:
+		return
+	button.visible = item != null and controller != null and controller.is_owned(item)
+	if not button.visible:
+		return
+	var worn: bool = controller.is_equipped(item)
+	button.disabled = worn
+	button.text = "НАДЕТО" if worn else "НАДЕТЬ"
+
+
+func _on_wear_pressed() -> void:
+	var item: CosmeticItem = _gift_to_wear
+	var controller: CosmeticsController = CosmeticsController.find_in_tree(get_tree())
+	if item == null or controller == null or not controller.equip(item):
+		return
+	_sync_wear_buttons()
+	# The prize hops: it is on the plane now.
+	if event_gift != null:
+		var hop := event_gift.create_tween()
+		hop.tween_property(event_gift, "scale", Vector2(1.12, 1.12), 0.12).set_trans(Tween.TRANS_SINE)
+		hop.tween_property(event_gift, "scale", Vector2.ONE, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
+func _set_caption(text: String, color: Color) -> void:
+	event_caption.text = text
+	var settings: LabelSettings = event_caption.label_settings
+	if settings.font_color != color:
+		settings = settings.duplicate()
+		settings.font_color = color
+		event_caption.label_settings = settings
+
+
+## The box hops; an opened one then lets the prize spring out over the turning rays.
+func _pop_prize(opened: bool) -> void:
+	event_box.pivot_offset = event_box.size * Vector2(0.5, 1.0)
+	event_box.scale = Vector2(0.6, 0.6)
+	var tween := event_box.create_tween()
+	tween.tween_property(event_box, "scale", Vector2(1.12, 0.9), 0.18).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(event_box, "scale", Vector2.ONE, 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	if not opened:
+		return
+	event_gift.pivot_offset = event_gift.size * Vector2(0.3, 0.7)
+	event_gift.scale = Vector2.ZERO
+	event_rays.modulate.a = 0.0
+	var pop := event_gift.create_tween()
+	pop.tween_interval(0.3)
+	pop.tween_property(event_gift, "scale", Vector2.ONE, 0.55).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	pop.parallel().tween_property(event_rays, "modulate:a", 1.0, 0.8)
+
+
+func _show_gift(gift: CosmeticItem) -> void:
+	if gift is PaintItem:
+		event_gift_plane.visible = true
+		var plane_id: String = progress.pdata.equipped_plane_id if progress != null and progress.pdata != null else PlaneCatalog.STARTER_ID
+		PlaneCatalog.apply_preview(event_gift_plane, plane_id, gift as PaintItem)
+	elif gift is TrailItem or gift is ShotItem:
+		event_gift_swatch.visible = true
+		event_gift_swatch.set_item(gift)
+	else:
+		event_gift_icon.visible = gift.icon != null
+		event_gift_icon.texture = gift.icon
 
 
 func _show_stamps(count: int) -> void:
@@ -389,6 +548,9 @@ func _on_menu() -> void:
 
 
 func _on_repeat() -> void:
+	if _game_config and not _game_config.event_key.is_empty():
+		_repeat_event()
+		return
 	if _game_config:
 		var data: Dictionary
 		if _game_config.battle_info:
@@ -398,6 +560,16 @@ func _on_repeat() -> void:
 		root_events.ev_start_game.emit(data)
 	else:
 		root_events.ev_return_to_menu.emit({})
+
+
+## Event battle again with the chase length of the current wins; the run is over → main menu.
+func _repeat_event() -> void:
+	var window: EventWindow = events.calendar.find_window(_game_config.event_key) if events != null and events.calendar != null else null
+	var event: SeasonalEvent = events.event_of(window) if events != null else null
+	if event == null or not window.contains(EventCalendar.now_unix()):
+		root_events.ev_return_to_menu.emit({})
+		return
+	root_events.ev_start_game.emit({"custom_battle": EventScenario.build(event, window, events.wins(window.key()), progress)})
 
 
 func _on_next_level() -> void:

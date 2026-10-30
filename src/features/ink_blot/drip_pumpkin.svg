@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Solid white pumpkin drip (carved face cut out); colored at runtime by ink_tint.gdshader (shot look «Тыковки»). -->
+  <path fill="#FFFFFF" fill-rule="evenodd" d="
+    M58 30 C56 20 60 10 70 8 C76 7 78 12 74 16 C70 20 68 24 69 31
+    C80 26 96 28 106 38 C122 54 124 82 110 100 C98 116 80 118 64 112 C48 118 30 116 18 100
+    C4 82 6 54 22 38 C32 28 46 26 58 30 Z
+    M34 58 L46 42 L56 60 Z
+    M72 60 L82 42 L94 58 Z
+    M30 76 C38 80 44 78 48 84 L54 78 L60 86 L66 78 L72 86 L78 78 L84 84 C88 78 94 80 100 76
+    C94 96 80 102 64 102 C48 102 34 96 30 76 Z"/>
+</svg>

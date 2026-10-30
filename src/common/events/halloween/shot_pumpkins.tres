@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ShotItem" format=3 uid="uid://c8hwshotpump001"]
+
+[ext_resource type="Script" path="res://src/common/cosmetics/shot_item.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://src/features/ink_blot/drip_pumpkin.svg" id="2_drip"]
+
+[resource]
+script = ExtResource("1_script")
+id = "shot_pumpkins"
+title = "Тыковки"
+gold_cost = 8
+ink_colors = PackedColorArray(0.95, 0.52, 0.15, 0.95, 0.98, 0.66, 0.2, 0.92, 0.84, 0.4, 0.1, 0.92)
+drip_texture = ExtResource("2_drip")
+drip_scale_min = 0.3
+drip_scale_max = 0.42
+drip_tilt = 0.25
+drip_spacing = 46.0
+shot_tint = Color(1, 0.82, 0.6, 1)

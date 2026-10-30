@@ -1,0 +1,190 @@
+[gd_resource type="Resource" script_class="EventCalendar" format=3 uid="uid://c8eventcalendar1"]
+
+[ext_resource type="Script" path="res://src/common/events/event_calendar.gd" id="1_script"]
+[ext_resource type="Script" path="res://src/common/events/event_window.gd" id="2_window"]
+[ext_resource type="Resource" uid="uid://c8hwevent000001" path="res://src/common/events/halloween/halloween_event.tres" id="3_halloween"]
+
+[sub_resource type="Resource" id="Window_01"]
+script = ExtResource("2_window")
+event_id = "halloween"
+start_date = "2026-10-25"
+end_date = "2026-11-16"
+
+[sub_resource type="Resource" id="Window_02"]
+script = ExtResource("2_window")
+event_id = "new_year"
+start_date = "2026-12-25"
+end_date = "2027-01-10"
+
+[sub_resource type="Resource" id="Window_03"]
+script = ExtResource("2_window")
+event_id = "april_fools"
+start_date = "2027-04-01"
+end_date = "2027-04-16"
+
+[sub_resource type="Resource" id="Window_04"]
+script = ExtResource("2_window")
+event_id = "halloween"
+start_date = "2027-10-25"
+end_date = "2027-11-16"
+
+[sub_resource type="Resource" id="Window_05"]
+script = ExtResource("2_window")
+event_id = "new_year"
+start_date = "2027-12-25"
+end_date = "2028-01-10"
+
+[sub_resource type="Resource" id="Window_06"]
+script = ExtResource("2_window")
+event_id = "april_fools"
+start_date = "2028-04-01"
+end_date = "2028-04-16"
+
+[sub_resource type="Resource" id="Window_07"]
+script = ExtResource("2_window")
+event_id = "halloween"
+start_date = "2028-10-25"
+end_date = "2028-11-16"
+
+[sub_resource type="Resource" id="Window_08"]
+script = ExtResource("2_window")
+event_id = "new_year"
+start_date = "2028-12-25"
+end_date = "2029-01-10"
+
+[sub_resource type="Resource" id="Window_09"]
+script = ExtResource("2_window")
+event_id = "april_fools"
+start_date = "2029-04-01"
+end_date = "2029-04-16"
+
+[sub_resource type="Resource" id="Window_10"]
+script = ExtResource("2_window")
+event_id = "halloween"
+start_date = "2029-10-25"
+end_date = "2029-11-16"
+
+[sub_resource type="Resource" id="Window_11"]
+script = ExtResource("2_window")
+event_id = "new_year"
+start_date = "2029-12-25"
+end_date = "2030-01-10"
+
+[sub_resource type="Resource" id="Window_12"]
+script = ExtResource("2_window")
+event_id = "april_fools"
+start_date = "2030-04-01"
+end_date = "2030-04-16"
+
+[sub_resource type="Resource" id="Window_13"]
+script = ExtResource("2_window")
+event_id = "halloween"
+start_date = "2030-10-25"
+end_date = "2030-11-16"
+
+[sub_resource type="Resource" id="Window_14"]
+script = ExtResource("2_window")
+event_id = "new_year"
+start_date = "2030-12-25"
+end_date = "2031-01-10"
+
+[sub_resource type="Resource" id="Window_15"]
+script = ExtResource("2_window")
+event_id = "april_fools"
+start_date = "2031-04-01"
+end_date = "2031-04-16"
+
+[sub_resource type="Resource" id="Window_16"]
+script = ExtResource("2_window")
+event_id = "halloween"
+start_date = "2031-10-25"
+end_date = "2031-11-16"
+
+[sub_resource type="Resource" id="Window_17"]
+script = ExtResource("2_window")
+event_id = "new_year"
+start_date = "2031-12-25"
+end_date = "2032-01-10"
+
+[sub_resource type="Resource" id="Window_18"]
+script = ExtResource("2_window")
+event_id = "april_fools"
+start_date = "2032-04-01"
+end_date = "2032-04-16"
+
+[sub_resource type="Resource" id="Window_19"]
+script = ExtResource("2_window")
+event_id = "halloween"
+start_date = "2032-10-25"
+end_date = "2032-11-16"
+
+[sub_resource type="Resource" id="Window_20"]
+script = ExtResource("2_window")
+event_id = "new_year"
+start_date = "2032-12-25"
+end_date = "2033-01-10"
+
+[sub_resource type="Resource" id="Window_21"]
+script = ExtResource("2_window")
+event_id = "april_fools"
+start_date = "2033-04-01"
+end_date = "2033-04-16"
+
+[sub_resource type="Resource" id="Window_22"]
+script = ExtResource("2_window")
+event_id = "halloween"
+start_date = "2033-10-25"
+end_date = "2033-11-16"
+
+[sub_resource type="Resource" id="Window_23"]
+script = ExtResource("2_window")
+event_id = "new_year"
+start_date = "2033-12-25"
+end_date = "2034-01-10"
+
+[sub_resource type="Resource" id="Window_24"]
+script = ExtResource("2_window")
+event_id = "april_fools"
+start_date = "2034-04-01"
+end_date = "2034-04-16"
+
+[sub_resource type="Resource" id="Window_25"]
+script = ExtResource("2_window")
+event_id = "halloween"
+start_date = "2034-10-25"
+end_date = "2034-11-16"
+
+[sub_resource type="Resource" id="Window_26"]
+script = ExtResource("2_window")
+event_id = "new_year"
+start_date = "2034-12-25"
+end_date = "2035-01-10"
+
+[sub_resource type="Resource" id="Window_27"]
+script = ExtResource("2_window")
+event_id = "april_fools"
+start_date = "2035-04-01"
+end_date = "2035-04-16"
+
+[sub_resource type="Resource" id="Window_28"]
+script = ExtResource("2_window")
+event_id = "halloween"
+start_date = "2035-10-25"
+end_date = "2035-11-16"
+
+[sub_resource type="Resource" id="Window_29"]
+script = ExtResource("2_window")
+event_id = "new_year"
+start_date = "2035-12-25"
+end_date = "2036-01-10"
+
+[sub_resource type="Resource" id="Window_30"]
+script = ExtResource("2_window")
+event_id = "april_fools"
+start_date = "2036-04-01"
+end_date = "2036-04-16"
+
+[resource]
+script = ExtResource("1_script")
+events = Array[SeasonalEvent]([ExtResource("3_halloween")])
+windows = Array[EventWindow]([SubResource("Window_01"), SubResource("Window_02"), SubResource("Window_03"), SubResource("Window_04"), SubResource("Window_05"), SubResource("Window_06"), SubResource("Window_07"), SubResource("Window_08"), SubResource("Window_09"), SubResource("Window_10"), SubResource("Window_11"), SubResource("Window_12"), SubResource("Window_13"), SubResource("Window_14"), SubResource("Window_15"), SubResource("Window_16"), SubResource("Window_17"), SubResource("Window_18"), SubResource("Window_19"), SubResource("Window_20"), SubResource("Window_21"), SubResource("Window_22"), SubResource("Window_23"), SubResource("Window_24"), SubResource("Window_25"), SubResource("Window_26"), SubResource("Window_27"), SubResource("Window_28"), SubResource("Window_29"), SubResource("Window_30")])

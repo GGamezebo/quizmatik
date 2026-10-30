@@ -131,7 +131,7 @@ func _shown(slot: CosmeticItem.Slot) -> CosmeticItem:
 func _page_of(item: CosmeticItem) -> int:
 	if item == null:
 		return 0
-	var index := catalog.items_for(_slot).find(item)
+	var index := catalog.shop_items_for(_slot).find(item)
 	return floori(maxi(index, 0) / float(maxi(page_size, 1)))
 
 
@@ -158,7 +158,7 @@ func _rebuild_cards() -> void:
 		return
 	for index in category_buttons.size():
 		category_buttons[index].set_pressed_no_signal(index == _slot)
-	var items := catalog.items_for(_slot)
+	var items := catalog.shop_items_for(_slot)
 	_page_count = maxi(ceili(float(items.size()) / float(page_size)), 1)
 	_page = clampi(_page, 0, _page_count - 1)
 	while _cards.size() < page_size:

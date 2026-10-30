@@ -21,6 +21,8 @@ static func get_state() -> String:
 @export var golden_choice_scene: PackedScene
 ## Royal «chief» boss look when `GameConfig.boss_royal` (falls back to `boss_scene`).
 @export var exam_boss_scene: PackedScene
+## Seasonal events (`GameConfig.event_id`): their boss / chasers and answer look replace the scenes above.
+@export var event_calendar: EventCalendar
 
 var _round_controller: RoundController
 var _bonus: BonusController
@@ -36,6 +38,8 @@ const PAIR_SOLUTION_SEC: float = 2.4
 
 var __components: Array[Variant] = []
 var _answers_paused: bool = false
+## Timer ran out (a boss coming then is the last one: its fall ends the battle, staged or not).
+var _time_up: bool = false
 ## Question already reported as a mistake — a later correct hit (after the hint) isn't "known".
 var _missed_question: QuizQuestion.Question = null
 
@@ -54,17 +58,28 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	air_plane.apply_plane(plane_id)
 	air_plane.shot_speed_mult = float(plane_def.get("shot_speed_mult", 1.0))
 
-	var answer_spawner: AnswerSpawner = AnswerSpawner.new(area, answerScene, game_manager.owner)
+	var event: SeasonalEvent = _event()
+	var answer_packed: PackedScene = event.answer_scene if event != null and event.answer_scene != null else answerScene
+	var answer_spawner: AnswerSpawner = AnswerSpawner.new(area, answer_packed, game_manager.owner)
 	_round_controller = RoundController.new(game_config, player, answer_spawner, game_manager.get_tree(), ev_question_changed)
 	_bonus = BonusController.new(game_config, area, bonus_scene, game_manager.owner)
 	_heart = HeartController.new(game_config, area, heart_scene, game_manager.owner)
 	var boss_packed: PackedScene = exam_boss_scene if game_config.boss_royal and exam_boss_scene != null else boss_scene
-	_boss = BossController.new(game_config, area, boss_packed, game_manager.owner, exam_boss_scene)
+	var royal_packed: PackedScene = exam_boss_scene
+	var chief_packed: PackedScene = exam_boss_scene
+	var wing_packed: PackedScene = boss_scene
+	if event != null and event.boss_scene != null:
+		# Event boss everywhere: leads the chase (other hulls on the wings), then the fight; never swapped for the royal one.
+		boss_packed = event.boss_scene
+		royal_packed = null
+		chief_packed = event.boss_scene
+		wing_packed = event.wing_scene if event.wing_scene != null else event.boss_scene
+	_boss = BossController.new(game_config, area, boss_packed, game_manager.owner, royal_packed)
 	_time_limit = BattleTimeLimit.new(game_config.time_limit_sec)
 	_endless = EndlessDirector.new(game_config)
 	_golden = GoldenFlightController.new(game_config, area, bonus_scene, golden_choice_scene, game_manager.owner, game_manager.get_tree())
 	# Chase level: royal chief + two regular airships behind the plane (same art as the boss fight).
-	_chase = ChaseController.new(game_config, area, air_plane, player, exam_boss_scene, boss_scene, game_manager.owner)
+	_chase = ChaseController.new(game_config, area, air_plane, player, chief_packed, wing_packed, game_manager.owner)
 	_pair = PairAnswerController.new(game_config)
 		
 	__components.append_array([
@@ -104,6 +119,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	_chase.ev_danger.connect(game_events.ev_chase_danger.emit)
 	_chase.ev_drain.connect(game_events.ev_chase_drain.emit)
 	event_listener.add(game_events.ev_pause_answers, _on_pause_answers)
+	event_listener.add(game_events.ev_skip_time, _on_skip_time)
 	event_listener.add(game_events.ev_explosion, _on_explosion)
 	event_listener.add(game_events.ev_target_shot, _boss.shoot)
 	event_listener.add(air_plane.ev_air_plane_colladed, _on_air_plane_collided)
@@ -130,6 +146,7 @@ func leave(_event_data: Dictionary) -> void:
 	_chase = null
 	_pair = null
 	_missed_question = null
+	_time_up = false
 
 func _process(delta: float) -> void:
 	if _time_limit:
@@ -179,6 +196,14 @@ func _on_pause_answers(paused: bool) -> void:
 		_golden.set_paused(paused)
 	if _chase:
 		_chase.set_paused(paused)
+
+
+## Dev «+30 с» (editor only): the clock jumps ahead.
+func _on_skip_time(seconds: float) -> void:
+	if _time_limit:
+		_time_limit.skip(seconds)
+	if _endless:
+		_endless.skip(seconds)
 
 
 func _apply_answers_paused(options: Array[Answer]) -> void:
@@ -306,7 +331,7 @@ func _on_correct(answer: Answer) -> void:
 
 func _on_boss_defeated() -> void:
 	game_events.ev_boss_defeated.emit()
-	if _endless.is_active():
+	if _endless.is_active() and not _time_up:
 		_endless.boss_finished()
 		_round_controller.release_rounds()
 		if game_config.boss_drops_heart:
@@ -354,9 +379,12 @@ func _apply_damage() -> void:
 
 ## Timed end; golden flight first waits for the final pick (`GoldenFlightController.ev_finished`).
 ## A rolled boss (`timed_boss_chance`) flies in first: the balloons pop, no new round until it is in place.
+## Timed chase (seasonal event): the chasers fall back and the plane returns to its spot as the boss comes.
 func _on_time_expired() -> void:
+	_time_up = true
 	if not _golden.is_active():
 		if _boss.is_waiting():
+			_chase.finish(true)
 			_round_controller.hold_rounds()
 			_round_controller.kill_all_answers()
 			_boss.start()
@@ -400,6 +428,13 @@ func _report_fact(is_correct: bool) -> void:
 	if not is_correct:
 		_missed_question = question
 	game_events.ev_fact_answered.emit(question.fact_key, is_correct)
+
+## Seasonal event of this battle (look overrides); null = regular battle.
+func _event() -> SeasonalEvent:
+	if event_calendar == null or game_config.event_id.is_empty():
+		return null
+	return event_calendar.get_event(game_config.event_id)
+
 
 ## Chase level: the chief airship reached the plane — the battle is lost (crash in `EndGameState`).
 func _on_chase_caught() -> void:

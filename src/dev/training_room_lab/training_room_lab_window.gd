@@ -58,6 +58,12 @@ const FLIGHT_HINT_LEVEL := 4
 ## «Эксперт:» row — one button per valley (same order as `expert_container_ids`) passes that expert trial at once.
 @export var expert_buttons: Array[BaseButton] = []
 @export var expert_container_ids: Array[String] = []
+## Seasonal event running now: one more won battle (next gift box) / its progress back to zero (gifts taken back).
+@export var event_win_button: BaseButton
+@export var event_reset_button: BaseButton
+@export var event_status_label: Label
+## «+30 с» button in timed / staged battles (`UserSettings.debug_time_skip`).
+@export var time_skip_check: CheckBox
 @export var root_events: RootEvents
 @export_group("Tutorial hints")
 ## «Подсказки» panel — one button per hint (same order as `hint_ids`; ids in `_on_hint_pressed`).
@@ -136,6 +142,14 @@ func _bind_controls() -> void:
 		expert_buttons[index].pressed.connect(_on_expert_pressed.bind(expert_container_ids[index]))
 	for index in mini(hint_buttons.size(), hint_ids.size()):
 		hint_buttons[index].pressed.connect(_on_hint_pressed.bind(hint_ids[index]))
+	if event_win_button != null:
+		event_win_button.pressed.connect(_on_event_win_pressed)
+	if event_reset_button != null:
+		event_reset_button.pressed.connect(_on_event_reset_pressed)
+	if time_skip_check != null:
+		time_skip_check.button_pressed = user_settings != null and user_settings.debug_time_skip
+		time_skip_check.toggled.connect(_on_time_skip_toggled)
+	_refresh_event_status()
 	if grant_gold_button != null:
 		grant_gold_button.pressed.connect(_on_grant_gold_pressed.bind(GRANT_GOLD))
 	if grant_gold_big_button != null:
@@ -370,6 +384,54 @@ func _on_expert_pressed(container_id: String) -> void:
 		return
 	progress.complete_expert(container_id)
 	_notify_progress_changed()
+
+
+## Seasonal event running now: a won event battle — the next box opens (gift / its price, last box: the cover),
+## gold granted like after a battle. The box flies off the menu banner when the lab closes.
+func _on_event_win_pressed() -> void:
+	var events := EventsController.find_in_tree(get_tree())
+	var profiles := ProfileController.find_in_tree(get_tree())
+	var window: EventWindow = events.active_window() if events != null else null
+	if window == null or profiles == null:
+		return
+	var gold: int = int(events.register_win(window.key()).get("gold", 0))
+	if gold > 0:
+		profiles.add_gold(gold)
+	_refresh_event_status()
+	_notify_progress_changed()
+
+
+## Seasonal event running now: no wins, every box closed again, its gifts and cover taken back.
+func _on_event_reset_pressed() -> void:
+	var events := EventsController.find_in_tree(get_tree())
+	var window: EventWindow = events.active_window() if events != null else null
+	if window == null:
+		return
+	events.reset_run(window.key())
+	_refresh_event_status()
+	_notify_progress_changed()
+
+
+## «Сейчас: Хэллоуин (до 16.11) · побед 2 из 6» / no event running.
+func _refresh_event_status() -> void:
+	if event_status_label == null:
+		return
+	var events := EventsController.find_in_tree(get_tree()) if is_inside_tree() else null
+	var window: EventWindow = events.active_window() if events != null else null
+	var event: SeasonalEvent = events.event_of(window) if events != null else null
+	if event == null:
+		event_status_label.text = "Сейчас ивента нет"
+		return
+	var end_date: PackedStringArray = window.end_date.split("-")
+	event_status_label.text = "Сейчас: %s (до %s.%s) · побед %d, коробок %d из %d" % [
+		event.title, end_date[2], end_date[1], events.wins(window.key()), events.opened_boxes(window), event.box_count()]
+
+
+func _on_time_skip_toggled(is_on: bool) -> void:
+	if user_settings == null:
+		return
+	user_settings.debug_time_skip = is_on
+	user_settings.save()
 
 
 ## Shows tutorial hint `hint_id` again: forgets it was shown and makes its trigger true at once

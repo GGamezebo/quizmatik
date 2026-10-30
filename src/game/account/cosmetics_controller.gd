@@ -44,6 +44,32 @@ func try_buy(item: CosmeticItem) -> bool:
 	return true
 
 
+## Gift (seasonal event box): keeps the item, no gold; the pilot puts it on with «НАДЕТЬ» (post-battle, splash).
+## False = already owned (caller refunds).
+func grant(item: CosmeticItem) -> bool:
+	if item == null or is_owned(item):
+		return false
+	pdata.cosmetics.owned.append(item.id)
+	_save()
+	return true
+
+
+## Dev lab (event progress reset): the item is not owned any more; worn → its slot falls back to the default.
+func revoke(item: CosmeticItem) -> void:
+	if item == null or not pdata.cosmetics.owned.has(item.id):
+		return
+	pdata.cosmetics.owned.erase(item.id)
+	var key := CosmeticItem.slot_key(item.get_slot())
+	if pdata.cosmetics.equipped.get(key, "") == item.id:
+		pdata.cosmetics.equipped.erase(key)
+	_save()
+
+
+## `equip` by catalog id (celebration «НАДЕТЬ» → AppRoot).
+func equip_id(item_id: String) -> bool:
+	return equip(catalog.get_item(item_id))
+
+
 func equip(item: CosmeticItem) -> bool:
 	if not is_owned(item) or is_equipped(item):
 		return false

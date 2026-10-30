@@ -1,6 +1,8 @@
 """Synthesize MusicController themes (stereo OGG): win / lose / battle / exam / boss.
 
 Battle (G major 124), exam (E minor 132), boss (D minor 150) — pure loops (loop_offset 0).
+Halloween (E minor 124, own seed) — the seasonal sky's battle theme (`halloween_background.tscn` `battle_music`).
+Only some files: `python tools/generate_music.py halloween_music.ogg`.
 
 Win  — D major, 120 BPM: brass fanfare intro (2 bars) → loop on the Canon
        progression D A Bm F#m G D G A (lead + glockenspiel, plucked arp,
@@ -20,6 +22,7 @@ import math
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 import wave
 
@@ -748,15 +751,80 @@ def boss_theme() -> tuple[np.ndarray, float]:
 	return loop_only(lm, bars * 4 * beat, t60=1.5, wet_ratio=0.3)
 
 
+# --- HALLOWEEN ----------------------------------------------------------------------
+
+def halloween_theme() -> tuple[np.ndarray, float]:
+	"""Halloween background battle theme (seasonal event sky `halloween_background.tscn`): the battle groove
+	(124 BPM, 16 bars, groove → melody) in E minor — celesta call-and-answer, theremin melody, «bones» woodblock.
+	Own seed: re-running it alone (or after the others) gives the same file."""
+	global rng
+	rng = np.random.default_rng(31102026)
+	bpm = 124.0
+	beat = 60.0 / bpm
+	bars = 16
+	lm = Mix(bars * 4 * beat + TAIL_SEC, bpm)
+	prog = [("E", True), ("C", False), ("A", True), ("B", False),
+		("E", True), ("C", False), ("F", False), ("B", False)] * 2
+	melody = [
+		[("E5", 0.5), ("G5", 0.5), ("B5", 1), ("A5", 0.5), ("G5", 0.5), ("F#5", 1)],
+		[("E5", 1), ("G5", 0.5), ("E5", 0.5), ("C5", 1.5), ("-", 0.5)],
+		[("A4", 0.5), ("C5", 0.5), ("E5", 1), ("D#5", 0.5), ("E5", 0.5), ("C5", 1)],
+		[("B4", 1.5), ("D#5", 0.5), ("F#5", 1), ("-", 1)],
+		[("G5", 0.5), ("B5", 0.5), ("E6", 1), ("D#6", 0.5), ("B5", 0.5), ("G5", 1)],
+		[("A5", 1), ("G5", 0.5), ("E5", 0.5), ("C5", 1.5), ("-", 0.5)],
+		[("F5", 0.5), ("A5", 0.5), ("C6", 1), ("B5", 0.5), ("A5", 0.5), ("F5", 1)],
+		[("D#5", 1), ("F#5", 1), ("B5", 1.5), ("-", 0.5)],
+	]
+	# A section: sparse celesta call-and-answer (minor third + tritone wink).
+	motif = [[("B5", 0.5), ("G5", 0.5), ("-", 3)], [("-", 2), ("A#5", 0.5), ("B5", 0.5), ("-", 1)]]
+
+	def theremin(f, d):
+		return additive(f, d, rolloff=1.6, attack=0.09, release=0.3, vibrato=0.016, detune=0.0, max_k=6)
+
+	def celesta(f, d):
+		return bell(f, music_box=True)
+
+	arp_pat = [0, 1, 2, 3, 4, 3, 2, 1]
+	for bar, (root, minor) in enumerate(prog):
+		b, voicing, arp = chord(root, minor)
+		b_sec = bar >= 8
+		for m in voicing:
+			lm.add(_pad(hz(m), 4 * beat), lm.sec(bar), 0.09, pan=-0.35, send=0.55)
+		if b_sec:
+			place_melody(lm, bar, melody[bar - 8], theremin, gain=0.34, pan=0.12, send=0.4)
+			place_melody(lm, bar, _octave_up(melody[bar - 8]), celesta, gain=0.07, pan=0.4, send=0.45)
+		elif bar % 4 < 2:
+			place_melody(lm, bar, motif[bar % 2], celesta, gain=0.16, pan=0.4, send=0.45)
+		for i, idx in enumerate(arp_pat):
+			lm.add(_pluck(hz(arp[idx]), 0.4 * beat), lm.sec(bar, i * 0.5),
+				0.13 if i % 2 == 0 else 0.09, pan=-0.45 + 0.1 * (i % 3), send=0.3)
+		for st, oct_ in ((0, 0), (0.75, 0), (1.5, 12), (2, 0), (2.75, 7), (3.5, 12)):
+			lm.add(bass(hz(b + oct_), 0.38 * beat), lm.sec(bar, st), 0.40 if oct_ == 0 else 0.27, send=0.04)
+		for st in (0.5, 1.5, 2.5, 3.5):  # «bones»: dry woodblock clicks on the offbeats
+			lm.add(rim(), lm.sec(bar, st), 0.08 if st in (1.5, 3.5) else 0.05, pan=0.25, send=0.12)
+		_drum_bar(lm, bar, kicks=(0, 1.5, 2, 2.75) if b_sec else (0, 2, 2.75), snares=(1, 3), clap_gain=0.1,
+			shaker_gain=0.035 if b_sec else 0.0)
+		if bar in (0, 8):
+			lm.add(crash(), lm.sec(bar), 0.15, pan=0.35, send=0.25)
+		if bar in (7, 15):
+			_tom_fill(lm, bar, 3.0, ["B3", "G3", "E3", "B2"], gain=0.28)
+	return loop_only(lm, bars * 4 * beat, t60=2.1, wet_ratio=0.38)
+
+
 def main() -> None:
+	"""All themes, or only the files named on the command line (e.g. `halloween_music.ogg`)."""
 	themes = (
 		("win_music.ogg", win_theme, 5),
 		("lose_music.ogg", lose_theme, 5),
 		("battle_music.ogg", battle_theme, 4),
 		("exam_music.ogg", exam_theme, 4),
 		("boss_music.ogg", boss_theme, 4),
+		("halloween_music.ogg", halloween_theme, 4),
 	)
+	only = set(sys.argv[1:])
 	for name, fn, quality in themes:
+		if only and name not in only:
+			continue
 		audio, loop_offset = fn()
 		write_ogg(os.path.join(MUSIC_DIR, name), audio, quality)
 		print(f"  loop_offset={loop_offset:g} (set in {name}.import)")

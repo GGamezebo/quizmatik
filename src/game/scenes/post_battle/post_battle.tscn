@@ -31,6 +31,13 @@
 [ext_resource type="PackedScene" path="res://src/ui/rewarded_gold_button/rewarded_gold_button.tscn" id="17_rewarded"]
 [ext_resource type="Script" path="res://src/ui/ui_anchor/ui_anchor.gd" id="19_ui_anchor"]
 [ext_resource type="Resource" path="res://src/game/scenes/tutorial/tutorial_anchors.tres" id="20_tutorial_anchors"]
+[ext_resource type="Resource" uid="uid://c8eventcalendar1" path="res://src/common/events/event_calendar.tres" id="30_event_calendar"]
+[ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="31_cosmetics"]
+[ext_resource type="Texture2D" path="res://src/common/events/halloween/box_open.svg" id="32_box_open"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/plane_hangar_window/cosmetic_swatch.gd" id="33_swatch"]
+[ext_resource type="PackedScene" uid="uid://c8eventsctrl0001" path="res://src/game/account/events_controller.tscn" id="34_events"]
+[ext_resource type="Shader" path="res://src/features/plane/plane_body.gdshader" id="35_plane_body"]
+[ext_resource type="Shader" path="res://src/ui/exam_victory_dialog/sun_rays.gdshader" id="36_rays"]
 
 [sub_resource type="Gradient" id="Gradient_overlay"]
 colors = PackedColorArray(0.12, 0.1, 0.08, 0.22, 0.953, 0.902, 0.784, 0.05)
@@ -70,6 +77,100 @@ font = ExtResource("14_font")
 font_size = 22
 font_color = Color(0.72, 0.52, 0.12, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_event"]
+font = ExtResource("14_font")
+font_size = 38
+font_color = Color(0.22, 0.25, 0.3, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_event_note"]
+font = ExtResource("14_font")
+font_size = 20
+font_color = Color(0.45, 0.33, 0.62, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_event_plane"]
+resource_local_to_scene = true
+shader = ExtResource("35_plane_body")
+shader_parameter/shadow_offset = Vector2(-3, 5)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.3)
+shader_parameter/shadow_blur = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_event_rays"]
+shader = ExtResource("36_rays")
+shader_parameter/ray_color = Color(1, 0.74, 0.3, 0.55)
+shader_parameter/rays = 14.0
+shader_parameter/speed = 0.3
+shader_parameter/softness = 0.3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wear_normal"]
+content_margin_left = 22.0
+content_margin_top = 6.0
+content_margin_right = 22.0
+content_margin_bottom = 10.0
+bg_color = Color(0.43, 0.7, 0.34, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 8
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 8
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wear_hover"]
+content_margin_left = 22.0
+content_margin_top = 6.0
+content_margin_right = 22.0
+content_margin_bottom = 10.0
+bg_color = Color(0.5, 0.77, 0.4, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 8
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 8
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wear_pressed"]
+content_margin_left = 22.0
+content_margin_top = 10.0
+content_margin_right = 22.0
+content_margin_bottom = 6.0
+bg_color = Color(0.37, 0.62, 0.29, 1)
+border_width_left = 4
+border_width_top = 8
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 8
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wear_disabled"]
+content_margin_left = 22.0
+content_margin_top = 6.0
+content_margin_right = 22.0
+content_margin_bottom = 10.0
+bg_color = Color(0.95, 0.92, 0.84, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 6
+border_color = Color(0.165, 0.2, 0.251, 0.45)
+corner_radius_top_left = 18
+corner_radius_top_right = 8
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_event_box"]
+shader = ExtResource("11_ypp4h")
+shader_parameter/shadow_offset = Vector2(-3, 6)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
+shader_parameter/shadow_blur = 1.5
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p8j5v"]
 shader = ExtResource("11_ypp4h")
 shader_parameter/shadow_offset = Vector2(-5, 10)
@@ -88,7 +189,7 @@ shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
 
-[node name="PostBattleScene" type="Node" unique_id=1710544667 node_paths=PackedStringArray("progress", "title_label", "score_label", "gold_lines", "level_gold_row", "gold_label", "bonus_gold_row", "bonus_gold_label", "stamps", "next_level_button", "menu_button", "repeat_button", "exam_victory_dialog", "background_host", "rewarded_gold_button", "stamps_row", "endless_row", "endless_record_label", "endless_next_coin_label")]
+[node name="PostBattleScene" type="Node" unique_id=1710544667 node_paths=PackedStringArray("progress", "title_label", "score_label", "gold_lines", "level_gold_row", "gold_label", "bonus_gold_row", "bonus_gold_label", "stamps", "next_level_button", "menu_button", "repeat_button", "exam_victory_dialog", "background_host", "rewarded_gold_button", "stamps_row", "endless_row", "endless_record_label", "endless_next_coin_label", "event_row", "event_box", "event_gift", "event_rays", "event_gift_plane", "event_gift_swatch", "event_gift_icon", "event_gift_coin", "event_caption", "event_wear_button", "event_note", "event_coins", "event_coins_label", "events")]
 script = ExtResource("1_uxaqq")
 root_events = ExtResource("2_jg6wr")
 progress = NodePath("ProgressController")
@@ -114,12 +215,30 @@ background_host = NodePath("UI/Screen/Background")
 offer_board = ExtResource("16_offer_board")
 rewarded_gold_button = NodePath("UI/Screen/RewardedGold")
 _game_config = ExtResource("3_isyvk")
+event_row = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow")
+event_box = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage/Box")
+event_gift = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage/Gift")
+event_rays = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage/Gift/Rays")
+event_gift_plane = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage/Gift/Plane")
+event_gift_swatch = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage/Gift/Swatch")
+event_gift_icon = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage/Gift/Icon")
+event_gift_coin = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage/Gift/Coin")
+event_caption = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/NameRow/Caption")
+event_wear_button = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/NameRow/Wear")
+event_note = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Note")
+event_coins = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Coins")
+event_coins_label = NodePath("UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Coins/Gold")
+event_calendar = ExtResource("30_event_calendar")
+cosmetics = ExtResource("31_cosmetics")
+events = NodePath("EventsController")
 
 [node name="ExamVictoryDialog" parent="." instance=ExtResource("15_exam_victory")]
 
 [node name="ProgressController" parent="." unique_id=478405376 instance=ExtResource("4_progress")]
 
 [node name="DailyChallengesController" parent="." unique_id=2009000201 instance=ExtResource("4_daily")]
+
+[node name="EventsController" parent="." instance=ExtResource("34_events")]
 
 [node name="MenuAnchor" type="Node" parent="." node_paths=PackedStringArray("target")]
 script = ExtResource("19_ui_anchor")
@@ -291,6 +410,176 @@ stretch_mode = 5
 layout_mode = 2
 text = "Следующая монетка: 4:00"
 label_settings = SubResource("LabelSettings_next_coin")
+vertical_alignment = 1
+
+[node name="EventRow" type="VBoxContainer" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Stage" type="HBoxContainer" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Box" type="TextureRect" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage"]
+material = SubResource("ShaderMaterial_event_box")
+custom_minimum_size = Vector2(140, 140)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+texture = ExtResource("32_box_open")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Gift" type="Control" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage"]
+custom_minimum_size = Vector2(320, 176)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Rays" type="ColorRect" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage/Gift"]
+material = SubResource("ShaderMaterial_event_rays")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -60.0
+offset_right = 20.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Plane" type="TextureRect" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage/Gift"]
+visible = false
+material = SubResource("ShaderMaterial_event_plane")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Swatch" type="Control" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage/Gift"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -50.0
+offset_right = 80.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.9, 1.9)
+pivot_offset = Vector2(80, 50)
+mouse_filter = 2
+script = ExtResource("33_swatch")
+sample_count = 3
+
+[node name="Icon" type="TextureRect" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage/Gift"]
+visible = false
+material = SubResource("ShaderMaterial_event_box")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Coin" type="TextureRect" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Stage/Gift"]
+visible = false
+material = SubResource("ShaderMaterial_event_box")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -72.0
+offset_right = 72.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("16_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameRow" type="HBoxContainer" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Caption" type="Label" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/NameRow"]
+layout_mode = 2
+text = "Тыква"
+label_settings = SubResource("LabelSettings_event")
+horizontal_alignment = 1
+
+[node name="Wear" type="Button" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/NameRow"]
+visible = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.29, 0.5, 0.25, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_wear_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_wear_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wear_pressed")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_wear_disabled")
+theme_override_styles/focus = SubResource("StyleBoxFlat_wear_normal")
+text = "НАДЕТЬ"
+
+[node name="Note" type="Label" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow"]
+layout_mode = 2
+text = "Коробка 1 из 6"
+label_settings = SubResource("LabelSettings_event_note")
+horizontal_alignment = 1
+
+[node name="Coins" type="HBoxContainer" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow"]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="CoinIcon" type="TextureRect" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Coins"]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("16_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Gold" type="Label" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox/EventRow/Coins"]
+layout_mode = 2
+text = "+50"
+label_settings = SubResource("LabelSettings_gold")
 vertical_alignment = 1
 
 [node name="GoldLines" type="VBoxContainer" parent="UI/Screen/CenterContainer/ResultCard/Content/VBox" unique_id=1388204519]

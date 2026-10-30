@@ -14,10 +14,15 @@ const KIND_MASTER := "master"
 const KIND_MAGISTER := "magister"
 ## Valley expert trial survived (first time); payload `container_id`.
 const KIND_EXPERT := "expert"
+## Seasonal event: the last gift box opened — the event background is yours (or its price, if bought);
+## payload = `EventsController.register_win` result (`event_id`, `cover_refund`).
+const KIND_EVENT := "event"
 const FADE_DURATION: float = 0.22
 
 ## «Сесть в самолёт» on a new plane: the owner equips it (ProfileController), the splash moves on.
 signal ev_board_plane(plane_id: String)
+## «Надеть» on a gifted look item (event cover): the owner equips it (CosmeticsController), the splash moves on.
+signal ev_wear_item(item_id: String)
 
 @export var root_events: RootEvents
 @export var screen: Control
@@ -26,7 +31,8 @@ signal ev_board_plane(plane_id: String)
 @export var art_rect: TextureRect
 @export var confirm_button: BaseButton
 ## New plane not worn yet (an exam gift; a bought one is worn at once) → shown beside the confirm button.
-@export var board_button: BaseButton
+## Also «НАДЕТЬ» for a gifted event cover not worn yet.
+@export var board_button: Button
 ## Paywalled valleys get no unlock splash.
 @export var offer_board: OfferBoard
 ## Live active profile: its difficulty decides which valleys the store sells.
@@ -42,9 +48,15 @@ signal ev_board_plane(plane_id: String)
 @export var expert_art: Texture2D
 ## Flying ribbons — emitted only during the master celebration.
 @export var ribbons: CPUParticles2D
+## Seasonal events (`KIND_EVENT`: the event cover art and name).
+@export var event_calendar: EventCalendar
 
 var _queue: Array[Dictionary] = []
 var _plane_id: String = ""
+## Gifted look item the board button puts on ("" = none).
+var _wear_item_id: String = ""
+## Board button caption from the scene («СЕСТЬ В САМОЛЁТ»).
+var _board_text: String = ""
 var _busy: bool = false
 var _held: bool = false
 var _listener: EventListener = EventListener.new()
@@ -56,6 +68,7 @@ func _ready() -> void:
 	if confirm_button:
 		confirm_button.pressed.connect(_on_confirm_pressed)
 	if board_button:
+		_board_text = board_button.text
 		board_button.pressed.connect(_on_board_pressed)
 	if root_events != null:
 		_listener.add(root_events.ev_show_celebration, _on_show_celebration)
@@ -95,8 +108,10 @@ func _try_show_next() -> void:
 func _present(kind: String, payload: Dictionary) -> void:
 	_busy = true
 	_plane_id = ""
+	_wear_item_id = ""
 	if board_button:
 		board_button.visible = false
+		board_button.text = _board_text
 	match kind:
 		KIND_VALLEY:
 			var container_id := String(payload.get("container_id", ""))
@@ -115,6 +130,8 @@ func _present(kind: String, payload: Dictionary) -> void:
 			_present_magister()
 		KIND_EXPERT:
 			_present_expert(String(payload.get("container_id", "")))
+		KIND_EVENT:
+			_present_event(payload)
 		_:
 			_busy = false
 			_try_show_next()
@@ -173,6 +190,25 @@ func _present_expert(container_id: String) -> void:
 	_set_ribbons(true)
 
 
+func _present_event(payload: Dictionary) -> void:
+	var event: SeasonalEvent = event_calendar.get_event(String(payload.get("event_id", ""))) if event_calendar != null else null
+	var cover: CoverItem = event.cover if event != null else null
+	var cover_title: String = tr(cover.title) if cover != null else ""
+	title_label.text = "Все коробки открыты!"
+	if bool(payload.get("cover_refund", false)):
+		message_label.text = tr("Фон «%s» у тебя уже был — держи монетки за него!") % cover_title
+	else:
+		message_label.text = tr("Фон «%s» теперь твой! Иногда он будет и в других боях") % cover_title
+	art_rect.texture = cover.icon if cover != null and cover.icon != null else gold_art
+	art_rect.modulate = Color.WHITE
+	_set_ribbons(true)
+	# A freshly gifted background is not worn yet: «НАДЕТЬ» puts it on the menu at once.
+	if cover != null and board_button and not bool(payload.get("cover_refund", false)) and pdata != null 			and pdata.cosmetics.equipped.get(CosmeticItem.slot_key(cover.get_slot()), "") != cover.id:
+		_wear_item_id = cover.id
+		board_button.text = "НАДЕТЬ"
+		board_button.visible = true
+
+
 func _set_ribbons(on: bool) -> void:
 	if ribbons == null:
 		return
@@ -198,6 +234,8 @@ func _container_name(container_id: String) -> String:
 func _on_board_pressed() -> void:
 	if not _plane_id.is_empty():
 		ev_board_plane.emit(_plane_id)
+	elif not _wear_item_id.is_empty():
+		ev_wear_item.emit(_wear_item_id)
 	_on_confirm_pressed()
 
 

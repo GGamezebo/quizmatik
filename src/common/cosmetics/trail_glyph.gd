@@ -2,7 +2,7 @@ class_name TrailGlyph
 extends RefCounted
 
 ## Sign-shaped trail dots for `TrailItem.Style.SIGNS` (battle `PlaneFlyerTrail` + hangar `CosmeticSwatch`).
-## Signs: `+` `−` `×` `÷` `=` `★`; any other char → round dot. Each part is one flat polygon,
+## Signs: `+` `−` `×` `÷` `=` `★`, Halloween `b` bat / `g` ghost; any other char → round dot. Each part is one flat polygon,
 ## so see-through ink never darkens where two strokes would overlap.
 
 ## Half stroke width, in sign radii.
@@ -61,7 +61,36 @@ static func _build(glyph: String) -> Array:
 			]
 		"★", "*":
 			return [_star(1.2, 0.52)]
+		"b":
+			return [_bat()]
+		"g":
+			return [_ghost()]
 	return [_circle(Vector2.ZERO, 0.6)]
+
+
+## Halloween bat silhouette: ears, scalloped wings.
+static func _bat() -> PackedVector2Array:
+	var outline := [
+		Vector2(-3, -8), Vector2(-1, -4), Vector2(1, -4), Vector2(3, -8), Vector2(5, -5), Vector2(10, -9),
+		Vector2(16, -11), Vector2(22, -6), Vector2(19, -2), Vector2(16, 1), Vector2(13, -1), Vector2(10, 3),
+		Vector2(7, 1), Vector2(4, 6), Vector2(0, 8), Vector2(-4, 6), Vector2(-7, 1), Vector2(-10, 3), Vector2(-13, -1),
+		Vector2(-16, 1), Vector2(-19, -2), Vector2(-22, -6), Vector2(-16, -11), Vector2(-10, -9), Vector2(-5, -5),
+	]
+	var points := PackedVector2Array()
+	for point: Vector2 in outline:
+		points.append(point / 20.0)
+	return points
+
+
+## Halloween ghost silhouette: round head, wavy hem.
+static func _ghost() -> PackedVector2Array:
+	var points := PackedVector2Array()
+	for step in CIRCLE_STEPS + 1:
+		points.append(Vector2.from_angle(PI + PI * float(step) / CIRCLE_STEPS) * 0.8 + Vector2(0.0, -0.1))
+	for point: Vector2 in [Vector2(0.8, 0.8), Vector2(0.53, 0.6), Vector2(0.27, 0.85), Vector2(0.0, 0.6),
+			Vector2(-0.27, 0.85), Vector2(-0.53, 0.6), Vector2(-0.8, 0.8)]:
+		points.append(point)
+	return points
 
 
 ## Plus as one outline: 4 arms with round ends, turned by `turn` (× = 45°).

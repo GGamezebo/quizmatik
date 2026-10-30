@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+  <!-- Opened Halloween gift box (post-battle): lid flipped aside, warm light pouring out.
+       Colored pencil fills + graphite ink, white die-cut sticker rim. -->
+  <g fill="#FFE7A8" opacity="0.75">
+    <path d="M52 92 L22 10 L58 26 Z"/>
+    <path d="M64 90 L66 4 L88 30 Z"/>
+    <path d="M90 92 L126 14 L132 46 Z"/>
+  </g>
+  <g fill="#FFFFFF" stroke="#FFFFFF" stroke-width="14" stroke-linejoin="round">
+    <rect x="34" y="88" width="92" height="58" rx="8"/>
+    <path d="M104 52 L150 66 L142 92 L96 78 Z"/>
+  </g>
+  <!-- Box body (open top) -->
+  <rect x="34" y="88" width="92" height="58" rx="8" fill="#6B4E99" stroke="#2A3340" stroke-width="5"/>
+  <path d="M38 94 L122 94" stroke="#3A2C52" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+  <g stroke="#57407F" stroke-width="3.5" stroke-linecap="round" opacity="0.8">
+    <path d="M40 142 L54 128"/><path d="M54 144 L70 128"/><path d="M94 144 L110 128"/>
+  </g>
+  <rect x="71" y="88" width="18" height="58" fill="#F08A2C" stroke="#2A3340" stroke-width="4"/>
+  <path d="M76 96 L76 140" stroke="#FFC074" stroke-width="3" stroke-linecap="round"/>
+  <!-- Lid tossed to the side -->
+  <path d="M104 52 L150 66 L142 92 L96 78 Z" fill="#7E5DB0" stroke="#2A3340" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M121 57 L113 84" stroke="#F08A2C" stroke-width="9"/>
+  <path d="M121 57 L113 84" stroke="#2A3340" stroke-width="2" opacity="0.5"/>
+  <!-- Sparkles -->
+  <g fill="#FFD25E" stroke="#2A3340" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M30 60 L34 70 L44 74 L34 78 L30 88 L26 78 L16 74 L26 70 Z"/>
+    <path d="M110 22 L113 29 L120 32 L113 35 L110 42 L107 35 L100 32 L107 29 Z"/>
+  </g>
+</svg>

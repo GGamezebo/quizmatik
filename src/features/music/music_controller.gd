@@ -9,6 +9,8 @@ extends Node
 ## Chase level: airships close in (`ev_chase_danger(true)`) → `chase_music` (empty = boss_music); fell back →
 ## the battle theme resumes where it stopped.
 ## `ev_celebration_music(true)` (purchase thank-you) → celebration theme, `false` → what played before.
+## Battle theme starts when the battle mounted its sky (`GameEvents.ev_battle_music`): a sky with its own theme
+## (seasonal backgrounds) plays it, else battle / exam theme; until then (loading screen) the previous music goes on.
 
 @export var root_events: RootEvents
 @export var game_events: GameEvents
@@ -46,6 +48,8 @@ var _battle_resume_sec: float = 0.0
 ## What played before `ev_celebration_music(true)` (null = no celebration running).
 var _resume_stream: AudioStream = null
 var _resume_is_result: bool = false
+## Theme picked at `ev_start_game` (battle / exam) for a sky without its own one.
+var _default_battle_stream: AudioStream = null
 
 
 func _ready() -> void:
@@ -59,6 +63,7 @@ func _ready() -> void:
 		_listener.add(game_events.ev_boss_defeated, _on_boss_defeated)
 		_listener.add(game_events.ev_time_left, _on_time_left)
 		_listener.add(game_events.ev_chase_danger, _on_chase_danger)
+		_listener.add(game_events.ev_battle_music, _on_battle_music)
 		_listener.add(game_events.ev_win, _fade_out)
 		_listener.add(game_events.ev_lose, _fade_out)
 	_prepare_loops()
@@ -97,11 +102,17 @@ func _on_start_game(data: Dictionary = {}) -> void:
 	_resume_stream = null
 	var battle_info = data.get("battle_info")
 	if battle_info is GameConfig.BattleInfo and battle_info.is_exam and exam_music:
-		_battle_stream = exam_music
+		_default_battle_stream = exam_music
 	elif battle_music:
-		_battle_stream = battle_music
+		_default_battle_stream = battle_music
 	else:
-		_battle_stream = background_music
+		_default_battle_stream = background_music
+
+
+## The battle mounted its sky: its own theme, else the one picked at start.
+func _on_battle_music(stream: AudioStream) -> void:
+	_enable_loop(stream)
+	_battle_stream = stream if stream != null else _default_battle_stream
 	_play_loop(_battle_stream)
 
 

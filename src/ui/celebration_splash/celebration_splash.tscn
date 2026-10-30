@@ -14,6 +14,7 @@
 [ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="11_pdata"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/trophy_room_window/ui/trophies/trophy_magister.svg" id="20_magister"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/expert_badge.svg" id="21_expert"]
+[ext_resource type="Resource" uid="uid://c8eventcalendar1" path="res://src/common/events/event_calendar.tres" id="22_events"]
 
 [sub_resource type="Gradient" id="Gradient_kcyx7"]
 colors = PackedColorArray(0.165, 0.2, 0.251, 0.55, 0.953, 0.902, 0.784, 0.08)
@@ -164,6 +165,7 @@ master_art = ExtResource("9_trophy")
 magister_art = ExtResource("20_magister")
 expert_art = ExtResource("21_expert")
 ribbons = NodePath("Screen/Ribbons")
+event_calendar = ExtResource("22_events")
 
 [node name="Screen" type="Control" parent="."]
 layout_mode = 3

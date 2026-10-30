@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://dw0mrq85a6eo7"]
+
+[ext_resource type="PackedScene" path="res://src/features/boss/boss_airship.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/halloween_airship_body.svg" id="2_body"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/halloween_armor_plate.svg" id="3_plate"]
+
+[node name="BossHalloweenAirship" instance=ExtResource("1_base")]
+body_variants = Array[Texture2D]([])
+
+[node name="Body" parent="Visual" index="0"]
+texture = ExtResource("2_body")
+
+[node name="TopFront" parent="Visual/Plates" index="0"]
+texture = ExtResource("3_plate")
+
+[node name="TopMid" parent="Visual/Plates" index="1"]
+texture = ExtResource("3_plate")
+
+[node name="TopBack" parent="Visual/Plates" index="2"]
+texture = ExtResource("3_plate")
+
+[node name="LowFront" parent="Visual/Plates" index="3"]
+texture = ExtResource("3_plate")
+
+[node name="LowMid" parent="Visual/Plates" index="4"]
+texture = ExtResource("3_plate")
+
+[node name="LowBack" parent="Visual/Plates" index="5"]
+texture = ExtResource("3_plate")

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Solid white wrapped candy drip; colored at runtime by ink_tint.gdshader (shot look «Конфетки»). -->
+  <path fill="#FFFFFF" d="
+    M40 64 C40 48 50 40 64 40 C78 40 88 48 88 64 C88 80 78 88 64 88 C50 88 40 80 40 64 Z
+    M42 56 L14 36 C10 34 6 38 8 42 L16 64 L8 86 C6 90 10 94 14 92 L42 72 Z
+    M86 56 L114 36 C118 34 122 38 120 42 L112 64 L120 86 C122 90 118 94 114 92 L86 72 Z"/>
+</svg>

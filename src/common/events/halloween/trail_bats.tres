@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="TrailItem" format=3 uid="uid://c8hwtrailbats01"]
+
+[ext_resource type="Script" path="res://src/common/cosmetics/trail_item.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "trail_bats"
+title = "Летучие мыши"
+gold_cost = 8
+style = 5
+color = Color(0.24, 0.17, 0.34, 0.9)
+palette = PackedColorArray(0.24, 0.17, 0.34, 0.9, 0.47, 0.32, 0.64, 0.9)
+width = 15.0
+spacing = 44.0
+signs = "b"

@@ -152,6 +152,16 @@ var endless_best_sec: int = 0
 @export var chase_head_start: float = 1.3
 ## Chance the battle becomes a chase (practice), rolled once at battle start by `roll_chase()`.
 @export_range(0.0, 1.0, 0.05) var chase_chance: float = 0.0
+## Chase under the timer (seasonal event, `time_limit_sec` + stages): the plane drifts to the middle with the clock
+## and every correct answer pushes the chasers back; time up → they fall back, the plane returns to its spot and
+## the boss flies in (`timed_boss_chance`). Lets `chase` run in a timed, staged battle.
+@export var timed_chase: bool = false
+
+@export_category("Event")
+## Seasonal event battle (menu event banner, `EventScenario`): `SeasonalEvent.id` — its boss, answer look and
+## background (`EventCalendar`); a win opens the next gift box of run `event_key` (`EventWindow.key()`). Empty = no event.
+@export var event_id: String = ""
+@export var event_key: String = ""
 
 @export_category("Expert")
 ## Both operands hidden «? + ? = 9» (expert trial): two shots fill the blanks in order, the verdict comes with
@@ -211,9 +221,11 @@ func is_timed() -> bool:
 
 
 ## Chase only fits a regular «answer N questions» battle: never timed, staged (endless, magister, expert), golden flight
-## or two-blank questions.
+## or two-blank questions — except the timed chase (seasonal event), built for the timer.
 func can_chase() -> bool:
-	return not is_timed() and not is_staged() and not golden_flight and not hidden_pair
+	if golden_flight or hidden_pair or endless:
+		return false
+	return timed_chase or (not is_timed() and not is_staged())
 
 
 ## Battle start: `chase_chance` may turn a regular battle into a chase.

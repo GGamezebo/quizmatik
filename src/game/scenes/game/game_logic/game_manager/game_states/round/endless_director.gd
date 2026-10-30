@@ -43,6 +43,16 @@ func set_paused(paused: bool) -> void:
 	_paused = paused
 
 
+## Dev: `seconds` of battle time pass at once (stages, boss and heart clocks; applied on the next update).
+func skip(seconds: float) -> void:
+	if not _active:
+		return
+	_elapsed += seconds
+	_heart_clock += seconds
+	if not _boss_busy:
+		_boss_clock += seconds
+
+
 ## Boss fell — balloons again until the next `endless_boss_every_sec`.
 func boss_finished() -> void:
 	_boss_busy = false

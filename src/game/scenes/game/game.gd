@@ -10,6 +10,13 @@ extends IScene
 ## Campaign battle: small chance to swap the valley art for one of these (school / forests).
 @export var rare_valley_backgrounds: Array[PackedScene] = []
 @export_range(0.0, 1.0, 0.01) var rare_valley_background_chance: float = 0.15
+## Seasonal events: an event battle always flies over its event background; event backgrounds the pilot owns
+## (shop cover / last gift box) drop into campaign battles at `event_background_chance` and join the random pool
+## of the other battles (practice, menu modes) like any other sky.
+@export var event_calendar: EventCalendar
+@export_range(0.0, 1.0, 0.01) var event_background_chance: float = 0.05
+## `ev_battle_music`: the mounted sky's own theme (null = usual battle / exam theme).
+@export var game_events: GameEvents
 
 func initialize(_data: Dictionary) -> void:
 	var scenario: GameConfig = _data.get('custom_battle')
@@ -38,18 +45,18 @@ func initialize(_data: Dictionary) -> void:
 	_apply_equipped_plane()
 	_apply_cosmetics()
 
-	# Campaign / valley record / expert trial: tie battle background to the valley (rarely a school / forest instead).
-	var valley_id: String = battle_info.container_id if battle_info != null else game_config.endless_valley_id
-	if valley_id.is_empty():
-		valley_id = game_config.expert_valley_id
+	var battle_music: AudioStream = null
 	var bg_host: BackgroundHost = get_node_or_null("HUD/Background") as BackgroundHost
 	if bg_host != null:
-		if not valley_id.is_empty():
-			var packed: PackedScene = ValleyBackgroundArt.get_scene(valley_id)
-			if not rare_valley_backgrounds.is_empty() and randf() < rare_valley_background_chance:
-				packed = rare_valley_backgrounds.pick_random()
+		var packed: PackedScene = _pick_background(bg_host)
+		if packed != null:
 			bg_host.force_variant(packed)
 		game_config.background_scene = bg_host.get_active_packed()
+		if bg_host.get_active() != null:
+			battle_music = bg_host.get_active().battle_music
+	# Every battle reports its theme (the music starts here, not with the loading screen).
+	if game_events != null:
+		game_events.ev_battle_music.emit(battle_music)
 	
 	for component in initable_components:
 		component.initialize(game_config)
@@ -58,6 +65,33 @@ func initialize(_data: Dictionary) -> void:
 
 func deinit() -> void:
 	root_events.ev_battle_finished.emit()
+
+
+## Background to force (null = keep the host's random pick): event battle → its event sky; campaign / valley record /
+## expert trial → the valley (rarely a school / forest, or an owned event sky); others → an owned event sky joins the
+## host's random pool on equal terms.
+func _pick_background(bg_host: BackgroundHost) -> PackedScene:
+	var event: SeasonalEvent = event_calendar.get_event(game_config.event_id) if event_calendar != null else null
+	if event != null and event.cover != null and event.cover.scene != null:
+		return event.cover.scene
+	var owned_events: Array[PackedScene] = []
+	if event_calendar != null and pdata != null:
+		owned_events = event_calendar.owned_backgrounds(pdata.cosmetics.owned)
+	var valley_id: String = game_config.battle_info.container_id if game_config.battle_info != null else game_config.endless_valley_id
+	if valley_id.is_empty():
+		valley_id = game_config.expert_valley_id
+	if not valley_id.is_empty():
+		if not owned_events.is_empty() and randf() < event_background_chance:
+			return owned_events.pick_random()
+		if not rare_valley_backgrounds.is_empty() and randf() < rare_valley_background_chance:
+			return rare_valley_backgrounds.pick_random()
+		return ValleyBackgroundArt.get_scene(valley_id)
+	if owned_events.is_empty():
+		return null
+	var pool_size: int = maxi(bg_host.variants.size(), 1) + owned_events.size()
+	if randf() < float(owned_events.size()) / float(pool_size):
+		return owned_events.pick_random()
+	return null
 
 func _load_game_scenario(scenario: GameConfig):
 	ResourceUtils.update_resource(game_config, scenario)

@@ -3,8 +3,10 @@ extends Resource
 
 ## Every look item for sale. Order in `items` = order in the hangar.
 ## Equipped ids live per profile in `PData.cosmetics`; resolve them here.
+## Seasonal event items (`events`) go on sale with the first run of their event (`shop_items_for`).
 
 @export var items: Array[CosmeticItem] = []
+@export var events: EventCalendar
 
 
 func get_item(item_id: String) -> CosmeticItem:
@@ -22,10 +24,23 @@ func items_for(slot: CosmeticItem.Slot) -> Array[CosmeticItem]:
 	return result
 
 
-## Some paid item not in `owned` costs at most `gold`.
+## Shop cards of the slot: `items_for` minus event items whose event never started yet (`unix` -1 = now).
+func shop_items_for(slot: CosmeticItem.Slot, unix: int = -1) -> Array[CosmeticItem]:
+	var result: Array[CosmeticItem] = []
+	for item in items_for(slot):
+		if is_on_sale(item, unix):
+			result.append(item)
+	return result
+
+
+func is_on_sale(item: CosmeticItem, unix: int = -1) -> bool:
+	return item != null and (events == null or events.is_released(item.id, unix))
+
+
+## Some paid item on sale, not in `owned`, costs at most `gold`.
 func has_affordable(gold: int, owned: Array) -> bool:
 	for item in items:
-		if item != null and item.gold_cost > 0 and item.gold_cost <= gold and not owned.has(item.id):
+		if item != null and item.gold_cost > 0 and item.gold_cost <= gold and not owned.has(item.id) and is_on_sale(item):
 			return true
 	return false
 

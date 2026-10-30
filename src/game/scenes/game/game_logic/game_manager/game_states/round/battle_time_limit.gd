@@ -25,6 +25,12 @@ func set_paused(paused: bool) -> void:
 	_paused = paused
 
 
+## Dev: `seconds` of the countdown pass at once (ticks / expires on the next update).
+func skip(seconds: float) -> void:
+	if _active:
+		_left = maxf(_left - seconds, 0.0)
+
+
 func update(delta: float) -> void:
 	if not _active or _paused:
 		return

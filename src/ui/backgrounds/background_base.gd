@@ -39,6 +39,9 @@ const DRAIN_EDGE_PARAM := &"drain_edge"
 @export_range(0.0, 1.0, 0.01) var idle_color_amount: float = 0.1
 ## Fountain-pen ink stains left while shots fly (battle). Safe empty default for menu.
 @export var ink_blot_scene: PackedScene
+## Own battle theme (seasonal backgrounds): any battle that mounts this sky plays it instead of the battle / exam
+## theme (`game.gd` → `GameEvents.ev_battle_music` → `MusicController`). Empty = the usual theme.
+@export var battle_music: AudioStream
 @export_range(8, 300, 1) var max_ink_blots: int = 140
 
 @onready var _sky: TextureRect = $TextureRect
@@ -198,8 +201,9 @@ func _on_game_config_changed() -> void:
 
 
 ## Timed battle: whole `paint_time_step_sec` steps of elapsed time; 0 left → full color.
+## A chase under the timer (seasonal event) keeps the chase look: full color, drained behind the chasers.
 func _on_time_left(seconds_left: int) -> void:
-	if not paint_from_score or not game_config.is_timed() or _holds_full_sky():
+	if not paint_from_score or not game_config.is_timed() or game_config.chase or _holds_full_sky():
 		return
 	var limit: float = game_config.time_limit_sec
 	var elapsed: float = maxf(limit - float(seconds_left), 0.0)

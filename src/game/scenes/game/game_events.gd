@@ -45,6 +45,9 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_pair_result(correct: bool, solution: String)
 ## Golden flight time is up: no more questions, pick one of the choice balloons.
 @warning_ignore("unused_signal") signal ev_golden_choice
+## Info: the battle mounted its sky (`game.gd`, before the countdown) — `stream` = its own theme
+## (`BackgroundBase.battle_music`, seasonal skies), null = the usual battle / exam theme (`MusicController`).
+@warning_ignore("unused_signal") signal ev_battle_music(stream: AudioStream)
 @warning_ignore("unused_signal") signal ev_win
 @warning_ignore("unused_signal") signal ev_lose
 
@@ -65,5 +68,7 @@ extends Resource
 @warning_ignore("unused_signal") signal ev_hold_countdown(held: bool)
 ## Info: countdown animation actually started (after any hold).
 @warning_ignore("unused_signal") signal ev_countdown_started
+## Command (dev lab, editor only): the battle clock jumps `seconds` ahead (timer, stages, boss / heart clocks).
+@warning_ignore("unused_signal") signal ev_skip_time(seconds: float)
 ## Command: ignore shoot input while locked.
 @warning_ignore("unused_signal") signal ev_lock_shoot(locked: bool)

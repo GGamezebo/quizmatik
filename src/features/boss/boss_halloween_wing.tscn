@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dw0mrraq301o7"]
+
+[ext_resource type="PackedScene" uid="uid://c8halloweenboss01" path="res://src/features/boss/boss_halloween_airship.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/halloween_ghost.svg" id="v_ghost"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/halloween_moss.svg" id="v_moss"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/halloween_midnight.svg" id="v_midnight"]
+
+[node name="BossHalloweenWing" instance=ExtResource("1_base")]
+body_variants = Array[Texture2D]([ExtResource("v_ghost"), ExtResource("v_moss"), ExtResource("v_midnight")])

@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="SeasonalEvent" format=3 uid="uid://c8hwevent000001"]
+
+[ext_resource type="Script" path="res://src/common/events/seasonal_event.gd" id="1_script"]
+[ext_resource type="Resource" uid="uid://c8hwpaintpump01" path="res://src/common/events/halloween/paint_pumpkin.tres" id="2_paint_pumpkin"]
+[ext_resource type="Resource" uid="uid://c8hwtrailbats01" path="res://src/common/events/halloween/trail_bats.tres" id="3_trail_bats"]
+[ext_resource type="Resource" uid="uid://c8hwshotpump001" path="res://src/common/events/halloween/shot_pumpkins.tres" id="4_shot_pumpkins"]
+[ext_resource type="Resource" uid="uid://c8hwpaintweb001" path="res://src/common/events/halloween/paint_web.tres" id="5_paint_web"]
+[ext_resource type="Resource" uid="uid://c8hwtrailghost1" path="res://src/common/events/halloween/trail_ghosts.tres" id="6_trail_ghosts"]
+[ext_resource type="Resource" uid="uid://c8hwshotcandy01" path="res://src/common/events/halloween/shot_candy.tres" id="7_shot_candy"]
+[ext_resource type="Resource" uid="uid://c8hwcoverhallo1" path="res://src/common/events/halloween/cover_halloween.tres" id="8_cover"]
+[ext_resource type="Resource" uid="uid://c8hwbattlecfg01" path="res://src/common/events/halloween/halloween_battle.tres" id="9_battle"]
+[ext_resource type="PackedScene" uid="uid://c8halloweenboss01" path="res://src/features/boss/boss_halloween_airship.tscn" id="10_boss"]
+[ext_resource type="PackedScene" uid="uid://c8halloweenwing01" path="res://src/features/boss/boss_halloween_wing.tscn" id="11_wing"]
+[ext_resource type="PackedScene" uid="uid://c8pumpkinanswer1" path="res://src/features/answer/pumpkin_answer.tscn" id="12_answer"]
+[ext_resource type="Texture2D" path="res://src/common/events/halloween/banner.svg" id="13_banner"]
+[ext_resource type="Texture2D" path="res://src/common/events/halloween/box_closed.svg" id="14_box_closed"]
+[ext_resource type="Texture2D" path="res://src/common/events/halloween/box_open.svg" id="15_box_open"]
+
+[resource]
+script = ExtResource("1_script")
+id = "halloween"
+title = "Хэллоуин"
+gifts = Array[CosmeticItem]([ExtResource("2_paint_pumpkin"), ExtResource("3_trail_bats"), ExtResource("4_shot_pumpkins"), ExtResource("5_paint_web"), ExtResource("6_trail_ghosts"), ExtResource("7_shot_candy")])
+cover = ExtResource("8_cover")
+battle_template = ExtResource("9_battle")
+boss_scene = ExtResource("10_boss")
+wing_scene = ExtResource("11_wing")
+answer_scene = ExtResource("12_answer")
+chase_minutes_start = 1
+max_chase_minutes = 6
+banner_art = ExtResource("13_banner")
+box_closed = ExtResource("14_box_closed")
+box_open = ExtResource("15_box_open")
+title_color = Color(0.98, 0.62, 0.22, 1)

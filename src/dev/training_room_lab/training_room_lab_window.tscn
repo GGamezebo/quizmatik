@@ -25,6 +25,7 @@
 [ext_resource type="Resource" uid="uid://gld8eub23u54" path="res://src/game/scenes/app_root/root_events.tres" id="21_root_events"]
 [ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="22_catalog"]
 [ext_resource type="Resource" uid="uid://dcrksduinm357" path="res://src/common/user_settings.tres" id="23_settings"]
+[ext_resource type="Texture2D" path="res://src/common/events/halloween/box_closed.svg" id="25_event_box"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("6_shadow")
@@ -82,7 +83,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "grant_stamp_button", "advance_day_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons", "expert_buttons", "hint_buttons")]
+[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "grant_stamp_button", "advance_day_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons", "expert_buttons", "hint_buttons", "event_win_button", "event_reset_button", "event_status_label", "time_skip_check")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -126,6 +127,10 @@ complete_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/
 wipe_keep_tutorial_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/WipeRow/WipeKeepTutorialButton")
 exam_buttons = [NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamAddition"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamSubtraction"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamMultiplication"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamDivision"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExamRow/ExamMix")]
 exam_container_ids = Array[String](["addition", "subtraction", "multiplication", "division", "mix"])
+event_win_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/EventButtons/EventWin")
+event_reset_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/EventButtons/EventReset")
+event_status_label = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/Header/Texts/Subtitle")
+time_skip_check = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/TimeSkip")
 expert_buttons = [NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertAddition"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertSubtraction"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertMultiplication"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertDivision"), NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ExpertRow/ExpertMix")]
 expert_container_ids = Array[String](["addition", "subtraction", "multiplication", "division", "mix"])
 root_events = ExtResource("21_root_events")
@@ -679,6 +684,65 @@ size_flags_horizontal = 8
 theme_override_fonts/font = ExtResource("4_font")
 theme_override_font_sizes/font_size = 15
 text = "Королевский босс (как на экзамене)"
+
+[node name="Sep6" type="ColorRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox"]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.165, 0.2, 0.251, 0.1)
+
+[node name="BlockEvent" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/Header"]
+custom_minimum_size = Vector2(44, 44)
+layout_mode = 2
+texture = ExtResource("25_event_box")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texts" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/Header"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/Header/Texts"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 17
+text = "Сезонный ивент"
+
+[node name="Subtitle" type="Label" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/Header/Texts"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.48, 0.52, 1)
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 13
+text = "Сейчас: Хэллоуин"
+
+[node name="EventButtons" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="EventWin" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/EventButtons" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "+ победа (коробка)"
+
+[node name="EventReset" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent/EventButtons" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "сбросить прогресс"
+
+[node name="TimeSkip" type="CheckBox" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/LeftPanel/Scroll/SettingsVBox/BlockEvent"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 15
+text = "Кнопка «+30 с» в бою (перемотка времени)"
 
 [node name="RightVBox" type="VBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox" unique_id=2045079884]
 custom_minimum_size = Vector2(250, 0)

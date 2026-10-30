@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="140" viewBox="0 0 640 140">
+  <!-- Halloween event banner (main menu event button): night sky card, moon, bats, jack-o'-lantern on the left;
+       text sits in the middle, the gift box pile on the right. Graphite ink frame, white sticker rim. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3B2C61"/>
+      <stop offset="0.65" stop-color="#6A4790"/>
+      <stop offset="1" stop-color="#C9764A"/>
+    </linearGradient>
+    <radialGradient id="moonglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFF2C2" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#FFF2C2" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="lantern" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFC45C" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#FFC45C" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="card">
+      <rect x="10" y="10" width="620" height="120" rx="22"/>
+    </clipPath>
+  </defs>
+  <rect x="4" y="4" width="632" height="132" rx="28" fill="#FFFFFF"/>
+  <rect x="10" y="10" width="620" height="120" rx="22" fill="url(#sky)"/>
+  <g clip-path="url(#card)">
+    <circle cx="110" cy="46" r="60" fill="url(#moonglow)"/>
+    <circle cx="110" cy="46" r="26" fill="#FFF0BE" stroke="#2A3340" stroke-width="3"/>
+    <circle cx="101" cy="40" r="5" fill="#EBD593"/>
+    <circle cx="118" cy="54" r="4" fill="#EBD593"/>
+    <g fill="#FFF3C8">
+      <circle cx="180" cy="26" r="1.8"/><circle cx="230" cy="18" r="1.4"/><circle cx="300" cy="30" r="1.8"/>
+      <circle cx="360" cy="20" r="1.4"/><circle cx="410" cy="34" r="1.6"/><circle cx="40" cy="30" r="1.6"/>
+      <circle cx="160" cy="70" r="1.3"/><circle cx="270" cy="56" r="1.3"/><circle cx="452" cy="22" r="1.5"/>
+    </g>
+    <g fill="#241B36">
+      <path d="M160 34 C158 32 155 32 154 34 C151 32 147 32 145 35 C148 35 149 37 149 39 C151 37 153 38 154 40 C156 39 158 40 160 42 C162 40 164 39 166 40 C167 38 169 37 171 39 C171 37 172 35 175 35 C173 32 169 32 166 34 C165 32 162 32 160 34 Z"/>
+      <path d="M62 66 C61 65 59 65 58 66 C56 65 54 65 53 67 C55 67 55 68 55 69 C56 68 57 69 58 70 C59 69 60 70 62 71 C63 70 64 69 66 70 C66 69 67 68 68 69 C68 68 69 67 71 67 C70 65 68 65 66 66 C65 65 63 65 62 66 Z"/>
+    </g>
+    <path d="M10 112 C60 96 110 104 160 110 C220 118 270 100 330 106 C400 112 450 96 520 104 C570 110 600 100 630 104 L630 140 L10 140 Z"
+          fill="#2B2140"/>
+    <circle cx="74" cy="98" r="40" fill="url(#lantern)"/>
+    <ellipse cx="74" cy="100" rx="30" ry="24" fill="#EE8A2C" stroke="#2A3340" stroke-width="3.5"/>
+    <path d="M60 80 Q52 100 60 122 M88 80 Q96 100 88 122 M74 76 Q70 100 74 124" fill="none" stroke="#B85A18" stroke-width="2.5" opacity="0.8"/>
+    <path d="M71 78 C70 70 74 64 80 63 C83 63 83 66 80 68 C78 70 77 73 77 78 Z" fill="#6E8B3D" stroke="#2A3340" stroke-width="2.5"/>
+    <path d="M60 98 L65 89 L70 98 Z M78 98 L83 89 L88 98 Z" fill="#FFD25E" stroke="#2A3340" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M58 104 L64 108 L68 104 L74 110 L80 104 L84 108 L90 104 C88 114 82 117 74 117 C66 117 60 114 58 104 Z"
+          fill="#FFD25E" stroke="#2A3340" stroke-width="1.8" stroke-linejoin="round"/>
+  </g>
+  <rect x="10" y="10" width="620" height="120" rx="22" fill="none" stroke="#2A3340" stroke-width="5"/>
+  <rect x="16" y="16" width="608" height="108" rx="17" fill="none" stroke="#F0A35A" stroke-width="2" stroke-dasharray="8 7" opacity="0.8"/>
+</svg>

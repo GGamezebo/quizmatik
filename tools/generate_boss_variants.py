@@ -3,9 +3,10 @@
 Base art (source of truth, variant 0 look):
   src/features/boss/art/airship_body.svg       — regular boss (slate envelope, red fins)
   src/features/boss/art/exam_airship_body.svg  — royal / exam chief (iron hull, crimson fins)
-Output: src/features/boss/art/variants/{regular|royal}_<name>.svg (wired into the boss scenes'
+  src/features/boss/art/halloween_airship_body.svg — Halloween event boss (pumpkin envelope, bat-wing fins)
+Output: src/features/boss/art/variants/{regular|royal|halloween}_<name>.svg (wired into the boss scenes'
 `body_variants`). Ink (#2A3340), white rim, face, gondola wood, crown and plates are never recolored,
-so every variant stays in the notebook-pencil palette. Edit palettes here and re-run:
+so every variant stays in the notebook-pencil palette (Halloween: the carved face glow, stem and lanterns stay too). Edit palettes here and re-run:
   python tools/generate_boss_variants.py
 """
 from pathlib import Path
@@ -53,6 +54,20 @@ ROYAL = {
                "fin": "#2F6E6A", "fin_dark": "#24564F"},
 }
 
+HALLOWEEN_ROLES = {
+    "#E8892F": "env", "#F29B45": "lobe", "#C8661E": "shade", "#A84F17": "seam", "#F6B566": "hl", "#FCD9A0": "hl2",
+    "#4A3B63": "fin", "#3A2E50": "fin_dark", "#2E2440": "fin_line", "#5B4A73": "pod",
+}
+HALLOWEEN = {
+    "pumpkin": {},  # base look
+    "ghost": {"env": "#E3DED0", "lobe": "#EFEBE0", "shade": "#B9B29F", "seam": "#958D79", "hl": "#F8F5EC",
+              "hl2": "#FFFFFF", "fin": "#5C6F8C", "fin_dark": "#4A5A74", "fin_line": "#3A4760", "pod": "#6C7A92"},
+    "moss": {"env": "#8FB357", "lobe": "#A2C46A", "shade": "#6E8F3C", "seam": "#56722C", "hl": "#C3DB93",
+             "hl2": "#E2EFC6", "fin": "#7A3B52", "fin_dark": "#632F43", "fin_line": "#4E2434", "pod": "#6B5F7E"},
+    "midnight": {"env": "#8A6BB8", "lobe": "#9D80C8", "shade": "#6C4F98", "seam": "#553C7B", "hl": "#BCA6DF",
+                 "hl2": "#E0D3F2", "fin": "#E07A2E", "fin_dark": "#C4651F", "fin_line": "#9E4F16"},
+}
+
 
 def recolor(svg: str, roles: dict, palette: dict) -> str:
     for base, role in roles.items():
@@ -64,7 +79,8 @@ def recolor(svg: str, roles: dict, palette: dict) -> str:
 def main() -> None:
     OUT.mkdir(exist_ok=True)
     jobs = [("regular", ART / "airship_body.svg", REGULAR_ROLES, REGULAR),
-            ("royal", ART / "exam_airship_body.svg", ROYAL_ROLES, ROYAL)]
+            ("royal", ART / "exam_airship_body.svg", ROYAL_ROLES, ROYAL),
+            ("halloween", ART / "halloween_airship_body.svg", HALLOWEEN_ROLES, HALLOWEEN)]
     written = 0
     for kind, src, roles, palettes in jobs:
         base = src.read_text(encoding="utf-8")

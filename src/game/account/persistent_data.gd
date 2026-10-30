@@ -10,6 +10,7 @@ var daily: DailyData = DailyData.new()
 var trophies: TrophiesData = TrophiesData.new()
 var mistakes: MistakesData = MistakesData.new()
 var cosmetics: CosmeticsData = CosmeticsData.new()
+var events: EventsData = EventsData.new()
 var profile_id: String = ""
 var display_name: String = ""
 ## `BattleDifficulty` id for campaign valleys (`easy` / `normal` / `hard`).
@@ -28,6 +29,7 @@ func to_dict() -> Dictionary:
 		"trophies": trophies.to_dict(),
 		"mistakes": mistakes.to_dict(),
 		"cosmetics": cosmetics.to_dict(),
+		"events": events.to_dict(),
 		"profile_id": profile_id,
 		"name": display_name,
 		"difficulty": difficulty,
@@ -46,6 +48,7 @@ func apply_dict(data: Dictionary) -> void:
 	trophies = TrophiesData.from_dict(data.get("trophies", {}))
 	mistakes = MistakesData.from_dict(data.get("mistakes", {}))
 	cosmetics = CosmeticsData.from_dict(data.get("cosmetics", {}))
+	events = EventsData.from_dict(data.get("events", {}))
 	profile_id = String(data.get("profile_id", ""))
 	display_name = String(data.get("name", ""))
 	difficulty = String(BattleDifficulty.sanitize(StringName(data.get("difficulty", "normal"))))
@@ -456,3 +459,31 @@ class CosmeticsData:
 			for slot_key in equipped_raw as Dictionary:
 				cosmetics.equipped[String(slot_key)] = String(equipped_raw[slot_key])
 		return cosmetics
+
+
+## Seasonal event runs by `EventWindow.key()`: won event battles (= opened gift boxes, more after the last box)
+## and how many opened boxes the menu banner already showed flying off. Mutated only by `EventsController`.
+class EventsData:
+	var wins: Dictionary[String, int] = {}
+	var shown: Dictionary[String, int] = {}
+
+	func to_dict() -> Dictionary:
+		var wins_out: Dictionary = {}
+		for key in wins:
+			wins_out[key] = wins[key]
+		var shown_out: Dictionary = {}
+		for key in shown:
+			shown_out[key] = shown[key]
+		return {"wins": wins_out, "shown": shown_out}
+
+	static func from_dict(d: Dictionary) -> EventsData:
+		var events := EventsData.new()
+		var wins_raw: Variant = d.get("wins", {})
+		if wins_raw is Dictionary:
+			for key in wins_raw as Dictionary:
+				events.wins[String(key)] = maxi(0, int(wins_raw[key]))
+		var shown_raw: Variant = d.get("shown", {})
+		if shown_raw is Dictionary:
+			for key in shown_raw as Dictionary:
+				events.shown[String(key)] = maxi(0, int(shown_raw[key]))
+		return events

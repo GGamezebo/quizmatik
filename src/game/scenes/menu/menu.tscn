@@ -67,6 +67,8 @@
 [ext_resource type="Script" path="res://src/game/scenes/menu/ui/shop_pulse.gd" id="88_shop_pulse"]
 [ext_resource type="Script" path="res://src/game/scenes/menu/ui/awards_pulse.gd" id="90_awards_pulse"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/parents_window/parents_window.tscn" id="91_parents"]
+[ext_resource type="PackedScene" uid="uid://c8evententry0001" path="res://src/game/scenes/menu/event/event_entry.tscn" id="93_event_entry"]
+[ext_resource type="Script" path="res://src/game/scenes/menu/event/event_menu_layout.gd" id="94_event_layout"]
 
 [sub_resource type="Gradient" id="Gradient_cjfjs"]
 colors = PackedColorArray(0.165, 0.2, 0.251, 0.5, 0.953, 0.902, 0.784, 0.06)
@@ -449,6 +451,11 @@ caption_text = "ПРАКТИКА"
 subtitle_text = "Решай примеры и улучшай навыки"
 caption_color = Color(0.329, 0.486, 0.29, 1)
 
+[node name="EventEntry" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" node_paths=PackedStringArray("progress") instance=ExtResource("93_event_entry")]
+visible = false
+layout_mode = 2
+progress = NodePath("../../../../LevelsWindow/ProgressController")
+
 [node name="DailyChallengesPanel" parent="UI/MainMenuWindow/CenterContainer/VBoxContainer" unique_id=1900100001 node_paths=PackedStringArray("progress") instance=ExtResource("23_daily")]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -603,6 +610,12 @@ pulse = NodePath("Pulse")
 script = ExtResource("87_ui_pulse")
 target = NodePath("../../MarginContainer/RightSideButtons/ShopBox")
 pulse_scale = 1.08
+
+[node name="EventMenuLayout" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("banner", "title_margin", "column")]
+script = ExtResource("94_event_layout")
+banner = NodePath("../CenterContainer/VBoxContainer/EventEntry")
+title_margin = NodePath("../CenterContainer/VBoxContainer/MarginContainer")
+column = NodePath("../CenterContainer/VBoxContainer")
 
 [node name="AwardsPulse" type="Node" parent="UI/MainMenuWindow" node_paths=PackedStringArray("progress", "button", "pulse")]
 script = ExtResource("90_awards_pulse")

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PaintItem" format=3 uid="uid://c8hwpaintpump01"]
+
+[ext_resource type="Script" path="res://src/common/cosmetics/paint_item.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+id = "paint_pumpkin"
+title = "Тыква"
+gold_cost = 10
+pattern = 14
+color_a = Color(0.96, 0.56, 0.16, 1)
+color_b = Color(0.24, 0.13, 0.08, 1)
+cell_px = 26.0
+strength = 0.9

@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" path="res://src/game/account/cosmetics_controller.tscn" id="20_cosmetics"]
 [ext_resource type="Resource" path="res://src/common/platform/platform_services.tres" id="21_platform"]
 [ext_resource type="PackedScene" path="res://src/features/locale/locale_controller.tscn" id="22_locale"]
+[ext_resource type="PackedScene" path="res://src/game/account/events_controller.tscn" id="23_events"]
 
 [sub_resource type="Environment" id="Environment_0xm2m"]
 glow_enabled = true
@@ -35,7 +36,7 @@ glow_blend_mode = 0
 
 [sub_resource type="Compositor" id="Compositor_1bvp3"]
 
-[node name="AppRoot" type="Node" unique_id=74498543 node_paths=PackedStringArray("progress_controller", "daily_challenges_controller", "profile_controller", "mistakes_controller", "music_player", "first_run_overlay", "celebration_splash")]
+[node name="AppRoot" type="Node" unique_id=74498543 node_paths=PackedStringArray("progress_controller", "daily_challenges_controller", "profile_controller", "mistakes_controller", "events_controller", "cosmetics_controller", "music_player", "first_run_overlay", "celebration_splash")]
 script = ExtResource("1_main")
 root_events = ExtResource("8_dg77c")
 platform_services = ExtResource("21_platform")
@@ -43,6 +44,8 @@ progress_controller = NodePath("Account/ProgressController")
 daily_challenges_controller = NodePath("Account/DailyChallengesController")
 profile_controller = NodePath("Account/ProfileController")
 mistakes_controller = NodePath("Account/MistakesController")
+events_controller = NodePath("Account/EventsController")
+cosmetics_controller = NodePath("Account/CosmeticsController")
 music_player = NodePath("MusicPlayer")
 first_run_overlay = NodePath("UI/FirstRunProfileOverlay")
 celebration_splash = NodePath("UI/CelebrationSplash")
@@ -75,6 +78,9 @@ vibration_controller = NodePath("../../../VibrationController")
 [node name="ProfileController" parent="Account" instance=ExtResource("15_profile")]
 
 [node name="CosmeticsController" parent="Account" instance=ExtResource("20_cosmetics")]
+
+[node name="EventsController" parent="Account" node_paths=PackedStringArray("cosmetics") instance=ExtResource("23_events")]
+cosmetics = NodePath("../CosmeticsController")
 
 [node name="StatisticsController" type="Node" parent="Account" unique_id=1674268049]
 script = ExtResource("9_stats")

@@ -23,6 +23,10 @@ const SAVE_PATH: String = "user://settings.json"
 ## `GameLocale.SUPPORTED` code picked with the menu flags; empty = auto-detect (`GameLocale.default_language`).
 @export var language: String = ""
 
+@export_category("Dev")
+## Editor only (dev lab checkbox): timed / staged battles show «+30 с» under the exit button (`ev_skip_time`).
+@export var debug_time_skip: bool = false
+
 
 func save() -> void:
 	if ResourceUtils.save_json(SAVE_PATH, ResourceUtils.resource_to_dict(self)) == OK:

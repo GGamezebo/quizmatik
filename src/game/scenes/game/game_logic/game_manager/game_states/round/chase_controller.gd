@@ -11,6 +11,9 @@ extends RefCounted
 ## them (`ev_drain`: follows at once, heals slowly); closer than `DANGER_GAPS` → `ev_danger(true)` (red hulls,
 ## tense music), back past `CALM_GAPS` → `false`. `finish(won)`: they fall back and the color returns, or the chief
 ## rams the plane and the world goes gray.
+## Timed chase (`GameConfig.timed_chase`, seasonal event): the goal is the clock, not the middle — the plane holds
+## `START_SHARE` and every correct answer is all knock-back; `finish(true)` at time up also glides the plane back to
+## its own spot (`RETURN_SEC`) — the battle goes on with the boss, and later rounds are regular flying ones.
 
 signal ev_started
 signal ev_caught
@@ -64,6 +67,8 @@ const ANSWER_SPAWN_OFFSET_X: float = 120.0
 const RETREAT_PX: float = 900.0
 const RETREAT_SEC: float = 2.6
 const STRIKE_SEC: float = 0.5
+## Timed chase over: the plane glides back to where it started.
+const RETURN_SEC: float = 1.6
 
 var _config: GameConfig
 var _area: GameArea
@@ -92,6 +97,10 @@ var _entry_from: float = 0.0
 var _entry_to: float = 0.0
 var _close: bool = false
 var _close_for: float = 0.0
+## Timed chase: the plane holds its start spot (answers only push the chasers back).
+var _timed: bool = false
+## Plane x before the chase moved it (timed chase returns there).
+var _home_x: float = 0.0
 
 
 func _init(
@@ -111,6 +120,7 @@ func _init(
 	_wing_scene = wing_scene if wing_scene != null else chief_scene
 	_spawn_parent = spawn_parent
 	_active = game_config.chase and game_config.can_chase() and _chief_scene != null
+	_timed = game_config.timed_chase and game_config.is_timed()
 
 
 ## Airships stay where they are (retreating / over the crashed plane); the scene frees them.
@@ -136,6 +146,7 @@ func start() -> void:
 	if not _active or _chief != null:
 		return
 	_plane_x = _plane.position.x
+	_home_x = _plane_x
 	_score = _player.score
 	_chief_y = _plane.global_position.y + CHIEF_Y_OFFSET
 	_chief = _spawn(_chief_scene.instantiate(), CHIEF_SCALE, randi(), -1)
@@ -195,7 +206,7 @@ func update(delta: float) -> void:
 
 ## Chase rounds: the balloons slide in and wait to be shot (never fly at the plane).
 func release_answers(answers: Array[Answer]) -> void:
-	if not _active:
+	if not _active or _finished:
 		return
 	var area: Rect2 = _area.gameplay_area
 	for answer in answers:
@@ -210,6 +221,8 @@ func finish(won: bool) -> void:
 	_finished = true
 	if won:
 		ev_drain.emit(-DRAIN_OFF_PX, DRAIN_RESTORE_SEC)
+		if _timed:
+			_plane.create_tween().tween_property(_plane, "position:x", _home_x, RETURN_SEC)				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		for airship in _all():
 			airship.set_menacing(false)
 			var tween := airship.create_tween()
@@ -270,14 +283,18 @@ func _all() -> Array[BossAirship]:
 	return all
 
 
-## Plane spot for the current score: `START_SHARE` → `FINISH_SHARE` (the middle — shots fly right, balloons stay there).
+## Plane spot for the current score: `START_SHARE` → `FINISH_SHARE` (the middle — shots fly right, balloons stay
+## there); timed chase: `START_SHARE` all along.
 func _plane_target_x() -> float:
 	var area: Rect2 = _area.gameplay_area
-	var progress: float = clampf(float(_player.score) / float(maxi(_config.questions_count, 1)), 0.0, 1.0)
+	var progress: float = 0.0 if _timed else clampf(float(_player.score) / float(maxi(_config.questions_count, 1)), 0.0, 1.0)
 	return area.position.x + area.size.x * lerpf(START_SHARE, FINISH_SHARE, progress)
 
 
+## Plane step per answer (timed chase: none — the clock moves it).
 func _step() -> float:
+	if _timed:
+		return 0.0
 	return _area.gameplay_area.size.x * (FINISH_SHARE - START_SHARE) / float(maxi(_config.questions_count, 1))
 
 
