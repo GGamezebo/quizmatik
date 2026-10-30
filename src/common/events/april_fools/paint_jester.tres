@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PaintItem" format=3 uid="uid://dh7e3qxc18huh"]
+
+[ext_resource type="Script" path="res://src/common/cosmetics/paint_item.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://src/common/events/april_fools/diamond.svg" id="2_art"]
+
+[resource]
+script = ExtResource("1_script")
+id = "paint_jester"
+title = "Шутовской ромб"
+gold_cost = 12
+pattern = 16
+pattern_texture = ExtResource("2_art")
+color_a = Color(0.57, 0.42, 0.68, 1)
+color_b = Color(0.98, 0.83, 0.46, 1)
+cell_px = 30.0
+strength = 0.9

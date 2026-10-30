@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="SeasonalEvent" format=3 uid="uid://daedmdn26d843"]
+
+[ext_resource type="Script" path="res://src/common/events/seasonal_event.gd" id="1_script"]
+[ext_resource type="Resource" uid="uid://bwsie7ced2gpb" path="res://src/common/events/april_fools/paint_confetti.tres" id="2_paint_confetti"]
+[ext_resource type="Resource" uid="uid://dssvr5forw3yr" path="res://src/common/events/april_fools/trail_paper_fish.tres" id="3_trail_paper_fish"]
+[ext_resource type="Resource" uid="uid://h4303fuh707l" path="res://src/common/events/april_fools/shot_cream_pie.tres" id="4_shot_cream_pie"]
+[ext_resource type="Resource" uid="uid://dh7e3qxc18huh" path="res://src/common/events/april_fools/paint_jester.tres" id="5_paint_jester"]
+[ext_resource type="Resource" uid="uid://cqxhet37dkeig" path="res://src/common/events/april_fools/trail_funny_faces.tres" id="6_trail_funny_faces"]
+[ext_resource type="Resource" uid="uid://1fpiqif7v85d" path="res://src/common/events/april_fools/shot_rubber_ducks.tres" id="7_shot_rubber_ducks"]
+[ext_resource type="Resource" uid="uid://chdyptweeggqt" path="res://src/common/events/april_fools/cover_april_fools.tres" id="8_cover"]
+[ext_resource type="Resource" uid="uid://71dbnf1kct40" path="res://src/common/events/april_fools/april_fools_battle.tres" id="9_battle"]
+[ext_resource type="PackedScene" uid="uid://l5ukk54f0y8u" path="res://src/features/boss/boss_april_fools_airship.tscn" id="10_boss"]
+[ext_resource type="PackedScene" uid="uid://drjpcj0b3pob2" path="res://src/features/boss/boss_april_fools_wing.tscn" id="11_wing"]
+[ext_resource type="Texture2D" path="res://src/common/events/april_fools/banner.png" id="13_banner"]
+[ext_resource type="Script" path="res://src/common/events/event_banner.gd" id="16_banner_script"]
+[ext_resource type="Texture2D" path="res://src/common/events/april_fools/box_closed.svg" id="14_box_closed"]
+[ext_resource type="Texture2D" path="res://src/common/events/april_fools/box_open.svg" id="15_box_open"]
+
+[sub_resource type="Resource" id="Banner_2026"]
+script = ExtResource("16_banner_script")
+art = ExtResource("13_banner")
+size = Vector2(672, 160)
+title_color = Color(1, 0.9, 0.65, 1)
+
+[resource]
+script = ExtResource("1_script")
+id = "april_fools"
+title = "1 апреля"
+gifts = Array[CosmeticItem]([ExtResource("2_paint_confetti"), ExtResource("3_trail_paper_fish"), ExtResource("4_shot_cream_pie"), ExtResource("5_paint_jester"), ExtResource("6_trail_funny_faces"), ExtResource("7_shot_rubber_ducks")])
+cover = ExtResource("8_cover")
+battle_template = ExtResource("9_battle")
+boss_scene = ExtResource("10_boss")
+wing_scene = ExtResource("11_wing")
+chase_minutes_start = 1
+max_chase_minutes = 6
+banner = SubResource("Banner_2026")
+box_closed = ExtResource("14_box_closed")
+box_open = ExtResource("15_box_open")

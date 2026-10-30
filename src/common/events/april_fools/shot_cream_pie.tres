@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ShotItem" format=3 uid="uid://h4303fuh707l"]
+
+[ext_resource type="Script" path="res://src/common/cosmetics/shot_item.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://src/common/events/april_fools/pie.svg" id="2_art"]
+
+[resource]
+script = ExtResource("1_script")
+id = "shot_cream_pie"
+title = "Кремовый залп"
+gold_cost = 8
+ink_colors = PackedColorArray(0.97, 0.85, 0.63, 0.95, 0.88, 0.57, 0.53, 0.95, 0.68, 0.52, 0.77, 0.95)
+drip_texture = ExtResource("2_art")
+drip_scale_min = 0.42
+drip_scale_max = 0.56
+drip_tilt = 0.3
+drip_spacing = 46.0
+shot_tint = Color(0.8, 0.94, 1, 1)

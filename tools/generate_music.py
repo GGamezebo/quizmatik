@@ -847,6 +847,39 @@ def new_year_theme() -> tuple[np.ndarray, float]:
 	return loop_only(lm, 16 * 4 * beat, t60=2.0, wet_ratio=.32)
 
 
+def april_fools_theme() -> tuple[np.ndarray, float]:
+	"""Original comic march: pizzicato, cheeky brass replies and music-box flourishes (16 bars)."""
+	global rng
+	rng = np.random.default_rng(1042027)
+	bpm = 120.0
+	beat = 60.0 / bpm
+	lm = Mix(16 * 4 * beat + TAIL_SEC, bpm)
+	progression = [("C", False), ("A", True), ("F", False), ("G", False)] * 4
+	motifs = [
+		[("E5", .5), ("G5", .5), ("C6", .5), ("G5", .5), ("E5", 1), ("-", 1)],
+		[("C5", .5), ("E5", .5), ("A5", 1), ("G5", .5), ("E5", .5), ("C5", 1)],
+		[("F5", .5), ("A5", .5), ("C6", 1), ("A5", .5), ("G5", .5), ("F5", 1)],
+		[("B4", .5), ("D5", .5), ("G5", .5), ("F5", .5), ("D5", 1), ("-", 1)],
+	]
+	def comic_brass(f, d):
+		return additive(f, d, rolloff=1.3, attack=.025, release=.12, vibrato=.006, max_k=12)
+	def music_box(f, d):
+		return bell(f, music_box=True)
+	for bar, (root, minor) in enumerate(progression):
+		b, voicing, arp = chord(root, minor)
+		for st in (0, 2):
+			lm.add(bass(hz(b), .45 * beat), lm.sec(bar, st), .32, send=.04)
+		for st in (1, 3):
+			for note in voicing:
+				lm.add(_pluck(hz(note), .35 * beat), lm.sec(bar, st), .085, pan=-.25, send=.22)
+		place_melody(lm, bar, motifs[bar % 4], music_box if bar < 8 else comic_brass,
+			gain=.21 if bar < 8 else .17, pan=.15, send=.25)
+		if bar % 2 == 0:
+			lm.add(comic_brass(hz(arp[0]), .25 * beat), lm.sec(bar, 3.5), .11, pan=-.4, send=.12)
+		_drum_bar(lm, bar, kicks=(0, 2), snares=(1, 3), clap_gain=.04, shaker_gain=.035)
+	return loop_only(lm, 16 * 4 * beat, t60=1.5, wet_ratio=.23)
+
+
 def main() -> None:
 	"""All themes, or only the files named on the command line (e.g. `halloween_music.ogg`)."""
 	themes = (
@@ -857,6 +890,7 @@ def main() -> None:
 		("boss_music.ogg", boss_theme, 4),
 		("halloween_music.ogg", halloween_theme, 4),
 		("new_year_music.ogg", new_year_theme, 4),
+		("april_fools_music.ogg", april_fools_theme, 4),
 	)
 	only = set(sys.argv[1:])
 	for name, fn, quality in themes:

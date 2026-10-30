@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://drjpcj0b3pob2"]
+
+[ext_resource type="PackedScene" uid="uid://l5ukk54f0y8u" path="res://src/features/boss/boss_april_fools_airship.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/april_fools_mint.svg" id="2_mint"]
+[ext_resource type="Texture2D" path="res://src/features/boss/art/variants/april_fools_peach.svg" id="3_peach"]
+
+[node name="BossAprilFoolsWing" instance=ExtResource("1_base")]
+body_variants = Array[Texture2D]([ExtResource("2_mint"), ExtResource("3_peach")])

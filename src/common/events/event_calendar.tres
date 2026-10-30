@@ -9,6 +9,8 @@
 
 [ext_resource type="Resource" uid="uid://wf08yrbn4wi8" path="res://src/common/events/new_year/new_year_event.tres" id="7_new_year"]
 
+[ext_resource type="Resource" uid="uid://daedmdn26d843" path="res://src/common/events/april_fools/april_fools_event.tres" id="8_april"]
+
 [sub_resource type="Resource" id="Banner_2027"]
 script = ExtResource("5_banner_script")
 art = ExtResource("6_banner_2027")
@@ -197,7 +199,13 @@ event_id = "april_fools"
 start_date = "2036-04-01"
 end_date = "2036-04-16"
 
+[sub_resource type="Resource" id="Window_31"]
+script = ExtResource("2_window")
+event_id = "april_fools"
+start_date = "2037-04-01"
+end_date = "2037-04-16"
+
 [resource]
 script = ExtResource("1_script")
-events = Array[SeasonalEvent]([ExtResource("3_halloween"), ExtResource("7_new_year")])
-windows = Array[EventWindow]([SubResource("Window_01"), SubResource("Window_02"), SubResource("Window_03"), SubResource("Window_04"), SubResource("Window_05"), SubResource("Window_06"), SubResource("Window_07"), SubResource("Window_08"), SubResource("Window_09"), SubResource("Window_10"), SubResource("Window_11"), SubResource("Window_12"), SubResource("Window_13"), SubResource("Window_14"), SubResource("Window_15"), SubResource("Window_16"), SubResource("Window_17"), SubResource("Window_18"), SubResource("Window_19"), SubResource("Window_20"), SubResource("Window_21"), SubResource("Window_22"), SubResource("Window_23"), SubResource("Window_24"), SubResource("Window_25"), SubResource("Window_26"), SubResource("Window_27"), SubResource("Window_28"), SubResource("Window_29"), SubResource("Window_30")])
+events = Array[SeasonalEvent]([ExtResource("3_halloween"), ExtResource("7_new_year"), ExtResource("8_april")])
+windows = Array[EventWindow]([SubResource("Window_01"), SubResource("Window_02"), SubResource("Window_03"), SubResource("Window_04"), SubResource("Window_05"), SubResource("Window_06"), SubResource("Window_07"), SubResource("Window_08"), SubResource("Window_09"), SubResource("Window_10"), SubResource("Window_11"), SubResource("Window_12"), SubResource("Window_13"), SubResource("Window_14"), SubResource("Window_15"), SubResource("Window_16"), SubResource("Window_17"), SubResource("Window_18"), SubResource("Window_19"), SubResource("Window_20"), SubResource("Window_21"), SubResource("Window_22"), SubResource("Window_23"), SubResource("Window_24"), SubResource("Window_25"), SubResource("Window_26"), SubResource("Window_27"), SubResource("Window_28"), SubResource("Window_29"), SubResource("Window_30"), SubResource("Window_31")])

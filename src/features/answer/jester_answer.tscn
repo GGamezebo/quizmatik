@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cbew41mpj28yp"]
+
+[ext_resource type="PackedScene" path="res://src/features/answer/answer.tscn" id="1_base"]
+[ext_resource type="Texture2D" path="res://src/features/answer/jester_balloons_atlas.png" id="2_atlas"]
+
+[node name="JesterAnswer" instance=ExtResource("1_base")]
+wind_bob_strength = 8.0
+wind_sway_degrees = 7.0
+wind_pulse_strength = 0.04
+
+[node name="Sprite2D" parent="Visual" index="0"]
+texture = ExtResource("2_atlas")
+offset = Vector2(0, 10)
