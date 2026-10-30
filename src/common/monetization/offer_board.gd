@@ -16,9 +16,10 @@ extends Resource
 
 ## Valleys that stay free when the store sells the full version.
 @export var free_container_ids: Array[String] = ["addition"]
-## Profile difficulty → valleys also free on it. NORMAL (grade 2–3) and HARD (grade 3–4)
-## open multiplication immediately, so that valley stays free too. EASY (grade 1) does not.
+## Profile difficulty → valleys also free on it, so every grade gets two: EASY (grade 1) = its whole programme,
+## addition + subtraction; NORMAL (grade 2–3) and HARD (grade 3–4) open multiplication immediately, so it stays free.
 @export var extra_free_by_difficulty: Dictionary[StringName, PackedStringArray] = {
+	BattleDifficulty.EASY: PackedStringArray(["subtraction"]),
 	BattleDifficulty.NORMAL: PackedStringArray(["multiplication"]),
 	BattleDifficulty.HARD: PackedStringArray(["multiplication"]),
 }
