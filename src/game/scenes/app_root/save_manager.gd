@@ -9,7 +9,7 @@ const CLOUD_PUSH_SEC := 30.0
 ## Shared live progress resource (same `.tres` assigned on Progress / Daily / Stats / Profile).
 @export var _pdata: PData
 @export var _root_events: RootEvents
-## Platform cloud copy (Yandex player data / Play Games snapshot): active only while `can_cloud_save`.
+## Platform cloud copy (Yandex / CrazyGames player data): active only while `can_cloud_save`.
 @export var _services: PlatformServices
 
 @onready var _save = $Save

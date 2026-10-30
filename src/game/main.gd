@@ -34,7 +34,6 @@ func _start_hfsm_when_ready() -> void:
 				"RuStoreShopContext": RuStoreShopContext,
 				"YandexShopContext": YandexShopContext,
 				"YandexCloudSaveContext": YandexCloudSaveContext,
-				"GooglePlayCloudSaveContext": GooglePlayCloudSaveContext,
 				"DesktopContext": DesktopContext,
 				"SteamContext": SteamContext,
 				"DevShopContext": DevShopContext,

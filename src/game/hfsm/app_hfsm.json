@@ -58,8 +58,7 @@
 								"context": "GooglePlayContext",
 								"enter": ["ev.open_google_play"],
 								"states": {
-									"GooglePlayShop": { "context": "GooglePlayShopContext", "enter": ["ev.open_shop"] },
-									"GooglePlayCloudSave": { "context": "GooglePlayCloudSaveContext", "enter": ["ev.open_cloud_save"] }
+									"GooglePlayShop": { "context": "GooglePlayShopContext", "enter": ["ev.open_shop"] }
 								}
 							},
 							"RuStore": {

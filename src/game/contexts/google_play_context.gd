@@ -1,8 +1,8 @@
 class_name GooglePlayContext
 extends PlatformContext
 
-## `Platform/Android/GooglePlay`: Play-specific hooks. Cloud save lives in child `GooglePlayCloudSave`,
-## purchases in child `GooglePlayShop` (opened unless `no_monetization`).
+## `Platform/Android/GooglePlay`: Play-specific hooks. Purchases in child `GooglePlayShop` (opened unless
+## `no_monetization`). No cloud save: Play Games would break Data safety «no data collected» + Families.
 ## UI languages: every `GameLocale.SUPPORTED` one (`PlatformServices.languages` stays empty).
 ## Rating (`PlatformServices.can_rate`): Play in-app review + Play page via `PlayRating`.
 ## Share (`PlatformServices.can_share`): system share sheet with the Play page link via `AndroidShare`.
@@ -15,7 +15,6 @@ var _listener: EventListener = EventListener.new()
 
 
 func _enter() -> void:
-	open_cloud_save()
 	open_shop()
 	if services != null:
 		_listener.add(services.ev_request_review, _rating.request_review)
