@@ -42,6 +42,9 @@ const DRAIN_EDGE_PARAM := &"drain_edge"
 ## Own battle theme (seasonal backgrounds): any battle that mounts this sky plays it instead of the battle / exam
 ## theme (`game.gd` → `GameEvents.ev_battle_music` → `MusicController`). Empty = the usual theme.
 @export var battle_music: AudioStream
+## Own answer look (seasonal backgrounds: pumpkins, ornaments): any battle that mounts this sky spawns these instead of
+## the balloons (`game.gd` → `GameConfig.answer_scene` → `GameState`); same atlas layout as `answer.tscn`. Empty = balloons.
+@export var answer_scene: PackedScene
 @export_range(8, 300, 1) var max_ink_blots: int = 140
 
 @onready var _sky: TextureRect = $TextureRect

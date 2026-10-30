@@ -15,7 +15,7 @@ extends IScene
 ## of the other battles (practice, menu modes) like any other sky.
 @export var event_calendar: EventCalendar
 @export_range(0.0, 1.0, 0.01) var event_background_chance: float = 0.05
-## `ev_battle_music`: the mounted sky's own theme (null = usual battle / exam theme).
+## `ev_battle_music`: the mounted sky's own theme (null = usual battle / exam theme); its answer look → `GameConfig.answer_scene`.
 @export var game_events: GameEvents
 
 func initialize(_data: Dictionary) -> void:
@@ -46,6 +46,7 @@ func initialize(_data: Dictionary) -> void:
 	_apply_cosmetics()
 
 	var battle_music: AudioStream = null
+	game_config.answer_scene = null
 	var bg_host: BackgroundHost = get_node_or_null("HUD/Background") as BackgroundHost
 	if bg_host != null:
 		var packed: PackedScene = _pick_background(bg_host)
@@ -54,6 +55,7 @@ func initialize(_data: Dictionary) -> void:
 		game_config.background_scene = bg_host.get_active_packed()
 		if bg_host.get_active() != null:
 			battle_music = bg_host.get_active().battle_music
+			game_config.answer_scene = bg_host.get_active().answer_scene
 	# Every battle reports its theme (the music starts here, not with the loading screen).
 	if game_events != null:
 		game_events.ev_battle_music.emit(battle_music)

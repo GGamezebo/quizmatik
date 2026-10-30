@@ -21,8 +21,6 @@ extends Resource
 @export var boss_scene: PackedScene
 ## The two smaller chasers beside it (other hull colors); empty → `boss_scene`.
 @export var wing_scene: PackedScene
-## Answer look instead of the balloons (same atlas layout as `answer.tscn`).
-@export var answer_scene: PackedScene
 ## Chase minutes of the first battle, +1 per win up to `max_chase_minutes`.
 @export var chase_minutes_start: int = 1
 @export var max_chase_minutes: int = 6

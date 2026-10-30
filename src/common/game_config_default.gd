@@ -205,6 +205,8 @@ var endless_best_sec: int = 0
 var equipped_plane_id: String = "starter"
 ## Runtime: background variant the battle mounted → post-battle shows the same one.
 var background_scene: PackedScene = null
+## Runtime: that sky's own answer look (`BackgroundBase.answer_scene`); null = the usual balloons.
+var answer_scene: PackedScene = null
 const PLAYER_ACCELERATION_DEFAULT: float = 1.0  # default acceleration coefficient
 @export var player_acceleration_min: float = 0.5  # min acceleration coefficient
 @export var player_acceleration_max: float = 2.0  # max acceleration coefficient

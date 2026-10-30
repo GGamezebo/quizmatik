@@ -21,7 +21,7 @@ static func get_state() -> String:
 @export var golden_choice_scene: PackedScene
 ## Royal «chief» boss look when `GameConfig.boss_royal` (falls back to `boss_scene`).
 @export var exam_boss_scene: PackedScene
-## Seasonal events (`GameConfig.event_id`): their boss / chasers and answer look replace the scenes above.
+## Seasonal events (`GameConfig.event_id`): their boss / chasers replace the scenes above (answer look comes with the sky).
 @export var event_calendar: EventCalendar
 
 var _round_controller: RoundController
@@ -59,7 +59,7 @@ func enter(_prev_state: FSMState, _event_data: Dictionary) -> void:
 	air_plane.shot_speed_mult = float(plane_def.get("shot_speed_mult", 1.0))
 
 	var event: SeasonalEvent = _event()
-	var answer_packed: PackedScene = event.answer_scene if event != null and event.answer_scene != null else answerScene
+	var answer_packed: PackedScene = game_config.answer_scene if game_config.answer_scene != null else answerScene
 	var answer_spawner: AnswerSpawner = AnswerSpawner.new(area, answer_packed, game_manager.owner)
 	_round_controller = RoundController.new(game_config, player, answer_spawner, game_manager.get_tree(), ev_question_changed)
 	_bonus = BonusController.new(game_config, area, bonus_scene, game_manager.owner)

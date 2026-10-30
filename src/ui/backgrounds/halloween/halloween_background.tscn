@@ -8,6 +8,7 @@
 [ext_resource type="Shader" uid="uid://dbory75vd2otg" path="res://src/ui/backgrounds/sky_scroll.gdshader" id="6_shader"]
 [ext_resource type="PackedScene" path="res://src/features/ink_blot/ink_blot.tscn" id="7_ink"]
 [ext_resource type="AudioStream" path="res://src/features/music/halloween_music.ogg" id="8_music"]
+[ext_resource type="PackedScene" uid="uid://c8pumpkinanswer1" path="res://src/features/answer/pumpkin_answer.tscn" id="9_answer"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_skyscroll"]
 resource_local_to_scene = true
@@ -27,6 +28,7 @@ script = ExtResource("1_base")
 mirror_seamless = true
 ink_blot_scene = ExtResource("7_ink")
 battle_music = ExtResource("8_music")
+answer_scene = ExtResource("9_answer")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_skyscroll")
