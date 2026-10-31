@@ -1,4 +1,4 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cx1v7y5o8f4nc"]
 
 [ext_resource type="Script" path="res://src/ui/difficulty_picker/difficulty_picker.gd" id="1_script"]
 [ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="2_font"]

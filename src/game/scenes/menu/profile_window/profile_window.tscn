@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="7_sky"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="9_back"]
 [ext_resource type="PackedScene" uid="uid://b00c0du2crab5" path="res://src/game/account/daily_challenges_controller.tscn" id="10_daily"]
-[ext_resource type="PackedScene" path="res://src/ui/difficulty_picker/difficulty_picker.tscn" id="11_picker"]
+[ext_resource type="PackedScene" uid="uid://cx1v7y5o8f4nc" path="res://src/ui/difficulty_picker/difficulty_picker.tscn" id="11_picker"]
 [ext_resource type="PackedScene" uid="uid://c8qm5n2k7xwfd" path="res://src/ui/confirm_dialog/confirm_dialog.tscn" id="12_confirm"]
 [ext_resource type="PackedScene" uid="uid://c8profilecreateov" path="res://src/ui/profile_create_overlay/profile_create_overlay.tscn" id="13_overlay"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/profile_window/profile_card.tscn" id="14_card"]
