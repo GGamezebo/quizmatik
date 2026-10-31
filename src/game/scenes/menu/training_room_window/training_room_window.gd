@@ -1,3 +1,4 @@
+class_name TrainingRoomWindow
 extends Control
 
 ## Simplified practice setup: per-op range columns + difficulty presets → GameConfig.

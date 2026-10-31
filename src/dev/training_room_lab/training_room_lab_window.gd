@@ -1,3 +1,4 @@
+class_name TrainingRoomLabWindow
 extends Control
 
 ## Editor-only snapshot of the full training room for development.

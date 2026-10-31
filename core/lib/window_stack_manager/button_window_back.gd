@@ -5,3 +5,6 @@ extends Node
 ## Prefer this over opening MainMenu directly — the stack restores the previous window.
 
 @export var button: BaseButton
+## Button inside a `LazyWindow` (instead of `button`): path from its loaded content, bound once it loads.
+@export var lazy_window: LazyWindow
+@export var lazy_button_path: NodePath

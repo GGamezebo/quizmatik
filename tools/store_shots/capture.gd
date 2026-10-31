@@ -98,9 +98,8 @@ func _process(delta: float) -> bool:
 			if _phase_t >= WINDOW_WAIT:
 				_queue_grab("07_trophies.png", "open_hangar")
 		"open_hangar":
-			var hangar: Node = _menu.get_node("UI/PlaneHangarWindow")
-			hangar.set("_next_tab_paint", false)
 			_open_window("UI/PlaneHangarWindow")
+			(_menu.get_node("UI/PlaneHangarWindow") as LazyWindow).content.call("open_on_planes")
 			_phase = "hangar"
 			_phase_t = 0.0
 		"hangar":
@@ -168,7 +167,7 @@ func _open_window(path: String) -> void:
 
 
 func _show_practice() -> void:
-	var train: Node = _menu.get_node("UI/TrainingRoomWindow")
+	var train: Node = (_menu.get_node("UI/TrainingRoomWindow") as LazyWindow).load_content()
 	train.set("_op_ids", {
 		&"addition": &"r20",
 		&"subtraction": &"r20",

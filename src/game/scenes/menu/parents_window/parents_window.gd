@@ -1,3 +1,4 @@
+class_name ParentsWindow
 extends Control
 
 ## «Для родителей»: the active pilot's report behind a parental gate — examples solved, first-try accuracy,

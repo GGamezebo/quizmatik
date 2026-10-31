@@ -5,10 +5,17 @@ extends IScene
 @export var menu_events: MenuEvents
 @export var windows_stack_manager: WindowStackManager
 @export var levels_choice_window: Control
+@export_group('Lazy windows')
+## Their start buttons emit the battle with the matching config once the window loads.
+@export var training_room_window: LazyWindow
+@export var training_lab_window: LazyWindow
+## Gets `windows_stack_manager` (gate cancel pops it) once loaded.
+@export var parents_window: LazyWindow
 @export_group('Background')
 ## Main-menu cover host; stays behind every stacked window.
 @export var shared_background: CanvasItem
-## Windows' own skies (kept for isolated F6 runs) — hidden here so the cover shows through.
+## Windows' own skies (kept for isolated F6 runs) — hidden here so the cover shows through
+## (lazy windows hide theirs via `LazyWindow.hidden_content_nodes`).
 @export var window_backgrounds: Array[CanvasItem] = []
 ## Windows with their own full-screen art (valleys, trophy hangar) — shared cover hidden while open.
 @export var opaque_windows: Array[Control] = []
@@ -17,17 +24,20 @@ extends IScene
 @export var training_lab_config: GameConfig
 @export_group('Buttons')
 @export var start_button: Button
-@export var training_room_start_button: BaseButton
-@export var training_lab_start_button: Button
 @export var exit_button: BaseButton
 
 
 func _ready() -> void:
 	start_button.grab_focus()
-	if training_room_start_button != null:
-		training_room_start_button.pressed.connect(_on_training_room_start_pressed)
-	if training_lab_start_button != null:
-		training_lab_start_button.pressed.connect(_on_training_lab_start_pressed)
+	if training_room_window != null:
+		training_room_window.ev_loaded.connect(func(content: Control) -> void:
+			(content as TrainingRoomWindow).start_battle_button.pressed.connect(_on_training_room_start_pressed))
+	if training_lab_window != null:
+		training_lab_window.ev_loaded.connect(func(content: Control) -> void:
+			(content as TrainingRoomLabWindow).start_battle_button.pressed.connect(_on_training_lab_start_pressed))
+	if parents_window != null:
+		parents_window.ev_loaded.connect(func(content: Control) -> void:
+			(content as ParentsWindow).windows_stack_manager = windows_stack_manager)
 	exit_button.pressed.connect(_on_exit_pressed)
 	menu_events.ev_close_settings_window.connect(_on_close_settings_window)
 	for background in window_backgrounds:

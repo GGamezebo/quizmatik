@@ -18,15 +18,38 @@ func _ready() -> void:
 			var transition := node as ButtonWindowTransition
 			if transition.target_window:
 				transition.target_window.hide()
-			if transition.button:
-				transition.button.pressed.connect(open_stacked_window.bind(transition.target_window))
+			_bind(transition.button, transition.lazy_window, transition.lazy_button_path, _on_transition_pressed.bind(transition))
 		elif node is ButtonWindowBack:
 			var back := node as ButtonWindowBack
-			if back.button:
-				back.button.pressed.connect(close_stacked_window)
+			_bind(back.button, back.lazy_window, back.lazy_button_path, close_stacked_window)
 
 	if default_window:
 		open_stacked_window(default_window)
+
+
+## `button` now, or the one at `lazy_button_path` inside `lazy_window` once that window loads.
+func _bind(button: BaseButton, lazy_window: LazyWindow, lazy_button_path: NodePath, callback: Callable) -> void:
+	if button != null:
+		button.pressed.connect(callback)
+	elif lazy_window != null:
+		lazy_window.ev_loaded.connect(func(content: Control) -> void:
+			var lazy_button := content.get_node_or_null(lazy_button_path) as BaseButton
+			if lazy_button == null:
+				push_error("[WindowStackManager] no button %s in %s" % [lazy_button_path, lazy_window.name])
+				return
+			lazy_button.pressed.connect(callback)
+		)
+
+
+func _on_transition_pressed(transition: ButtonWindowTransition) -> void:
+	open_stacked_window(transition.target_window)
+	if transition.enter_method.is_empty():
+		return
+	var target: Node = transition.target_window
+	if target is LazyWindow:
+		target = (target as LazyWindow).content
+	if target != null and target.has_method(transition.enter_method):
+		target.call(transition.enter_method)
 
 
 func open_stacked_window(new_window: Control) -> void:

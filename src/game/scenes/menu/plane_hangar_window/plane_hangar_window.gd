@@ -1,3 +1,4 @@
+class_name PlaneHangarWindow
 extends Control
 
 @export var gold_label: Label
@@ -7,13 +8,12 @@ extends Control
 @export var progress: ProgressController
 ## Marks the first affordable "buy" button for overlays (tutorial).
 @export var buy_anchor: UiAnchor
-## «САМОЛЁТЫ» / «ПОКРАСКА» tabs. Opens on paint (shop); `planes_entry_buttons` (profile plane strip,
-## tutorial `hangar.buy`) open it on planes instead.
+## «САМОЛЁТЫ» / «ПОКРАСКА» tabs. Opens on paint (shop); `open_on_planes()` (menu transition from the
+## profile plane strip, tutorial `hangar.buy`) switches it to planes.
 @export var planes_tab: BaseButton
 @export var paint_tab: BaseButton
 @export var planes_page: Control
 @export var paint_page: CosmeticsPage
-@export var planes_entry_buttons: Array[BaseButton] = []
 
 var _next_tab_paint: bool = true
 
@@ -27,9 +27,6 @@ func _ready() -> void:
 		planes_tab.pressed.connect(_show_tab.bind(false))
 	if paint_tab:
 		paint_tab.pressed.connect(_show_tab.bind(true))
-	for button in planes_entry_buttons:
-		if button != null:
-			button.pressed.connect(_open_on_tab.bind(false))
 
 
 func _exit_tree() -> void:
@@ -43,7 +40,11 @@ func on_window_enter() -> void:
 	_next_tab_paint = true
 
 
-## Entry buttons may fire before or after the stack opens the window.
+## Planes tab instead of paint (called right after the stack opened it, or before).
+func open_on_planes() -> void:
+	_open_on_tab(false)
+
+
 func _open_on_tab(paint: bool) -> void:
 	_next_tab_paint = paint
 	if is_visible_in_tree():

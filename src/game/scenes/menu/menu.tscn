@@ -6,10 +6,9 @@
 [ext_resource type="Resource" uid="uid://ceumjd7gvwho" path="res://src/game/scenes/menu/menu_events.tres" id="3_k2ump"]
 [ext_resource type="Script" uid="uid://dg8bdljs16a6h" path="res://core/lib/window_stack_manager/button_window_back.gd" id="4_back"]
 [ext_resource type="Script" uid="uid://bb1j5h4a60ooo" path="res://core/lib/window_stack_manager/button_window_stack_transition.gd" id="4_haj1v"]
-[ext_resource type="PackedScene" uid="uid://uv20ca6fbxsu" path="res://src/game/scenes/menu/training_room_window/training_room_window.tscn" id="5_training_room"]
-[ext_resource type="PackedScene" uid="uid://c8trainlabwindow01" path="res://src/dev/training_room_lab/training_room_lab_window.tscn" id="5_training_lab"]
 [ext_resource type="PackedScene" uid="uid://bslyh2pqxwyo4" path="res://src/ui/backgrounds/classic_sky/classic_sky_background.tscn" id="6_kcyx7"]
 [ext_resource type="Script" path="res://src/game/scenes/menu/menu_cover.gd" id="70_cover"]
+[ext_resource type="Script" path="res://core/lib/window_stack_manager/lazy_window.gd" id="95_lazy_window"]
 [ext_resource type="Texture2D" path="res://src/game/scenes/menu/ui/icon_shop.svg" id="73_icon_shop"]
 [ext_resource type="Resource" uid="uid://ib6tyr8mqb71" path="res://src/game/account/persistent_data.tres" id="71_pdata"]
 [ext_resource type="Resource" path="res://src/common/cosmetics/cosmetic_catalog.tres" id="72_catalog"]
@@ -30,10 +29,6 @@
 [ext_resource type="Texture2D" uid="uid://bseq47l6tpmaq" path="res://assets/ui/icons/btn_sound_off.png" id="18_xf4oj"]
 [ext_resource type="Texture2D" uid="uid://dpqp180ugjac3" path="res://assets/ui/icons/btn_sfx_off.png" id="19_sfx_off"]
 [ext_resource type="Texture2D" uid="uid://btx11pyx4se77" path="res://assets/ui/icons/btn_sfx_on.png" id="19_sfx_on"]
-[ext_resource type="PackedScene" uid="uid://bkoeytpeqxe1w" path="res://src/game/scenes/menu/settings_window/settings_window.tscn" id="20_r0b7e"]
-[ext_resource type="PackedScene" uid="uid://caclv7nru701m" path="res://src/game/scenes/menu/trophy_room_window/trophy_room_window.tscn" id="21_trophy"]
-[ext_resource type="PackedScene" uid="uid://c8profilewindow01" path="res://src/game/scenes/menu/profile_window/profile_window.tscn" id="21_profile"]
-[ext_resource type="PackedScene" uid="uid://c8planehangarwin" path="res://src/game/scenes/menu/plane_hangar_window/plane_hangar_window.tscn" id="21_hangar"]
 [ext_resource type="PackedScene" uid="uid://b00ddsqtwrab5" path="res://src/game/scenes/menu/daily/daily_challenges_panel.tscn" id="23_daily"]
 [ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="24_6evpd"]
 [ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="25_menu_back"]
@@ -66,7 +61,6 @@
 [ext_resource type="Script" path="res://core/lib/pulse/ui_pulse.gd" id="87_ui_pulse"]
 [ext_resource type="Script" path="res://src/game/scenes/menu/ui/shop_pulse.gd" id="88_shop_pulse"]
 [ext_resource type="Script" path="res://src/game/scenes/menu/ui/awards_pulse.gd" id="90_awards_pulse"]
-[ext_resource type="PackedScene" path="res://src/game/scenes/menu/parents_window/parents_window.tscn" id="91_parents"]
 [ext_resource type="PackedScene" uid="uid://c8evententry0001" path="res://src/game/scenes/menu/event/event_entry.tscn" id="93_event_entry"]
 [ext_resource type="Script" path="res://src/game/scenes/menu/event/event_menu_layout.gd" id="94_event_layout"]
 
@@ -82,20 +76,20 @@ shader_parameter/shadow_offset = Vector2(-5, 10)
 shader_parameter/shadow_color = Color(0, 0, 0, 0.5)
 shader_parameter/shadow_blur = 2.0
 
-[node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "levels_choice_window", "shared_background", "window_backgrounds", "opaque_windows", "start_button", "training_room_start_button", "training_lab_start_button", "exit_button")]
+[node name="MenuScene" type="Node" unique_id=1044355188 node_paths=PackedStringArray("windows_stack_manager", "levels_choice_window", "training_room_window", "training_lab_window", "parents_window", "shared_background", "opaque_windows", "start_button", "exit_button")]
 script = ExtResource("1_5oxuo")
 root_events = ExtResource("2_35kkh")
 menu_events = ExtResource("3_k2ump")
 windows_stack_manager = NodePath("UI/StackWindowController")
 levels_choice_window = NodePath("UI/LevelsWindow")
+training_room_window = NodePath("UI/TrainingRoomWindow")
+training_lab_window = NodePath("UI/TrainingRoomLabWindow")
+parents_window = NodePath("UI/ParentsWindow")
 shared_background = NodePath("UI/MenuBackground")
-window_backgrounds = [NodePath("UI/ProfileWindow/Background"), NodePath("UI/SettingsWindow/Background"), NodePath("UI/ParentsWindow/Background"), NodePath("UI/TrainingRoomWindow/Background"), NodePath("UI/TrainingRoomLabWindow/Background"), NodePath("UI/PlaneHangarWindow/Background")]
 opaque_windows = [NodePath("UI/LevelsWindow"), NodePath("UI/TrophyRoomWindow")]
 training_room_config = ExtResource("6_vp6ju")
 training_lab_config = ExtResource("6_lab_cfg")
 start_button = NodePath("UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start")
-training_room_start_button = NodePath("UI/TrainingRoomWindow/CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/StartPractice")
-training_lab_start_button = NodePath("UI/TrainingRoomLabWindow/CenterContainer/Content/BodyMargin/MainVBox/ActionsRow/StartPractice")
 exit_button = NodePath("UI/MainMenuWindow/ExitMargin/Exit")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=2419366]
@@ -121,73 +115,84 @@ script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/TrainigRoom")
 target_window = NodePath("../../TrainingRoomWindow")
 
-[node name="TrainingRoomBack" type="Node" parent="UI/StackWindowController" unique_id=545675404 node_paths=PackedStringArray("button")]
+[node name="TrainingRoomBack" type="Node" parent="UI/StackWindowController" unique_id=545675404 node_paths=PackedStringArray("lazy_window")]
 script = ExtResource("4_back")
-button = NodePath("../../TrainingRoomWindow/CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/MenuWindowBack/Back")
+lazy_window = NodePath("../../TrainingRoomWindow")
+lazy_button_path = NodePath("CenterContainer/Panel/BodyMargin/MainVBox/BottomRow/MenuWindowBack/Back")
 
 [node name="TrainingRoomLabOpen" type="Node" parent="UI/StackWindowController" unique_id=1342848865 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/TrainingLabMargin/TrainingLab")
 target_window = NodePath("../../TrainingRoomLabWindow")
 
-[node name="TrainingRoomLabBack" type="Node" parent="UI/StackWindowController" unique_id=545675405 node_paths=PackedStringArray("button")]
+[node name="TrainingRoomLabBack" type="Node" parent="UI/StackWindowController" unique_id=545675405 node_paths=PackedStringArray("lazy_window")]
 script = ExtResource("4_back")
-button = NodePath("../../TrainingRoomLabWindow/MenuWindowBack/Back")
+lazy_window = NodePath("../../TrainingRoomLabWindow")
+lazy_button_path = NodePath("MenuWindowBack/Back")
 
 [node name="SettingsWindowOpen" type="Node" parent="UI/StackWindowController" unique_id=226461501 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/MarginContainer/RightSideButtons/Settings")
 target_window = NodePath("../../SettingsWindow")
 
-[node name="SettingsWindowBack" type="Node" parent="UI/StackWindowController" unique_id=226461502 node_paths=PackedStringArray("button")]
+[node name="SettingsWindowBack" type="Node" parent="UI/StackWindowController" unique_id=226461502 node_paths=PackedStringArray("lazy_window")]
 script = ExtResource("4_back")
-button = NodePath("../../SettingsWindow/MenuWindowBack/Back")
+lazy_window = NodePath("../../SettingsWindow")
+lazy_button_path = NodePath("MenuWindowBack/Back")
 
-[node name="ParentsWindowOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
+[node name="ParentsWindowOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("lazy_window", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../SettingsWindow/CenterContainer/Content/BottomButtons/Parents")
 target_window = NodePath("../../ParentsWindow")
+lazy_window = NodePath("../../SettingsWindow")
+lazy_button_path = NodePath("CenterContainer/Content/BottomButtons/Parents")
 
-[node name="ParentsWindowBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button")]
+[node name="ParentsWindowBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("lazy_window")]
 script = ExtResource("4_back")
-button = NodePath("../../ParentsWindow/Content/Card/MenuWindowBack/Back")
+lazy_window = NodePath("../../ParentsWindow")
+lazy_button_path = NodePath("Content/Card/MenuWindowBack/Back")
 
 [node name="TrophyRoomOpen" type="Node" parent="UI/StackWindowController" unique_id=551433926 node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/MarginContainer/RightSideButtons/AchievementsBox/Achievements")
 target_window = NodePath("../../TrophyRoomWindow")
 
-[node name="TrophyRoomBack" type="Node" parent="UI/StackWindowController" unique_id=1133530387 node_paths=PackedStringArray("button")]
+[node name="TrophyRoomBack" type="Node" parent="UI/StackWindowController" unique_id=1133530387 node_paths=PackedStringArray("lazy_window")]
 script = ExtResource("4_back")
-button = NodePath("../../TrophyRoomWindow/MenuWindowBack/Back")
+lazy_window = NodePath("../../TrophyRoomWindow")
+lazy_button_path = NodePath("MenuWindowBack/Back")
 
 [node name="ProfileWindowOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/MarginContainer/RightSideButtons/Profile")
 target_window = NodePath("../../ProfileWindow")
 
-[node name="ProfileWindowBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button")]
+[node name="ProfileWindowBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("lazy_window")]
 script = ExtResource("4_back")
-button = NodePath("../../ProfileWindow/MenuWindowBack/Back")
+lazy_window = NodePath("../../ProfileWindow")
+lazy_button_path = NodePath("MenuWindowBack/Back")
 
-[node name="HangarOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
+[node name="HangarOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("lazy_window", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../ProfileWindow/Body/IdCard/VBox/Margin/VBox/PlaneButton")
 target_window = NodePath("../../PlaneHangarWindow")
+lazy_window = NodePath("../../ProfileWindow")
+lazy_button_path = NodePath("Body/IdCard/VBox/Margin/VBox/PlaneButton")
+enter_method = &"open_on_planes"
 
 [node name="ShopOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
 script = ExtResource("4_haj1v")
 button = NodePath("../../MainMenuWindow/MarginContainer/RightSideButtons/ShopBox/Shop")
 target_window = NodePath("../../PlaneHangarWindow")
 
-[node name="HangarBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button")]
+[node name="HangarBack" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("lazy_window")]
 script = ExtResource("4_back")
-button = NodePath("../../PlaneHangarWindow/MenuWindowBack/Back")
+lazy_window = NodePath("../../PlaneHangarWindow")
+lazy_button_path = NodePath("MenuWindowBack/Back")
 
-[node name="ProfileTrophyOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("button", "target_window")]
+[node name="ProfileTrophyOpen" type="Node" parent="UI/StackWindowController" node_paths=PackedStringArray("lazy_window", "target_window")]
 script = ExtResource("4_haj1v")
-button = NodePath("../../ProfileWindow/Body/IdCard/VBox/Margin/VBox/Top/Info/Chips/TrophyButton")
 target_window = NodePath("../../TrophyRoomWindow")
+lazy_window = NodePath("../../ProfileWindow")
+lazy_button_path = NodePath("Body/IdCard/VBox/Margin/VBox/Top/Info/Chips/TrophyButton")
 
 [node name="LevelsSelectionBack" type="Node" parent="UI/StackWindowController" unique_id=785798506 node_paths=PackedStringArray("button")]
 script = ExtResource("4_back")
@@ -708,27 +713,99 @@ visible = false
 layout_mode = 1
 container_id = "addition"
 
-[node name="TrainingRoomWindow" parent="UI" unique_id=326554877 instance=ExtResource("5_training_room")]
+[node name="TrainingRoomWindow" type="Control" parent="UI"]
 visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("95_lazy_window")
+scene = "uid://uv20ca6fbxsu"
+hidden_content_nodes = Array[NodePath]([NodePath("Background")])
+preload_delay_sec = 3.0
 
-[node name="TrainingRoomLabWindow" parent="UI" unique_id=326554878 instance=ExtResource("5_training_lab")]
+[node name="TrainingRoomLabWindow" type="Control" parent="UI"]
 visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("95_lazy_window")
+scene = "uid://c8trainlabwindow01"
+hidden_content_nodes = Array[NodePath]([NodePath("Background")])
 
-[node name="SettingsWindow" parent="UI" unique_id=2314529 instance=ExtResource("20_r0b7e")]
+[node name="SettingsWindow" type="Control" parent="UI"]
 visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("95_lazy_window")
+scene = "uid://bkoeytpeqxe1w"
+hidden_content_nodes = Array[NodePath]([NodePath("Background")])
+preload_delay_sec = 3.0
 
-[node name="TrophyRoomWindow" parent="UI" unique_id=965242045 instance=ExtResource("21_trophy")]
+[node name="TrophyRoomWindow" type="Control" parent="UI"]
 visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("95_lazy_window")
+scene = "uid://caclv7nru701m"
+preload_delay_sec = 3.0
 
-[node name="ParentsWindow" parent="UI" node_paths=PackedStringArray("windows_stack_manager") instance=ExtResource("91_parents")]
+[node name="ParentsWindow" type="Control" parent="UI"]
 visible = false
-windows_stack_manager = NodePath("../StackWindowController")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("95_lazy_window")
+scene = "uid://irggawaoi0pw"
+hidden_content_nodes = Array[NodePath]([NodePath("Background")])
 
-[node name="ProfileWindow" parent="UI" instance=ExtResource("21_profile")]
+[node name="ProfileWindow" type="Control" parent="UI"]
 visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("95_lazy_window")
+scene = "uid://c8profilewindow01"
+hidden_content_nodes = Array[NodePath]([NodePath("Background")])
+preload_delay_sec = 3.0
 
-[node name="PlaneHangarWindow" parent="UI" node_paths=PackedStringArray("planes_entry_buttons") instance=ExtResource("21_hangar")]
+[node name="PlaneHangarWindow" type="Control" parent="UI"]
 visible = false
-planes_entry_buttons = [NodePath("../ProfileWindow/Body/IdCard/VBox/Margin/VBox/PlaneButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("95_lazy_window")
+scene = "uid://c8planehangarwin"
+hidden_content_nodes = Array[NodePath]([NodePath("Background")])
+preload_delay_sec = 3.0
 
 [editable path="UI/MainMenuWindow/CenterContainer/VBoxContainer/CtaRow/Start"]
