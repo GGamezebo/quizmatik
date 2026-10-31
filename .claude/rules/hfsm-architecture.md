@@ -38,7 +38,7 @@ Port of Library `GDScript/HFSM` / `Python3/HFSM`. Keep transition semantics in s
 - on event (non-`sys.enter`): scene method `on_event(name, data)` on mounted node
 - `paths[id]` resolves `.tscn`; unknown id → error
 - `loading_screen: true` → optional loading overlay on `_mount_async`; `async_loading` default `true`, `false` → `_mount` sync one-frame load
-- Overlay is drawn 2 frames before the load starts (Web has no worker threads → `load_threaded_request` blocks the frame)
+- Overlay is drawn 2 frames before the load starts (Web has no worker threads → `load_threaded_request` blocks the frame) and `fade_out()` starts 2 frames after mount (first-draw spikes of the new scene stay behind the still overlay)
 - PackedScene cache by scene id: `keep_loaded` → kept for the session; `preload` ids → loaded under the state's loading screen (before fade), else 2 frames after mount; kept while the state is active (prune deferred so a state entered in the same transition still gets it). Cache hit = instantiate only
 - Cached scenes' live `.tres` persist between mounts → `initialize` must fully overwrite runtime state
 - Cancel via per-state mount token when leave/re-enter races

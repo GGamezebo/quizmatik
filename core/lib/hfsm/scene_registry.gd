@@ -304,6 +304,11 @@ func _mount_async(state: HfsmStateNode, data: Dictionary) -> void:
 	_finish_mount(state, packed, data)
 
 	var ls_done = _loading_screens.get(state_name)
+	if ls_done != null and is_instance_valid(ls_done):
+		# A fresh scene's first frames are the slowest (first draw: glyphs, shader variants, layout):
+		# spend them behind the still overlay so its fade animation does not stutter.
+		if not await _skip_frames(state_name, token, 2):
+			return
 	_loading_screens.erase(state_name)
 	if ls_done != null and is_instance_valid(ls_done):
 		if ls_done.has_method("fade_out"):
