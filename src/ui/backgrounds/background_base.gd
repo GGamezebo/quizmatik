@@ -257,10 +257,6 @@ func _set_color_target_from_score(score: int) -> void:
 	if game_config != null and game_config.chase:
 		_color_target = 1.0
 		return
-	# A finished golden flight keeps every later battle fully colored until the next day.
-	if _holds_full_sky():
-		_color_target = 1.0
-		return
 	if _is_time_painted():
 		_color_target = 0.0
 		return
@@ -279,7 +275,10 @@ func _set_color_target_from_daily() -> void:
 	_color_target = lerpf(idle_color_amount, 1.0, daily_controller.get_sky_fill())
 
 
+## Daily color (menu, post-battle) only: a battle paints from its own progress, never from the day's stamps / flight.
 func _holds_full_sky() -> bool:
+	if not paint_from_daily:
+		return false
 	if _held_daily == null or not is_instance_valid(_held_daily):
 		_held_daily = daily_controller if daily_controller != null else _find_daily_controller()
 	return _held_daily != null and _held_daily.holds_full_sky()

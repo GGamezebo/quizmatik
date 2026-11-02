@@ -15,6 +15,7 @@ func initialize(_data: Dictionary) -> void:
 	var scenario: GameConfig = _data.get('custom_battle')
 	var battle_info: GameConfig.BattleInfo = _data.get('battle_info')
 	assert(not scenario or not battle_info, 'Incorrect battle config')
+	game_config.clear_rolled_chase()
 	
 	if battle_info:
 		var profiles := ProfileController.find_in_tree(get_tree())
