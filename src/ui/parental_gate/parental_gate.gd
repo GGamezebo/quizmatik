@@ -16,7 +16,7 @@ signal ev_canceled
 @export var cancel_button: BaseButton
 @export var factor_min: int = 12
 @export var factor_max: int = 16
-@export var retry_cooldown_sec: float = 30.0
+@export var retry_cooldown_sec: float = 15.0
 
 const FADE_DURATION: float = 0.18
 const MESSAGE_ASK := "Чтобы продолжить, попросите взрослого решить пример:"
