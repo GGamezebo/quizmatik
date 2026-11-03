@@ -44,7 +44,7 @@ static func bind(button: BaseButton, scale_factor: float = HOVER_SCALE_FACTOR) -
 		return
 	if _script_inherits_hover_scale(button.get_script()):
 		return
-	_install(button, scale_factor)
+	_install(button, float(button.get_meta(META_SCALE_FACTOR, scale_factor)))
 
 
 static func _script_inherits_hover_scale(script: Script) -> bool:

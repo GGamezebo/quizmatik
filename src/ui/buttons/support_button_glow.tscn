@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/ui/buttons/support_button_glow.gd" id="1_script"]
+
+[node name="SupportButtonGlow" type="Node" node_paths=PackedStringArray("timer")]
+script = ExtResource("1_script")
+timer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 9.0
+autostart = true

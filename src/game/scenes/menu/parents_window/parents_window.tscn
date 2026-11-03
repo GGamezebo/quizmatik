@@ -28,6 +28,8 @@
 [ext_resource type="Theme" path="res://src/ui/buttons/support_actions.tres" id="24_actions"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/magister_cap.svg" id="25_cap"]
 
+[ext_resource type="PackedScene" path="res://src/ui/buttons/support_button_glow.tscn" id="26_glow"]
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("8_shadow")
 shader_parameter/shadow_offset = Vector2(-4, 8)
@@ -103,6 +105,9 @@ share_viewport = NodePath("ShareViewport")
 share_card = NodePath("ShareViewport/ShareCard")
 cosmetics = ExtResource("23_catalog")
 support_hint = NodePath("Content/Card/SupportHint")
+
+[node name="SupportButtonGlow" parent="." node_paths=PackedStringArray("buttons") instance=ExtResource("26_glow")]
+buttons = [NodePath("../Content/Card/BottomButtons/Rate"), NodePath("../Content/Card/BottomButtons/Share")]
 
 [node name="ProgressController" parent="." instance=ExtResource("18_progress")]
 
@@ -306,14 +311,14 @@ anchor_bottom = 1.0
 offset_left = -432.0
 offset_top = -128.0
 offset_right = 542.0
-offset_bottom = -48.0
+offset_bottom = -56.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_constants/separation = 16
+theme_override_constants/separation = 24
 alignment = 1
 
 [node name="Rate" type="Button" parent="Content/Card/BottomButtons"]
-custom_minimum_size = Vector2(310, 80)
+custom_minimum_size = Vector2(300, 72)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 2
@@ -323,6 +328,8 @@ theme_override_constants/icon_max_width = 30
 theme_override_font_sizes/font_size = 24
 icon = ExtResource("20_star")
 text = "Оценить игру"
+
+metadata/hover_scale_factor = 1.02
 
 [node name="Subtitle" type="Label" parent="Content/Card/BottomButtons/Rate"]
 layout_mode = 1
@@ -341,7 +348,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Share" type="Button" parent="Content/Card/BottomButtons"]
-custom_minimum_size = Vector2(310, 80)
+custom_minimum_size = Vector2(300, 72)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 2
@@ -351,6 +358,8 @@ theme_override_constants/icon_max_width = 30
 theme_override_font_sizes/font_size = 24
 icon = ExtResource("21_share")
 text = "Поделиться"
+
+metadata/hover_scale_factor = 1.02
 
 [node name="Subtitle" type="Label" parent="Content/Card/BottomButtons/Share"]
 layout_mode = 1
@@ -369,7 +378,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PurchaseOffer" parent="Content/Card/BottomButtons" instance=ExtResource("13_purchase_offer")]
-custom_minimum_size = Vector2(310, 80)
+custom_minimum_size = Vector2(300, 72)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 2
@@ -380,6 +389,8 @@ theme_override_font_sizes/font_size = 24
 icon = ExtResource("25_cap")
 offer_board = ExtResource("4_board")
 placement = &"parents"
+
+metadata/hover_scale_factor = 1.02
 
 [node name="Subtitle" type="Label" parent="Content/Card/BottomButtons/PurchaseOffer"]
 layout_mode = 1

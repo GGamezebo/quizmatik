@@ -27,6 +27,8 @@
 
 [ext_resource type="Texture2D" path="res://src/ui/buttons/pencil_button_rim.svg" id="23_rim"]
 
+[ext_resource type="PackedScene" path="res://src/ui/buttons/support_button_glow.tscn" id="24_glow"]
+
 [sub_resource type="Gradient" id="Gradient_overlay"]
 colors = PackedColorArray(0.12, 0.1, 0.08, 0.45, 0.12, 0.1, 0.08, 0.25)
 
@@ -390,6 +392,9 @@ share_button = NodePath("Screen/CenterContainer/Panel/Thanks/Buttons/Share")
 play_button = NodePath("Screen/CenterContainer/Panel/Thanks/Buttons/Play")
 thanks_stamp = NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/Stamp")
 celebration_bursts = [NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/ConfettiLeft"), NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/ConfettiRight"), NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/FireworkLeft"), NodePath("Screen/CenterContainer/Panel/Thanks/StampBox/FireworkRight")]
+
+[node name="SupportButtonGlow" parent="." node_paths=PackedStringArray("buttons") instance=ExtResource("24_glow")]
+buttons = [NodePath("../Screen/CenterContainer/Panel/Thanks/Buttons/Rate"), NodePath("../Screen/CenterContainer/Panel/Thanks/Buttons/Share")]
 
 [node name="ProgressController" parent="." instance=ExtResource("9_progress")]
 
