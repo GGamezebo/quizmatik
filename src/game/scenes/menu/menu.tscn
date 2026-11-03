@@ -777,7 +777,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("95_lazy_window")
-scene = "uid://irggawaoi0pw"
+scene = "uid://dvmt7kfokdp5t"
 hidden_content_nodes = Array[NodePath]([NodePath("Background")])
 
 [node name="ProfileWindow" type="Control" parent="UI"]
