@@ -146,10 +146,10 @@ func _set_ink(color: Color) -> void:
 	add_theme_color_override("font_color", color)
 
 
-func _pop(size: float) -> void:
-	pivot_offset = self.size * 0.5
+func _pop(peak: float) -> void:
+	pivot_offset = size * 0.5
 	var tween := create_tween()
-	tween.tween_property(self, "scale", Vector2.ONE * size, 0.08)
+	tween.tween_property(self, "scale", Vector2.ONE * peak, 0.08)
 	tween.tween_property(self, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 

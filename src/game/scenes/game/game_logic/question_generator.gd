@@ -72,21 +72,21 @@ static func _generate_pair(gameConfig: GameConfig, active_operations: Array[int]
 static func _build_pair_question(gameConfig: GameConfig, operation: int, a: int, b: int) -> Question:
 	var left: int = a
 	var right: int = b
-	var sign: String
+	var op_sign: String
 	match operation:
 		GameConfig.Operations.ADDITION, GameConfig.Operations.MULTIPLICATION:
 			if randi() % 2 == 0:
 				left = b
 				right = a
-			sign = "+" if operation == GameConfig.Operations.ADDITION else "x"
+			op_sign = "+" if operation == GameConfig.Operations.ADDITION else "x"
 		GameConfig.Operations.SUBTRACTION:
 			left = maxi(a, b)
 			right = mini(a, b)
-			sign = "-"
+			op_sign = "-"
 		GameConfig.Operations.DIVISION:
 			right = maxi(a, 1)
 			left = right * b
-			sign = "/"
+			op_sign = "/"
 		_:
 			return null
 	var q := Question.new()
@@ -108,8 +108,8 @@ static func _build_pair_question(gameConfig: GameConfig, operation: int, a: int,
 		return null
 	q.pair = [left, right]
 	q.correct_answer = left
-	q.text = "? %s ? = %d" % [sign, q.pair_result]
-	q.pair_solution = "%d %s %d = %d" % [left, sign, right, q.pair_result]
+	q.text = "? %s ? = %d" % [op_sign, q.pair_result]
+	q.pair_solution = "%d %s %d = %d" % [left, op_sign, right, q.pair_result]
 	q.options = _pair_options(operation, left, right, q.pair_result, gameConfig.answer_lines_count)
 	return q
 
@@ -158,7 +158,7 @@ static func pair_solves(operation: int, first: int, second: int, result: int) ->
 		GameConfig.Operations.MULTIPLICATION:
 			return first * second == result
 		GameConfig.Operations.DIVISION:
-			return second != 0 and first % second == 0 and first / second == result
+			return second != 0 and first % second == 0 and int(first / float(second)) == result
 	return false
 
 

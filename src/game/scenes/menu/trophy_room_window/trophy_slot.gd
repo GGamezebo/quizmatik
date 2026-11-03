@@ -101,11 +101,11 @@ func _fit_name() -> void:
 	if limit <= 1.0:
 		limit = 104.0
 	var shown := tr(name_label.text)
-	var size := name_label.label_settings.font_size
-	var fitted := size
+	var base_size := name_label.label_settings.font_size
+	var fitted := base_size
 	while fitted > 11 and font.get_string_size(shown, HORIZONTAL_ALIGNMENT_LEFT, -1, fitted).x > limit:
 		fitted -= 1
-	if fitted == size:
+	if fitted == base_size:
 		return
 	var settings := name_label.label_settings.duplicate() as LabelSettings
 	settings.font_size = fitted
