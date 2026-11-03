@@ -5,7 +5,7 @@ extends IScene
 ## Bridges OfferBoard (host UI hooks) ↔ PlatformServices (store): interstitial pacing, rewarded gold
 ## with a per-device daily limit, parental gate → paywall: the kid never sees a price or «Купить»
 ## (Families policy, Teacher Approved); thank-you page «Оценить игру» → store page, «Поделиться» → share
-## sheet, placement `thanks`.
+## sheet, placement `thanks`; the page itself asks the store's in-app review sheet once it stays up.
 ## F6 alone = defaults, nothing for sale.
 
 const STATE_PATH: String = "user://monetization.json"
@@ -22,6 +22,9 @@ const STATE_PATH: String = "user://monetization.json"
 @export var gated_placements: Array[StringName] = [&"parents"]
 ## Share placement of the thank-you page (tags the store link).
 @export var share_placement: StringName = &"thanks"
+## Thank-you page up this long (parent holds the phone, just paid) → store's in-app review sheet
+## (`ev_request_review`, store keeps its quota); closed earlier → not asked.
+@export var thanks_review_delay_sec: float = 2.0
 @export_group("Interstitial")
 ## Session battles before the first interstitial (kids' first minutes stay ad-free).
 @export var interstitial_min_battles: int = 3
@@ -40,6 +43,7 @@ var _is_purchasing: bool = false
 var _paywall_container_id: String = ""
 var _rewarded_day: String = ""
 var _rewarded_count: int = 0
+var _is_thanks_shown: bool = false
 
 
 func initialize(_data: Dictionary) -> void:
@@ -53,7 +57,7 @@ func initialize(_data: Dictionary) -> void:
 	_listener.add(paywall_dialog.ev_buy_pressed, _on_buy_pressed)
 	_listener.add(paywall_dialog.ev_rate_pressed, platform_services.ev_request_rate_page.emit)
 	_listener.add(paywall_dialog.ev_share_pressed, _on_share_pressed)
-	_listener.add(paywall_dialog.ev_thanks_shown, root_events.ev_celebration_music.emit)
+	_listener.add(paywall_dialog.ev_thanks_shown, _on_thanks_shown)
 	_listener.add(parental_gate.ev_passed, _on_gate_passed)
 	_publish()
 
@@ -154,6 +158,15 @@ func _on_purchase_result(is_success: bool) -> void:
 		return
 	_is_purchasing = false
 	paywall_dialog.show_result(is_success, platform_services.can_rate, platform_services.can_share)
+
+func _on_thanks_shown(is_shown: bool) -> void:
+	_is_thanks_shown = is_shown
+	root_events.ev_celebration_music.emit(is_shown)
+	if not is_shown or not platform_services.can_rate:
+		return
+	await get_tree().create_timer(thanks_review_delay_sec).timeout
+	if _is_thanks_shown and platform_services.can_rate:
+		platform_services.ev_request_review.emit()
 
 func _on_share_pressed(text: String) -> void:
 	platform_services.ev_request_share.emit(share_placement, text, "")
