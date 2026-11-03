@@ -7,6 +7,8 @@ extends RefCounted
 ## Play shows the sheet only to an app installed from Play and within its quota; other builds finish silently.
 
 const PLAY_PACKAGE := "com.quizmatic.app"
+const PLAY_STORE_PACKAGE := "com.android.vending"
+const PLAY_URL := "https://play.google.com/store/apps/details?id=" + PLAY_PACKAGE
 const POLL_SEC := 0.25
 const TIMEOUT_SEC := 15.0
 
@@ -17,8 +19,30 @@ func open_store_page() -> void:
 	if OS.get_name() != "Android":
 		print("PlayRating: store page %s" % PLAY_PACKAGE)
 		return
-	if OS.shell_open("market://details?id=%s" % PLAY_PACKAGE) != OK:
-		OS.shell_open("https://play.google.com/store/apps/details?id=%s" % PLAY_PACKAGE)
+	if not _open_play_app():
+		OS.shell_open(PLAY_URL)
+
+
+## A generic market:// link can be claimed by another installed store.
+func _open_play_app() -> bool:
+	if not Engine.has_singleton("AndroidRuntime"):
+		return false
+	var activity = Engine.get_singleton("AndroidRuntime").getActivity()
+	var intent_class = JavaClassWrapper.wrap("android.content.Intent")
+	var uri_class = JavaClassWrapper.wrap("android.net.Uri")
+	if activity == null or intent_class == null or uri_class == null:
+		return false
+	var uri = uri_class.parse(PLAY_URL)
+	var intent = intent_class.Intent("android.intent.action.VIEW")
+	if uri == null or intent == null:
+		return false
+	intent.setData(uri)
+	intent.setPackage(PLAY_STORE_PACKAGE)
+	activity.startActivity(intent)
+	if JavaClassWrapper.get_exception() != null:
+		_warn_exception("open Play Store")
+		return false
+	return true
 
 
 func request_review() -> void:

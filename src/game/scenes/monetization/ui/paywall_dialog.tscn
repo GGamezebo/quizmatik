@@ -22,6 +22,11 @@
 [ext_resource type="Texture2D" path="res://assets/ui/stamps/stamp_heart.png" id="19_stamp_heart"]
 [ext_resource type="Texture2D" path="res://assets/ui/icons/share.svg" id="20_share"]
 
+[ext_resource type="Theme" path="res://src/ui/buttons/support_actions.tres" id="21_actions"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/monetization/ui/celebration_halo.svg" id="22_halo"]
+
+[ext_resource type="Texture2D" path="res://src/ui/buttons/pencil_button_rim.svg" id="23_rim"]
+
 [sub_resource type="Gradient" id="Gradient_overlay"]
 colors = PackedColorArray(0.12, 0.1, 0.08, 0.45, 0.12, 0.1, 0.08, 0.25)
 
@@ -179,47 +184,47 @@ content_margin_left = 20.0
 content_margin_top = 10.0
 content_margin_right = 20.0
 content_margin_bottom = 16.0
-bg_color = Color(0.43, 0.7, 0.34, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 10
+bg_color = Color(0.94, 0.84, 0.58, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
 border_color = Color(0.165, 0.2, 0.251, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 10
 corner_radius_bottom_right = 24
 corner_radius_bottom_left = 10
 shadow_color = Color(0.15, 0.12, 0.08, 0.22)
-shadow_size = 8
+shadow_size = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cta_hover"]
 content_margin_left = 20.0
 content_margin_top = 10.0
 content_margin_right = 20.0
 content_margin_bottom = 16.0
-bg_color = Color(0.5, 0.77, 0.4, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 10
+bg_color = Color(0.99, 0.91, 0.70, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
 border_color = Color(0.165, 0.2, 0.251, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 10
 corner_radius_bottom_right = 24
 corner_radius_bottom_left = 10
 shadow_color = Color(0.15, 0.12, 0.08, 0.28)
-shadow_size = 10
+shadow_size = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cta_pressed"]
 content_margin_left = 20.0
 content_margin_top = 16.0
 content_margin_right = 20.0
 content_margin_bottom = 10.0
-bg_color = Color(0.37, 0.62, 0.29, 1)
-border_width_left = 4
-border_width_top = 10
-border_width_right = 4
-border_width_bottom = 4
+bg_color = Color(0.86, 0.73, 0.45, 1)
+border_width_left = 2
+border_width_top = 3
+border_width_right = 2
+border_width_bottom = 2
 border_color = Color(0.12, 0.14, 0.18, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 10
@@ -232,11 +237,63 @@ content_margin_top = 10.0
 content_margin_right = 20.0
 content_margin_bottom = 16.0
 bg_color = Color(0.88, 0.85, 0.78, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 10
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
 border_color = Color(0.165, 0.2, 0.251, 0.45)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_play"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+bg_color = Color(0.78, 0.85, 0.66, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+shadow_color = Color(0.15, 0.12, 0.08, 0.22)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_play_hover"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 16.0
+bg_color = Color(0.86, 0.92, 0.76, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 10
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 10
+shadow_color = Color(0.15, 0.12, 0.08, 0.28)
+shadow_size = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_play_pressed"]
+content_margin_left = 20.0
+content_margin_top = 16.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+bg_color = Color(0.68, 0.77, 0.54, 1)
+border_width_left = 2
+border_width_top = 3
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.12, 0.14, 0.18, 1)
 corner_radius_top_left = 24
 corner_radius_top_right = 10
 corner_radius_bottom_right = 24
@@ -244,7 +301,7 @@ corner_radius_bottom_left = 10
 
 [sub_resource type="LabelSettings" id="LabelSettings_thanks_title"]
 font = ExtResource("5_title_font")
-font_size = 60
+font_size = 46
 font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_thanks_bought"]
@@ -347,6 +404,7 @@ theme = ExtResource("theme_ui")
 
 [node name="HoverScaleBinder" type="Node" parent="Screen"]
 script = ExtResource("2_hover_binder")
+scale_factor = 1.035
 
 [node name="Background" parent="Screen" instance=ExtResource("8_sky")]
 sky_scroll_speed = 0.015
@@ -759,6 +817,8 @@ stretch_mode = 5
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
+text = "Одна покупка — навсегда.
+Спасибо за поддержку игры!"
 label_settings = SubResource("LabelSettings_status")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -769,22 +829,25 @@ custom_minimum_size = Vector2(420, 88)
 layout_mode = 2
 size_flags_vertical = 4
 focus_mode = 0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_hover_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_pressed_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_focus_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_colors/font_disabled_color = Color(0.165, 0.2, 0.251, 0.6)
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_cta")
 theme_override_styles/hover = SubResource("StyleBoxFlat_cta_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_cta_pressed")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_cta_disabled")
+icon = ExtResource("16_star")
+theme_override_constants/icon_max_width = 34
+theme_override_constants/h_separation = 14
 text = "Купить за $2.99"
 
 [node name="Thanks" type="VBoxContainer" parent="Screen/CenterContainer/Panel"]
 visible = false
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 14
 alignment = 1
 
 [node name="StampBox" type="Control" parent="Screen/CenterContainer/Panel/Thanks"]
@@ -792,6 +855,17 @@ custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 size_flags_horizontal = 4
 mouse_filter = 2
+
+[node name="Halo" type="TextureRect" parent="Screen/CenterContainer/Panel/Thanks/StampBox"]
+layout_mode = 0
+offset_left = -75.0
+offset_top = -26.0
+offset_right = 225.0
+offset_bottom = 174.0
+mouse_filter = 2
+texture = ExtResource("22_halo")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Stamp" type="TextureRect" parent="Screen/CenterContainer/Panel/Thanks/StampBox"]
 layout_mode = 1
@@ -910,7 +984,7 @@ color_initial_ramp = SubResource("Gradient_party_colors")
 
 [node name="Title" type="Label" parent="Screen/CenterContainer/Panel/Thanks"]
 layout_mode = 2
-text = "Спасибо!"
+text = "Спасибо за поддержку!"
 label_settings = SubResource("LabelSettings_thanks_title")
 horizontal_alignment = 1
 
@@ -927,7 +1001,7 @@ autowrap_mode = 3
 custom_minimum_size = Vector2(860, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Вы помогаете ребёнку полюбить математику — это настоящая забота. Спасибо, что вы с нами!"
+text = "Пусть каждый полёт приносит радость открытий. Спасибо, что отправились в это приключение вместе с нами!"
 label_settings = SubResource("LabelSettings_message")
 horizontal_alignment = 1
 autowrap_mode = 3
@@ -940,38 +1014,132 @@ alignment = 1
 [node name="Rate" type="Button" parent="Screen/CenterContainer/Panel/Thanks/Buttons"]
 custom_minimum_size = Vector2(320, 84)
 layout_mode = 2
-focus_mode = 0
-theme_override_constants/icon_max_width = 36
-theme_override_font_sizes/font_size = 28
+focus_mode = 2
+theme = ExtResource("21_actions")
+theme_type_variation = &"SupportRate"
+theme_override_constants/icon_max_width = 30
+theme_override_font_sizes/font_size = 26
 text = "Оценить игру"
 icon = ExtResource("16_star")
+
+
+[node name="Subtitle" type="Label" parent="Screen/CenterContainer/Panel/Thanks/Buttons/Rate"]
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -30.0
+offset_right = -8.0
+offset_bottom = -7.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.25, 0.32, 0.35, 1)
+theme_override_font_sizes/font_size = 16
+text = "Помогите другим родителям"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Share" type="Button" parent="Screen/CenterContainer/Panel/Thanks/Buttons"]
 custom_minimum_size = Vector2(320, 84)
 layout_mode = 2
-focus_mode = 0
-theme_override_constants/icon_max_width = 36
-theme_override_font_sizes/font_size = 28
+focus_mode = 2
+theme = ExtResource("21_actions")
+theme_type_variation = &"SupportShare"
+theme_override_constants/icon_max_width = 30
+theme_override_font_sizes/font_size = 26
 text = "Поделиться"
 icon = ExtResource("20_share")
+
+
+[node name="Subtitle" type="Label" parent="Screen/CenterContainer/Panel/Thanks/Buttons/Share"]
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -30.0
+offset_right = -8.0
+offset_bottom = -7.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.25, 0.32, 0.35, 1)
+theme_override_font_sizes/font_size = 16
+text = "Пригласите друзей в полёт"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Play" type="Button" parent="Screen/CenterContainer/Panel/Thanks/Buttons"]
 custom_minimum_size = Vector2(320, 84)
 layout_mode = 2
 focus_mode = 0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_hover_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_pressed_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_focus_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_cta")
-theme_override_styles/hover = SubResource("StyleBoxFlat_cta_hover")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_cta_pressed")
+theme_override_styles/normal = SubResource("StyleBoxFlat_play")
+theme_override_styles/hover = SubResource("StyleBoxFlat_play_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_play_pressed")
 text = "Играть!"
 
 [node name="RateHint" type="Label" parent="Screen/CenterContainer/Panel/Thanks"]
 layout_mode = 2
-text = "Ваша оценка помогает другим родителям найти игру."
+text = "Ваше мнение и рекомендации помогают игре расти."
 label_settings = SubResource("LabelSettings_note")
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="PencilRim" type="NinePatchRect" parent="Screen/CenterContainer/Panel/Offer/Footer/Buy"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("23_rim")
+patch_margin_left = 24
+patch_margin_top = 22
+patch_margin_right = 24
+patch_margin_bottom = 22
+
+[node name="PencilRim" type="NinePatchRect" parent="Screen/CenterContainer/Panel/Thanks/Buttons/Rate"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("23_rim")
+patch_margin_left = 24
+patch_margin_top = 22
+patch_margin_right = 24
+patch_margin_bottom = 22
+
+[node name="PencilRim" type="NinePatchRect" parent="Screen/CenterContainer/Panel/Thanks/Buttons/Share"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("23_rim")
+patch_margin_left = 24
+patch_margin_top = 22
+patch_margin_right = 24
+patch_margin_bottom = 22
+
+[node name="PencilRim" type="NinePatchRect" parent="Screen/CenterContainer/Panel/Thanks/Buttons/Play"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("23_rim")
+patch_margin_left = 24
+patch_margin_top = 22
+patch_margin_right = 24
+patch_margin_bottom = 22

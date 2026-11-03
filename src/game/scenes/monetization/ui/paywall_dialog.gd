@@ -90,6 +90,9 @@ const GAME_TITLE := "Улётная математика"
 
 var _kind: StringName = &""
 var _celebration_tween: Tween
+var _stamp_tween: Tween
+var _thanks_fade_tween: Tween
+var _support_tween: Tween
 ## Finger that went down outside the scroll (title, footer, sky): its drag scrolls once it is over the
 ## scroll. Drags that start inside belong to the ScrollContainer itself (it only reacts to its own press).
 var _outside_touch: int = -1
@@ -99,8 +102,8 @@ func _ready() -> void:
 	hide()
 	buy_button.pressed.connect(ev_buy_pressed.emit)
 	close_button.pressed.connect(close)
-	rate_button.pressed.connect(ev_rate_pressed.emit)
-	share_button.pressed.connect(func() -> void: ev_share_pressed.emit(tr(SHARE_TEXT) % tr(GAME_TITLE)))
+	rate_button.pressed.connect(_on_rate_pressed)
+	share_button.pressed.connect(_on_share_pressed)
 	play_button.pressed.connect(close)
 	var bar := scroll.get_v_scroll_bar()
 	bar.value_changed.connect(_update_fade.unbind(1))
@@ -133,7 +136,7 @@ func open(kind: StringName, price: String, container_id: String = "") -> void:
 	_rebuild_progress()
 	_rebuild_unlocks(kind)
 	buy_button.text = tr("Купить за %s") % price if not price.is_empty() else "Купить"
-	status_label.text = ""
+	status_label.text = "Одна покупка — навсегда.\nСпасибо за поддержку игры!"
 	set_waiting(false)
 	_set_thanks(false)
 	offer_page.show()
@@ -164,7 +167,8 @@ func show_result(is_success: bool, can_rate: bool = false, can_share: bool = fal
 		return
 	thanks_label.text = TEXTS[_kind][2]
 	rate_button.visible = can_rate
-	rate_hint.visible = can_rate
+	rate_hint.visible = can_rate or can_share
+	rate_hint.text = "Ваше мнение и рекомендации помогают игре расти."
 	share_button.visible = can_share
 	offer_page.hide()
 	_set_thanks(true)
@@ -183,20 +187,50 @@ func _set_thanks(is_shown: bool) -> void:
 	thanks_page.visible = is_shown
 	if _celebration_tween != null:
 		_celebration_tween.kill()
+	if _stamp_tween != null:
+		_stamp_tween.kill()
+	if _thanks_fade_tween != null:
+		_thanks_fade_tween.kill()
 	for particles in celebration_bursts:
 		particles.emitting = false
 	ev_thanks_shown.emit(is_shown)
 	if not is_shown:
 		return
 	thanks_page.modulate.a = 0.0
-	create_tween().tween_property(thanks_page, "modulate:a", 1.0, FADE_DURATION * 2.0)
+	_thanks_fade_tween = create_tween()
+	_thanks_fade_tween.tween_property(thanks_page, "modulate:a", 1.0, FADE_DURATION * 2.0)
 	thanks_stamp.scale = Vector2(0.4, 0.4)
-	create_tween().tween_property(thanks_stamp, "scale", Vector2.ONE, 0.5) 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	thanks_stamp.rotation = -0.18
+	_stamp_tween = create_tween().set_parallel(true)
+	_stamp_tween.tween_property(thanks_stamp, "scale", Vector2.ONE, 0.65).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_stamp_tween.tween_property(thanks_stamp, "rotation", 0.0, 0.7).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_stamp_tween.chain().tween_property(thanks_stamp, "scale", Vector2(1.06, 1.06), 0.24).set_delay(0.15)
+	_stamp_tween.chain().tween_property(thanks_stamp, "scale", Vector2.ONE, 0.3)
 	_celebration_tween = create_tween()
 	for round_index in burst_rounds:
 		for particles in celebration_bursts:
 			_celebration_tween.tween_callback(particles.restart)
 			_celebration_tween.tween_interval(burst_interval_sec)
+
+
+func _on_rate_pressed() -> void:
+	_show_support_thanks("Спасибо за поддержку! Нам важно ваше мнение.")
+	ev_rate_pressed.emit()
+
+
+func _on_share_pressed() -> void:
+	_show_support_thanks("Спасибо, что помогаете игре находить новых друзей!")
+	ev_share_pressed.emit(tr(SHARE_TEXT) % tr(GAME_TITLE))
+
+
+## These actions have no completion callback; this acknowledges the parent's intention only.
+func _show_support_thanks(message: String) -> void:
+	rate_hint.text = message
+	if _support_tween != null:
+		_support_tween.kill()
+	rate_hint.modulate.a = 0.25
+	_support_tween = create_tween()
+	_support_tween.tween_property(rate_hint, "modulate:a", 1.0, 0.3)
 
 
 func _pdata() -> PData:

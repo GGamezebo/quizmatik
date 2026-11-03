@@ -15,6 +15,8 @@
 [ext_resource type="PackedScene" path="res://src/ui/language_picker/language_picker.tscn" id="17_language_picker"]
 [ext_resource type="PackedScene" path="res://src/ui/purchase_offer_button/purchase_offer_button.tscn" id="18_purchase_offer"]
 
+[ext_resource type="Texture2D" path="res://src/ui/buttons/pencil_button_rim.svg" id="19_pencil_rim"]
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
 shader = ExtResource("8_shadow")
 shader_parameter/shadow_offset = Vector2(-4, 8)
@@ -27,6 +29,123 @@ font_size = 34
 font_color = Color(0.165, 0.2, 0.251, 1)
 outline_size = 0
 shadow_size = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_parents_normal"]
+content_margin_left = 18.0
+content_margin_top = 4.0
+content_margin_right = 18.0
+content_margin_bottom = 28.0
+bg_color = Color(0.80, 0.87, 0.89, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.32, 0.37, 0.39, 0.65)
+corner_radius_top_left = 16
+corner_radius_top_right = 12
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 12
+shadow_color = Color(0.20, 0.22, 0.18, 0.14)
+shadow_size = 3
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_parents_hover"]
+content_margin_left = 18.0
+content_margin_top = 4.0
+content_margin_right = 18.0
+content_margin_bottom = 28.0
+bg_color = Color(0.87, 0.93, 0.94, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.32, 0.37, 0.39, 0.65)
+corner_radius_top_left = 16
+corner_radius_top_right = 12
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 12
+shadow_color = Color(0.20, 0.22, 0.18, 0.14)
+shadow_size = 3
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_parents_pressed"]
+content_margin_left = 18.0
+content_margin_top = 4.0
+content_margin_right = 18.0
+content_margin_bottom = 28.0
+bg_color = Color(0.71, 0.81, 0.84, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.32, 0.37, 0.39, 0.65)
+corner_radius_top_left = 16
+corner_radius_top_right = 12
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 12
+shadow_color = Color(0.20, 0.22, 0.18, 0.14)
+shadow_size = 3
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_offer_normal"]
+content_margin_left = 18.0
+content_margin_top = 4.0
+content_margin_right = 18.0
+content_margin_bottom = 28.0
+bg_color = Color(0.94, 0.84, 0.58, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.43, 0.37, 0.24, 0.65)
+corner_radius_top_left = 16
+corner_radius_top_right = 12
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 12
+shadow_color = Color(0.20, 0.22, 0.18, 0.14)
+shadow_size = 3
+shadow_offset = Vector2(0, 2)
+
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_offer_hover"]
+content_margin_left = 18.0
+content_margin_top = 4.0
+content_margin_right = 18.0
+content_margin_bottom = 28.0
+bg_color = Color(0.99, 0.91, 0.70, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.43, 0.37, 0.24, 0.65)
+corner_radius_top_left = 16
+corner_radius_top_right = 12
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 12
+shadow_color = Color(0.20, 0.22, 0.18, 0.14)
+shadow_size = 3
+shadow_offset = Vector2(0, 2)
+
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_offer_pressed"]
+content_margin_left = 18.0
+content_margin_top = 4.0
+content_margin_right = 18.0
+content_margin_bottom = 28.0
+bg_color = Color(0.86, 0.73, 0.45, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.43, 0.37, 0.24, 0.65)
+corner_radius_top_left = 16
+corner_radius_top_right = 12
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 12
+shadow_color = Color(0.20, 0.22, 0.18, 0.14)
+shadow_size = 3
+shadow_offset = Vector2(0, 2)
+
 
 [node name="SettingsWindow" type="Control" unique_id=1126064 node_paths=PackedStringArray("music_toggle", "music_volume_slider", "music_volume_label", "sfx_toggle", "sfx_volume_slider", "sfx_volume_label", "vibration_toggle", "vibration_intensity_slider", "vibration_intensity_label")]
 layout_mode = 3
@@ -180,12 +299,85 @@ alignment = 1
 custom_minimum_size = Vector2(280, 64)
 layout_mode = 2
 focus_mode = 0
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_hover_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_pressed_color = Color(0.165, 0.2, 0.251, 1)
 theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBox_parents_normal")
+theme_override_styles/hover = SubResource("StyleBox_parents_hover")
+theme_override_styles/pressed = SubResource("StyleBox_parents_pressed")
 text = "Для родителей"
 
-[node name="PurchaseOffer" parent="CenterContainer/Content/BottomButtons" instance=ExtResource("18_purchase_offer")]
+[node name="Caption" type="Label" parent="CenterContainer/Content/BottomButtons/Parents"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 12.0
+offset_top = 35.0
+offset_right = -12.0
+offset_bottom = 57.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.28, 0.39, 0.46, 1)
+theme_override_font_sizes/font_size = 16
+text = "Прогресс ребёнка"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PurchaseOffer" parent="CenterContainer/Content/BottomButtons" node_paths=PackedStringArray("subtitle") instance=ExtResource("18_purchase_offer")]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_hover_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_colors/font_pressed_color = Color(0.165, 0.2, 0.251, 1)
+theme_override_styles/normal = SubResource("StyleBox_offer_normal")
+theme_override_styles/hover = SubResource("StyleBox_offer_hover")
+theme_override_styles/pressed = SubResource("StyleBox_offer_pressed")
+subtitle = NodePath("Caption")
 placement = &"settings"
+
+[node name="Caption" type="Label" parent="CenterContainer/Content/BottomButtons/PurchaseOffer"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 12.0
+offset_top = 35.0
+offset_right = -12.0
+offset_bottom = 57.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.43, 0.37, 0.24, 1)
+theme_override_font_sizes/font_size = 16
+text = "Все долины"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PencilRim" type="NinePatchRect" parent="CenterContainer/Content/BottomButtons/Parents"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("19_pencil_rim")
+patch_margin_left = 24
+patch_margin_top = 22
+patch_margin_right = 24
+patch_margin_bottom = 22
+
+[node name="PencilRim" type="NinePatchRect" parent="CenterContainer/Content/BottomButtons/PurchaseOffer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("19_pencil_rim")
+patch_margin_left = 24
+patch_margin_top = 22
+patch_margin_right = 24
+patch_margin_bottom = 22
 
 [node name="MenuWindowBack" parent="." unique_id=767459829 instance=ExtResource("14_menu_back")]
 

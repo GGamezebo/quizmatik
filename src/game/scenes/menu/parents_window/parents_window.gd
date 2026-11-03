@@ -46,6 +46,7 @@ extends Control
 @export var share_card: ShareCard
 ## Equipped paint on the card's plane.
 @export var cosmetics: CosmeticCatalog
+@export var support_hint: Label
 
 const FACTS_SHOWN: int = 5
 const SHARE_PLACEMENT := &"parents"
@@ -58,6 +59,7 @@ const SHARE_IMAGE_PATH := "user://share/share_card.png"
 var _listener: EventListener = EventListener.new()
 ## Share card is being rendered: ignore repeat presses (never `disabled` — its theme style is a plain box).
 var _is_sharing: bool = false
+var _support_tween: Tween
 ## In-app review asked this app session (the store also keeps its own quota).
 static var _review_asked: bool = false
 ## Profile difficulty → grade line (same captions as `DifficultyPicker`).
@@ -87,6 +89,7 @@ func _exit_tree() -> void:
 
 func on_window_enter() -> void:
 	content.hide()
+	support_hint.text = "Спасибо, что помогаете игре расти!"
 	parental_gate.open()
 
 
@@ -110,13 +113,18 @@ func _on_offers_changed() -> void:
 func _refresh_store_buttons() -> void:
 	rate_button.visible = platform_services != null and platform_services.can_rate
 	share_button.visible = platform_services != null and platform_services.can_share
+	support_hint.visible = rate_button.visible or share_button.visible
 
 
 func _on_rate_pressed() -> void:
+	_show_support_thanks("Спасибо за поддержку! Нам важно ваше мнение.")
 	platform_services.ev_request_rate_page.emit()
 
 
 func _on_share_pressed() -> void:
+	if _is_sharing:
+		return
+	_show_support_thanks("Спасибо, что помогаете игре находить новых друзей!")
 	var live := _live_pdata()
 	var solved := live.statistics.total_answers
 	if solved <= 0:
@@ -126,8 +134,6 @@ func _on_share_pressed() -> void:
 		push_warning("ParentsWindow: share card nodes not wired, sharing text only")
 		platform_services.ev_request_share.emit(SHARE_PLACEMENT, tr(SHARE_TEXT_SOLVED) % [tr(GAME_TITLE), solved], "")
 		return
-	if _is_sharing:
-		return
 	_is_sharing = true
 	_fill_share_card(live)
 	var image_error: Error = await ViewportSnapshot.save_png(share_viewport, SHARE_IMAGE_PATH)
@@ -136,6 +142,16 @@ func _on_share_pressed() -> void:
 		push_warning("ParentsWindow: share card not rendered (%s)" % error_string(image_error))
 	platform_services.ev_request_share.emit(SHARE_PLACEMENT, tr(SHARE_TEXT_SOLVED) % [tr(GAME_TITLE), solved],
 		SHARE_IMAGE_PATH if image_error == OK else "")
+
+
+## The platform has no completion callback: thank the intention, never claim a review/share succeeded.
+func _show_support_thanks(message: String) -> void:
+	support_hint.text = message
+	if _support_tween != null:
+		_support_tween.kill()
+	support_hint.modulate.a = 0.25
+	_support_tween = create_tween()
+	_support_tween.tween_property(support_hint, "modulate:a", 1.0, 0.3)
 
 
 func _fill_share_card(live: PData) -> void:

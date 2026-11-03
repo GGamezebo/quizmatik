@@ -27,12 +27,12 @@ corner_radius_bottom_left = 10
 
 [sub_resource type="LabelSettings" id="LabelSettings_name"]
 font = ExtResource("2_font")
-font_size = 22
+font_size = 20
 font_color = Color(0.165, 0.2, 0.251, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_status"]
 font = ExtResource("2_font")
-font_size = 18
+font_size = 16
 font_color = Color(0.36, 0.4, 0.46, 1)
 
 [node name="ParentsValleyRow" type="HBoxContainer" node_paths=PackedStringArray("art_rect", "name_label", "status_label", "key_icon", "stamp_rect")]

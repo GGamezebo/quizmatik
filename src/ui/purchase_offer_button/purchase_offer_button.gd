@@ -5,12 +5,18 @@ extends Button
 ## `App/Monetization` publishes an offer (OfferBoard); press → paywall (with parental gate) there.
 
 @export var offer_board: OfferBoard
+@export var subtitle: Label
 @export var placement: StringName = &"settings"
 
 ## offer kind → button text (Russian source, auto-translated).
 const TEXTS: Dictionary = {
 	&"no_ads": "Убрать рекламу",
 	&"full_version": "Полная версия",
+}
+
+const SUBTITLES: Dictionary = {
+	&"no_ads": "Без рекламных пауз",
+	&"full_version": "Все долины",
 }
 
 var _listener: EventListener = EventListener.new()
@@ -31,6 +37,8 @@ func _refresh() -> void:
 	visible = TEXTS.has(kind)
 	if visible:
 		text = TEXTS[kind]
+		if subtitle != null:
+			subtitle.text = SUBTITLES[kind]
 
 
 func _on_pressed() -> void:
