@@ -21,6 +21,13 @@ extends Node2D
 @export var lineSelector: LineSelector
 @export var game_events: GameEvents
 
+## Per-line geometry (normal / selected look), key = `line_index * 2 + int(selected)`. A lane change
+## redraws from here: one triangle array + one multiline per line. Hundreds of `draw_colored_polygon` /
+## antialiased `draw_line` per redraw = a GPU buffer each → 80–130 ms frame hitch on WebGL.
+var _geometry: Dictionary = {}
+var _geometry_area := Rect2()
+var _geometry_lines: int = -1
+
 
 func _ready() -> void:
 	visible = false
@@ -50,33 +57,56 @@ func _draw() -> void:
 	var lines_count := gameArea.getLinesSize()
 	if lines_count <= 0:
 		return
+	if area != _geometry_area or lines_count != _geometry_lines:
+		_geometry.clear()
+		_geometry_area = area
+		_geometry_lines = lines_count
 	var spacing := area.size.y / float(lines_count)
 	var selected_lane := lineSelector.selected_lane
 
 	for i in range(lines_count + 1):
-		var y_pos := area.position.y + (i * spacing)
-		var start := Vector2(area.position.x + end_margin, y_pos)
-		var end := Vector2(area.end.x - end_margin, y_pos)
 		var selected := i == selected_lane or i == selected_lane + 1
-		_draw_dashed_paper_ribbon(
-			start,
-			end,
-			selected_paper_color if selected else paper_color,
-			selected_half_height if selected else ribbon_half_height,
-			i
-		)
+		var key := i * 2 + int(selected)
+		if not _geometry.has(key):
+			var y_pos := area.position.y + (i * spacing)
+			_geometry[key] = _build_ribbon(
+				Vector2(area.position.x + end_margin, y_pos),
+				Vector2(area.end.x - end_margin, y_pos),
+				selected_paper_color if selected else paper_color,
+				selected_half_height if selected else ribbon_half_height,
+				i
+			)
+		var ribbon: RibbonGeometry = _geometry[key]
+		if ribbon.indices.is_empty():
+			continue
+		RenderingServer.canvas_item_add_triangle_array(get_canvas_item(), ribbon.indices, ribbon.points, ribbon.colors)
+		draw_multiline(ribbon.edges, ribbon.edge_color, 1.0, true)
 
 
-func _draw_dashed_paper_ribbon(
+## Dash shadows + fills (one triangle array) and their edges (line pairs) of one lane line.
+class RibbonGeometry:
+	var points := PackedVector2Array()
+	var colors := PackedColorArray()
+	var indices := PackedInt32Array()
+	var edges := PackedVector2Array()
+	var edge_color := Color.WHITE
+
+
+func _build_ribbon(
 	start: Vector2,
 	end: Vector2,
 	fill: Color,
 	half_h: float,
 	line_index: int,
-) -> void:
+) -> RibbonGeometry:
+	var ribbon := RibbonGeometry.new()
+	ribbon.edge_color = edge_color
+	if fill.a > 0.95:
+		ribbon.edge_color.a = minf(edge_color.a + 0.12, 1.0)
+	var fills := RibbonGeometry.new()
 	var total_len := end.x - start.x
 	if total_len <= 1.0:
-		return
+		return ribbon
 
 	var cursor := 0.0
 	var dash_i := 0
@@ -97,14 +127,25 @@ func _draw_dashed_paper_ribbon(
 		if draw_dash:
 			var a := Vector2(start.x + cursor, start.y)
 			var b := Vector2(start.x + next_cursor, start.y)
-			_draw_paper_dash(a, b, fill, half_h, line_index, dash_i)
+			_add_paper_dash(ribbon, fills, a, b, fill, half_h, line_index, dash_i)
 
 		cursor = next_cursor
 		draw_dash = not draw_dash
 		dash_i += 1
 
+	# Fills after all shadows: same layering as shadow → fill per dash (dashes never overlap).
+	var offset := ribbon.points.size()
+	ribbon.points.append_array(fills.points)
+	ribbon.colors.append_array(fills.colors)
+	for index in fills.indices:
+		ribbon.indices.append(index + offset)
+	return ribbon
 
-func _draw_paper_dash(
+
+## Dash = band between its wobbly top and bottom edges: shadow into `shadows`, fill into `fills`.
+func _add_paper_dash(
+	shadows: RibbonGeometry,
+	fills: RibbonGeometry,
 	start: Vector2,
 	end: Vector2,
 	fill: Color,
@@ -118,22 +159,31 @@ func _draw_paper_dash(
 
 	var top := _build_edge(start, length, -half_h, line_index, dash_i * 2)
 	var bottom := _build_edge(start, length, half_h, line_index, dash_i * 2 + 1)
-	var poly: PackedVector2Array = PackedVector2Array()
-	poly.append_array(top)
-	for i in range(bottom.size() - 1, -1, -1):
-		poly.append(bottom[i])
+	_add_band(shadows, top, bottom, shadow_offset, shadow_color)
+	_add_band(fills, top, bottom, Vector2.ZERO, fill)
+	for i in range(top.size() - 1):
+		shadows.edges.append_array([top[i], top[i + 1], bottom[i], bottom[i + 1]])
 
-	var shadow_poly := PackedVector2Array()
-	for p in poly:
-		shadow_poly.append(p + shadow_offset)
-	draw_colored_polygon(shadow_poly, shadow_color)
-	draw_colored_polygon(poly, fill)
 
-	var edge := edge_color
-	if fill.a > 0.95:
-		edge.a = minf(edge.a + 0.12, 1.0)
-	_stroke_polyline(top, edge, 1.0)
-	_stroke_polyline(bottom, edge, 1.0)
+## Triangle strip between two edges with the same point count.
+func _add_band(
+	geometry: RibbonGeometry,
+	top: PackedVector2Array,
+	bottom: PackedVector2Array,
+	offset: Vector2,
+	color: Color,
+) -> void:
+	var base := geometry.points.size()
+	var count := top.size()
+	for p in top:
+		geometry.points.append(p + offset)
+	for p in bottom:
+		geometry.points.append(p + offset)
+	for i in count * 2:
+		geometry.colors.append(color)
+	for i in range(count - 1):
+		geometry.indices.append_array([base + i, base + count + i, base + i + 1])
+		geometry.indices.append_array([base + i + 1, base + count + i, base + count + i + 1])
 
 
 func _build_edge(
@@ -155,11 +205,6 @@ func _build_edge(
 			end_fade = 0.55 + h * 0.35
 		points.append(Vector2(x, start.y + base_y * end_fade + wobble))
 	return points
-
-
-func _stroke_polyline(points: PackedVector2Array, color: Color, thickness: float) -> void:
-	for i in range(points.size() - 1):
-		draw_line(points[i], points[i + 1], color, thickness, true)
 
 
 func _hash01(n: int) -> float:
