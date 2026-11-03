@@ -230,10 +230,23 @@ func can_chase() -> bool:
 	return timed_chase or (not is_timed() and not is_staged())
 
 
+## Runtime: `chase` was switched on by `roll_chase()` (not authored on the level / scenario).
+var chase_rolled: bool = false
+
+
+## Battle start: undo the previous battle's rolled chase. Retry / restart re-send this live config as the scenario,
+## so without it a rolled chase would stay on for every repeat.
+func clear_rolled_chase() -> void:
+	if chase_rolled:
+		chase = false
+		chase_rolled = false
+
+
 ## Battle start: `chase_chance` may turn a regular battle into a chase.
 func roll_chase() -> void:
 	if not chase and chase_chance > 0.0 and can_chase() and randf() < chase_chance:
 		chase = true
+		chase_rolled = true
 
 
 ## Endless: difficulty of `step` (0 = start): examples from `endless_stages`, speed from the curve.

@@ -6,7 +6,6 @@ extends Node
 @export var game_events: GameEvents
 
 var _listener: EventListener = EventListener.new()
-var _game_session_start_msec: int = -1
 var _battle_start_msec: int = -1
 
 func _ready() -> void:
@@ -20,7 +19,6 @@ func _ready() -> void:
 	_listener.add(game_events.ev_fact_answered, _on_fact_answered)
 
 func _exit_tree() -> void:
-	_finish_game_session()
 	_listener.deinit()
 	_save()
 
@@ -31,9 +29,14 @@ func _save() -> void:
 	root_events.ev_save_progress.emit()
 
 func _start_game_session() -> void:
-	_game_session_start_msec = Time.get_ticks_msec()
 	_stats().game_sessions += 1
 	_save()
+
+
+## Time in game grows live (trophy room reads it any moment); the tree pause (background, pause popup) stops it.
+## Disk write only with the next save request — battle end, exit, app close.
+func _process(delta: float) -> void:
+	_stats().total_time += delta
 
 func _on_battle_started() -> void:
 	_battle_start_msec = Time.get_ticks_msec()
@@ -48,16 +51,6 @@ func _on_battle_finished() -> void:
 	if duration_seconds <= 0.0:
 		return
 	_stats().battle_total_time += duration_seconds
-	_save()
-
-func _finish_game_session() -> void:
-	if _game_session_start_msec < 0:
-		return
-	var duration_seconds: float = (Time.get_ticks_msec() - _game_session_start_msec) / 1000.0
-	_game_session_start_msec = -1
-	if duration_seconds <= 0.0:
-		return
-	_stats().total_time += duration_seconds
 	_save()
 
 func _on_shoot() -> void:
