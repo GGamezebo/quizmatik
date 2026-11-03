@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://src/ui/buttons/support_button_glow.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bsnyeaknpvuwy" path="res://src/ui/buttons/support_button_glow.gd" id="1_script"]
 
 [node name="SupportButtonGlow" type="Node" node_paths=PackedStringArray("timer")]
 script = ExtResource("1_script")

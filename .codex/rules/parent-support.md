@@ -23,4 +23,4 @@ paths:
 
 - `HoverScaleButton.bind`: scene `metadata/hover_scale_factor` overrides binder default on first bind; parent report action buttons use 1.02 (outer menu binder may bind before local binder).
 
-- `support_button_glow.tscn`: optional adult rate/share emphasis; Timer 9 s, self_modulate RGB ×1.035 for 0.6 s + 0.9 s fade; never scale/position. Hidden/disabled/hovered/focused/pressed actions skip; hide/input resets and restarts interval. Wired only to parent report and paywall thanks actions.
+- `support_button_glow.tscn`: adult rate/share emphasis; Timer 9 s, per-button duplicate normal StyleBoxFlat bg_color → hover fill (0.8 s in / 1.2 s out); never scale/position/text tint or mutate shared theme. Hidden/disabled/hovered/pressed skip; keyboard focus does not block future pulses. Hide restarts interval, input stops own pulse. Wired only to parent report and paywall thanks actions.
