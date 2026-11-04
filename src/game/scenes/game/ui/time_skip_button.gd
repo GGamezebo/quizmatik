@@ -1,7 +1,7 @@
 extends Button
 
-## Dev only: «+30 с» under the exit button while the editor runs the game and the lab checkbox
-## (`UserSettings.debug_time_skip`) is on, in timed / staged battles. Press → `GameEvents.ev_skip_time`.
+## Dev only: «+30 с» under the exit button in the editor or a `dev_lab` test export (`DevBuild`) while the lab
+## checkbox (`UserSettings.debug_time_skip`) is on, in timed / staged battles. Press → `GameEvents.ev_skip_time`.
 
 @export var game_events: GameEvents
 @export var user_settings: UserSettings
@@ -14,7 +14,7 @@ func _ready() -> void:
 
 
 func initialize(game_config: GameConfig) -> void:
-	visible = OS.has_feature("editor") and user_settings != null and user_settings.debug_time_skip \
+	visible = DevBuild.is_enabled() and user_settings != null and user_settings.debug_time_skip \
 		and game_config != null and (game_config.is_timed() or game_config.is_staged())
 
 

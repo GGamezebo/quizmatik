@@ -65,7 +65,11 @@
 								"context": "RuStoreContext",
 								"enter": ["ev.open_rustore"],
 								"states": {
-									"RuStoreShop": { "context": "RuStoreShopContext", "enter": ["ev.open_shop"] }
+									"RuStoreShop": { "context": "RuStoreShopContext", "enter": ["ev.open_shop"] },
+									"RuStoreGreeting": {
+										"scene": { "id": "rustore_greeting", "async_loading": false },
+										"enter": ["ev.open_rustore_greeting"]
+									}
 								}
 							},
 							"AndroidDevShop": { "context": "DevShopContext", "enter": ["ev.open_dev_shop"] }
@@ -76,7 +80,11 @@
 						"enter": ["ev.open_desktop"],
 						"states": {
 							"Steam": { "context": "SteamContext", "enter": ["ev.open_steam"] },
-							"DevShop": { "context": "DevShopContext", "enter": ["ev.open_shop"] }
+							"DevShop": { "context": "DevShopContext", "enter": ["ev.open_shop"] },
+							"DevGreeting": {
+								"scene": { "id": "rustore_greeting", "async_loading": false },
+								"enter": ["ev.open_dev_greeting"]
+							}
 						}
 					}
 				}

@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://c8trainlabstep001" path="res://src/dev/training_room_lab/ui/training_lab_stepper.tscn" id="10_stepper"]
 [ext_resource type="PackedScene" uid="uid://c8trainlabactn001" path="res://src/dev/training_room_lab/ui/training_lab_action_button.tscn" id="11_action"]
 [ext_resource type="PackedScene" uid="uid://c8qm5n2k7xwfd" path="res://src/ui/confirm_dialog/confirm_dialog.tscn" id="19_confirm"]
+[ext_resource type="Resource" path="res://src/common/platform/platform_services.tres" id="90_services"]
 [ext_resource type="Texture2D" uid="uid://cluf5vj4yth8e" path="res://src/game/scenes/menu/training_room_window/ui/icon_health.png" id="12_icon_health"]
 [ext_resource type="Texture2D" uid="uid://fsgi6bywpvyh" path="res://src/game/scenes/menu/training_room_window/ui/icon_questions.png" id="13_icon_questions"]
 [ext_resource type="Texture2D" uid="uid://ch0tnbrmxxal" path="res://src/game/scenes/menu/training_room_window/ui/icon_range.png" id="14_icon_range"]
@@ -83,7 +84,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "grant_stamp_button", "advance_day_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons", "expert_buttons", "hint_buttons", "event_win_button", "event_reset_button", "event_status_label", "event_picker", "time_skip_check")]
+[node name="TrainingRoomLabWindow" type="Control" unique_id=9136396530 node_paths=PackedStringArray("health_stepper", "questions_stepper", "min_number_stepper", "max_number_stepper", "answer_speed_stepper", "early_exam_questions_stepper", "early_exam_speed_stepper", "bonus_gold_chance_stepper", "time_limit_stepper", "boss_chance_stepper", "boss_armor_stepper", "boss_rage_stepper", "boss_royal_check", "op_addition", "op_subtraction", "op_multiplication", "op_division", "round_coeffs_box", "add_round_button", "reset_button", "start_battle_button", "random_button", "wipe_progress_button", "wipe_dialog", "grant_gold_button", "grant_gold_big_button", "grant_stamp_button", "advance_day_button", "greeting_button", "greeting_battles_button", "unlock_valleys_button", "complete_valleys_button", "wipe_keep_tutorial_button", "exam_buttons", "expert_buttons", "hint_buttons", "event_win_button", "event_reset_button", "event_status_label", "event_picker", "time_skip_check")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -122,6 +123,9 @@ grant_gold_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/Conten
 grant_gold_big_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow/GrantGoldBigButton")
 grant_stamp_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/GoldRow/GrantStampButton")
 advance_day_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/DayRow/AdvanceDayButton")
+greeting_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/DayRow/GreetingButton")
+greeting_battles_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/DayRow/GreetingBattlesButton")
+platform_services = ExtResource("90_services")
 unlock_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ValleysRow/UnlockValleysButton")
 complete_valleys_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/ValleysRow/CompleteValleysButton")
 wipe_keep_tutorial_button = NodePath("CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/WipeRow/WipeKeepTutorialButton")
@@ -950,6 +954,20 @@ layout_mode = 2
 size_flags_horizontal = 3
 caption_text = "СЛЕДУЮЩИЙ ДЕНЬ"
 tooltip_text = "Сдвигает ежедневки на день вперёд: печати сбрасываются, цветное небо после золотого полёта снова бледнеет"
+
+[node name="GreetingButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/DayRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "ПРИВЕТ RUSTORE"
+tooltip_text = "Показывает окно «Привет от разработчиков» (в сборке RuStore оно само всплывает после победы, если с прошлого раза прошло 20 боёв)"
+
+[node name="GreetingBattlesButton" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox/DayRow" instance=ExtResource("11_action")]
+custom_minimum_size = Vector2(0, 34)
+layout_mode = 2
+size_flags_horizontal = 3
+caption_text = "19 БОЁВ"
+tooltip_text = "Засчитывает 19 боёв для окна «Привет от разработчиков»: следующая победа покажет его на итогах"
 
 [node name="ValleysRow" type="HBoxContainer" parent="CenterContainer/Content/BodyMargin/MainVBox/ContentHBox/RightVBox"]
 layout_mode = 2

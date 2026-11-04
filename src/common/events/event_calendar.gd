@@ -8,16 +8,16 @@ extends Resource
 @export var events: Array[SeasonalEvent] = []
 @export var windows: Array[EventWindow] = []
 
-## Editor-only preview, shared by calendar readers; never saved to the resource/profile.
+## Dev-only preview (editor / `dev_lab` export, `DevBuild`), shared by calendar readers; never saved.
 var _debug_window_key: String = ""
 
 
 func debug_window() -> EventWindow:
-	return find_window(_debug_window_key) if OS.has_feature("editor") else null
+	return find_window(_debug_window_key) if DevBuild.is_enabled() else null
 
 
 func set_debug_window(key: String) -> bool:
-	if not OS.has_feature("editor"):
+	if not DevBuild.is_enabled():
 		return false
 	var window := find_window(key)
 	if not key.is_empty() and (window == null or get_event(window.event_id) == null):

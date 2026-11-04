@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Telegram-style paper plane in a blue circle; graphite ink edge (notebook look). -->
+  <circle cx="32" cy="32" r="27" fill="#2AABEE" stroke="#2A3340" stroke-width="4"/>
+  <path d="M15 31 L46 18 L40 47 L31 39 L25 45 L25 36 Z" fill="#FFFFFF" stroke="#2A3340" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M25 36 L44 21" stroke="#2A3340" stroke-width="3" stroke-linecap="round"/>
+</svg>

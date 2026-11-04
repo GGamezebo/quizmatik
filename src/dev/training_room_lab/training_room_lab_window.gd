@@ -12,6 +12,8 @@ const GRANT_GOLD_BIG := 10
 const HINT_BATTLE_TIPS := "battle_tips"
 ## Must match `FlightModeCoach.level_id` in `tutorial.tscn`.
 const FLIGHT_HINT_LEVEL := 4
+## Lab «19 БОЁВ»: one battle short of `RuStoreGreeting.battles_per_greeting` (20).
+const GREETING_DEV_BATTLES := 19
 
 @export var config: GameConfig
 @export_group("Steppers")
@@ -49,6 +51,11 @@ const FLIGHT_HINT_LEVEL := 4
 @export var grant_stamp_button: BaseButton
 ## Rolls the daily day forward so the sky can fade.
 @export var advance_day_button: BaseButton
+## RuStore «Привет от разработчиков» card now (editor mounts it as `Desktop/DevGreeting`).
+@export var greeting_button: BaseButton
+## +19 battles toward that greeting: the next won battle shows it on post-battle.
+@export var greeting_battles_button: BaseButton
+@export var platform_services: PlatformServices
 @export var unlock_valleys_button: BaseButton
 @export var complete_valleys_button: BaseButton
 ## Wipes progress like «СБРОСИТЬ ПРОГРЕСС» but keeps the active pilot and its tutorial flags.
@@ -163,6 +170,11 @@ func _bind_controls() -> void:
 		grant_stamp_button.pressed.connect(_on_grant_stamp_pressed)
 	if advance_day_button != null:
 		advance_day_button.pressed.connect(_on_advance_day_pressed)
+	if greeting_button != null and platform_services != null:
+		greeting_button.pressed.connect(platform_services.ev_request_dev_greeting.emit)
+	if greeting_battles_button != null and platform_services != null:
+		greeting_battles_button.pressed.connect(
+			platform_services.ev_dev_add_greeting_battles.emit.bind(GREETING_DEV_BATTLES))
 
 
 func _connect_stepper(

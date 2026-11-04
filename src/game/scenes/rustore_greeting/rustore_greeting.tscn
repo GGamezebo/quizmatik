@@ -1,0 +1,440 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/game/scenes/rustore_greeting/rustore_greeting.gd" id="1_script"]
+[ext_resource type="Resource" path="res://src/common/platform/platform_services.tres" id="2_services"]
+[ext_resource type="Theme" uid="uid://bwi5l0b7v2vm4" path="res://core/theme/style.tres" id="4_theme"]
+[ext_resource type="Script" path="res://src/game/scenes/rustore_greeting/greeting_card.gd" id="7_card"]
+[ext_resource type="Script" path="res://src/game/scenes/rustore_greeting/greeting_link_button.gd" id="8_link"]
+[ext_resource type="Script" uid="uid://dfc4lkuw1o6wl" path="res://src/ui/buttons/hover_scale_binder.gd" id="9_binder"]
+[ext_resource type="FontVariation" uid="uid://ctitlefontrubik01" path="res://core/theme/title_font.tres" id="10_title_font"]
+[ext_resource type="FontVariation" uid="uid://diy6rnlbukphg" path="res://core/theme/game_font.tres" id="11_font"]
+[ext_resource type="Theme" path="res://src/ui/buttons/support_actions.tres" id="12_actions"]
+[ext_resource type="Texture2D" uid="uid://clq8x5grir3ri" path="res://assets/ui/icons/star_filled.png" id="13_star"]
+[ext_resource type="Texture2D" path="res://assets/ui/icons/share.svg" id="14_share"]
+[ext_resource type="PackedScene" path="res://src/ui/buttons/support_button_glow.tscn" id="15_glow"]
+[ext_resource type="Shader" uid="uid://bc1mukv8t54rl" path="res://src/ui/shaders/sticker_drop_shadow.gdshader" id="17_shadow"]
+[ext_resource type="Texture2D" uid="uid://bmrw6xiwwmbba" path="res://src/game/scenes/menu/ui/btn_cta_wide.png" id="18_frame"]
+[ext_resource type="PackedScene" path="res://src/game/scenes/menu/ui/menu_window_back.tscn" id="19_menu_back"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/rustore_greeting/links/link_telegram.svg" id="20_tg"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/rustore_greeting/links/link_instagram.svg" id="21_ig"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/rustore_greeting/links/link_youtube.svg" id="22_yt"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/rustore_greeting/links/link_itch.svg" id="23_itch"]
+[ext_resource type="Texture2D" path="res://src/game/scenes/rustore_greeting/plane_doodle.svg" id="25_doodle"]
+
+[sub_resource type="Gradient" id="Gradient_dim"]
+colors = PackedColorArray(0.12, 0.1, 0.08, 0.55, 0.953, 0.902, 0.784, 0.15)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dim"]
+gradient = SubResource("Gradient_dim")
+width = 1280
+height = 720
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sticker"]
+shader = ExtResource("17_shadow")
+shader_parameter/shadow_offset = Vector2(-4, 8)
+shader_parameter/shadow_color = Color(0, 0, 0, 0.35)
+shader_parameter/shadow_blur = 2.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("10_title_font")
+font_size = 40
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hello"]
+font = ExtResource("11_font")
+font_size = 30
+font_color = Color(0.165, 0.2, 0.251, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_body"]
+font = ExtResource("11_font")
+font_size = 22
+line_spacing = 2.0
+font_color = Color(0.3, 0.35, 0.42, 1)
+
+[sub_resource type="StyleBoxFlat" id="Link_normal"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.985, 0.955, 0.885, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 0.8)
+corner_radius_top_left = 20
+corner_radius_top_right = 14
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 14
+shadow_color = Color(0.2, 0.22, 0.18, 0.14)
+shadow_size = 3
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="Link_hover"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(1, 0.985, 0.94, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 3
+border_color = Color(0.165, 0.2, 0.251, 0.9)
+corner_radius_top_left = 20
+corner_radius_top_right = 14
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 14
+shadow_color = Color(0.2, 0.22, 0.18, 0.14)
+shadow_size = 3
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="Link_pressed"]
+content_margin_left = 12.0
+content_margin_top = 11.0
+content_margin_right = 16.0
+content_margin_bottom = 5.0
+bg_color = Color(0.92, 0.88, 0.79, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.165, 0.2, 0.251, 0.9)
+corner_radius_top_left = 20
+corner_radius_top_right = 14
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 14
+shadow_color = Color(0.2, 0.22, 0.18, 0.14)
+shadow_size = 1
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxFlat" id="Link_focus"]
+draw_center = false
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.2, 0.3, 0.46, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+corner_radius_top_left = 22
+corner_radius_top_right = 16
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 16
+
+[sub_resource type="Theme" id="Theme_links"]
+default_font = ExtResource("11_font")
+default_font_size = 21
+Button/colors/font_color = Color(0.165, 0.2, 0.251, 1)
+Button/colors/font_focus_color = Color(0.165, 0.2, 0.251, 1)
+Button/colors/font_hover_color = Color(0.165, 0.2, 0.251, 1)
+Button/colors/font_pressed_color = Color(0.165, 0.2, 0.251, 1)
+Button/constants/h_separation = 9
+Button/constants/icon_max_width = 32
+Button/styles/focus = SubResource("Link_focus")
+Button/styles/hover = SubResource("Link_hover")
+Button/styles/normal = SubResource("Link_normal")
+Button/styles/pressed = SubResource("Link_pressed")
+
+[node name="RuStoreGreeting" type="Node" node_paths=PackedStringArray("card")]
+script = ExtResource("1_script")
+platform_services = ExtResource("2_services")
+card = NodePath("GreetingCard")
+
+[node name="GreetingCard" type="CanvasLayer" parent="." node_paths=PackedStringArray("screen", "dim", "close_button", "link_buttons", "rate_button", "share_button", "support_hint")]
+layer = 20
+visible = false
+script = ExtResource("7_card")
+screen = NodePath("Screen")
+dim = NodePath("Screen/Dim")
+close_button = NodePath("Screen/Center/Card/MenuWindowBack/Back")
+link_buttons = [NodePath("Screen/Center/Card/Margin/Text/Links/Telegram"), NodePath("Screen/Center/Card/Margin/Text/Links/Instagram"), NodePath("Screen/Center/Card/Margin/Text/Links/YouTube"), NodePath("Screen/Center/Card/Margin/Text/Links/Itch")]
+rate_button = NodePath("Screen/Center/Card/BottomButtons/Rate")
+share_button = NodePath("Screen/Center/Card/BottomButtons/Share")
+support_hint = NodePath("Screen/Center/Card/SupportHint")
+
+[node name="SupportButtonGlow" parent="GreetingCard" node_paths=PackedStringArray("buttons") instance=ExtResource("15_glow")]
+buttons = [NodePath("../Screen/Center/Card/BottomButtons/Rate"), NodePath("../Screen/Center/Card/BottomButtons/Share")]
+
+[node name="Screen" type="Control" parent="GreetingCard"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_theme")
+
+[node name="HoverScaleBinder" type="Node" parent="GreetingCard/Screen"]
+script = ExtResource("9_binder")
+scale_factor = 1.035
+
+[node name="Dim" type="TextureRect" parent="GreetingCard/Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_dim")
+expand_mode = 1
+
+[node name="Center" type="CenterContainer" parent="GreetingCard/Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Card" type="Control" parent="GreetingCard/Screen/Center"]
+custom_minimum_size = Vector2(1100, 600)
+layout_mode = 2
+
+[node name="Frame" type="NinePatchRect" parent="GreetingCard/Screen/Center/Card"]
+material = SubResource("ShaderMaterial_sticker")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("18_frame")
+patch_margin_left = 70
+patch_margin_top = 60
+patch_margin_right = 70
+patch_margin_bottom = 60
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="DoodleLeft" type="TextureRect" parent="GreetingCard/Screen/Center/Card"]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 22.0
+offset_right = 164.0
+offset_bottom = 92.0
+rotation = -0.08
+mouse_filter = 2
+texture = ExtResource("25_doodle")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DoodleRight" type="TextureRect" parent="GreetingCard/Screen/Center/Card"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -164.0
+offset_top = 30.0
+offset_right = -52.0
+offset_bottom = 100.0
+grow_horizontal = 0
+rotation = 0.08
+mouse_filter = 2
+texture = ExtResource("25_doodle")
+expand_mode = 1
+stretch_mode = 5
+flip_h = true
+
+[node name="Title" type="Label" parent="GreetingCard/Screen/Center/Card"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -380.0
+offset_top = 30.0
+offset_right = 380.0
+offset_bottom = 78.0
+grow_horizontal = 2
+text = "ПРИВЕТ ОТ РАЗРАБОТЧИКОВ"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Margin" type="MarginContainer" parent="GreetingCard/Screen/Center/Card"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 96
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 150
+
+[node name="Text" type="VBoxContainer" parent="GreetingCard/Screen/Center/Card/Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Hello" type="Label" parent="GreetingCard/Screen/Center/Card/Margin/Text"]
+layout_mode = 2
+text = "Мы очень рады, что вы играете в нашу игру!"
+label_settings = SubResource("LabelSettings_hello")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Body" type="Label" parent="GreetingCard/Screen/Center/Card/Margin/Text"]
+layout_mode = 2
+text = "Хотите первыми узнавать о новых играх и обновлениях? Подписывайтесь на наши каналы — там мы рассказываем обо всех своих разработках."
+label_settings = SubResource("LabelSettings_body")
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Spacer" type="Control" parent="GreetingCard/Screen/Center/Card/Margin/Text"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Links" type="HFlowContainer" parent="GreetingCard/Screen/Center/Card/Margin/Text"]
+layout_mode = 2
+theme = SubResource("Theme_links")
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+alignment = 1
+
+[node name="Telegram" type="Button" parent="GreetingCard/Screen/Center/Card/Margin/Text/Links"]
+custom_minimum_size = Vector2(160, 58)
+layout_mode = 2
+auto_translate_mode = 2
+text = "Telegram"
+icon = ExtResource("20_tg")
+script = ExtResource("8_link")
+url = "https://t.me/IgorionTG"
+metadata/hover_scale_factor = 1.04
+
+[node name="Instagram" type="Button" parent="GreetingCard/Screen/Center/Card/Margin/Text/Links"]
+custom_minimum_size = Vector2(160, 58)
+layout_mode = 2
+auto_translate_mode = 2
+text = "Instagram"
+icon = ExtResource("21_ig")
+script = ExtResource("8_link")
+url = "https://www.instagram.com/igorion_live"
+metadata/hover_scale_factor = 1.04
+
+[node name="YouTube" type="Button" parent="GreetingCard/Screen/Center/Card/Margin/Text/Links"]
+custom_minimum_size = Vector2(160, 58)
+layout_mode = 2
+auto_translate_mode = 2
+text = "YouTube"
+icon = ExtResource("22_yt")
+script = ExtResource("8_link")
+url = "https://www.youtube.com/@igorionyt"
+metadata/hover_scale_factor = 1.04
+
+[node name="Itch" type="Button" parent="GreetingCard/Screen/Center/Card/Margin/Text/Links"]
+custom_minimum_size = Vector2(160, 58)
+layout_mode = 2
+auto_translate_mode = 2
+text = "itch.io"
+icon = ExtResource("23_itch")
+script = ExtResource("8_link")
+url = "https://igorion.itch.io"
+metadata/hover_scale_factor = 1.04
+
+[node name="MenuWindowBack" parent="GreetingCard/Screen/Center/Card" instance=ExtResource("19_menu_back")]
+layout_mode = 1
+offset_top = -120.0
+offset_right = 120.0
+theme_override_constants/margin_left = 34
+theme_override_constants/margin_bottom = 16
+
+[node name="Back" parent="GreetingCard/Screen/Center/Card/MenuWindowBack" index="0"]
+custom_minimum_size = Vector2(86, 86)
+
+[node name="BottomButtons" type="HBoxContainer" parent="GreetingCard/Screen/Center/Card"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -330.0
+offset_top = -134.0
+offset_right = 330.0
+offset_bottom = -62.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="Rate" type="Button" parent="GreetingCard/Screen/Center/Card/BottomButtons"]
+custom_minimum_size = Vector2(300, 72)
+layout_mode = 2
+focus_mode = 2
+theme = ExtResource("12_actions")
+theme_type_variation = &"SupportRate"
+theme_override_constants/icon_max_width = 30
+theme_override_font_sizes/font_size = 24
+icon = ExtResource("13_star")
+text = "Оценить игру"
+metadata/hover_scale_factor = 1.02
+
+[node name="Subtitle" type="Label" parent="GreetingCard/Screen/Center/Card/BottomButtons/Rate"]
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -30.0
+offset_right = -8.0
+offset_bottom = -7.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.25, 0.32, 0.35, 1)
+theme_override_font_sizes/font_size = 16
+text = "Ваше мнение важно"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Share" type="Button" parent="GreetingCard/Screen/Center/Card/BottomButtons"]
+custom_minimum_size = Vector2(300, 72)
+layout_mode = 2
+focus_mode = 2
+theme = ExtResource("12_actions")
+theme_type_variation = &"SupportShare"
+theme_override_constants/icon_max_width = 30
+theme_override_font_sizes/font_size = 24
+icon = ExtResource("14_share")
+text = "Поделиться"
+metadata/hover_scale_factor = 1.02
+
+[node name="Subtitle" type="Label" parent="GreetingCard/Screen/Center/Card/BottomButtons/Share"]
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -30.0
+offset_right = -8.0
+offset_bottom = -7.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.25, 0.32, 0.35, 1)
+theme_override_font_sizes/font_size = 16
+text = "Расскажите друзьям об игре"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SupportHint" type="Label" parent="GreetingCard/Screen/Center/Card"]
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 158.0
+offset_top = -53.0
+offset_right = -158.0
+offset_bottom = -27.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.32, 0.4, 0.33, 1)
+theme_override_font_sizes/font_size = 17
+text = "Спасибо, что помогаете игре расти!"
+horizontal_alignment = 1
+vertical_alignment = 1

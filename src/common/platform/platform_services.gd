@@ -38,6 +38,12 @@ extends Resource
 ## No answer, never rewarded; only from behind a parental gate (parents report, purchase thank-you page).
 @warning_ignore("unused_signal") signal ev_request_share(placement: StringName, text: String, image_path: String)
 
+## Dev lab → platform: show the platform's developer greeting now (RuStore `RuStoreGreeting`, editor
+## `DevGreeting`); nobody listens elsewhere.
+@warning_ignore("unused_signal") signal ev_request_dev_greeting
+## Dev lab → platform: count `count` more battles toward that greeting (lab «19 БОЁВ»).
+@warning_ignore("unused_signal") signal ev_dev_add_greeting_battles(count: int)
+
 ## Game → platform: anonymous analytics event (no ids / names / free text — goal name + small enum / number
 ## params). Fire and forget; only web portals that allow it send it (Yandex → Metrica), elsewhere nobody listens.
 ## Never on Google Play (Teacher Approved / Data safety «no data collected»).
@@ -79,7 +85,8 @@ func set_ads(interstitial: bool, rewarded: bool) -> void:
 	ev_caps_changed.emit()
 
 
-## Called only by store platform contexts (`GooglePlayContext`, fake `DevShopContext`; on enter / deinit).
+## Called only by store platform contexts (`GooglePlayContext`, `RuStoreContext`, fake `DevShopContext`;
+## on enter / deinit).
 func set_rate(enabled: bool) -> void:
 	if can_rate == enabled:
 		return
