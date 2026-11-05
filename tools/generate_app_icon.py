@@ -1,6 +1,8 @@
 """Quizmatik app icon kit (offline). Notebook-pencil sticker look, as in the game.
 
 Run: python tools/generate_app_icon.py
+Uses tools/app_icon_source.png when present (approved illustrated master).
+Launcher artwork uses tools/app_icon_launcher_source.png (opaque, unframed).
 Writes assets/app_icon/: icon_512.png (main / web / desktop), adaptive_fg_432.png,
 adaptive_bg_432.png, adaptive_mono_432.png, icon_192.png, icon_180.png, icon_144.png,
 splash.png (Godot boot splash, big: stretch Keep), splash_android.png (Android 12+ launch
@@ -173,7 +175,7 @@ def make_bg():
     return bg
 
 
-def rounded(img, radius_frac=0.22, border=14):
+def rounded(img, radius_frac=0.22, border=14, outline=INK):
     n = img.width
     mask = Image.new("L", (n * 2, n * 2), 0)
     ImageDraw.Draw(mask).rounded_rectangle((0, 0, n * 2 - 1, n * 2 - 1), radius=int(n * 2 * radius_frac), fill=255)
@@ -182,7 +184,7 @@ def rounded(img, radius_frac=0.22, border=14):
     ring = Image.new("RGBA", (n * 2, n * 2), (0, 0, 0, 0))
     b = int(border * n / S * 2)
     ImageDraw.Draw(ring).rounded_rectangle((0, 0, n * 2 - 1, n * 2 - 1), radius=int(n * 2 * radius_frac),
-                                           outline=INK, width=b)
+                                           outline=outline, width=b)
     out = Image.alpha_composite(out, ring.resize((n, n), Image.LANCZOS))
     out.putalpha(mask)
     return out
@@ -213,10 +215,44 @@ def play_store_icon(art):
 
 def save(img, name, size):
     os.makedirs(OUT, exist_ok=True)
-    img.resize((size, size), Image.LANCZOS).save(os.path.join(OUT, name), optimize=True)
+    target = os.path.join(OUT, name)
+    temporary = target + ".tmp"
+    img.resize((size, size), Image.LANCZOS).save(temporary, format="PNG", optimize=True)
+    os.replace(temporary, target)
+
+
+def generate_from_source(source):
+    """Build launcher and boot images from the approved master artwork."""
+    icon = Image.open(source).convert("RGBA").resize((S, S), Image.LANCZOS)
+    launcher_source = os.path.join(ROOT, "tools", "app_icon_launcher_source.png")
+    launcher = Image.open(launcher_source).convert("RGBA").resize((S, S), Image.LANCZOS)
+    for size in (512, 192, 180, 144):
+        save(launcher, f"icon_{size}.png", size)
+    splash_icon = rounded(icon, outline=(0, 0, 0, 255))
+    # A 512 px canvas fits the 720 px landscape boot screen without clipping.
+    save(padded(splash_icon, 0.9), "splash.png", 512)
+    save(padded(splash_icon, ANDROID_SPLASH_FRAC), "splash_android.png", 432)
+    save(padded(splash_icon, ANDROID_SPLASH_FRAC), "splash_icon_432.png", 432)
+    # Android displays the central 72/108 canvas. Fill that area without an inset tile.
+    save(padded(launcher, ADAPTIVE_ART_FRAC), "adaptive_fg_432.png", 432)
+    # Continue the sky colors into the area used for launcher mask animations.
+    save(launcher, "adaptive_bg_432.png", 432)
+    # Keep saturated artwork and dark pencil strokes, excluding the pale sky/grid.
+    hsv = launcher.convert("HSV")
+    saturated = hsv.getchannel("S").point(lambda v: 255 if v > 180 else 0)
+    dark = hsv.getchannel("V").point(lambda v: 255 if v < 190 else 0)
+    mask = ImageChops.lighter(saturated, dark)
+    mono = Image.new("RGBA", (S, S), WHITE)
+    mono.putalpha(mask)
+    save(padded(mono, ADAPTIVE_ART_FRAC), "adaptive_mono_432.png", 432)
+    print("ok ->", OUT)
 
 
 def main():
+    source = os.path.join(ROOT, "tools", "app_icon_source.png")
+    if os.path.isfile(source):
+        generate_from_source(source)
+        return
     random.seed(7)
     bg = make_bg()
     fg_adaptive = make_fg(1.0)
