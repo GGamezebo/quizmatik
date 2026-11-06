@@ -25,6 +25,7 @@ Ship and play well on **all three**: **Mobile** (Android/iOS), **Steam** (deskto
 - UI: readable at phone landscape, safe areas, hit targets large enough for fingers; still clean on 16:9 desktop and browser.
 - Stretch: `canvas_items` + aspect `keep_height` (height always 720; wider → world widens; narrower → engine bars, native only). Never `expand` — tall windows stretch lanes/balloons vs fixed-size plane. Width ≥ 1280 still changes at runtime → never cache viewport size / lane rects.
 - Web presets (`Web`, `Web-Yandex`, `Web-Yandex-Test`, `Web-CrazyGames`, `Web-Poki`): `html/canvas_resize_policy=0` + same `html/head_include` fit script/CSS in all — page sizes `#canvas` to full width × min(height, width·9/16), centered, notebook-grid paper body behind (no black bars); backing store = CSS size × `min(devicePixelRatio, 1080/h)` (render cap ~1080 px tall — fullscreen 1440p/4K stays fill-rate cheap; never back to plain `devicePixelRatio`). Change all presets together; SDK `<script>` stays first
+- Web texture size: imports stay `compress/mode=2` (VRAM, S3TC + ETC2) for every platform — never switch imports to Lossy for the web. Web exports (feature `web`) re-encode big PNG/JPG as one lossy WebP `PortableCompressedTexture2D` via first-party export plugin `addons/web_lossy_textures/` (source file, import size limit / alpha border kept); tune in Project Settings `export/web_lossy_textures/*` (`quality` .8, `min_pixels` 100000 (≈ 316², keeps 256² UI icons / stamps VRAM), `exclude` globs = sprite atlases / spritesheets / icons stay VRAM, `lossless` globs). New sharp-edged sprite art → add to `exclude`
 - Stretch: `canvas_items` + aspect `keep_height` (height always 720; wider → world widens, narrower → bars top/bottom). Never `expand` — tall windows stretch lanes/balloons vs fixed-size plane. Layout must still handle width ≥ 1280 changing at runtime (resize).
 - Performance: mobile renderer / mid-range phones and browsers matter — avoid heavy one-platform-only effects unless gated.
 - Custom `_draw` redrawn at runtime: never hundreds of `draw_colored_polygon` / antialiased `draw_line` per redraw (each = own GPU buffer → 80–130 ms hitch on WebGL); cache geometry + one `RenderingServer.canvas_item_add_triangle_array` / `draw_multiline` per group. Ref: battle lane lines `game/ui/lines.gd`
@@ -68,7 +69,7 @@ See `godot-paradigm.md` (context scene, resource defaults, HFSM override, resour
 | `assets/ui/backgrounds/valleys/` | Campaign valley landscapes (one set: `valley_addition` … `valley_mix`) |
 | `assets/fonts/` | Runtime fonts only: Nunito Bold + Rubik Doodle Shadow |
 
-Ignore for gameplay work: `addons/`, `.godot/`, `bin/`, legacy `src/levels/level_*.tres` (root).
+Ignore for gameplay work: `addons/` (third-party; own first-party export plugins only `play_review_deps/`, `web_lossy_textures/`), `.godot/`, `bin/`, legacy `src/levels/level_*.tres` (root).
 Export never packs: `concepts/`, `tools/`, `bin/`, `.cursor/`, `.claude/`, `.vscode/`, `.godot/`, `.git/` — see `export_presets.cfg` `exclude_filter`, `concepts/.gdignore`, `tools/.gdignore`, `.claude/.gdignore`.
 
 ## Layer contracts
