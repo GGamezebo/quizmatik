@@ -80,6 +80,7 @@ position = Vector2(-200, 8)
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=130746522]
 stream = ExtResource("3_incis")
 bus = &"SFX"
+playback_type = 1
 script = ExtResource("8_jxtnq")
 
 [node name="SfxPlayer" type="AudioStreamPlayer" parent="." unique_id=130746523]
