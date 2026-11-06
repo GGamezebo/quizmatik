@@ -88,11 +88,5 @@ class AccelerationComponent extends PlayerComponent:
 			not is_equal_approx(_game_config.player_acceleration_max, ACCELERATION_DEFAULT)
 		
 	func process(delta: float) -> void:
-		var input_direction: float = Input.get_axis("ui_left", "ui_right")
 		var target_acceleration: float = ACCELERATION_DEFAULT
-		if not is_zero_approx(input_direction):
-			if input_direction >= 0:
-				target_acceleration = game_config.player_acceleration_max
-			else:
-				target_acceleration = game_config.player_acceleration_min
 		player.acceleration = move_toward(player.acceleration, target_acceleration, game_config.player_acceleration_speed * delta)
