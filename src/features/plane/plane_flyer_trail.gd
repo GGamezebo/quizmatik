@@ -21,10 +21,19 @@ extends Node2D
 @export var source: Node2D
 
 const MAX_FILL_DOTS: int = 24
+## Soft edge of a dash, in px.
+const DASH_FEATHER: float = 1.0
+## 4 rows across the dash (feather, body, feather) at both ends.
+const DASH_INDICES: PackedInt32Array = [0, 4, 1, 1, 4, 5, 1, 5, 2, 2, 5, 6, 2, 6, 3, 3, 6, 7]
+## Redrawn every frame: dots = one texture (batched by the renderer, no GPU buffers). `draw_circle` /
+## `draw_line(antialiased)` / `draw_colored_polygon` = a GPU buffer each → 20 FPS on WebGL.
+const DOT_TEXTURE: Texture2D = preload("trail_dot.svg")
 
 var _points: PackedVector2Array = []
 ## Running dot number → stable colors / crayon jitter while points drift.
 var _first_index: int = 0
+## Dashes and glyphs of one frame: a single triangle array.
+var _batch := TrailGlyph.Batch.new()
 
 
 func _ready() -> void:
@@ -118,11 +127,32 @@ func _draw() -> void:
 				_draw_crayon(point, radius, dot_color, index)
 			TrailItem.Style.DASH:
 				if index % 2 == 0 and i + 1 < count:
-					draw_line(point, _points[i + 1], dot_color, radius, true)
+					_add_dash(point, _points[i + 1], radius, dot_color)
 			TrailItem.Style.SIGNS:
-				TrailGlyph.draw_sign(self, signs, sign_textures, index, point, radius, dot_color)
+				if sign_textures.is_empty():
+					TrailGlyph.add_to_batch(_batch, TrailGlyph.pick(signs, index), point, radius, dot_color, TrailGlyph.tilt(index))
+				else:
+					TrailGlyph.draw_sign(self, signs, sign_textures, index, point, radius, dot_color)
 			_:
-				draw_circle(point, radius, dot_color)
+				_draw_dot(point, radius, dot_color)
+	_batch.flush(self)
+
+
+func _draw_dot(point: Vector2, radius: float, dot_color: Color) -> void:
+	var half := Vector2(radius, radius)
+	draw_texture_rect(DOT_TEXTURE, Rect2(point - half, half * 2.0), false, dot_color)
+
+
+func _add_dash(from: Vector2, to: Vector2, width: float, dash_color: Color) -> void:
+	var side := (to - from).orthogonal().normalized()
+	var body := side * width * 0.5
+	var outer := side * (width * 0.5 + DASH_FEATHER)
+	var faded := Color(dash_color, 0.0)
+	_batch.add_colored(
+		PackedVector2Array([from + outer, from + body, from - body, from - outer, to + outer, to + body, to - body, to - outer]),
+		PackedColorArray([faded, dash_color, dash_color, faded, faded, dash_color, dash_color, faded]),
+		DASH_INDICES,
+	)
 
 
 func _dot_color(index: int) -> Color:
@@ -141,4 +171,4 @@ func _draw_crayon(point: Vector2, radius: float, dot_color: Color, index: int) -
 	for k in 3:
 		var angle := float((index * 7 + k * 13) % 17) / 17.0 * TAU
 		var offset := Vector2.from_angle(angle) * radius * 0.45
-		draw_circle(point + offset, radius * (0.7 + 0.1 * k), soft)
+		_draw_dot(point + offset, radius * (0.7 + 0.1 * k), soft)
